@@ -28,6 +28,9 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 ```bash
 npm install --legacy-peer-deps
 ```
+
+**Nota sobre dependências**: O projeto usa `expo-dev-client` que é necessário para módulos nativos como `react-native-google-mobile-ads`. Este pacote permite construir uma versão de desenvolvimento personalizada do Expo que inclui módulos nativos.
+
 2) Rode:
 ```bash
 npx expo start

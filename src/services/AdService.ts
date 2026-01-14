@@ -5,7 +5,6 @@ import MobileAds, {
   RewardedAdEventType,
   InterstitialAd,
   AdEventType,
-  TestIds,
 } from 'react-native-google-mobile-ads';
 import { AdsConfig } from '../config/ads.config';
 
