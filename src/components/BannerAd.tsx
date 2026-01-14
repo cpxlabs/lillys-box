@@ -33,9 +33,6 @@ export const BannerAd: React.FC = () => {
       <GoogleBannerAd
         unitId={adUnitId}
         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
-        requestOptions={{
-          requestNonPersonalizedAdsOnly: AdsConfig.coppa.nonPersonalizedOnly,
-        }}
         onAdLoaded={() => {
           console.log('[BannerAd] Ad loaded successfully');
           setIsAdLoaded(true);

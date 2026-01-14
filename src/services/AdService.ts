@@ -39,7 +39,6 @@ class AdService {
 
       // Configure COPPA compliance settings
       await MobileAds().setRequestConfiguration({
-        requestNonPersonalizedAdsOnly: AdsConfig.coppa.nonPersonalizedOnly,
         tagForChildDirectedTreatment: AdsConfig.coppa.childDirected,
         tagForUnderAgeOfConsent: AdsConfig.coppa.underAgeConsent,
         maxAdContentRating: MaxAdContentRating.G,
