@@ -55,7 +55,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
     feed(food.value);
     
     // Base money earned for feeding
-    const moneyEarned = 5;
+    const moneyEarned = AdsConfig.rewards.feedReward;
 
     setTimeout(() => {
       setAnimationState('happy');

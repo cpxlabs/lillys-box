@@ -44,7 +44,7 @@ export const AdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     loadLastInterstitialTime();
   }, []);
 
-  // Check ad readiness periodically
+  // Check ad readiness periodically (every 3 seconds to reduce overhead)
   useEffect(() => {
     const interval = setInterval(() => {
       setAdState((prev) => ({
@@ -52,7 +52,7 @@ export const AdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         isRewardedAdReady: AdService.isRewardedAdReady(),
         isInterstitialAdReady: AdService.isInterstitialAdReady(),
       }));
-    }, 1000);
+    }, 3000); // Check every 3 seconds instead of 1 second
 
     return () => clearInterval(interval);
   }, []);

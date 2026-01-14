@@ -23,6 +23,9 @@ export interface AdConfig {
   rewards: {
     videoWatchBonus: number;
     activityDoubleReward: boolean;
+    feedReward: number;
+    bathReward: number;
+    playReward: number;
   };
   coppa: {
     childDirected: boolean;

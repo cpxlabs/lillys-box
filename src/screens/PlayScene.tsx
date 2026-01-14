@@ -53,7 +53,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
     play();
     
     // Base money earned for playing
-    const moneyEarned = 10;
+    const moneyEarned = AdsConfig.rewards.playReward;
 
     setTimeout(() => {
       setMessage(`${pet.name} adorou brincar! 💕`);

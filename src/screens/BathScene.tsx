@@ -147,7 +147,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
       bathe(10);
       
       // Base money earned for bathing
-      const moneyEarned = 8;
+      const moneyEarned = AdsConfig.rewards.bathReward;
 
       setTimeout(() => {
         setAnimationState('happy');
