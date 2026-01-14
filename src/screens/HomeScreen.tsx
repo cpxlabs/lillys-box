@@ -2,18 +2,23 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { usePet } from '../context/PetContext';
+import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusBar } from '../components/StatusBar';
 import { IconButton } from '../components/IconButton';
 import { ConfirmModal } from '../components/ConfirmModal';
+import { BannerAd } from '../components/BannerAd';
+import { RewardedAdButton } from '../components/RewardedAdButton';
 import { calculatePetAge } from '../utils/age';
+import { AdsConfig } from '../config/ads.config';
 
 type Props = {
   navigation: NativeStackNavigationProp<any>;
 };
 
 export const HomeScreen: React.FC<Props> = ({ navigation }) => {
-  const { pet } = usePet();
+  const { pet, earnMoney } = usePet();
+  const { showToast } = useToast();
   const [showMenuConfirm, setShowMenuConfirm] = useState(false);
 
   if (!pet) {
@@ -43,6 +48,12 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
     navigation.goBack();
   };
 
+  const handleRewardedAdCompleted = () => {
+    const bonusCoins = AdsConfig.rewards.videoWatchBonus;
+    earnMoney(bonusCoins);
+    showToast(`🎉 Você ganhou ${bonusCoins} moedas bônus!`, 'success');
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
@@ -70,6 +81,14 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
           value={pet.hygiene}
           color={getHygieneColor()}
           emoji="🛁"
+        />
+      </View>
+
+      {/* Rewarded Ad Button for Bonus Coins */}
+      <View style={styles.rewardedAdContainer}>
+        <RewardedAdButton
+          rewardText={`Assista e ganhe +${AdsConfig.rewards.videoWatchBonus} moedas!`}
+          onRewardEarned={handleRewardedAdCompleted}
         />
       </View>
 
@@ -119,6 +138,9 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
         onConfirm={handleConfirmMenu}
         onCancel={() => setShowMenuConfirm(false)}
       />
+
+      {/* Banner Ad at the Bottom */}
+      <BannerAd />
     </SafeAreaView>
   );
 };
@@ -155,6 +177,10 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   statusContainer: {
+    paddingVertical: 8,
+  },
+  rewardedAdContainer: {
+    paddingHorizontal: 16,
     paddingVertical: 8,
   },
   petContainer: {

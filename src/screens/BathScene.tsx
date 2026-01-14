@@ -19,8 +19,11 @@ import Animated, {
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
+import { ConfirmModal } from '../components/ConfirmModal';
 import { AnimationState } from '../types';
 import { useBackButton } from '../hooks/useBackButton';
+import { useRewardedAd } from '../hooks/useRewardedAd';
+import { AdsConfig } from '../config/ads.config';
 
 type Props = {
   navigation: NativeStackNavigationProp<any>;
@@ -69,10 +72,13 @@ const BubbleComponent: React.FC<{ bubble: Bubble }> = ({ bubble }) => {
 export const BathScene: React.FC<Props> = ({ navigation }) => {
   const { pet, bathe, earnMoney } = usePet();
   const { showToast } = useToast();
+  const { showRewardedAd, isAdReady } = useRewardedAd();
   const [animationState, setAnimationState] = useState<AnimationState>('idle');
   const [message, setMessage] = useState('Arraste a esponja para dar banho! 🧽');
   const [scrubCount, setScrubCount] = useState(0);
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
+  const [showDoubleRewardModal, setShowDoubleRewardModal] = useState(false);
+  const [pendingReward, setPendingReward] = useState(0);
   const BackButtonIcon = useBackButton();
 
   const translateX = useSharedValue(0);
@@ -140,10 +146,8 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
       // Give bonus 10% hygiene at the end (5 scrubs x 5% + 10% bonus = 35% total)
       bathe(10);
       
-      // Earn money for bathing
+      // Base money earned for bathing
       const moneyEarned = 8;
-      earnMoney(moneyEarned);
-      showToast(`💰 +${moneyEarned} moedas ganhas!`, 'success');
 
       setTimeout(() => {
         setAnimationState('happy');
@@ -153,9 +157,39 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
         setTimeout(() => {
           setAnimationState('idle');
           setMessage('Arraste a esponja para dar banho! 🧽');
+
+          // Offer double reward if ads are enabled and available
+          if (AdsConfig.enabled && AdsConfig.rewards.activityDoubleReward && isAdReady) {
+            setPendingReward(moneyEarned);
+            setShowDoubleRewardModal(true);
+          } else {
+            // Just give normal reward
+            earnMoney(moneyEarned);
+            showToast(`💰 +${moneyEarned} moedas ganhas!`, 'success');
+          }
         }, 2000);
       }, 1500);
     }
+  };
+
+  const handleWatchAd = async () => {
+    setShowDoubleRewardModal(false);
+    
+    await showRewardedAd(() => {
+      // Double the reward
+      const doubleReward = pendingReward * 2;
+      earnMoney(doubleReward);
+      showToast(`🎉 Recompensa em dobro! +${doubleReward} moedas!`, 'success');
+      setPendingReward(0);
+    });
+  };
+
+  const handleDeclineAd = () => {
+    setShowDoubleRewardModal(false);
+    // Give normal reward
+    earnMoney(pendingReward);
+    showToast(`💰 +${pendingReward} moedas ganhas!`, 'success');
+    setPendingReward(0);
   };
 
   const panGesture = Gesture.Pan()
@@ -247,6 +281,16 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
       </View>
 
 
+      {/* Double Reward Modal */}
+      <ConfirmModal
+        visible={showDoubleRewardModal}
+        title="🎉 Ganhe o Dobro!"
+        message={`Ótimo trabalho! Assista a um anúncio para ganhar ${pendingReward * 2} moedas em vez de ${pendingReward}?`}
+        confirmText="Assistir Anúncio"
+        cancelText="Não, Obrigado"
+        onConfirm={handleWatchAd}
+        onCancel={handleDeclineAd}
+      />
     </SafeAreaView>
   );
 };
