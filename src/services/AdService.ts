@@ -1,12 +1,36 @@
 import { Platform } from 'react-native';
-import MobileAds, {
-  MaxAdContentRating,
-  RewardedAd,
-  RewardedAdEventType,
-  InterstitialAd,
-  AdEventType,
-} from 'react-native-google-mobile-ads';
 import { AdsConfig } from '../config/ads.config';
+
+// Type definitions for AdMob (for TypeScript)
+type MobileAdsType = any;
+type MaxAdContentRatingType = any;
+type RewardedAdType = any;
+type RewardedAdEventTypeType = any;
+type InterstitialAdType = any;
+type AdEventTypeType = any;
+
+// Lazy load AdMob module only on native platforms
+let MobileAds: MobileAdsType;
+let MaxAdContentRating: MaxAdContentRatingType;
+let RewardedAd: RewardedAdType;
+let RewardedAdEventType: RewardedAdEventTypeType;
+let InterstitialAd: InterstitialAdType;
+let AdEventType: AdEventTypeType;
+
+// Only import on native platforms
+if (Platform.OS !== 'web') {
+  try {
+    const AdMobModule = require('react-native-google-mobile-ads');
+    MobileAds = AdMobModule.default;
+    MaxAdContentRating = AdMobModule.MaxAdContentRating;
+    RewardedAd = AdMobModule.RewardedAd;
+    RewardedAdEventType = AdMobModule.RewardedAdEventType;
+    InterstitialAd = AdMobModule.InterstitialAd;
+    AdEventType = AdMobModule.AdEventType;
+  } catch (error) {
+    console.warn('[AdService] AdMob module not available:', error);
+  }
+}
 
 /**
  * AdService - Centralized Ad Management Service
@@ -18,8 +42,8 @@ import { AdsConfig } from '../config/ads.config';
  * On web, all ad operations are no-ops.
  */
 class AdService {
-  private rewardedAd: RewardedAd | null = null;
-  private interstitialAd: InterstitialAd | null = null;
+  private rewardedAd: any = null;
+  private interstitialAd: any = null;
   private isRewardedAdLoaded = false;
   private isInterstitialAdLoaded = false;
   private isInitialized = false;
@@ -30,7 +54,7 @@ class AdService {
    */
   async initializeAds(): Promise<void> {
     // Skip initialization on web
-    if (Platform.OS === 'web') {
+    if (Platform.OS === 'web' || !MobileAds) {
       console.log('[AdService] Ads not supported on web platform');
       return;
     }
@@ -77,7 +101,7 @@ class AdService {
    * Call this to preload an ad before showing it
    */
   loadRewardedAd(): void {
-    if (Platform.OS === 'web' || !AdsConfig.enabled || !this.isInitialized) {
+    if (Platform.OS === 'web' || !AdsConfig.enabled || !this.isInitialized || !RewardedAd) {
       return;
     }
 
@@ -93,7 +117,7 @@ class AdService {
         console.log('[AdService] Rewarded ad loaded');
       });
 
-      this.rewardedAd.addAdEventListener(RewardedAdEventType.EARNED_REWARD, (reward) => {
+      this.rewardedAd.addAdEventListener(RewardedAdEventType.EARNED_REWARD, (reward: any) => {
         console.log('[AdService] User earned reward:', reward);
       });
 
@@ -104,7 +128,7 @@ class AdService {
         this.loadRewardedAd();
       });
 
-      this.rewardedAd.addAdEventListener(AdEventType.ERROR, (error) => {
+      this.rewardedAd.addAdEventListener(AdEventType.ERROR, (error: any) => {
         console.error('[AdService] Rewarded ad error:', error);
         this.isRewardedAdLoaded = false;
       });
@@ -179,7 +203,7 @@ class AdService {
    * Call this to preload an ad before showing it
    */
   loadInterstitialAd(): void {
-    if (Platform.OS === 'web' || !AdsConfig.enabled || !this.isInitialized) {
+    if (Platform.OS === 'web' || !AdsConfig.enabled || !this.isInitialized || !InterstitialAd) {
       return;
     }
 
@@ -202,7 +226,7 @@ class AdService {
         this.loadInterstitialAd();
       });
 
-      this.interstitialAd.addAdEventListener(AdEventType.ERROR, (error) => {
+      this.interstitialAd.addAdEventListener(AdEventType.ERROR, (error: any) => {
         console.error('[AdService] Interstitial ad error:', error);
         this.isInterstitialAdLoaded = false;
       });
