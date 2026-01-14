@@ -8,9 +8,7 @@ import {
 } from 'react-native';
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { usePet } from '../context/PetContext';
-import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
-import { AnimationState } from '../types';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
 
@@ -18,51 +16,42 @@ type Props = {
   navigation: NativeStackNavigationProp<any>;
 };
 
-const FOODS = [
-  { id: 'kibble', emoji: '🍖', name: 'Ração', value: 20 },
-  { id: 'fish', emoji: '🐟', name: 'Peixe', value: 25 },
-  { id: 'treat', emoji: '🦴', name: 'Petisco', value: 15 },
-  { id: 'milk', emoji: '🥛', name: 'Leite', value: 10 },
+// Placeholder backgrounds - user will add actual images to assets/backgrounds/
+const BACKGROUNDS = [
+  { id: 'none', name: 'Nenhum', emoji: '❌' },
+  { id: 'park', name: 'Parque', emoji: '🌳' },
+  { id: 'beach', name: 'Praia', emoji: '🏖️' },
+  { id: 'home', name: 'Casa', emoji: '🏠' },
 ];
 
-export const FeedScene: React.FC<Props> = ({ navigation }) => {
-  const { pet, feed, earnMoney } = usePet();
-  const { showToast } = useToast();
-  const [animationState, setAnimationState] = useState<AnimationState>('idle');
+export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
+  const { pet, setBackground } = usePet();
   const [message, setMessage] = useState('');
   const BackButtonIcon = useBackButton();
   
   const {
-    currentItem: currentFood,
+    currentItem: currentBackground,
     currentIndex,
     goToNext,
     goToPrevious,
     totalItems,
-  } = useNavigationList(FOODS);
+  } = useNavigationList(BACKGROUNDS);
 
   if (!pet) return null;
 
-  const handleFeed = (food: typeof FOODS[0]) => {
-    setAnimationState('eating');
-    setMessage(`${pet.name} está comendo ${food.name}! 😋`);
-
-    feed(food.value);
-    
-    // Earn money for feeding
-    const moneyEarned = 5;
-    earnMoney(moneyEarned);
-    showToast(`💰 +${moneyEarned} moedas ganhas!`, 'success');
+  const handleSelectBackground = (background: typeof BACKGROUNDS[0]) => {
+    const backgroundId = background.id === 'none' ? null : background.id;
+    setBackground(backgroundId);
+    setMessage(`Fundo "${background.name}" selecionado! 🎨`);
 
     setTimeout(() => {
-      setAnimationState('happy');
-      setMessage(`${pet.name} adorou! 💕`);
-
-      setTimeout(() => {
-        setAnimationState('idle');
-        setMessage('');
-      }, 1500);
-    }, 1500);
+      setMessage('');
+    }, 2000);
   };
+
+  const isCurrentBackgroundSelected = 
+    (currentBackground.id === 'none' && pet.background === null) ||
+    (pet.background === currentBackground.id);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -71,48 +60,44 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
           <BackButtonIcon />
           <Text style={styles.backButton}>Voltar</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>🍖 Alimentar</Text>
+        <Text style={styles.title}>🖼️ Cenário</Text>
         <View style={{ width: 80 }} />
       </View>
 
       <View style={styles.petContainer}>
-        <PetRenderer pet={pet} animationState={animationState} size={375} />
+        <PetRenderer pet={pet} size={300} />
         {message ? <Text style={styles.message}>{message}</Text> : null}
       </View>
 
-      <View style={styles.hungerInfo}>
-        <Text style={styles.hungerText}>
-          Fome: {Math.round(pet.hunger)}%
-        </Text>
-      </View>
-
-      <View style={styles.foodContainer}>
-        <Text style={styles.foodTitle}>Escolha a comida:</Text>
+      <View style={styles.backgroundsContainer}>
+        <Text style={styles.backgroundsTitle}>Escolha o cenário:</Text>
         
-        {/* Navigation arrows and current food display */}
+        {/* Navigation arrows and current background display */}
         <View style={styles.navigationContainer}>
           <TouchableOpacity
             style={styles.arrowButton}
             onPress={goToPrevious}
-            disabled={animationState !== 'idle'}
           >
             <Text style={styles.arrowText}>←</Text>
           </TouchableOpacity>
           
           <TouchableOpacity
-            style={styles.currentFoodButton}
-            onPress={() => handleFeed(currentFood)}
-            disabled={animationState !== 'idle' || pet.hunger >= 100}
+            style={[
+              styles.currentBackgroundButton,
+              isCurrentBackgroundSelected && styles.currentBackgroundButtonSelected,
+            ]}
+            onPress={() => handleSelectBackground(currentBackground)}
           >
-            <Text style={styles.currentFoodEmoji}>{currentFood.emoji}</Text>
-            <Text style={styles.currentFoodName}>{currentFood.name}</Text>
-            <Text style={styles.currentFoodValue}>+{currentFood.value}%</Text>
+            <Text style={styles.currentBackgroundEmoji}>{currentBackground.emoji}</Text>
+            <Text style={styles.currentBackgroundName}>{currentBackground.name}</Text>
+            {isCurrentBackgroundSelected && (
+              <Text style={styles.selectedIndicator}>✓ Selecionado</Text>
+            )}
           </TouchableOpacity>
           
           <TouchableOpacity
             style={styles.arrowButton}
             onPress={goToNext}
-            disabled={animationState !== 'idle'}
           >
             <Text style={styles.arrowText}>→</Text>
           </TouchableOpacity>
@@ -129,7 +114,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff8e1',
+    backgroundColor: '#f3e5f5',
   },
   header: {
     flexDirection: 'row',
@@ -164,22 +149,13 @@ const styles = StyleSheet.create({
     color: '#333',
     textAlign: 'center',
   },
-  hungerInfo: {
-    alignItems: 'center',
-    paddingVertical: 8,
-  },
-  hungerText: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#ff9800',
-  },
-  foodContainer: {
+  backgroundsContainer: {
     backgroundColor: '#fff',
     borderTopLeftRadius: 24,
     borderTopRightRadius: 24,
     padding: 24,
   },
-  foodTitle: {
+  backgroundsTitle: {
     fontSize: 18,
     fontWeight: '600',
     color: '#333',
@@ -193,7 +169,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   arrowButton: {
-    backgroundColor: '#fff3e0',
+    backgroundColor: '#e1bee7',
     borderRadius: 30,
     width: 50,
     height: 50,
@@ -203,32 +179,36 @@ const styles = StyleSheet.create({
   },
   arrowText: {
     fontSize: 28,
-    color: '#ff9800',
+    color: '#7b1fa2',
     fontWeight: 'bold',
   },
-  currentFoodButton: {
-    backgroundColor: '#ffe0b2',
+  currentBackgroundButton: {
+    backgroundColor: '#ce93d8',
     borderRadius: 20,
     padding: 20,
     alignItems: 'center',
     minWidth: 140,
     borderWidth: 3,
-    borderColor: '#ff9800',
+    borderColor: '#9b59b6',
   },
-  currentFoodEmoji: {
+  currentBackgroundButtonSelected: {
+    backgroundColor: '#ba68c8',
+    borderColor: '#6a1b9a',
+  },
+  currentBackgroundEmoji: {
     fontSize: 48,
     marginBottom: 8,
   },
-  currentFoodName: {
+  currentBackgroundName: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 4,
   },
-  currentFoodValue: {
-    fontSize: 14,
+  selectedIndicator: {
+    fontSize: 12,
     color: '#4CAF50',
     fontWeight: '600',
+    marginTop: 4,
   },
   pageIndicator: {
     fontSize: 14,

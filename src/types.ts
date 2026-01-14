@@ -1,5 +1,5 @@
 export type PetType = 'cat' | 'dog';
-export type PetColor = 'base' | 'black';
+export type PetColor = 'base' | 'black' | 'brown' | 'whiteandbrown';
 export type Gender = 'male' | 'female' | 'other';
 export type ClothingSlot = 'head' | 'eyes' | 'torso' | 'paws';
 
@@ -20,6 +20,7 @@ export type Pet = {
   hygiene: number; // 0-100
   money: number; // currency earned
   clothes: Record<ClothingSlot, string | null>;
+  background: string | null; // selected background image
   createdAt: number;
 };
 

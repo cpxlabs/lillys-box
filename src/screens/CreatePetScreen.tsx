@@ -12,6 +12,7 @@ import {
 import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { usePet } from '../context/PetContext';
 import { PetType, PetColor, Gender } from '../types';
+import { useBackButton } from '../hooks/useBackButton';
 
 type Props = {
   navigation: NativeStackNavigationProp<any>;
@@ -23,6 +24,16 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
   const [petType, setPetType] = useState<PetType>('cat');
   const [gender, setGender] = useState<Gender>('female');
   const [color, setColor] = useState<PetColor>('base');
+  const BackButtonIcon = useBackButton();
+
+  // Reset color when switching pet type if the color is not available for the new type
+  const handlePetTypeChange = (newType: PetType) => {
+    setPetType(newType);
+    // If switching to cat and color is brown or whiteandbrown, reset to base
+    if (newType === 'cat' && (color === 'brown' || color === 'whiteandbrown')) {
+      setColor('base');
+    }
+  };
 
   const handleCreate = async () => {
     if (!name.trim()) return;
@@ -36,7 +47,8 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
         style={styles.backButton}
         onPress={() => navigation.navigate('Menu')}
       >
-        <Text style={styles.backButtonText}>← Voltar</Text>
+        <BackButtonIcon />
+        <Text style={styles.backButtonText}>Voltar</Text>
       </TouchableOpacity>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -48,14 +60,14 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
         <View style={styles.optionRow}>
           <TouchableOpacity
             style={[styles.optionButton, petType === 'cat' && styles.optionSelected]}
-            onPress={() => setPetType('cat')}
+            onPress={() => handlePetTypeChange('cat')}
           >
             <Text style={styles.optionEmoji}>🐱</Text>
             <Text style={styles.optionText}>Gato</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.optionButton, petType === 'dog' && styles.optionSelected]}
-            onPress={() => setPetType('dog')}
+            onPress={() => handlePetTypeChange('dog')}
           >
             <Text style={styles.optionEmoji}>🐶</Text>
             <Text style={styles.optionText}>Cachorro</Text>
@@ -91,7 +103,7 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
         </View>
 
         <Text style={styles.label}>Cor do pelo:</Text>
-        <View style={styles.optionRow}>
+        <View style={styles.colorContainer}>
           <TouchableOpacity
             style={[styles.colorButton, color === 'base' && styles.optionSelected]}
             onPress={() => setColor('base')}
@@ -106,6 +118,24 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.colorEmoji}>⚫</Text>
             <Text style={styles.colorText}>Preto</Text>
           </TouchableOpacity>
+          {petType === 'dog' && (
+            <>
+              <TouchableOpacity
+                style={[styles.colorButton, color === 'brown' && styles.optionSelected]}
+                onPress={() => setColor('brown')}
+              >
+                <Text style={styles.colorEmoji}>🟤</Text>
+                <Text style={styles.colorText}>Marrom</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[styles.colorButton, color === 'whiteandbrown' && styles.optionSelected]}
+                onPress={() => setColor('whiteandbrown')}
+              >
+                <Text style={styles.colorEmoji}>🤍🟤</Text>
+                <Text style={styles.colorText}>Branco/Marrom</Text>
+              </TouchableOpacity>
+            </>
+          )}
         </View>
 
         <TouchableOpacity
@@ -128,11 +158,14 @@ const styles = StyleSheet.create({
   backButton: {
     padding: 16,
     paddingTop: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
   },
   backButtonText: {
     fontSize: 16,
     color: '#9b59b6',
     fontWeight: '600',
+    marginLeft: 4,
   },
   content: {
     flex: 1,
@@ -156,7 +189,11 @@ const styles = StyleSheet.create({
   optionRow: {
     flexDirection: 'row',
     justifyContent: 'center',
-    gap: 16,
+  },
+  colorContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    flexWrap: 'wrap',
   },
   optionButton: {
     backgroundColor: '#fff',
@@ -166,6 +203,7 @@ const styles = StyleSheet.create({
     minWidth: 120,
     borderWidth: 3,
     borderColor: 'transparent',
+    marginHorizontal: 8,
   },
   optionSelected: {
     borderColor: '#9b59b6',
@@ -206,6 +244,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
     marginHorizontal: 4,
+    marginVertical: 6,
     borderWidth: 2,
     borderColor: 'transparent',
   },
