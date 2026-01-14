@@ -19,9 +19,39 @@ export type Pet = {
   hunger: number; // 0-100
   hygiene: number; // 0-100
   money: number; // currency earned
+
+  // Enhanced stats
+  energy: number; // 0-100
+  happiness: number; // 0-100
+  health: number; // 0-100 (calculated)
+
   clothes: Record<ClothingSlot, string | null>;
   background: string | null; // selected background image
   createdAt: number;
+  lastUpdated: number; // Track last update time
+  isSleeping?: boolean; // Track sleep state
+  sleepStartTime?: number; // When sleep began
 };
 
-export type AnimationState = 'idle' | 'eating' | 'bathing' | 'happy';
+export type AnimationState =
+  | 'idle'
+  | 'eating'
+  | 'bathing'
+  | 'happy'
+  | 'sleeping'
+  | 'playing'
+  | 'tired'
+  | 'sick';
+
+export type PetMood =
+  | 'excellent'
+  | 'good'
+  | 'fair'
+  | 'poor'
+  | 'critical';
+
+export type StatLevel = {
+  value: number;
+  level: 'high' | 'medium' | 'low' | 'critical';
+  color: string;
+};

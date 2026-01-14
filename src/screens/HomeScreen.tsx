@@ -4,13 +4,15 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
-import { StatusBar } from '../components/StatusBar';
+import { EnhancedStatusBar } from '../components/EnhancedStatusBar';
 import { IconButton } from '../components/IconButton';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { BannerAd } from '../components/BannerAd';
 import { RewardedAdButton } from '../components/RewardedAdButton';
 import { calculatePetAge } from '../utils/age';
 import { AdsConfig } from '../config/ads.config';
+import { needsVet, hasWarningStats } from '../utils/petStats';
+import { GAME_BALANCE } from '../config/gameBalance';
 
 type Props = {
   navigation: NativeStackNavigationProp<any>;
@@ -26,18 +28,9 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
   }
 
   const petAge = calculatePetAge(pet.createdAt);
-
-  const getHungerColor = () => {
-    if (pet.hunger > 60) return '#4CAF50';
-    if (pet.hunger > 30) return '#FFC107';
-    return '#F44336';
-  };
-
-  const getHygieneColor = () => {
-    if (pet.hygiene > 60) return '#2196F3';
-    if (pet.hygiene > 30) return '#FF9800';
-    return '#795548';
-  };
+  const vetStatus = needsVet(pet.health);
+  const hasWarnings = hasWarningStats(pet);
+  const canSleep = pet.energy < GAME_BALANCE.thresholds.energyForSleep;
 
   const handleMenuPress = () => {
     setShowMenuConfirm(true);
@@ -70,18 +63,12 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={styles.statusContainer}>
-        <StatusBar
-          label="Fome"
-          value={pet.hunger}
-          color={getHungerColor()}
-          emoji="🍖"
-        />
-        <StatusBar
-          label="Higiene"
-          value={pet.hygiene}
-          color={getHygieneColor()}
-          emoji="🛁"
-        />
+        <EnhancedStatusBar pet={pet} />
+        {hasWarnings && (
+          <Text style={styles.warningText}>
+            ⚠️ Your pet needs attention!
+          </Text>
+        )}
       </View>
 
       {/* Rewarded Ad Button for Bonus Coins */}
@@ -106,6 +93,17 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
           emoji="🛁"
           label="Banho"
           onPress={() => navigation.navigate('Bath')}
+        />
+        <IconButton
+          emoji="💤"
+          label="Dormir"
+          onPress={() => navigation.navigate('Sleep')}
+          disabled={!canSleep}
+        />
+        <IconButton
+          emoji={vetStatus === 'urgent' ? '🚨' : '🏥'}
+          label={vetStatus === 'urgent' ? 'Vet!' : 'Veterinário'}
+          onPress={() => navigation.navigate('Vet')}
         />
         <IconButton
           emoji="👕"
@@ -178,6 +176,14 @@ const styles = StyleSheet.create({
   },
   statusContainer: {
     paddingVertical: 8,
+  },
+  warningText: {
+    textAlign: 'center',
+    color: '#F44336',
+    fontSize: 14,
+    fontWeight: '600',
+    marginTop: 8,
+    paddingHorizontal: 16,
   },
   rewardedAdContainer: {
     paddingHorizontal: 16,
