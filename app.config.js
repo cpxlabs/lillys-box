@@ -36,6 +36,8 @@ module.exports = ({ config }) => {
   const isWeb = process.env.EXPO_PLATFORM === 'web';
   
   if (!isWeb) {
+    // NOTE: These are TEST ad unit IDs from Google
+    // For production, replace these with your actual AdMob app IDs
     plugins.push([
       "react-native-google-mobile-ads",
       {
@@ -46,7 +48,9 @@ module.exports = ({ config }) => {
   }
 
   return {
-    ...baseConfig,
-    plugins
+    expo: {
+      ...baseConfig,
+      plugins
+    }
   };
 };
