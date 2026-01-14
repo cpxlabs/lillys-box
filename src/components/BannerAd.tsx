@@ -1,21 +1,8 @@
 import React, { useState } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
+import { BannerAd as GoogleBannerAd, BannerAdSize } from 'react-native-google-mobile-ads';
 import AdService from '../services/AdService';
 import { AdsConfig } from '../config/ads.config';
-
-// Conditionally import AdMob components only on native platforms
-let GoogleBannerAd: any;
-let BannerAdSize: any;
-
-if (Platform.OS !== 'web') {
-  try {
-    const AdMobModule = require('react-native-google-mobile-ads');
-    GoogleBannerAd = AdMobModule.BannerAd;
-    BannerAdSize = AdMobModule.BannerAdSize;
-  } catch (error) {
-    console.warn('[BannerAd] AdMob module not available:', error);
-  }
-}
 
 /**
  * BannerAd Component
@@ -31,7 +18,7 @@ export const BannerAd: React.FC = () => {
   const [hasError, setHasError] = useState(false);
 
   // Don't render if ads are disabled or on web
-  if (!AdsConfig.enabled || Platform.OS === 'web' || !GoogleBannerAd) {
+  if (!AdsConfig.enabled || Platform.OS === 'web') {
     return null;
   }
 
@@ -52,7 +39,7 @@ export const BannerAd: React.FC = () => {
           setIsAdLoaded(true);
           setHasError(false);
         }}
-        onAdFailedToLoad={(error: any) => {
+        onAdFailedToLoad={(error) => {
           console.error('[BannerAd] Ad failed to load:', error);
           setHasError(true);
           setIsAdLoaded(false);
