@@ -11,10 +11,11 @@ import { usePet } from '../context/PetContext';
 import { GAME_BALANCE } from '../config/gameBalance';
 
 export const SleepScene: React.FC<{ navigation: any }> = ({ navigation }) => {
-  const { pet, sleep } = usePet();
+  const { pet, sleep, cancelSleep: cancelSleepContext } = usePet();
   const [isSleeping, setIsSleeping] = useState(false);
   const [sleepProgress, setSleepProgress] = useState(0);
   const [fadeAnim] = useState(new Animated.Value(1));
+  const progressIntervalRef = React.useRef<NodeJS.Timeout | null>(null);
 
   const SLEEP_DURATION = GAME_BALANCE.activities.sleep.duration;
 
@@ -35,11 +36,10 @@ export const SleepScene: React.FC<{ navigation: any }> = ({ navigation }) => {
     const updateInterval = 100; // Update every 100ms
     const progressIncrement = (100 / (SLEEP_DURATION / updateInterval));
 
-    const interval = setInterval(() => {
+    progressIntervalRef.current = setInterval(() => {
       setSleepProgress((prev) => {
         const newProgress = prev + progressIncrement;
         if (newProgress >= 100) {
-          clearInterval(interval);
           return 100;
         }
         return newProgress;
@@ -47,7 +47,13 @@ export const SleepScene: React.FC<{ navigation: any }> = ({ navigation }) => {
     }, updateInterval);
 
     // Execute sleep
-    await sleep(SLEEP_DURATION);
+    const result = await sleep(SLEEP_DURATION);
+
+    // Clean up interval
+    if (progressIntervalRef.current) {
+      clearInterval(progressIntervalRef.current);
+      progressIntervalRef.current = null;
+    }
 
     // Fade back in
     Animated.timing(fadeAnim, {
@@ -56,7 +62,6 @@ export const SleepScene: React.FC<{ navigation: any }> = ({ navigation }) => {
       useNativeDriver: true,
     }).start();
 
-    clearInterval(interval);
     setIsSleeping(false);
 
     // Return to home after a brief pause
@@ -65,9 +70,17 @@ export const SleepScene: React.FC<{ navigation: any }> = ({ navigation }) => {
     }, 500);
   };
 
-  const cancelSleep = () => {
-    setIsSleeping(false);
-    navigation.goBack();
+  const handleCancelSleep = () => {
+    // Call context's cancelSleep to actually cancel the operation
+    cancelSleepContext();
+
+    // Clean up interval
+    if (progressIntervalRef.current) {
+      clearInterval(progressIntervalRef.current);
+      progressIntervalRef.current = null;
+    }
+
+    // UI state will be updated when sleep promise resolves
   };
 
   if (!pet) return null;
@@ -103,7 +116,7 @@ export const SleepScene: React.FC<{ navigation: any }> = ({ navigation }) => {
             </Text>
             <TouchableOpacity
               style={styles.cancelButton}
-              onPress={cancelSleep}
+              onPress={handleCancelSleep}
             >
               <Text style={styles.cancelButtonText}>Wake Up Early</Text>
             </TouchableOpacity>

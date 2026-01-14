@@ -5,15 +5,15 @@
  */
 
 export const GAME_BALANCE = {
-  // Stat decay rates (per minute)
+  // Stat decay rates (per minute) - positive values will be subtracted
   decay: {
-    hunger: -1.0,
-    hygiene: -1.0,
-    energyDay: -0.5, // 6 AM - 10 PM
-    energyNight: -0.2, // 10 PM - 6 AM
+    hunger: 1.0,
+    hygiene: 1.0,
+    energyDay: 0.5, // 6 AM - 10 PM
+    energyNight: 0.2, // 10 PM - 6 AM
     happinessHealthy: 0.5, // Gain when all stats > 70
-    happinessUnhealthy: -0.3, // Loss when health < 60
-    happinessVeryUnhealthy: -0.5, // Loss when health < 40
+    happinessUnhealthy: 0.3, // Loss when health < 60
+    happinessVeryUnhealthy: 0.5, // Loss when health < 40
   },
 
   // Activity effects

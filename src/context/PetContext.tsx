@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
 import { Pet, PetType, PetColor, Gender, ClothingSlot } from '../types';
 import { savePet, loadPet, deletePet } from '../utils/storage';
 import { calculateHealth, getEnergyDecayRate, getEnergyMultiplier, canPerformActivity, calculateHappinessChange } from '../utils/petStats';
@@ -13,7 +13,8 @@ type PetContextType = {
   feed: (amount?: number) => void;
   play: () => void;
   bathe: (amount?: number) => void;
-  sleep: (duration?: number) => Promise<void>;
+  sleep: (duration?: number) => Promise<{ completed: boolean }>;
+  cancelSleep: () => void;
   visitVet: (useMoney?: boolean) => void;
   exercise: () => void;
   petCuddle: () => void;
@@ -28,6 +29,7 @@ const PetContext = createContext<PetContextType | undefined>(undefined);
 export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [pet, setPet] = useState<Pet | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const sleepCancelRef = useRef<{ cancelled: boolean } | null>(null);
 
   useEffect(() => {
     loadPet().then((loadedPet) => {
@@ -57,9 +59,9 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         // Apply decay to stats
         const tempPet = {
           ...currentPet,
-          hunger: Math.max(0, currentPet.hunger + hungerDecay),
-          hygiene: Math.max(0, currentPet.hygiene + hygieneDecay),
-          energy: Math.max(0, currentPet.energy + energyDecay),
+          hunger: Math.max(0, currentPet.hunger - hungerDecay),
+          hygiene: Math.max(0, currentPet.hygiene - hygieneDecay),
+          energy: Math.max(0, currentPet.energy - energyDecay),
         };
 
         // Calculate health first (needed for happiness decay)
@@ -176,32 +178,53 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     });
   };
 
-  const sleep = async (duration: number = GAME_BALANCE.activities.sleep.duration) => {
+  const sleep = async (duration: number = GAME_BALANCE.activities.sleep.duration): Promise<{ completed: boolean }> => {
+    // Create cancellation token
+    const cancelToken = { cancelled: false };
+    sleepCancelRef.current = cancelToken;
+
+    const startTime = Date.now();
+
     setPet((currentPet) => {
       if (!currentPet || !canPerformActivity(currentPet, 'sleep')) return currentPet;
 
       const updatedPet: Pet = {
         ...currentPet,
         isSleeping: true,
-        sleepStartTime: Date.now(),
+        sleepStartTime: startTime,
       };
       savePet(updatedPet).catch(console.error);
       return updatedPet;
     });
 
-    // Wait for sleep duration
-    await new Promise((resolve) => setTimeout(resolve, duration));
+    // Wait for sleep duration with cancellation support
+    await new Promise((resolve) => {
+      const checkInterval = setInterval(() => {
+        if (cancelToken.cancelled) {
+          clearInterval(checkInterval);
+          resolve(false);
+        } else if (Date.now() - startTime >= duration) {
+          clearInterval(checkInterval);
+          resolve(true);
+        }
+      }, 100); // Check every 100ms
+    });
 
-    // Wake up and apply benefits
+    // Calculate partial recovery if cancelled early
+    const actualDuration = Math.min(Date.now() - startTime, duration);
+    const completionRatio = actualDuration / duration;
+    const wasCancelled = cancelToken.cancelled;
+
+    // Wake up and apply benefits (partial or full)
     setPet((currentPet) => {
       if (!currentPet) return currentPet;
 
       const effects = GAME_BALANCE.activities.sleep;
       const updatedPet: Pet = {
         ...currentPet,
-        energy: Math.min(100, currentPet.energy + effects.energy),
-        happiness: Math.min(100, currentPet.happiness + effects.happiness),
-        hunger: Math.max(0, currentPet.hunger + effects.hunger),
+        energy: Math.min(100, currentPet.energy + effects.energy * completionRatio),
+        happiness: Math.min(100, currentPet.happiness + effects.happiness * completionRatio),
+        hunger: Math.max(0, currentPet.hunger + effects.hunger * completionRatio),
         isSleeping: false,
         sleepStartTime: undefined,
       };
@@ -210,6 +233,17 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       savePet(updatedPet).catch(console.error);
       return updatedPet;
     });
+
+    // Clear the cancel ref
+    sleepCancelRef.current = null;
+
+    return { completed: !wasCancelled };
+  };
+
+  const cancelSleep = () => {
+    if (sleepCancelRef.current) {
+      sleepCancelRef.current.cancelled = true;
+    }
   };
 
   const visitVet = (useMoney: boolean = true) => {
@@ -335,6 +369,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         play,
         bathe,
         sleep,
+        cancelSleep,
         visitVet,
         exercise,
         petCuddle,

@@ -15,7 +15,6 @@ export const calculateHealth = (pet: Partial<Pet>): number => {
     happiness * GAME_BALANCE.healthWeights.happiness;
 
   // Apply status multiplier based on stat thresholds
-  const allStatsAbove50 = hunger > 50 && hygiene > 50 && energy > 50 && happiness > 50;
   const anyStatBelow10 = hunger < 10 || hygiene < 10 || energy < 10 || happiness < 10;
   const anyStatBelow25 = hunger < 25 || hygiene < 25 || energy < 25 || happiness < 25;
   const anyStatBelow50 = hunger < 50 || hygiene < 50 || energy < 50 || happiness < 50;
@@ -27,7 +26,8 @@ export const calculateHealth = (pet: Partial<Pet>): number => {
     multiplier = GAME_BALANCE.healthStatusMultipliers.anyStatBelow25;
   } else if (anyStatBelow50) {
     multiplier = GAME_BALANCE.healthStatusMultipliers.anyStatBelow50;
-  } else if (allStatsAbove50) {
+  } else {
+    // All stats are >= 50
     multiplier = GAME_BALANCE.healthStatusMultipliers.allStatsAbove50;
   }
 
@@ -48,7 +48,7 @@ export const getPetMood = (health: number): PetMood => {
 /**
  * Get stat level with color coding
  */
-export const getStatLevel = (value: number, statName?: string): StatLevel => {
+export const getStatLevel = (value: number): StatLevel => {
   let level: 'high' | 'medium' | 'low' | 'critical';
   let color: string;
 
@@ -198,9 +198,9 @@ export const calculateHappinessChange = (
 
   // Happiness loss based on health
   if (pet.health < 40) {
-    happinessChange += GAME_BALANCE.decay.happinessVeryUnhealthy * minutesPassed;
+    happinessChange -= GAME_BALANCE.decay.happinessVeryUnhealthy * minutesPassed;
   } else if (pet.health < 60) {
-    happinessChange += GAME_BALANCE.decay.happinessUnhealthy * minutesPassed;
+    happinessChange -= GAME_BALANCE.decay.happinessUnhealthy * minutesPassed;
   }
 
   return happinessChange;
