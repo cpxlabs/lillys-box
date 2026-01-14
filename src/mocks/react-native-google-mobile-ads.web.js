@@ -60,7 +60,7 @@ class InterstitialAd {
 
 const BannerAd = () => null;
 
-// Mock MobileAds singleton
+// Mock MobileAds singleton - should be a callable function that returns methods
 const MobileAds = () => ({
   initialize: () => Promise.resolve(),
   setRequestConfiguration: () => Promise.resolve(),
