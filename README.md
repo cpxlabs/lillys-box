@@ -13,6 +13,7 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - ⚠️ Confirmação ao sair para o menu (funciona em web, iOS e Android)
 - 🗑️ Botão para apagar pet no menu com confirmação
 - 💰 Sistema de moedas com anúncios opcionais para bônus
+- 🌐 **Suporte a múltiplos idiomas (Inglês e Português do Brasil)**
 
 ## 🛠️ Stack Tecnológica
 - React Native (Expo)
@@ -22,6 +23,7 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - react-native-gesture-handler
 - react-native-svg
 - react-native-google-mobile-ads
+- i18next & react-i18next (internacionalização)
 
 ## 🚀 Como executar
 1) Instale dependências:
@@ -101,6 +103,75 @@ ios: 'ca-app-pub-3940256099942544/2934735716'
 - Anúncios intersticiais aparecem a cada 4 transições de tela (com mínimo de 5 minutos entre eles)
 - Todos os anúncios são opcionais - nunca bloqueiam funcionalidades do jogo
 
+## 🌐 Internacionalização (i18n)
+
+Este aplicativo suporta múltiplos idiomas usando i18next e react-i18next.
+
+### Idiomas Suportados
+- 🇺🇸 **Inglês (English)** - `en`
+- 🇧🇷 **Português do Brasil (Portuguese Brazil)** - `pt-BR`
+
+### Funcionalidades de i18n
+- **Detecção Automática**: O aplicativo detecta automaticamente o idioma do dispositivo ao iniciar
+- **Seletor de Idioma**: Os usuários podem alternar entre idiomas na tela do menu principal
+- **Persistência**: A preferência de idioma é salva localmente e mantida entre sessões
+- **Fallback**: Se uma tradução não estiver disponível, o aplicativo usa inglês como fallback
+- **Interpolação**: Suporte para strings dinâmicas (nomes de pets, números, etc.)
+
+### Arquivos de Tradução
+As traduções estão localizadas em:
+- `src/locales/en.json` - Traduções em inglês
+- `src/locales/pt-BR.json` - Traduções em português
+
+### Como Adicionar um Novo Idioma
+1. Crie um novo arquivo JSON em `src/locales/` (ex: `src/locales/es.json`)
+2. Copie a estrutura de `en.json` e traduza todas as strings
+3. Adicione o novo idioma em `src/i18n.ts`:
+```typescript
+resources: {
+  en: { translation: en },
+  'pt-BR': { translation: ptBR },
+  'es': { translation: es }, // Novo idioma
+}
+```
+4. Atualize o `LanguageSelector.tsx` para incluir o botão do novo idioma
+5. Adicione lógica de normalização no `getDeviceLanguage()` se necessário
+
+### Estrutura das Traduções
+```json
+{
+  "common": { /* Strings comuns como "back", "confirm", "cancel" */ },
+  "menu": { /* Strings da tela do menu */ },
+  "createPet": { /* Strings da criação de pet */ },
+  "home": { /* Strings da tela principal */ },
+  "feed": { /* Strings da alimentação */ },
+  "bath": { /* Strings do banho */ },
+  "play": { /* Strings da brincadeira */ },
+  "sleep": { /* Strings do sono */ },
+  "vet": { /* Strings do veterinário */ },
+  "wardrobe": { /* Strings do armário */ },
+  "background": { /* Strings do cenário */ },
+  "rewards": { /* Strings de recompensas */ },
+  "ads": { /* Strings de anúncios */ }
+}
+```
+
+### Uso no Código
+```typescript
+import { useTranslation } from 'react-i18next';
+
+const MyComponent = () => {
+  const { t } = useTranslation();
+  
+  // String simples
+  return <Text>{t('common.back')}</Text>;
+  
+  // String com interpolação
+  return <Text>{t('home.money', { amount: 100 })}</Text>;
+  // Resultado: "💰 100 moedas" (pt-BR) ou "💰 100 coins" (en)
+};
+```
+
 ## Checklist
 - [x] Criar pet
 - [x] Renderizar pet com camadas
@@ -109,5 +180,6 @@ ios: 'ca-app-pub-3940256099942544/2934735716'
 - [x] Armário de roupas
 - [x] Persistência local
 - [x] Sistema de monetização com AdMob
+- [x] Suporte a múltiplos idiomas (i18n)
 - [ ] Sons e efeitos visuais
 - [ ] Otimizações de performance

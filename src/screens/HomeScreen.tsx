@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
@@ -21,6 +22,7 @@ type Props = {
 export const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { pet, earnMoney } = usePet();
   const { showToast } = useToast();
+  const { t } = useTranslation();
   const [showMenuConfirm, setShowMenuConfirm] = useState(false);
 
   if (!pet) {
@@ -44,7 +46,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const handleRewardedAdCompleted = () => {
     const bonusCoins = AdsConfig.rewards.videoWatchBonus;
     earnMoney(bonusCoins);
-    showToast(`🎉 Você ganhou ${bonusCoins} moedas bônus!`, 'success');
+    showToast(t('home.bonusEarned', { amount: bonusCoins }), 'success');
   };
 
   return (
@@ -54,11 +56,11 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
           {pet.type === 'cat' ? '🐱' : '🐶'} {pet.name}
         </Text>
         <Text style={styles.petAge}>
-          {petAge} {petAge === 1 ? 'ano' : 'anos'}
+          {petAge} {petAge === 1 ? t('common.year') : t('common.years')}
         </Text>
         <View style={styles.moneyContainer}>
           {/* Defensive fallback for extra safety */}
-          <Text style={styles.moneyText}>💰 {pet.money ?? 0} moedas</Text>
+          <Text style={styles.moneyText}>{t('home.money', { amount: pet.money ?? 0 })}</Text>
         </View>
       </View>
 
@@ -66,7 +68,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
         <EnhancedStatusBar pet={pet} />
         {hasWarnings && (
           <Text style={styles.warningText}>
-            ⚠️ Your pet needs attention!
+            {t('home.warningAttention')}
           </Text>
         )}
       </View>
@@ -74,7 +76,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
       {/* Rewarded Ad Button for Bonus Coins */}
       <View style={styles.rewardedAdContainer}>
         <RewardedAdButton
-          rewardText={`Assista e ganhe +${AdsConfig.rewards.videoWatchBonus} moedas!`}
+          rewardText={t('home.watchAndEarn', { amount: AdsConfig.rewards.videoWatchBonus })}
           onRewardEarned={handleRewardedAdCompleted}
         />
       </View>
@@ -86,53 +88,53 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.actionsContainer}>
         <IconButton
           emoji="🍖"
-          label="Alimentar"
+          label={t('home.actions.feed')}
           onPress={() => navigation.navigate('Feed')}
         />
         <IconButton
           emoji="🛁"
-          label="Banho"
+          label={t('home.actions.bath')}
           onPress={() => navigation.navigate('Bath')}
         />
         <IconButton
           emoji="💤"
-          label="Dormir"
+          label={t('home.actions.sleep')}
           onPress={() => navigation.navigate('Sleep')}
           disabled={!canSleep}
         />
         <IconButton
           emoji={vetStatus === 'urgent' ? '🚨' : '🏥'}
-          label={vetStatus === 'urgent' ? 'Vet!' : 'Veterinário'}
+          label={vetStatus === 'urgent' ? t('home.actions.vet') : t('home.actions.veterinarian')}
           onPress={() => navigation.navigate('Vet')}
         />
         <IconButton
           emoji="👕"
-          label="Roupas"
+          label={t('home.actions.clothes')}
           onPress={() => navigation.navigate('Wardrobe')}
         />
         <IconButton
           emoji="🎮"
-          label="Brincar"
+          label={t('home.actions.play')}
           onPress={() => navigation.navigate('Play')}
         />
         <IconButton
           emoji="🖼️"
-          label="Cenário"
+          label={t('home.actions.background')}
           onPress={() => navigation.navigate('Background')}
         />
         <IconButton
           emoji="🏠"
-          label="Menu"
+          label={t('home.actions.menu')}
           onPress={handleMenuPress}
         />
       </View>
 
       <ConfirmModal
         visible={showMenuConfirm}
-        title="Voltar ao Menu"
-        message="Tem certeza que quer sair? O status atual do seu pet será salvo."
-        confirmText="Confirmar"
-        cancelText="Cancelar"
+        title={t('home.menuModal.title')}
+        message={t('home.menuModal.message')}
+        confirmText={t('home.menuModal.confirmText')}
+        cancelText={t('home.menuModal.cancelText')}
         onConfirm={handleConfirmMenu}
         onCancel={() => setShowMenuConfirm(false)}
       />

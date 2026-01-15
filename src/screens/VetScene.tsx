@@ -7,6 +7,7 @@ import {
   SafeAreaView,
   Alert,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { useRewardedAd } from '../hooks/useRewardedAd';
 import { needsVet } from '../utils/petStats';
@@ -19,6 +20,7 @@ type Props = {
 };
 
 export const VetScene: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
   const { pet, visitVet } = usePet();
   const { showRewardedAd, isAdReady } = useRewardedAd();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -31,20 +33,20 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
   const handlePayWithMoney = () => {
     if (!canAfford) {
       Alert.alert(
-        'Not Enough Money',
-        `You need ${GAME_BALANCE.activities.vet.cost} coins for a vet visit. You have ${pet.money} coins.`,
+        t('vet.notEnoughMoney.title'),
+        t('vet.notEnoughMoney.message', { cost: GAME_BALANCE.activities.vet.cost, amount: pet.money }),
         [{ text: 'OK' }]
       );
       return;
     }
 
     Alert.alert(
-      'Visit Vet?',
-      `This will cost ${GAME_BALANCE.activities.vet.cost} coins. Your pet will be examined and treated.`,
+      t('vet.confirmVisit.title'),
+      t('vet.confirmVisit.message', { cost: GAME_BALANCE.activities.vet.cost }),
       [
-        { text: 'Cancel', style: 'cancel' },
+        { text: t('vet.confirmVisit.cancel'), style: 'cancel' },
         {
-          text: 'Visit',
+          text: t('vet.confirmVisit.visit'),
           onPress: () => {
             performVetVisit(true);
           },
@@ -56,8 +58,8 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
   const handleWatchAd = async () => {
     if (!isAdReady) {
       Alert.alert(
-        'Ad Not Ready',
-        'Please wait a moment for the ad to load.',
+        t('vet.adNotReady.title'),
+        t('vet.adNotReady.message'),
         [{ text: 'OK' }]
       );
       return;
@@ -65,22 +67,16 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
 
     try {
       setIsProcessing(true);
-      const success = await showRewardedAd('vet_visit');
-
-      if (success) {
+      
+      await showRewardedAd(() => {
+        // Ad completed successfully, perform vet visit
         performVetVisit(false);
-      } else {
-        Alert.alert(
-          'Ad Failed',
-          'Unable to show ad. Please try again.',
-          [{ text: 'OK' }]
-        );
-      }
+      });
     } catch (error) {
       logger.error('Error showing rewarded ad:', error);
       Alert.alert(
-        'Error',
-        'Something went wrong. Please try again.',
+        t('vet.error.title'),
+        t('vet.error.message'),
         [{ text: 'OK' }]
       );
     } finally {
@@ -92,11 +88,11 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
     visitVet(useMoney);
 
     Alert.alert(
-      '✅ Checkup Complete!',
-      `${pet.name} has been examined and is feeling much better!`,
+      t('vet.checkupComplete.title'),
+      t('vet.checkupComplete.message', { name: pet.name }),
       [
         {
-          text: 'Great!',
+          text: t('vet.checkupComplete.button'),
           onPress: () => navigation.goBack(),
         },
       ]
@@ -111,16 +107,16 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
 
   const getUrgencyMessage = () => {
     if (vetStatus === 'urgent')
-      return `${pet.name} needs urgent medical attention!`;
+      return t('vet.status.urgent', { name: pet.name });
     if (vetStatus === 'suggested')
-      return `${pet.name} could use a checkup.`;
-    return `${pet.name} is healthy but can still visit for a boost!`;
+      return t('vet.status.warning', { name: pet.name });
+    return t('vet.status.healthy', { name: pet.name });
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <Text style={styles.title}>🏥 Veterinary Clinic</Text>
+        <Text style={styles.title}>{t('vet.title')}</Text>
 
         <View
           style={[
@@ -128,7 +124,7 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
             { borderColor: getUrgencyColor(), borderWidth: 2 },
           ]}
         >
-          <Text style={styles.petName}>{pet.name}'s Health</Text>
+          <Text style={styles.petName}>{t('vet.petHealth', { name: pet.name })}</Text>
           <View style={styles.healthContainer}>
             <Text style={styles.healthEmoji}>
               {vetStatus === 'urgent' ? '🚨' : vetStatus === 'suggested' ? '⚠️' : '✅'}
@@ -143,18 +139,18 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
         </View>
 
         <View style={styles.benefitsCard}>
-          <Text style={styles.benefitsTitle}>Vet Visit Benefits:</Text>
+          <Text style={styles.benefitsTitle}>{t('vet.benefits')}</Text>
           <Text style={styles.benefitText}>
-            ❤️ Health restored to minimum {GAME_BALANCE.activities.vet.healthTarget}%
+            {t('vet.healthRestore', { target: GAME_BALANCE.activities.vet.healthTarget })}
           </Text>
           <Text style={styles.benefitText}>
-            📈 All stats +{GAME_BALANCE.activities.vet.statBoost}
+            {t('vet.statsBoost', { boost: GAME_BALANCE.activities.vet.statBoost })}
           </Text>
           <Text style={styles.benefitText}>
-            ⚡ Energy {GAME_BALANCE.activities.vet.energy} (checkup is stressful)
+            {t('vet.energyDecrease', { value: GAME_BALANCE.activities.vet.energy })}
           </Text>
           <Text style={styles.benefitText}>
-            😊 Happiness {GAME_BALANCE.activities.vet.happiness} (temporary discomfort)
+            {t('vet.happinessDecrease', { value: GAME_BALANCE.activities.vet.happiness })}
           </Text>
         </View>
 
@@ -168,14 +164,14 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
             disabled={!canAfford || isProcessing}
           >
             <Text style={styles.payButtonText}>
-              💰 Pay {GAME_BALANCE.activities.vet.cost} Coins
+              {t('vet.payButton', { cost: GAME_BALANCE.activities.vet.cost })}
             </Text>
             <Text style={styles.payButtonSubtext}>
-              You have: {pet.money} coins
+              {t('vet.youHave', { amount: pet.money })}
             </Text>
           </TouchableOpacity>
 
-          <Text style={styles.orText}>OR</Text>
+          <Text style={styles.orText}>{t('common.or')}</Text>
 
           <TouchableOpacity
             style={[
@@ -186,10 +182,10 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
             disabled={!isAdReady || isProcessing}
           >
             <Text style={styles.adButtonText}>
-              {isProcessing ? '⏳ Loading...' : '📺 Watch Ad (Free)'}
+              {isProcessing ? t('vet.loadingAd') : t('vet.watchAdButton')}
             </Text>
             {!isAdReady && !isProcessing && (
-              <Text style={styles.adButtonSubtext}>Ad loading...</Text>
+              <Text style={styles.adButtonSubtext}>{t('vet.loadingAd')}</Text>
             )}
           </TouchableOpacity>
         </View>
@@ -199,7 +195,7 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
           onPress={() => navigation.goBack()}
           disabled={isProcessing}
         >
-          <Text style={styles.backButtonText}>Back</Text>
+          <Text style={styles.backButtonText}>{t('common.back')}</Text>
         </TouchableOpacity>
       </View>
     </SafeAreaView>

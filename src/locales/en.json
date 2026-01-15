@@ -1,0 +1,198 @@
+{
+  "common": {
+    "back": "Back",
+    "confirm": "Confirm",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "coins": "coins",
+    "year": "year",
+    "years": "years",
+    "loading": "Loading...",
+    "or": "OR"
+  },
+  "menu": {
+    "title": "🐾 Pet Care",
+    "subtitle": "Care for your virtual pet!",
+    "continueWith": "Continue with {{name}} {{emoji}}",
+    "createNewPet": "Create New Pet ✨",
+    "deletePet": "Delete Pet 🗑️",
+    "createPetModal": {
+      "title": "Create New Pet",
+      "message": "Are you sure? Your pet \"{{name}}\" will be removed permanently.",
+      "confirmText": "Confirm",
+      "cancelText": "Cancel"
+    },
+    "deletePetModal": {
+      "title": "Delete Pet",
+      "message": "Are you sure you want to delete the pet \"{{name}}\"? This action cannot be undone.",
+      "confirmText": "Delete",
+      "cancelText": "Cancel"
+    }
+  },
+  "createPet": {
+    "title": "🐾 Create New Pet",
+    "choosePet": "Choose your pet:",
+    "cat": "Cat",
+    "dog": "Dog",
+    "petName": "Pet name:",
+    "namePlaceholder": "Type the name...",
+    "gender": "Gender:",
+    "male": "Male",
+    "female": "Female",
+    "coatColor": "Coat color:",
+    "white": "White",
+    "black": "Black",
+    "brown": "Brown",
+    "whiteBrown": "White/Brown",
+    "createButton": "Create Pet! 🎉"
+  },
+  "home": {
+    "money": "💰 {{amount}} coins",
+    "warningAttention": "⚠️ Your pet needs attention!",
+    "watchAndEarn": "Watch and earn +{{amount}} coins!",
+    "bonusEarned": "🎉 You won {{amount}} bonus coins!",
+    "actions": {
+      "feed": "Feed",
+      "bath": "Bath",
+      "sleep": "Sleep",
+      "vet": "Vet!",
+      "veterinarian": "Veterinarian",
+      "clothes": "Clothes",
+      "play": "Play",
+      "background": "Background",
+      "menu": "Menu"
+    },
+    "menuModal": {
+      "title": "Back to Menu",
+      "message": "Are you sure you want to exit? Your pet's current status will be saved.",
+      "confirmText": "Confirm",
+      "cancelText": "Cancel"
+    }
+  },
+  "feed": {
+    "title": "🍖 Feed",
+    "hunger": "Hunger: {{amount}}%",
+    "chooseFood": "Choose the food:",
+    "foods": {
+      "kibble": "Kibble",
+      "fish": "Fish",
+      "treat": "Treat",
+      "milk": "Milk"
+    },
+    "eating": "{{name}} is eating {{food}}! 😋",
+    "loved": "{{name}} loved it! 💕"
+  },
+  "bath": {
+    "title": "🛁 Bath",
+    "hygiene": "Hygiene: {{amount}}%",
+    "instructions": "Drag the sponge to bathe! 🧽",
+    "bathing": "{{name}} is taking a bath! 🛁💦",
+    "clean": "{{name}} is clean! ✨",
+    "scrubbing": "Scrubbing: {{count}}/{{needed}} 🧽"
+  },
+  "play": {
+    "title": "🎮 Play",
+    "chooseActivity": "Choose the activity:",
+    "activities": {
+      "yarnBall": "Yarn Ball",
+      "smallBall": "Small Ball"
+    },
+    "playing": "{{name}} is playing with {{activity}}! 🎉",
+    "loved": "{{name}} loved playing! 💕"
+  },
+  "sleep": {
+    "title": "💤 Sleep",
+    "sleeping": "{{name}} is sleeping...",
+    "needsRest": "{{name}} needs rest",
+    "notTired": "Not tired enough to sleep",
+    "progress": "Sleeping... {{progress}}%",
+    "remaining": "{{seconds}}s remaining",
+    "wakeUpEarly": "Wake Up Early",
+    "sleepButton": "💤 Sleep ({{duration}}s)",
+    "energyHigh": "⚡ Energy is high",
+    "benefits": "Sleep Benefits:",
+    "energyBoost": "⚡ Energy +{{value}}",
+    "happinessBoost": "😊 Happiness +{{value}}",
+    "hungerDecrease": "🍖 Hunger {{value}}"
+  },
+  "vet": {
+    "title": "🏥 Veterinary Clinic",
+    "petHealth": "{{name}}'s Health",
+    "benefits": "Vet Visit Benefits:",
+    "healthRestore": "❤️ Health restored to minimum {{target}}%",
+    "statsBoost": "📈 All stats +{{boost}}",
+    "energyDecrease": "⚡ Energy {{value}} (checkup is stressful)",
+    "happinessDecrease": "😊 Happiness {{value}} (temporary discomfort)",
+    "notEnoughMoney": {
+      "title": "Not Enough Money",
+      "message": "You need {{cost}} coins for a vet visit. You have {{amount}} coins."
+    },
+    "confirmVisit": {
+      "title": "Visit Vet?",
+      "message": "This will cost {{cost}} coins. Your pet will be examined and treated.",
+      "cancel": "Cancel",
+      "visit": "Visit"
+    },
+    "adNotReady": {
+      "title": "Ad Not Ready",
+      "message": "Please wait a moment for the ad to load."
+    },
+    "adFailed": {
+      "title": "Ad Failed",
+      "message": "Unable to show ad. Please try again."
+    },
+    "error": {
+      "title": "Error",
+      "message": "Something went wrong. Please try again."
+    },
+    "checkupComplete": {
+      "title": "✅ Checkup Complete!",
+      "message": "{{name}} has been examined and is feeling much better!",
+      "button": "Great!"
+    },
+    "status": {
+      "urgent": "{{name}} needs urgent medical attention!",
+      "warning": "{{name}} could use a checkup.",
+      "healthy": "{{name}} is healthy but can still visit for a boost!"
+    },
+    "payButton": "💰 Pay {{cost}} Coins",
+    "youHave": "You have: {{amount}} coins",
+    "watchAdButton": "📺 Watch Ad (Free)",
+    "loadingAd": "Ad loading..."
+  },
+  "wardrobe": {
+    "title": "👕 Wardrobe",
+    "slots": {
+      "head": "Head",
+      "eyes": "Eyes",
+      "torso": "Torso",
+      "paws": "Paws"
+    },
+    "none": "None"
+  },
+  "background": {
+    "title": "🖼️ Background",
+    "choose": "Choose the background:",
+    "backgrounds": {
+      "none": "None",
+      "park": "Park",
+      "beach": "Beach",
+      "home": "Home"
+    },
+    "selected": "Background \"{{name}}\" selected! 🎨",
+    "selectedIndicator": "✓ Selected"
+  },
+  "rewards": {
+    "doubleReward": {
+      "title": "🎉 Win Double!",
+      "message": "Great work! Watch an ad to earn {{double}} coins instead of {{normal}}?",
+      "watchAd": "Watch Ad",
+      "noThanks": "No, Thanks"
+    },
+    "earned": "💰 +{{amount}} coins earned!",
+    "doubleEarned": "🎉 Double reward! +{{amount}} coins!"
+  },
+  "ads": {
+    "notAvailable": "Ad not available"
+  }
+}

@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   Image,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, {
   useSharedValue,
@@ -70,11 +71,12 @@ const BubbleComponent: React.FC<{ bubble: Bubble }> = ({ bubble }) => {
 };
 
 export const BathScene: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
   const { pet, bathe, earnMoney } = usePet();
   const { showToast } = useToast();
   const { triggerReward, DoubleRewardModal } = useDoubleReward({ earnMoney, showToast });
   const [animationState, setAnimationState] = useState<AnimationState>('idle');
-  const [message, setMessage] = useState('Arraste a esponja para dar banho! 🧽');
+  const [message, setMessage] = useState('');
   const [scrubCount, setScrubCount] = useState(0);
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const BackButtonIcon = useBackButton();
@@ -139,7 +141,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
 
     if (newCount >= SCRUBS_NEEDED) {
       setAnimationState('bathing');
-      setMessage(`${pet.name} está tomando banho! 🛁💦`);
+      setMessage(t('bath.bathing', { name: pet.name }));
 
       // Give bonus 10% hygiene at the end (5 scrubs x 5% + 10% bonus = 35% total)
       bathe(10);
@@ -149,12 +151,12 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
 
       setTimeout(() => {
         setAnimationState('happy');
-        setMessage(`${pet.name} está limpinho! ✨`);
+        setMessage(t('bath.clean', { name: pet.name }));
         setScrubCount(0);
 
         setTimeout(() => {
           setAnimationState('idle');
-          setMessage('Arraste a esponja para dar banho! 🧽');
+          setMessage('');
 
           // Offer double reward or give reward immediately
           triggerReward(moneyEarned);
@@ -209,15 +211,15 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
           <BackButtonIcon />
-          <Text style={styles.backButton}>Voltar</Text>
+          <Text style={styles.backButton}>{t('common.back')}</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>🛁 Banho</Text>
+        <Text style={styles.title}>{t('bath.title')}</Text>
         <View style={{ width: 80 }} />
       </View>
 
       <View style={styles.hygieneInfo}>
         <Text style={styles.hygieneText}>
-          Higiene: {Math.round(pet.hygiene)}%
+          {t('bath.hygiene', { amount: Math.round(pet.hygiene) })}
         </Text>
       </View>
 
@@ -243,10 +245,10 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
       </GestureDetector>
 
       <View style={styles.messageContainer}>
-        <Text style={styles.message}>{message}</Text>
+        <Text style={styles.message}>{message || t('bath.instructions')}</Text>
         {scrubCount > 0 && scrubCount < SCRUBS_NEEDED && (
           <Text style={styles.progress}>
-            Esfregando: {scrubCount}/{SCRUBS_NEEDED} 🧽
+            {t('bath.scrubbing', { count: scrubCount, needed: SCRUBS_NEEDED })}
           </Text>
         )}
       </View>

@@ -6,8 +6,10 @@ import {
     StyleSheet,
     SafeAreaView,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { ConfirmModal } from '../components/ConfirmModal';
+import { LanguageSelector } from '../components/LanguageSelector';
 import { ScreenNavigationProp } from '../types/navigation';
 
 type Props = {
@@ -16,6 +18,7 @@ type Props = {
 
 export const MenuScreen: React.FC<Props> = ({ navigation }) => {
     const { pet, removePet } = usePet();
+    const { t } = useTranslation();
     const [showNewPetConfirm, setShowNewPetConfirm] = useState(false);
     const [showDeletePetConfirm, setShowDeletePetConfirm] = useState(false);
 
@@ -53,8 +56,13 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.content}>
-                <Text style={styles.title}>🐾 Pet Care</Text>
-                <Text style={styles.subtitle}>Cuide do seu amiguinho virtual!</Text>
+                <Text style={styles.title}>{t('menu.title')}</Text>
+                <Text style={styles.subtitle}>{t('menu.subtitle')}</Text>
+
+                {/* Language Selector */}
+                <View style={styles.languageContainer}>
+                    <LanguageSelector />
+                </View>
 
                 <View style={styles.buttonContainer}>
                     {pet && (
@@ -63,7 +71,7 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
                             onPress={handleContinue}
                         >
                             <Text style={styles.continueButtonText}>
-                                Continuar com {pet.name} {pet.type === 'cat' ? '🐱' : '🐶'}
+                                {t('menu.continueWith', { name: pet.name, emoji: pet.type === 'cat' ? '🐱' : '🐶' })}
                             </Text>
                         </TouchableOpacity>
                     )}
@@ -74,7 +82,7 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
                             onPress={handleNewPet}
                         >
                             <Text style={styles.newPetButtonText}>
-                                Criar Novo Pet ✨
+                                {t('menu.createNewPet')}
                             </Text>
                         </TouchableOpacity>
                     )}
@@ -85,7 +93,7 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
                             onPress={handleDeletePet}
                         >
                             <Text style={styles.deletePetButtonText}>
-                                Apagar Pet 🗑️
+                                {t('menu.deletePet')}
                             </Text>
                         </TouchableOpacity>
                     )}
@@ -94,10 +102,10 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
 
             <ConfirmModal
                 visible={showNewPetConfirm}
-                title="Criar Novo Pet"
-                message={pet ? `Você tem certeza? Seu pet "${pet.name}" será removido permanentemente.` : ''}
-                confirmText="Confirmar"
-                cancelText="Cancelar"
+                title={t('menu.createPetModal.title')}
+                message={pet ? t('menu.createPetModal.message', { name: pet.name }) : ''}
+                confirmText={t('menu.createPetModal.confirmText')}
+                cancelText={t('menu.createPetModal.cancelText')}
                 confirmStyle="destructive"
                 onConfirm={handleConfirmNewPet}
                 onCancel={() => setShowNewPetConfirm(false)}
@@ -105,10 +113,10 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
 
             <ConfirmModal
                 visible={showDeletePetConfirm}
-                title="Apagar Pet"
-                message={pet ? `Você tem certeza que deseja apagar o pet "${pet.name}"? Esta ação não pode ser desfeita.` : ''}
-                confirmText="Apagar"
-                cancelText="Cancelar"
+                title={t('menu.deletePetModal.title')}
+                message={pet ? t('menu.deletePetModal.message', { name: pet.name }) : ''}
+                confirmText={t('menu.deletePetModal.confirmText')}
+                cancelText={t('menu.deletePetModal.cancelText')}
                 confirmStyle="destructive"
                 onConfirm={handleConfirmDeletePet}
                 onCancel={() => setShowDeletePetConfirm(false)}
@@ -137,7 +145,10 @@ const styles = StyleSheet.create({
     subtitle: {
         fontSize: 18,
         color: '#666',
-        marginBottom: 48,
+        marginBottom: 24,
+    },
+    languageContainer: {
+        marginBottom: 24,
     },
     buttonContainer: {
         width: '100%',
