@@ -67,17 +67,11 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
 
     try {
       setIsProcessing(true);
-      const success = await showRewardedAd('vet_visit');
-
-      if (success) {
+      
+      await showRewardedAd(() => {
+        // Ad completed successfully, perform vet visit
         performVetVisit(false);
-      } else {
-        Alert.alert(
-          t('vet.adFailed.title'),
-          t('vet.adFailed.message'),
-          [{ text: 'OK' }]
-        );
-      }
+      });
     } catch (error) {
       logger.error('Error showing rewarded ad:', error);
       Alert.alert(
