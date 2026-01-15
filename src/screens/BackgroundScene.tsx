@@ -9,9 +9,12 @@ import {
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { PetRenderer } from '../components/PetRenderer';
+import { StatusCard } from '../components/StatusCard';
+import { ScreenHeader } from '../components/ScreenHeader';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
 import { ScreenNavigationProp } from '../types/navigation';
+import { calculatePetAge } from '../utils/age';
 
 type Props = {
   navigation: ScreenNavigationProp<'Background'>;
@@ -19,10 +22,10 @@ type Props = {
 
 // Placeholder backgrounds - user will add actual images to assets/backgrounds/
 const BACKGROUNDS = [
-  { id: 'none', nameKey: 'background.backgrounds.none', emoji: '❌' },
-  { id: 'park', nameKey: 'background.backgrounds.park', emoji: '🌳' },
-  { id: 'beach', nameKey: 'background.backgrounds.beach', emoji: '🏖️' },
-  { id: 'home', nameKey: 'background.backgrounds.home', emoji: '🏠' },
+  { id: 'none', name: 'Nenhum', emoji: '❌' },
+  { id: 'park', name: 'Parque', emoji: '🌳' },
+  { id: 'beach', name: 'Praia', emoji: '🏖️' },
+  { id: 'home', name: 'Casa', emoji: '🏠' },
 ];
 
 export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
@@ -41,30 +44,39 @@ export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
 
   if (!pet) return null;
 
+  const petAge = calculatePetAge(pet.createdAt);
+  const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
+
   const handleSelectBackground = (background: typeof BACKGROUNDS[0]) => {
     const backgroundId = background.id === 'none' ? null : background.id;
     setBackground(backgroundId);
-    setMessage(t('background.selected', { name: t(background.nameKey) }));
+    setMessage(`Fundo "${background.name}" selecionado! 🎨`);
 
     setTimeout(() => {
       setMessage('');
     }, 2000);
   };
 
-  const isCurrentBackgroundSelected = 
+  const isCurrentBackgroundSelected =
     (currentBackground.id === 'none' && pet.background === null) ||
     (pet.background === currentBackground.id);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
-          <BackButtonIcon />
-          <Text style={styles.backButton}>{t('common.back')}</Text>
-        </TouchableOpacity>
-        <Text style={styles.title}>{t('background.title')}</Text>
-        <View style={{ width: 80 }} />
-      </View>
+      <ScreenHeader
+        title="🖼️ Cenário"
+        onBackPress={() => navigation.goBack()}
+        BackButtonIcon={BackButtonIcon}
+      />
+
+      {/* Status Card */}
+      <StatusCard
+        pet={pet}
+        petName={petNameDisplay}
+        petAge={petAgeDisplay}
+        compact
+      />
 
       <View style={styles.petContainer}>
         <PetRenderer pet={pet} size={300} />
@@ -72,7 +84,7 @@ export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={styles.backgroundsContainer}>
-        <Text style={styles.backgroundsTitle}>{t('background.choose')}</Text>
+        <Text style={styles.backgroundsTitle}>Escolha o cenário:</Text>
         
         {/* Navigation arrows and current background display */}
         <View style={styles.navigationContainer}>
@@ -91,9 +103,9 @@ export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
             onPress={() => handleSelectBackground(currentBackground)}
           >
             <Text style={styles.currentBackgroundEmoji}>{currentBackground.emoji}</Text>
-            <Text style={styles.currentBackgroundName}>{t(currentBackground.nameKey)}</Text>
+            <Text style={styles.currentBackgroundName}>{currentBackground.name}</Text>
             {isCurrentBackgroundSelected && (
-              <Text style={styles.selectedIndicator}>{t('background.selectedIndicator')}</Text>
+              <Text style={styles.selectedIndicator}>✓ Selecionado</Text>
             )}
           </TouchableOpacity>
           

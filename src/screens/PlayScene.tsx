@@ -10,6 +10,8 @@ import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
+import { StatusCard } from '../components/StatusCard';
+import { ScreenHeader } from '../components/ScreenHeader';
 import { AnimationState } from '../types';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
@@ -17,14 +19,15 @@ import { useDoubleReward } from '../hooks/useDoubleReward';
 import { AdsConfig } from '../config/ads.config';
 import { ScreenNavigationProp } from '../types/navigation';
 import { ANIMATION_DURATION } from '../config/constants';
+import { calculatePetAge } from '../utils/age';
 
 type Props = {
   navigation: ScreenNavigationProp<'Play'>;
 };
 
 const PLAY_ACTIVITIES = [
-  { id: 'yarn_ball', emoji: '🧶', nameKey: 'play.activities.yarnBall' },
-  { id: 'small_ball', emoji: '⚽', nameKey: 'play.activities.smallBall' },
+  { id: 'yarn_ball', emoji: '🧶', name: 'Bola de lã' },
+  { id: 'small_ball', emoji: '⚽', name: 'Bolinha' },
 ];
 
 export const PlayScene: React.FC<Props> = ({ navigation }) => {
@@ -46,9 +49,13 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
 
   if (!pet) return null;
 
+  const petAge = calculatePetAge(pet.createdAt);
+  const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
+
   const handlePlay = (activity: typeof PLAY_ACTIVITIES[0]) => {
     setAnimationState('happy');
-    setMessage(t('play.playing', { name: pet.name, activity: t(activity.nameKey) }));
+    setMessage(`${pet.name} está brincando com ${activity.name}! 🎉`);
 
     play();
 
@@ -56,7 +63,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
     const moneyEarned = AdsConfig.rewards.playReward;
 
     setTimeout(() => {
-      setMessage(t('play.loved', { name: pet.name }));
+      setMessage(`${pet.name} adorou brincar! 💕`);
 
       setTimeout(() => {
         setAnimationState('idle');
@@ -70,14 +77,19 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
-          <BackButtonIcon />
-          <Text style={styles.backButton}>{t('common.back')}</Text>
-        </TouchableOpacity>
-        <Text style={styles.title}>{t('play.title')}</Text>
-        <View style={{ width: 80 }} />
-      </View>
+      <ScreenHeader
+        title="🎮 Brincar"
+        onBackPress={() => navigation.goBack()}
+        BackButtonIcon={BackButtonIcon}
+      />
+
+      {/* Status Card */}
+      <StatusCard
+        pet={pet}
+        petName={petNameDisplay}
+        petAge={petAgeDisplay}
+        compact
+      />
 
       <View style={styles.petContainer}>
         <PetRenderer pet={pet} animationState={animationState} size={375} />
@@ -85,7 +97,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={styles.activitiesContainer}>
-        <Text style={styles.activitiesTitle}>{t('play.chooseActivity')}</Text>
+        <Text style={styles.activitiesTitle}>Escolha a atividade:</Text>
         
         {/* Navigation arrows and current activity display */}
         <View style={styles.navigationContainer}>
@@ -103,7 +115,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
             disabled={animationState !== 'idle'}
           >
             <Text style={styles.currentActivityEmoji}>{currentActivity.emoji}</Text>
-            <Text style={styles.currentActivityName}>{t(currentActivity.nameKey)}</Text>
+            <Text style={styles.currentActivityName}>{currentActivity.name}</Text>
           </TouchableOpacity>
           
           <TouchableOpacity

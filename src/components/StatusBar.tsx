@@ -6,6 +6,7 @@ type StatusBarProps = {
   value: number;
   color: string;
   emoji: string;
+  showPercentage?: boolean;
 };
 
 export const StatusBar: React.FC<StatusBarProps> = ({
@@ -13,6 +14,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
   value,
   color,
   emoji,
+  showPercentage = true,
 }) => {
   return (
     <View style={styles.container}>
@@ -28,7 +30,9 @@ export const StatusBar: React.FC<StatusBarProps> = ({
           />
         </View>
       </View>
-      <Text style={styles.value}>{Math.round(value)}%</Text>
+      {showPercentage && (
+        <Text style={styles.value}>{Math.round(value)}%</Text>
+      )}
     </View>
   );
 };
@@ -37,38 +41,38 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 4,
-    paddingHorizontal: 16,
+    marginVertical: 2,
+    paddingHorizontal: 2,
   },
   emoji: {
-    fontSize: 20,
-    marginRight: 8,
+    fontSize: 14,
+    marginRight: 4,
   },
   barContainer: {
     flex: 1,
   },
   label: {
-    fontSize: 12,
+    fontSize: 10,
     fontWeight: '600',
     color: '#666',
     marginBottom: 2,
   },
   barBackground: {
-    height: 12,
+    height: 8,
     backgroundColor: '#e0e0e0',
-    borderRadius: 6,
+    borderRadius: 4,
     overflow: 'hidden',
   },
   barFill: {
     height: '100%',
-    borderRadius: 6,
+    borderRadius: 4,
   },
   value: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
     color: '#333',
-    marginLeft: 8,
-    width: 40,
+    marginLeft: 6,
+    width: 35,
     textAlign: 'right',
   },
 });

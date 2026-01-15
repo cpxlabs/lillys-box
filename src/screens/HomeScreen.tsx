@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
-import { EnhancedStatusBar } from '../components/EnhancedStatusBar';
+import { StatusCard } from '../components/StatusCard';
 import { IconButton } from '../components/IconButton';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { BannerAd } from '../components/BannerAd';
@@ -34,6 +34,9 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const hasWarnings = hasWarningStats(pet);
   const canSleep = pet.energy < GAME_BALANCE.thresholds.energyForSleep;
 
+  const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
+
   const handleMenuPress = () => {
     setShowMenuConfirm(true);
   };
@@ -51,27 +54,17 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.petName}>
-          {pet.type === 'cat' ? '🐱' : '🐶'} {pet.name}
+      {/* Unified Status Card with Pet Name, Age, Money and Status Bars */}
+      <StatusCard
+        pet={pet}
+        petName={petNameDisplay}
+        petAge={petAgeDisplay}
+      />
+      {hasWarnings && (
+        <Text style={styles.warningText}>
+          {t('home.warningAttention')}
         </Text>
-        <Text style={styles.petAge}>
-          {petAge} {petAge === 1 ? t('common.year') : t('common.years')}
-        </Text>
-        <View style={styles.moneyContainer}>
-          {/* Defensive fallback for extra safety */}
-          <Text style={styles.moneyText}>{t('home.money', { amount: pet.money ?? 0 })}</Text>
-        </View>
-      </View>
-
-      <View style={styles.statusContainer}>
-        <EnhancedStatusBar pet={pet} />
-        {hasWarnings && (
-          <Text style={styles.warningText}>
-            {t('home.warningAttention')}
-          </Text>
-        )}
-      </View>
+      )}
 
       {/* Rewarded Ad Button for Bonus Coins */}
       <View style={styles.rewardedAdContainer}>
@@ -149,35 +142,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e8f5e9',
-  },
-  header: {
-    padding: 16,
-    alignItems: 'center',
-  },
-  petName: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  petAge: {
-    fontSize: 18,
-    color: '#666',
-    marginTop: 4,
-  },
-  moneyContainer: {
-    marginTop: 8,
-    backgroundColor: '#FFD700',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  moneyText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  statusContainer: {
-    paddingVertical: 8,
   },
   warningText: {
     textAlign: 'center',

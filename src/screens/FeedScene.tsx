@@ -10,6 +10,8 @@ import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
+import { StatusCard } from '../components/StatusCard';
+import { ScreenHeader } from '../components/ScreenHeader';
 import { AnimationState } from '../types';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
@@ -17,6 +19,7 @@ import { useDoubleReward } from '../hooks/useDoubleReward';
 import { AdsConfig } from '../config/ads.config';
 import { ScreenNavigationProp } from '../types/navigation';
 import { ANIMATION_DURATION } from '../config/constants';
+import { calculatePetAge } from '../utils/age';
 
 type Props = {
   navigation: ScreenNavigationProp<'Feed'>;
@@ -37,7 +40,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
   const [animationState, setAnimationState] = useState<AnimationState>('idle');
   const [message, setMessage] = useState('');
   const BackButtonIcon = useBackButton();
-  
+
   const {
     currentItem: currentFood,
     currentIndex,
@@ -47,6 +50,10 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
   } = useNavigationList(FOODS);
 
   if (!pet) return null;
+
+  const petAge = calculatePetAge(pet.createdAt);
+  const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
   const handleFeed = (food: typeof FOODS[0]) => {
     setAnimationState('eating');
@@ -73,24 +80,23 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
-          <BackButtonIcon />
-          <Text style={styles.backButton}>{t('common.back')}</Text>
-        </TouchableOpacity>
-        <Text style={styles.title}>{t('feed.title')}</Text>
-        <View style={{ width: 80 }} />
-      </View>
+      <ScreenHeader
+        title={t('feed.title')}
+        onBackPress={() => navigation.goBack()}
+        BackButtonIcon={BackButtonIcon}
+      />
+
+      {/* Status Card */}
+      <StatusCard
+        pet={pet}
+        petName={petNameDisplay}
+        petAge={petAgeDisplay}
+        compact
+      />
 
       <View style={styles.petContainer}>
         <PetRenderer pet={pet} animationState={animationState} size={375} />
         {message ? <Text style={styles.message}>{message}</Text> : null}
-      </View>
-
-      <View style={styles.hungerInfo}>
-        <Text style={styles.hungerText}>
-          {t('feed.hunger', { amount: Math.round(pet.hunger) })}
-        </Text>
       </View>
 
       <View style={styles.foodContainer}>

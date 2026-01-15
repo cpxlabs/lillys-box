@@ -11,6 +11,10 @@ import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { ScreenNavigationProp } from '../types/navigation';
+import { StatusCard } from '../components/StatusCard';
+import { ScreenHeader } from '../components/ScreenHeader';
+import { calculatePetAge } from '../utils/age';
+import { useBackButton } from '../hooks/useBackButton';
 
 type Props = {
   navigation: ScreenNavigationProp<'Sleep'>;
@@ -23,6 +27,7 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
   const [sleepProgress, setSleepProgress] = useState(0);
   const [fadeAnim] = useState(new Animated.Value(1));
   const progressIntervalRef = React.useRef<NodeJS.Timeout | null>(null);
+  const BackButtonIcon = useBackButton();
 
   const SLEEP_DURATION = GAME_BALANCE.activities.sleep.duration;
 
@@ -92,10 +97,28 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
 
   if (!pet) return null;
 
+  const petAge = calculatePetAge(pet.createdAt);
+  const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? 'ano' : 'anos'}`;
+
   const canSleep = pet.energy < GAME_BALANCE.thresholds.energyForSleep;
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScreenHeader
+        title="💤 Dormir"
+        onBackPress={() => navigation.goBack()}
+        BackButtonIcon={BackButtonIcon}
+      />
+
+      {/* Status Card */}
+      <StatusCard
+        pet={pet}
+        petName={petNameDisplay}
+        petAge={petAgeDisplay}
+        compact
+      />
+
       <View style={styles.content}>
         <Animated.View style={[styles.petContainer, { opacity: fadeAnim }]}>
           <Text style={styles.sleepText}>💤</Text>
