@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
@@ -30,6 +31,7 @@ const PLAY_ACTIVITIES = [
 ];
 
 export const PlayScene: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
   const { pet, play, earnMoney } = usePet();
   const { showToast } = useToast();
   const { triggerReward, DoubleRewardModal } = useDoubleReward({ earnMoney, showToast });
@@ -49,7 +51,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
 
   const petAge = calculatePetAge(pet.createdAt);
   const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
-  const petAgeDisplay = `${petAge} ${petAge === 1 ? 'ano' : 'anos'}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
   const handlePlay = (activity: typeof PLAY_ACTIVITIES[0]) => {
     setAnimationState('happy');

@@ -7,6 +7,7 @@ import {
   ViewStyle,
   View,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useRewardedAd } from '../hooks/useRewardedAd';
 
 type Props = {
@@ -35,6 +36,7 @@ export const RewardedAdButton: React.FC<Props> = ({
   style,
 }) => {
   const { showRewardedAd, isAdReady, isLoading } = useRewardedAd();
+  const { t } = useTranslation();
 
   const handlePress = async () => {
     await showRewardedAd(onRewardEarned);
@@ -57,10 +59,10 @@ export const RewardedAdButton: React.FC<Props> = ({
         <Text style={styles.icon}>📺</Text>
         <View style={styles.textContainer}>
           <Text style={[styles.text, isDisabled && styles.textDisabled]}>
-            {isLoading ? 'Carregando...' : rewardText}
+            {isLoading ? t('common.loading') : rewardText}
           </Text>
           {!isAdReady && !isLoading && (
-            <Text style={styles.subtitle}>Anúncio não disponível</Text>
+            <Text style={styles.subtitle}>{t('ads.notAvailable')}</Text>
           )}
         </View>
         {isLoading && (

@@ -7,6 +7,7 @@ import {
   Animated,
   SafeAreaView,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { ScreenNavigationProp } from '../types/navigation';
@@ -20,6 +21,7 @@ type Props = {
 };
 
 export const SleepScene: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
   const { pet, sleep, cancelSleep: cancelSleepContext } = usePet();
   const [isSleeping, setIsSleeping] = useState(false);
   const [sleepProgress, setSleepProgress] = useState(0);
@@ -121,17 +123,17 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
         <Animated.View style={[styles.petContainer, { opacity: fadeAnim }]}>
           <Text style={styles.sleepText}>💤</Text>
           <Text style={styles.petName}>
-            {isSleeping ? `${pet.name} is sleeping...` : `${pet.name} needs rest`}
+            {isSleeping ? t('sleep.sleeping', { name: pet.name }) : t('sleep.needsRest', { name: pet.name })}
           </Text>
           {!isSleeping && !canSleep && (
-            <Text style={styles.notTiredText}>Not tired enough to sleep</Text>
+            <Text style={styles.notTiredText}>{t('sleep.notTired')}</Text>
           )}
         </Animated.View>
 
         {isSleeping ? (
           <View style={styles.progressContainer}>
             <Text style={styles.progressText}>
-              Sleeping... {Math.round(sleepProgress)}%
+              {t('sleep.progress', { progress: Math.round(sleepProgress) })}
             </Text>
             <View style={styles.progressBar}>
               <View
@@ -139,14 +141,13 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
               />
             </View>
             <Text style={styles.durationText}>
-              {Math.round((SLEEP_DURATION / 1000) * (1 - sleepProgress / 100))}s
-              remaining
+              {t('sleep.remaining', { seconds: Math.round((SLEEP_DURATION / 1000) * (1 - sleepProgress / 100)) })}
             </Text>
             <TouchableOpacity
               style={styles.cancelButton}
               onPress={handleCancelSleep}
             >
-              <Text style={styles.cancelButtonText}>Wake Up Early</Text>
+              <Text style={styles.cancelButtonText}>{t('sleep.wakeUpEarly')}</Text>
             </TouchableOpacity>
           </View>
         ) : (
@@ -161,22 +162,22 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
             >
               <Text style={styles.sleepButtonText}>
                 {canSleep
-                  ? `💤 Sleep (${SLEEP_DURATION / 1000}s)`
-                  : '⚡ Energy is high'}
+                  ? t('sleep.sleepButton', { duration: SLEEP_DURATION / 1000 })
+                  : t('sleep.energyHigh')}
               </Text>
             </TouchableOpacity>
 
             {canSleep && (
               <View style={styles.benefitsContainer}>
-                <Text style={styles.benefitsTitle}>Sleep Benefits:</Text>
+                <Text style={styles.benefitsTitle}>{t('sleep.benefits')}</Text>
                 <Text style={styles.benefitsText}>
-                  ⚡ Energy +{GAME_BALANCE.activities.sleep.energy}
+                  {t('sleep.energyBoost', { value: GAME_BALANCE.activities.sleep.energy })}
                 </Text>
                 <Text style={styles.benefitsText}>
-                  😊 Happiness +{GAME_BALANCE.activities.sleep.happiness}
+                  {t('sleep.happinessBoost', { value: GAME_BALANCE.activities.sleep.happiness })}
                 </Text>
                 <Text style={styles.benefitsText}>
-                  🍖 Hunger {GAME_BALANCE.activities.sleep.hunger}
+                  {t('sleep.hungerDecrease', { value: GAME_BALANCE.activities.sleep.hunger })}
                 </Text>
               </View>
             )}
@@ -185,7 +186,7 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
               style={styles.backButton}
               onPress={() => navigation.goBack()}
             >
-              <Text style={styles.backButtonText}>Back</Text>
+              <Text style={styles.backButtonText}>{t('common.back')}</Text>
             </TouchableOpacity>
           </View>
         )}

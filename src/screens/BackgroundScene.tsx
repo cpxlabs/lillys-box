@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';
@@ -28,6 +29,7 @@ const BACKGROUNDS = [
 ];
 
 export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
   const { pet, setBackground } = usePet();
   const [message, setMessage] = useState('');
   const BackButtonIcon = useBackButton();
@@ -44,7 +46,7 @@ export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
 
   const petAge = calculatePetAge(pet.createdAt);
   const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
-  const petAgeDisplay = `${petAge} ${petAge === 1 ? 'ano' : 'anos'}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
   const handleSelectBackground = (background: typeof BACKGROUNDS[0]) => {
     const backgroundId = background.id === 'none' ? null : background.id;

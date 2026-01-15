@@ -4,6 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
+import './src/i18n'; // Initialize i18n
+import { LanguageProvider } from './src/context/LanguageContext';
 import { PetProvider, usePet } from './src/context/PetContext';
 import { ToastProvider } from './src/context/ToastContext';
 import { AdProvider, useAd } from './src/context/AdContext';
@@ -75,13 +77,15 @@ export default function App() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <PetProvider>
-        <AdProvider>
-          <ToastProvider>
-            <AppNavigator />
-          </ToastProvider>
-        </AdProvider>
-      </PetProvider>
+      <LanguageProvider>
+        <PetProvider>
+          <AdProvider>
+            <ToastProvider>
+              <AppNavigator />
+            </ToastProvider>
+          </AdProvider>
+        </PetProvider>
+      </LanguageProvider>
     </GestureHandlerRootView>
   );
 }

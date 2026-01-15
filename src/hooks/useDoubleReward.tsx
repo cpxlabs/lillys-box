@@ -7,6 +7,7 @@
  */
 
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { useRewardedAd } from './useRewardedAd';
 import { AdsConfig } from '../config/ads.config';
@@ -52,6 +53,7 @@ export const useDoubleReward = ({
   showToast,
 }: UseDoubleRewardParams): UseDoubleRewardReturn => {
   const { showRewardedAd, isAdReady } = useRewardedAd();
+  const { t } = useTranslation();
   const [showDoubleRewardModal, setShowDoubleRewardModal] = useState(false);
   const [pendingReward, setPendingReward] = useState(0);
 
@@ -67,7 +69,7 @@ export const useDoubleReward = ({
     } else {
       // Just give normal reward
       earnMoney(amount);
-      showToast(`💰 +${amount} moedas ganhas!`, 'success');
+      showToast(t('rewards.earned', { amount }), 'success');
     }
   };
 
@@ -81,7 +83,7 @@ export const useDoubleReward = ({
       // Double the reward
       const doubleReward = pendingReward * REWARD_MULTIPLIER.DOUBLE;
       earnMoney(doubleReward);
-      showToast(`🎉 Recompensa em dobro! +${doubleReward} moedas!`, 'success');
+      showToast(t('rewards.doubleEarned', { amount: doubleReward }), 'success');
       setPendingReward(0);
     });
   };
@@ -93,19 +95,20 @@ export const useDoubleReward = ({
     setShowDoubleRewardModal(false);
     // Give normal reward
     earnMoney(pendingReward);
-    showToast(`💰 +${pendingReward} moedas ganhas!`, 'success');
+    showToast(t('rewards.earned', { amount: pendingReward }), 'success');
     setPendingReward(0);
   };
 
   const DoubleRewardModal = (
     <ConfirmModal
       visible={showDoubleRewardModal}
-      title="🎉 Ganhe o Dobro!"
-      message={`Ótimo trabalho! Assista a um anúncio para ganhar ${
-        pendingReward * REWARD_MULTIPLIER.DOUBLE
-      } moedas em vez de ${pendingReward}?`}
-      confirmText="Assistir Anúncio"
-      cancelText="Não, Obrigado"
+      title={t('rewards.doubleReward.title')}
+      message={t('rewards.doubleReward.message', {
+        double: pendingReward * REWARD_MULTIPLIER.DOUBLE,
+        normal: pendingReward,
+      })}
+      confirmText={t('rewards.doubleReward.watchAd')}
+      cancelText={t('rewards.doubleReward.noThanks')}
       onConfirm={handleWatchAd}
       onCancel={handleDeclineAd}
     />

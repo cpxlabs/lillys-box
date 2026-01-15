@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
+import { useTranslation } from 'react-i18next';
 } from 'react-native';
 import { usePet } from '../context/PetContext';
 import { PetRenderer } from '../components/PetRenderer';
@@ -29,6 +30,7 @@ const SLOTS: { key: ClothingSlot; label: string; emoji: string }[] = [
 ];
 
 export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
   const { pet, setClothing } = usePet();
   const [selectedSlot, setSelectedSlot] = useState<ClothingSlot>('head');
   const BackButtonIcon = useBackButton();
@@ -37,7 +39,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
 
   const petAge = calculatePetAge(pet.createdAt);
   const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
-  const petAgeDisplay = `${petAge} ${petAge === 1 ? 'ano' : 'anos'}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
   const itemsForSlot = getItemsBySlot(selectedSlot);
 

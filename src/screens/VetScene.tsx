@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
+import { useTranslation } from 'react-i18next';
 } from 'react-native';
 import { usePet } from '../context/PetContext';
 import { useRewardedAd } from '../hooks/useRewardedAd';
@@ -23,6 +24,7 @@ type Props = {
 };
 
 export const VetScene: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
   const { pet, visitVet } = usePet();
   const { showRewardedAd, isAdReady } = useRewardedAd();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -32,7 +34,7 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
 
   const petAge = calculatePetAge(pet.createdAt);
   const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
-  const petAgeDisplay = `${petAge} ${petAge === 1 ? 'ano' : 'anos'}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
   const vetStatus = needsVet(pet.health);
   const canAfford = pet.money >= GAME_BALANCE.activities.vet.cost;
