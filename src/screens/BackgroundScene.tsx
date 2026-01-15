@@ -9,9 +9,11 @@ import {
 import { usePet } from '../context/PetContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';
+import { ScreenHeader } from '../components/ScreenHeader';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
 import { ScreenNavigationProp } from '../types/navigation';
+import { calculatePetAge } from '../utils/age';
 
 type Props = {
   navigation: ScreenNavigationProp<'Background'>;
@@ -40,6 +42,10 @@ export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
 
   if (!pet) return null;
 
+  const petAge = calculatePetAge(pet.createdAt);
+  const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? 'ano' : 'anos'}`;
+
   const handleSelectBackground = (background: typeof BACKGROUNDS[0]) => {
     const backgroundId = background.id === 'none' ? null : background.id;
     setBackground(backgroundId);
@@ -50,23 +56,25 @@ export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
     }, 2000);
   };
 
-  const isCurrentBackgroundSelected = 
+  const isCurrentBackgroundSelected =
     (currentBackground.id === 'none' && pet.background === null) ||
     (pet.background === currentBackground.id);
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
-          <BackButtonIcon />
-          <Text style={styles.backButton}>Voltar</Text>
-        </TouchableOpacity>
-        <Text style={styles.title}>🖼️ Cenário</Text>
-        <View style={{ width: 80 }} />
-      </View>
+      <ScreenHeader
+        title="🖼️ Cenário"
+        onBackPress={() => navigation.goBack()}
+        BackButtonIcon={BackButtonIcon}
+      />
 
       {/* Status Card */}
-      <StatusCard pet={pet} compact />
+      <StatusCard
+        pet={pet}
+        petName={petNameDisplay}
+        petAge={petAgeDisplay}
+        compact
+      />
 
       <View style={styles.petContainer}>
         <PetRenderer pet={pet} size={300} />

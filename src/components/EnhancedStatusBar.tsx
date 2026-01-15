@@ -67,12 +67,10 @@ export const EnhancedStatusBar: React.FC<EnhancedStatusBarProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    paddingVertical: 8,
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: 12,
-    marginHorizontal: 8,
+    paddingVertical: 4,
+    backgroundColor: 'transparent',
   },
   compact: {
-    paddingVertical: 4,
+    paddingVertical: 2,
   },
 });

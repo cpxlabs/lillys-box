@@ -11,9 +11,12 @@ import { usePet } from '../context/PetContext';
 import { useRewardedAd } from '../hooks/useRewardedAd';
 import { needsVet } from '../utils/petStats';
 import { StatusCard } from '../components/StatusCard';
+import { ScreenHeader } from '../components/ScreenHeader';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { logger } from '../utils/logger';
 import { ScreenNavigationProp } from '../types/navigation';
+import { calculatePetAge } from '../utils/age';
+import { useBackButton } from '../hooks/useBackButton';
 
 type Props = {
   navigation: ScreenNavigationProp<'Vet'>;
@@ -23,8 +26,13 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
   const { pet, visitVet } = usePet();
   const { showRewardedAd, isAdReady } = useRewardedAd();
   const [isProcessing, setIsProcessing] = useState(false);
+  const BackButtonIcon = useBackButton();
 
   if (!pet) return null;
+
+  const petAge = calculatePetAge(pet.createdAt);
+  const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? 'ano' : 'anos'}`;
 
   const vetStatus = needsVet(pet.health);
   const canAfford = pet.money >= GAME_BALANCE.activities.vet.cost;
@@ -120,11 +128,20 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.content}>
-        <Text style={styles.title}>🏥 Veterinary Clinic</Text>
+      <ScreenHeader
+        title="🏥 Veterinário"
+        onBackPress={() => navigation.goBack()}
+        BackButtonIcon={BackButtonIcon}
+      />
 
+      <View style={styles.content}>
         {/* Status Card */}
-        <StatusCard pet={pet} compact />
+        <StatusCard
+          pet={pet}
+          petName={petNameDisplay}
+          petAge={petAgeDisplay}
+          compact
+        />
 
         <View
           style={[

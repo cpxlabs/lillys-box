@@ -6,8 +6,8 @@ import { EnhancedStatusBar } from './EnhancedStatusBar';
 type StatusCardProps = {
   pet: Pet;
   compact?: boolean;
-  petName?: string;
-  petAge?: string;
+  petName: string;
+  petAge: string;
 };
 
 export const StatusCard: React.FC<StatusCardProps> = ({
@@ -18,18 +18,16 @@ export const StatusCard: React.FC<StatusCardProps> = ({
 }) => {
   return (
     <View style={[styles.card, compact && styles.cardCompact]}>
-      {/* Pet Name and Age - Optional */}
-      {(petName || petAge) && (
-        <View style={styles.petInfoSection}>
-          {petName && <Text style={styles.petName}>{petName}</Text>}
-          {petAge && <Text style={styles.petAge}>{petAge}</Text>}
+      {/* Top Row: Pet Info and Money */}
+      <View style={styles.topRow}>
+        <View style={styles.petInfo}>
+          <Text style={styles.petName}>{petName}</Text>
+          <Text style={styles.petAge}>{petAge}</Text>
         </View>
-      )}
-
-      {/* Money Display - Icon Only */}
-      <View style={styles.moneyRow}>
-        <Text style={styles.coinIcon}>💰</Text>
-        <Text style={styles.moneyValue}>{pet.money ?? 0}</Text>
+        <View style={styles.moneyContainer}>
+          <Text style={styles.coinIcon}>💰</Text>
+          <Text style={styles.moneyValue}>{pet.money ?? 0}</Text>
+        </View>
       </View>
 
       {/* Status Bars - No Percentages */}
@@ -41,56 +39,57 @@ export const StatusCard: React.FC<StatusCardProps> = ({
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#ffffff',
-    borderRadius: 16,
+    borderRadius: 12,
     marginHorizontal: 12,
-    marginVertical: 8,
-    padding: 12,
+    marginVertical: 6,
+    padding: 10,
     shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 8,
-    elevation: 4,
+    shadowOffset: { width: 0, height: 1 },
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 3,
   },
   cardCompact: {
     marginHorizontal: 8,
     marginVertical: 4,
     padding: 8,
   },
-  petInfoSection: {
+  topRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 12,
-    paddingBottom: 12,
+    marginBottom: 8,
+    paddingBottom: 8,
     borderBottomWidth: 1,
     borderBottomColor: '#e0e0e0',
   },
+  petInfo: {
+    flex: 1,
+  },
   petName: {
-    fontSize: 24,
+    fontSize: 18,
     fontWeight: 'bold',
     color: '#333',
   },
   petAge: {
-    fontSize: 16,
+    fontSize: 13,
     color: '#666',
-    marginTop: 4,
+    marginTop: 2,
   },
-  moneyRow: {
+  moneyContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: '#FFD700',
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    borderRadius: 12,
-    marginBottom: 12,
-    alignSelf: 'center',
-    minWidth: 100,
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    borderRadius: 8,
   },
   coinIcon: {
-    fontSize: 20,
-    marginRight: 6,
+    fontSize: 16,
+    marginRight: 4,
   },
   moneyValue: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
   },

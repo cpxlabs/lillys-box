@@ -10,6 +10,7 @@ import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';
+import { ScreenHeader } from '../components/ScreenHeader';
 import { AnimationState } from '../types';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
@@ -17,6 +18,7 @@ import { useDoubleReward } from '../hooks/useDoubleReward';
 import { AdsConfig } from '../config/ads.config';
 import { ScreenNavigationProp } from '../types/navigation';
 import { ANIMATION_DURATION } from '../config/constants';
+import { calculatePetAge } from '../utils/age';
 
 type Props = {
   navigation: ScreenNavigationProp<'Feed'>;
@@ -47,6 +49,10 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
 
   if (!pet) return null;
 
+  const petAge = calculatePetAge(pet.createdAt);
+  const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? 'ano' : 'anos'}`;
+
   const handleFeed = (food: typeof FOODS[0]) => {
     setAnimationState('eating');
     setMessage(`${pet.name} está comendo ${food.name}! 😋`);
@@ -72,17 +78,19 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
-          <BackButtonIcon />
-          <Text style={styles.backButton}>Voltar</Text>
-        </TouchableOpacity>
-        <Text style={styles.title}>🍖 Alimentar</Text>
-        <View style={{ width: 80 }} />
-      </View>
+      <ScreenHeader
+        title="🍖 Alimentar"
+        onBackPress={() => navigation.goBack()}
+        BackButtonIcon={BackButtonIcon}
+      />
 
       {/* Status Card */}
-      <StatusCard pet={pet} compact />
+      <StatusCard
+        pet={pet}
+        petName={petNameDisplay}
+        petAge={petAgeDisplay}
+        compact
+      />
 
       <View style={styles.petContainer}>
         <PetRenderer pet={pet} animationState={animationState} size={375} />

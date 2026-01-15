@@ -41,31 +41,31 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 4,
-    paddingHorizontal: 16,
+    marginVertical: 3,
+    paddingHorizontal: 8,
   },
   emoji: {
-    fontSize: 20,
-    marginRight: 8,
+    fontSize: 16,
+    marginRight: 6,
   },
   barContainer: {
     flex: 1,
   },
   label: {
-    fontSize: 12,
+    fontSize: 11,
     fontWeight: '600',
     color: '#666',
     marginBottom: 2,
   },
   barBackground: {
-    height: 12,
+    height: 10,
     backgroundColor: '#e0e0e0',
-    borderRadius: 6,
+    borderRadius: 5,
     overflow: 'hidden',
   },
   barFill: {
     height: '100%',
-    borderRadius: 6,
+    borderRadius: 5,
   },
   value: {
     fontSize: 12,

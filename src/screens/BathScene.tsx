@@ -19,12 +19,14 @@ import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';
+import { ScreenHeader } from '../components/ScreenHeader';
 import { AnimationState } from '../types';
 import { useBackButton } from '../hooks/useBackButton';
 import { useDoubleReward } from '../hooks/useDoubleReward';
 import { AdsConfig } from '../config/ads.config';
 import { ScreenNavigationProp } from '../types/navigation';
 import { ANIMATION_DURATION } from '../config/constants';
+import { calculatePetAge } from '../utils/age';
 
 type Props = {
   navigation: ScreenNavigationProp<'Bath'>;
@@ -89,6 +91,10 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
   const lastBubbleTime = React.useRef(0);
 
   if (!pet) return null;
+
+  const petAge = calculatePetAge(pet.createdAt);
+  const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? 'ano' : 'anos'}`;
 
   const SCRUBS_NEEDED = 5;
   const BUBBLE_VELOCITY_THRESHOLD = 100;
@@ -207,17 +213,19 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
-          <BackButtonIcon />
-          <Text style={styles.backButton}>Voltar</Text>
-        </TouchableOpacity>
-        <Text style={styles.title}>🛁 Banho</Text>
-        <View style={{ width: 80 }} />
-      </View>
+      <ScreenHeader
+        title="🛁 Banho"
+        onBackPress={() => navigation.goBack()}
+        BackButtonIcon={BackButtonIcon}
+      />
 
       {/* Status Card */}
-      <StatusCard pet={pet} compact />
+      <StatusCard
+        pet={pet}
+        petName={petNameDisplay}
+        petAge={petAgeDisplay}
+        compact
+      />
 
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[styles.petContainer, animatedStyle]}>

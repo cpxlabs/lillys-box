@@ -10,10 +10,12 @@ import {
 import { usePet } from '../context/PetContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';
+import { ScreenHeader } from '../components/ScreenHeader';
 import { ClothingSlot } from '../types';
 import { CLOTHING_ITEMS, getItemsBySlot } from '../data/clothingItems';
 import { useBackButton } from '../hooks/useBackButton';
 import { ScreenNavigationProp } from '../types/navigation';
+import { calculatePetAge } from '../utils/age';
 
 type Props = {
   navigation: ScreenNavigationProp<'Wardrobe'>;
@@ -33,6 +35,10 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
 
   if (!pet) return null;
 
+  const petAge = calculatePetAge(pet.createdAt);
+  const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? 'ano' : 'anos'}`;
+
   const itemsForSlot = getItemsBySlot(selectedSlot);
 
   const handleSelectItem = (itemId: string | null) => {
@@ -41,17 +47,19 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
-          <BackButtonIcon />
-          <Text style={styles.backButton}>Voltar</Text>
-        </TouchableOpacity>
-        <Text style={styles.title}>👕 Armário</Text>
-        <View style={{ width: 80 }} />
-      </View>
+      <ScreenHeader
+        title="👕 Armário"
+        onBackPress={() => navigation.goBack()}
+        BackButtonIcon={BackButtonIcon}
+      />
 
       {/* Status Card */}
-      <StatusCard pet={pet} compact />
+      <StatusCard
+        pet={pet}
+        petName={petNameDisplay}
+        petAge={petAgeDisplay}
+        compact
+      />
 
       <View style={styles.petContainer}>
         <PetRenderer pet={pet} size={300} />
