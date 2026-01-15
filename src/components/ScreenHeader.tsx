@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { ConfigMenu } from './ConfigMenu';
 
 type ScreenHeaderProps = {
   title: string;
@@ -23,7 +24,9 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
         )}
       </View>
       <Text style={styles.title}>{title}</Text>
-      <View style={styles.rightSection} />
+      <View style={styles.rightSection}>
+        <ConfigMenu />
+      </View>
     </View>
   );
 };
@@ -51,15 +54,16 @@ const styles = StyleSheet.create({
   backButton: {
     flexDirection: 'row',
     alignItems: 'center',
-    paddingVertical: 4,
-    paddingHorizontal: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
     borderRadius: 8,
+    backgroundColor: '#f5f5f5',
   },
   backButtonText: {
-    fontSize: 15,
-    color: '#007AFF',
-    fontWeight: '500',
-    marginLeft: 4,
+    fontSize: 14,
+    color: '#333',
+    fontWeight: '600',
+    marginLeft: 6,
   },
   title: {
     fontSize: 18,
@@ -69,5 +73,6 @@ const styles = StyleSheet.create({
   },
   rightSection: {
     flex: 1,
+    alignItems: 'flex-end',
   },
 });

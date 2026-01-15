@@ -9,6 +9,7 @@ import { IconButton } from '../components/IconButton';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { BannerAd } from '../components/BannerAd';
 import { RewardedAdButton } from '../components/RewardedAdButton';
+import { ConfigMenu } from '../components/ConfigMenu';
 import { calculatePetAge } from '../utils/age';
 import { AdsConfig } from '../config/ads.config';
 import { needsVet, hasWarningStats } from '../utils/petStats';
@@ -54,6 +55,12 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Config Menu at Top Right */}
+      <View style={styles.topBar}>
+        <View style={styles.spacer} />
+        <ConfigMenu />
+      </View>
+
       {/* Unified Status Card with Pet Name, Age, Money and Status Bars */}
       <StatusCard
         pet={pet}
@@ -142,6 +149,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e8f5e9',
+  },
+  topBar: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+  },
+  spacer: {
+    flex: 1,
   },
   warningText: {
     textAlign: 'center',

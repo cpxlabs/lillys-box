@@ -12,9 +12,9 @@ interface BackButtonIconProps {
  * @returns A React component that renders the appropriate back icon
  */
 export const useBackButton = () => {
-  const BackButtonIcon: React.FC<BackButtonIconProps> = ({ 
-    size = 24, 
-    color = '#9b59b6' 
+  const BackButtonIcon: React.FC<BackButtonIconProps> = ({
+    size = 20,
+    color = '#333'
   }) => {
     // Check if we're on web platform
     if (Platform.OS === 'web') {

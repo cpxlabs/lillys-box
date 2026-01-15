@@ -9,7 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { ConfirmModal } from '../components/ConfirmModal';
-import { LanguageSelector } from '../components/LanguageSelector';
+import { ConfigMenu } from '../components/ConfigMenu';
 import { ScreenNavigationProp } from '../types/navigation';
 
 type Props = {
@@ -55,14 +55,15 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
 
     return (
         <SafeAreaView style={styles.container}>
+            {/* Config Menu at Top Right */}
+            <View style={styles.topBar}>
+                <View style={styles.spacer} />
+                <ConfigMenu />
+            </View>
+
             <View style={styles.content}>
                 <Text style={styles.title}>{t('menu.title')}</Text>
                 <Text style={styles.subtitle}>{t('menu.subtitle')}</Text>
-
-                {/* Language Selector */}
-                <View style={styles.languageContainer}>
-                    <LanguageSelector />
-                </View>
 
                 <View style={styles.buttonContainer}>
                     {pet && (
@@ -130,6 +131,16 @@ const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: '#f5f0ff',
     },
+    topBar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        paddingVertical: 8,
+    },
+    spacer: {
+        flex: 1,
+    },
     content: {
         flex: 1,
         justifyContent: 'center',
@@ -145,9 +156,6 @@ const styles = StyleSheet.create({
     subtitle: {
         fontSize: 18,
         color: '#666',
-        marginBottom: 24,
-    },
-    languageContainer: {
         marginBottom: 24,
     },
     buttonContainer: {

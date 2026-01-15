@@ -194,5 +194,13 @@
   },
   "ads": {
     "notAvailable": "Ad not available"
+  },
+  "config": {
+    "title": "Settings",
+    "language": "Language",
+    "sound": "Sound",
+    "soundOn": "On",
+    "soundOff": "Off",
+    "close": "Close"
   }
 }

@@ -48,21 +48,16 @@ export const StatusCard: React.FC<StatusCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
-    backgroundColor: '#ffffff',
+    backgroundColor: 'transparent',
     borderRadius: 12,
     marginHorizontal: 12,
     marginVertical: 6,
-    padding: 10,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.08,
-    shadowRadius: 4,
-    elevation: 3,
+    padding: 16,
   },
   cardCompact: {
     marginHorizontal: 8,
     marginVertical: 4,
-    padding: 8,
+    padding: 12,
   },
   splitLayout: {
     flexDirection: 'row',
@@ -70,32 +65,32 @@ const styles = StyleSheet.create({
   },
   leftColumn: {
     width: '30%',
-    paddingRight: 8,
+    paddingRight: 12,
   },
   middleColumn: {
     width: '40%',
   },
   rightColumn: {
     width: '30%',
-    paddingLeft: 8,
+    paddingLeft: 12,
   },
   petName: {
     fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 4,
+    marginBottom: 8,
   },
   petAge: {
     fontSize: 12,
     color: '#666',
-    marginBottom: 6,
+    marginBottom: 10,
   },
   moneyContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFD700',
-    paddingVertical: 3,
-    paddingHorizontal: 8,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
     borderRadius: 6,
     alignSelf: 'flex-start',
   },
