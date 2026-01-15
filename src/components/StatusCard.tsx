@@ -6,14 +6,26 @@ import { EnhancedStatusBar } from './EnhancedStatusBar';
 type StatusCardProps = {
   pet: Pet;
   compact?: boolean;
+  petName?: string;
+  petAge?: string;
 };
 
 export const StatusCard: React.FC<StatusCardProps> = ({
   pet,
   compact = false,
+  petName,
+  petAge,
 }) => {
   return (
     <View style={[styles.card, compact && styles.cardCompact]}>
+      {/* Pet Name and Age - Optional */}
+      {(petName || petAge) && (
+        <View style={styles.petInfoSection}>
+          {petName && <Text style={styles.petName}>{petName}</Text>}
+          {petAge && <Text style={styles.petAge}>{petAge}</Text>}
+        </View>
+      )}
+
       {/* Money Display - Icon Only */}
       <View style={styles.moneyRow}>
         <Text style={styles.coinIcon}>💰</Text>
@@ -43,6 +55,23 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     marginVertical: 4,
     padding: 8,
+  },
+  petInfoSection: {
+    alignItems: 'center',
+    marginBottom: 12,
+    paddingBottom: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+  },
+  petName: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  petAge: {
+    fontSize: 16,
+    color: '#666',
+    marginTop: 4,
   },
   moneyRow: {
     flexDirection: 'row',

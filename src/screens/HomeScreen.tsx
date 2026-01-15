@@ -32,6 +32,9 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const hasWarnings = hasWarningStats(pet);
   const canSleep = pet.energy < GAME_BALANCE.thresholds.energyForSleep;
 
+  const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? 'ano' : 'anos'}`;
+
   const handleMenuPress = () => {
     setShowMenuConfirm(true);
   };
@@ -49,17 +52,12 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.petName}>
-          {pet.type === 'cat' ? '🐱' : '🐶'} {pet.name}
-        </Text>
-        <Text style={styles.petAge}>
-          {petAge} {petAge === 1 ? 'ano' : 'anos'}
-        </Text>
-      </View>
-
-      {/* Unified Status Card with Money and Status Bars */}
-      <StatusCard pet={pet} />
+      {/* Unified Status Card with Pet Name, Age, Money and Status Bars */}
+      <StatusCard
+        pet={pet}
+        petName={petNameDisplay}
+        petAge={petAgeDisplay}
+      />
       {hasWarnings && (
         <Text style={styles.warningText}>
           ⚠️ Seu pet precisa de atenção!
@@ -142,21 +140,6 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#e8f5e9',
-  },
-  header: {
-    padding: 16,
-    alignItems: 'center',
-  },
-  petName: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  petAge: {
-    fontSize: 18,
-    color: '#666',
-    marginTop: 4,
-    marginBottom: 8,
   },
   warningText: {
     textAlign: 'center',
