@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import AdService from '../services/AdService';
 import { AdsConfig } from '../config/ads.config';
+import { logger } from '../utils/logger';
 
 // Type definitions for AdMob components (for TypeScript)
 let GoogleBannerAd: any;
@@ -14,7 +15,7 @@ if (Platform.OS !== 'web') {
     GoogleBannerAd = AdMobModule.BannerAd;
     BannerAdSize = AdMobModule.BannerAdSize;
   } catch (error) {
-    console.warn('[BannerAd] AdMob module not available:', error);
+    logger.warn('[BannerAd] AdMob module not available:', error);
   }
 }
 
@@ -49,12 +50,12 @@ export const BannerAd: React.FC = () => {
         unitId={adUnitId}
         size={BannerAdSize.ANCHORED_ADAPTIVE_BANNER}
         onAdLoaded={() => {
-          console.log('[BannerAd] Ad loaded successfully');
+          logger.log('[BannerAd] Ad loaded successfully');
           setIsAdLoaded(true);
           setHasError(false);
         }}
         onAdFailedToLoad={(error: any) => {
-          console.error('[BannerAd] Ad failed to load:', error);
+          logger.error('[BannerAd] Ad failed to load:', error);
           setHasError(true);
           setIsAdLoaded(false);
         }}

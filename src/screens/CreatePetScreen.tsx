@@ -9,13 +9,13 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { usePet } from '../context/PetContext';
 import { PetType, PetColor, Gender } from '../types';
 import { useBackButton } from '../hooks/useBackButton';
+import { ScreenNavigationProp } from '../types/navigation';
 
 type Props = {
-  navigation: NativeStackNavigationProp<any>;
+  navigation: ScreenNavigationProp<'CreatePet'>;
 };
 
 export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {

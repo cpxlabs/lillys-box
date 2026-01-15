@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import AdService from '../services/AdService';
 import { AdsConfig } from '../config/ads.config';
 import { AdState } from '../types/ads';
+import { logger } from '../utils/logger';
 
 const LAST_INTERSTITIAL_KEY = '@pet-care-game/last-interstitial';
 
@@ -38,7 +39,7 @@ export const AdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
           }));
         }
       } catch (error) {
-        console.error('[AdContext] Failed to load last interstitial time:', error);
+        logger.error('[AdContext] Failed to load last interstitial time:', error);
       }
     };
     loadLastInterstitialTime();
@@ -96,19 +97,19 @@ export const AdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
 
     // Check time requirement
     if (timeSinceLastAd < minTimeMs) {
-      console.log('[AdContext] Not enough time since last interstitial');
+      logger.log('[AdContext] Not enough time since last interstitial');
       return false;
     }
 
     // Check screen count requirement
     if (adState.sessionScreenCount < AdsConfig.frequency.interstitialScreenCount) {
-      console.log('[AdContext] Not enough screen transitions');
+      logger.log('[AdContext] Not enough screen transitions');
       return false;
     }
 
     // Check if ad is ready
     if (!adState.isInterstitialAdReady) {
-      console.log('[AdContext] Interstitial ad not ready');
+      logger.log('[AdContext] Interstitial ad not ready');
       return false;
     }
 
@@ -145,7 +146,7 @@ export const AdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     try {
       await AsyncStorage.setItem(LAST_INTERSTITIAL_KEY, now.toString());
     } catch (error) {
-      console.error('[AdContext] Failed to save last interstitial time:', error);
+      logger.error('[AdContext] Failed to save last interstitial time:', error);
     }
   };
 

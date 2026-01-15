@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useCallback, ReactNode } from 'react';
 import { View, Text, StyleSheet, Animated, Platform } from 'react-native';
+import { logger } from '../utils/logger';
 
 type ToastType = 'success' | 'info' | 'error';
 
@@ -119,10 +120,10 @@ export const useToast = (): ToastContextType => {
   const context = useContext(ToastContext);
   if (!context) {
     // Graceful degradation: return no-op function to prevent crashes
-    console.warn('useToast called outside ToastProvider - toast notifications will not appear');
+    logger.warn('useToast called outside ToastProvider - toast notifications will not appear');
     return {
       showToast: (message: string, type?: ToastType) => {
-        console.warn('Toast notification ignored - ToastProvider not found in component tree');
+        logger.warn('Toast notification ignored - ToastProvider not found in component tree');
       },
     };
   }

@@ -1,7 +1,8 @@
 import { ClothingItem, ClothingSlot } from '../types';
+import { ImageSourcePropType } from 'react-native';
 
 type ClothingItemWithAsset = ClothingItem & {
-  asset: any;
+  asset: ImageSourcePropType | null;
 };
 
 // Substitua `asset: null` por require real quando adicionar os PNGs.

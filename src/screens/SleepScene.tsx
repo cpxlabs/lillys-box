@@ -9,8 +9,13 @@ import {
 } from 'react-native';
 import { usePet } from '../context/PetContext';
 import { GAME_BALANCE } from '../config/gameBalance';
+import { ScreenNavigationProp } from '../types/navigation';
 
-export const SleepScene: React.FC<{ navigation: any }> = ({ navigation }) => {
+type Props = {
+  navigation: ScreenNavigationProp<'Sleep'>;
+};
+
+export const SleepScene: React.FC<Props> = ({ navigation }) => {
   const { pet, sleep, cancelSleep: cancelSleepContext } = usePet();
   const [isSleeping, setIsSleeping] = useState(false);
   const [sleepProgress, setSleepProgress] = useState(0);

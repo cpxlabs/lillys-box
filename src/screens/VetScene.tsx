@@ -11,8 +11,14 @@ import { usePet } from '../context/PetContext';
 import { useRewardedAd } from '../hooks/useRewardedAd';
 import { needsVet } from '../utils/petStats';
 import { GAME_BALANCE } from '../config/gameBalance';
+import { logger } from '../utils/logger';
+import { ScreenNavigationProp } from '../types/navigation';
 
-export const VetScene: React.FC<{ navigation: any }> = ({ navigation }) => {
+type Props = {
+  navigation: ScreenNavigationProp<'Vet'>;
+};
+
+export const VetScene: React.FC<Props> = ({ navigation }) => {
   const { pet, visitVet } = usePet();
   const { showRewardedAd, isAdReady } = useRewardedAd();
   const [isProcessing, setIsProcessing] = useState(false);
@@ -71,7 +77,7 @@ export const VetScene: React.FC<{ navigation: any }> = ({ navigation }) => {
         );
       }
     } catch (error) {
-      console.error('Error showing rewarded ad:', error);
+      logger.error('Error showing rewarded ad:', error);
       Alert.alert(
         'Error',
         'Something went wrong. Please try again.',

@@ -6,12 +6,12 @@ import {
     StyleSheet,
     SafeAreaView,
 } from 'react-native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { usePet } from '../context/PetContext';
 import { ConfirmModal } from '../components/ConfirmModal';
+import { ScreenNavigationProp } from '../types/navigation';
 
 type Props = {
-    navigation: NativeStackNavigationProp<any>;
+    navigation: ScreenNavigationProp<'Menu'>;
 };
 
 export const MenuScreen: React.FC<Props> = ({ navigation }) => {
