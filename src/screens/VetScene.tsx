@@ -34,7 +34,8 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
     if (!canAfford) {
       Alert.alert(
         t('vet.notEnoughMoney.title'),
-        t('vet.notEnoughMoney.message', { cost: GAME_BALANCE.activities.vet.cost, amount: pet.money })
+        t('vet.notEnoughMoney.message', { cost: GAME_BALANCE.activities.vet.cost, amount: pet.money }),
+        [{ text: 'OK' }]
       );
       return;
     }
@@ -58,7 +59,8 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
     if (!isAdReady) {
       Alert.alert(
         t('vet.adNotReady.title'),
-        t('vet.adNotReady.message')
+        t('vet.adNotReady.message'),
+        [{ text: 'OK' }]
       );
       return;
     }
@@ -72,14 +74,16 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
       } else {
         Alert.alert(
           t('vet.adFailed.title'),
-          t('vet.adFailed.message')
+          t('vet.adFailed.message'),
+          [{ text: 'OK' }]
         );
       }
     } catch (error) {
       logger.error('Error showing rewarded ad:', error);
       Alert.alert(
         t('vet.error.title'),
-        t('vet.error.message')
+        t('vet.error.message'),
+        [{ text: 'OK' }]
       );
     } finally {
       setIsProcessing(false);
