@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Pet } from '../types';
 import { migratePetData, validatePetData, repairPetData } from './migration';
+import { logger } from './logger';
 
 const PET_STORAGE_KEY = '@pet_care_game:pet';
 
@@ -14,7 +15,7 @@ export const savePet = async (pet: Pet): Promise<void> => {
     const jsonValue = JSON.stringify(petToSave);
     await AsyncStorage.setItem(PET_STORAGE_KEY, jsonValue);
   } catch (error) {
-    console.error('Erro ao salvar pet:', error);
+    logger.error('Erro ao salvar pet:', error);
     throw error;
   }
 };
@@ -38,10 +39,10 @@ export const loadPet = async (): Promise<Pet | null> => {
 
       // Validate migrated data
       if (!validatePetData(pet)) {
-        console.warn('Pet data validation failed, attempting repair...');
+        logger.warn('Pet data validation failed, attempting repair...');
         pet = repairPetData(pet);
         if (!pet) {
-          console.error('Failed to repair pet data');
+          logger.error('Failed to repair pet data');
           return null;
         }
         // Save repaired data
@@ -52,7 +53,7 @@ export const loadPet = async (): Promise<Pet | null> => {
     }
     return null;
   } catch (error) {
-    console.error('Erro ao carregar pet:', error);
+    logger.error('Erro ao carregar pet:', error);
     return null;
   }
 };
@@ -61,7 +62,7 @@ export const deletePet = async (): Promise<void> => {
   try {
     await AsyncStorage.removeItem(PET_STORAGE_KEY);
   } catch (error) {
-    console.error('Erro ao deletar pet:', error);
+    logger.error('Erro ao deletar pet:', error);
     throw error;
   }
 };

@@ -1,5 +1,6 @@
 import { Platform } from 'react-native';
 import { AdsConfig } from '../config/ads.config';
+import { logger } from '../utils/logger';
 
 // Type definitions for AdMob (for TypeScript)
 type MobileAdsType = any;
@@ -28,7 +29,7 @@ if (Platform.OS !== 'web') {
     InterstitialAd = AdMobModule.InterstitialAd;
     AdEventType = AdMobModule.AdEventType;
   } catch (error) {
-    console.warn('[AdService] AdMob module not available:', error);
+    logger.warn('[AdService] AdMob module not available:', error);
   }
 }
 
@@ -55,17 +56,17 @@ class AdService {
   async initializeAds(): Promise<void> {
     // Skip initialization on web
     if (Platform.OS === 'web' || !MobileAds) {
-      console.log('[AdService] Ads not supported on web platform');
+      logger.log('[AdService] Ads not supported on web platform');
       return;
     }
 
     if (this.isInitialized) {
-      console.log('[AdService] Already initialized');
+      logger.log('[AdService] Already initialized');
       return;
     }
 
     try {
-      console.log('[AdService] Initializing AdMob...');
+      logger.log('[AdService] Initializing AdMob...');
       
       await MobileAds().initialize();
 
@@ -77,13 +78,13 @@ class AdService {
       });
 
       this.isInitialized = true;
-      console.log('[AdService] AdMob initialized successfully with COPPA compliance');
+      logger.log('[AdService] AdMob initialized successfully with COPPA compliance');
 
       // Preload ads
       this.loadRewardedAd();
       this.loadInterstitialAd();
     } catch (error) {
-      console.error('[AdService] Failed to initialize AdMob:', error);
+      logger.error('[AdService] Failed to initialize AdMob:', error);
       // Continue without ads - don't crash the app
     }
   }
@@ -107,36 +108,36 @@ class AdService {
 
     try {
       const adUnitId = this.getAdUnitId('rewarded');
-      console.log('[AdService] Loading rewarded ad:', adUnitId);
+      logger.log('[AdService] Loading rewarded ad:', adUnitId);
 
       this.rewardedAd = RewardedAd.createForAdRequest(adUnitId);
 
       // Set up event listeners
       this.rewardedAd.addAdEventListener(RewardedAdEventType.LOADED, () => {
         this.isRewardedAdLoaded = true;
-        console.log('[AdService] Rewarded ad loaded');
+        logger.log('[AdService] Rewarded ad loaded');
       });
 
       this.rewardedAd.addAdEventListener(RewardedAdEventType.EARNED_REWARD, (reward: any) => {
-        console.log('[AdService] User earned reward:', reward);
+        logger.log('[AdService] User earned reward:', reward);
       });
 
       this.rewardedAd.addAdEventListener(AdEventType.CLOSED, () => {
-        console.log('[AdService] Rewarded ad closed');
+        logger.log('[AdService] Rewarded ad closed');
         this.isRewardedAdLoaded = false;
         // Preload next ad
         this.loadRewardedAd();
       });
 
       this.rewardedAd.addAdEventListener(AdEventType.ERROR, (error: any) => {
-        console.error('[AdService] Rewarded ad error:', error);
+        logger.error('[AdService] Rewarded ad error:', error);
         this.isRewardedAdLoaded = false;
       });
 
       // Start loading the ad
       this.rewardedAd.load();
     } catch (error) {
-      console.error('[AdService] Error loading rewarded ad:', error);
+      logger.error('[AdService] Error loading rewarded ad:', error);
       this.isRewardedAdLoaded = false;
     }
   }
@@ -148,17 +149,17 @@ class AdService {
    */
   async showRewardedAd(onRewarded: () => void): Promise<boolean> {
     if (Platform.OS === 'web' || !AdsConfig.enabled || !this.isInitialized) {
-      console.log('[AdService] Ads not available on this platform');
+      logger.log('[AdService] Ads not available on this platform');
       return false;
     }
 
     if (!this.isRewardedAdLoaded || !this.rewardedAd) {
-      console.log('[AdService] Rewarded ad not ready yet');
+      logger.log('[AdService] Rewarded ad not ready yet');
       return false;
     }
 
     try {
-      console.log('[AdService] Showing rewarded ad');
+      logger.log('[AdService] Showing rewarded ad');
       
       return new Promise((resolve) => {
         let rewardEarned = false;
@@ -185,7 +186,7 @@ class AdService {
         this.rewardedAd!.show();
       });
     } catch (error) {
-      console.error('[AdService] Error showing rewarded ad:', error);
+      logger.error('[AdService] Error showing rewarded ad:', error);
       return false;
     }
   }
@@ -209,32 +210,32 @@ class AdService {
 
     try {
       const adUnitId = this.getAdUnitId('interstitial');
-      console.log('[AdService] Loading interstitial ad:', adUnitId);
+      logger.log('[AdService] Loading interstitial ad:', adUnitId);
 
       this.interstitialAd = InterstitialAd.createForAdRequest(adUnitId);
 
       // Set up event listeners
       this.interstitialAd.addAdEventListener(AdEventType.LOADED, () => {
         this.isInterstitialAdLoaded = true;
-        console.log('[AdService] Interstitial ad loaded');
+        logger.log('[AdService] Interstitial ad loaded');
       });
 
       this.interstitialAd.addAdEventListener(AdEventType.CLOSED, () => {
-        console.log('[AdService] Interstitial ad closed');
+        logger.log('[AdService] Interstitial ad closed');
         this.isInterstitialAdLoaded = false;
         // Preload next ad
         this.loadInterstitialAd();
       });
 
       this.interstitialAd.addAdEventListener(AdEventType.ERROR, (error: any) => {
-        console.error('[AdService] Interstitial ad error:', error);
+        logger.error('[AdService] Interstitial ad error:', error);
         this.isInterstitialAdLoaded = false;
       });
 
       // Start loading the ad
       this.interstitialAd.load();
     } catch (error) {
-      console.error('[AdService] Error loading interstitial ad:', error);
+      logger.error('[AdService] Error loading interstitial ad:', error);
       this.isInterstitialAdLoaded = false;
     }
   }
@@ -249,15 +250,15 @@ class AdService {
     }
 
     if (!this.isInterstitialAdLoaded || !this.interstitialAd) {
-      console.log('[AdService] Interstitial ad not ready yet');
+      logger.log('[AdService] Interstitial ad not ready yet');
       return;
     }
 
     try {
-      console.log('[AdService] Showing interstitial ad');
+      logger.log('[AdService] Showing interstitial ad');
       await this.interstitialAd.show();
     } catch (error) {
-      console.error('[AdService] Error showing interstitial ad:', error);
+      logger.error('[AdService] Error showing interstitial ad:', error);
     }
   }
 

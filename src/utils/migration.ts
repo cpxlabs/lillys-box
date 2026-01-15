@@ -1,6 +1,7 @@
 import { Pet } from '../types';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { calculateHealth } from './petStats';
+import { logger } from './logger';
 
 /**
  * Migrate old pet data to new schema
@@ -33,7 +34,7 @@ export const migratePetData = (oldPet: any): Pet => {
   // Calculate actual health based on current stats
   migratedPet.health = calculateHealth(migratedPet);
 
-  console.log('Migrated pet data:', {
+  logger.log('Migrated pet data:', {
     name: migratedPet.name,
     addedFields: {
       energy: migratedPet.energy,
@@ -72,7 +73,7 @@ export const validatePetData = (pet: any): pet is Pet => {
   // Check all required fields exist
   for (const field of requiredFields) {
     if (!(field in pet)) {
-      console.warn(`Pet data missing required field: ${field}`);
+      logger.warn(`Pet data missing required field: ${field}`);
       return false;
     }
   }
@@ -82,7 +83,7 @@ export const validatePetData = (pet: any): pet is Pet => {
   for (const stat of stats) {
     const value = pet[stat];
     if (typeof value !== 'number' || value < 0 || value > 100) {
-      console.warn(`Pet data has invalid ${stat} value: ${value}`);
+      logger.warn(`Pet data has invalid ${stat} value: ${value}`);
       return false;
     }
   }
@@ -96,7 +97,7 @@ export const validatePetData = (pet: any): pet is Pet => {
  */
 export const repairPetData = (pet: any): Pet | null => {
   if (!pet || typeof pet !== 'object') {
-    console.error('Cannot repair: pet data is null or not an object');
+    logger.error('Cannot repair: pet data is null or not an object');
     return null;
   }
 
@@ -124,10 +125,10 @@ export const repairPetData = (pet: any): Pet | null => {
       repairedPet.sleepStartTime = undefined;
     }
 
-    console.log('Repaired pet data:', repairedPet.name);
+    logger.log('Repaired pet data:', repairedPet.name);
     return repairedPet;
   } catch (error) {
-    console.error('Failed to repair pet data:', error);
+    logger.error('Failed to repair pet data:', error);
     return null;
   }
 };

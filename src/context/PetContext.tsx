@@ -3,6 +3,7 @@ import { Pet, PetType, PetColor, Gender, ClothingSlot } from '../types';
 import { savePet, loadPet, deletePet } from '../utils/storage';
 import { calculateHealth, getEnergyDecayRate, getEnergyMultiplier, canPerformActivity, calculateHappinessChange } from '../utils/petStats';
 import { GAME_BALANCE } from '../config/gameBalance';
+import { logger } from '../utils/logger';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -78,7 +79,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         };
 
         // Save asynchronously without blocking state update
-        savePet(updatedPet).catch(console.error);
+        savePet(updatedPet).catch(logger.error);
         return updatedPet;
       });
     }, GAME_BALANCE.time.updateInterval);
@@ -130,7 +131,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(console.error);
+      savePet(updatedPet).catch(logger.error);
       return updatedPet;
     });
   };
@@ -152,7 +153,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(console.error);
+      savePet(updatedPet).catch(logger.error);
       return updatedPet;
     });
   };
@@ -173,7 +174,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(console.error);
+      savePet(updatedPet).catch(logger.error);
       return updatedPet;
     });
   };
@@ -193,7 +194,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         isSleeping: true,
         sleepStartTime: startTime,
       };
-      savePet(updatedPet).catch(console.error);
+      savePet(updatedPet).catch(logger.error);
       return updatedPet;
     });
 
@@ -230,7 +231,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(console.error);
+      savePet(updatedPet).catch(logger.error);
       return updatedPet;
     });
 
@@ -267,7 +268,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       // Set health to minimum target
       updatedPet.health = Math.max(effects.healthTarget, calculateHealth(updatedPet));
 
-      savePet(updatedPet).catch(console.error);
+      savePet(updatedPet).catch(logger.error);
       return updatedPet;
     });
   };
@@ -289,7 +290,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(console.error);
+      savePet(updatedPet).catch(logger.error);
       return updatedPet;
     });
   };
@@ -307,7 +308,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(console.error);
+      savePet(updatedPet).catch(logger.error);
       return updatedPet;
     });
   };
@@ -323,7 +324,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
           [slot]: itemId,
         },
       };
-      savePet(updatedPet).catch(console.error);
+      savePet(updatedPet).catch(logger.error);
       return updatedPet;
     });
   };
@@ -336,7 +337,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         ...currentPet,
         background: backgroundId,
       };
-      savePet(updatedPet).catch(console.error);
+      savePet(updatedPet).catch(logger.error);
       return updatedPet;
     });
   };
@@ -354,7 +355,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         ...currentPet,
         money: (currentPet.money ?? 0) + amount, // Defensive fallback for robustness
       };
-      savePet(updatedPet).catch(console.error);
+      savePet(updatedPet).catch(logger.error);
       return updatedPet;
     });
   };

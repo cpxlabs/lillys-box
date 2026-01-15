@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useAd } from '../context/AdContext';
+import { logger } from '../utils/logger';
 
 /**
  * Custom hook to simplify rewarded ad usage in screens
@@ -21,10 +22,10 @@ export const useRewardedAd = () => {
       const success = await showAd(onReward);
       
       if (!success) {
-        console.log('[useRewardedAd] Ad was not completed or failed');
+        logger.log('[useRewardedAd] Ad was not completed or failed');
       }
     } catch (error) {
-      console.error('[useRewardedAd] Error showing rewarded ad:', error);
+      logger.error('[useRewardedAd] Error showing rewarded ad:', error);
     } finally {
       setIsLoading(false);
       // Request to load next ad

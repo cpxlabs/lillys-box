@@ -6,19 +6,19 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
-import { ConfirmModal } from '../components/ConfirmModal';
 import { AnimationState } from '../types';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
-import { useRewardedAd } from '../hooks/useRewardedAd';
+import { useDoubleReward } from '../hooks/useDoubleReward';
 import { AdsConfig } from '../config/ads.config';
+import { ScreenNavigationProp } from '../types/navigation';
+import { ANIMATION_DURATION } from '../config/constants';
 
 type Props = {
-  navigation: NativeStackNavigationProp<any>;
+  navigation: ScreenNavigationProp<'Play'>;
 };
 
 const PLAY_ACTIVITIES = [
@@ -29,11 +29,9 @@ const PLAY_ACTIVITIES = [
 export const PlayScene: React.FC<Props> = ({ navigation }) => {
   const { pet, play, earnMoney } = usePet();
   const { showToast } = useToast();
-  const { showRewardedAd, isAdReady } = useRewardedAd();
+  const { triggerReward, DoubleRewardModal } = useDoubleReward({ earnMoney, showToast });
   const [animationState, setAnimationState] = useState<AnimationState>('idle');
   const [message, setMessage] = useState('');
-  const [showDoubleRewardModal, setShowDoubleRewardModal] = useState(false);
-  const [pendingReward, setPendingReward] = useState(0);
   const BackButtonIcon = useBackButton();
   
   const {
@@ -51,7 +49,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
     setMessage(`${pet.name} está brincando com ${activity.name}! 🎉`);
 
     play();
-    
+
     // Base money earned for playing
     const moneyEarned = AdsConfig.rewards.playReward;
 
@@ -62,37 +60,10 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
         setAnimationState('idle');
         setMessage('');
 
-        // Offer double reward if ads are enabled and available
-        if (AdsConfig.enabled && AdsConfig.rewards.activityDoubleReward && isAdReady) {
-          setPendingReward(moneyEarned);
-          setShowDoubleRewardModal(true);
-        } else {
-          // Just give normal reward
-          earnMoney(moneyEarned);
-          showToast(`💰 +${moneyEarned} moedas ganhas!`, 'success');
-        }
-      }, 1500);
-    }, 1500);
-  };
-
-  const handleWatchAd = async () => {
-    setShowDoubleRewardModal(false);
-    
-    await showRewardedAd(() => {
-      // Double the reward
-      const doubleReward = pendingReward * 2;
-      earnMoney(doubleReward);
-      showToast(`🎉 Recompensa em dobro! +${doubleReward} moedas!`, 'success');
-      setPendingReward(0);
-    });
-  };
-
-  const handleDeclineAd = () => {
-    setShowDoubleRewardModal(false);
-    // Give normal reward
-    earnMoney(pendingReward);
-    showToast(`💰 +${pendingReward} moedas ganhas!`, 'success');
-    setPendingReward(0);
+        // Offer double reward or give reward immediately
+        triggerReward(moneyEarned);
+      }, ANIMATION_DURATION.MEDIUM);
+    }, ANIMATION_DURATION.MEDIUM);
   };
 
   return (
@@ -148,15 +119,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
       </View>
 
       {/* Double Reward Modal */}
-      <ConfirmModal
-        visible={showDoubleRewardModal}
-        title="🎉 Ganhe o Dobro!"
-        message={`Ótimo trabalho! Assista a um anúncio para ganhar ${pendingReward * 2} moedas em vez de ${pendingReward}?`}
-        confirmText="Assistir Anúncio"
-        cancelText="Não, Obrigado"
-        onConfirm={handleWatchAd}
-        onCancel={handleDeclineAd}
-      />
+      {DoubleRewardModal}
     </SafeAreaView>
   );
 };

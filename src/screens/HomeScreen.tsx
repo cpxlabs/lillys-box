@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
@@ -13,9 +12,10 @@ import { calculatePetAge } from '../utils/age';
 import { AdsConfig } from '../config/ads.config';
 import { needsVet, hasWarningStats } from '../utils/petStats';
 import { GAME_BALANCE } from '../config/gameBalance';
+import { ScreenNavigationProp } from '../types/navigation';
 
 type Props = {
-  navigation: NativeStackNavigationProp<any>;
+  navigation: ScreenNavigationProp<'Home'>;
 };
 
 export const HomeScreen: React.FC<Props> = ({ navigation }) => {

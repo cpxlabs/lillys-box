@@ -7,15 +7,15 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
 import { usePet } from '../context/PetContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { ClothingSlot } from '../types';
 import { CLOTHING_ITEMS, getItemsBySlot } from '../data/clothingItems';
 import { useBackButton } from '../hooks/useBackButton';
+import { ScreenNavigationProp } from '../types/navigation';
 
 type Props = {
-  navigation: NativeStackNavigationProp<any>;
+  navigation: ScreenNavigationProp<'Wardrobe'>;
 };
 
 const SLOTS: { key: ClothingSlot; label: string; emoji: string }[] = [
