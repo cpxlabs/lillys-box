@@ -1,0 +1,198 @@
+{
+  "common": {
+    "back": "Voltar",
+    "confirm": "Confirmar",
+    "cancel": "Cancelar",
+    "delete": "Apagar",
+    "coins": "moedas",
+    "year": "ano",
+    "years": "anos",
+    "loading": "Carregando...",
+    "or": "OU"
+  },
+  "menu": {
+    "title": "🐾 Pet Care",
+    "subtitle": "Cuide do seu amiguinho virtual!",
+    "continueWith": "Continuar com {{name}} {{emoji}}",
+    "createNewPet": "Criar Novo Pet ✨",
+    "deletePet": "Apagar Pet 🗑️",
+    "createPetModal": {
+      "title": "Criar Novo Pet",
+      "message": "Você tem certeza? Seu pet \"{{name}}\" será removido permanentemente.",
+      "confirmText": "Confirmar",
+      "cancelText": "Cancelar"
+    },
+    "deletePetModal": {
+      "title": "Apagar Pet",
+      "message": "Você tem certeza que deseja apagar o pet \"{{name}}\"? Esta ação não pode ser desfeita.",
+      "confirmText": "Apagar",
+      "cancelText": "Cancelar"
+    }
+  },
+  "createPet": {
+    "title": "🐾 Criar Novo Pet",
+    "choosePet": "Escolha seu pet:",
+    "cat": "Gato",
+    "dog": "Cachorro",
+    "petName": "Nome do pet:",
+    "namePlaceholder": "Digite o nome...",
+    "gender": "Gênero:",
+    "male": "Macho",
+    "female": "Fêmea",
+    "coatColor": "Cor do pelo:",
+    "white": "Branco",
+    "black": "Preto",
+    "brown": "Marrom",
+    "whiteBrown": "Branco/Marrom",
+    "createButton": "Criar Pet! 🎉"
+  },
+  "home": {
+    "money": "💰 {{amount}} moedas",
+    "warningAttention": "⚠️ Seu pet precisa de atenção!",
+    "watchAndEarn": "Assista e ganhe +{{amount}} moedas!",
+    "bonusEarned": "🎉 Você ganhou {{amount}} moedas bônus!",
+    "actions": {
+      "feed": "Alimentar",
+      "bath": "Banho",
+      "sleep": "Dormir",
+      "vet": "Vet!",
+      "veterinarian": "Veterinário",
+      "clothes": "Roupas",
+      "play": "Brincar",
+      "background": "Cenário",
+      "menu": "Menu"
+    },
+    "menuModal": {
+      "title": "Voltar ao Menu",
+      "message": "Tem certeza que quer sair? O status atual do seu pet será salvo.",
+      "confirmText": "Confirmar",
+      "cancelText": "Cancelar"
+    }
+  },
+  "feed": {
+    "title": "🍖 Alimentar",
+    "hunger": "Fome: {{amount}}%",
+    "chooseFood": "Escolha a comida:",
+    "foods": {
+      "kibble": "Ração",
+      "fish": "Peixe",
+      "treat": "Petisco",
+      "milk": "Leite"
+    },
+    "eating": "{{name}} está comendo {{food}}! 😋",
+    "loved": "{{name}} adorou! 💕"
+  },
+  "bath": {
+    "title": "🛁 Banho",
+    "hygiene": "Higiene: {{amount}}%",
+    "instructions": "Arraste a esponja para dar banho! 🧽",
+    "bathing": "{{name}} está tomando banho! 🛁💦",
+    "clean": "{{name}} está limpinho! ✨",
+    "scrubbing": "Esfregando: {{count}}/{{needed}} 🧽"
+  },
+  "play": {
+    "title": "🎮 Brincar",
+    "chooseActivity": "Escolha a atividade:",
+    "activities": {
+      "yarnBall": "Bola de lã",
+      "smallBall": "Bolinha"
+    },
+    "playing": "{{name}} está brincando com {{activity}}! 🎉",
+    "loved": "{{name}} adorou brincar! 💕"
+  },
+  "sleep": {
+    "title": "💤 Dormir",
+    "sleeping": "{{name}} está dormindo...",
+    "needsRest": "{{name}} precisa descansar",
+    "notTired": "Não está cansado o suficiente para dormir",
+    "progress": "Dormindo... {{progress}}%",
+    "remaining": "{{seconds}}s restantes",
+    "wakeUpEarly": "Acordar Cedo",
+    "sleepButton": "💤 Dormir ({{duration}}s)",
+    "energyHigh": "⚡ Energia está alta",
+    "benefits": "Benefícios do Sono:",
+    "energyBoost": "⚡ Energia +{{value}}",
+    "happinessBoost": "😊 Felicidade +{{value}}",
+    "hungerDecrease": "🍖 Fome {{value}}"
+  },
+  "vet": {
+    "title": "🏥 Clínica Veterinária",
+    "petHealth": "Saúde do {{name}}",
+    "benefits": "Benefícios da Visita ao Vet:",
+    "healthRestore": "❤️ Saúde restaurada para no mínimo {{target}}%",
+    "statsBoost": "📈 Todos os status +{{boost}}",
+    "energyDecrease": "⚡ Energia {{value}} (exame é estressante)",
+    "happinessDecrease": "😊 Felicidade {{value}} (desconforto temporário)",
+    "notEnoughMoney": {
+      "title": "Sem Moedas Suficientes",
+      "message": "Você precisa de {{cost}} moedas para uma visita ao vet. Você tem {{amount}} moedas."
+    },
+    "confirmVisit": {
+      "title": "Visitar o Vet?",
+      "message": "Isso custará {{cost}} moedas. Seu pet será examinado e tratado.",
+      "cancel": "Cancelar",
+      "visit": "Visitar"
+    },
+    "adNotReady": {
+      "title": "Anúncio Não Está Pronto",
+      "message": "Por favor, aguarde um momento para o anúncio carregar."
+    },
+    "adFailed": {
+      "title": "Anúncio Falhou",
+      "message": "Não foi possível exibir o anúncio. Tente novamente."
+    },
+    "error": {
+      "title": "Erro",
+      "message": "Algo deu errado. Por favor, tente novamente."
+    },
+    "checkupComplete": {
+      "title": "✅ Exame Completo!",
+      "message": "{{name}} foi examinado e está se sentindo muito melhor!",
+      "button": "Ótimo!"
+    },
+    "status": {
+      "urgent": "{{name}} precisa de atenção médica urgente!",
+      "warning": "{{name}} precisa de um exame.",
+      "healthy": "{{name}} está saudável, mas ainda pode visitar para um reforço!"
+    },
+    "payButton": "💰 Pagar {{cost}} Moedas",
+    "youHave": "Você tem: {{amount}} moedas",
+    "watchAdButton": "📺 Assistir Anúncio (Grátis)",
+    "loadingAd": "Carregando anúncio..."
+  },
+  "wardrobe": {
+    "title": "👕 Armário",
+    "slots": {
+      "head": "Cabeça",
+      "eyes": "Olhos",
+      "torso": "Torso",
+      "paws": "Patas"
+    },
+    "none": "Nenhum"
+  },
+  "background": {
+    "title": "🖼️ Cenário",
+    "choose": "Escolha o cenário:",
+    "backgrounds": {
+      "none": "Nenhum",
+      "park": "Parque",
+      "beach": "Praia",
+      "home": "Casa"
+    },
+    "selected": "Fundo \"{{name}}\" selecionado! 🎨",
+    "selectedIndicator": "✓ Selecionado"
+  },
+  "rewards": {
+    "doubleReward": {
+      "title": "🎉 Ganhe o Dobro!",
+      "message": "Ótimo trabalho! Assista a um anúncio para ganhar {{double}} moedas em vez de {{normal}}?",
+      "watchAd": "Assistir Anúncio",
+      "noThanks": "Não, Obrigado"
+    },
+    "earned": "💰 +{{amount}} moedas ganhas!",
+    "doubleEarned": "🎉 Recompensa em dobro! +{{amount}} moedas!"
+  },
+  "ads": {
+    "notAvailable": "Anúncio não disponível"
+  }
+}

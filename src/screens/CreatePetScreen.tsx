@@ -9,6 +9,7 @@ import {
   KeyboardAvoidingView,
   Platform,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { PetType, PetColor, Gender } from '../types';
 import { useBackButton } from '../hooks/useBackButton';
@@ -20,6 +21,7 @@ type Props = {
 
 export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
   const { createPet } = usePet();
+  const { t } = useTranslation();
   const [name, setName] = useState('');
   const [petType, setPetType] = useState<PetType>('cat');
   const [gender, setGender] = useState<Gender>('female');
@@ -48,75 +50,75 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
         onPress={() => navigation.navigate('Menu')}
       >
         <BackButtonIcon />
-        <Text style={styles.backButtonText}>Voltar</Text>
+        <Text style={styles.backButtonText}>{t('common.back')}</Text>
       </TouchableOpacity>
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         style={styles.content}
       >
-        <Text style={styles.title}>🐾 Criar Novo Pet</Text>
+        <Text style={styles.title}>{t('createPet.title')}</Text>
 
-        <Text style={styles.label}>Escolha seu pet:</Text>
+        <Text style={styles.label}>{t('createPet.choosePet')}</Text>
         <View style={styles.optionRow}>
           <TouchableOpacity
             style={[styles.optionButton, petType === 'cat' && styles.optionSelected]}
             onPress={() => handlePetTypeChange('cat')}
           >
             <Text style={styles.optionEmoji}>🐱</Text>
-            <Text style={styles.optionText}>Gato</Text>
+            <Text style={styles.optionText}>{t('createPet.cat')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.optionButton, petType === 'dog' && styles.optionSelected]}
             onPress={() => handlePetTypeChange('dog')}
           >
             <Text style={styles.optionEmoji}>🐶</Text>
-            <Text style={styles.optionText}>Cachorro</Text>
+            <Text style={styles.optionText}>{t('createPet.dog')}</Text>
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.label}>Nome do pet:</Text>
+        <Text style={styles.label}>{t('createPet.petName')}</Text>
         <TextInput
           style={styles.input}
           value={name}
           onChangeText={setName}
-          placeholder="Digite o nome..."
+          placeholder={t('createPet.namePlaceholder')}
           placeholderTextColor="#999"
           maxLength={20}
         />
 
-        <Text style={styles.label}>Gênero:</Text>
+        <Text style={styles.label}>{t('createPet.gender')}</Text>
         <View style={styles.optionRow}>
           <TouchableOpacity
             style={[styles.genderButton, gender === 'male' && styles.optionSelected]}
             onPress={() => setGender('male')}
           >
             <Text style={styles.genderEmoji}>♂️</Text>
-            <Text style={styles.genderText}>Macho</Text>
+            <Text style={styles.genderText}>{t('createPet.male')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.genderButton, gender === 'female' && styles.optionSelected]}
             onPress={() => setGender('female')}
           >
             <Text style={styles.genderEmoji}>♀️</Text>
-            <Text style={styles.genderText}>Fêmea</Text>
+            <Text style={styles.genderText}>{t('createPet.female')}</Text>
           </TouchableOpacity>
         </View>
 
-        <Text style={styles.label}>Cor do pelo:</Text>
+        <Text style={styles.label}>{t('createPet.coatColor')}</Text>
         <View style={styles.colorContainer}>
           <TouchableOpacity
             style={[styles.colorButton, color === 'base' && styles.optionSelected]}
             onPress={() => setColor('base')}
           >
             <Text style={styles.colorEmoji}>⚪</Text>
-            <Text style={styles.colorText}>Branco</Text>
+            <Text style={styles.colorText}>{t('createPet.white')}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={[styles.colorButton, color === 'black' && styles.optionSelected]}
             onPress={() => setColor('black')}
           >
             <Text style={styles.colorEmoji}>⚫</Text>
-            <Text style={styles.colorText}>Preto</Text>
+            <Text style={styles.colorText}>{t('createPet.black')}</Text>
           </TouchableOpacity>
           {petType === 'dog' && (
             <>
@@ -125,14 +127,14 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
                 onPress={() => setColor('brown')}
               >
                 <Text style={styles.colorEmoji}>🟤</Text>
-                <Text style={styles.colorText}>Marrom</Text>
+                <Text style={styles.colorText}>{t('createPet.brown')}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 style={[styles.colorButton, color === 'whiteandbrown' && styles.optionSelected]}
                 onPress={() => setColor('whiteandbrown')}
               >
                 <Text style={styles.colorEmoji}>🤍🟤</Text>
-                <Text style={styles.colorText}>Branco/Marrom</Text>
+                <Text style={styles.colorText}>{t('createPet.whiteBrown')}</Text>
               </TouchableOpacity>
             </>
           )}
@@ -143,7 +145,7 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
           onPress={handleCreate}
           disabled={!name.trim()}
         >
-          <Text style={styles.createButtonText}>Criar Pet! 🎉</Text>
+          <Text style={styles.createButtonText}>{t('createPet.createButton')}</Text>
         </TouchableOpacity>
       </KeyboardAvoidingView>
     </SafeAreaView>
