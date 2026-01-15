@@ -8,12 +8,14 @@ type EnhancedStatusBarProps = {
   pet: Pet;
   compact?: boolean;
   showPercentage?: boolean;
+  twoColumnLayout?: boolean;
 };
 
 export const EnhancedStatusBar: React.FC<EnhancedStatusBarProps> = ({
   pet,
   compact = false,
   showPercentage = false,
+  twoColumnLayout = false,
 }) => {
   const hungerLevel = getStatLevel(pet.hunger);
   const hygieneLevel = getStatLevel(pet.hygiene);
@@ -23,6 +25,52 @@ export const EnhancedStatusBar: React.FC<EnhancedStatusBarProps> = ({
 
   // Determine happiness emoji based on level
   const happinessEmoji = pet.happiness > 70 ? '😊' : pet.happiness > 40 ? '😐' : '😢';
+
+  if (twoColumnLayout) {
+    return (
+      <View style={styles.twoColumnContainer}>
+        <View style={styles.column}>
+          <StatusBar
+            label="Fome"
+            value={pet.hunger}
+            color={hungerLevel.color}
+            emoji="🍖"
+            showPercentage={showPercentage}
+          />
+          <StatusBar
+            label="Higiene"
+            value={pet.hygiene}
+            color={hygieneLevel.color}
+            emoji="🛁"
+            showPercentage={showPercentage}
+          />
+          <StatusBar
+            label="Energia"
+            value={pet.energy}
+            color={energyLevel.color}
+            emoji="⚡"
+            showPercentage={showPercentage}
+          />
+        </View>
+        <View style={styles.column}>
+          <StatusBar
+            label="Felicidade"
+            value={pet.happiness}
+            color={happinessLevel.color}
+            emoji={happinessEmoji}
+            showPercentage={showPercentage}
+          />
+          <StatusBar
+            label="Saúde"
+            value={pet.health}
+            color={healthLevel.color}
+            emoji="❤️"
+            showPercentage={showPercentage}
+          />
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={[styles.container, compact && styles.compact]}>
@@ -72,5 +120,12 @@ const styles = StyleSheet.create({
   },
   compact: {
     paddingVertical: 2,
+  },
+  twoColumnContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  column: {
+    flex: 1,
   },
 });

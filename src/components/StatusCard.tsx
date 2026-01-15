@@ -18,20 +18,30 @@ export const StatusCard: React.FC<StatusCardProps> = ({
 }) => {
   return (
     <View style={[styles.card, compact && styles.cardCompact]}>
-      {/* Top Row: Pet Info and Money */}
-      <View style={styles.topRow}>
-        <View style={styles.petInfo}>
+      <View style={styles.splitLayout}>
+        {/* Left Column (30%): Pet Info */}
+        <View style={styles.leftColumn}>
           <Text style={styles.petName}>{petName}</Text>
           <Text style={styles.petAge}>{petAge}</Text>
+          <View style={styles.moneyContainer}>
+            <Text style={styles.coinIcon}>💰</Text>
+            <Text style={styles.moneyValue}>{pet.money ?? 0}</Text>
+          </View>
         </View>
-        <View style={styles.moneyContainer}>
-          <Text style={styles.coinIcon}>💰</Text>
-          <Text style={styles.moneyValue}>{pet.money ?? 0}</Text>
+
+        {/* Middle (40%): Empty */}
+        <View style={styles.middleColumn} />
+
+        {/* Right Column (30%): Status Bars */}
+        <View style={styles.rightColumn}>
+          <EnhancedStatusBar
+            pet={pet}
+            compact={compact}
+            showPercentage={false}
+            twoColumnLayout
+          />
         </View>
       </View>
-
-      {/* Status Bars - No Percentages */}
-      <EnhancedStatusBar pet={pet} compact={compact} showPercentage={false} />
     </View>
   );
 };
@@ -54,42 +64,47 @@ const styles = StyleSheet.create({
     marginVertical: 4,
     padding: 8,
   },
-  topRow: {
+  splitLayout: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 8,
-    paddingBottom: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e0e0e0',
+    alignItems: 'flex-start',
   },
-  petInfo: {
-    flex: 1,
+  leftColumn: {
+    width: '30%',
+    paddingRight: 8,
+  },
+  middleColumn: {
+    width: '40%',
+  },
+  rightColumn: {
+    width: '30%',
+    paddingLeft: 8,
   },
   petName: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
+    marginBottom: 4,
   },
   petAge: {
-    fontSize: 13,
+    fontSize: 12,
     color: '#666',
-    marginTop: 2,
+    marginBottom: 6,
   },
   moneyContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFD700',
-    paddingVertical: 4,
-    paddingHorizontal: 12,
-    borderRadius: 8,
+    paddingVertical: 3,
+    paddingHorizontal: 8,
+    borderRadius: 6,
+    alignSelf: 'flex-start',
   },
   coinIcon: {
-    fontSize: 16,
-    marginRight: 4,
+    fontSize: 14,
+    marginRight: 3,
   },
   moneyValue: {
-    fontSize: 16,
+    fontSize: 14,
     fontWeight: 'bold',
     color: '#333',
   },
