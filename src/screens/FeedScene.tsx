@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
@@ -22,13 +23,14 @@ type Props = {
 };
 
 const FOODS = [
-  { id: 'kibble', emoji: '🍖', name: 'Ração', value: 20 },
-  { id: 'fish', emoji: '🐟', name: 'Peixe', value: 25 },
-  { id: 'treat', emoji: '🦴', name: 'Petisco', value: 15 },
-  { id: 'milk', emoji: '🥛', name: 'Leite', value: 10 },
+  { id: 'kibble', emoji: '🍖', nameKey: 'feed.foods.kibble', value: 20 },
+  { id: 'fish', emoji: '🐟', nameKey: 'feed.foods.fish', value: 25 },
+  { id: 'treat', emoji: '🦴', nameKey: 'feed.foods.treat', value: 15 },
+  { id: 'milk', emoji: '🥛', nameKey: 'feed.foods.milk', value: 10 },
 ];
 
 export const FeedScene: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
   const { pet, feed, earnMoney } = usePet();
   const { showToast } = useToast();
   const { triggerReward, DoubleRewardModal } = useDoubleReward({ earnMoney, showToast });
@@ -48,7 +50,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
 
   const handleFeed = (food: typeof FOODS[0]) => {
     setAnimationState('eating');
-    setMessage(`${pet.name} está comendo ${food.name}! 😋`);
+    setMessage(t('feed.eating', { name: pet.name, food: t(food.nameKey) }));
 
     feed(food.value);
 
@@ -57,7 +59,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
 
     setTimeout(() => {
       setAnimationState('happy');
-      setMessage(`${pet.name} adorou! 💕`);
+      setMessage(t('feed.loved', { name: pet.name }));
 
       setTimeout(() => {
         setAnimationState('idle');
@@ -74,9 +76,9 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
           <BackButtonIcon />
-          <Text style={styles.backButton}>Voltar</Text>
+          <Text style={styles.backButton}>{t('common.back')}</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>🍖 Alimentar</Text>
+        <Text style={styles.title}>{t('feed.title')}</Text>
         <View style={{ width: 80 }} />
       </View>
 
@@ -87,12 +89,12 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
 
       <View style={styles.hungerInfo}>
         <Text style={styles.hungerText}>
-          Fome: {Math.round(pet.hunger)}%
+          {t('feed.hunger', { amount: Math.round(pet.hunger) })}
         </Text>
       </View>
 
       <View style={styles.foodContainer}>
-        <Text style={styles.foodTitle}>Escolha a comida:</Text>
+        <Text style={styles.foodTitle}>{t('feed.chooseFood')}</Text>
         
         {/* Navigation arrows and current food display */}
         <View style={styles.navigationContainer}>
@@ -110,7 +112,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
             disabled={animationState !== 'idle' || pet.hunger >= 100}
           >
             <Text style={styles.currentFoodEmoji}>{currentFood.emoji}</Text>
-            <Text style={styles.currentFoodName}>{currentFood.name}</Text>
+            <Text style={styles.currentFoodName}>{t(currentFood.nameKey)}</Text>
             <Text style={styles.currentFoodValue}>+{currentFood.value}%</Text>
           </TouchableOpacity>
           

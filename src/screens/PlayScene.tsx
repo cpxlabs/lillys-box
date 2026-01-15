@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
@@ -22,11 +23,12 @@ type Props = {
 };
 
 const PLAY_ACTIVITIES = [
-  { id: 'yarn_ball', emoji: '🧶', name: 'Bola de lã' },
-  { id: 'small_ball', emoji: '⚽', name: 'Bolinha' },
+  { id: 'yarn_ball', emoji: '🧶', nameKey: 'play.activities.yarnBall' },
+  { id: 'small_ball', emoji: '⚽', nameKey: 'play.activities.smallBall' },
 ];
 
 export const PlayScene: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
   const { pet, play, earnMoney } = usePet();
   const { showToast } = useToast();
   const { triggerReward, DoubleRewardModal } = useDoubleReward({ earnMoney, showToast });
@@ -46,7 +48,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
 
   const handlePlay = (activity: typeof PLAY_ACTIVITIES[0]) => {
     setAnimationState('happy');
-    setMessage(`${pet.name} está brincando com ${activity.name}! 🎉`);
+    setMessage(t('play.playing', { name: pet.name, activity: t(activity.nameKey) }));
 
     play();
 
@@ -54,7 +56,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
     const moneyEarned = AdsConfig.rewards.playReward;
 
     setTimeout(() => {
-      setMessage(`${pet.name} adorou brincar! 💕`);
+      setMessage(t('play.loved', { name: pet.name }));
 
       setTimeout(() => {
         setAnimationState('idle');
@@ -71,9 +73,9 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
           <BackButtonIcon />
-          <Text style={styles.backButton}>Voltar</Text>
+          <Text style={styles.backButton}>{t('common.back')}</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>🎮 Brincar</Text>
+        <Text style={styles.title}>{t('play.title')}</Text>
         <View style={{ width: 80 }} />
       </View>
 
@@ -83,7 +85,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={styles.activitiesContainer}>
-        <Text style={styles.activitiesTitle}>Escolha a atividade:</Text>
+        <Text style={styles.activitiesTitle}>{t('play.chooseActivity')}</Text>
         
         {/* Navigation arrows and current activity display */}
         <View style={styles.navigationContainer}>
@@ -101,7 +103,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
             disabled={animationState !== 'idle'}
           >
             <Text style={styles.currentActivityEmoji}>{currentActivity.emoji}</Text>
-            <Text style={styles.currentActivityName}>{currentActivity.name}</Text>
+            <Text style={styles.currentActivityName}>{t(currentActivity.nameKey)}</Text>
           </TouchableOpacity>
           
           <TouchableOpacity

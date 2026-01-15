@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   TouchableOpacity,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { useNavigationList } from '../hooks/useNavigationList';
@@ -18,13 +19,14 @@ type Props = {
 
 // Placeholder backgrounds - user will add actual images to assets/backgrounds/
 const BACKGROUNDS = [
-  { id: 'none', name: 'Nenhum', emoji: '❌' },
-  { id: 'park', name: 'Parque', emoji: '🌳' },
-  { id: 'beach', name: 'Praia', emoji: '🏖️' },
-  { id: 'home', name: 'Casa', emoji: '🏠' },
+  { id: 'none', nameKey: 'background.backgrounds.none', emoji: '❌' },
+  { id: 'park', nameKey: 'background.backgrounds.park', emoji: '🌳' },
+  { id: 'beach', nameKey: 'background.backgrounds.beach', emoji: '🏖️' },
+  { id: 'home', nameKey: 'background.backgrounds.home', emoji: '🏠' },
 ];
 
 export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
   const { pet, setBackground } = usePet();
   const [message, setMessage] = useState('');
   const BackButtonIcon = useBackButton();
@@ -42,7 +44,7 @@ export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
   const handleSelectBackground = (background: typeof BACKGROUNDS[0]) => {
     const backgroundId = background.id === 'none' ? null : background.id;
     setBackground(backgroundId);
-    setMessage(`Fundo "${background.name}" selecionado! 🎨`);
+    setMessage(t('background.selected', { name: t(background.nameKey) }));
 
     setTimeout(() => {
       setMessage('');
@@ -58,9 +60,9 @@ export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
           <BackButtonIcon />
-          <Text style={styles.backButton}>Voltar</Text>
+          <Text style={styles.backButton}>{t('common.back')}</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>🖼️ Cenário</Text>
+        <Text style={styles.title}>{t('background.title')}</Text>
         <View style={{ width: 80 }} />
       </View>
 
@@ -70,7 +72,7 @@ export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={styles.backgroundsContainer}>
-        <Text style={styles.backgroundsTitle}>Escolha o cenário:</Text>
+        <Text style={styles.backgroundsTitle}>{t('background.choose')}</Text>
         
         {/* Navigation arrows and current background display */}
         <View style={styles.navigationContainer}>
@@ -89,9 +91,9 @@ export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
             onPress={() => handleSelectBackground(currentBackground)}
           >
             <Text style={styles.currentBackgroundEmoji}>{currentBackground.emoji}</Text>
-            <Text style={styles.currentBackgroundName}>{currentBackground.name}</Text>
+            <Text style={styles.currentBackgroundName}>{t(currentBackground.nameKey)}</Text>
             {isCurrentBackgroundSelected && (
-              <Text style={styles.selectedIndicator}>✓ Selecionado</Text>
+              <Text style={styles.selectedIndicator}>{t('background.selectedIndicator')}</Text>
             )}
           </TouchableOpacity>
           

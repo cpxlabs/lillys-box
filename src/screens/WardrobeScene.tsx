@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { ClothingSlot } from '../types';
@@ -18,14 +19,15 @@ type Props = {
   navigation: ScreenNavigationProp<'Wardrobe'>;
 };
 
-const SLOTS: { key: ClothingSlot; label: string; emoji: string }[] = [
-  { key: 'head', label: 'Cabeça', emoji: '🎩' },
-  { key: 'eyes', label: 'Olhos', emoji: '👀' },
-  { key: 'torso', label: 'Torso', emoji: '👕' },
-  { key: 'paws', label: 'Patas', emoji: '🧦' },
+const SLOTS: { key: ClothingSlot; labelKey: string; emoji: string }[] = [
+  { key: 'head', labelKey: 'wardrobe.slots.head', emoji: '🎩' },
+  { key: 'eyes', labelKey: 'wardrobe.slots.eyes', emoji: '👀' },
+  { key: 'torso', labelKey: 'wardrobe.slots.torso', emoji: '👕' },
+  { key: 'paws', labelKey: 'wardrobe.slots.paws', emoji: '🧦' },
 ];
 
 export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
+  const { t } = useTranslation();
   const { pet, setClothing } = usePet();
   const [selectedSlot, setSelectedSlot] = useState<ClothingSlot>('head');
   const BackButtonIcon = useBackButton();
@@ -43,9 +45,9 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
       <View style={styles.header}>
         <TouchableOpacity onPress={() => navigation.goBack()} style={styles.backButtonContainer}>
           <BackButtonIcon />
-          <Text style={styles.backButton}>Voltar</Text>
+          <Text style={styles.backButton}>{t('common.back')}</Text>
         </TouchableOpacity>
-        <Text style={styles.title}>👕 Armário</Text>
+        <Text style={styles.title}>{t('wardrobe.title')}</Text>
         <View style={{ width: 80 }} />
       </View>
 
@@ -64,7 +66,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
             onPress={() => setSelectedSlot(slot.key)}
           >
             <Text style={styles.slotEmoji}>{slot.emoji}</Text>
-            <Text style={styles.slotLabel}>{slot.label}</Text>
+            <Text style={styles.slotLabel}>{t(slot.labelKey)}</Text>
           </TouchableOpacity>
         ))}
       </View>
@@ -79,7 +81,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
             onPress={() => handleSelectItem(null)}
           >
             <Text style={styles.itemEmoji}>❌</Text>
-            <Text style={styles.itemName}>Nenhum</Text>
+            <Text style={styles.itemName}>{t('wardrobe.none')}</Text>
           </TouchableOpacity>
 
           {itemsForSlot.map((item) => (
