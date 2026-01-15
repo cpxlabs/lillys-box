@@ -1,0 +1,43 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+.expo/
+dist/
+web-build/
+coverage/
+
+# Cache
+.metro-health-check*
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Temp files
+*.tmp
+*.temp
+
+# Lock files (Claude doesn't need these)
+pnpm-lock.yaml
+package-lock.json
+yarn.lock
+
+# Assets (large files)
+assets/sprites/
+assets/backgrounds/
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.svg
+*.ico
+
+# Git
+.git/
