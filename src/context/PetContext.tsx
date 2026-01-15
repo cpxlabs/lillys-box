@@ -1,9 +1,10 @@
-import React, { createContext, useContext, useState, useEffect, useRef, ReactNode } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, ReactNode, useMemo, useCallback } from 'react';
 import { Pet, PetType, PetColor, Gender, ClothingSlot } from '../types';
 import { savePet, loadPet, deletePet } from '../utils/storage';
 import { calculateHealth, getEnergyDecayRate, getEnergyMultiplier, canPerformActivity, calculateHappinessChange } from '../utils/petStats';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { logger } from '../utils/logger';
+import { debounce } from '../utils/debounce';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -31,6 +32,13 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [pet, setPet] = useState<Pet | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const sleepCancelRef = useRef<{ cancelled: boolean } | null>(null);
+
+  // Create debounced save function (save max once per second)
+  const debouncedSave = useRef(
+    debounce((petToSave: Pet) => {
+      savePet(petToSave).catch(logger.error);
+    }, 1000)
+  ).current;
 
   useEffect(() => {
     loadPet().then((loadedPet) => {
@@ -78,14 +86,14 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
           lastUpdated: now,
         };
 
-        // Save asynchronously without blocking state update
-        savePet(updatedPet).catch(logger.error);
+        // Use debounced save instead of direct save
+        debouncedSave(updatedPet);
         return updatedPet;
       });
     }, GAME_BALANCE.time.updateInterval);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [debouncedSave]);
 
   const createPet = async (name: string, type: PetType, gender: Gender, color: PetColor) => {
     const newPet: Pet = {
@@ -198,23 +206,35 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       return updatedPet;
     });
 
-    // Wait for sleep duration with cancellation support
-    await new Promise((resolve) => {
-      const checkInterval = setInterval(() => {
-        if (cancelToken.cancelled) {
-          clearInterval(checkInterval);
-          resolve(false);
-        } else if (Date.now() - startTime >= duration) {
-          clearInterval(checkInterval);
-          resolve(true);
-        }
-      }, 100); // Check every 100ms
-    });
+    // Wait for sleep duration with cancellation support using Promise.race
+    const completed = await Promise.race([
+      // Sleep timer
+      new Promise<boolean>((resolve) => {
+        const timer = setTimeout(() => resolve(true), duration);
+        // Store timer for cleanup
+        (cancelToken as any).timer = timer;
+      }),
+      // Cancellation checker
+      new Promise<boolean>((resolve) => {
+        const checkCancellation = () => {
+          if (cancelToken.cancelled) {
+            // Clear the sleep timer
+            if ((cancelToken as any).timer) {
+              clearTimeout((cancelToken as any).timer);
+            }
+            resolve(false);
+          } else {
+            // Check again in 100ms
+            setTimeout(checkCancellation, 100);
+          }
+        };
+        checkCancellation();
+      }),
+    ]);
 
     // Calculate partial recovery if cancelled early
     const actualDuration = Math.min(Date.now() - startTime, duration);
     const completionRatio = actualDuration / duration;
-    const wasCancelled = cancelToken.cancelled;
 
     // Wake up and apply benefits (partial or full)
     setPet((currentPet) => {
@@ -238,7 +258,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     // Clear the cancel ref
     sleepCancelRef.current = null;
 
-    return { completed: !wasCancelled };
+    return { completed };
   };
 
   const cancelSleep = () => {

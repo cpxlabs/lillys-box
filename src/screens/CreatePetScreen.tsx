@@ -11,9 +11,11 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
+import { useToast } from '../context/ToastContext';
 import { PetType, PetColor, Gender } from '../types';
 import { useBackButton } from '../hooks/useBackButton';
 import { ScreenNavigationProp } from '../types/navigation';
+import { validatePetName, sanitizePetName } from '../utils/validation';
 
 type Props = {
   navigation: ScreenNavigationProp<'CreatePet'>;
@@ -21,6 +23,7 @@ type Props = {
 
 export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
   const { createPet } = usePet();
+  const { showToast } = useToast();
   const { t } = useTranslation();
   const [name, setName] = useState('');
   const [petType, setPetType] = useState<PetType>('cat');
@@ -38,8 +41,15 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const handleCreate = async () => {
-    if (!name.trim()) return;
-    await createPet(name.trim(), petType, gender, color);
+    const validation = validatePetName(name);
+
+    if (!validation.isValid) {
+      showToast(validation.error!, 'error');
+      return;
+    }
+
+    const sanitizedName = sanitizePetName(name);
+    await createPet(sanitizedName, petType, gender, color);
     navigation.replace('Home');
   };
 
