@@ -6,8 +6,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   ScrollView,
-import { useTranslation } from 'react-i18next';
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';

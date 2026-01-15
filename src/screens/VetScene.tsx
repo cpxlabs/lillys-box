@@ -6,8 +6,8 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
-import { useTranslation } from 'react-i18next';
 } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { useRewardedAd } from '../hooks/useRewardedAd';
 import { needsVet } from '../utils/petStats';
