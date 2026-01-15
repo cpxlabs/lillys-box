@@ -9,6 +9,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { ConfirmModal } from '../components/ConfirmModal';
+import { LanguageSelector } from '../components/LanguageSelector';
 import { ScreenNavigationProp } from '../types/navigation';
 
 type Props = {
@@ -57,6 +58,11 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
             <View style={styles.content}>
                 <Text style={styles.title}>{t('menu.title')}</Text>
                 <Text style={styles.subtitle}>{t('menu.subtitle')}</Text>
+
+                {/* Language Selector */}
+                <View style={styles.languageContainer}>
+                    <LanguageSelector />
+                </View>
 
                 <View style={styles.buttonContainer}>
                     {pet && (
@@ -139,7 +145,10 @@ const styles = StyleSheet.create({
     subtitle: {
         fontSize: 18,
         color: '#666',
-        marginBottom: 48,
+        marginBottom: 24,
+    },
+    languageContainer: {
+        marginBottom: 24,
     },
     buttonContainer: {
         width: '100%',
