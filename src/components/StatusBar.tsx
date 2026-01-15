@@ -6,6 +6,7 @@ type StatusBarProps = {
   value: number;
   color: string;
   emoji: string;
+  showPercentage?: boolean;
 };
 
 export const StatusBar: React.FC<StatusBarProps> = ({
@@ -13,6 +14,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
   value,
   color,
   emoji,
+  showPercentage = true,
 }) => {
   return (
     <View style={styles.container}>
@@ -28,7 +30,9 @@ export const StatusBar: React.FC<StatusBarProps> = ({
           />
         </View>
       </View>
-      <Text style={styles.value}>{Math.round(value)}%</Text>
+      {showPercentage && (
+        <Text style={styles.value}>{Math.round(value)}%</Text>
+      )}
     </View>
   );
 };

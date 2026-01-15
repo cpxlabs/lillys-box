@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
-import { EnhancedStatusBar } from '../components/EnhancedStatusBar';
+import { StatusCard } from '../components/StatusCard';
 import { IconButton } from '../components/IconButton';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { BannerAd } from '../components/BannerAd';
@@ -56,20 +56,15 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.petAge}>
           {petAge} {petAge === 1 ? 'ano' : 'anos'}
         </Text>
-        <View style={styles.moneyContainer}>
-          {/* Defensive fallback for extra safety */}
-          <Text style={styles.moneyText}>💰 {pet.money ?? 0} moedas</Text>
-        </View>
       </View>
 
-      <View style={styles.statusContainer}>
-        <EnhancedStatusBar pet={pet} />
-        {hasWarnings && (
-          <Text style={styles.warningText}>
-            ⚠️ Your pet needs attention!
-          </Text>
-        )}
-      </View>
+      {/* Unified Status Card with Money and Status Bars */}
+      <StatusCard pet={pet} />
+      {hasWarnings && (
+        <Text style={styles.warningText}>
+          ⚠️ Seu pet precisa de atenção!
+        </Text>
+      )}
 
       {/* Rewarded Ad Button for Bonus Coins */}
       <View style={styles.rewardedAdContainer}>
@@ -161,21 +156,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#666',
     marginTop: 4,
-  },
-  moneyContainer: {
-    marginTop: 8,
-    backgroundColor: '#FFD700',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 20,
-  },
-  moneyText: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#333',
-  },
-  statusContainer: {
-    paddingVertical: 8,
+    marginBottom: 8,
   },
   warningText: {
     textAlign: 'center',

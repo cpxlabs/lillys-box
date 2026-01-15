@@ -10,6 +10,7 @@ import {
 import { usePet } from '../context/PetContext';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { ScreenNavigationProp } from '../types/navigation';
+import { StatusCard } from '../components/StatusCard';
 
 type Props = {
   navigation: ScreenNavigationProp<'Sleep'>;
@@ -94,6 +95,9 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
+      {/* Status Card */}
+      <StatusCard pet={pet} compact />
+
       <View style={styles.content}>
         <Animated.View style={[styles.petContainer, { opacity: fadeAnim }]}>
           <Text style={styles.sleepText}>💤</Text>

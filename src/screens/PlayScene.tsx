@@ -9,6 +9,7 @@ import {
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
+import { StatusCard } from '../components/StatusCard';
 import { AnimationState } from '../types';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
@@ -76,6 +77,9 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.title}>🎮 Brincar</Text>
         <View style={{ width: 80 }} />
       </View>
+
+      {/* Status Card */}
+      <StatusCard pet={pet} compact />
 
       <View style={styles.petContainer}>
         <PetRenderer pet={pet} animationState={animationState} size={375} />

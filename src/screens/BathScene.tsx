@@ -18,6 +18,7 @@ import Animated, {
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
+import { StatusCard } from '../components/StatusCard';
 import { AnimationState } from '../types';
 import { useBackButton } from '../hooks/useBackButton';
 import { useDoubleReward } from '../hooks/useDoubleReward';
@@ -215,11 +216,8 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
         <View style={{ width: 80 }} />
       </View>
 
-      <View style={styles.hygieneInfo}>
-        <Text style={styles.hygieneText}>
-          Higiene: {Math.round(pet.hygiene)}%
-        </Text>
-      </View>
+      {/* Status Card */}
+      <StatusCard pet={pet} compact />
 
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[styles.petContainer, animatedStyle]}>

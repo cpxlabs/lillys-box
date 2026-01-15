@@ -10,6 +10,7 @@ import {
 import { usePet } from '../context/PetContext';
 import { useRewardedAd } from '../hooks/useRewardedAd';
 import { needsVet } from '../utils/petStats';
+import { StatusCard } from '../components/StatusCard';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { logger } from '../utils/logger';
 import { ScreenNavigationProp } from '../types/navigation';
@@ -121,6 +122,9 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
         <Text style={styles.title}>🏥 Veterinary Clinic</Text>
+
+        {/* Status Card */}
+        <StatusCard pet={pet} compact />
 
         <View
           style={[

@@ -7,11 +7,13 @@ import { getStatLevel } from '../utils/petStats';
 type EnhancedStatusBarProps = {
   pet: Pet;
   compact?: boolean;
+  showPercentage?: boolean;
 };
 
 export const EnhancedStatusBar: React.FC<EnhancedStatusBarProps> = ({
   pet,
   compact = false,
+  showPercentage = false,
 }) => {
   const hungerLevel = getStatLevel(pet.hunger);
   const hygieneLevel = getStatLevel(pet.hygiene);
@@ -25,34 +27,39 @@ export const EnhancedStatusBar: React.FC<EnhancedStatusBarProps> = ({
   return (
     <View style={[styles.container, compact && styles.compact]}>
       <StatusBar
-        label="Hunger"
+        label="Fome"
         value={pet.hunger}
         color={hungerLevel.color}
         emoji="🍖"
+        showPercentage={showPercentage}
       />
       <StatusBar
-        label="Hygiene"
+        label="Higiene"
         value={pet.hygiene}
         color={hygieneLevel.color}
         emoji="🛁"
+        showPercentage={showPercentage}
       />
       <StatusBar
-        label="Energy"
+        label="Energia"
         value={pet.energy}
         color={energyLevel.color}
         emoji="⚡"
+        showPercentage={showPercentage}
       />
       <StatusBar
-        label="Happiness"
+        label="Felicidade"
         value={pet.happiness}
         color={happinessLevel.color}
         emoji={happinessEmoji}
+        showPercentage={showPercentage}
       />
       <StatusBar
-        label="Health"
+        label="Saúde"
         value={pet.health}
         color={healthLevel.color}
         emoji="❤️"
+        showPercentage={showPercentage}
       />
     </View>
   );

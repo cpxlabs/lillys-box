@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import { usePet } from '../context/PetContext';
 import { PetRenderer } from '../components/PetRenderer';
+import { StatusCard } from '../components/StatusCard';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
 import { ScreenNavigationProp } from '../types/navigation';
@@ -63,6 +64,9 @@ export const BackgroundScene: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.title}>🖼️ Cenário</Text>
         <View style={{ width: 80 }} />
       </View>
+
+      {/* Status Card */}
+      <StatusCard pet={pet} compact />
 
       <View style={styles.petContainer}>
         <PetRenderer pet={pet} size={300} />

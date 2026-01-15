@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import { usePet } from '../context/PetContext';
 import { PetRenderer } from '../components/PetRenderer';
+import { StatusCard } from '../components/StatusCard';
 import { ClothingSlot } from '../types';
 import { CLOTHING_ITEMS, getItemsBySlot } from '../data/clothingItems';
 import { useBackButton } from '../hooks/useBackButton';
@@ -48,6 +49,9 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.title}>👕 Armário</Text>
         <View style={{ width: 80 }} />
       </View>
+
+      {/* Status Card */}
+      <StatusCard pet={pet} compact />
 
       <View style={styles.petContainer}>
         <PetRenderer pet={pet} size={300} />
