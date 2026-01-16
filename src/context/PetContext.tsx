@@ -17,7 +17,7 @@ type PetContextType = {
   bathe: (amount?: number) => void;
   sleep: (duration?: number) => Promise<{ completed: boolean }>;
   cancelSleep: () => void;
-  visitVet: (useMoney?: boolean) => void;
+  visitVet: (useMoney?: boolean) => boolean;
   exercise: () => void;
   petCuddle: () => void;
   setClothing: (slot: ClothingSlot, itemId: string | null) => void;
@@ -188,6 +188,11 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   };
 
   const sleep = async (duration: number = GAME_BALANCE.activities.sleep.duration): Promise<{ completed: boolean }> => {
+    // Check if pet can sleep before starting
+    if (!pet || !canPerformActivity(pet, 'sleep')) {
+      return { completed: false };
+    }
+
     // Create cancellation token
     const cancelToken = { cancelled: false };
     sleepCancelRef.current = cancelToken;
@@ -195,7 +200,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     const startTime = Date.now();
 
     setPet((currentPet) => {
-      if (!currentPet || !canPerformActivity(currentPet, 'sleep')) return currentPet;
+      if (!currentPet) return currentPet;
 
       const updatedPet: Pet = {
         ...currentPet,
@@ -267,14 +272,18 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   };
 
-  const visitVet = (useMoney: boolean = true) => {
+  const visitVet = (useMoney: boolean = true): boolean => {
+    if (!pet) return false;
+
+    const effects = GAME_BALANCE.activities.vet;
+
+    // Check if can afford
+    if (useMoney && pet.money < effects.cost) {
+      return false;
+    }
+
     setPet((currentPet) => {
       if (!currentPet) return currentPet;
-
-      const effects = GAME_BALANCE.activities.vet;
-
-      // Check if can afford
-      if (useMoney && currentPet.money < effects.cost) return currentPet;
 
       const updatedPet: Pet = {
         ...currentPet,
@@ -291,6 +300,8 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       savePet(updatedPet).catch(logger.error);
       return updatedPet;
     });
+
+    return true;
   };
 
   const exercise = () => {
