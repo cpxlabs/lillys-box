@@ -19,6 +19,7 @@ import { useDoubleReward } from '../hooks/useDoubleReward';
 import { AdsConfig } from '../config/ads.config';
 import { ScreenNavigationProp } from '../types/navigation';
 import { ANIMATION_DURATION } from '../config/constants';
+import { FOOD_ITEMS } from '../data/foodItems';
 import { calculatePetAge } from '../utils/age';
 import { logger } from '../utils/logger';
 import { useResponsive } from '../hooks/useResponsive';
@@ -27,13 +28,6 @@ import { ACTION_PET_SIZE, ACTION_BUTTON_SIZE, SCENE_TEXT_SIZE } from '../config/
 type Props = {
   navigation: ScreenNavigationProp<'Feed'>;
 };
-
-const FOODS = [
-  { id: 'kibble', emoji: '🍖', nameKey: 'feed.foods.kibble', value: 20 },
-  { id: 'fish', emoji: '🐟', nameKey: 'feed.foods.fish', value: 25 },
-  { id: 'treat', emoji: '🦴', nameKey: 'feed.foods.treat', value: 15 },
-  { id: 'milk', emoji: '🥛', nameKey: 'feed.foods.milk', value: 10 },
-];
 
 export const FeedScene: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
@@ -71,7 +65,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
     goToNext,
     goToPrevious,
     totalItems,
-  } = useNavigationList(FOODS);
+  } = useNavigationList(FOOD_ITEMS as any);
 
   if (!pet) return null;
 
@@ -79,7 +73,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
   const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
-  const handleFeed = (food: typeof FOODS[0]) => {
+  const handleFeed = (food: typeof FOOD_ITEMS[0]) => {
     try {
       // Clear any existing timeouts to prevent conflicts
       if (animationTimeout1.current) {
@@ -92,7 +86,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
       setAnimationState('eating');
       setMessage(t('feed.eating', { name: pet.name, food: t(food.nameKey) }));
 
-      feed(food.value);
+      feed(food.hungerValue);
 
       // Base money earned for feeding
       const moneyEarned = AdsConfig.rewards.feedReward;
@@ -158,7 +152,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
           >
             <Text style={[styles.currentFoodEmoji, { fontSize: buttonSizes.itemEmoji, marginBottom: spacing(6) }]}>{currentFood.emoji}</Text>
             <Text style={[styles.currentFoodName, { fontSize: buttonSizes.itemFont, marginBottom: spacing(3) }]}>{t(currentFood.nameKey)}</Text>
-            <Text style={[styles.currentFoodValue, { fontSize: buttonSizes.valueFont }]}>+{currentFood.value}%</Text>
+            <Text style={[styles.currentFoodValue, { fontSize: buttonSizes.valueFont }]}>+{currentFood.hungerValue}%</Text>
           </TouchableOpacity>
 
           <TouchableOpacity

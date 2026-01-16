@@ -3,6 +3,7 @@ import { Pet, PetType, PetColor, Gender, ClothingSlot } from '../types';
 import { savePet, loadPet, deletePet } from '../utils/storage';
 import { calculateHealth, getEnergyDecayRate, getEnergyMultiplier, canPerformActivity, calculateHappinessChange } from '../utils/petStats';
 import { GAME_BALANCE } from '../config/gameBalance';
+import { TIMER_INTERVAL, TIME } from '../config/constants';
 import { logger } from '../utils/logger';
 import { debounce } from '../utils/debounce';
 import 'react-native-get-random-values';
@@ -36,7 +37,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const debouncedSave = useRef(
     debounce((petToSave: Pet) => {
       savePet(petToSave).catch(logger.error);
-    }, 1000)
+    }, TIMER_INTERVAL.DEBOUNCE_SAVE_DELAY)
   ).current;
 
   useEffect(() => {
@@ -57,7 +58,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
         const now = Date.now();
         const lastUpdate = currentPet.lastUpdated || now;
-        const minutesPassed = (now - lastUpdate) / 60000;
+        const minutesPassed = (now - lastUpdate) / TIME.MS_PER_MINUTE;
 
         // Calculate decay based on time passed
         const hungerDecay = GAME_BALANCE.decay.hunger * minutesPassed;
@@ -228,7 +229,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             resolve(false);
           } else {
             // Check again in 100ms
-            setTimeout(checkCancellation, 100);
+            setTimeout(checkCancellation, TIMER_INTERVAL.SLEEP_CANCELLATION_CHECK);
           }
         };
         checkCancellation();

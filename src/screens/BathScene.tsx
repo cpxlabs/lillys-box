@@ -26,7 +26,8 @@ import { useBackButton } from '../hooks/useBackButton';
 import { useDoubleReward } from '../hooks/useDoubleReward';
 import { AdsConfig } from '../config/ads.config';
 import { ScreenNavigationProp } from '../types/navigation';
-import { ANIMATION_DURATION } from '../config/constants';
+import { ANIMATION_DURATION, TIMER_INTERVAL, UI } from '../config/constants';
+import { GAME_BALANCE } from '../config/gameBalance';
 import { calculatePetAge } from '../utils/age';
 import { useResponsive } from '../hooks/useResponsive';
 import { ACTION_PET_SIZE, SPONGE_SIZE, SCENE_TEXT_SIZE } from '../config/responsive';
@@ -105,11 +106,11 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
   const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
-  const SCRUBS_NEEDED = 5;
-  const BUBBLE_VELOCITY_THRESHOLD = 100;
-  const BUBBLE_POSITION_VARIANCE = 40;
-  const BUBBLE_POSITION_OFFSET = 20;
-  const BUBBLE_THROTTLE_MS = 100; // Minimum time between bubble creation
+  const SCRUBS_NEEDED = GAME_BALANCE.activities.bathe.scrubsNeeded;
+  const BUBBLE_VELOCITY_THRESHOLD = GAME_BALANCE.activities.bathe.bubble.velocityThreshold;
+  const BUBBLE_POSITION_VARIANCE = GAME_BALANCE.activities.bathe.bubble.positionVariance;
+  const BUBBLE_POSITION_OFFSET = GAME_BALANCE.activities.bathe.bubble.positionOffset;
+  const BUBBLE_THROTTLE_MS = TIMER_INTERVAL.BUBBLE_THROTTLE; // Minimum time between bubble creation
 
   const addBubble = (x: number, y: number) => {
     const now = Date.now();
@@ -134,7 +135,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
     const timeoutId = setTimeout(() => {
       setBubbles(prev => prev.filter(b => b.id !== newBubble.id));
       timeoutRefs.current.delete(timeoutId);
-    }, 1500);
+    }, GAME_BALANCE.activities.bathe.bubble.lifetimeMs);
     timeoutRefs.current.add(timeoutId);
   };
 
@@ -150,15 +151,15 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
     const newCount = scrubCount + 1;
     setScrubCount(newCount);
 
-    // Give 5% hygiene per scrub
-    bathe(5);
+    // Give hygiene per scrub
+    bathe(GAME_BALANCE.activities.bathe.perScrubAmount);
 
     if (newCount >= SCRUBS_NEEDED) {
       setAnimationState('bathing');
       setMessage(t('bath.bathing', { name: pet.name }));
 
-      // Give bonus 10% hygiene at the end (5 scrubs x 5% + 10% bonus = 35% total)
-      bathe(10);
+      // Give bonus hygiene at the end
+      bathe(GAME_BALANCE.activities.bathe.bonusAmount);
 
       // Base money earned for bathing
       const moneyEarned = AdsConfig.rewards.bathReward;
@@ -181,7 +182,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
 
   const panGesture = Gesture.Pan()
     .onUpdate((e) => {
-      translateX.value = e.translationX * 0.3;
+      translateX.value = e.translationX * UI.GESTURE.PAN_DAMPING;
     })
     .onEnd(() => {
       translateX.value = withSpring(0);
@@ -216,7 +217,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
     transform: [
       { translateX: spongeX.value },
       { translateY: spongeY.value },
-      { scale: isMoving.value ? withSpring(1.1) : withSpring(1) },
+      { scale: isMoving.value ? withSpring(UI.GESTURE.SPONGE_ACTIVE_SCALE) : withSpring(1) },
     ],
   }));
 

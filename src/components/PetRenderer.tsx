@@ -11,6 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { Pet, PetType, PetColor, AnimationState } from '../types';
 import { CLOTHING_ITEMS } from '../data/clothingItems';
+import { UI, PET_ANIMATION, STAT_THRESHOLDS } from '../config/constants';
 import { SpriteSheetAnimation } from './SpriteSheetAnimation';
 
 // Mapeamento de assets base
@@ -95,8 +96,7 @@ const SPRITE_SHEET_ASSETS: Record<
   },
 };
 
-// Dirt mark size ratio relative to pet size
-const DIRT_MARK_SIZE_RATIO = 0.071;
+// Dirt mark size ratio relative to pet size (imported from constants)
 
 type PetRendererProps = {
   pet: Pet;
@@ -143,11 +143,12 @@ export const PetRenderer: React.FC<PetRendererProps> = ({
         false
       );
     } else if (animationState === 'eating') {
-      // Gentle head bob: -5px up and down, 400ms duration each
+      // Gentle head bob: uses eating animation constants
+      const eating = PET_ANIMATION.EATING;
       translateY.value = withRepeat(
         withSequence(
-          withTiming(-5, { duration: 400, easing: Easing.inOut(Easing.ease) }),
-          withTiming(0, { duration: 400, easing: Easing.inOut(Easing.ease) })
+          withTiming(eating.bobAmount, { duration: eating.duration, easing: Easing.inOut(Easing.ease) }),
+          withTiming(0, { duration: eating.duration, easing: Easing.inOut(Easing.ease) })
         ),
         -1,
         false
@@ -164,11 +165,12 @@ export const PetRenderer: React.FC<PetRendererProps> = ({
         false
       );
     } else if (animationState === 'idle') {
-      // Subtle breathing: Scale 1.0 to 1.02 and back, 2000ms duration each way
+      // Subtle breathing: Scale using idle animation constants
+      const idle = PET_ANIMATION.IDLE;
       scale.value = withRepeat(
         withSequence(
-          withTiming(1.02, { duration: 2000, easing: Easing.inOut(Easing.ease) }),
-          withTiming(1.0, { duration: 2000, easing: Easing.inOut(Easing.ease) })
+          withTiming(idle.maxScale, { duration: idle.duration, easing: Easing.inOut(Easing.ease) }),
+          withTiming(1.0, { duration: idle.duration, easing: Easing.inOut(Easing.ease) })
         ),
         -1,
         false
@@ -193,12 +195,13 @@ export const PetRenderer: React.FC<PetRendererProps> = ({
 
   // Calculate number of dirt marks based on hygiene (one mark per 20% decrease)
   const getDirtMarksCount = () => {
-    if (pet.hygiene > 80) return 0;
-    if (pet.hygiene > 60) return 1;
-    if (pet.hygiene > 40) return 2;
-    if (pet.hygiene > 20) return 3;
-    if (pet.hygiene > 0) return 4;
-    return 5;
+    const { DIRT_MARKS } = STAT_THRESHOLDS;
+    if (pet.hygiene > DIRT_MARKS.NONE) return 0;
+    if (pet.hygiene > DIRT_MARKS.ONE) return 1;
+    if (pet.hygiene > DIRT_MARKS.TWO) return 2;
+    if (pet.hygiene > DIRT_MARKS.THREE) return 3;
+    if (pet.hygiene > DIRT_MARKS.FOUR) return 4;
+    return DIRT_MARKS.MAX;
   };
 
   const dirtMarksCount = getDirtMarksCount();
@@ -274,7 +277,7 @@ export const PetRenderer: React.FC<PetRendererProps> = ({
                 },
               ]}
             >
-              <Text style={[styles.dirtEmoji, { fontSize: size * DIRT_MARK_SIZE_RATIO }]}>💩</Text>
+              <Text style={[styles.dirtEmoji, { fontSize: size * UI.DIRT_MARK_SIZE_RATIO }]}>💩</Text>
             </View>
           ))}
         </Animated.View>

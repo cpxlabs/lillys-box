@@ -15,6 +15,7 @@ import { needsVet } from '../utils/petStats';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { PetRenderer } from '../components/PetRenderer';
 import { GAME_BALANCE } from '../config/gameBalance';
+import { COLORS } from '../config/constants';
 import { logger } from '../utils/logger';
 import { ScreenNavigationProp } from '../types/navigation';
 import { calculatePetAge } from '../utils/age';
@@ -126,9 +127,9 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
   };
 
   const getUrgencyColor = () => {
-    if (vetStatus === 'urgent') return '#EF5350';
-    if (vetStatus === 'suggested') return '#FFA726';
-    return '#4CAF50';
+    if (vetStatus === 'urgent') return COLORS.URGENCY.URGENT;
+    if (vetStatus === 'suggested') return COLORS.URGENCY.SUGGESTED;
+    return COLORS.URGENCY.NORMAL;
   };
 
   const getUrgencyMessage = () => {
