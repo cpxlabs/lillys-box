@@ -38,3 +38,4 @@ yarn-error.*
 .claude/
 .claude-session
 *.claude-context
+pnpm-lock.yaml
