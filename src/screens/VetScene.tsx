@@ -89,7 +89,18 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
   };
 
   const performVetVisit = (useMoney: boolean) => {
-    visitVet(useMoney);
+    const success = visitVet(useMoney);
+
+    if (!success) {
+      Alert.alert(
+        'Visit Failed',
+        useMoney
+          ? `You need ${GAME_BALANCE.activities.vet.cost} coins for a vet visit. You have ${pet.money} coins.`
+          : 'Unable to complete vet visit. Please try again.',
+        [{ text: 'OK' }]
+      );
+      return;
+    }
 
     Alert.alert(
       '✅ Checkup Complete!',
