@@ -6,18 +6,21 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Alert,
+  ScrollView,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { useRewardedAd } from '../hooks/useRewardedAd';
 import { needsVet } from '../utils/petStats';
-import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
+import { PetRenderer } from '../components/PetRenderer';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { logger } from '../utils/logger';
 import { ScreenNavigationProp } from '../types/navigation';
 import { calculatePetAge } from '../utils/age';
 import { useBackButton } from '../hooks/useBackButton';
+import { useResponsive } from '../hooks/useResponsive';
+import { PET_SIZE_SMALL, SCENE_TEXT_SIZE } from '../config/responsive';
 
 type Props = {
   navigation: ScreenNavigationProp<'Vet'>;
@@ -29,6 +32,10 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
   const { showRewardedAd, isAdReady } = useRewardedAd();
   const [isProcessing, setIsProcessing] = useState(false);
   const BackButtonIcon = useBackButton();
+  const { deviceType, spacing, fs } = useResponsive();
+
+  const petSize = PET_SIZE_SMALL[deviceType];
+  const textSizes = SCENE_TEXT_SIZE[deviceType];
 
   if (!pet) return null;
 
@@ -76,17 +83,10 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
 
     try {
       setIsProcessing(true);
-      const success = await showRewardedAd('vet_visit');
-
-      if (success) {
+      // Pass callback that will be executed when ad is completed successfully
+      await showRewardedAd(() => {
         performVetVisit(false);
-      } else {
-        Alert.alert(
-          'Ad Failed',
-          'Unable to show ad. Please try again.',
-          [{ text: 'OK' }]
-        );
-      }
+      });
     } catch (error) {
       logger.error('Error showing rewarded ad:', error);
       Alert.alert(
@@ -147,95 +147,115 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
         BackButtonIcon={BackButtonIcon}
       />
 
-      <View style={styles.content}>
-        {/* Status Card */}
-        <StatusCard
-          pet={pet}
-          petName={petNameDisplay}
-          petAge={petAgeDisplay}
-          compact
-        />
-
-        <View
-          style={[
-            styles.statusCard,
-            { borderColor: getUrgencyColor(), borderWidth: 2 },
-          ]}
-        >
-          <Text style={styles.petName}>{pet.name}'s Health</Text>
-          <View style={styles.healthContainer}>
-            <Text style={styles.healthEmoji}>
-              {vetStatus === 'urgent' ? '🚨' : vetStatus === 'suggested' ? '⚠️' : '✅'}
-            </Text>
-            <Text
-              style={[styles.healthValue, { color: getUrgencyColor() }]}
-            >
-              {Math.round(pet.health)}%
-            </Text>
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
+        <View style={[styles.content, { paddingHorizontal: spacing(12), paddingTop: spacing(10) }]}>
+          {/* Pet info header - simplified without energy/happiness */}
+          <View style={[styles.petInfoHeader, { borderRadius: spacing(10), padding: spacing(10), marginBottom: spacing(10) }]}>
+            <View style={styles.petInfoLeft}>
+              <Text style={[styles.petInfoName, { fontSize: textSizes.titleSize }]}>{petNameDisplay}</Text>
+              <Text style={[styles.petInfoAge, { fontSize: fs(13), marginTop: spacing(2) }]}>{petAgeDisplay}</Text>
+              <View style={[styles.moneyBadge, { paddingVertical: spacing(3), paddingHorizontal: spacing(8), borderRadius: spacing(6), marginTop: spacing(4) }]}>
+                <Text style={[styles.moneyText, { fontSize: fs(13) }]}>💰 {pet.money}</Text>
+              </View>
+            </View>
+            <View style={[styles.healthBadge, { padding: spacing(8), borderRadius: spacing(8) }]}>
+              <Text style={[styles.healthBadgeLabel, { fontSize: fs(11), marginBottom: spacing(2) }]}>Health</Text>
+              <Text style={[styles.healthBadgeValue, { fontSize: textSizes.titleSize, color: getUrgencyColor() }]}>
+                {Math.round(pet.health)}%
+              </Text>
+            </View>
           </View>
-          <Text style={styles.urgencyMessage}>{getUrgencyMessage()}</Text>
-        </View>
 
-        <View style={styles.benefitsCard}>
-          <Text style={styles.benefitsTitle}>Vet Visit Benefits:</Text>
-          <Text style={styles.benefitText}>
-            ❤️ Health restored to minimum {GAME_BALANCE.activities.vet.healthTarget}%
-          </Text>
-          <Text style={styles.benefitText}>
-            📈 All stats +{GAME_BALANCE.activities.vet.statBoost}
-          </Text>
-          <Text style={styles.benefitText}>
-            ⚡ Energy {GAME_BALANCE.activities.vet.energy} (checkup is stressful)
-          </Text>
-          <Text style={styles.benefitText}>
-            😊 Happiness {GAME_BALANCE.activities.vet.happiness} (temporary discomfort)
-          </Text>
-        </View>
+          {/* Main area with pet display */}
+          <View style={[styles.mainArea, { marginBottom: spacing(10) }]}>
+            {/* Pet display */}
+            <View style={[styles.petDisplay, { marginBottom: spacing(10) }]}>
+              <PetRenderer pet={pet} animationState="idle" size={petSize} />
+            </View>
 
-        <View style={styles.paymentOptions}>
+            {/* Health status card below pet */}
+            <View
+              style={[
+                styles.statusCard,
+                { borderColor: getUrgencyColor(), borderWidth: 2, borderRadius: spacing(10), padding: spacing(12), width: '70%' },
+              ]}
+            >
+              <View style={styles.healthContainer}>
+                <Text style={[styles.healthEmoji, { fontSize: fs(28), marginRight: spacing(6) }]}>
+                  {vetStatus === 'urgent' ? '🚨' : vetStatus === 'suggested' ? '⚠️' : '✅'}
+                </Text>
+                <Text
+                  style={[styles.healthValue, { fontSize: fs(28), color: getUrgencyColor() }]}
+                >
+                  {Math.round(pet.health)}%
+                </Text>
+              </View>
+              <Text style={[styles.urgencyMessage, { fontSize: fs(12), marginTop: spacing(6) }]}>{getUrgencyMessage()}</Text>
+            </View>
+
+            {/* Benefits sidebar on the right */}
+            <View style={[styles.benefitsSidebar, { borderRadius: spacing(10), padding: spacing(8), maxWidth: spacing(90) }]}>
+              <Text style={[styles.benefitsSidebarTitle, { fontSize: textSizes.sidebarTitle, marginBottom: spacing(4) }]}>Benefits</Text>
+              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2) }]}>
+                ❤️ Health to {GAME_BALANCE.activities.vet.healthTarget}%
+              </Text>
+              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2) }]}>
+                📈 Stats +{GAME_BALANCE.activities.vet.statBoost}
+              </Text>
+              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2) }]}>
+                ⚡ Energy {GAME_BALANCE.activities.vet.energy}
+              </Text>
+            </View>
+          </View>
+
+          {/* Payment options */}
+          <View style={[styles.paymentOptions, { marginBottom: spacing(12) }]}>
+            <TouchableOpacity
+              style={[
+                styles.payButton,
+                { paddingVertical: spacing(12), paddingHorizontal: spacing(16), borderRadius: spacing(10), marginBottom: spacing(6) },
+                !canAfford && styles.payButtonDisabled,
+              ]}
+              onPress={handlePayWithMoney}
+              disabled={!canAfford || isProcessing}
+            >
+              <Text style={[styles.payButtonText, { fontSize: textSizes.buttonText }]}>
+                💰 Pay {GAME_BALANCE.activities.vet.cost} Coins
+              </Text>
+              <Text style={[styles.payButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}>
+                You have: {pet.money} coins
+              </Text>
+            </TouchableOpacity>
+
+            <Text style={[styles.orText, { fontSize: fs(13), marginVertical: spacing(6) }]}>OR</Text>
+
+            <TouchableOpacity
+              style={[
+                styles.adButton,
+                { paddingVertical: spacing(12), paddingHorizontal: spacing(16), borderRadius: spacing(10) },
+                (!isAdReady || isProcessing) && styles.adButtonDisabled,
+              ]}
+              onPress={handleWatchAd}
+              disabled={!isAdReady || isProcessing}
+            >
+              <Text style={[styles.adButtonText, { fontSize: textSizes.buttonText }]}>
+                {isProcessing ? '⏳ Loading...' : '📺 Watch Ad (Free)'}
+              </Text>
+              {!isAdReady && !isProcessing && (
+                <Text style={[styles.adButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}>Ad loading...</Text>
+              )}
+            </TouchableOpacity>
+          </View>
+
           <TouchableOpacity
-            style={[
-              styles.payButton,
-              !canAfford && styles.payButtonDisabled,
-            ]}
-            onPress={handlePayWithMoney}
-            disabled={!canAfford || isProcessing}
+            style={[styles.backButton, { padding: spacing(8) }]}
+            onPress={() => navigation.goBack()}
+            disabled={isProcessing}
           >
-            <Text style={styles.payButtonText}>
-              💰 Pay {GAME_BALANCE.activities.vet.cost} Coins
-            </Text>
-            <Text style={styles.payButtonSubtext}>
-              You have: {pet.money} coins
-            </Text>
-          </TouchableOpacity>
-
-          <Text style={styles.orText}>OR</Text>
-
-          <TouchableOpacity
-            style={[
-              styles.adButton,
-              (!isAdReady || isProcessing) && styles.adButtonDisabled,
-            ]}
-            onPress={handleWatchAd}
-            disabled={!isAdReady || isProcessing}
-          >
-            <Text style={styles.adButtonText}>
-              {isProcessing ? '⏳ Loading...' : '📺 Watch Ad (Free)'}
-            </Text>
-            {!isAdReady && !isProcessing && (
-              <Text style={styles.adButtonSubtext}>Ad loading...</Text>
-            )}
+            <Text style={[styles.backButtonText, { fontSize: fs(14) }]}>Back</Text>
           </TouchableOpacity>
         </View>
-
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-          disabled={isProcessing}
-        >
-          <Text style={styles.backButtonText}>Back</Text>
-        </TouchableOpacity>
-      </View>
+      </ScrollView>
     </SafeAreaView>
   );
 };
@@ -245,77 +265,132 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#E8F5E9',
   },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    flexGrow: 1,
+  },
   content: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingHorizontal: 16,
+    paddingTop: 12,
   },
-  title: {
-    fontSize: 32,
+  petInfoHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 12,
+    marginBottom: 12,
+  },
+  petInfoLeft: {
+    flex: 1,
+  },
+  petInfoName: {
+    fontSize: 18,
     fontWeight: 'bold',
-    color: '#2E7D32',
-    textAlign: 'center',
-    marginBottom: 20,
+    color: '#333',
+  },
+  petInfoAge: {
+    fontSize: 14,
+    color: '#666',
+    marginTop: 2,
+  },
+  moneyBadge: {
+    backgroundColor: '#FFD700',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 8,
+    alignSelf: 'flex-start',
+    marginTop: 6,
+  },
+  moneyText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  healthBadge: {
+    alignItems: 'center',
+    backgroundColor: '#f5f5f5',
+    padding: 10,
+    borderRadius: 10,
+  },
+  healthBadgeLabel: {
+    fontSize: 12,
+    color: '#666',
+    marginBottom: 2,
+  },
+  healthBadgeValue: {
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  mainArea: {
+    position: 'relative',
+    alignItems: 'center',
+    marginBottom: 12,
+  },
+  petDisplay: {
+    alignItems: 'center',
+    marginBottom: 12,
   },
   statusCard: {
     backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 20,
+    borderRadius: 12,
+    padding: 16,
     alignItems: 'center',
-  },
-  petName: {
-    fontSize: 24,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 10,
+    width: '70%',
   },
   healthContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 10,
   },
   healthEmoji: {
-    fontSize: 40,
-    marginRight: 10,
+    fontSize: 32,
+    marginRight: 8,
   },
   healthValue: {
-    fontSize: 40,
+    fontSize: 32,
     fontWeight: 'bold',
   },
   urgencyMessage: {
-    fontSize: 16,
-    color: '#666',
-    textAlign: 'center',
-    marginTop: 10,
-  },
-  benefitsCard: {
-    backgroundColor: 'rgba(255, 255, 255, 0.9)',
-    borderRadius: 12,
-    padding: 16,
-    marginBottom: 20,
-  },
-  benefitsTitle: {
-    fontSize: 18,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 10,
-  },
-  benefitText: {
     fontSize: 14,
     color: '#666',
-    marginVertical: 4,
+    textAlign: 'center',
+    marginTop: 8,
+  },
+  benefitsSidebar: {
+    position: 'absolute',
+    right: 0,
+    top: '25%',
+    backgroundColor: 'rgba(46, 125, 50, 0.9)',
+    borderRadius: 12,
+    padding: 10,
+    maxWidth: 110,
+  },
+  benefitsSidebarTitle: {
+    color: '#fff',
+    fontSize: 13,
+    fontWeight: '700',
+    marginBottom: 6,
+    textAlign: 'center',
+  },
+  benefitsSidebarText: {
+    color: '#fff',
+    fontSize: 11,
+    marginVertical: 2,
   },
   paymentOptions: {
-    marginBottom: 20,
+    marginBottom: 16,
   },
   payButton: {
     backgroundColor: '#4CAF50',
-    paddingVertical: 16,
-    paddingHorizontal: 24,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
     borderRadius: 12,
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 8,
   },
   payButtonDisabled: {
     backgroundColor: '#ccc',
@@ -323,26 +398,26 @@ const styles = StyleSheet.create({
   },
   payButtonText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
   },
   payButtonSubtext: {
     color: '#fff',
-    fontSize: 14,
-    marginTop: 4,
+    fontSize: 13,
+    marginTop: 3,
     opacity: 0.9,
   },
   orText: {
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 14,
     color: '#666',
-    marginVertical: 10,
+    marginVertical: 8,
     fontWeight: '600',
   },
   adButton: {
     backgroundColor: '#2196F3',
-    paddingVertical: 16,
-    paddingHorizontal: 24,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
     borderRadius: 12,
     alignItems: 'center',
   },
@@ -352,21 +427,21 @@ const styles = StyleSheet.create({
   },
   adButtonText: {
     color: '#fff',
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: '600',
   },
   adButtonSubtext: {
     color: '#fff',
-    fontSize: 14,
-    marginTop: 4,
+    fontSize: 13,
+    marginTop: 3,
     opacity: 0.9,
   },
   backButton: {
-    padding: 12,
+    padding: 10,
     alignItems: 'center',
   },
   backButtonText: {
     color: '#666',
-    fontSize: 16,
+    fontSize: 15,
   },
 });

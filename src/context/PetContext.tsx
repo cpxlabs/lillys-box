@@ -21,7 +21,6 @@ type PetContextType = {
   exercise: () => void;
   petCuddle: () => void;
   setClothing: (slot: ClothingSlot, itemId: string | null) => void;
-  setBackground: (backgroundId: string | null) => void;
   removePet: () => Promise<void>;
   earnMoney: (amount: number) => void;
 };
@@ -114,7 +113,6 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         torso: null,
         paws: null,
       },
-      background: null,
       createdAt: Date.now(),
       lastUpdated: Date.now(),
       isSleeping: false,
@@ -273,14 +271,20 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   };
 
   const visitVet = (useMoney: boolean = true): boolean => {
-    if (!pet) return false;
+    if (!pet) {
+      logger.error('visitVet: No pet exists');
+      return false;
+    }
 
     const effects = GAME_BALANCE.activities.vet;
 
     // Check if can afford
     if (useMoney && pet.money < effects.cost) {
+      logger.error(`visitVet: Insufficient funds - has ${pet.money}, needs ${effects.cost}`);
       return false;
     }
+
+    logger.info(`visitVet: Starting vet visit (useMoney: ${useMoney})`)
 
     setPet((currentPet) => {
       if (!currentPet) return currentPet;
@@ -360,19 +364,6 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     });
   };
 
-  const setBackground = (backgroundId: string | null) => {
-    setPet((currentPet) => {
-      if (!currentPet) return currentPet;
-      
-      const updatedPet: Pet = {
-        ...currentPet,
-        background: backgroundId,
-      };
-      savePet(updatedPet).catch(logger.error);
-      return updatedPet;
-    });
-  };
-
   const removePet = async () => {
     await deletePet();
     setPet(null);
@@ -406,7 +397,6 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         exercise,
         petCuddle,
         setClothing,
-        setBackground,
         removePet,
         earnMoney,
       }}

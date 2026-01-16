@@ -1,5 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useResponsive } from '../hooks/useResponsive';
+import { STATUS_BAR_SIZE } from '../config/responsive';
 
 type StatusBarProps = {
   label: string;
@@ -16,22 +18,53 @@ export const StatusBar: React.FC<StatusBarProps> = ({
   emoji,
   showPercentage = true,
 }) => {
+  const { deviceType, spacing } = useResponsive();
+  const sizes = STATUS_BAR_SIZE[deviceType];
+
+  const dynamicStyles = {
+    container: {
+      marginVertical: spacing(2),
+      paddingHorizontal: spacing(2),
+    },
+    emoji: {
+      fontSize: sizes.emojiSize,
+      marginRight: spacing(3),
+    },
+    label: {
+      fontSize: sizes.fontSize,
+      marginBottom: spacing(1),
+    },
+    barBackground: {
+      height: sizes.barHeight,
+      borderRadius: sizes.barHeight / 2,
+    },
+    barFill: {
+      borderRadius: sizes.barHeight / 2,
+    },
+    value: {
+      fontSize: sizes.fontSize,
+      marginLeft: spacing(4),
+      width: spacing(28),
+    },
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.emoji}>{emoji}</Text>
+    <View style={[styles.container, dynamicStyles.container]}>
+      <Text style={[styles.emoji, dynamicStyles.emoji]}>{emoji}</Text>
       <View style={styles.barContainer}>
-        <Text style={styles.label}>{label}</Text>
-        <View style={styles.barBackground}>
+        <Text style={[styles.label, dynamicStyles.label]}>{label}</Text>
+        <View style={[styles.barBackground, dynamicStyles.barBackground]}>
           <View
             style={[
               styles.barFill,
+              dynamicStyles.barFill,
               { width: `${value}%`, backgroundColor: color },
             ]}
           />
         </View>
       </View>
       {showPercentage && (
-        <Text style={styles.value}>{Math.round(value)}%</Text>
+        <Text style={[styles.value, dynamicStyles.value]}>{Math.round(value)}%</Text>
       )}
     </View>
   );
@@ -41,38 +74,25 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginVertical: 2,
-    paddingHorizontal: 2,
   },
-  emoji: {
-    fontSize: 14,
-    marginRight: 4,
-  },
+  emoji: {},
   barContainer: {
     flex: 1,
   },
   label: {
-    fontSize: 10,
     fontWeight: '600',
     color: '#666',
-    marginBottom: 2,
   },
   barBackground: {
-    height: 8,
     backgroundColor: '#e0e0e0',
-    borderRadius: 4,
     overflow: 'hidden',
   },
   barFill: {
     height: '100%',
-    borderRadius: 4,
   },
   value: {
-    fontSize: 11,
     fontWeight: '600',
     color: '#333',
-    marginLeft: 6,
-    width: 35,
     textAlign: 'right',
   },
 });

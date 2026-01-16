@@ -26,7 +26,6 @@ export type Pet = {
   health: number; // 0-100 (calculated)
 
   clothes: Record<ClothingSlot, string | null>;
-  background: string | null; // selected background image
   createdAt: number;
   lastUpdated: number; // Track last update time
   isSleeping?: boolean; // Track sleep state

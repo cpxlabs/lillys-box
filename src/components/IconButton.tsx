@@ -6,6 +6,8 @@ import {
   ViewStyle,
 } from 'react-native';
 import { hapticFeedback } from '../utils/haptics';
+import { useResponsive } from '../hooks/useResponsive';
+import { ICON_BUTTON_SIZE } from '../config/responsive';
 
 type IconButtonProps = {
   emoji: string;
@@ -22,14 +24,31 @@ export const IconButton: React.FC<IconButtonProps> = React.memo(({
   style,
   disabled = false,
 }) => {
+  const { deviceType, spacing } = useResponsive();
+  const sizes = ICON_BUTTON_SIZE[deviceType];
+
   const handlePress = () => {
     hapticFeedback.light();
     onPress();
   };
 
+  const dynamicStyles = {
+    button: {
+      minWidth: sizes.width,
+      padding: sizes.padding,
+      borderRadius: spacing(12),
+    },
+    emoji: {
+      fontSize: sizes.emoji,
+    },
+    label: {
+      fontSize: sizes.label,
+    },
+  };
+
   return (
     <TouchableOpacity
-      style={[styles.button, style, disabled && styles.disabled]}
+      style={[styles.button, dynamicStyles.button, style, disabled && styles.disabled]}
       onPress={handlePress}
       disabled={disabled}
       activeOpacity={0.7}
@@ -37,8 +56,8 @@ export const IconButton: React.FC<IconButtonProps> = React.memo(({
       accessibilityLabel={label}
       accessibilityState={{ disabled }}
     >
-      <Text style={styles.emoji}>{emoji}</Text>
-      <Text style={styles.label}>{label}</Text>
+      <Text style={[styles.emoji, dynamicStyles.emoji]}>{emoji}</Text>
+      <Text style={[styles.label, dynamicStyles.label]}>{label}</Text>
     </TouchableOpacity>
   );
 });
@@ -48,11 +67,8 @@ IconButton.displayName = 'IconButton';
 const styles = StyleSheet.create({
   button: {
     backgroundColor: '#fff',
-    borderRadius: 16,
-    padding: 16,
     alignItems: 'center',
     justifyContent: 'center',
-    minWidth: 80,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
@@ -63,12 +79,11 @@ const styles = StyleSheet.create({
     opacity: 0.5,
   },
   emoji: {
-    fontSize: 32,
     marginBottom: 4,
   },
   label: {
-    fontSize: 12,
     fontWeight: '600',
     color: '#333',
+    textAlign: 'center',
   },
 });

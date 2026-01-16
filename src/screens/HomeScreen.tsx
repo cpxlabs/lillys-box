@@ -14,6 +14,8 @@ import { AdsConfig } from '../config/ads.config';
 import { needsVet, hasWarningStats } from '../utils/petStats';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useResponsive } from '../hooks/useResponsive';
+import { PET_SIZE } from '../config/responsive';
 
 type Props = {
   navigation: ScreenNavigationProp<'Home'>;
@@ -24,6 +26,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { showToast } = useToast();
   const { t } = useTranslation();
   const [showMenuConfirm, setShowMenuConfirm] = useState(false);
+  const { deviceType, spacing, fs } = useResponsive();
 
   if (!pet) {
     return null;
@@ -36,6 +39,9 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
+
+  // Responsive pet size
+  const petSize = PET_SIZE[deviceType];
 
   const handleMenuPress = () => {
     setShowMenuConfirm(true);
@@ -52,6 +58,26 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
     showToast(t('home.bonusEarned', { amount: bonusCoins }), 'success');
   };
 
+  // Dynamic styles based on device
+  const dynamicStyles = {
+    warningText: {
+      fontSize: fs(13),
+      marginTop: spacing(6),
+      paddingHorizontal: spacing(16),
+    },
+    rewardedAdContainer: {
+      paddingHorizontal: spacing(12),
+      paddingVertical: spacing(6),
+    },
+    actionsContainer: {
+      gap: spacing(10),
+      padding: spacing(12),
+      paddingBottom: spacing(8),
+      borderTopLeftRadius: spacing(20),
+      borderTopRightRadius: spacing(20),
+    },
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       {/* Unified Status Card with Pet Name, Age, Money and Status Bars */}
@@ -61,13 +87,13 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
         petAge={petAgeDisplay}
       />
       {hasWarnings && (
-        <Text style={styles.warningText}>
+        <Text style={[styles.warningText, dynamicStyles.warningText]}>
           {t('home.warningAttention')}
         </Text>
       )}
 
       {/* Rewarded Ad Button for Bonus Coins */}
-      <View style={styles.rewardedAdContainer}>
+      <View style={[styles.rewardedAdContainer, dynamicStyles.rewardedAdContainer]}>
         <RewardedAdButton
           rewardText={t('home.watchAndEarn', { amount: AdsConfig.rewards.videoWatchBonus })}
           onRewardEarned={handleRewardedAdCompleted}
@@ -75,10 +101,10 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={styles.petContainer}>
-        <PetRenderer pet={pet} size={420} />
+        <PetRenderer pet={pet} size={petSize} />
       </View>
 
-      <View style={styles.actionsContainer}>
+      <View style={[styles.actionsContainer, dynamicStyles.actionsContainer]}>
         <IconButton
           emoji="🍖"
           label={t('home.actions.feed')}
@@ -111,11 +137,6 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
           onPress={() => navigation.navigate('Play')}
         />
         <IconButton
-          emoji="🖼️"
-          label={t('home.actions.background')}
-          onPress={() => navigation.navigate('Background')}
-        />
-        <IconButton
           emoji="🏠"
           label={t('home.actions.menu')}
           onPress={handleMenuPress}
@@ -146,15 +167,9 @@ const styles = StyleSheet.create({
   warningText: {
     textAlign: 'center',
     color: '#F44336',
-    fontSize: 14,
     fontWeight: '600',
-    marginTop: 8,
-    paddingHorizontal: 16,
   },
-  rewardedAdContainer: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-  },
+  rewardedAdContainer: {},
   petContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -163,12 +178,9 @@ const styles = StyleSheet.create({
   actionsContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-evenly',
-    gap: 12,
-    padding: 16,
+    justifyContent: 'center',
+    alignContent: 'flex-start',
     backgroundColor: '#fff',
-    borderTopLeftRadius: 24,
-    borderTopRightRadius: 24,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: -2 },
     shadowOpacity: 0.1,

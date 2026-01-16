@@ -20,6 +20,8 @@ import { AdsConfig } from '../config/ads.config';
 import { ScreenNavigationProp } from '../types/navigation';
 import { ANIMATION_DURATION } from '../config/constants';
 import { calculatePetAge } from '../utils/age';
+import { useResponsive } from '../hooks/useResponsive';
+import { ACTION_PET_SIZE, ACTION_BUTTON_SIZE, SCENE_TEXT_SIZE } from '../config/responsive';
 
 type Props = {
   navigation: ScreenNavigationProp<'Play'>;
@@ -38,7 +40,12 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
   const [animationState, setAnimationState] = useState<AnimationState>('idle');
   const [message, setMessage] = useState('');
   const BackButtonIcon = useBackButton();
-  
+  const { deviceType, spacing, fs } = useResponsive();
+
+  const petSize = ACTION_PET_SIZE[deviceType];
+  const buttonSizes = ACTION_BUTTON_SIZE[deviceType];
+  const textSizes = SCENE_TEXT_SIZE[deviceType];
+
   const {
     currentItem: currentActivity,
     currentIndex,
@@ -92,42 +99,42 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
       />
 
       <View style={styles.petContainer}>
-        <PetRenderer pet={pet} animationState={animationState} size={375} />
-        {message ? <Text style={styles.message}>{message}</Text> : null}
+        <PetRenderer pet={pet} animationState={animationState} size={petSize} />
+        {message ? <Text style={[styles.message, { fontSize: textSizes.messageSize }]}>{message}</Text> : null}
       </View>
 
-      <View style={styles.activitiesContainer}>
-        <Text style={styles.activitiesTitle}>Escolha a atividade:</Text>
-        
+      <View style={[styles.activitiesContainer, { padding: spacing(16), borderTopLeftRadius: spacing(20), borderTopRightRadius: spacing(20) }]}>
+        <Text style={[styles.activitiesTitle, { fontSize: textSizes.titleSize, marginBottom: spacing(12) }]}>Escolha a atividade:</Text>
+
         {/* Navigation arrows and current activity display */}
-        <View style={styles.navigationContainer}>
+        <View style={[styles.navigationContainer, { marginBottom: spacing(10) }]}>
           <TouchableOpacity
-            style={styles.arrowButton}
+            style={[styles.arrowButton, { width: buttonSizes.arrowSize, height: buttonSizes.arrowSize, borderRadius: buttonSizes.arrowSize / 2, marginHorizontal: spacing(6) }]}
             onPress={goToPrevious}
             disabled={animationState !== 'idle'}
           >
-            <Text style={styles.arrowText}>←</Text>
+            <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>←</Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity
-            style={styles.currentActivityButton}
+            style={[styles.currentActivityButton, { minWidth: buttonSizes.itemWidth, padding: buttonSizes.itemPadding, borderRadius: spacing(16) }]}
             onPress={() => handlePlay(currentActivity)}
             disabled={animationState !== 'idle'}
           >
-            <Text style={styles.currentActivityEmoji}>{currentActivity.emoji}</Text>
-            <Text style={styles.currentActivityName}>{currentActivity.name}</Text>
+            <Text style={[styles.currentActivityEmoji, { fontSize: buttonSizes.itemEmoji, marginBottom: spacing(6) }]}>{currentActivity.emoji}</Text>
+            <Text style={[styles.currentActivityName, { fontSize: buttonSizes.itemFont }]}>{currentActivity.name}</Text>
           </TouchableOpacity>
-          
+
           <TouchableOpacity
-            style={styles.arrowButton}
+            style={[styles.arrowButton, { width: buttonSizes.arrowSize, height: buttonSizes.arrowSize, borderRadius: buttonSizes.arrowSize / 2, marginHorizontal: spacing(6) }]}
             onPress={goToNext}
             disabled={animationState !== 'idle'}
           >
-            <Text style={styles.arrowText}>→</Text>
+            <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>→</Text>
           </TouchableOpacity>
         </View>
-        
-        <Text style={styles.pageIndicator}>
+
+        <Text style={[styles.pageIndicator, { fontSize: fs(13), marginBottom: spacing(12) }]}>
           {currentIndex + 1} / {totalItems}
         </Text>
       </View>

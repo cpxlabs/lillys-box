@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Pet } from '../types';
 import { EnhancedStatusBar } from './EnhancedStatusBar';
+import { useResponsive } from '../hooks/useResponsive';
 
 type StatusCardProps = {
   pet: Pet;
@@ -16,16 +17,47 @@ export const StatusCard: React.FC<StatusCardProps> = ({
   petName,
   petAge,
 }) => {
+  const { fs, spacing } = useResponsive();
+
+  const dynamicStyles = {
+    card: {
+      marginHorizontal: spacing(compact ? 8 : 10),
+      marginVertical: spacing(compact ? 4 : 6),
+      padding: spacing(compact ? 8 : 10),
+      borderRadius: spacing(10),
+    },
+    petName: {
+      fontSize: fs(compact ? 14 : 15),
+      marginBottom: spacing(3),
+    },
+    petAge: {
+      fontSize: fs(compact ? 11 : 12),
+      marginBottom: spacing(5),
+    },
+    moneyContainer: {
+      paddingVertical: spacing(2),
+      paddingHorizontal: spacing(6),
+      borderRadius: spacing(5),
+    },
+    coinIcon: {
+      fontSize: fs(12),
+      marginRight: spacing(2),
+    },
+    moneyValue: {
+      fontSize: fs(12),
+    },
+  };
+
   return (
-    <View style={[styles.card, compact && styles.cardCompact]}>
+    <View style={[styles.card, dynamicStyles.card]}>
       <View style={styles.splitLayout}>
         {/* Left Column (30%): Pet Info */}
         <View style={styles.leftColumn}>
-          <Text style={styles.petName}>{petName}</Text>
-          <Text style={styles.petAge}>{petAge}</Text>
-          <View style={styles.moneyContainer}>
-            <Text style={styles.coinIcon}>💰</Text>
-            <Text style={styles.moneyValue}>{pet.money ?? 0}</Text>
+          <Text style={[styles.petName, dynamicStyles.petName]}>{petName}</Text>
+          <Text style={[styles.petAge, dynamicStyles.petAge]}>{petAge}</Text>
+          <View style={[styles.moneyContainer, dynamicStyles.moneyContainer]}>
+            <Text style={[styles.coinIcon, dynamicStyles.coinIcon]}>💰</Text>
+            <Text style={[styles.moneyValue, dynamicStyles.moneyValue]}>{pet.money ?? 0}</Text>
           </View>
         </View>
 
@@ -49,20 +81,11 @@ export const StatusCard: React.FC<StatusCardProps> = ({
 const styles = StyleSheet.create({
   card: {
     backgroundColor: '#ffffff',
-    borderRadius: 12,
-    marginHorizontal: 12,
-    marginVertical: 6,
-    padding: 10,
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.08,
     shadowRadius: 4,
     elevation: 3,
-  },
-  cardCompact: {
-    marginHorizontal: 8,
-    marginVertical: 4,
-    padding: 8,
   },
   splitLayout: {
     flexDirection: 'row',
@@ -70,41 +93,30 @@ const styles = StyleSheet.create({
   },
   leftColumn: {
     width: '30%',
-    paddingRight: 8,
+    paddingRight: 6,
   },
   middleColumn: {
     width: '40%',
   },
   rightColumn: {
     width: '30%',
-    paddingLeft: 8,
+    paddingLeft: 6,
   },
   petName: {
-    fontSize: 16,
     fontWeight: 'bold',
     color: '#333',
-    marginBottom: 4,
   },
   petAge: {
-    fontSize: 12,
     color: '#666',
-    marginBottom: 6,
   },
   moneyContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFD700',
-    paddingVertical: 3,
-    paddingHorizontal: 8,
-    borderRadius: 6,
     alignSelf: 'flex-start',
   },
-  coinIcon: {
-    fontSize: 14,
-    marginRight: 3,
-  },
+  coinIcon: {},
   moneyValue: {
-    fontSize: 14,
     fontWeight: 'bold',
     color: '#333',
   },
