@@ -59,7 +59,6 @@
       "veterinarian": "Veterinarian",
       "clothes": "Clothes",
       "play": "Play",
-      "background": "Background",
       "menu": "Menu"
     },
     "menuModal": {
@@ -169,18 +168,6 @@
       "paws": "Paws"
     },
     "none": "None"
-  },
-  "background": {
-    "title": "🖼️ Background",
-    "choose": "Choose the background:",
-    "backgrounds": {
-      "none": "None",
-      "park": "Park",
-      "beach": "Beach",
-      "home": "Home"
-    },
-    "selected": "Background \"{{name}}\" selected! 🎨",
-    "selectedIndicator": "✓ Selected"
   },
   "rewards": {
     "doubleReward": {

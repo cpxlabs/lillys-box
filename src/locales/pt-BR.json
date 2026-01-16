@@ -59,7 +59,6 @@
       "veterinarian": "Veterinário",
       "clothes": "Roupas",
       "play": "Brincar",
-      "background": "Cenário",
       "menu": "Menu"
     },
     "menuModal": {
@@ -169,18 +168,6 @@
       "paws": "Patas"
     },
     "none": "Nenhum"
-  },
-  "background": {
-    "title": "🖼️ Cenário",
-    "choose": "Escolha o cenário:",
-    "backgrounds": {
-      "none": "Nenhum",
-      "park": "Parque",
-      "beach": "Praia",
-      "home": "Casa"
-    },
-    "selected": "Fundo \"{{name}}\" selecionado! 🎨",
-    "selectedIndicator": "✓ Selecionado"
   },
   "rewards": {
     "doubleReward": {

@@ -34,8 +34,6 @@ export type RootStackParamList = {
   Vet: undefined;
   /** Wardrobe customization scene */
   Wardrobe: undefined;
-  /** Background selection scene */
-  Background: undefined;
 };
 
 /**
