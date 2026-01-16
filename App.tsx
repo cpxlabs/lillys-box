@@ -5,6 +5,7 @@ import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
 import './src/i18n'; // Initialize i18n
+import { ErrorBoundary } from './src/components/ErrorBoundary';
 import { LanguageProvider } from './src/context/LanguageContext';
 import { PetProvider, usePet } from './src/context/PetContext';
 import { ToastProvider } from './src/context/ToastContext';
@@ -76,17 +77,19 @@ export default function App() {
   }, []);
 
   return (
-    <GestureHandlerRootView style={{ flex: 1 }}>
-      <LanguageProvider>
-        <PetProvider>
-          <AdProvider>
-            <ToastProvider>
-              <AppNavigator />
-            </ToastProvider>
-          </AdProvider>
-        </PetProvider>
-      </LanguageProvider>
-    </GestureHandlerRootView>
+    <ErrorBoundary>
+      <GestureHandlerRootView style={{ flex: 1 }}>
+        <LanguageProvider>
+          <PetProvider>
+            <AdProvider>
+              <ToastProvider>
+                <AppNavigator />
+              </ToastProvider>
+            </AdProvider>
+          </PetProvider>
+        </LanguageProvider>
+      </GestureHandlerRootView>
+    </ErrorBoundary>
   );
 }
 

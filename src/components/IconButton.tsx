@@ -5,6 +5,7 @@ import {
   StyleSheet,
   ViewStyle,
 } from 'react-native';
+import { hapticFeedback } from '../utils/haptics';
 
 type IconButtonProps = {
   emoji: string;
@@ -14,25 +15,35 @@ type IconButtonProps = {
   disabled?: boolean;
 };
 
-export const IconButton: React.FC<IconButtonProps> = ({
+export const IconButton: React.FC<IconButtonProps> = React.memo(({
   emoji,
   label,
   onPress,
   style,
   disabled = false,
 }) => {
+  const handlePress = () => {
+    hapticFeedback.light();
+    onPress();
+  };
+
   return (
     <TouchableOpacity
       style={[styles.button, style, disabled && styles.disabled]}
-      onPress={onPress}
+      onPress={handlePress}
       disabled={disabled}
       activeOpacity={0.7}
+      accessibilityRole="button"
+      accessibilityLabel={label}
+      accessibilityState={{ disabled }}
     >
       <Text style={styles.emoji}>{emoji}</Text>
       <Text style={styles.label}>{label}</Text>
     </TouchableOpacity>
   );
-};
+});
+
+IconButton.displayName = 'IconButton';
 
 const styles = StyleSheet.create({
   button: {
