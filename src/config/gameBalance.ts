@@ -30,6 +30,19 @@ export const GAME_BALANCE = {
       hunger: -10,
       energy: -8,
       happiness: 5,
+      /** Number of scrubs needed to complete bathing */
+      scrubsNeeded: 5,
+      /** Hygiene gained per scrub */
+      perScrubAmount: 5,
+      /** Bonus hygiene when all scrubs completed */
+      bonusAmount: 10,
+      /** Bubble effect configuration */
+      bubble: {
+        velocityThreshold: 100,
+        positionVariance: 40,
+        positionOffset: 20,
+        lifetimeMs: 1500,
+      },
     },
     play: {
       happiness: 20,
