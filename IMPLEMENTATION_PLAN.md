@@ -3,6 +3,19 @@
 ## Overview
 This document outlines the implementation plan for vet healing logic, card stats UI improvements, food system updates, and responsive design documentation.
 
+**Status**: ✅ APPROVED - Blockers Resolved (2026-01-16)
+
+## Validation Decisions
+
+**Blocker #1 (VET Healing)**: RESOLVED - Using **Option B (Guaranteed Minimum)**
+- Antibiotic: Guarantees minimum 50% health
+- Anti-inflammatory: Guarantees minimum 80% health
+
+**Blocker #2 (Food Economy)**: RESOLVED - Using **Option A (Remove Rewards, Boost Income)**
+- Remove feeding ad rewards entirely
+- Play income: +5 → +15 coins (3x increase)
+- Exercise income: +10 → +25 coins (2.5x increase)
+
 ---
 
 ## 1. VET HEALING LOGIC
@@ -21,13 +34,21 @@ This document outlines the implementation plan for vet healing logic, card stats
 
 **1. Antibiotic**
 - **Cost**: 30 coins OR watch ad (if no money)
-- **Effect**: +50% health (add 50 to current health, max 100)
+- **Effect**: Guarantees minimum 50% health (uses Math.max)
 - **Use Case**: Minor health issues, budget-friendly option
+- **Examples**:
+  - Pet at 10% health → 50% health
+  - Pet at 45% health → 50% health
+  - Pet at 60% health → 60% health (no change, already above minimum)
 
 **2. Anti-inflammatory**
 - **Cost**: 50 coins (no ad option)
-- **Effect**: +80% health (add 80 to current health, max 100)
+- **Effect**: Guarantees minimum 80% health (uses Math.max)
 - **Use Case**: Serious health issues, premium option
+- **Examples**:
+  - Pet at 10% health → 80% health
+  - Pet at 50% health → 80% health
+  - Pet at 90% health → 90% health (no change, already above minimum)
 
 #### Implementation Steps:
 
@@ -36,12 +57,12 @@ This document outlines the implementation plan for vet healing logic, card stats
    vet: {
      antibiotic: {
        cost: 30,
-       healthBoost: 50,
+       healthTarget: 50,  // Minimum guaranteed health
        allowAds: true,
      },
      antiInflammatory: {
        cost: 50,
-       healthBoost: 80,
+       healthTarget: 80,  // Minimum guaranteed health
        allowAds: false,
      },
    }
@@ -49,7 +70,7 @@ This document outlines the implementation plan for vet healing logic, card stats
 
 2. **Update `src/context/PetContext.tsx`**
    - Modify `visitVet()` to accept treatment type parameter
-   - Change from setting health target to adding health boost
+   - Use Math.max() to guarantee minimum health
    ```typescript
    const visitVet = (treatmentType: 'antibiotic' | 'antiInflammatory', useMoney: boolean = true): boolean => {
      const effects = GAME_BALANCE.activities.vet[treatmentType];
@@ -57,7 +78,8 @@ This document outlines the implementation plan for vet healing logic, card stats
      if (useMoney && pet.money < effects.cost) return false;
      if (!useMoney && !effects.allowAds) return false;
 
-     updatedPet.health = Math.min(100, calculateHealth(updatedPet) + effects.healthBoost);
+     // Guarantee minimum health, but keep higher health if pet already has it
+     updatedPet.health = Math.max(effects.healthTarget, calculateHealth(updatedPet));
      if (useMoney) updatedPet.money -= effects.cost;
 
      return true;
@@ -129,10 +151,16 @@ This document outlines the implementation plan for vet healing logic, card stats
   - Fish 🐟: +25 hunger
   - Treat 🦴: +15 hunger
   - Milk 🥛: +10 hunger
-- Free to feed (players earn money from feeding)
+- Free to feed (players earn money from feeding via ads)
 - Base effects: +25 hunger, +5 energy, +3 happiness, -2 hygiene
 
 ### Proposed Changes
+
+#### Economy Restructure (Option A)
+**REMOVE**: Feeding ad rewards system entirely
+**INCREASE**: Money earned from other activities:
+- Play: +5 → +15 coins (3x increase)
+- Exercise: +10 → +25 coins (2.5x increase)
 
 #### Increase Food Percentages
 - Kibble: 20 → 30
@@ -145,6 +173,13 @@ This document outlines the implementation plan for vet healing logic, card stats
 - Fish: 20 coins
 - Treat: 18 coins
 - Milk: 15 coins
+
+#### Game Balance Calculation
+```
+Daily food needs: ~4 feedings × 15-20 coins = 60-80 coins
+Daily income: Play (3×) = 45 coins + Exercise (2×) = 50 coins = 95 coins
+Net balance: +15 to +35 coins/day (sustainable)
+```
 
 #### Implementation Steps:
 
@@ -179,98 +214,106 @@ This document outlines the implementation plan for vet healing logic, card stats
    - Show cost on food buttons (e.g., "🍖 15 💰")
    - Disable food button if insufficient funds
    - Update handleFeed to pass cost
-   - Consider removing "earn money from feeding" mechanic or adjust balance
+   - **REMOVE**: All feeding ad reward logic (moneyEarned, triggerReward, DoubleRewardModal)
+   - **REMOVE**: useDoubleReward hook usage
+   - Simplify handleFeed to only deduct cost and apply feeding effects
 
-4. **Update Translation Files (if needed)**
+4. **Update `src/config/gameBalance.ts` - Income Rebalance**
+   ```typescript
+   activities: {
+     play: {
+       // ... other effects
+       money: 15,  // Changed from 5 to 15
+     },
+     exercise: {
+       // ... other effects
+       money: 25,  // Changed from 10 to 25
+     },
+   }
+   ```
+
+5. **Update Translation Files (if needed)**
    - Add cost labels to food items in locale files
+   - Update feeding messages to remove reward references
 
 ---
 
 ## 4. RESPONSIVE DESIGN DOCUMENTATION
 
 ### Current State
-- React Native app
-- Likely has some responsive logic
-- Need to document breakpoints and responsive behavior
+- React Native app with existing responsive system
+- **Base Document**: `160126-responsivity.md` (comprehensive implementation plan)
+- Responsive utilities already implemented:
+  - `src/hooks/useResponsive.ts` - Core responsive hook ✅
+  - `src/config/responsive.ts` - Responsive constants ✅
+  - Device type detection (mobile, mobileLarge, tablet, desktop) ✅
+  - Scaling functions: wp(), hp(), fs(), spacing() ✅
 
-### Proposed Documentation
+### Existing Responsive Implementation
 
-#### Create `RESPONSIVE.md`
+**Files Already Created:**
+- `src/hooks/useResponsive.ts` - Device detection and scaling functions
+- `src/config/responsive.ts` - Breakpoints, sizes, constants
+- All screens updated with responsive sizing (HomeScreen, FeedScene, BathScene, etc.)
 
-**Content Structure:**
+**Breakpoints (from 160126-responsivity.md):**
+- **Mobile**: < 428px (iPhone SE, small Android)
+- **Mobile Large**: 428px - 768px (iPhone Pro Max, Galaxy S20)
+- **Tablet**: 768px - 1280px (iPad, Android tablets)
+- **Desktop**: > 1280px (Web browsers)
 
-1. **Overview**
-   - Responsive design philosophy
-   - Platform support (iOS, Android, Web)
+### Task: Create User-Facing Documentation
 
-2. **Breakpoints**
-   - **Mobile**: < 768px (phones)
-   - **Tablet**: 768px - 1024px (tablets, small laptops)
-   - **Web**: > 1024px (desktop, large screens)
-
-3. **Implementation Approach**
-   - React Native Dimensions API
-   - Platform-specific components
-   - Flexbox layout strategy
-   - Font scaling
-   - Image scaling
-
-4. **Component Guidelines**
-   - StatusCard responsive behavior
-   - Scene layouts (Feed, Play, Exercise, Vet)
-   - Button sizing
-   - Modal responsiveness
-
-5. **Testing**
-   - Test devices/simulators
-   - Orientation handling (portrait/landscape)
-   - Platform-specific considerations
+**Goal**: Create `RESPONSIVE.md` as a user-facing guide based on existing `160126-responsivity.md`
 
 #### Implementation Steps:
 
-1. **Audit Current Responsive Code**
-   - Check `src/components/` for dimension usage
-   - Review screen layouts
-   - Identify hardcoded values
+1. **Use `160126-responsivity.md` as Foundation**
+   - Extract key concepts and patterns
+   - Simplify technical implementation details
+   - Focus on usage guidelines for developers
 
-2. **Document Findings**
-   - Current breakpoints used
-   - Responsive patterns
-   - Platform-specific code
+2. **Create `RESPONSIVE.md` with Sections:**
+   - **Overview**: Responsive design philosophy
+   - **Breakpoints**: Device type definitions and ranges
+   - **Using useResponsive Hook**: Code examples
+   - **Responsive Constants**: Available size configs
+   - **Component Patterns**: Best practices for new components
+   - **Testing Guidelines**: Device testing checklist
+   - **Platform Considerations**: iOS, Android, Web differences
 
-3. **Create `RESPONSIVE.md`**
-   - Comprehensive guide
-   - Code examples
-   - Screenshots (if applicable)
+3. **Include Practical Examples**
+   - How to make a new component responsive
+   - Common patterns from existing screens
+   - Do's and Don'ts
 
-4. **Add Guidelines**
-   - Best practices for new components
-   - Common pitfalls
-   - Recommended libraries/utilities
+4. **Reference Existing Implementation**
+   - Link to `160126-responsivity.md` for detailed implementation history
+   - Reference to `src/hooks/useResponsive.ts` for API details
 
 ---
 
 ## Implementation Order
 
 ### Phase 1: Configuration & Backend
-1. Update `src/config/gameBalance.ts` (vet, food)
-2. Update `src/types.ts` (add treatment types if needed)
-3. Update `src/context/PetContext.tsx` (visitVet, feed functions)
+1. Update `src/config/gameBalance.ts` (vet treatments, food costs, income rebalance)
+2. Update `src/types.ts` (add treatment type: 'antibiotic' | 'antiInflammatory')
+3. Update `src/context/PetContext.tsx` (visitVet with treatment types, feed with costs)
 
 ### Phase 2: UI Updates
-4. Update `src/screens/VetScene.tsx` (two treatment options)
-5. Update `src/components/EnhancedStatusBar.tsx` (remove labels, background)
-6. Update `src/components/StatusCard.tsx` (styling)
-7. Update `src/screens/FeedScene.tsx` (costs, updated values)
+4. Update `src/screens/VetScene.tsx` (two treatment options UI)
+5. Update `src/components/StatusBar.tsx` (remove label rendering)
+6. Update `src/components/EnhancedStatusBar.tsx` (pass label=undefined)
+7. Update `src/components/StatusCard.tsx` (remove white background)
+8. Update `src/screens/FeedScene.tsx` (add costs, remove ad rewards, update values)
 
 ### Phase 3: Documentation
-8. Audit responsive code
-9. Create `RESPONSIVE.md`
+9. Create `RESPONSIVE.md` based on `160126-responsivity.md`
 
 ### Phase 4: Testing & Refinement
 10. Test all changes on different screen sizes
-11. Verify game balance
-12. Test edge cases (insufficient funds, max stats, etc.)
+11. Verify game balance (can players afford food + vet?)
+12. Test edge cases (insufficient funds, max stats, critically low health)
 13. Update translations if needed
 
 ---
@@ -278,31 +321,34 @@ This document outlines the implementation plan for vet healing logic, card stats
 ## Files to Modify
 
 ### Core Files
-- [ ] `src/config/gameBalance.ts` - Update vet and food configs
+- [ ] `src/config/gameBalance.ts` - Update vet configs, food costs, income rebalance (play +15, exercise +25)
 - [ ] `src/context/PetContext.tsx` - Update visitVet() and feed() functions
-- [ ] `src/types.ts` - Add treatment type definitions
+- [ ] `src/types.ts` - Add treatment type: `type TreatmentType = 'antibiotic' | 'antiInflammatory'`
 
 ### Screen Files
-- [ ] `src/screens/VetScene.tsx` - Implement two treatment options
-- [ ] `src/screens/FeedScene.tsx` - Add costs and update values
+- [ ] `src/screens/VetScene.tsx` - Implement two treatment options UI
+- [ ] `src/screens/FeedScene.tsx` - Add costs, remove ad rewards, update values
 
 ### Component Files
-- [ ] `src/components/StatusCard.tsx` - Remove white background
-- [ ] `src/components/EnhancedStatusBar.tsx` - Icon-only display
+- [ ] `src/components/StatusCard.tsx` - Remove white background (backgroundColor: '#ffffff')
+- [ ] `src/components/StatusBar.tsx` - Remove label text rendering, make icon-only
+- [ ] `src/components/EnhancedStatusBar.tsx` - Update to not pass labels to StatusBar
 
 ### Documentation
-- [ ] `RESPONSIVE.md` - Create comprehensive responsive design guide
+- [ ] `RESPONSIVE.md` - Create user-facing guide based on `160126-responsivity.md`
 
 ---
 
 ## Testing Checklist
 
 ### VET System
-- [ ] Antibiotic costs 30 coins and adds 50 health
-- [ ] Anti-inflammatory costs 50 coins and adds 80 health
+- [ ] Antibiotic costs 30 coins and guarantees minimum 50% health
+- [ ] Anti-inflammatory costs 50 coins and guarantees minimum 80% health
 - [ ] Antibiotic allows ad option when no money
+- [ ] Anti-inflammatory has NO ad option (money only)
 - [ ] Anti-inflammatory disabled if less than 50 coins
-- [ ] Health doesn't exceed 100
+- [ ] Pet with health > target remains unchanged (e.g., 90% health + antibiotic = 90%)
+- [ ] Pet with health < target is raised to target (e.g., 20% health + antibiotic = 50%)
 - [ ] Money deducted correctly
 
 ### FOOD System
@@ -310,7 +356,11 @@ This document outlines the implementation plan for vet healing logic, card stats
 - [ ] Food values increased (kibble 30, fish 35, treat 25, milk 20)
 - [ ] Cannot feed if insufficient funds
 - [ ] Money deducted after feeding
-- [ ] Food buttons show costs
+- [ ] Food buttons show costs on UI
+- [ ] Feeding ad rewards REMOVED (no more money earned from feeding)
+- [ ] Play now earns +15 coins (was +5)
+- [ ] Exercise now earns +25 coins (was +10)
+- [ ] Game economy is balanced (players can afford food + occasional vet)
 
 ### CARD STATS
 - [ ] White background removed
@@ -328,52 +378,64 @@ This document outlines the implementation plan for vet healing logic, card stats
 
 ## Risks & Considerations
 
-### Game Balance
+### Game Balance ✅ RESOLVED
 - **Risk**: Making food cost money may make game too difficult
-- **Mitigation**: Ensure money-earning activities (play, exercise) provide sufficient income
-- **Consideration**: Test progression - can players afford vet AND food?
+- **Resolution**: Income tripled (Play +15, Exercise +25) to maintain positive balance
+- **Calculation**: Daily income (95 coins) > Daily food cost (60-80 coins) = Sustainable
+- **Monitoring**: Track player progression to ensure economy remains balanced
 
 ### UX Impact
 - **Risk**: Removing labels may reduce clarity for new players
 - **Mitigation**: Ensure icons are universally recognizable, consider tutorial/help screen
 - **Consideration**: Test with users unfamiliar with the game
+- **Benefit**: Cleaner UI, language-independent (no translation needed for stats)
 
-### Health Calculation
-- **Risk**: Changing from "set health to X" to "add X health" changes game mechanics
-- **Mitigation**: Balance antibiotic/anti-inflammatory costs accordingly
-- **Consideration**: Pet at 10% health + antibiotic (50%) = 60% vs old system (70%)
+### Health Calculation ✅ RESOLVED
+- **Original Risk**: Additive health model would heal critically ill pets less than current system
+- **Resolution**: Using guaranteed minimum model (Option B)
+- **Result**: Antibiotic always brings pet to at least 50%, Anti-inflammatory to 80%
+- **Improvement**: More predictable, no worse outcome than current system
 
 ### Backward Compatibility
 - **Risk**: Existing saved games may have issues with new cost structure
-- **Mitigation**: Consider migration logic for existing players with low money
-- **Consideration**: May need to grant starting bonus to existing users
+- **Mitigation**:
+  - Players with 0 coins can still play/exercise to earn money before feeding
+  - Starting money remains 0 (no breaking changes to Pet type)
+  - Consider migration: Grant 50-100 coin bonus to existing players on first login
+- **Consideration**: Monitor existing players for frustration or churn
 
 ---
 
 ## Success Criteria
 
 ### VET System
-✅ Two distinct treatment options available
-✅ Costs and health boosts match specifications
-✅ Ad option works for Antibiotic only
+✅ Two distinct treatment options available (Antibiotic, Anti-inflammatory)
+✅ Costs match specifications (30 coins, 50 coins)
+✅ Guaranteed minimum health model works correctly (50%, 80%)
+✅ Ad option works for Antibiotic only (no ads for Anti-inflammatory)
 ✅ UI clearly shows difference between treatments
+✅ Pets with health above target are not affected negatively
 
 ### FOOD System
 ✅ All foods cost coins (15-20 range)
-✅ Hunger values increased by ~50%
+✅ Hunger values increased by 50-100% (kibble 30, fish 35, treat 25, milk 20)
 ✅ Cannot feed without sufficient funds
-✅ Game remains balanced and playable
+✅ Feeding ad rewards completely removed
+✅ Income rebalanced (Play +15, Exercise +25)
+✅ Game economy is sustainable (positive daily balance)
 
 ### CARD STATS
-✅ Clean, icon-only display
-✅ No white background
-✅ Stats easily readable
-✅ Maintains visual appeal
+✅ Clean, icon-only display (no text labels)
+✅ White background removed (transparent)
+✅ Icons are clear and recognizable
+✅ Color-coded bars still functional
+✅ Layout looks clean and modern
 
 ### RESPONSIVE
-✅ Comprehensive documentation created
-✅ Covers mobile, tablet, and web
-✅ Includes practical examples
+✅ User-facing documentation created based on `160126-responsivity.md`
+✅ Covers mobile, tablet, and web breakpoints
+✅ Includes practical examples and patterns
+✅ References existing responsive implementation
 ✅ Useful for future development
 
 ---
