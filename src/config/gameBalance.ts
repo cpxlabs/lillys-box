@@ -6,11 +6,12 @@
 
 export const GAME_BALANCE = {
   // Stat decay rates (per minute) - positive values will be subtracted
+  // Reduced by ~50% for better gameplay balance
   decay: {
-    hunger: 1.0,
-    hygiene: 1.0,
-    energyDay: 0.5, // 6 AM - 10 PM
-    energyNight: 0.2, // 10 PM - 6 AM
+    hunger: 0.5,      // Changed from 1.0 - slower hunger decay
+    hygiene: 0.5,     // Changed from 1.0 - slower hygiene decay
+    energyDay: 0.25,  // Changed from 0.5 - 6 AM - 10 PM (~6.6h to deplete)
+    energyNight: 0.1, // Changed from 0.2 - 10 PM - 6 AM (~16.6h to deplete)
     happinessHealthy: 0.5, // Gain when all stats > 70
     happinessUnhealthy: 0.3, // Loss when health < 60
     happinessVeryUnhealthy: 0.5, // Loss when health < 40
@@ -117,9 +118,9 @@ export const GAME_BALANCE = {
   initialStats: {
     hunger: 100,
     hygiene: 100,
-    energy: 80,
-    happiness: 75,
-    health: 85,
+    energy: 100,    // Changed from 80 - all stats start at 100%
+    happiness: 100, // Changed from 75 - all stats start at 100%
+    health: 100,    // Changed from 85 - all stats start at 100%
     money: 0,
   },
 };

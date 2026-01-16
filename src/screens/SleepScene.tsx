@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,14 +7,72 @@ import {
   Animated,
   SafeAreaView,
 } from 'react-native';
+import ReanimatedView, {
+  useSharedValue,
+  useAnimatedStyle,
+  withRepeat,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { ScreenNavigationProp } from '../types/navigation';
 import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
+import { PetRenderer } from '../components/PetRenderer';
 import { calculatePetAge } from '../utils/age';
 import { useBackButton } from '../hooks/useBackButton';
+
+// Animated floating Z component for sleeping state
+const FloatingZ: React.FC = () => {
+  const translateY = useSharedValue(0);
+  const opacity = useSharedValue(1);
+  const scale = useSharedValue(1);
+
+  useEffect(() => {
+    translateY.value = withRepeat(
+      withSequence(
+        withTiming(-30, { duration: 1500 }),
+        withTiming(0, { duration: 1500 })
+      ),
+      -1,
+      false
+    );
+    opacity.value = withRepeat(
+      withSequence(
+        withTiming(0.4, { duration: 1500 }),
+        withTiming(1, { duration: 1500 })
+      ),
+      -1,
+      false
+    );
+    scale.value = withRepeat(
+      withSequence(
+        withTiming(1.2, { duration: 1500 }),
+        withTiming(1, { duration: 1500 })
+      ),
+      -1,
+      false
+    );
+  }, [translateY, opacity, scale]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateY: translateY.value },
+      { scale: scale.value },
+    ],
+    opacity: opacity.value,
+  }));
+
+  return (
+    <ReanimatedView.View style={[styles.floatingZContainer, animatedStyle]}>
+      <Text style={styles.floatingZ}>Z</Text>
+      <Text style={[styles.floatingZ, styles.floatingZSmall]}>z</Text>
+      <Text style={[styles.floatingZ, styles.floatingZTiny]}>z</Text>
+    </ReanimatedView.View>
+  );
+};
 
 type Props = {
   navigation: ScreenNavigationProp<'Sleep'>;
@@ -120,15 +178,40 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
       />
 
       <View style={styles.content}>
-        <Animated.View style={[styles.petContainer, { opacity: fadeAnim }]}>
-          <Text style={styles.sleepText}>💤</Text>
+        {/* Main area with pet */}
+        <View style={styles.mainArea}>
+          <View style={styles.petWrapper}>
+            {/* Pet with dark overlay when sleeping */}
+            <Animated.View style={[styles.petDisplay, { opacity: fadeAnim }]}>
+              <PetRenderer pet={pet} animationState="idle" size={280} />
+            </Animated.View>
+            {/* Floating Z animation when sleeping */}
+            {isSleeping && <FloatingZ />}
+          </View>
+
           <Text style={styles.petName}>
             {isSleeping ? t('sleep.sleeping', { name: pet.name }) : t('sleep.needsRest', { name: pet.name })}
           </Text>
           {!isSleeping && !canSleep && (
             <Text style={styles.notTiredText}>{t('sleep.notTired')}</Text>
           )}
-        </Animated.View>
+        </View>
+
+        {/* Benefits sidebar on the right */}
+        {canSleep && !isSleeping && (
+          <View style={styles.benefitsSidebar}>
+            <Text style={styles.benefitsSidebarTitle}>{t('sleep.benefits')}</Text>
+            <Text style={styles.benefitsSidebarText}>
+              +{GAME_BALANCE.activities.sleep.energy} Energy
+            </Text>
+            <Text style={styles.benefitsSidebarText}>
+              +{GAME_BALANCE.activities.sleep.happiness} Happiness
+            </Text>
+            <Text style={styles.benefitsSidebarText}>
+              {GAME_BALANCE.activities.sleep.hunger} Hunger
+            </Text>
+          </View>
+        )}
 
         {isSleeping ? (
           <View style={styles.progressContainer}>
@@ -167,21 +250,6 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
               </Text>
             </TouchableOpacity>
 
-            {canSleep && (
-              <View style={styles.benefitsContainer}>
-                <Text style={styles.benefitsTitle}>{t('sleep.benefits')}</Text>
-                <Text style={styles.benefitsText}>
-                  {t('sleep.energyBoost', { value: GAME_BALANCE.activities.sleep.energy })}
-                </Text>
-                <Text style={styles.benefitsText}>
-                  {t('sleep.happinessBoost', { value: GAME_BALANCE.activities.sleep.happiness })}
-                </Text>
-                <Text style={styles.benefitsText}>
-                  {t('sleep.hungerDecrease', { value: GAME_BALANCE.activities.sleep.hunger })}
-                </Text>
-              </View>
-            )}
-
             <TouchableOpacity
               style={styles.backButton}
               onPress={() => navigation.goBack()}
@@ -206,24 +274,77 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
   },
-  petContainer: {
+  mainArea: {
     alignItems: 'center',
-    marginBottom: 40,
-  },
-  sleepText: {
-    fontSize: 80,
     marginBottom: 20,
+  },
+  petWrapper: {
+    position: 'relative',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  petDisplay: {
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  floatingZContainer: {
+    position: 'absolute',
+    top: -20,
+    right: 20,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+  },
+  floatingZ: {
+    fontSize: 48,
+    fontWeight: 'bold',
+    color: '#FFD54F',
+    textShadowColor: '#000',
+    textShadowOffset: { width: 2, height: 2 },
+    textShadowRadius: 4,
+  },
+  floatingZSmall: {
+    fontSize: 36,
+    marginLeft: 4,
+    marginTop: 10,
+  },
+  floatingZTiny: {
+    fontSize: 24,
+    marginLeft: 4,
+    marginTop: 18,
   },
   petName: {
     fontSize: 24,
     color: '#fff',
     fontWeight: '600',
     textAlign: 'center',
+    marginTop: 16,
   },
   notTiredText: {
     fontSize: 16,
     color: '#FFA726',
     marginTop: 10,
+    textAlign: 'center',
+  },
+  benefitsSidebar: {
+    position: 'absolute',
+    right: 8,
+    top: '35%',
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderRadius: 12,
+    padding: 12,
+    maxWidth: 120,
+  },
+  benefitsSidebarTitle: {
+    color: '#FFD54F',
+    fontSize: 14,
+    fontWeight: '700',
+    marginBottom: 8,
+    textAlign: 'center',
+  },
+  benefitsSidebarText: {
+    color: '#fff',
+    fontSize: 12,
+    marginVertical: 3,
     textAlign: 'center',
   },
   buttonContainer: {
@@ -246,26 +367,6 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: '600',
-  },
-  benefitsContainer: {
-    marginTop: 30,
-    padding: 20,
-    backgroundColor: 'rgba(255, 255, 255, 0.1)',
-    borderRadius: 12,
-    width: '100%',
-  },
-  benefitsTitle: {
-    color: '#fff',
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 10,
-    textAlign: 'center',
-  },
-  benefitsText: {
-    color: '#fff',
-    fontSize: 16,
-    marginVertical: 4,
-    textAlign: 'center',
   },
   backButton: {
     marginTop: 20,

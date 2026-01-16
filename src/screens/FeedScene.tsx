@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -20,6 +20,7 @@ import { AdsConfig } from '../config/ads.config';
 import { ScreenNavigationProp } from '../types/navigation';
 import { ANIMATION_DURATION } from '../config/constants';
 import { calculatePetAge } from '../utils/age';
+import { logger } from '../utils/logger';
 
 type Props = {
   navigation: ScreenNavigationProp<'Feed'>;
@@ -41,6 +42,22 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
   const [message, setMessage] = useState('');
   const BackButtonIcon = useBackButton();
 
+  // Refs for timeout cleanup to prevent UI freezing
+  const animationTimeout1 = useRef<NodeJS.Timeout | null>(null);
+  const animationTimeout2 = useRef<NodeJS.Timeout | null>(null);
+
+  // Cleanup timeouts on unmount to prevent memory leaks and state updates on unmounted component
+  useEffect(() => {
+    return () => {
+      if (animationTimeout1.current) {
+        clearTimeout(animationTimeout1.current);
+      }
+      if (animationTimeout2.current) {
+        clearTimeout(animationTimeout2.current);
+      }
+    };
+  }, []);
+
   const {
     currentItem: currentFood,
     currentIndex,
@@ -56,26 +73,41 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
   const handleFeed = (food: typeof FOODS[0]) => {
-    setAnimationState('eating');
-    setMessage(t('feed.eating', { name: pet.name, food: t(food.nameKey) }));
+    try {
+      // Clear any existing timeouts to prevent conflicts
+      if (animationTimeout1.current) {
+        clearTimeout(animationTimeout1.current);
+      }
+      if (animationTimeout2.current) {
+        clearTimeout(animationTimeout2.current);
+      }
 
-    feed(food.value);
+      setAnimationState('eating');
+      setMessage(t('feed.eating', { name: pet.name, food: t(food.nameKey) }));
 
-    // Base money earned for feeding
-    const moneyEarned = AdsConfig.rewards.feedReward;
+      feed(food.value);
 
-    setTimeout(() => {
-      setAnimationState('happy');
-      setMessage(t('feed.loved', { name: pet.name }));
+      // Base money earned for feeding
+      const moneyEarned = AdsConfig.rewards.feedReward;
 
-      setTimeout(() => {
-        setAnimationState('idle');
-        setMessage('');
+      animationTimeout1.current = setTimeout(() => {
+        setAnimationState('happy');
+        setMessage(t('feed.loved', { name: pet.name }));
 
-        // Offer double reward or give reward immediately
-        triggerReward(moneyEarned);
+        animationTimeout2.current = setTimeout(() => {
+          setAnimationState('idle');
+          setMessage('');
+
+          // Offer double reward or give reward immediately
+          triggerReward(moneyEarned);
+        }, ANIMATION_DURATION.MEDIUM);
       }, ANIMATION_DURATION.MEDIUM);
-    }, ANIMATION_DURATION.MEDIUM);
+    } catch (error) {
+      // Reset state on error to prevent UI freeze
+      logger.error('Feed error:', error);
+      setAnimationState('idle');
+      setMessage('');
+    }
   };
 
   return (
