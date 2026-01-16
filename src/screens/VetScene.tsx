@@ -19,6 +19,8 @@ import { logger } from '../utils/logger';
 import { ScreenNavigationProp } from '../types/navigation';
 import { calculatePetAge } from '../utils/age';
 import { useBackButton } from '../hooks/useBackButton';
+import { useResponsive } from '../hooks/useResponsive';
+import { PET_SIZE_SMALL, SCENE_TEXT_SIZE } from '../config/responsive';
 
 type Props = {
   navigation: ScreenNavigationProp<'Vet'>;
@@ -30,6 +32,10 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
   const { showRewardedAd, isAdReady } = useRewardedAd();
   const [isProcessing, setIsProcessing] = useState(false);
   const BackButtonIcon = useBackButton();
+  const { deviceType, spacing, fs } = useResponsive();
+
+  const petSize = PET_SIZE_SMALL[deviceType];
+  const textSizes = SCENE_TEXT_SIZE[deviceType];
 
   if (!pet) return null;
 
@@ -142,109 +148,111 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
       />
 
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
-        <View style={styles.content}>
+        <View style={[styles.content, { paddingHorizontal: spacing(12), paddingTop: spacing(10) }]}>
           {/* Pet info header - simplified without energy/happiness */}
-          <View style={styles.petInfoHeader}>
+          <View style={[styles.petInfoHeader, { borderRadius: spacing(10), padding: spacing(10), marginBottom: spacing(10) }]}>
             <View style={styles.petInfoLeft}>
-              <Text style={styles.petInfoName}>{petNameDisplay}</Text>
-              <Text style={styles.petInfoAge}>{petAgeDisplay}</Text>
-              <View style={styles.moneyBadge}>
-                <Text style={styles.moneyText}>💰 {pet.money}</Text>
+              <Text style={[styles.petInfoName, { fontSize: textSizes.titleSize }]}>{petNameDisplay}</Text>
+              <Text style={[styles.petInfoAge, { fontSize: fs(13), marginTop: spacing(2) }]}>{petAgeDisplay}</Text>
+              <View style={[styles.moneyBadge, { paddingVertical: spacing(3), paddingHorizontal: spacing(8), borderRadius: spacing(6), marginTop: spacing(4) }]}>
+                <Text style={[styles.moneyText, { fontSize: fs(13) }]}>💰 {pet.money}</Text>
               </View>
             </View>
-            <View style={styles.healthBadge}>
-              <Text style={styles.healthBadgeLabel}>Health</Text>
-              <Text style={[styles.healthBadgeValue, { color: getUrgencyColor() }]}>
+            <View style={[styles.healthBadge, { padding: spacing(8), borderRadius: spacing(8) }]}>
+              <Text style={[styles.healthBadgeLabel, { fontSize: fs(11), marginBottom: spacing(2) }]}>Health</Text>
+              <Text style={[styles.healthBadgeValue, { fontSize: textSizes.titleSize, color: getUrgencyColor() }]}>
                 {Math.round(pet.health)}%
               </Text>
             </View>
           </View>
 
           {/* Main area with pet display */}
-          <View style={styles.mainArea}>
+          <View style={[styles.mainArea, { marginBottom: spacing(10) }]}>
             {/* Pet display */}
-            <View style={styles.petDisplay}>
-              <PetRenderer pet={pet} animationState="idle" size={220} />
+            <View style={[styles.petDisplay, { marginBottom: spacing(10) }]}>
+              <PetRenderer pet={pet} animationState="idle" size={petSize} />
             </View>
 
             {/* Health status card below pet */}
             <View
               style={[
                 styles.statusCard,
-                { borderColor: getUrgencyColor(), borderWidth: 2 },
+                { borderColor: getUrgencyColor(), borderWidth: 2, borderRadius: spacing(10), padding: spacing(12), width: '70%' },
               ]}
             >
               <View style={styles.healthContainer}>
-                <Text style={styles.healthEmoji}>
+                <Text style={[styles.healthEmoji, { fontSize: fs(28), marginRight: spacing(6) }]}>
                   {vetStatus === 'urgent' ? '🚨' : vetStatus === 'suggested' ? '⚠️' : '✅'}
                 </Text>
                 <Text
-                  style={[styles.healthValue, { color: getUrgencyColor() }]}
+                  style={[styles.healthValue, { fontSize: fs(28), color: getUrgencyColor() }]}
                 >
                   {Math.round(pet.health)}%
                 </Text>
               </View>
-              <Text style={styles.urgencyMessage}>{getUrgencyMessage()}</Text>
+              <Text style={[styles.urgencyMessage, { fontSize: fs(12), marginTop: spacing(6) }]}>{getUrgencyMessage()}</Text>
             </View>
 
             {/* Benefits sidebar on the right */}
-            <View style={styles.benefitsSidebar}>
-              <Text style={styles.benefitsSidebarTitle}>Benefits</Text>
-              <Text style={styles.benefitsSidebarText}>
+            <View style={[styles.benefitsSidebar, { borderRadius: spacing(10), padding: spacing(8), maxWidth: spacing(90) }]}>
+              <Text style={[styles.benefitsSidebarTitle, { fontSize: textSizes.sidebarTitle, marginBottom: spacing(4) }]}>Benefits</Text>
+              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2) }]}>
                 ❤️ Health to {GAME_BALANCE.activities.vet.healthTarget}%
               </Text>
-              <Text style={styles.benefitsSidebarText}>
+              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2) }]}>
                 📈 Stats +{GAME_BALANCE.activities.vet.statBoost}
               </Text>
-              <Text style={styles.benefitsSidebarText}>
+              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2) }]}>
                 ⚡ Energy {GAME_BALANCE.activities.vet.energy}
               </Text>
             </View>
           </View>
 
           {/* Payment options */}
-          <View style={styles.paymentOptions}>
+          <View style={[styles.paymentOptions, { marginBottom: spacing(12) }]}>
             <TouchableOpacity
               style={[
                 styles.payButton,
+                { paddingVertical: spacing(12), paddingHorizontal: spacing(16), borderRadius: spacing(10), marginBottom: spacing(6) },
                 !canAfford && styles.payButtonDisabled,
               ]}
               onPress={handlePayWithMoney}
               disabled={!canAfford || isProcessing}
             >
-              <Text style={styles.payButtonText}>
+              <Text style={[styles.payButtonText, { fontSize: textSizes.buttonText }]}>
                 💰 Pay {GAME_BALANCE.activities.vet.cost} Coins
               </Text>
-              <Text style={styles.payButtonSubtext}>
+              <Text style={[styles.payButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}>
                 You have: {pet.money} coins
               </Text>
             </TouchableOpacity>
 
-            <Text style={styles.orText}>OR</Text>
+            <Text style={[styles.orText, { fontSize: fs(13), marginVertical: spacing(6) }]}>OR</Text>
 
             <TouchableOpacity
               style={[
                 styles.adButton,
+                { paddingVertical: spacing(12), paddingHorizontal: spacing(16), borderRadius: spacing(10) },
                 (!isAdReady || isProcessing) && styles.adButtonDisabled,
               ]}
               onPress={handleWatchAd}
               disabled={!isAdReady || isProcessing}
             >
-              <Text style={styles.adButtonText}>
+              <Text style={[styles.adButtonText, { fontSize: textSizes.buttonText }]}>
                 {isProcessing ? '⏳ Loading...' : '📺 Watch Ad (Free)'}
               </Text>
               {!isAdReady && !isProcessing && (
-                <Text style={styles.adButtonSubtext}>Ad loading...</Text>
+                <Text style={[styles.adButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}>Ad loading...</Text>
               )}
             </TouchableOpacity>
           </View>
 
           <TouchableOpacity
-            style={styles.backButton}
+            style={[styles.backButton, { padding: spacing(8) }]}
             onPress={() => navigation.goBack()}
             disabled={isProcessing}
           >
-            <Text style={styles.backButtonText}>Back</Text>
+            <Text style={[styles.backButtonText, { fontSize: fs(14) }]}>Back</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

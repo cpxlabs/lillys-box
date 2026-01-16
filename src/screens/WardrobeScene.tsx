@@ -17,6 +17,8 @@ import { CLOTHING_ITEMS, getItemsBySlot } from '../data/clothingItems';
 import { useBackButton } from '../hooks/useBackButton';
 import { ScreenNavigationProp } from '../types/navigation';
 import { calculatePetAge } from '../utils/age';
+import { useResponsive } from '../hooks/useResponsive';
+import { PET_SIZE_SMALL, WARDROBE_SIZES } from '../config/responsive';
 
 type Props = {
   navigation: ScreenNavigationProp<'Wardrobe'>;
@@ -34,6 +36,10 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
   const { pet, setClothing } = usePet();
   const [selectedSlot, setSelectedSlot] = useState<ClothingSlot>('head');
   const BackButtonIcon = useBackButton();
+  const { deviceType, spacing, fs } = useResponsive();
+
+  const petSize = PET_SIZE_SMALL[deviceType];
+  const wardrobeSizes = WARDROBE_SIZES[deviceType];
 
   if (!pet) return null;
 
@@ -63,37 +69,39 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
         compact
       />
 
-      <View style={styles.petContainer}>
-        <PetRenderer pet={pet} size={300} />
+      <View style={[styles.petContainer, { paddingVertical: spacing(12) }]}>
+        <PetRenderer pet={pet} size={petSize} />
       </View>
 
-      <View style={styles.slotSelector}>
+      <View style={[styles.slotSelector, { paddingVertical: spacing(10), marginHorizontal: spacing(12), borderRadius: spacing(12) }]}>
         {SLOTS.map((slot) => (
           <TouchableOpacity
             key={slot.key}
             style={[
               styles.slotButton,
+              { padding: wardrobeSizes.slotPadding, borderRadius: spacing(10) },
               selectedSlot === slot.key && styles.slotButtonSelected,
             ]}
             onPress={() => setSelectedSlot(slot.key)}
           >
-            <Text style={styles.slotEmoji}>{slot.emoji}</Text>
-            <Text style={styles.slotLabel}>{slot.label}</Text>
+            <Text style={[styles.slotEmoji, { fontSize: wardrobeSizes.slotEmoji }]}>{slot.emoji}</Text>
+            <Text style={[styles.slotLabel, { fontSize: wardrobeSizes.slotLabel, marginTop: spacing(2) }]}>{slot.label}</Text>
           </TouchableOpacity>
         ))}
       </View>
 
-      <ScrollView style={styles.itemsContainer}>
-        <View style={styles.itemsGrid}>
+      <ScrollView style={[styles.itemsContainer, { marginTop: spacing(12) }]}>
+        <View style={[styles.itemsGrid, { paddingHorizontal: spacing(12) }]}>
           <TouchableOpacity
             style={[
               styles.itemButton,
+              { width: wardrobeSizes.itemWidth, padding: wardrobeSizes.itemPadding, borderRadius: spacing(10), marginBottom: spacing(10) },
               pet.clothes[selectedSlot] === null && styles.itemButtonSelected,
             ]}
             onPress={() => handleSelectItem(null)}
           >
-            <Text style={styles.itemEmoji}>❌</Text>
-            <Text style={styles.itemName}>Nenhum</Text>
+            <Text style={[styles.itemEmoji, { fontSize: wardrobeSizes.itemEmoji, marginBottom: spacing(3) }]}>❌</Text>
+            <Text style={[styles.itemName, { fontSize: wardrobeSizes.itemName }]}>Nenhum</Text>
           </TouchableOpacity>
 
           {itemsForSlot.map((item) => (
@@ -101,14 +109,15 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
               key={item.id}
               style={[
                 styles.itemButton,
+                { width: wardrobeSizes.itemWidth, padding: wardrobeSizes.itemPadding, borderRadius: spacing(10), marginBottom: spacing(10) },
                 pet.clothes[selectedSlot] === item.id && styles.itemButtonSelected,
               ]}
               onPress={() => handleSelectItem(item.id)}
             >
-              <View style={styles.itemPreview}>
-                <Text style={styles.itemPlaceholder}>👔</Text>
+              <View style={[styles.itemPreview, { width: spacing(40), height: spacing(40) }]}>
+                <Text style={[styles.itemPlaceholder, { fontSize: wardrobeSizes.itemEmoji }]}>👔</Text>
               </View>
-              <Text style={styles.itemName}>{item.name}</Text>
+              <Text style={[styles.itemName, { fontSize: wardrobeSizes.itemName }]}>{item.name}</Text>
             </TouchableOpacity>
           ))}
         </View>

@@ -28,6 +28,8 @@ import { AdsConfig } from '../config/ads.config';
 import { ScreenNavigationProp } from '../types/navigation';
 import { ANIMATION_DURATION } from '../config/constants';
 import { calculatePetAge } from '../utils/age';
+import { useResponsive } from '../hooks/useResponsive';
+import { ACTION_PET_SIZE, SPONGE_SIZE, SCENE_TEXT_SIZE } from '../config/responsive';
 
 type Props = {
   navigation: ScreenNavigationProp<'Bath'>;
@@ -83,6 +85,11 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
   const [scrubCount, setScrubCount] = useState(0);
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const BackButtonIcon = useBackButton();
+  const { deviceType, spacing, fs } = useResponsive();
+
+  const petSize = ACTION_PET_SIZE[deviceType];
+  const spongeSizes = SPONGE_SIZE[deviceType];
+  const textSizes = SCENE_TEXT_SIZE[deviceType];
 
   const translateX = useSharedValue(0);
   const spongeX = useSharedValue(0);
@@ -231,7 +238,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
 
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[styles.petContainer, animatedStyle]}>
-          <PetRenderer pet={pet} animationState={animationState} size={420} />
+          <PetRenderer pet={pet} animationState={animationState} size={petSize} />
 
           {/* Dynamic Bubbles */}
           {bubbles.map(bubble => (
@@ -242,18 +249,18 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
 
       {/* Draggable Sponge */}
       <GestureDetector gesture={spongeDragGesture}>
-        <Animated.View style={[styles.spongeContainer, spongeAnimatedStyle]}>
+        <Animated.View style={[styles.spongeContainer, spongeAnimatedStyle, { bottom: spongeSizes.bottom }]}>
           <Image
             source={require('../../assets/sprites/sponge.png')}
-            style={styles.spongeImage}
+            style={[styles.spongeImage, { width: spongeSizes.width, height: spongeSizes.height }]}
           />
         </Animated.View>
       </GestureDetector>
 
-      <View style={styles.messageContainer}>
-        <Text style={styles.message}>{message || t('bath.instructions')}</Text>
+      <View style={[styles.messageContainer, { padding: spacing(12) }]}>
+        <Text style={[styles.message, { fontSize: textSizes.messageSize }]}>{message || t('bath.instructions')}</Text>
         {scrubCount > 0 && scrubCount < SCRUBS_NEEDED && (
-          <Text style={styles.progress}>
+          <Text style={[styles.progress, { fontSize: fs(13), marginTop: spacing(6) }]}>
             {t('bath.scrubbing', { count: scrubCount, needed: SCRUBS_NEEDED })}
           </Text>
         )}

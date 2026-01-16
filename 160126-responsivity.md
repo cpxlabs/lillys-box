@@ -7,16 +7,60 @@
 
 | # | Task | Status | Completed |
 |---|------|--------|-----------|
-| 1 | Create responsive utilities hook | :hourglass: Pending | - |
-| 2 | Define breakpoint system | :hourglass: Pending | - |
-| 3 | Create scalable dimension utilities | :hourglass: Pending | - |
-| 4 | Fix HomeScreen responsiveness | :hourglass: Pending | - |
-| 5 | Fix IconButton grid layout | :hourglass: Pending | - |
-| 6 | Fix StatusCard/StatusBar sizing | :hourglass: Pending | - |
-| 7 | Fix PetRenderer dynamic sizing | :hourglass: Pending | - |
-| 8 | Fix action screens (Feed, Bath, Play, etc.) | :hourglass: Pending | - |
-| 9 | Add web-specific optimizations | :hourglass: Pending | - |
-| 10 | Add tablet-specific layout | :hourglass: Pending | - |
+| 1 | Create responsive utilities hook | :white_check_mark: Done | 2026-01-16 |
+| 2 | Define breakpoint system | :white_check_mark: Done | 2026-01-16 |
+| 3 | Create scalable dimension utilities | :white_check_mark: Done | 2026-01-16 |
+| 4 | Fix HomeScreen responsiveness | :white_check_mark: Done | 2026-01-16 |
+| 5 | Fix IconButton grid layout | :white_check_mark: Done | 2026-01-16 |
+| 6 | Fix StatusCard/StatusBar sizing | :white_check_mark: Done | 2026-01-16 |
+| 7 | Fix PetRenderer dynamic sizing | :white_check_mark: Done | 2026-01-16 |
+| 8 | Fix action screens (Feed, Bath, Play, etc.) | :white_check_mark: Done | 2026-01-16 |
+| 9 | Add web-specific optimizations | :hourglass: Future | - |
+| 10 | Add tablet-specific layout | :hourglass: Future | - |
+
+## Implementation Summary (2026-01-16)
+
+### Files Created
+
+1. **`src/hooks/useResponsive.ts`** - Core responsive hook
+   - Device type detection (mobile, mobileLarge, tablet, desktop)
+   - Scaling functions: `wp()`, `hp()`, `fs()`, `spacing()`
+   - Based on iPhone 12 Pro (390px) as reference width
+
+2. **`src/config/responsive.ts`** - Responsive constants
+   - `BREAKPOINTS` - Device width thresholds
+   - `PET_SIZE` / `PET_SIZE_SMALL` - Pet sizes per device
+   - `ICON_BUTTON_SIZE` - Button dimensions per device
+   - `STATUS_BAR_SIZE` - Status bar dimensions per device
+   - `ACTION_PET_SIZE` - Pet sizes for action screens
+   - `ACTION_BUTTON_SIZE` - Navigation buttons for action screens
+   - `SPONGE_SIZE` - Bath scene sponge dimensions
+   - `WARDROBE_SIZES` - Wardrobe slot/item dimensions
+   - `SCENE_TEXT_SIZE` - Text sizes for Sleep/Vet scenes
+
+### Files Modified
+
+| File | Changes |
+|------|---------|
+| `src/screens/HomeScreen.tsx` | Dynamic pet size, responsive spacing |
+| `src/components/IconButton.tsx` | Dynamic button sizing per device |
+| `src/components/StatusCard.tsx` | Responsive fonts and padding |
+| `src/components/StatusBar.tsx` | Responsive bar heights and fonts |
+| `src/screens/FeedScene.tsx` | Responsive pet size, buttons, text |
+| `src/screens/BathScene.tsx` | Responsive pet size, sponge, messages |
+| `src/screens/PlayScene.tsx` | Responsive pet size, buttons, text |
+| `src/screens/SleepScene.tsx` | Responsive pet size, sidebar, progress |
+| `src/screens/VetScene.tsx` | Responsive pet size, sidebar, buttons |
+| `src/screens/WardrobeScene.tsx` | Responsive pet size, slots, items |
+
+### Device Breakpoints
+
+| Device Type | Width | Use Case |
+|-------------|-------|----------|
+| `mobile` | < 428px | iPhone SE, small Android |
+| `mobileLarge` | 428-768px | iPhone Pro Max, Galaxy S20 |
+| `tablet` | 768-1280px | iPad, Android tablets |
+| `desktop` | > 1280px | Web browsers |
 
 ---
 
