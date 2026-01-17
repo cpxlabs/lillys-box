@@ -18,6 +18,7 @@ import { GAME_BALANCE } from '../config/gameBalance';
 import { COLORS } from '../config/constants';
 import { logger } from '../utils/logger';
 import { ScreenNavigationProp } from '../types/navigation';
+import { TreatmentType } from '../types';
 import { calculatePetAge } from '../utils/age';
 import { useBackButton } from '../hooks/useBackButton';
 import { useResponsive } from '../hooks/useResponsive';
@@ -45,37 +46,71 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
   const vetStatus = needsVet(pet.health);
-  const canAfford = pet.money >= GAME_BALANCE.activities.vet.cost;
+  const canAffordAntibiotic = pet.money >= GAME_BALANCE.activities.vet.antibiotic.cost;
+  const canAffordAntiInflammatory = pet.money >= GAME_BALANCE.activities.vet.antiInflammatory.cost;
 
-  const handlePayWithMoney = () => {
-    if (!canAfford) {
+  const performTreatment = (treatment: TreatmentType, useMoney: boolean) => {
+    const treatmentConfig = GAME_BALANCE.activities.vet[treatment];
+    const treatmentName = treatment === 'antibiotic' ? 'Antibiotic' : 'Anti-inflammatory';
+    const suffix = treatment === 'antibiotic' ? ' (Budget)' : ' (Premium)';
+
+    const success = visitVet(treatment, useMoney);
+
+    if (!success) {
+      const reason = useMoney
+        ? `You need ${treatmentConfig.cost} coins. You have ${pet.money} coins.`
+        : `${treatmentName} treatment doesn't support ad viewing.`;
       Alert.alert(
-        'Not Enough Money',
-        `You need ${GAME_BALANCE.activities.vet.cost} coins for a vet visit. You have ${pet.money} coins.`,
+        '❌ Treatment Failed',
+        reason,
         [{ text: 'OK' }]
       );
       return;
     }
 
     Alert.alert(
-      'Visit Vet?',
-      `This will cost ${GAME_BALANCE.activities.vet.cost} coins. Your pet will be examined and treated.`,
+      '✅ Treatment Complete!',
+      `${pet.name} received ${treatmentName} treatment and is feeling much better! (Health guaranteed to ${treatmentConfig.healthTarget}%)`,
       [
-        { text: 'Cancel', style: 'cancel' },
         {
-          text: 'Visit',
-          onPress: () => {
-            performVetVisit(true);
-          },
+          text: 'Great!',
+          onPress: () => navigation.goBack(),
         },
       ]
     );
   };
 
-  const handleWatchAd = async () => {
+  const handleTreatmentWithMoney = (treatment: TreatmentType) => {
+    const treatmentConfig = GAME_BALANCE.activities.vet[treatment];
+    const treatmentName = treatment === 'antibiotic' ? 'Antibiotic' : 'Anti-inflammatory';
+    const canAfford = pet.money >= treatmentConfig.cost;
+
+    if (!canAfford) {
+      Alert.alert(
+        '💰 Not Enough Money',
+        `${treatmentName} costs ${treatmentConfig.cost} coins. You have ${pet.money} coins.`,
+        [{ text: 'OK' }]
+      );
+      return;
+    }
+
+    Alert.alert(
+      `${treatmentName} Treatment?`,
+      `Cost: ${treatmentConfig.cost} coins\nHealth guaranteed to: ${treatmentConfig.healthTarget}%`,
+      [
+        { text: 'Cancel', style: 'cancel' },
+        {
+          text: 'Get Treatment',
+          onPress: () => performTreatment(treatment, true),
+        },
+      ]
+    );
+  };
+
+  const handleTreatmentWithAd = async (treatment: TreatmentType) => {
     if (!isAdReady) {
       Alert.alert(
-        'Ad Not Ready',
+        '📺 Ad Not Ready',
         'Please wait a moment for the ad to load.',
         [{ text: 'OK' }]
       );
@@ -84,46 +119,19 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
 
     try {
       setIsProcessing(true);
-      // Pass callback that will be executed when ad is completed successfully
       await showRewardedAd(() => {
-        performVetVisit(false);
+        performTreatment(treatment, false);
       });
     } catch (error) {
       logger.error('Error showing rewarded ad:', error);
       Alert.alert(
-        'Error',
-        'Something went wrong. Please try again.',
+        '❌ Error',
+        'Something went wrong with the ad. Please try again.',
         [{ text: 'OK' }]
       );
     } finally {
       setIsProcessing(false);
     }
-  };
-
-  const performVetVisit = (useMoney: boolean) => {
-    const success = visitVet(useMoney);
-
-    if (!success) {
-      Alert.alert(
-        'Visit Failed',
-        useMoney
-          ? `You need ${GAME_BALANCE.activities.vet.cost} coins for a vet visit. You have ${pet.money} coins.`
-          : 'Unable to complete vet visit. Please try again.',
-        [{ text: 'OK' }]
-      );
-      return;
-    }
-
-    Alert.alert(
-      '✅ Checkup Complete!',
-      `${pet.name} has been examined and is feeling much better!`,
-      [
-        {
-          text: 'Great!',
-          onPress: () => navigation.goBack(),
-        },
-      ]
-    );
   };
 
   const getUrgencyColor = () => {
@@ -194,58 +202,83 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
               <Text style={[styles.urgencyMessage, { fontSize: fs(12), marginTop: spacing(6) }]}>{getUrgencyMessage()}</Text>
             </View>
 
-            {/* Benefits sidebar on the right */}
-            <View style={[styles.benefitsSidebar, { borderRadius: spacing(10), padding: spacing(8), maxWidth: spacing(90) }]}>
-              <Text style={[styles.benefitsSidebarTitle, { fontSize: textSizes.sidebarTitle, marginBottom: spacing(4) }]}>Benefits</Text>
-              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2) }]}>
-                ❤️ Health to {GAME_BALANCE.activities.vet.healthTarget}%
-              </Text>
-              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2) }]}>
-                📈 Stats +{GAME_BALANCE.activities.vet.statBoost}
-              </Text>
-              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2) }]}>
-                ⚡ Energy {GAME_BALANCE.activities.vet.energy}
-              </Text>
             </View>
-          </View>
 
-          {/* Payment options */}
-          <View style={[styles.paymentOptions, { marginBottom: spacing(12) }]}>
-            <TouchableOpacity
-              style={[
-                styles.payButton,
-                { paddingVertical: spacing(12), paddingHorizontal: spacing(16), borderRadius: spacing(10), marginBottom: spacing(6) },
-                !canAfford && styles.payButtonDisabled,
-              ]}
-              onPress={handlePayWithMoney}
-              disabled={!canAfford || isProcessing}
-            >
-              <Text style={[styles.payButtonText, { fontSize: textSizes.buttonText }]}>
-                💰 Pay {GAME_BALANCE.activities.vet.cost} Coins
-              </Text>
-              <Text style={[styles.payButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}>
-                You have: {pet.money} coins
-              </Text>
-            </TouchableOpacity>
+          {/* Treatment Options */}
+          <View style={[styles.treatmentOptions, { marginBottom: spacing(12) }]}>
+            <Text style={[styles.treatmentTitle, { fontSize: textSizes.buttonText, marginBottom: spacing(8) }]}>Choose Treatment</Text>
 
-            <Text style={[styles.orText, { fontSize: fs(13), marginVertical: spacing(6) }]}>OR</Text>
+            {/* Antibiotic Treatment */}
+            <View style={[styles.treatmentCard, { borderRadius: spacing(10), marginBottom: spacing(8), padding: spacing(12) }]}>
+              <View style={styles.treatmentHeader}>
+                <View>
+                  <Text style={[styles.treatmentName, { fontSize: fs(16), marginBottom: spacing(2) }]}>💊 Antibiotic</Text>
+                  <Text style={[styles.treatmentSubtext, { fontSize: fs(11) }]}>Budget-friendly option</Text>
+                </View>
+                <View style={[styles.healthTargetBadge, { paddingVertical: spacing(4), paddingHorizontal: spacing(8), borderRadius: spacing(6) }]}>
+                  <Text style={[styles.healthTargetText, { fontSize: fs(12) }]}>Min: {GAME_BALANCE.activities.vet.antibiotic.healthTarget}%</Text>
+                </View>
+              </View>
 
-            <TouchableOpacity
-              style={[
-                styles.adButton,
-                { paddingVertical: spacing(12), paddingHorizontal: spacing(16), borderRadius: spacing(10) },
-                (!isAdReady || isProcessing) && styles.adButtonDisabled,
-              ]}
-              onPress={handleWatchAd}
-              disabled={!isAdReady || isProcessing}
-            >
-              <Text style={[styles.adButtonText, { fontSize: textSizes.buttonText }]}>
-                {isProcessing ? '⏳ Loading...' : '📺 Watch Ad (Free)'}
-              </Text>
-              {!isAdReady && !isProcessing && (
-                <Text style={[styles.adButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}>Ad loading...</Text>
-              )}
-            </TouchableOpacity>
+              <View style={[styles.treatmentButtonGroup, { marginTop: spacing(8) }]}>
+                <TouchableOpacity
+                  style={[
+                    styles.treatmentPayButton,
+                    { paddingVertical: spacing(8), paddingHorizontal: spacing(12), borderRadius: spacing(8), flex: 1, marginRight: spacing(6) },
+                    !canAffordAntibiotic && styles.treatmentButtonDisabled,
+                  ]}
+                  onPress={() => handleTreatmentWithMoney('antibiotic')}
+                  disabled={!canAffordAntibiotic || isProcessing}
+                >
+                  <Text style={[styles.treatmentButtonText, { fontSize: fs(12) }]}>
+                    💰 {GAME_BALANCE.activities.vet.antibiotic.cost}
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={[
+                    styles.treatmentAdButton,
+                    { paddingVertical: spacing(8), paddingHorizontal: spacing(12), borderRadius: spacing(8), flex: 1 },
+                    (!isAdReady || isProcessing) && styles.treatmentButtonDisabled,
+                  ]}
+                  onPress={() => handleTreatmentWithAd('antibiotic')}
+                  disabled={!isAdReady || isProcessing}
+                >
+                  <Text style={[styles.treatmentButtonText, { fontSize: fs(12) }]}>
+                    {isProcessing ? '⏳' : '📺'} Free
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+
+            {/* Anti-inflammatory Treatment */}
+            <View style={[styles.treatmentCardPremium, { borderRadius: spacing(10), padding: spacing(12) }]}>
+              <View style={styles.treatmentHeader}>
+                <View>
+                  <Text style={[styles.treatmentName, { fontSize: fs(16), marginBottom: spacing(2) }]}>💊 Anti-inflammatory</Text>
+                  <Text style={[styles.treatmentSubtext, { fontSize: fs(11) }]}>Premium option</Text>
+                </View>
+                <View style={[styles.healthTargetBadgePremium, { paddingVertical: spacing(4), paddingHorizontal: spacing(8), borderRadius: spacing(6) }]}>
+                  <Text style={[styles.healthTargetTextPremium, { fontSize: fs(12) }]}>Min: {GAME_BALANCE.activities.vet.antiInflammatory.healthTarget}%</Text>
+                </View>
+              </View>
+
+              <View style={[styles.treatmentButtonGroup, { marginTop: spacing(8) }]}>
+                <TouchableOpacity
+                  style={[
+                    styles.treatmentPayButtonPremium,
+                    { paddingVertical: spacing(8), paddingHorizontal: spacing(12), borderRadius: spacing(8) },
+                    !canAffordAntiInflammatory && styles.treatmentButtonDisabled,
+                  ]}
+                  onPress={() => handleTreatmentWithMoney('antiInflammatory')}
+                  disabled={!canAffordAntiInflammatory || isProcessing}
+                >
+                  <Text style={[styles.treatmentButtonTextPremium, { fontSize: fs(12) }]}>
+                    💰 {GAME_BALANCE.activities.vet.antiInflammatory.cost} (Money Only)
+                  </Text>
+                </TouchableOpacity>
+              </View>
+            </View>
           </View>
 
           <TouchableOpacity
@@ -361,81 +394,108 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginTop: 8,
   },
-  benefitsSidebar: {
-    position: 'absolute',
-    right: 0,
-    top: '25%',
-    backgroundColor: 'rgba(46, 125, 50, 0.9)',
-    borderRadius: 12,
-    padding: 10,
-    maxWidth: 110,
-  },
-  benefitsSidebarTitle: {
-    color: '#fff',
-    fontSize: 13,
-    fontWeight: '700',
-    marginBottom: 6,
-    textAlign: 'center',
-  },
-  benefitsSidebarText: {
-    color: '#fff',
-    fontSize: 11,
-    marginVertical: 2,
-  },
-  paymentOptions: {
+  treatmentOptions: {
     marginBottom: 16,
   },
-  payButton: {
-    backgroundColor: '#4CAF50',
-    paddingVertical: 14,
-    paddingHorizontal: 20,
-    borderRadius: 12,
-    alignItems: 'center',
-    marginBottom: 8,
-  },
-  payButtonDisabled: {
-    backgroundColor: '#ccc',
-    opacity: 0.6,
-  },
-  payButtonText: {
-    color: '#fff',
+  treatmentTitle: {
     fontSize: 16,
-    fontWeight: '600',
-  },
-  payButtonSubtext: {
-    color: '#fff',
-    fontSize: 13,
-    marginTop: 3,
-    opacity: 0.9,
-  },
-  orText: {
+    fontWeight: '700',
+    color: '#333',
+    marginBottom: 12,
     textAlign: 'center',
-    fontSize: 14,
-    color: '#666',
-    marginVertical: 8,
-    fontWeight: '600',
   },
-  adButton: {
-    backgroundColor: '#2196F3',
-    paddingVertical: 14,
-    paddingHorizontal: 20,
+  treatmentCard: {
+    backgroundColor: '#fff',
     borderRadius: 12,
+    padding: 14,
+    marginBottom: 10,
+    borderWidth: 2,
+    borderColor: '#4CAF50',
+  },
+  treatmentCardPremium: {
+    backgroundColor: '#fff',
+    borderRadius: 12,
+    padding: 14,
+    borderWidth: 2,
+    borderColor: '#2196F3',
+  },
+  treatmentHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'flex-start',
+  },
+  treatmentName: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#333',
+    marginBottom: 2,
+  },
+  treatmentSubtext: {
+    fontSize: 11,
+    color: '#999',
+  },
+  healthTargetBadge: {
+    backgroundColor: '#E8F5E9',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 6,
+  },
+  healthTargetText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#2E7D32',
+  },
+  healthTargetBadgePremium: {
+    backgroundColor: '#E3F2FD',
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+    borderRadius: 6,
+  },
+  healthTargetTextPremium: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#1565C0',
+  },
+  treatmentButtonGroup: {
+    flexDirection: 'row',
+    gap: 8,
+    marginTop: 10,
+  },
+  treatmentPayButton: {
+    backgroundColor: '#4CAF50',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
     alignItems: 'center',
   },
-  adButtonDisabled: {
+  treatmentPayButtonPremium: {
+    backgroundColor: '#2196F3',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+    flex: 1,
+  },
+  treatmentAdButton: {
+    backgroundColor: '#FF9800',
+    paddingVertical: 8,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    alignItems: 'center',
+  },
+  treatmentButtonDisabled: {
     backgroundColor: '#ccc',
     opacity: 0.6,
   },
-  adButtonText: {
+  treatmentButtonText: {
     color: '#fff',
-    fontSize: 16,
+    fontSize: 12,
     fontWeight: '600',
   },
-  adButtonSubtext: {
+  treatmentButtonTextPremium: {
     color: '#fff',
-    fontSize: 13,
-    marginTop: 3,
-    opacity: 0.9,
+    fontSize: 12,
+    fontWeight: '600',
   },
   backButton: {
     padding: 10,
