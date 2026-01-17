@@ -310,8 +310,15 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     setPet((currentPet) => {
       if (!currentPet) return currentPet;
 
+      // Improve underlying stats slightly to support health increase
+      const statsImprovement = 15;
+
       const updatedPet: Pet = {
         ...currentPet,
+        hunger: Math.min(100, currentPet.hunger + statsImprovement),
+        hygiene: Math.min(100, currentPet.hygiene + statsImprovement),
+        energy: Math.min(100, currentPet.energy + statsImprovement),
+        happiness: Math.min(100, currentPet.happiness + statsImprovement),
         money: useMoney ? currentPet.money - treatmentConfig.cost : currentPet.money,
       };
 
