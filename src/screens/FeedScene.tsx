@@ -5,6 +5,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
@@ -15,10 +16,9 @@ import { ScreenHeader } from '../components/ScreenHeader';
 import { AnimationState } from '../types';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
-import { useDoubleReward } from '../hooks/useDoubleReward';
-import { AdsConfig } from '../config/ads.config';
 import { ScreenNavigationProp } from '../types/navigation';
 import { ANIMATION_DURATION } from '../config/constants';
+import { FOOD_ITEMS } from '../data/foodItems';
 import { calculatePetAge } from '../utils/age';
 import { logger } from '../utils/logger';
 import { useResponsive } from '../hooks/useResponsive';
@@ -28,18 +28,10 @@ type Props = {
   navigation: ScreenNavigationProp<'Feed'>;
 };
 
-const FOODS = [
-  { id: 'kibble', emoji: '🍖', nameKey: 'feed.foods.kibble', value: 20 },
-  { id: 'fish', emoji: '🐟', nameKey: 'feed.foods.fish', value: 25 },
-  { id: 'treat', emoji: '🦴', nameKey: 'feed.foods.treat', value: 15 },
-  { id: 'milk', emoji: '🥛', nameKey: 'feed.foods.milk', value: 10 },
-];
-
 export const FeedScene: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
-  const { pet, feed, earnMoney } = usePet();
+  const { pet, feed } = usePet();
   const { showToast } = useToast();
-  const { triggerReward, DoubleRewardModal } = useDoubleReward({ earnMoney, showToast });
   const [animationState, setAnimationState] = useState<AnimationState>('idle');
   const [message, setMessage] = useState('');
   const BackButtonIcon = useBackButton();
@@ -71,7 +63,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
     goToNext,
     goToPrevious,
     totalItems,
-  } = useNavigationList(FOODS);
+  } = useNavigationList(FOOD_ITEMS as any);
 
   if (!pet) return null;
 
@@ -79,8 +71,18 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
   const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
-  const handleFeed = (food: typeof FOODS[0]) => {
+  const handleFeed = (food: typeof FOOD_ITEMS[0]) => {
     try {
+      // Check if pet has enough money
+      if (pet.money < food.cost) {
+        Alert.alert(
+          '💰 Not Enough Money',
+          `${food.nameKey} costs ${food.cost} coins. You have ${pet.money} coins.`,
+          [{ text: 'OK' }]
+        );
+        return;
+      }
+
       // Clear any existing timeouts to prevent conflicts
       if (animationTimeout1.current) {
         clearTimeout(animationTimeout1.current);
@@ -92,10 +94,19 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
       setAnimationState('eating');
       setMessage(t('feed.eating', { name: pet.name, food: t(food.nameKey) }));
 
-      feed(food.value);
+      // Feed pet and deduct cost
+      const success = feed(food.hungerValue, food.cost);
 
-      // Base money earned for feeding
-      const moneyEarned = AdsConfig.rewards.feedReward;
+      if (!success) {
+        Alert.alert(
+          '❌ Cannot Feed',
+          'Unable to feed your pet. Please try again.',
+          [{ text: 'OK' }]
+        );
+        setAnimationState('idle');
+        setMessage('');
+        return;
+      }
 
       animationTimeout1.current = setTimeout(() => {
         setAnimationState('happy');
@@ -104,14 +115,16 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
         animationTimeout2.current = setTimeout(() => {
           setAnimationState('idle');
           setMessage('');
-
-          // Offer double reward or give reward immediately
-          triggerReward(moneyEarned);
         }, ANIMATION_DURATION.MEDIUM);
       }, ANIMATION_DURATION.MEDIUM);
     } catch (error) {
       // Reset state on error to prevent UI freeze
       logger.error('Feed error:', error);
+      Alert.alert(
+        '❌ Error',
+        'An error occurred while feeding. Please try again.',
+        [{ text: 'OK' }]
+      );
       setAnimationState('idle');
       setMessage('');
     }
@@ -139,7 +152,13 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={[styles.foodContainer, { padding: spacing(16), borderTopLeftRadius: spacing(20), borderTopRightRadius: spacing(20) }]}>
-        <Text style={[styles.foodTitle, { fontSize: textSizes.titleSize, marginBottom: spacing(12) }]}>{t('feed.chooseFood')}</Text>
+        {/* Money display and title */}
+        <View style={[styles.headerRow, { marginBottom: spacing(12) }]}>
+          <Text style={[styles.foodTitle, { fontSize: textSizes.titleSize, flex: 1 }]}>{t('feed.chooseFood')}</Text>
+          <View style={[styles.moneyBadge, { paddingHorizontal: spacing(12), paddingVertical: spacing(6), borderRadius: spacing(8) }]}>
+            <Text style={[styles.moneyText, { fontSize: fs(13) }]}>💰 {pet.money}</Text>
+          </View>
+        </View>
 
         {/* Navigation arrows and current food display */}
         <View style={[styles.navigationContainer, { marginBottom: spacing(10) }]}>
@@ -152,13 +171,20 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.currentFoodButton, { minWidth: buttonSizes.itemWidth, padding: buttonSizes.itemPadding, borderRadius: spacing(16) }]}
+            style={[
+              styles.currentFoodButton,
+              { minWidth: buttonSizes.itemWidth, padding: buttonSizes.itemPadding, borderRadius: spacing(16) },
+              (animationState !== 'idle' || pet.hunger >= 100 || pet.money < currentFood.cost) && styles.currentFoodButtonDisabled,
+            ]}
             onPress={() => handleFeed(currentFood)}
-            disabled={animationState !== 'idle' || pet.hunger >= 100}
+            disabled={animationState !== 'idle' || pet.hunger >= 100 || pet.money < currentFood.cost}
           >
             <Text style={[styles.currentFoodEmoji, { fontSize: buttonSizes.itemEmoji, marginBottom: spacing(6) }]}>{currentFood.emoji}</Text>
             <Text style={[styles.currentFoodName, { fontSize: buttonSizes.itemFont, marginBottom: spacing(3) }]}>{t(currentFood.nameKey)}</Text>
-            <Text style={[styles.currentFoodValue, { fontSize: buttonSizes.valueFont }]}>+{currentFood.value}%</Text>
+            <View style={[styles.foodValueRow, { marginTop: spacing(4) }]}>
+              <Text style={[styles.currentFoodValue, { fontSize: buttonSizes.valueFont, flex: 1 }]}>+{currentFood.hungerValue}%</Text>
+              <Text style={[styles.foodCost, { fontSize: buttonSizes.valueFont }]}>💰{currentFood.cost}</Text>
+            </View>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -173,10 +199,13 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
         <Text style={[styles.pageIndicator, { fontSize: fs(13), marginBottom: spacing(12) }]}>
           {currentIndex + 1} / {totalItems}
         </Text>
-      </View>
 
-      {/* Double Reward Modal */}
-      {DoubleRewardModal}
+        {pet.money < currentFood.cost && (
+          <Text style={[styles.warningText, { fontSize: fs(12), marginBottom: spacing(8) }]}>
+            ⚠️ Not enough coins! Need {currentFood.cost}, have {pet.money}
+          </Text>
+        )}
+      </View>
     </SafeAreaView>
   );
 };
@@ -285,11 +314,53 @@ const styles = StyleSheet.create({
     color: '#4CAF50',
     fontWeight: '600',
   },
+  currentFoodButtonDisabled: {
+    backgroundColor: '#f0f0f0',
+    borderColor: '#ccc',
+    opacity: 0.6,
+  },
+  foodValueRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    width: '100%',
+  },
+  foodCost: {
+    fontSize: 14,
+    color: '#FFD700',
+    fontWeight: '600',
+  },
   pageIndicator: {
     fontSize: 14,
     color: '#666',
     textAlign: 'center',
     marginBottom: 16,
     fontWeight: '600',
+  },
+  headerRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  moneyBadge: {
+    backgroundColor: '#FFD700',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 8,
+  },
+  moneyText: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    color: '#333',
+  },
+  warningText: {
+    fontSize: 12,
+    color: '#ff6b6b',
+    textAlign: 'center',
+    fontWeight: '600',
+    backgroundColor: '#ffe0e0',
+    paddingVertical: 6,
+    paddingHorizontal: 8,
+    borderRadius: 6,
   },
 });
