@@ -340,7 +340,7 @@ export const PetRenderer: React.FC<PetRendererProps> = ({
             },
           ]}
         >
-          <Text style={[styles.dirtEmoji, { fontSize: size * DIRT_MARK_SIZE_RATIO }]}>💩</Text>
+          <Text style={[styles.dirtEmoji, { fontSize: size * UI.DIRT_MARK_SIZE_RATIO }]}>💩</Text>
         </View>
       ))}
     </Animated.View>
