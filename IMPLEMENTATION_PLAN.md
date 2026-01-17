@@ -12,16 +12,115 @@ This document outlines the implementation plan for vet healing logic, card stats
 - ✅ Responsive Design: 100% Complete (RESPONSIVE.md created)
 - ✅ Phase 2 Refactoring: 100% Complete (All 69 magic numbers eliminated)
 
-## Validation Decisions
+## Validation & Decisions
 
-**Blocker #1 (VET Healing)**: RESOLVED - Using **Option B (Guaranteed Minimum)**
-- Antibiotic: Guarantees minimum 50% health
-- Anti-inflammatory: Guarantees minimum 80% health
+### Critical Issues Identified & Resolutions
 
-**Blocker #2 (Food Economy)**: RESOLVED - Using **Option A (Remove Rewards, Boost Income)**
-- Remove feeding ad rewards entirely
-- Play income: +5 → +15 coins (3x increase)
-- Exercise income: +10 → +25 coins (2.5x increase)
+#### 🔴 Issue #1: VET Healing Mechanic (Additive vs. Guaranteed)
+
+**Problem**: Original plan proposed additive healing (+50/+80 health points), which would give critically ill pets LESS healing than current system:
+- Pet at 10% health + Antibiotic (additive): 10% + 50% = 60% (vs old system's guaranteed 70%)
+- Pet at 10% health + Anti-inflammatory (additive): 10% + 80% = 90% (vs old system's guaranteed 70%)
+
+**Decision Made**: **Option B - Guaranteed Minimum Model**
+- Antibiotic: `Math.max(50%, currentHealth)` - Guarantees minimum 50% health
+- Anti-inflammatory: `Math.max(80%, currentHealth)` - Guarantees minimum 80% health
+- Pets already above minimum keep their current health unchanged
+
+**Examples with Guaranteed Model**:
+| Scenario | Before | After (Antibiotic) | After (Anti-inflammatory) |
+|----------|--------|-------------------|----------------------|
+| Pet at 10% health | → 70% guaranteed | → 50% guaranteed | → 80% guaranteed |
+| Pet at 60% health | → 70% guaranteed | → 60% unchanged | → 80% guaranteed |
+| Pet at 90% health | → 90% unchanged | → 90% unchanged | → 90% unchanged |
+
+**Rationale**: Guarantees meaningful healing for critical pets while respecting higher health values
+
+---
+
+#### 🔴 Issue #2: Food Economy Restructuring (Feeding Rewards Removal)
+
+**Problem**: Making food cost money (15-20 coins) without corresponding income changes would break game balance:
+- Current daily food needs: ~4 feedings × 15-20 coins = 60-80 coins
+- Previous daily income: Play (5) + Exercise (10) = 15 coins
+- **Result**: -45 to -65 coins/day deficit (UNPLAYABLE)
+
+**Decision Made**: **Option A - Remove Rewards, Boost Income**
+- Remove feeding ad reward system entirely (no more money earned from feeding)
+- Increase Play income: 5 → 15 coins (3x increase)
+- Increase Exercise income: 10 → 25 coins (2.5x increase)
+
+**New Game Balance**:
+```
+Daily food needs:       ~4 feedings × 15-20 coins = 60-80 coins
+Daily income:           Play (3×) = 45 coins + Exercise (2×) = 50 coins = 95 coins
+Net daily balance:      +15 to +35 coins (SUSTAINABLE)
+```
+
+**Rationale**: Provides clear income sources, removes confusing ad mechanics, maintains sustainable gameplay
+
+---
+
+### Plan Validation Report (2026-01-16)
+
+#### Feature Validation Summary
+
+| Feature | Status | Issues | Decision |
+|---------|--------|--------|----------|
+| VET Healing Logic | ✅ Valid | Healing model clarified | Guaranteed minimum |
+| Card Stats UI | ✅ Valid | No issues | Ready to implement |
+| Food System | ✅ Valid | Economy balance clarified | Remove rewards, boost income |
+| Responsive Documentation | ✅ Valid | No issues | Ready to implement |
+
+#### Game Balance Analysis
+
+**Assumptions**:
+- Pet hunger decays 0.5 point/minute = 60 points/2 hours
+- Players feed pet 4-6 times per day (every 4-6 hours)
+- Average play frequency: 3 play sessions/day, 2 exercise sessions/day
+
+**Daily Earnings**:
+- Play (3×): 15 coins × 3 = 45 coins
+- Exercise (2×): 25 coins × 2 = 50 coins
+- **Total**: 95 coins/day
+
+**Daily Spending**:
+- Food: 4 feedings × 18 coins average = 72 coins
+- Vet (occasional): ~25 coins/visit, ~1 visit per week = ~3.5 coins/day average
+- **Total**: ~75.5 coins/day
+
+**Net Balance**: +19.5 coins/day (sustainable, allows occasional saving)
+
+#### Identified Risks & Mitigations
+
+| Risk | Severity | Mitigation |
+|------|----------|-----------|
+| Players unable to feed pets initially | Medium | Sufficient starting coins or tutorial guidance |
+| Food costs confusing without labels | Low | Icon-only display is intuitive with emojis |
+| Removing ad rewards reduces impressions | Medium | Offset by better income, play rewards still exist |
+| Existing players lose money source | Low | Compensated by 3-5x income increase |
+
+---
+
+### Implementation Decisions Log
+
+**Decision #1**: VET Healing Model
+- **Date**: 2026-01-16
+- **Decision**: Guaranteed minimum health using Math.max()
+- **Rationale**: Better game feel for critical pets, respects high health values
+- **Status**: ✅ Implemented
+
+**Decision #2**: Food Economy
+- **Date**: 2026-01-16
+- **Decision**: Remove feeding rewards, increase income 3x/2.5x
+- **Rationale**: Simpler economy, sustainable balance, clear progression
+- **Status**: ✅ Implemented
+
+**Decision #3**: Stats Display
+- **Date**: 2026-01-16
+- **Decision**: Icon-only (no labels), remove white background
+- **Rationale**: Cleaner UI, language-independent, better visual hierarchy
+- **Status**: ✅ Implemented
 
 ---
 
