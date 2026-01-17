@@ -12,6 +12,7 @@ import Animated, {
 import { Pet, PetType, PetColor, AnimationState } from '../types';
 import { CLOTHING_ITEMS } from '../data/clothingItems';
 import { SpriteSheetAnimation } from './SpriteSheetAnimation';
+import { UI } from '../config/constants';
 
 // Mapeamento de assets base
 const BASE_ASSETS: Record<PetType, Record<PetColor, ImageRequireSource>> = {
