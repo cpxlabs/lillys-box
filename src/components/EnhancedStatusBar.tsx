@@ -31,21 +31,18 @@ export const EnhancedStatusBar: React.FC<EnhancedStatusBarProps> = ({
       <View style={styles.twoColumnContainer}>
         <View style={styles.column}>
           <StatusBar
-            label="Fome"
             value={pet.hunger}
             color={hungerLevel.color}
             emoji="🍖"
             showPercentage={showPercentage}
           />
           <StatusBar
-            label="Higiene"
             value={pet.hygiene}
             color={hygieneLevel.color}
             emoji="🛁"
             showPercentage={showPercentage}
           />
           <StatusBar
-            label="Energia"
             value={pet.energy}
             color={energyLevel.color}
             emoji="⚡"
@@ -54,14 +51,12 @@ export const EnhancedStatusBar: React.FC<EnhancedStatusBarProps> = ({
         </View>
         <View style={styles.column}>
           <StatusBar
-            label="Felicidade"
             value={pet.happiness}
             color={happinessLevel.color}
             emoji={happinessEmoji}
             showPercentage={showPercentage}
           />
           <StatusBar
-            label="Saúde"
             value={pet.health}
             color={healthLevel.color}
             emoji="❤️"
@@ -75,35 +70,30 @@ export const EnhancedStatusBar: React.FC<EnhancedStatusBarProps> = ({
   return (
     <View style={[styles.container, compact && styles.compact]}>
       <StatusBar
-        label="Fome"
         value={pet.hunger}
         color={hungerLevel.color}
         emoji="🍖"
         showPercentage={showPercentage}
       />
       <StatusBar
-        label="Higiene"
         value={pet.hygiene}
         color={hygieneLevel.color}
         emoji="🛁"
         showPercentage={showPercentage}
       />
       <StatusBar
-        label="Energia"
         value={pet.energy}
         color={energyLevel.color}
         emoji="⚡"
         showPercentage={showPercentage}
       />
       <StatusBar
-        label="Felicidade"
         value={pet.happiness}
         color={happinessLevel.color}
         emoji={happinessEmoji}
         showPercentage={showPercentage}
       />
       <StatusBar
-        label="Saúde"
         value={pet.health}
         color={healthLevel.color}
         emoji="❤️"
