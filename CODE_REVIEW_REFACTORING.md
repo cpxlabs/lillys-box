@@ -2,7 +2,7 @@
 
 **Date**: 2026-01-16
 **Purpose**: Eliminate magic numbers and improve code maintainability
-**Status**: ✅ Phase 1 Complete | ✅ Phase 2 Complete (FINISHED)
+**Status**: ✅ Phase 1 Complete - Core Constants & petStats.ts Refactored
 
 ---
 
@@ -204,44 +204,44 @@ if (pet.health < HAPPINESS.VERY_UNHEALTHY_HEALTH) { ... }
 
 ---
 
-## Phase 2: Completed ✅
+## Phase 2: Remaining Work
 
-All 45 remaining magic numbers eliminated across 6 files (100% complete).
+### Files to Refactor:
 
-### Files Refactored:
+#### 1. `src/context/PetContext.tsx` (MEDIUM Priority)
+- [ ] Line 39: Use `TIMER_INTERVAL.DEBOUNCE_SAVE_DELAY`
+- [ ] Line 60: Use `TIME.MS_PER_MINUTE`
+- [ ] Line 231: Use `TIMER_INTERVAL.SLEEP_CANCELLATION_CHECK`
 
-#### 1. `src/context/PetContext.tsx` (3 magic numbers) ✅ DONE
-- ✅ Line 39: Use `TIMER_INTERVAL.DEBOUNCE_SAVE_DELAY` (was 1000)
-- ✅ Line 60: Use `TIME.MS_PER_MINUTE` (was 60000)
-- ✅ Line 231: Use `TIMER_INTERVAL.SLEEP_CANCELLATION_CHECK` (was 100)
+#### 2. `src/screens/FeedScene.tsx` (HIGH Priority)
+- [ ] Lines 32-35: Import `FOOD_ITEMS` from `src/data/foodItems.ts`
+- [ ] Update component to use imported data instead of local constant
 
-#### 2. `src/screens/FeedScene.tsx` (4 magic numbers) ✅ DONE
-- ✅ Lines 32-35: Imported `FOOD_ITEMS` from `src/data/foodItems.ts`
-- ✅ Removed local FOODS constant definition
-- ✅ Updated all references to use imported data
+#### 3. `src/screens/BathScene.tsx` (MEDIUM Priority)
+- [ ] Line 108: Use `GAME_BALANCE.activities.bathe.scrubsNeeded`
+- [ ] Line 109-112: Use `GAME_BALANCE.activities.bathe.bubble.*`
+- [ ] Line 137: Use `ANIMATION_DURATION.MEDIUM` or create `GAME_BALANCE.activities.bathe.bubble.lifetimeMs`
+- [ ] Lines 154, 161: Use `GAME_BALANCE.activities.bathe.perScrubAmount` and `.bonusAmount`
+- [ ] Line 184: Use `UI.GESTURE.PAN_DAMPING`
+- [ ] Line 219: Use `UI.GESTURE.SPONGE_ACTIVE_SCALE`
 
-#### 3. `src/screens/BathScene.tsx` (10 magic numbers) ✅ DONE
-- ✅ Line 108: Use `GAME_BALANCE.activities.bathe.scrubsNeeded` (was 5)
-- ✅ Line 109-112: Use `GAME_BALANCE.activities.bathe.bubble.*` (was 100, 40, 20)
-- ✅ Line 137: Use `GAME_BALANCE.activities.bathe.bubble.lifetimeMs` (was 1500)
-- ✅ Lines 154, 161: Use `GAME_BALANCE.activities.bathe.perScrubAmount/bonusAmount` (was 5, 10)
-- ✅ Line 184: Use `UI.GESTURE.PAN_DAMPING` (was 0.3)
-- ✅ Line 219: Use `UI.GESTURE.SPONGE_ACTIVE_SCALE` (was 1.1)
+#### 4. `src/screens/SleepScene.tsx` (MEDIUM Priority)
+- [ ] Lines 38-55: Use `SLEEP_ANIMATION.Z_FLOAT.*` constants
+- [ ] Line 107: Use `SLEEP_ANIMATION.FADE_OUT_DURATION`
+- [ ] Line 112: Use `TIMER_INTERVAL.SLEEP_PROGRESS_UPDATE`
+- [ ] Line 146: Use `TIMER_INTERVAL.SLEEP_COMPLETION_DELAY`
 
-#### 4. `src/screens/SleepScene.tsx` (8 magic numbers) ✅ DONE
-- ✅ Lines 38-55: Use `SLEEP_ANIMATION.Z_FLOAT.*` constants (was -30, 1500, 0.4, 1.2)
-- ✅ Line 107: Use `SLEEP_ANIMATION.FADE_OUT_DURATION` (was 2000)
-- ✅ Line 112: Use `TIMER_INTERVAL.SLEEP_PROGRESS_UPDATE` (was 100)
-- ✅ Line 146: Use `TIMER_INTERVAL.SLEEP_COMPLETION_DELAY` (was 500)
+#### 5. `src/screens/VetScene.tsx` (LOW Priority)
+- [ ] Lines 129-131: Use `COLORS.URGENCY.*` for urgency colors
 
-#### 5. `src/screens/VetScene.tsx` (3 magic numbers) ✅ DONE
-- ✅ Lines 129-131: Use `COLORS.URGENCY.*` for urgency colors (were '#EF5350', '#FFA726', '#4CAF50')
-
-#### 6. `src/components/PetRenderer.tsx` (17 magic numbers) ✅ DONE
-- ✅ Line 99: Use `UI.DIRT_MARK_SIZE_RATIO` (was 0.071)
-- ✅ Lines 195-202: Use `STAT_THRESHOLDS.DIRT_MARKS.*` (were 80, 60, 40, 20, 0, 5)
-- ✅ Lines 146-155: Use `PET_ANIMATION.EATING` constants
-- ✅ Lines 168-177: Use `PET_ANIMATION.IDLE` constants
+#### 6. `src/components/PetRenderer.tsx` (MEDIUM Priority)
+- [ ] Line 99: Use `UI.DIRT_MARK_SIZE_RATIO` (already named, just move to centralized config)
+- [ ] Lines 128-129: Use `ANIMATION_SPRING.HAPPY_BOUNCE`
+- [ ] Lines 138-140: Use `PET_ANIMATION.HAPPY.wiggle`
+- [ ] Lines 149-151: Use `PET_ANIMATION.EATING`
+- [ ] Lines 159-161: Use `PET_ANIMATION.BATHING`
+- [ ] Lines 170-171: Use `PET_ANIMATION.IDLE`
+- [ ] Lines 196-201: Use `STAT_THRESHOLDS.DIRT_MARKS`
 
 ---
 
@@ -381,13 +381,13 @@ if (STAT_THRESHOLDS.LEVELS.HIGH <= STAT_THRESHOLDS.LEVELS.MEDIUM) {
 - ✅ `src/config/gameBalance.ts` - Added bath bubble configuration
 - ✅ `src/utils/petStats.ts` - Refactored all functions to use constants
 
-### Completed:
-- ✅ `src/context/PetContext.tsx`
-- ✅ `src/screens/FeedScene.tsx`
-- ✅ `src/screens/BathScene.tsx`
-- ✅ `src/screens/SleepScene.tsx`
-- ✅ `src/screens/VetScene.tsx`
-- ✅ `src/components/PetRenderer.tsx`
+### Pending:
+- ⏳ `src/context/PetContext.tsx`
+- ⏳ `src/screens/FeedScene.tsx`
+- ⏳ `src/screens/BathScene.tsx`
+- ⏳ `src/screens/SleepScene.tsx`
+- ⏳ `src/screens/VetScene.tsx`
+- ⏳ `src/components/PetRenderer.tsx`
 
 ---
 
@@ -395,18 +395,14 @@ if (STAT_THRESHOLDS.LEVELS.HIGH <= STAT_THRESHOLDS.LEVELS.MEDIUM) {
 
 - **Magic Numbers Found**: 69
 - **Magic Numbers Eliminated (Phase 1)**: 24 (35%)
-- **Magic Numbers Eliminated (Phase 2)**: 45 (65%)
-- **Total Eliminated**: 69/69 (100% ✨)
 - **Files Reviewed**: 8
 - **Files Refactored (Phase 1)**: 3
-- **Files Refactored (Phase 2)**: 6
-- **Total Files Refactored**: 9/8 (all reviewed files)
 - **Lines Added**: ~180 (constants + documentation)
-- **Lines Modified**: ~100 (all refactored files)
-- **Code Quality Improvement**: 100%
+- **Lines Modified**: ~40 (petStats.ts refactoring)
+- **Code Quality Improvement**: ~75%
 
 ---
 
-**Refactoring Status**: ✅ COMPLETE (Phase 1 + Phase 2 Finished)
-**Quality**: Excellent - All magic numbers eliminated
-**Risk Level**: NEGLIGIBLE (internal refactoring, zero logic changes, all behavior preserved)
+**Refactoring Status**: ✅ Phase 1 Complete | ⏳ Phase 2 In Progress
+**Estimated Time to Complete Phase 2**: 1-2 hours
+**Risk Level**: LOW (internal refactoring, no logic changes)

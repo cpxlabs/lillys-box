@@ -14,7 +14,6 @@ export interface FoodItem {
   emoji: string;
   nameKey: string;
   hungerValue: number;
-  cost: number; // Cost in coins to feed this item
 }
 
 /**
@@ -26,29 +25,25 @@ export const FOOD_ITEMS: readonly FoodItem[] = [
     id: 'kibble',
     emoji: '🍖',
     nameKey: 'feed.foods.kibble',
-    hungerValue: 30,
-    cost: 15,
+    hungerValue: 20,
   },
   {
     id: 'fish',
     emoji: '🐟',
     nameKey: 'feed.foods.fish',
-    hungerValue: 35,
-    cost: 20,
+    hungerValue: 25,
   },
   {
     id: 'treat',
     emoji: '🦴',
     nameKey: 'feed.foods.treat',
-    hungerValue: 25,
-    cost: 18,
+    hungerValue: 15,
   },
   {
     id: 'milk',
     emoji: '🥛',
     nameKey: 'feed.foods.milk',
-    hungerValue: 20,
-    cost: 15,
+    hungerValue: 10,
   },
 ] as const;
 
