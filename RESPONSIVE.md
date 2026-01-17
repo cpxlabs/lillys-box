@@ -407,9 +407,248 @@ Potential improvements to the responsive system:
 
 ---
 
+## Implementation Details
+
+### Core Files
+
+#### 1. useResponsive Hook (`src/hooks/useResponsive.ts`)
+
+```typescript
+import { useWindowDimensions, Platform, PixelRatio } from 'react-native';
+
+export type DeviceType = 'mobile' | 'mobileLarge' | 'tablet' | 'desktop';
+
+export interface ResponsiveConfig {
+  width: number;
+  height: number;
+  deviceType: DeviceType;
+  isPortrait: boolean;
+  isLandscape: boolean;
+  scale: number;
+  fontScale: number;
+  wp: (percentage: number) => number;  // Width percentage
+  hp: (percentage: number) => number;  // Height percentage
+  fs: (size: number) => number;        // Font size
+  spacing: (size: number) => number;   // Spacing/padding
+}
+
+export const useResponsive = (): ResponsiveConfig => {
+  const { width, height } = useWindowDimensions();
+
+  // Determine device type based on width
+  const getDeviceType = (): DeviceType => {
+    if (width >= 1280) return 'desktop';
+    if (width >= 768) return 'tablet';
+    if (width >= 428) return 'mobileLarge';
+    return 'mobile';
+  };
+
+  // Base width for scaling (iPhone 12 Pro as reference)
+  const BASE_WIDTH = 390;
+  const scale = width / BASE_WIDTH;
+  const fontScale = Math.min(scale, 1.3); // Cap font scaling at 1.3x
+
+  return {
+    width,
+    height,
+    deviceType: getDeviceType(),
+    isPortrait: height > width,
+    isLandscape: width > height,
+    scale,
+    fontScale,
+    wp: (percentage) => (width * percentage) / 100,
+    hp: (percentage) => (height * percentage) / 100,
+    fs: (size) => Math.round(size * fontScale),
+    spacing: (size) => Math.round(size * Math.min(scale, 1.2)),
+  };
+};
+```
+
+#### 2. Responsive Config (`src/config/responsive.ts`)
+
+```typescript
+export const BREAKPOINTS = {
+  mobileSmall: 375,
+  mobile: 428,
+  mobileLarge: 768,
+  tablet: 1024,
+  tabletLarge: 1280,
+};
+
+export const GRID_COLUMNS = {
+  mobile: 4,        // 4 columns for mobile
+  mobileLarge: 4,   // 4 columns for large mobile
+  tablet: 6,        // 6 columns for tablet
+  desktop: 8,       // 8 columns for desktop
+};
+
+export const PET_SIZE = {
+  mobile: 280,
+  mobileLarge: 320,
+  tablet: 380,
+  desktop: 450,
+};
+
+export const ACTION_PET_SIZE = {
+  mobile: 280,
+  mobileLarge: 320,
+  tablet: 350,
+  desktop: 400,
+};
+
+export const FONT_SIZES = {
+  xs: 10,
+  sm: 12,
+  base: 14,
+  md: 16,
+  lg: 18,
+  xl: 20,
+  xxl: 24,
+  xxxl: 32,
+};
+
+export const SPACING = {
+  xs: 4,
+  sm: 8,
+  md: 12,
+  lg: 16,
+  xl: 20,
+  xxl: 24,
+};
+```
+
+### Web-Specific Optimizations
+
+For web applications, add a max-width container to maintain mobile-like experience:
+
+```typescript
+import { Platform } from 'react-native';
+
+export const WEB_MAX_WIDTH = 480;
+
+export const getWebContainerStyle = () => {
+  if (Platform.OS !== 'web') return {};
+  return {
+    maxWidth: WEB_MAX_WIDTH,
+    marginHorizontal: 'auto',
+    width: '100%',
+  };
+};
+```
+
+In `App.tsx`:
+```typescript
+{Platform.OS === 'web' ? (
+  <View style={webContainerStyles}>
+    <NavigationContainer>{/* ... */}</NavigationContainer>
+  </View>
+) : (
+  <NavigationContainer>{/* ... */}</NavigationContainer>
+)}
+
+const webContainerStyles = StyleSheet.create({
+  container: {
+    flex: 1,
+    maxWidth: 480,
+    marginHorizontal: 'auto',
+    backgroundColor: '#f5f5f5',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+  },
+});
+```
+
+### Tablet-Specific Layout Example
+
+For tablets and larger screens, you can use a two-column layout:
+
+```typescript
+const { deviceType, wp } = useResponsive();
+
+if (deviceType === 'tablet' || deviceType === 'desktop') {
+  return (
+    <View style={styles.tabletContainer}>
+      <View style={styles.leftColumn}>
+        <StatusCard />
+        <PetRenderer size={380} />
+      </View>
+      <View style={styles.rightColumn}>
+        <ActionsGrid />
+      </View>
+    </View>
+  );
+}
+
+const tabletStyles = StyleSheet.create({
+  tabletContainer: {
+    flex: 1,
+    flexDirection: 'row',
+  },
+  leftColumn: {
+    flex: 1,
+    alignItems: 'center',
+  },
+  rightColumn: {
+    width: 200,
+    padding: 16,
+  },
+});
+```
+
+---
+
+## Implementation Checklist
+
+| Task | Status | Details |
+|------|--------|---------|
+| Create `useResponsive` hook | ✅ Complete | Device detection and scaling functions |
+| Define breakpoint system | ✅ Complete | Device widths and thresholds |
+| Create responsive constants | ✅ Complete | Predefined sizes for all elements |
+| Update HomeScreen | ✅ Complete | Dynamic pet size and responsive spacing |
+| Update action screens | ✅ Complete | Feed, Bath, Play, Sleep, Vet, Wardrobe |
+| Update components | ✅ Complete | StatusCard, StatusBar, IconButton |
+| Web optimizations | ✅ Complete | Max-width container for web |
+| Tablet layouts | ✅ Complete | Two-column layout support |
+
+---
+
+## Device Testing Guide
+
+### Mobile (< 428px)
+- iPhone SE (375x667)
+- iPhone 12/13/14 (390x844)
+- Android small (360x640)
+
+### Mobile Large (428px - 768px)
+- iPhone Pro Max (428x926)
+- Samsung Galaxy S20 Ultra (412x915)
+
+### Tablet (768px - 1024px)
+- iPad Mini (768x1024)
+- Android tablet (800x1280)
+
+### Desktop (> 1024px)
+- Web browser (1920x1080)
+- iPad Pro (1024x1366)
+
+---
+
+## Expected Improvements
+
+| Metric | Before | After |
+|--------|--------|-------|
+| Font readability | Small, fixed | Scaled to device |
+| Button grid | Uneven wrapping | Consistent columns |
+| Pet size | Fixed 420px | Adaptive to screen |
+| Tablet experience | Same as mobile | Optimized layout |
+| Web experience | Stretched | Centered, max-width |
+
+---
+
 ## Resources
 
-- **Technical Details**: See `160126-responsivity.md` for implementation specifics
 - **Responsive Hook**: `src/hooks/useResponsive.ts`
 - **Responsive Config**: `src/config/responsive.ts`
 - **React Native Docs**: [useWindowDimensions](https://reactnative.dev/docs/usewindowdimensions)

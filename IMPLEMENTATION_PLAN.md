@@ -3,25 +3,117 @@
 ## Overview
 This document outlines the implementation plan for vet healing logic, card stats UI improvements, food system updates, and responsive design documentation.
 
-**Status**: ✅ IMPLEMENTATION COMPLETE (2026-01-17)
+**Status**: ✅ APPROVED - Blockers Resolved (2026-01-16)
 
-**Completion Status:**
-- ✅ VET System: 100% Complete (Dual treatments, UI, backend)
-- ✅ Food System: 100% Complete (Costs added, ad rewards removed)
-- ✅ Card Stats UI: 100% Complete (Icon-only display, no white background)
-- ✅ Responsive Design: 100% Complete (RESPONSIVE.md created)
-- ✅ Phase 2 Refactoring: 100% Complete (All 69 magic numbers eliminated)
+## Validation & Decisions
 
-## Validation Decisions
+### Critical Issues Identified & Resolutions
 
-**Blocker #1 (VET Healing)**: RESOLVED - Using **Option B (Guaranteed Minimum)**
-- Antibiotic: Guarantees minimum 50% health
-- Anti-inflammatory: Guarantees minimum 80% health
+#### 🔴 Issue #1: VET Healing Mechanic (Additive vs. Guaranteed)
 
-**Blocker #2 (Food Economy)**: RESOLVED - Using **Option A (Remove Rewards, Boost Income)**
-- Remove feeding ad rewards entirely
-- Play income: +5 → +15 coins (3x increase)
-- Exercise income: +10 → +25 coins (2.5x increase)
+**Problem**: Original plan proposed additive healing (+50/+80 health points), which would give critically ill pets LESS healing than current system:
+- Pet at 10% health + Antibiotic (additive): 10% + 50% = 60% (vs old system's guaranteed 70%)
+- Pet at 10% health + Anti-inflammatory (additive): 10% + 80% = 90% (vs old system's guaranteed 70%)
+
+**Decision Made**: **Option B - Guaranteed Minimum Model**
+- Antibiotic: `Math.max(50%, currentHealth)` - Guarantees minimum 50% health
+- Anti-inflammatory: `Math.max(80%, currentHealth)` - Guarantees minimum 80% health
+- Pets already above minimum keep their current health unchanged
+
+**Examples with Guaranteed Model**:
+| Scenario | Before | After (Antibiotic) | After (Anti-inflammatory) |
+|----------|--------|-------------------|----------------------|
+| Pet at 10% health | → 70% guaranteed | → 50% guaranteed | → 80% guaranteed |
+| Pet at 60% health | → 70% guaranteed | → 60% unchanged | → 80% guaranteed |
+| Pet at 90% health | → 90% unchanged | → 90% unchanged | → 90% unchanged |
+
+**Rationale**: Guarantees meaningful healing for critical pets while respecting higher health values
+
+---
+
+#### 🔴 Issue #2: Food Economy Restructuring (Feeding Rewards Removal)
+
+**Problem**: Making food cost money (15-20 coins) without corresponding income changes would break game balance:
+- Current daily food needs: ~4 feedings × 15-20 coins = 60-80 coins
+- Previous daily income: Play (5) + Exercise (10) = 15 coins
+- **Result**: -45 to -65 coins/day deficit (UNPLAYABLE)
+
+**Decision Made**: **Option A - Remove Rewards, Boost Income**
+- Remove feeding ad reward system entirely (no more money earned from feeding)
+- Increase Play income: 5 → 15 coins (3x increase)
+- Increase Exercise income: 10 → 25 coins (2.5x increase)
+
+**New Game Balance**:
+```
+Daily food needs:       ~4 feedings × 15-20 coins = 60-80 coins
+Daily income:           Play (3×) = 45 coins + Exercise (2×) = 50 coins = 95 coins
+Net daily balance:      +15 to +35 coins (SUSTAINABLE)
+```
+
+**Rationale**: Provides clear income sources, removes confusing ad mechanics, maintains sustainable gameplay
+
+---
+
+### Plan Validation Report (2026-01-16)
+
+#### Feature Validation Summary
+
+| Feature | Status | Issues | Decision |
+|---------|--------|--------|----------|
+| VET Healing Logic | ✅ Valid | Healing model clarified | Guaranteed minimum |
+| Card Stats UI | ✅ Valid | No issues | Ready to implement |
+| Food System | ✅ Valid | Economy balance clarified | Remove rewards, boost income |
+| Responsive Documentation | ✅ Valid | No issues | Ready to implement |
+
+#### Game Balance Analysis
+
+**Assumptions**:
+- Pet hunger decays 0.5 point/minute = 60 points/2 hours
+- Players feed pet 4-6 times per day (every 4-6 hours)
+- Average play frequency: 3 play sessions/day, 2 exercise sessions/day
+
+**Daily Earnings**:
+- Play (3×): 15 coins × 3 = 45 coins
+- Exercise (2×): 25 coins × 2 = 50 coins
+- **Total**: 95 coins/day
+
+**Daily Spending**:
+- Food: 4 feedings × 18 coins average = 72 coins
+- Vet (occasional): ~25 coins/visit, ~1 visit per week = ~3.5 coins/day average
+- **Total**: ~75.5 coins/day
+
+**Net Balance**: +19.5 coins/day (sustainable, allows occasional saving)
+
+#### Identified Risks & Mitigations
+
+| Risk | Severity | Mitigation |
+|------|----------|-----------|
+| Players unable to feed pets initially | Medium | Sufficient starting coins or tutorial guidance |
+| Food costs confusing without labels | Low | Icon-only display is intuitive with emojis |
+| Removing ad rewards reduces impressions | Medium | Offset by better income, play rewards still exist |
+| Existing players lose money source | Low | Compensated by 3-5x income increase |
+
+---
+
+### Implementation Decisions Log
+
+**Decision #1**: VET Healing Model
+- **Date**: 2026-01-16
+- **Decision**: Guaranteed minimum health using Math.max()
+- **Rationale**: Better game feel for critical pets, respects high health values
+- **Status**: ✅ Implemented
+
+**Decision #2**: Food Economy
+- **Date**: 2026-01-16
+- **Decision**: Remove feeding rewards, increase income 3x/2.5x
+- **Rationale**: Simpler economy, sustainable balance, clear progression
+- **Status**: ✅ Implemented
+
+**Decision #3**: Stats Display
+- **Date**: 2026-01-16
+- **Decision**: Icon-only (no labels), remove white background
+- **Rationale**: Cleaner UI, language-independent, better visual hierarchy
+- **Status**: ✅ Implemented
 
 ---
 
@@ -325,76 +417,61 @@ Net balance: +15 to +35 coins/day (sustainable)
 
 ---
 
-## Files Modified
+## Files to Modify
 
 ### Core Files
-- ✅ `src/config/gameBalance.ts` - Vet configs, food costs, income rebalance (play +15, exercise +25)
-- ✅ `src/context/PetContext.tsx` - Updated visitVet() and feed() functions with treatment types and cost validation
-- ✅ `src/types.ts` - Added TreatmentType: `'antibiotic' | 'antiInflammatory'`
-- ✅ `src/data/foodItems.ts` - Added cost field to FoodItem interface, updated all food items with costs
+- [ ] `src/config/gameBalance.ts` - Update vet configs, food costs, income rebalance (play +15, exercise +25)
+- [ ] `src/context/PetContext.tsx` - Update visitVet() and feed() functions
+- [ ] `src/types.ts` - Add treatment type: `type TreatmentType = 'antibiotic' | 'antiInflammatory'`
 
 ### Screen Files
-- ✅ `src/screens/VetScene.tsx` - Implemented dual treatment options UI with color-coded cards
-- ✅ `src/screens/FeedScene.tsx` - Added costs, removed ad rewards, updated values, added money display
+- [ ] `src/screens/VetScene.tsx` - Implement two treatment options UI
+- [ ] `src/screens/FeedScene.tsx` - Add costs, remove ad rewards, update values
 
 ### Component Files
-- ✅ `src/components/StatusBar.tsx` - Label rendering now conditional (icon-only mode)
-- ✅ `src/components/EnhancedStatusBar.tsx` - Updated to not pass labels to StatusBar
-- ✅ `src/components/StatusCard.tsx` - Removed white background
+- [ ] `src/components/StatusCard.tsx` - Remove white background (backgroundColor: '#ffffff')
+- [ ] `src/components/StatusBar.tsx` - Remove label text rendering, make icon-only
+- [ ] `src/components/EnhancedStatusBar.tsx` - Update to not pass labels to StatusBar
 
 ### Documentation
-- ✅ `RESPONSIVE.md` - Created comprehensive user-facing guide (420+ lines)
-- ✅ `CODE_REVIEW_REFACTORING.md` - Updated with Phase 2 completion status
-- ✅ `IMPLEMENTATION_PLAN.md` - Updated with progress status
+- [ ] `RESPONSIVE.md` - Create user-facing guide based on `160126-responsivity.md`
 
 ---
 
 ## Testing Checklist
 
-### VET System ✅ COMPLETE
-- ✅ Antibiotic costs 30 coins and guarantees minimum 50% health
-- ✅ Anti-inflammatory costs 50 coins and guarantees minimum 80% health
-- ✅ Antibiotic allows ad option when no money
-- ✅ Anti-inflammatory has NO ad option (money only)
-- ✅ Anti-inflammatory disabled if less than 50 coins
-- ✅ Pet with health > target remains unchanged (e.g., 90% health + antibiotic = 90%)
-- ✅ Pet with health < target is raised to target (e.g., 20% health + antibiotic = 50%)
-- ✅ Money deducted correctly
-- ✅ Two treatment cards with clear distinction
+### VET System
+- [ ] Antibiotic costs 30 coins and guarantees minimum 50% health
+- [ ] Anti-inflammatory costs 50 coins and guarantees minimum 80% health
+- [ ] Antibiotic allows ad option when no money
+- [ ] Anti-inflammatory has NO ad option (money only)
+- [ ] Anti-inflammatory disabled if less than 50 coins
+- [ ] Pet with health > target remains unchanged (e.g., 90% health + antibiotic = 90%)
+- [ ] Pet with health < target is raised to target (e.g., 20% health + antibiotic = 50%)
+- [ ] Money deducted correctly
 
-### FOOD System ✅ COMPLETE
-- ✅ All food items cost coins (15-20: kibble 15, fish 20, treat 18, milk 15)
-- ✅ Food values increased (kibble 30, fish 35, treat 25, milk 20)
-- ✅ Cannot feed if insufficient funds
-- ✅ Money deducted after feeding
-- ✅ Food buttons show costs on UI with coin emoji
-- ✅ Feeding ad rewards REMOVED (no more money earned from feeding)
-- ✅ Play now earns +15 coins (was +5)
-- ✅ Exercise now earns +25 coins (was +10)
-- ✅ Game economy is balanced (players can afford food + occasional vet)
-- ✅ Money balance shown in header
-- ✅ Warning displayed when insufficient funds
+### FOOD System
+- [ ] All food items cost coins (15-20)
+- [ ] Food values increased (kibble 30, fish 35, treat 25, milk 20)
+- [ ] Cannot feed if insufficient funds
+- [ ] Money deducted after feeding
+- [ ] Food buttons show costs on UI
+- [ ] Feeding ad rewards REMOVED (no more money earned from feeding)
+- [ ] Play now earns +15 coins (was +5)
+- [ ] Exercise now earns +25 coins (was +10)
+- [ ] Game economy is balanced (players can afford food + occasional vet)
 
-### CARD STATS ✅ COMPLETE
-- ✅ White background removed from StatusCard
-- ✅ Labels removed from StatusBar (now renders conditionally)
-- ✅ Icons are clear and recognizable (emoji only)
-- ✅ Color bars still functional (color-coded progress bars preserved)
-- ✅ Layout looks clean (icon-only display)
+### CARD STATS
+- [ ] White background removed
+- [ ] Labels removed, only icons visible
+- [ ] Icons are clear and recognizable
+- [ ] Color bars still functional
+- [ ] Layout looks clean
 
-### RESPONSIVE ✅ COMPLETE
-- ✅ RESPONSIVE.md created (420+ lines)
-- ✅ Documentation covers all breakpoints (mobile, tablet, desktop)
-- ✅ Examples are clear and actionable
-- ✅ Guidelines help future development
-- ✅ Responsive utilities referenced
-
-### PHASE 2 REFACTORING ✅ COMPLETE
-- ✅ 69/69 magic numbers eliminated (100%)
-- ✅ All constants centralized
-- ✅ Code quality improved to 100%
-- ✅ Single source of truth established
-- ✅ Type safety improved
+### RESPONSIVE
+- [ ] Documentation covers all breakpoints
+- [ ] Examples are clear and actionable
+- [ ] Guidelines help future development
 
 ---
 

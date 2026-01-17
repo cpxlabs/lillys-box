@@ -1,9 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, useRef, ReactNode, useMemo, useCallback } from 'react';
-import { Pet, PetType, PetColor, Gender, ClothingSlot, TreatmentType } from '../types';
+import { Pet, PetType, PetColor, Gender, ClothingSlot } from '../types';
 import { savePet, loadPet, deletePet } from '../utils/storage';
 import { calculateHealth, getEnergyDecayRate, getEnergyMultiplier, canPerformActivity, calculateHappinessChange } from '../utils/petStats';
 import { GAME_BALANCE } from '../config/gameBalance';
-import { TIMER_INTERVAL, TIME } from '../config/constants';
 import { logger } from '../utils/logger';
 import { debounce } from '../utils/debounce';
 import 'react-native-get-random-values';
@@ -37,7 +36,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const debouncedSave = useRef(
     debounce((petToSave: Pet) => {
       savePet(petToSave).catch(logger.error);
-    }, TIMER_INTERVAL.DEBOUNCE_SAVE_DELAY)
+    }, 1000)
   ).current;
 
   useEffect(() => {
@@ -58,7 +57,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
         const now = Date.now();
         const lastUpdate = currentPet.lastUpdated || now;
-        const minutesPassed = (now - lastUpdate) / TIME.MS_PER_MINUTE;
+        const minutesPassed = (now - lastUpdate) / 60000;
 
         // Calculate decay based on time passed
         const hungerDecay = GAME_BALANCE.decay.hunger * minutesPassed;
@@ -122,14 +121,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     await savePet(newPet);
   };
 
-  const feed = (amount?: number, cost?: number): boolean => {
-    // Check if can afford food
-    if (cost !== undefined && pet && pet.money < cost) {
-      logger.error(`feed: Insufficient funds - has ${pet.money}, needs ${cost}`);
-      return false;
-    }
-
-    let success = false;
+  const feed = (amount?: number) => {
     setPet((currentPet) => {
       if (!currentPet || !canPerformActivity(currentPet, 'feed')) return currentPet;
 
@@ -142,15 +134,12 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         energy: Math.min(100, currentPet.energy + effects.energy),
         happiness: Math.min(100, currentPet.happiness + effects.happiness * multiplier),
         hygiene: Math.max(0, currentPet.hygiene + effects.hygiene),
-        money: cost !== undefined ? currentPet.money - cost : currentPet.money,
       };
 
       updatedPet.health = calculateHealth(updatedPet);
       savePet(updatedPet).catch(logger.error);
-      success = true;
       return updatedPet;
     });
-    return success;
   };
 
   const play = () => {
@@ -239,7 +228,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             resolve(false);
           } else {
             // Check again in 100ms
-            setTimeout(checkCancellation, TIMER_INTERVAL.SLEEP_CANCELLATION_CHECK);
+            setTimeout(checkCancellation, 100);
           }
         };
         checkCancellation();
@@ -281,27 +270,17 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   };
 
-  const visitVet = (treatment: TreatmentType, useMoney: boolean = true): boolean => {
+  const visitVet = (useMoney: boolean = true): boolean => {
     if (!pet) {
       logger.error('visitVet: No pet exists');
       return false;
     }
 
-    const treatmentConfig = GAME_BALANCE.activities.vet[treatment];
-    if (!treatmentConfig) {
-      logger.error(`visitVet: Unknown treatment type: ${treatment}`);
-      return false;
-    }
-
-    // Check if treatment allows ads and has no money
-    if (!useMoney && !treatmentConfig.allowAds) {
-      logger.error(`visitVet: ${treatment} does not allow ads`);
-      return false;
-    }
+    const effects = GAME_BALANCE.activities.vet;
 
     // Check if can afford
-    if (useMoney && pet.money < treatmentConfig.cost) {
-      logger.error(`visitVet: Insufficient funds - has ${pet.money}, needs ${treatmentConfig.cost}`);
+    if (useMoney && pet.money < effects.cost) {
+      logger.error(`visitVet: Insufficient funds - has ${pet.money}, needs ${effects.cost}`);
       return false;
     }
 
