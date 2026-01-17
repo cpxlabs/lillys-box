@@ -17,7 +17,6 @@ import ReanimatedView, {
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { GAME_BALANCE } from '../config/gameBalance';
-import { SLEEP_ANIMATION, TIMER_INTERVAL } from '../config/constants';
 import { ScreenNavigationProp } from '../types/navigation';
 import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
@@ -34,27 +33,26 @@ const FloatingZ: React.FC = () => {
   const scale = useSharedValue(1);
 
   useEffect(() => {
-    const Z = SLEEP_ANIMATION.Z_FLOAT;
     translateY.value = withRepeat(
       withSequence(
-        withTiming(Z.offsetPixels, { duration: Z.duration }),
-        withTiming(0, { duration: Z.duration })
+        withTiming(-30, { duration: 1500 }),
+        withTiming(0, { duration: 1500 })
       ),
       -1,
       false
     );
     opacity.value = withRepeat(
       withSequence(
-        withTiming(Z.minOpacity, { duration: Z.duration }),
-        withTiming(1, { duration: Z.duration })
+        withTiming(0.4, { duration: 1500 }),
+        withTiming(1, { duration: 1500 })
       ),
       -1,
       false
     );
     scale.value = withRepeat(
       withSequence(
-        withTiming(Z.maxScale, { duration: Z.duration }),
-        withTiming(1, { duration: Z.duration })
+        withTiming(1.2, { duration: 1500 }),
+        withTiming(1, { duration: 1500 })
       ),
       -1,
       false
@@ -106,12 +104,12 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
     // Fade out effect
     Animated.timing(fadeAnim, {
       toValue: 0.3,
-      duration: SLEEP_ANIMATION.FADE_OUT_DURATION,
+      duration: 2000,
       useNativeDriver: true,
     }).start();
 
     // Progress bar update
-    const updateInterval = TIMER_INTERVAL.SLEEP_PROGRESS_UPDATE;
+    const updateInterval = 100; // Update every 100ms
     const progressIncrement = (100 / (SLEEP_DURATION / updateInterval));
 
     progressIntervalRef.current = setInterval(() => {
@@ -136,7 +134,7 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
     // Fade back in
     Animated.timing(fadeAnim, {
       toValue: 1,
-      duration: SLEEP_ANIMATION.FADE_OUT_DURATION,
+      duration: 2000,
       useNativeDriver: true,
     }).start();
 
@@ -145,7 +143,7 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
     // Return to home after a brief pause
     setTimeout(() => {
       navigation.goBack();
-    }, TIMER_INTERVAL.SLEEP_COMPLETION_DELAY);
+    }, 500);
   };
 
   const handleCancelSleep = () => {

@@ -42,8 +42,6 @@ export type AnimationState =
   | 'tired'
   | 'sick';
 
-export type TreatmentType = 'antibiotic' | 'antiInflammatory';
-
 export type PetMood =
   | 'excellent'
   | 'good'

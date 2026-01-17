@@ -24,8 +24,6 @@ export const GAME_BALANCE = {
       energy: 5,
       happiness: 3,
       hygiene: -2,
-      // Note: Individual food items have their own costs and hunger values
-      // See src/data/foodItems.ts for food configuration
     },
     bathe: {
       hygiene: 35,
@@ -51,7 +49,7 @@ export const GAME_BALANCE = {
       hunger: -15,
       hygiene: -15,
       energy: -25,
-      money: 15, // Increased from 5 coins (3x) due to removal of feeding ad rewards
+      money: 5,
     },
     sleep: {
       energy: 40,
@@ -64,23 +62,18 @@ export const GAME_BALANCE = {
       hunger: -20,
       hygiene: -10,
       energy: -30,
-      money: 25, // Increased from 10 coins (2.5x) due to removal of feeding ad rewards
+      money: 10,
     },
     petCuddle: {
       happiness: 10,
       energy: -3,
     },
     vet: {
-      antibiotic: {
-        cost: 30,
-        healthTarget: 50, // Minimum guaranteed health (budget-friendly option)
-        allowAds: true,
-      },
-      antiInflammatory: {
-        cost: 50,
-        healthTarget: 80, // Minimum guaranteed health (premium option)
-        allowAds: false,
-      },
+      cost: 50,
+      healthTarget: 70, // Set health to minimum of 70
+      energy: -10,
+      happiness: -5,
+      statBoost: 10, // Boost to other stats
     },
   },
 
