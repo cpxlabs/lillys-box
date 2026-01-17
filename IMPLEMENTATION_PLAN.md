@@ -1434,10 +1434,10 @@ rewards: {
 
 ### Decision #4: Dual Money System Resolution
 **Date**: 2026-01-17
-**Decision**: TBD - Options presented for team discussion
-**Recommendation**: Option A (consolidate to reward system only)
+**Decision**: ✅ **APPROVED** - Option A (consolidate to reward system only)
 **Rationale**: Simpler, clearer, consistent with Feed system
-**Status**: 🟡 Awaiting Approval
+**Implementation**: Remove immediate 5 coins from play(), increase playReward from 10 to 15
+**Status**: ✅ Approved for Implementation
 
 ---
 

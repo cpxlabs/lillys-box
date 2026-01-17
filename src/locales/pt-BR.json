@@ -79,7 +79,9 @@
       "milk": "Leite"
     },
     "eating": "{{name}} está comendo {{food}}! 😋",
-    "loved": "{{name}} adorou! 💕"
+    "loved": "{{name}} adorou! 💕",
+    "tooTired": "{{name}} está muito cansado para comer. Precisa descansar!",
+    "notHungry": "{{name}} não está com fome agora!"
   },
   "bath": {
     "title": "🛁 Banho",
@@ -97,7 +99,8 @@
       "smallBall": "Bolinha"
     },
     "playing": "{{name}} está brincando com {{activity}}! 🎉",
-    "loved": "{{name}} adorou brincar! 💕"
+    "loved": "{{name}} adorou brincar! 💕",
+    "needsRest": "{{name}} está muito cansado para brincar. Precisa descansar!"
   },
   "sleep": {
     "title": "💤 Dormir",

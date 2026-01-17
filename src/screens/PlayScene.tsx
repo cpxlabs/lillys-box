@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -22,15 +22,13 @@ import { ANIMATION_DURATION } from '../config/constants';
 import { calculatePetAge } from '../utils/age';
 import { useResponsive } from '../hooks/useResponsive';
 import { ACTION_PET_SIZE, ACTION_BUTTON_SIZE, SCENE_TEXT_SIZE } from '../config/responsive';
+import { PLAY_ACTIVITIES } from '../data/playActivities';
+import { canPerformActivity } from '../utils/petStats';
+import { logger } from '../utils/logger';
 
 type Props = {
   navigation: ScreenNavigationProp<'Play'>;
 };
-
-const PLAY_ACTIVITIES = [
-  { id: 'yarn_ball', emoji: '🧶', name: 'Bola de lã' },
-  { id: 'small_ball', emoji: '⚽', name: 'Bolinha' },
-];
 
 export const PlayScene: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
@@ -41,6 +39,10 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
   const [message, setMessage] = useState('');
   const BackButtonIcon = useBackButton();
   const { deviceType, spacing, fs } = useResponsive();
+
+  // Refs for timeout cleanup to prevent memory leaks
+  const animationTimeout1 = useRef<NodeJS.Timeout | null>(null);
+  const animationTimeout2 = useRef<NodeJS.Timeout | null>(null);
 
   const petSize = ACTION_PET_SIZE[deviceType];
   const buttonSizes = ACTION_BUTTON_SIZE[deviceType];
@@ -54,6 +56,18 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
     totalItems,
   } = useNavigationList(PLAY_ACTIVITIES);
 
+  // Cleanup timeouts on unmount to prevent memory leaks
+  useEffect(() => {
+    return () => {
+      if (animationTimeout1.current) {
+        clearTimeout(animationTimeout1.current);
+      }
+      if (animationTimeout2.current) {
+        clearTimeout(animationTimeout2.current);
+      }
+    };
+  }, []);
+
   if (!pet) return null;
 
   const petAge = calculatePetAge(pet.createdAt);
@@ -61,31 +75,52 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
   const handlePlay = (activity: typeof PLAY_ACTIVITIES[0]) => {
-    setAnimationState('happy');
-    setMessage(`${pet.name} está brincando com ${activity.name}! 🎉`);
+    // Check if pet can perform activity (has enough energy)
+    if (!canPerformActivity(pet, 'play')) {
+      showToast(t('play.needsRest', { name: pet.name }), 'info');
+      return;
+    }
 
-    play();
+    try {
+      // Clear any existing timeouts to prevent conflicts
+      if (animationTimeout1.current) {
+        clearTimeout(animationTimeout1.current);
+      }
+      if (animationTimeout2.current) {
+        clearTimeout(animationTimeout2.current);
+      }
 
-    // Base money earned for playing
-    const moneyEarned = AdsConfig.rewards.playReward;
+      setAnimationState('happy');
+      setMessage(t('play.playing', { name: pet.name, activity: t(activity.nameKey) }));
 
-    setTimeout(() => {
-      setMessage(`${pet.name} adorou brincar! 💕`);
+      play();
 
-      setTimeout(() => {
-        setAnimationState('idle');
-        setMessage('');
+      // Base money earned for playing
+      const moneyEarned = AdsConfig.rewards.playReward;
 
-        // Offer double reward or give reward immediately
-        triggerReward(moneyEarned);
+      animationTimeout1.current = setTimeout(() => {
+        setMessage(t('play.loved', { name: pet.name }));
+
+        animationTimeout2.current = setTimeout(() => {
+          setAnimationState('idle');
+          setMessage('');
+
+          // Offer double reward or give reward immediately
+          triggerReward(moneyEarned);
+        }, ANIMATION_DURATION.MEDIUM);
       }, ANIMATION_DURATION.MEDIUM);
-    }, ANIMATION_DURATION.MEDIUM);
+    } catch (error) {
+      logger.error('Play error:', error);
+      // Reset state on error to prevent UI freeze
+      setAnimationState('idle');
+      setMessage('');
+    }
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScreenHeader
-        title="🎮 Brincar"
+        title={t('play.title')}
         onBackPress={() => navigation.goBack()}
         BackButtonIcon={BackButtonIcon}
       />
@@ -104,7 +139,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={[styles.activitiesContainer, { padding: spacing(16), borderTopLeftRadius: spacing(20), borderTopRightRadius: spacing(20) }]}>
-        <Text style={[styles.activitiesTitle, { fontSize: textSizes.titleSize, marginBottom: spacing(12) }]}>Escolha a atividade:</Text>
+        <Text style={[styles.activitiesTitle, { fontSize: textSizes.titleSize, marginBottom: spacing(12) }]}>{t('play.chooseActivity')}</Text>
 
         {/* Navigation arrows and current activity display */}
         <View style={[styles.navigationContainer, { marginBottom: spacing(10) }]}>
@@ -122,7 +157,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
             disabled={animationState !== 'idle'}
           >
             <Text style={[styles.currentActivityEmoji, { fontSize: buttonSizes.itemEmoji, marginBottom: spacing(6) }]}>{currentActivity.emoji}</Text>
-            <Text style={[styles.currentActivityName, { fontSize: buttonSizes.itemFont }]}>{currentActivity.name}</Text>
+            <Text style={[styles.currentActivityName, { fontSize: buttonSizes.itemFont }]}>{t(currentActivity.nameKey)}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity

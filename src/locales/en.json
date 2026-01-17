@@ -79,7 +79,9 @@
       "milk": "Milk"
     },
     "eating": "{{name}} is eating {{food}}! 😋",
-    "loved": "{{name}} loved it! 💕"
+    "loved": "{{name}} loved it! 💕",
+    "tooTired": "{{name}} is too tired to eat. Needs rest!",
+    "notHungry": "{{name}} is not hungry right now!"
   },
   "bath": {
     "title": "🛁 Bath",
@@ -97,7 +99,8 @@
       "smallBall": "Small Ball"
     },
     "playing": "{{name}} is playing with {{activity}}! 🎉",
-    "loved": "{{name}} loved playing! 💕"
+    "loved": "{{name}} loved playing! 💕",
+    "needsRest": "{{name}} is too tired to play. Needs rest!"
   },
   "sleep": {
     "title": "💤 Sleep",

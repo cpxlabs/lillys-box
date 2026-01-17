@@ -23,6 +23,7 @@ import { calculatePetAge } from '../utils/age';
 import { logger } from '../utils/logger';
 import { useResponsive } from '../hooks/useResponsive';
 import { ACTION_PET_SIZE, ACTION_BUTTON_SIZE, SCENE_TEXT_SIZE } from '../config/responsive';
+import { canPerformActivity } from '../utils/petStats';
 
 type Props = {
   navigation: ScreenNavigationProp<'Feed'>;
@@ -80,6 +81,18 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
   const handleFeed = (food: typeof FOODS[0]) => {
+    // Check if pet can perform activity (has enough energy)
+    if (!canPerformActivity(pet, 'feed')) {
+      showToast(t('feed.tooTired', { name: pet.name }), 'info');
+      return;
+    }
+
+    // Check if hunger is already full
+    if (pet.hunger >= 100) {
+      showToast(t('feed.notHungry', { name: pet.name }), 'info');
+      return;
+    }
+
     try {
       // Clear any existing timeouts to prevent conflicts
       if (animationTimeout1.current) {
