@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useRef, ReactNode, useMemo, useCallback } from 'react';
-import { Pet, PetType, PetColor, Gender, ClothingSlot } from '../types';
+import { Pet, PetType, PetColor, Gender, ClothingSlot, TreatmentType } from '../types';
 import { savePet, loadPet, deletePet } from '../utils/storage';
 import { calculateHealth, getEnergyDecayRate, getEnergyMultiplier, canPerformActivity, calculateHappinessChange } from '../utils/petStats';
 import { GAME_BALANCE } from '../config/gameBalance';
@@ -122,7 +122,14 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     await savePet(newPet);
   };
 
-  const feed = (amount?: number) => {
+  const feed = (amount?: number, cost?: number): boolean => {
+    // Check if can afford food
+    if (cost !== undefined && pet && pet.money < cost) {
+      logger.error(`feed: Insufficient funds - has ${pet.money}, needs ${cost}`);
+      return false;
+    }
+
+    let success = false;
     setPet((currentPet) => {
       if (!currentPet || !canPerformActivity(currentPet, 'feed')) return currentPet;
 
@@ -135,12 +142,15 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         energy: Math.min(100, currentPet.energy + effects.energy),
         happiness: Math.min(100, currentPet.happiness + effects.happiness * multiplier),
         hygiene: Math.max(0, currentPet.hygiene + effects.hygiene),
+        money: cost !== undefined ? currentPet.money - cost : currentPet.money,
       };
 
       updatedPet.health = calculateHealth(updatedPet);
       savePet(updatedPet).catch(logger.error);
+      success = true;
       return updatedPet;
     });
+    return success;
   };
 
   const play = () => {
@@ -271,36 +281,42 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   };
 
-  const visitVet = (useMoney: boolean = true): boolean => {
+  const visitVet = (treatment: TreatmentType, useMoney: boolean = true): boolean => {
     if (!pet) {
       logger.error('visitVet: No pet exists');
       return false;
     }
 
-    const effects = GAME_BALANCE.activities.vet;
-
-    // Check if can afford
-    if (useMoney && pet.money < effects.cost) {
-      logger.error(`visitVet: Insufficient funds - has ${pet.money}, needs ${effects.cost}`);
+    const treatmentConfig = GAME_BALANCE.activities.vet[treatment];
+    if (!treatmentConfig) {
+      logger.error(`visitVet: Unknown treatment type: ${treatment}`);
       return false;
     }
 
-    logger.info(`visitVet: Starting vet visit (useMoney: ${useMoney})`)
+    // Check if treatment allows ads and has no money
+    if (!useMoney && !treatmentConfig.allowAds) {
+      logger.error(`visitVet: ${treatment} does not allow ads`);
+      return false;
+    }
+
+    // Check if can afford
+    if (useMoney && pet.money < treatmentConfig.cost) {
+      logger.error(`visitVet: Insufficient funds - has ${pet.money}, needs ${treatmentConfig.cost}`);
+      return false;
+    }
+
+    logger.info(`visitVet: Starting vet visit (treatment: ${treatment}, useMoney: ${useMoney})`)
 
     setPet((currentPet) => {
       if (!currentPet) return currentPet;
 
       const updatedPet: Pet = {
         ...currentPet,
-        hunger: Math.min(100, currentPet.hunger + effects.statBoost),
-        hygiene: Math.min(100, currentPet.hygiene + effects.statBoost),
-        energy: Math.max(0, currentPet.energy + effects.energy),
-        happiness: Math.max(0, currentPet.happiness + effects.happiness),
-        money: useMoney ? currentPet.money - effects.cost : currentPet.money,
+        money: useMoney ? currentPet.money - treatmentConfig.cost : currentPet.money,
       };
 
-      // Set health to minimum target
-      updatedPet.health = Math.max(effects.healthTarget, calculateHealth(updatedPet));
+      // Set health to minimum target (guarantee minimum health, but keep higher health if already above)
+      updatedPet.health = Math.max(treatmentConfig.healthTarget, calculateHealth(updatedPet));
 
       savePet(updatedPet).catch(logger.error);
       return updatedPet;
