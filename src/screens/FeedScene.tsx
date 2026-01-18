@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,22 +8,16 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
-import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { AnimationState } from '../types';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
-import { useDoubleReward } from '../hooks/useDoubleReward';
-import { AdsConfig } from '../config/ads.config';
+import { usePetActions } from '../hooks/usePetActions';
 import { ScreenNavigationProp } from '../types/navigation';
-import { ANIMATION_DURATION } from '../config/constants';
 import { calculatePetAge } from '../utils/age';
-import { logger } from '../utils/logger';
 import { useResponsive } from '../hooks/useResponsive';
 import { ACTION_PET_SIZE, ACTION_BUTTON_SIZE, SCENE_TEXT_SIZE } from '../config/responsive';
-import { canPerformActivity } from '../utils/petStats';
 
 type Props = {
   navigation: ScreenNavigationProp<'Feed'>;
@@ -38,33 +32,14 @@ const FOODS = [
 
 export const FeedScene: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
-  const { pet, feed, earnMoney } = usePet();
-  const { showToast } = useToast();
-  const { triggerReward, DoubleRewardModal } = useDoubleReward({ earnMoney, showToast });
-  const [animationState, setAnimationState] = useState<AnimationState>('idle');
-  const [message, setMessage] = useState('');
+  const { pet } = usePet();
+  const { animationState, message, isAnimating, performAction, DoubleRewardModal } = usePetActions();
   const BackButtonIcon = useBackButton();
   const { deviceType, spacing, fs } = useResponsive();
 
   const petSize = ACTION_PET_SIZE[deviceType];
   const buttonSizes = ACTION_BUTTON_SIZE[deviceType];
   const textSizes = SCENE_TEXT_SIZE[deviceType];
-
-  // Refs for timeout cleanup to prevent UI freezing
-  const animationTimeout1 = useRef<NodeJS.Timeout | null>(null);
-  const animationTimeout2 = useRef<NodeJS.Timeout | null>(null);
-
-  // Cleanup timeouts on unmount to prevent memory leaks and state updates on unmounted component
-  useEffect(() => {
-    return () => {
-      if (animationTimeout1.current) {
-        clearTimeout(animationTimeout1.current);
-      }
-      if (animationTimeout2.current) {
-        clearTimeout(animationTimeout2.current);
-      }
-    };
-  }, []);
 
   const {
     currentItem: currentFood,
@@ -80,54 +55,14 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
   const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
-  const handleFeed = (food: typeof FOODS[0]) => {
-    // Check if pet can perform activity (has enough energy)
-    if (!canPerformActivity(pet, 'feed')) {
-      showToast(t('feed.tooTired', { name: pet.name }), 'info');
-      return;
-    }
-
-    // Check if hunger is already full
-    if (pet.hunger >= 100) {
-      showToast(t('feed.notHungry', { name: pet.name }), 'info');
-      return;
-    }
-
-    try {
-      // Clear any existing timeouts to prevent conflicts
-      if (animationTimeout1.current) {
-        clearTimeout(animationTimeout1.current);
-      }
-      if (animationTimeout2.current) {
-        clearTimeout(animationTimeout2.current);
-      }
-
-      setAnimationState('eating');
-      setMessage(t('feed.eating', { name: pet.name, food: t(food.nameKey) }));
-
-      feed(food.value);
-
-      // Base money earned for feeding
-      const moneyEarned = AdsConfig.rewards.feedReward;
-
-      animationTimeout1.current = setTimeout(() => {
-        setAnimationState('happy');
-        setMessage(t('feed.loved', { name: pet.name }));
-
-        animationTimeout2.current = setTimeout(() => {
-          setAnimationState('idle');
-          setMessage('');
-
-          // Offer double reward or give reward immediately
-          triggerReward(moneyEarned);
-        }, ANIMATION_DURATION.MEDIUM);
-      }, ANIMATION_DURATION.MEDIUM);
-    } catch (error) {
-      // Reset state on error to prevent UI freeze
-      logger.error('Feed error:', error);
-      setAnimationState('idle');
-      setMessage('');
-    }
+  const handleFeed = async (food: typeof FOODS[0]) => {
+    await performAction('feed', {
+      amount: food.value,
+      activity: {
+        emoji: food.emoji,
+        nameKey: food.nameKey,
+      },
+    });
   };
 
   return (
@@ -159,7 +94,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             style={[styles.arrowButton, { width: buttonSizes.arrowSize, height: buttonSizes.arrowSize, borderRadius: buttonSizes.arrowSize / 2, marginHorizontal: spacing(6) }]}
             onPress={goToPrevious}
-            disabled={animationState !== 'idle'}
+            disabled={isAnimating}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>←</Text>
           </TouchableOpacity>
@@ -167,7 +102,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             style={[styles.currentFoodButton, { minWidth: buttonSizes.itemWidth, padding: buttonSizes.itemPadding, borderRadius: spacing(16) }]}
             onPress={() => handleFeed(currentFood)}
-            disabled={animationState !== 'idle' || pet.hunger >= 100}
+            disabled={isAnimating || pet.hunger >= 100}
           >
             <Text style={[styles.currentFoodEmoji, { fontSize: buttonSizes.itemEmoji, marginBottom: spacing(6) }]}>{currentFood.emoji}</Text>
             <Text style={[styles.currentFoodName, { fontSize: buttonSizes.itemFont, marginBottom: spacing(3) }]}>{t(currentFood.nameKey)}</Text>
@@ -177,7 +112,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             style={[styles.arrowButton, { width: buttonSizes.arrowSize, height: buttonSizes.arrowSize, borderRadius: buttonSizes.arrowSize / 2, marginHorizontal: spacing(6) }]}
             onPress={goToNext}
-            disabled={animationState !== 'idle'}
+            disabled={isAnimating}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>→</Text>
           </TouchableOpacity>
