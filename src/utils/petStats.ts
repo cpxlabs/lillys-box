@@ -1,6 +1,17 @@
 import { Pet, PetMood, StatLevel } from '../types';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { STAT_THRESHOLDS, COLORS } from '../config/constants';
+import { ActionType } from '../config/actionConfig';
+
+/**
+ * Validation result for action checks
+ */
+export type ValidationResult = {
+  /** Whether the action can be performed */
+  canPerform: boolean;
+  /** i18n key for toast message explaining why action is blocked */
+  reason?: string;
+};
 
 /**
  * Calculate pet's health based on all stats
@@ -219,4 +230,74 @@ export const calculateHappinessChange = (
   }
 
   return happinessChange;
+};
+
+/**
+ * Validate whether an action can be performed and provide feedback
+ *
+ * This function checks all conditions for an action and returns both
+ * whether it can be performed and a localized reason if it cannot.
+ *
+ * @param pet - The pet to validate
+ * @param actionType - The type of action to perform
+ * @returns ValidationResult with canPerform flag and optional reason key
+ *
+ * @example
+ * ```ts
+ * const result = validateAction(pet, 'feed');
+ * if (!result.canPerform) {
+ *   showToast(t(result.reason, { name: pet.name }), 'info');
+ * }
+ * ```
+ */
+export const validateAction = (
+  pet: Pet,
+  actionType: ActionType
+): ValidationResult => {
+  // Energy check for most actions (except sleep and cuddle)
+  if (['feed', 'play', 'bathe', 'exercise'].includes(actionType)) {
+    if (!canPerformActivity(pet, actionType)) {
+      return {
+        canPerform: false,
+        reason: `${actionType}.needsRest`, // e.g., "feed.needsRest"
+      };
+    }
+  }
+
+  // Action-specific validations
+  switch (actionType) {
+    case 'feed':
+      if (pet.hunger >= 100) {
+        return { canPerform: false, reason: 'feed.notHungry' };
+      }
+      break;
+
+    case 'bathe':
+      if (pet.hygiene >= 100) {
+        return { canPerform: false, reason: 'bathe.alreadyClean' };
+      }
+      break;
+
+    case 'sleep':
+      if (pet.energy >= GAME_BALANCE.thresholds.energyForSleep) {
+        return { canPerform: false, reason: 'sleep.notTired' };
+      }
+      break;
+
+    case 'vet':
+      // Vet validation is handled separately in visitVet() for money check
+      // Health check: only allow if health is below suggested threshold
+      if (pet.health >= GAME_BALANCE.thresholds.healthForVetSuggested) {
+        return { canPerform: false, reason: 'vet.notNeeded' };
+      }
+      break;
+
+    case 'play':
+    case 'exercise':
+    case 'cuddle':
+      // No additional validations beyond energy check
+      break;
+  }
+
+  return { canPerform: true };
 };

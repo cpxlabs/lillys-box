@@ -284,7 +284,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       return false;
     }
 
-    logger.info(`visitVet: Starting vet visit (treatment: ${treatment}, useMoney: ${useMoney})`);
+    logger.info(`visitVet: Starting vet visit (useMoney: ${useMoney})`);
 
     setPet((currentPet) => {
       if (!currentPet) return currentPet;
@@ -298,15 +298,15 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         hygiene: Math.min(100, currentPet.hygiene + statsImprovement),
         energy: Math.min(100, currentPet.energy + statsImprovement),
         happiness: Math.min(100, currentPet.happiness + statsImprovement),
-        money: useMoney ? currentPet.money - treatmentConfig.cost : currentPet.money,
+        money: useMoney ? currentPet.money - effects.cost : currentPet.money,
       };
 
       // Set health to minimum target (guarantee minimum health, but keep higher health if already above)
       const calculatedHealth = calculateHealth(updatedPet);
-      updatedPet.health = Math.max(treatmentConfig.healthTarget, calculatedHealth);
+      updatedPet.health = Math.max(effects.healthTarget, calculatedHealth);
 
       logger.info(
-        `visitVet: Health updated - calculated: ${calculatedHealth}, target: ${treatmentConfig.healthTarget}, final: ${updatedPet.health}`
+        `visitVet: Health updated - calculated: ${calculatedHealth}, target: ${effects.healthTarget}, final: ${updatedPet.health}`
       );
 
       savePet(updatedPet).catch(logger.error);

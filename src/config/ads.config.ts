@@ -41,7 +41,7 @@ export const AdsConfig: AdConfig = {
     activityDoubleReward: true, // Enable double rewards after activities
     feedReward: 5, // Base coins for feeding pet
     bathReward: 8, // Base coins for bathing pet
-    playReward: 10, // Base coins for playing with pet
+    playReward: 15, // Base coins for playing with pet (increased from 10, consolidated from dual system)
   },
 
   // COPPA compliance settings for child safety

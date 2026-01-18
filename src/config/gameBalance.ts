@@ -49,7 +49,7 @@ export const GAME_BALANCE = {
       hunger: -15,
       hygiene: -15,
       energy: -25,
-      money: 5,
+      money: 0,  // Changed from 5 to 0 - consolidated into playReward (now 15)
     },
     sleep: {
       energy: 40,

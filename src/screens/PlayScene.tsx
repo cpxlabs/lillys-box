@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,37 +8,26 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
-import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { AnimationState } from '../types';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
-import { useDoubleReward } from '../hooks/useDoubleReward';
-import { AdsConfig } from '../config/ads.config';
+import { usePetActions } from '../hooks/usePetActions';
 import { ScreenNavigationProp } from '../types/navigation';
-import { ANIMATION_DURATION } from '../config/constants';
 import { calculatePetAge } from '../utils/age';
 import { useResponsive } from '../hooks/useResponsive';
 import { ACTION_PET_SIZE, ACTION_BUTTON_SIZE, SCENE_TEXT_SIZE } from '../config/responsive';
+import { PLAY_ACTIVITIES } from '../data/playActivities';
 
 type Props = {
   navigation: ScreenNavigationProp<'Play'>;
 };
 
-const PLAY_ACTIVITIES = [
-  { id: 'yarn_ball', emoji: '🧶', name: 'Bola de lã' },
-  { id: 'small_ball', emoji: '⚽', name: 'Bolinha' },
-];
-
 export const PlayScene: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
-  const { pet, play, earnMoney } = usePet();
-  const { showToast } = useToast();
-  const { triggerReward, DoubleRewardModal } = useDoubleReward({ earnMoney, showToast });
-  const [animationState, setAnimationState] = useState<AnimationState>('idle');
-  const [message, setMessage] = useState('');
+  const { pet } = usePet();
+  const { animationState, message, isAnimating, performAction, DoubleRewardModal } = usePetActions();
   const BackButtonIcon = useBackButton();
   const { deviceType, spacing, fs } = useResponsive();
 
@@ -60,32 +49,19 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
   const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
-  const handlePlay = (activity: typeof PLAY_ACTIVITIES[0]) => {
-    setAnimationState('happy');
-    setMessage(`${pet.name} está brincando com ${activity.name}! 🎉`);
-
-    play();
-
-    // Base money earned for playing
-    const moneyEarned = AdsConfig.rewards.playReward;
-
-    setTimeout(() => {
-      setMessage(`${pet.name} adorou brincar! 💕`);
-
-      setTimeout(() => {
-        setAnimationState('idle');
-        setMessage('');
-
-        // Offer double reward or give reward immediately
-        triggerReward(moneyEarned);
-      }, ANIMATION_DURATION.MEDIUM);
-    }, ANIMATION_DURATION.MEDIUM);
+  const handlePlay = async (activity: typeof PLAY_ACTIVITIES[0]) => {
+    await performAction('play', {
+      activity: {
+        emoji: activity.emoji,
+        nameKey: activity.nameKey,
+      },
+    });
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <ScreenHeader
-        title="🎮 Brincar"
+        title={t('play.title')}
         onBackPress={() => navigation.goBack()}
         BackButtonIcon={BackButtonIcon}
       />
@@ -104,14 +80,14 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={[styles.activitiesContainer, { padding: spacing(16), borderTopLeftRadius: spacing(20), borderTopRightRadius: spacing(20) }]}>
-        <Text style={[styles.activitiesTitle, { fontSize: textSizes.titleSize, marginBottom: spacing(12) }]}>Escolha a atividade:</Text>
+        <Text style={[styles.activitiesTitle, { fontSize: textSizes.titleSize, marginBottom: spacing(12) }]}>{t('play.chooseActivity')}</Text>
 
         {/* Navigation arrows and current activity display */}
         <View style={[styles.navigationContainer, { marginBottom: spacing(10) }]}>
           <TouchableOpacity
             style={[styles.arrowButton, { width: buttonSizes.arrowSize, height: buttonSizes.arrowSize, borderRadius: buttonSizes.arrowSize / 2, marginHorizontal: spacing(6) }]}
             onPress={goToPrevious}
-            disabled={animationState !== 'idle'}
+            disabled={isAnimating}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>←</Text>
           </TouchableOpacity>
@@ -119,16 +95,16 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             style={[styles.currentActivityButton, { minWidth: buttonSizes.itemWidth, padding: buttonSizes.itemPadding, borderRadius: spacing(16) }]}
             onPress={() => handlePlay(currentActivity)}
-            disabled={animationState !== 'idle'}
+            disabled={isAnimating}
           >
             <Text style={[styles.currentActivityEmoji, { fontSize: buttonSizes.itemEmoji, marginBottom: spacing(6) }]}>{currentActivity.emoji}</Text>
-            <Text style={[styles.currentActivityName, { fontSize: buttonSizes.itemFont }]}>{currentActivity.name}</Text>
+            <Text style={[styles.currentActivityName, { fontSize: buttonSizes.itemFont }]}>{t(currentActivity.nameKey)}</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             style={[styles.arrowButton, { width: buttonSizes.arrowSize, height: buttonSizes.arrowSize, borderRadius: buttonSizes.arrowSize / 2, marginHorizontal: spacing(6) }]}
             onPress={goToNext}
-            disabled={animationState !== 'idle'}
+            disabled={isAnimating}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>→</Text>
           </TouchableOpacity>
