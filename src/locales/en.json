@@ -89,7 +89,9 @@
     "instructions": "Drag the sponge to bathe! 🧽",
     "bathing": "{{name}} is taking a bath! 🛁💦",
     "clean": "{{name}} is clean! ✨",
-    "scrubbing": "Scrubbing: {{count}}/{{needed}} 🧽"
+    "scrubbing": "Scrubbing: {{count}}/{{needed}} 🧽",
+    "needsRest": "{{name}} is too tired to bathe. Needs rest!",
+    "alreadyClean": "{{name}} is already clean!"
   },
   "play": {
     "title": "🎮 Play",
@@ -106,7 +108,7 @@
     "title": "💤 Sleep",
     "sleeping": "{{name}} is sleeping...",
     "needsRest": "{{name}} needs rest",
-    "notTired": "Not tired enough to sleep",
+    "notTired": "{{name}} is not tired enough to sleep!",
     "progress": "Sleeping... {{progress}}%",
     "remaining": "{{seconds}}s remaining",
     "wakeUpEarly": "Wake Up Early",
@@ -117,9 +119,21 @@
     "happinessBoost": "😊 Happiness +{{value}}",
     "hungerDecrease": "🍖 Hunger {{value}}"
   },
+  "exercise": {
+    "title": "🏃 Exercise",
+    "exercising": "{{name}} is exercising! 🏃💪",
+    "energized": "{{name}} is energized! ⚡",
+    "needsRest": "{{name}} is too tired to exercise. Needs rest!"
+  },
+  "cuddle": {
+    "title": "🤗 Cuddle",
+    "cuddling": "{{name}} is being cuddled! 🤗💕"
+  },
   "vet": {
     "title": "🏥 Veterinary Clinic",
     "petHealth": "{{name}}'s Health",
+    "treating": "{{name}} is being treated... 🏥",
+    "notNeeded": "{{name}} is healthy and doesn't need the vet right now!",
     "benefits": "Vet Visit Benefits:",
     "healthRestore": "❤️ Health restored to minimum {{target}}%",
     "statsBoost": "📈 All stats +{{boost}}",

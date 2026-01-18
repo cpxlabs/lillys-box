@@ -89,7 +89,9 @@
     "instructions": "Arraste a esponja para dar banho! 🧽",
     "bathing": "{{name}} está tomando banho! 🛁💦",
     "clean": "{{name}} está limpinho! ✨",
-    "scrubbing": "Esfregando: {{count}}/{{needed}} 🧽"
+    "scrubbing": "Esfregando: {{count}}/{{needed}} 🧽",
+    "needsRest": "{{name}} está muito cansado para tomar banho. Precisa descansar!",
+    "alreadyClean": "{{name}} já está limpo!"
   },
   "play": {
     "title": "🎮 Brincar",
@@ -106,7 +108,7 @@
     "title": "💤 Dormir",
     "sleeping": "{{name}} está dormindo...",
     "needsRest": "{{name}} precisa descansar",
-    "notTired": "Não está cansado o suficiente para dormir",
+    "notTired": "{{name}} não está cansado o suficiente para dormir!",
     "progress": "Dormindo... {{progress}}%",
     "remaining": "{{seconds}}s restantes",
     "wakeUpEarly": "Acordar Cedo",
@@ -117,9 +119,21 @@
     "happinessBoost": "😊 Felicidade +{{value}}",
     "hungerDecrease": "🍖 Fome {{value}}"
   },
+  "exercise": {
+    "title": "🏃 Exercitar",
+    "exercising": "{{name}} está se exercitando! 🏃💪",
+    "energized": "{{name}} está energizado! ⚡",
+    "needsRest": "{{name}} está muito cansado para se exercitar. Precisa descansar!"
+  },
+  "cuddle": {
+    "title": "🤗 Carinho",
+    "cuddling": "{{name}} está recebendo carinho! 🤗💕"
+  },
   "vet": {
     "title": "🏥 Clínica Veterinária",
     "petHealth": "Saúde do {{name}}",
+    "treating": "{{name}} está sendo tratado... 🏥",
+    "notNeeded": "{{name}} está saudável e não precisa do veterinário agora!",
     "benefits": "Benefícios da Visita ao Vet:",
     "healthRestore": "❤️ Saúde restaurada para no mínimo {{target}}%",
     "statsBoost": "📈 Todos os status +{{boost}}",
