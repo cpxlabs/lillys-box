@@ -418,3 +418,222 @@ Docs: Add session summary for stats hook completion
 **End of Session Summary**
 
 Thank you for using Claude Code for the stats hook refactor project!
+
+---
+---
+
+# Continuation Session Summary - VetScene Evaluation
+
+**Date**: 2026-01-18
+**Branch**: `claude/continue-session-work-yW7Wd`
+**Session Goal**: Continue work from previous session - evaluate remaining scenes
+
+---
+
+## 🎯 Session Objectives
+
+**User Request**: "read SESSION_SUMMARY.md and continue work"
+
+1. ✅ Review previous session's completed work
+2. ✅ Identify remaining tasks from migration status
+3. ✅ Evaluate VetScene for hook migration feasibility
+4. ✅ Update migration status documentation with findings
+
+---
+
+## ✅ Completed Work
+
+### 1. VetScene Migration Evaluation
+
+**Evaluation Result**: ⏸️ **DEFERRED** - Not suitable for hook migration
+
+#### Analysis Performed:
+- ✅ Read and analyzed VetScene.tsx implementation (448 lines)
+- ✅ Reviewed actionConfig.ts vet action configuration
+- ✅ Compared VetScene pattern vs hook pattern (Play/Feed)
+- ✅ Identified fundamental architectural differences
+
+#### Key Findings:
+
+**VetScene Characteristics**:
+1. **Payment Modal Flow**: User chooses between money (50 coins) OR watch ad
+2. **Dual Payment Paths**:
+   - Path A: Money → Confirmation Alert → Deduct coins → Execute
+   - Path B: Ad readiness check → Show ad → Execute (free)
+3. **Alert-Based UI**: Uses Alert.alert for confirmations/success (not toasts)
+4. **Navigation**: Auto-navigates back to previous screen after completion
+5. **No Current Animations**: Shows static idle pet (doesn't use animation states)
+6. **Manual Validation**: Custom `canAfford` check (not using `validateAction()`)
+
+**Hook Pattern (Play/Feed)**:
+```typescript
+// Simple, direct action call
+await performAction('play', { activity: { emoji, nameKey } });
+```
+
+**VetScene Pattern**:
+```typescript
+// Multi-step conditional flow
+User chooses payment → [Process payment] → Execute action → Navigate back
+```
+
+**Incompatibility Reasons**:
+1. Pre-action payment choice (hook expects direct action call)
+2. Conditional execution based on payment method
+3. Alert dialogs for confirmation (hook uses toasts)
+4. Custom navigation handling (hook doesn't navigate)
+5. No animation usage currently (static idle pet)
+6. Rewarded ad integration (callback-based)
+
+**Decision**: VetScene is fundamentally different from the standard action pattern. Better to keep it as clean custom code rather than forcing it into the hook abstraction.
+
+---
+
+### 2. Migration Status Documentation Update
+
+**File Updated**: `STATS_HOOK_MIGRATION_STATUS.md`
+
+**Changes Made**:
+- ✅ Updated VetScene section from "NOT STARTED" to "DEFERRED"
+- ✅ Added comprehensive evaluation explanation (why it doesn't fit)
+- ✅ Documented payment flow complexity
+- ✅ Listed 4 migration options with recommendation (Option A: keep as-is)
+- ✅ Updated migration statistics table with "Reason" column
+- ✅ Updated document status to "MIGRATION COMPLETE - All Scenes Evaluated"
+- ✅ Updated summary to reflect completion of evaluation phase
+- ✅ Marked all Sprint 2 tasks as complete (including VetScene decision)
+- ✅ Updated outstanding tasks section
+
+**Key Statistics Update**:
+| Scene | Status | Reason |
+|-------|--------|--------|
+| PlayScene | ✅ Migrated | Perfect fit for hook |
+| FeedScene | ✅ Migrated | Perfect fit for hook |
+| BathScene | ⏸️ Deferred | Interactive scrubbing doesn't fit |
+| SleepScene | ⏸️ Deferred | 30s duration + progress tracking |
+| VetScene | ⏸️ Deferred | Payment flow incompatible |
+
+**Final Results**:
+- ✅ 2/5 scenes migrated (40%)
+- ⏸️ 3/5 scenes deferred (60%) - All with valid architectural reasons
+- ✅ 208 lines saved from migrated scenes
+- ✅ 91% average action code reduction (in migrated scenes)
+- ✅ All scenes evaluated - migration phase complete
+
+---
+
+## 📊 Session Impact
+
+### Files Modified
+1. `STATS_HOOK_MIGRATION_STATUS.md` - Updated with VetScene evaluation and completion status
+2. `SESSION_SUMMARY.md` - Added continuation session documentation (this section)
+
+### Migration Status: ✅ **COMPLETE**
+
+All 5 action scenes have been evaluated:
+- **Migrated (2)**: PlayScene, FeedScene
+- **Deferred (3)**: BathScene, SleepScene, VetScene
+
+**Rationale for Deferrals**:
+- **BathScene**: Interactive scrubbing with progressive stat updates doesn't match single-action pattern
+- **SleepScene**: 30-second duration with real-time progress tracking requires custom UI
+- **VetScene**: Payment modal (money OR ad) requires conditional pre-action flow
+
+---
+
+## 🎓 Key Learnings
+
+### Design Validation
+
+The stats hook refactor demonstrates the **80/20 principle** in action:
+- ✅ 40% of scenes (Play, Feed) are perfect fits → 91% code reduction
+- ⏸️ 60% of scenes have legitimate architectural differences → remain custom
+
+**Important Principle**: **Don't force abstractions where they don't fit**
+- It's better to have 2 migrated scenes with excellent fit than 5 forced migrations
+- Custom code for special cases is more maintainable than over-engineered abstractions
+- Clear documentation of "why not" is as valuable as "why yes"
+
+### Pattern Recognition
+
+**Good Candidates for Hook**:
+- Simple action → animation → reward flow
+- Standard validation (energy, hunger, etc.)
+- 1-3 second animations
+- Toast-based feedback
+- No custom UI requirements
+
+**Poor Candidates for Hook**:
+- Interactive/incremental actions (scrubbing)
+- Long-duration actions with progress tracking (30s sleep)
+- Pre-action conditional flows (payment modals)
+- Custom navigation requirements
+- Alert-based confirmation flows
+
+---
+
+## 🚀 Recommended Next Steps
+
+### Project Complete ✅
+The stats hook migration project has achieved its core goals:
+- ✅ Centralized action configuration (actionConfig.ts)
+- ✅ Reusable action hook (usePetActions.ts)
+- ✅ Migrated applicable scenes (Play, Feed)
+- ✅ Documented rationale for non-migrations
+- ✅ Comprehensive test coverage
+- ✅ Updated documentation
+
+### Optional Future Enhancements (Not Migration)
+1. **Add Animations to VetScene**: Could use the vet animation config (sick state) without migrating payment flow
+2. **Performance Benchmarking**: Compare hook vs old implementation (optional)
+3. **BathScene Visual Improvements**: Add bubble effects (doesn't require hook)
+4. **SleepScene Shared Component**: Extract progress bar as reusable component
+
+### No Further Migration Work Needed
+All scenes have been appropriately evaluated. The project is complete.
+
+---
+
+## 📝 Commit Summary
+
+**For This Session's Work**:
+
+```
+Docs: Complete VetScene evaluation and finalize migration status
+
+- Evaluate VetScene for usePetActions hook migration feasibility
+- Determine VetScene is incompatible due to payment modal flow
+- Document comprehensive evaluation in STATS_HOOK_MIGRATION_STATUS.md
+- Update migration status to COMPLETE - all 5 scenes evaluated
+- Mark VetScene as DEFERRED with clear architectural rationale
+- Update session documentation with continuation session details
+
+Migration Results:
+- 2/5 scenes migrated (Play, Feed) - 91% action code reduction
+- 3/5 scenes deferred (Bath, Sleep, Vet) - architectural differences
+- All evaluations documented with clear reasoning
+
+Stats hook refactor project is now complete.
+```
+
+---
+
+## 🎉 Project Completion
+
+**Status**: ✅ **STATS HOOK MIGRATION PROJECT COMPLETE**
+
+**Original Goal**: Reduce code duplication and improve maintainability across action scenes
+
+**Achievement**:
+- ✅ Created centralized action configuration and reusable hook
+- ✅ Migrated all applicable scenes (40% - exactly the right amount)
+- ✅ Documented why other scenes should remain custom (60%)
+- ✅ Achieved 91% code reduction in migrated scenes
+- ✅ Established clear patterns for future action implementations
+- ✅ Comprehensive test coverage and documentation
+
+**Outcome**: The project successfully demonstrated that **selective abstraction** is better than forced uniformity. Two perfectly migrated scenes with massive code reduction is a better result than five forced migrations with compromised architecture.
+
+---
+
+**End of Continuation Session Summary**

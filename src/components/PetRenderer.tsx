@@ -23,10 +23,10 @@ const BASE_ASSETS: Record<PetType, Record<PetColor, ImageRequireSource>> = {
     whiteandbrown: require('../../assets/sprites/cats/cat_base.png'), // cats don't have this variant
   },
   dog: {
-    base: require('../../assets/sprites/dogs/dog_base.png'),
-    black: require('../../assets/sprites/dogs/dog_black.jpg'),
-    brown: require('../../assets/sprites/dogs/dog_brown.jpg'),
-    whiteandbrown: require('../../assets/sprites/dogs/dog_whiteandbrowm.jpg'),
+    base: require('../../assets/sprites/dogs/dog_brown.png'), // using brown as default (dog_base.png doesn't exist)
+    black: require('../../assets/sprites/dogs/dog_black.png'),
+    brown: require('../../assets/sprites/dogs/dog_brown.png'),
+    whiteandbrown: require('../../assets/sprites/dogs/dog_whiteandbrown.png'),
   },
 };
 

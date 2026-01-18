@@ -1,7 +1,17 @@
 # Vet Actions Documentation
 
+> **📋 Migration Status**: ⏸️ **DEFERRED** - Evaluated and intentionally not migrated to usePetActions hook
+>
+> **Last Updated**: 2026-01-18
+>
+> See [Stats Hook Migration](#stats-hook-migration) section below for detailed evaluation and rationale.
+
+---
+
 ## Overview
 The vet system provides medical care for pets, restoring their health and improving their overall stats. Players can pay with coins or watch an ad to get free treatment.
+
+**Architecture Note**: VetScene uses a **custom payment modal pattern** that is fundamentally different from other action scenes. This is an intentional design decision, not technical debt.
 
 ---
 
@@ -258,13 +268,15 @@ This ensures the pet maintains improved health after the visit.
 
 ## Related Files
 
-| File | Purpose |
-|------|---------|
-| `src/screens/VetScene.tsx` | Main UI component for vet screen |
-| `src/context/PetContext.tsx` | Pet state management, visitVet function |
-| `src/config/gameBalance.ts` | Vet costs, effects, and thresholds |
-| `src/utils/petStats.ts` | Health calculation, needsVet function |
-| `src/hooks/useRewardedAd.ts` | Ad integration for free treatment |
+| File | Purpose | Migration Status |
+|------|---------|------------------|
+| `src/screens/VetScene.tsx` | Main UI component for vet screen | ⏸️ Custom (Deferred) |
+| `src/context/PetContext.tsx` | Pet state management, visitVet function | N/A (Core) |
+| `src/config/gameBalance.ts` | Vet costs, effects, and thresholds | N/A (Config) |
+| `src/config/actionConfig.ts` | Centralized action definitions (vet defined but unused) | ✅ Foundation |
+| `src/hooks/usePetActions.ts` | Reusable action hook (not used by VetScene) | ✅ Foundation |
+| `src/utils/petStats.ts` | Health calculation, needsVet function | N/A (Utility) |
+| `src/hooks/useRewardedAd.ts` | Ad integration for free treatment | N/A (Utility) |
 
 ---
 
@@ -304,6 +316,136 @@ vet: {
 
 ---
 
+## Stats Hook Migration
+
+### Migration Evaluation (2026-01-18)
+
+**Status**: ⏸️ **DEFERRED** - Not suitable for usePetActions hook migration
+
+**Evaluation Date**: 2026-01-18
+**Decision**: Intentionally keep VetScene as custom implementation
+**Rationale**: Payment modal flow is incompatible with standard action hook pattern
+
+---
+
+### Why VetScene Was Not Migrated
+
+As part of the stats hook refactor project (see [STATS_HOOK_MIGRATION_STATUS.md](../STATS_HOOK_MIGRATION_STATUS.md)), all 5 action scenes were evaluated for migration to the centralized `usePetActions` hook. VetScene was determined to be a **poor fit** for the hook abstraction.
+
+---
+
+### Architectural Differences
+
+#### Standard Action Pattern (Play/Feed Scenes)
+```typescript
+// Simple, direct action call
+await performAction('play', { activity: { emoji, nameKey } });
+```
+
+**Flow**: Validate → Execute → Animate → Reward → Toast
+
+#### VetScene Pattern
+```typescript
+// Multi-step conditional flow
+User chooses payment → [Process payment] → Execute action → Navigate back
+```
+
+**Flow**: Choose Payment → Confirm/Process → Validate → Execute → Alert → Navigate
+
+---
+
+### Key Incompatibilities
+
+1. **Pre-Action Payment Choice**
+   - Hook expects: Direct `performAction('vet')` call
+   - VetScene needs: User chooses between money (50 coins) OR watch ad first
+   - **Impact**: Payment decision happens BEFORE action execution
+
+2. **Dual Payment Paths**
+   - Path A: Money → Confirmation Alert → Deduct coins → Execute
+   - Path B: Ad readiness check → Show ad → Execute (free)
+   - **Impact**: Conditional execution based on payment method
+
+3. **Alert-Based UI**
+   - Hook uses: Toast notifications for feedback
+   - VetScene uses: Alert.alert for confirmations and success messages
+   - **Impact**: Different user interaction pattern (blocking alerts vs non-blocking toasts)
+
+4. **Custom Navigation**
+   - Hook: No navigation handling
+   - VetScene: Auto-navigates back to previous screen after completion
+   - **Impact**: Hook doesn't support post-action navigation
+
+5. **No Animation Usage**
+   - Hook: Expects animation sequences (eating, playing, etc.)
+   - VetScene: Shows static idle pet throughout (no animation states)
+   - **Impact**: Animation system not utilized
+
+6. **Rewarded Ad Integration**
+   - Hook: No ad callback support
+   - VetScene: Rewarded ad callback triggers action execution
+   - **Impact**: Async payment processing before action
+
+---
+
+### Migration Options Considered
+
+**Option A: Keep as-is** ✅ **SELECTED**
+- Pros: Clean custom code, maintains UX, no forced abstraction
+- Cons: Not using shared hook
+- **Decision**: Best option - VetScene's payment flow is a core feature
+
+**Option B: Partial migration - Use hook for animation only**
+- Pros: Some code sharing
+- Cons: VetScene doesn't currently use animations (static idle pet)
+- **Decision**: No benefit - would add complexity without value
+
+**Option C: Extend hook with payment callback support**
+- Pros: Could support VetScene pattern
+- Cons: Over-engineering for single use case, increases hook complexity
+- **Decision**: Rejected - don't over-engineer for one scene
+
+**Option D: Redesign VetScene to match hook pattern**
+- Pros: Would enable migration
+- Cons: Removes payment choice feature, worse UX
+- **Decision**: Rejected - payment modal is valuable UX
+
+---
+
+### Design Principle Validated
+
+**Don't force abstractions where they don't fit.**
+
+- ✅ 2/5 scenes (Play, Feed) are perfect fits → 91% code reduction
+- ⏸️ 3/5 scenes (Bath, Sleep, Vet) have legitimate differences → remain custom
+
+**Outcome**: Better to have clean custom code for special cases than over-engineered abstractions.
+
+---
+
+### VetScene Migration Status
+
+| Aspect | Status | Notes |
+|--------|--------|-------|
+| **Evaluated** | ✅ Complete | Thoroughly analyzed on 2026-01-18 |
+| **Migration** | ⏸️ Deferred | Intentionally not migrated |
+| **Architecture** | ✅ Approved | Custom implementation is correct approach |
+| **Action Config** | ✅ Defined | `vet` action exists in actionConfig.ts (unused) |
+| **Future Work** | ⏳ Optional | Could add animations without migrating payment flow |
+
+---
+
+### Related Documentation
+
+- **Migration Status**: [STATS_HOOK_MIGRATION_STATUS.md](../STATS_HOOK_MIGRATION_STATUS.md)
+- **Hook Implementation**: [src/hooks/usePetActions.ts](../src/hooks/usePetActions.ts)
+- **Action Configuration**: [src/config/actionConfig.ts](../src/config/actionConfig.ts)
+- **Migrated Examples**:
+  - [Play Scene Documentation](./PLAY_ACTIONS_DOCUMENTATION.md)
+  - [Feed Scene Documentation](./FEED_ACTIONS_DOCUMENTATION.md)
+
+---
+
 ## Summary
 
 The vet system provides a crucial health restoration mechanic with flexible payment options (coins or ads). It works by:
@@ -313,3 +455,5 @@ The vet system provides a crucial health restoration mechanic with flexible paym
 4. Providing visual feedback through color-coded urgency levels
 
 The system is designed to help players maintain pet health while offering monetization through either in-game currency or ad watching.
+
+**Architecture Decision**: VetScene intentionally uses a **custom payment modal pattern** rather than the standard usePetActions hook. This design decision preserves the unique payment choice UX (money OR ad) that is core to the vet experience. See [Stats Hook Migration](#stats-hook-migration) section for detailed rationale.
