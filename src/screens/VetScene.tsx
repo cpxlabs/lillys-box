@@ -44,34 +44,41 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
   const vetStatus = needsVet(pet.health);
-  const canAfford = pet.money >= GAME_BALANCE.activities.vet.cost;
+  const antibioticCost = GAME_BALANCE.activities.vet.antibiotic.cost;
+  const antiInflamCost = GAME_BALANCE.activities.vet.antiInflammatory.cost;
+  const canAffordAntibiotic = pet.money >= antibioticCost;
+  const canAffordAntiInflam = pet.money >= antiInflamCost;
 
-  const handlePayWithMoney = () => {
+  const handleTreatmentWithMoney = (treatmentType: 'antibiotic' | 'antiInflammatory') => {
+    const cost = treatmentType === 'antibiotic' ? antibioticCost : antiInflamCost;
+    const canAfford = treatmentType === 'antibiotic' ? canAffordAntibiotic : canAffordAntiInflam;
+    const treatmentName = treatmentType === 'antibiotic' ? 'Antibiotic' : 'Anti-inflammatory';
+
     if (!canAfford) {
       Alert.alert(
         'Not Enough Money',
-        `You need ${GAME_BALANCE.activities.vet.cost} coins for a vet visit. You have ${pet.money} coins.`,
+        `You need ${cost} coins for ${treatmentName}. You have ${pet.money} coins.`,
         [{ text: 'OK' }]
       );
       return;
     }
 
     Alert.alert(
-      'Visit Vet?',
-      `This will cost ${GAME_BALANCE.activities.vet.cost} coins. Your pet will be examined and treated.`,
+      `Use ${treatmentName}?`,
+      `This will cost ${cost} coins. Your pet will receive treatment.`,
       [
         { text: 'Cancel', style: 'cancel' },
         {
-          text: 'Visit',
+          text: 'Use',
           onPress: () => {
-            performVetVisit(true);
+            performVetVisit(treatmentType, true);
           },
         },
       ]
     );
   };
 
-  const handleWatchAd = async () => {
+  const handleTreatmentWithAd = async (treatmentType: 'antibiotic' | 'antiInflammatory') => {
     if (!isAdReady) {
       Alert.alert(
         'Ad Not Ready',
@@ -83,9 +90,10 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
 
     try {
       setIsProcessing(true);
+      const treatmentName = treatmentType === 'antibiotic' ? 'Antibiotic' : 'Anti-inflammatory';
       // Pass callback that will be executed when ad is completed successfully
       await showRewardedAd(() => {
-        performVetVisit(false);
+        performVetVisit(treatmentType, false);
       });
     } catch (error) {
       logger.error('Error showing rewarded ad:', error);
@@ -99,14 +107,16 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
     }
   };
 
-  const performVetVisit = (useMoney: boolean) => {
-    const success = visitVet(useMoney);
+  const performVetVisit = (treatmentType: 'antibiotic' | 'antiInflammatory', useMoney: boolean) => {
+    const success = visitVet(treatmentType, useMoney);
+    const treatmentName = treatmentType === 'antibiotic' ? 'Antibiotic' : 'Anti-inflammatory';
+    const cost = treatmentType === 'antibiotic' ? antibioticCost : antiInflamCost;
 
     if (!success) {
       Alert.alert(
         'Visit Failed',
         useMoney
-          ? `You need ${GAME_BALANCE.activities.vet.cost} coins for a vet visit. You have ${pet.money} coins.`
+          ? `You need ${cost} coins for ${treatmentName}. You have ${pet.money} coins.`
           : 'Unable to complete vet visit. Please try again.',
         [{ text: 'OK' }]
       );
@@ -114,8 +124,8 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
     }
 
     Alert.alert(
-      '✅ Checkup Complete!',
-      `${pet.name} has been examined and is feeling much better!`,
+      '✅ Treatment Complete!',
+      `${pet.name} received ${treatmentName} treatment and is feeling better!`,
       [
         {
           text: 'Great!',
@@ -193,57 +203,91 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
               <Text style={[styles.urgencyMessage, { fontSize: fs(12), marginTop: spacing(6) }]}>{getUrgencyMessage()}</Text>
             </View>
 
-            {/* Benefits sidebar on the right */}
-            <View style={[styles.benefitsSidebar, { borderRadius: spacing(10), padding: spacing(8), maxWidth: spacing(90) }]}>
-              <Text style={[styles.benefitsSidebarTitle, { fontSize: textSizes.sidebarTitle, marginBottom: spacing(4) }]}>Benefits</Text>
-              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2) }]}>
-                ❤️ Health to {GAME_BALANCE.activities.vet.healthTarget}%
+            {/* Benefits sidebar on the right - shows treatment options */}
+            <View style={[styles.benefitsSidebar, { borderRadius: spacing(10), padding: spacing(8), maxWidth: spacing(110) }]}>
+              <Text style={[styles.benefitsSidebarTitle, { fontSize: textSizes.sidebarTitle, marginBottom: spacing(4) }]}>Treatments</Text>
+
+              {/* Antibiotic info */}
+              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2), fontWeight: '600' }]}>
+                Antibiotic
               </Text>
-              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2) }]}>
-                📈 Stats +{GAME_BALANCE.activities.vet.statBoost}
+              <Text style={[styles.benefitsSidebarText, { fontSize: fs(10), marginVertical: spacing(1) }]}>
+                💰 {antibioticCost} coins
               </Text>
-              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2) }]}>
-                ⚡ Energy {GAME_BALANCE.activities.vet.energy}
+              <Text style={[styles.benefitsSidebarText, { fontSize: fs(10), marginVertical: spacing(1) }]}>
+                ❤️ Health to 50%
+              </Text>
+
+              {/* Anti-inflammatory info */}
+              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(3), fontWeight: '600', marginTop: spacing(6) }]}>
+                Anti-inflam
+              </Text>
+              <Text style={[styles.benefitsSidebarText, { fontSize: fs(10), marginVertical: spacing(1) }]}>
+                💰 {antiInflamCost} coins
+              </Text>
+              <Text style={[styles.benefitsSidebarText, { fontSize: fs(10), marginVertical: spacing(1) }]}>
+                ❤️ Health to 80%
               </Text>
             </View>
           </View>
 
-          {/* Payment options */}
+          {/* Treatment options */}
           <View style={[styles.paymentOptions, { marginBottom: spacing(12) }]}>
-            <TouchableOpacity
-              style={[
-                styles.payButton,
-                { paddingVertical: spacing(12), paddingHorizontal: spacing(16), borderRadius: spacing(10), marginBottom: spacing(6) },
-                !canAfford && styles.payButtonDisabled,
-              ]}
-              onPress={handlePayWithMoney}
-              disabled={!canAfford || isProcessing}
-            >
-              <Text style={[styles.payButtonText, { fontSize: textSizes.buttonText }]}>
-                💰 Pay {GAME_BALANCE.activities.vet.cost} Coins
-              </Text>
-              <Text style={[styles.payButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}>
-                You have: {pet.money} coins
-              </Text>
-            </TouchableOpacity>
+            {/* Antibiotic treatment */}
+            <View>
+              <TouchableOpacity
+                style={[
+                  styles.payButton,
+                  { paddingVertical: spacing(12), paddingHorizontal: spacing(16), borderRadius: spacing(10), marginBottom: spacing(6) },
+                  !canAffordAntibiotic && styles.payButtonDisabled,
+                ]}
+                onPress={() => handleTreatmentWithMoney('antibiotic')}
+                disabled={!canAffordAntibiotic || isProcessing}
+              >
+                <Text style={[styles.payButtonText, { fontSize: textSizes.buttonText }]}>
+                  💊 Antibiotic - {antibioticCost} Coins
+                </Text>
+                <Text style={[styles.payButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}>
+                  Health guarantee: 50% • You have: {pet.money} coins
+                </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[
+                  styles.adButton,
+                  { paddingVertical: spacing(12), paddingHorizontal: spacing(16), borderRadius: spacing(10), marginBottom: spacing(8) },
+                  (!isAdReady || isProcessing) && styles.adButtonDisabled,
+                ]}
+                onPress={() => handleTreatmentWithAd('antibiotic')}
+                disabled={!isAdReady || isProcessing}
+              >
+                <Text style={[styles.adButtonText, { fontSize: textSizes.buttonText }]}>
+                  {isProcessing ? '⏳ Loading...' : '📺 Watch Ad (Free Antibiotic)'}
+                </Text>
+                {!isAdReady && !isProcessing && (
+                  <Text style={[styles.adButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}>Ad loading...</Text>
+                )}
+              </TouchableOpacity>
+            </View>
 
             <Text style={[styles.orText, { fontSize: fs(13), marginVertical: spacing(6) }]}>OR</Text>
 
+            {/* Anti-inflammatory treatment */}
             <TouchableOpacity
               style={[
-                styles.adButton,
+                styles.payButton,
                 { paddingVertical: spacing(12), paddingHorizontal: spacing(16), borderRadius: spacing(10) },
-                (!isAdReady || isProcessing) && styles.adButtonDisabled,
+                !canAffordAntiInflam && styles.payButtonDisabled,
               ]}
-              onPress={handleWatchAd}
-              disabled={!isAdReady || isProcessing}
+              onPress={() => handleTreatmentWithMoney('antiInflammatory')}
+              disabled={!canAffordAntiInflam || isProcessing}
             >
-              <Text style={[styles.adButtonText, { fontSize: textSizes.buttonText }]}>
-                {isProcessing ? '⏳ Loading...' : '📺 Watch Ad (Free)'}
+              <Text style={[styles.payButtonText, { fontSize: textSizes.buttonText }]}>
+                💉 Anti-inflammatory - {antiInflamCost} Coins
               </Text>
-              {!isAdReady && !isProcessing && (
-                <Text style={[styles.adButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}>Ad loading...</Text>
-              )}
+              <Text style={[styles.payButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}>
+                Health guarantee: 80% • You have: {pet.money} coins
+              </Text>
             </TouchableOpacity>
           </View>
 

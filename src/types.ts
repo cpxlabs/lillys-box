@@ -2,6 +2,7 @@ export type PetType = 'cat' | 'dog';
 export type PetColor = 'base' | 'black' | 'brown' | 'whiteandbrown';
 export type Gender = 'male' | 'female' | 'other';
 export type ClothingSlot = 'head' | 'eyes' | 'torso' | 'paws';
+export type TreatmentType = 'antibiotic' | 'antiInflammatory';
 
 export type ClothingItem = {
   id: string;

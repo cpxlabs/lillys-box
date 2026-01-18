@@ -49,7 +49,7 @@ export const GAME_BALANCE = {
       hunger: -15,
       hygiene: -15,
       energy: -25,
-      money: 0,  // Changed from 5 to 0 - consolidated into playReward (now 15)
+      money: 15,  // Increased from 0 to 15 - primary income source
     },
     sleep: {
       energy: 40,
@@ -62,18 +62,27 @@ export const GAME_BALANCE = {
       hunger: -20,
       hygiene: -10,
       energy: -30,
-      money: 10,
+      money: 25,  // Increased from 10 to 25
     },
     petCuddle: {
       happiness: 10,
       energy: -3,
     },
     vet: {
-      cost: 50,
-      healthTarget: 70, // Set health to minimum of 70
-      energy: -10,
-      happiness: -5,
-      statBoost: 10, // Boost to other stats
+      antibiotic: {
+        cost: 30,
+        healthTarget: 50,
+        allowAds: true,
+        energy: -10,
+        happiness: -5,
+      },
+      antiInflammatory: {
+        cost: 50,
+        healthTarget: 80,
+        allowAds: false,
+        energy: -10,
+        happiness: -5,
+      },
     },
   },
 

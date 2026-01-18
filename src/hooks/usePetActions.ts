@@ -47,6 +47,8 @@ import { logger } from '../utils/logger';
 export type ActionOptions = {
   /** Custom amount for feed/bathe actions */
   amount?: number;
+  /** Cost for feed action (coins deducted) */
+  cost?: number;
   /** Activity details for feed/play (emoji, name for messages) */
   activity?: {
     emoji: string;
@@ -132,7 +134,7 @@ export function usePetActions(): UsePetActionsReturn {
   ): void | Promise<{ completed: boolean }> => {
     switch (type) {
       case 'feed':
-        feed(options.amount);
+        feed(options.amount, options.cost);
         break;
       case 'play':
         play();

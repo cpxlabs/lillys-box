@@ -5,6 +5,7 @@ import {
   StyleSheet,
   SafeAreaView,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
@@ -24,10 +25,10 @@ type Props = {
 };
 
 const FOODS = [
-  { id: 'kibble', emoji: '🍖', nameKey: 'feed.foods.kibble', value: 20 },
-  { id: 'fish', emoji: '🐟', nameKey: 'feed.foods.fish', value: 25 },
-  { id: 'treat', emoji: '🦴', nameKey: 'feed.foods.treat', value: 15 },
-  { id: 'milk', emoji: '🥛', nameKey: 'feed.foods.milk', value: 10 },
+  { id: 'kibble', emoji: '🍖', nameKey: 'feed.foods.kibble', value: 30, cost: 15 },
+  { id: 'fish', emoji: '🐟', nameKey: 'feed.foods.fish', value: 35, cost: 20 },
+  { id: 'treat', emoji: '🦴', nameKey: 'feed.foods.treat', value: 25, cost: 18 },
+  { id: 'milk', emoji: '🥛', nameKey: 'feed.foods.milk', value: 20, cost: 15 },
 ];
 
 export const FeedScene: React.FC<Props> = ({ navigation }) => {
@@ -56,8 +57,19 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
   const handleFeed = async (food: typeof FOODS[0]) => {
+    // Check if pet has enough money
+    if (pet.money < food.cost) {
+      Alert.alert(
+        'Not Enough Money',
+        `${food.nameKey === 'feed.foods.kibble' ? 'Kibble' : food.nameKey === 'feed.foods.fish' ? 'Fish' : food.nameKey === 'feed.foods.treat' ? 'Treat' : 'Milk'} costs ${food.cost} coins. You have ${pet.money} coins.`,
+        [{ text: 'OK' }]
+      );
+      return;
+    }
+
     await performAction('feed', {
       amount: food.value,
+      cost: food.cost,
       activity: {
         emoji: food.emoji,
         nameKey: food.nameKey,
@@ -100,13 +112,14 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.currentFoodButton, { minWidth: buttonSizes.itemWidth, padding: buttonSizes.itemPadding, borderRadius: spacing(16) }]}
+            style={[styles.currentFoodButton, { minWidth: buttonSizes.itemWidth, padding: buttonSizes.itemPadding, borderRadius: spacing(16), opacity: pet.money < currentFood.cost ? 0.5 : 1 }]}
             onPress={() => handleFeed(currentFood)}
-            disabled={isAnimating || pet.hunger >= 100}
+            disabled={isAnimating || pet.hunger >= 100 || pet.money < currentFood.cost}
           >
             <Text style={[styles.currentFoodEmoji, { fontSize: buttonSizes.itemEmoji, marginBottom: spacing(6) }]}>{currentFood.emoji}</Text>
             <Text style={[styles.currentFoodName, { fontSize: buttonSizes.itemFont, marginBottom: spacing(3) }]}>{t(currentFood.nameKey)}</Text>
             <Text style={[styles.currentFoodValue, { fontSize: buttonSizes.valueFont }]}>+{currentFood.value}%</Text>
+            <Text style={[styles.foodCost, { fontSize: fs(10), marginTop: spacing(2) }]}>💰 {currentFood.cost} coins</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
@@ -231,6 +244,11 @@ const styles = StyleSheet.create({
   currentFoodValue: {
     fontSize: 14,
     color: '#4CAF50',
+    fontWeight: '600',
+  },
+  foodCost: {
+    fontSize: 12,
+    color: '#ff9800',
     fontWeight: '600',
   },
   pageIndicator: {

@@ -80,6 +80,7 @@ export const StatusCard: React.FC<StatusCardProps> = ({
 
 const styles = StyleSheet.create({
   card: {
+    backgroundColor: 'transparent',
   },
   splitLayout: {
     flexDirection: 'row',
