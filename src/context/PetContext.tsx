@@ -12,12 +12,12 @@ type PetContextType = {
   pet: Pet | null;
   isLoading: boolean;
   createPet: (name: string, type: PetType, gender: Gender, color: PetColor) => Promise<void>;
-  feed: (amount?: number) => void;
+  feed: (amount?: number, cost?: number) => void;
   play: () => void;
   bathe: (amount?: number) => void;
   sleep: (duration?: number) => Promise<{ completed: boolean }>;
   cancelSleep: () => void;
-  visitVet: (useMoney?: boolean) => boolean;
+  visitVet: (treatmentType?: 'antibiotic' | 'antiInflammatory', useMoney?: boolean) => boolean;
   exercise: () => void;
   petCuddle: () => void;
   setClothing: (slot: ClothingSlot, itemId: string | null) => void;
@@ -121,7 +121,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     await savePet(newPet);
   };
 
-  const feed = (amount?: number) => {
+  const feed = (amount?: number, cost?: number) => {
     setPet((currentPet) => {
       if (!currentPet || !canPerformActivity(currentPet, 'feed')) return currentPet;
 
@@ -134,6 +134,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         energy: Math.min(100, currentPet.energy + effects.energy),
         happiness: Math.min(100, currentPet.happiness + effects.happiness * multiplier),
         hygiene: Math.max(0, currentPet.hygiene + effects.hygiene),
+        money: Math.max(0, currentPet.money - (cost || 0)),  // Deduct food cost
       };
 
       updatedPet.health = calculateHealth(updatedPet);
@@ -270,13 +271,13 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   };
 
-  const visitVet = (useMoney: boolean = true): boolean => {
+  const visitVet = (treatmentType: 'antibiotic' | 'antiInflammatory' = 'antibiotic', useMoney: boolean = true): boolean => {
     if (!pet) {
       logger.error('visitVet: No pet exists');
       return false;
     }
 
-    const effects = GAME_BALANCE.activities.vet;
+    const effects = GAME_BALANCE.activities.vet[treatmentType];
 
     // Check if can afford
     if (useMoney && pet.money < effects.cost) {
@@ -284,7 +285,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       return false;
     }
 
-    logger.info(`visitVet: Starting vet visit (useMoney: ${useMoney})`);
+    logger.info(`visitVet: Starting vet visit (treatment: ${treatmentType}, useMoney: ${useMoney})`);
 
     setPet((currentPet) => {
       if (!currentPet) return currentPet;

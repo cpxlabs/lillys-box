@@ -52,7 +52,6 @@ export const StatusBar: React.FC<StatusBarProps> = ({
     <View style={[styles.container, dynamicStyles.container]}>
       <Text style={[styles.emoji, dynamicStyles.emoji]}>{emoji}</Text>
       <View style={styles.barContainer}>
-        <Text style={[styles.label, dynamicStyles.label]}>{label}</Text>
         <View style={[styles.barBackground, dynamicStyles.barBackground]}>
           <View
             style={[
