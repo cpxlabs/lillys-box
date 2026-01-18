@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -8,23 +8,17 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
-import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { AnimationState } from '../types';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
-import { useDoubleReward } from '../hooks/useDoubleReward';
-import { AdsConfig } from '../config/ads.config';
+import { usePetActions } from '../hooks/usePetActions';
 import { ScreenNavigationProp } from '../types/navigation';
-import { ANIMATION_DURATION } from '../config/constants';
 import { calculatePetAge } from '../utils/age';
 import { useResponsive } from '../hooks/useResponsive';
 import { ACTION_PET_SIZE, ACTION_BUTTON_SIZE, SCENE_TEXT_SIZE } from '../config/responsive';
 import { PLAY_ACTIVITIES } from '../data/playActivities';
-import { canPerformActivity } from '../utils/petStats';
-import { logger } from '../utils/logger';
 
 type Props = {
   navigation: ScreenNavigationProp<'Play'>;
@@ -32,17 +26,10 @@ type Props = {
 
 export const PlayScene: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
-  const { pet, play, earnMoney } = usePet();
-  const { showToast } = useToast();
-  const { triggerReward, DoubleRewardModal } = useDoubleReward({ earnMoney, showToast });
-  const [animationState, setAnimationState] = useState<AnimationState>('idle');
-  const [message, setMessage] = useState('');
+  const { pet } = usePet();
+  const { animationState, message, isAnimating, performAction, DoubleRewardModal } = usePetActions();
   const BackButtonIcon = useBackButton();
   const { deviceType, spacing, fs } = useResponsive();
-
-  // Refs for timeout cleanup to prevent memory leaks
-  const animationTimeout1 = useRef<NodeJS.Timeout | null>(null);
-  const animationTimeout2 = useRef<NodeJS.Timeout | null>(null);
 
   const petSize = ACTION_PET_SIZE[deviceType];
   const buttonSizes = ACTION_BUTTON_SIZE[deviceType];
@@ -56,65 +43,19 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
     totalItems,
   } = useNavigationList(PLAY_ACTIVITIES);
 
-  // Cleanup timeouts on unmount to prevent memory leaks
-  useEffect(() => {
-    return () => {
-      if (animationTimeout1.current) {
-        clearTimeout(animationTimeout1.current);
-      }
-      if (animationTimeout2.current) {
-        clearTimeout(animationTimeout2.current);
-      }
-    };
-  }, []);
-
   if (!pet) return null;
 
   const petAge = calculatePetAge(pet.createdAt);
   const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
-  const handlePlay = (activity: typeof PLAY_ACTIVITIES[0]) => {
-    // Check if pet can perform activity (has enough energy)
-    if (!canPerformActivity(pet, 'play')) {
-      showToast(t('play.needsRest', { name: pet.name }), 'info');
-      return;
-    }
-
-    try {
-      // Clear any existing timeouts to prevent conflicts
-      if (animationTimeout1.current) {
-        clearTimeout(animationTimeout1.current);
-      }
-      if (animationTimeout2.current) {
-        clearTimeout(animationTimeout2.current);
-      }
-
-      setAnimationState('happy');
-      setMessage(t('play.playing', { name: pet.name, activity: t(activity.nameKey) }));
-
-      play();
-
-      // Base money earned for playing
-      const moneyEarned = AdsConfig.rewards.playReward;
-
-      animationTimeout1.current = setTimeout(() => {
-        setMessage(t('play.loved', { name: pet.name }));
-
-        animationTimeout2.current = setTimeout(() => {
-          setAnimationState('idle');
-          setMessage('');
-
-          // Offer double reward or give reward immediately
-          triggerReward(moneyEarned);
-        }, ANIMATION_DURATION.MEDIUM);
-      }, ANIMATION_DURATION.MEDIUM);
-    } catch (error) {
-      logger.error('Play error:', error);
-      // Reset state on error to prevent UI freeze
-      setAnimationState('idle');
-      setMessage('');
-    }
+  const handlePlay = async (activity: typeof PLAY_ACTIVITIES[0]) => {
+    await performAction('play', {
+      activity: {
+        emoji: activity.emoji,
+        nameKey: activity.nameKey,
+      },
+    });
   };
 
   return (
@@ -146,7 +87,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             style={[styles.arrowButton, { width: buttonSizes.arrowSize, height: buttonSizes.arrowSize, borderRadius: buttonSizes.arrowSize / 2, marginHorizontal: spacing(6) }]}
             onPress={goToPrevious}
-            disabled={animationState !== 'idle'}
+            disabled={isAnimating}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>←</Text>
           </TouchableOpacity>
@@ -154,7 +95,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             style={[styles.currentActivityButton, { minWidth: buttonSizes.itemWidth, padding: buttonSizes.itemPadding, borderRadius: spacing(16) }]}
             onPress={() => handlePlay(currentActivity)}
-            disabled={animationState !== 'idle'}
+            disabled={isAnimating}
           >
             <Text style={[styles.currentActivityEmoji, { fontSize: buttonSizes.itemEmoji, marginBottom: spacing(6) }]}>{currentActivity.emoji}</Text>
             <Text style={[styles.currentActivityName, { fontSize: buttonSizes.itemFont }]}>{t(currentActivity.nameKey)}</Text>
@@ -163,7 +104,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             style={[styles.arrowButton, { width: buttonSizes.arrowSize, height: buttonSizes.arrowSize, borderRadius: buttonSizes.arrowSize / 2, marginHorizontal: spacing(6) }]}
             onPress={goToNext}
-            disabled={animationState !== 'idle'}
+            disabled={isAnimating}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>→</Text>
           </TouchableOpacity>

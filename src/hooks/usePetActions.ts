@@ -82,6 +82,8 @@ export type UsePetActionsReturn = {
   performAction: (type: ActionType, options?: ActionOptions) => Promise<ActionResult>;
   /** Cancel current action (mainly for sleep) */
   cancelAction: () => void;
+  /** Double reward modal component (must be rendered in scene) */
+  DoubleRewardModal: JSX.Element;
 };
 
 /**
@@ -348,5 +350,6 @@ export function usePetActions(): UsePetActionsReturn {
     isAnimating,
     performAction,
     cancelAction,
+    DoubleRewardModal,
   };
 }
