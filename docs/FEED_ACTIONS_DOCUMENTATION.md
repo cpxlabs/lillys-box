@@ -102,14 +102,33 @@ The feed system allows players to nourish their pets with different food items, 
 
 ## Technical Implementation
 
-### handleFeed Function (`src/screens/FeedScene.tsx:82-118`)
+### handleFeed Function (`src/screens/FeedScene.tsx:83-131`)
 
 **Parameters:**
 - `food`: The selected food item with id, emoji, nameKey, and value
 
 **Process:**
 
-1. **Cleanup Phase** (`FeedScene.tsx:84-90`)
+1. **Validation Phase** (`FeedScene.tsx:84-94`) ✅ **ENHANCED (2026-01-17)**
+   ```typescript
+   // Check if pet can perform activity (has enough energy)
+   if (!canPerformActivity(pet, 'feed')) {
+     showToast(t('feed.tooTired', { name: pet.name }), 'info');
+     return;
+   }
+
+   // Check if hunger is already full
+   if (pet.hunger >= 100) {
+     showToast(t('feed.notHungry', { name: pet.name }), 'info');
+     return;
+   }
+   ```
+   - Validates energy level before allowing feed action
+   - Shows user-friendly toast when pet is too tired
+   - Shows user-friendly toast when pet is not hungry
+   - Prevents wasted actions with clear feedback
+
+2. **Cleanup Phase** (`FeedScene.tsx:97-103`)
    ```typescript
    // Clear any existing timeouts to prevent conflicts
    if (animationTimeout1.current) clearTimeout(animationTimeout1.current);
@@ -118,7 +137,7 @@ The feed system allows players to nourish their pets with different food items, 
    - Prevents animation overlap
    - Avoids race conditions
 
-2. **Eating Animation** (`FeedScene.tsx:92-95`)
+3. **Eating Animation** (`FeedScene.tsx:105-108`)
    ```typescript
    setAnimationState('eating');
    setMessage(t('feed.eating', { name: pet.name, food: t(food.nameKey) }));
@@ -128,7 +147,7 @@ The feed system allows players to nourish their pets with different food items, 
    - Shows message: "{pet.name} is eating {food.name}!"
    - Calls `feed()` context function with hunger value
 
-3. **Happy Animation** (`FeedScene.tsx:100-102`)
+4. **Happy Animation** (`FeedScene.tsx:113-117`)
    ```typescript
    setTimeout(() => {
      setAnimationState('happy');
@@ -138,7 +157,7 @@ The feed system allows players to nourish their pets with different food items, 
    - After 2.5 seconds, switch to happy animation
    - Shows message: "{pet.name} loved it! 💕"
 
-4. **Completion & Reward** (`FeedScene.tsx:104-110`)
+5. **Completion & Reward** (`FeedScene.tsx:117-123`)
    ```typescript
    setTimeout(() => {
      setAnimationState('idle');
@@ -150,7 +169,7 @@ The feed system allows players to nourish their pets with different food items, 
    - Clear message
    - Trigger reward system (5 coins base, or 10 with ad)
 
-5. **Error Handling** (`FeedScene.tsx:112-117`)
+6. **Error Handling** (`FeedScene.tsx:125-130`)
    ```typescript
    catch (error) {
      logger.error('Feed error:', error);
@@ -375,6 +394,8 @@ Kibble (0) → Fish (1) → Treat (2) → Milk (3) → Kibble (0) → ...
 | `feed.chooseFood` | "Choose food:" | Food selection title |
 | `feed.eating` | "{name} is eating {food}!" | Eating animation message |
 | `feed.loved` | "{name} loved it! 💕" | Happy animation message |
+| `feed.tooTired` ✅ | "{name} is too tired to eat. Needs rest!" | Energy validation feedback |
+| `feed.notHungry` ✅ | "{name} is not hungry right now!" | Hunger validation feedback |
 | `feed.foods.kibble` | "Kibble" | Food name |
 | `feed.foods.fish` | "Fish" | Food name |
 | `feed.foods.treat` | "Treat" | Food name |
@@ -386,21 +407,25 @@ Kibble (0) → Fish (1) → Treat (2) → Milk (3) → Kibble (0) → ...
 | `rewards.doubleReward.watchAd` | "Watch Ad" | Confirm button |
 | `rewards.doubleReward.noThanks` | "No Thanks" | Cancel button |
 
+**Note:** Keys marked with ✅ were added in the 2026-01-17 user feedback enhancement.
+
 ---
 
 ## Edge Cases & Special Behaviors
 
-### 1. Hunger Already Full (`pet.hunger >= 100`)
+### 1. Hunger Already Full (`pet.hunger >= 100`) ✅ **ENHANCED (2026-01-17)**
 - Feed button disabled
 - Visual cue: Button appears grayed out
-- No error message shown
+- **User feedback**: Toast message "{name} is not hungry right now!" displayed
 - User can still navigate food items
+- Action prevented with clear explanation
 
-### 2. Low Energy (`pet.energy < 20`)
+### 2. Low Energy (`pet.energy < 20`) ✅ **ENHANCED (2026-01-17)**
 - `canPerformActivity()` returns false
 - Feed action blocked entirely
 - Pet needs to sleep first
-- Error logged but not shown to user
+- **User feedback**: Toast message "{name} is too tired to eat. Needs rest!" displayed
+- Helps user understand why action failed
 
 ### 3. Overfeed Scenario
 - Hunger capped at 100 (cannot exceed)

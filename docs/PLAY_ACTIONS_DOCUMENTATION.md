@@ -394,22 +394,29 @@ Yarn Ball (0) ⇄ Small Ball (1) ⇄ Yarn Ball (0) ⇄ ...
 
 ## Internationalization Status
 
-### ⚠️ Issues Found
+### ~~Issues Found~~ ✅ FIXED (2026-01-17)
 
-**Hardcoded Portuguese Strings:**
-1. Screen title: `"🎮 Brincar"` (`PlayScene.tsx:88`)
-2. Activity names: `"Bola de lã"`, `"Bolinha"` (`PlayScene.tsx:31-32`)
-3. Messages: Uses template literals instead of `t()` function (`PlayScene.tsx:65, 73`)
-4. Section title: `"Escolha a atividade:"` (`PlayScene.tsx:107`)
+**Status**: ✅ **FULLY INTERNATIONALIZED** in commit 18d09f3
 
-**Expected behavior:**
-- Should use `t('play.title')`, `t('play.activities.yarn_ball')`, etc.
-- Would enable multi-language support
-- Currently only supports Portuguese
+**Previous Issues (Now Resolved):**
+1. ~~Screen title: `"🎮 Brincar"`~~ → ✅ Now uses `t('play.title')`
+2. ~~Activity names: `"Bola de lã"`, `"Bolinha"`~~ → ✅ Now uses `t(activity.nameKey)`
+3. ~~Messages: Template literals~~ → ✅ Now uses `t('play.playing')`, `t('play.loved')`
+4. ~~Section title: `"Escolha a atividade:"`~~ → ✅ Now uses `t('play.chooseActivity')`
 
-**Feed Scene for Comparison:**
-- Uses `t('feed.title')`, `t(currentFood.nameKey)` properly
-- Fully internationalized
+**Implementation:**
+- Created `src/data/playActivities.ts` with centralized configuration
+- Updated `PlayScene.tsx` to import PLAY_ACTIVITIES from data file
+- All strings now use translation keys with i18n system
+- Added translation keys to both `pt-BR.json` and `en.json`
+- Matches FeedScene pattern for consistency
+
+**Supported Languages:**
+- ✅ Portuguese (pt-BR) - Complete
+- ✅ English (en) - Complete
+
+**Additional i18n Keys Added:**
+- `play.needsRest` - User feedback when energy too low
 
 ---
 

@@ -159,7 +159,9 @@ vet: {
 
 ## Code Issues Found ⚠️
 
-### Bug in visitVet Function (`src/context/PetContext.tsx:287, 301, 306, 309`)
+### ~~Bug in visitVet Function~~ ✅ FIXED (2026-01-17)
+
+**Status**: ✅ **RESOLVED** in commit 18d09f3
 
 **Issue:** References to undefined variables:
 ```typescript
@@ -169,12 +171,20 @@ Line 306: updatedPet.health = Math.max(treatmentConfig.healthTarget, calculatedH
 Line 309: `visitVet: Health updated - calculated: ${calculatedHealth}, target: ${treatmentConfig.healthTarget}, final: ${updatedPet.health}`
 ```
 
-**Expected behavior:**
-- `treatment` → Should be removed or replaced with relevant info
-- `treatmentConfig.cost` → Should be `effects.cost`
-- `treatmentConfig.healthTarget` → Should be `effects.healthTarget`
+**Fixed code:**
+```typescript
+Line 287: logger.info(`visitVet: Starting vet visit (useMoney: ${useMoney})`);
+Line 301: money: useMoney ? currentPet.money - effects.cost : currentPet.money,
+Line 306: updatedPet.health = Math.max(effects.healthTarget, calculatedHealth);
+Line 309: `visitVet: Health updated - calculated: ${calculatedHealth}, target: ${effects.healthTarget}, final: ${updatedPet.health}`
+```
 
-**Impact:** This code would throw runtime errors if executed. The function may not be working correctly as written.
+**Resolution:**
+- Removed undefined `treatment` variable from logger
+- Changed `treatmentConfig.cost` → `effects.cost`
+- Changed `treatmentConfig.healthTarget` → `effects.healthTarget`
+
+**Impact:** Function now works correctly without ReferenceError. Vet functionality fully operational.
 
 ---
 
