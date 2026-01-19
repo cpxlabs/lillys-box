@@ -12,6 +12,7 @@ The Pet Care Game is a React Native/Expo application built with TypeScript. The 
 pet-care-game/
 ├── assets/              # Static assets (images, sprites, backgrounds)
 ├── src/                 # Source code
+├── docs/                # Project documentation
 ├── App.tsx              # Main application entry point
 ├── app.config.js        # Expo configuration
 ├── package.json         # Project dependencies and scripts
@@ -41,12 +42,6 @@ assets/
 
 **Purpose:** Centralized location for all visual assets, organized by category for easy management.
 
-**Examples:**
-- Cat sprite sheets for animations
-- Background images for different scenes (park, home, etc.)
-- Clothing items for pet customization
-- UI elements and icons
-
 ---
 
 ### `/src` - Source Code
@@ -63,7 +58,8 @@ src/
 ├── utils/             # Utility functions and helpers
 ├── data/              # Static data and configurations
 ├── config/            # App configuration files
-└── types/             # TypeScript type definitions
+├── types/             # TypeScript type definitions
+└── locales/           # i18n translation files
 ```
 
 ---
@@ -73,25 +69,20 @@ src/
 Contains UI components that are used across multiple screens.
 
 **Files:**
-- `PetRenderer.tsx` - Renders the pet with customizations (clothes, accessories)
-- `StatusBar.tsx` - Displays pet status (hunger, happiness, cleanliness)
-- `IconButton.tsx` - Reusable button component with icon support
-- `ConfirmModal.tsx` - Confirmation dialog modal
-- `SpriteSheetAnimation.tsx` - Handles sprite sheet animations
 - `BannerAd.tsx` - Banner advertisement component
+- `ConfirmModal.tsx` - Confirmation dialog modal
+- `EnhancedStatusBar.tsx` - Improved status bar component
+- `ErrorBoundary.tsx` - Error boundary for crash handling
+- `IconButton.tsx` - Reusable button component with icon support
+- `LanguageSelector.tsx` - Component for changing app language
+- `PetRenderer.tsx` - Renders the pet with customizations (clothes, accessories)
 - `RewardedAdButton.tsx` - Button that triggers rewarded ads
+- `ScreenHeader.tsx` - Standard header for screens
+- `SpriteSheetAnimation.tsx` - Handles sprite sheet animations
+- `StatusBar.tsx` - Displays pet status (hunger, happiness, cleanliness)
+- `StatusCard.tsx` - Card component for displaying individual stats
 
 **Purpose:** Promotes code reusability and maintains consistent UI across the app.
-
-**Example Usage:**
-```typescript
-import { PetRenderer } from '../components/PetRenderer';
-import { StatusBar } from '../components/StatusBar';
-
-// In your screen component
-<StatusBar hunger={pet.hunger} happiness={pet.happiness} cleanliness={pet.cleanliness} />
-<PetRenderer pet={pet} />
-```
 
 ---
 
@@ -106,17 +97,11 @@ Contains full-screen components that represent different views in the applicatio
 - `FeedScene.tsx` - Feeding interaction screen
 - `BathScene.tsx` - Bathing/cleaning interaction screen
 - `PlayScene.tsx` - Play interaction screen
+- `SleepScene.tsx` - Sleeping interaction screen
+- `VetScene.tsx` - Veterinary interaction screen
 - `WardrobeScene.tsx` - Clothing customization screen
-- `BackgroundScene.tsx` - Background selection screen
 
 **Purpose:** Each screen represents a distinct user interaction flow or feature.
-
-**Example Navigation:**
-```typescript
-// Navigating between screens
-navigation.navigate('FeedScene');
-navigation.navigate('WardrobeScene');
-```
 
 ---
 
@@ -125,24 +110,12 @@ navigation.navigate('WardrobeScene');
 Contains Context API providers for global state management.
 
 **Files:**
-- `PetContext.tsx` - Manages pet state (hunger, happiness, cleanliness, appearance)
 - `AdContext.tsx` - Manages advertisement state and functionality
+- `LanguageContext.tsx` - Manages language selection and i18n state
+- `PetContext.tsx` - Manages pet state (hunger, happiness, cleanliness, appearance)
 - `ToastContext.tsx` - Manages toast notifications
 
 **Purpose:** Provides shared state across the application without prop drilling.
-
-**Example Usage:**
-```typescript
-import { usePet } from '../context/PetContext';
-
-function MyComponent() {
-  const { pet, feedPet, bathePet } = usePet();
-
-  return (
-    <Button onPress={() => feedPet('apple')} />
-  );
-}
-```
 
 ---
 
@@ -152,26 +125,13 @@ Contains reusable custom hooks for common functionality.
 
 **Files:**
 - `useBackButton.tsx` - Handles Android back button behavior
+- `useDoubleReward.tsx` - Hook for handling double reward logic
 - `useNavigationList.ts` - Navigation helper hook
+- `usePetActions.ts` - Hook for common pet actions
+- `useResponsive.ts` - Hook for responsive design
 - `useRewardedAd.ts` - Hook for managing rewarded advertisements
 
 **Purpose:** Encapsulates reusable logic and side effects.
-
-**Example Usage:**
-```typescript
-import { useRewardedAd } from '../hooks/useRewardedAd';
-
-function RewardButton() {
-  const { showRewardedAd, isAdLoaded } = useRewardedAd();
-
-  return (
-    <Button
-      disabled={!isAdLoaded}
-      onPress={() => showRewardedAd('double_coins')}
-    />
-  );
-}
-```
 
 ---
 
@@ -184,17 +144,6 @@ Contains service layer code for complex business logic and external integrations
 
 **Purpose:** Separates business logic from UI components, handles external API integrations.
 
-**Example Usage:**
-```typescript
-import { AdService } from '../services/AdService';
-
-// Initialize ads
-await AdService.initialize();
-
-// Show rewarded ad
-await AdService.showRewardedAd('reward_id');
-```
-
 ---
 
 ### `/src/utils` - Utility Functions
@@ -202,21 +151,16 @@ await AdService.showRewardedAd('reward_id');
 Contains helper functions and utilities used throughout the app.
 
 **Files:**
-- `storage.ts` - AsyncStorage wrapper functions
 - `age.ts` - Pet age calculation utilities
+- `debounce.ts` - Utility for debouncing functions
+- `haptics.ts` - Haptic feedback utilities
+- `logger.ts` - Logging utility
+- `migration.ts` - Data migration utilities
+- `petStats.ts` - Pet statistics calculation
+- `storage.ts` - AsyncStorage wrapper functions
+- `validation.ts` - Input validation utilities
 
 **Purpose:** Provides reusable utility functions for common operations.
-
-**Example Usage:**
-```typescript
-import { saveData, loadData } from '../utils/storage';
-
-// Save pet data
-await saveData('petData', { name: 'Fluffy', type: 'cat' });
-
-// Load pet data
-const petData = await loadData('petData');
-```
 
 ---
 
@@ -226,17 +170,10 @@ Contains static data, constants, and configuration objects.
 
 **Files:**
 - `clothingItems.ts` - Available clothing items and accessories
+- `foodItems.ts` - Available food items
+- `playActivities.ts` - Available play activities
 
 **Purpose:** Centralizes static data for easy maintenance and updates.
-
-**Example Structure:**
-```typescript
-// clothingItems.ts
-export const clothingItems = [
-  { id: 'hat_01', name: 'Red Hat', category: 'hat', price: 100 },
-  { id: 'shirt_01', name: 'Blue Shirt', category: 'shirt', price: 150 },
-];
-```
 
 ---
 
@@ -245,18 +182,13 @@ export const clothingItems = [
 Contains application configuration settings.
 
 **Files:**
+- `actionConfig.ts` - Configuration for actions
 - `ads.config.ts` - Advertisement configuration (Ad Unit IDs, settings)
+- `constants.ts` - General app constants
+- `gameBalance.ts` - Game balance configuration (stats, costs, rewards)
+- `responsive.ts` - Responsive design constants
 
-**Purpose:** Centralizes configuration for easy environment management.
-
-**Example Usage:**
-```typescript
-// ads.config.ts
-export const ADS_CONFIG = {
-  bannerAdUnitId: process.env.BANNER_AD_UNIT_ID,
-  rewardedAdUnitId: process.env.REWARDED_AD_UNIT_ID,
-};
-```
+**Purpose:** Centralizes configuration for easy environment management and game balancing.
 
 ---
 
@@ -266,20 +198,20 @@ Contains TypeScript type definitions and interfaces.
 
 **Files:**
 - `ads.ts` - Advertisement-related type definitions
+- `navigation.ts` - Navigation-related type definitions
 - `types.ts` (in src root) - General type definitions
 
 **Purpose:** Provides type safety and better IDE support.
 
-**Example:**
-```typescript
-// ads.ts
-export interface AdConfig {
-  unitId: string;
-  enabled: boolean;
-}
+---
 
-export type AdType = 'banner' | 'interstitial' | 'rewarded';
-```
+### `/src/locales` - i18n Translations
+
+Contains translation files for internationalization.
+
+**Files:**
+- `en.json` - English translations
+- `pt-BR.json` - Portuguese (Brazil) translations
 
 ---
 
@@ -289,24 +221,14 @@ export type AdType = 'banner' | 'interstitial' | 'rewarded';
 - **Hooks:** camelCase with 'use' prefix (e.g., `useBackButton.tsx`)
 - **Utilities:** camelCase (e.g., `storage.ts`, `age.ts`)
 - **Types:** camelCase or PascalCase (e.g., `ads.ts`)
-- **Config:** camelCase with '.config' suffix (e.g., `ads.config.ts`)
-
-## Adding New Files
-
-When adding new files to the project, follow these guidelines:
-
-1. **New Component:** Place in `/src/components` if reusable, or `/src/screens` if it's a full screen
-2. **New Feature:** Consider creating a new service in `/src/services` for complex logic
-3. **New Data:** Add to `/src/data` for static content
-4. **New Types:** Add to appropriate file in `/src/types`
-5. **New Asset:** Place in `/assets` or appropriate subdirectory
+- **Config:** camelCase with '.config' suffix or descriptive name (e.g., `ads.config.ts`)
 
 ## Architecture Pattern
 
 The project follows a component-based architecture with:
 
 - **Presentation Layer:** Components and Screens
-- **State Management:** Context API (PetContext, AdContext, ToastContext)
+- **State Management:** Context API (PetContext, AdContext, ToastContext, LanguageContext)
 - **Business Logic:** Services and Hooks
 - **Data Layer:** Utils (storage) and Static Data
 
@@ -317,22 +239,6 @@ This structure promotes:
 - Maintainability
 - Scalability
 
-## Quick Reference
-
-| Need to... | Look in... |
-|------------|------------|
-| Add a reusable UI component | `/src/components` |
-| Create a new screen | `/src/screens` |
-| Add global state | `/src/context` |
-| Add reusable logic | `/src/hooks` |
-| Integrate external service | `/src/services` |
-| Add utility function | `/src/utils` |
-| Add static data | `/src/data` |
-| Configure the app | `/src/config` |
-| Define types | `/src/types` |
-| Add images/sprites | `/assets` |
-
 ---
 
-**Last Updated:** 2026-01-14
-**Version:** 1.0.0
+**Last Updated:** 2026-01-24
