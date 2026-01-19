@@ -8,6 +8,9 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - 🎂 Sistema de idade (1 ano inicial, +1 por semana, máximo 19 anos)
 - 🍖 Alimentar o pet
 - 🛁 Dar banho no pet
+- 🎾 Brincar com o pet
+- 😴 Colocar o pet para dormir
+- 🏥 Levar o pet ao veterinário
 - 👕 Trocar roupas e acessórios (cabeça, olhos, torso, patas)
 - 💾 Persistência local dos dados
 - ⚠️ Confirmação ao sair para o menu (funciona em web, iOS e Android)
@@ -24,6 +27,10 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - react-native-svg
 - react-native-google-mobile-ads
 - i18next & react-i18next (internacionalização)
+
+## 📂 Estrutura do Projeto
+
+A estrutura de pastas e arquivos está documentada detalhadamente em [FOLDER_STRUCTURE.md](FOLDER_STRUCTURE.md).
 
 ## 🚀 Como executar
 1) Instale dependências:
@@ -183,3 +190,9 @@ const MyComponent = () => {
 - [x] Suporte a múltiplos idiomas (i18n)
 - [ ] Sons e efeitos visuais
 - [ ] Otimizações de performance
+
+## Documentação Adicional
+Consulte a pasta `docs/` para mais detalhes:
+- `docs/ROADMAP.md`: Planos futuros e melhorias
+- `docs/RESPONSIVE.md`: Guia de responsividade
+- `docs/IMPLEMENTATION_PLAN.md`: Plano de implementação detalhado
