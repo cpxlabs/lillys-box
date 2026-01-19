@@ -1,49 +1,45 @@
 # Needed Sprites
 
 This document lists the sprites that need to be added to the project to complete the visual assets for items.
+SVG placeholders have been generated for these items.
 
 ## 1. Clothing Items (High Priority)
-These items are defined in `src/data/clothingItems.ts` but currently lack their corresponding PNG assets.
+These items are defined in `src/data/clothingItems.ts`.
 
 **Location:** `assets/sprites/clothes/`
-**File Format:** PNG (Transparent background)
-**Recommended Dimensions:** 1024x1024 (matching `hat_red.png` and others)
+**File Format:** SVG (Generated) / PNG (Goal)
 
-| ID | Filename | Description | Slot |
-|----|----------|-------------|------|
-| `hat_blue` | `hat_blue.png` | A blue version of the existing `hat_red.png`. | Head |
-| `crown` | `crown.png` | A golden crown fit for a pet. | Head |
-| `eyes_star` | `eyes_star.png` | Eyes with star shapes or sparkles, expressing excitement. | Eyes |
-| `glasses` | `glasses.png` | A pair of glasses (sunglasses or reading glasses). | Eyes |
-| `shirt_red` | `shirt_red.png` | A red version of the existing `shirt_blue.png`. | Torso |
-| `dress_pink` | `dress_pink.png` | A cute pink dress. | Torso |
-| `paws_socks` | `paws_socks.png` | Little socks for the pet's paws. | Paws |
+| ID | Filename | Preview | Description | Slot |
+|----|----------|---------|-------------|------|
+| `hat_blue` | `hat_blue.svg` | ![hat_blue](../assets/sprites/clothes/hat_blue.svg) | A blue version of the existing `hat_red.png`. | Head |
+| `crown` | `crown.svg` | ![crown](../assets/sprites/clothes/crown.svg) | A golden crown fit for a pet. | Head |
+| `eyes_star` | `eyes_star.svg` | ![eyes_star](../assets/sprites/clothes/eyes_star.svg) | Eyes with star shapes or sparkles, expressing excitement. | Eyes |
+| `glasses` | `glasses.svg` | ![glasses](../assets/sprites/clothes/glasses.svg) | A pair of glasses (sunglasses or reading glasses). | Eyes |
+| `shirt_red` | `shirt_red.svg` | ![shirt_red](../assets/sprites/clothes/shirt_red.svg) | A red version of the existing `shirt_blue.png`. | Torso |
+| `dress_pink` | `dress_pink.svg` | ![dress_pink](../assets/sprites/clothes/dress_pink.svg) | A cute pink dress. | Torso |
+| `paws_socks` | `paws_socks.svg` | ![paws_socks](../assets/sprites/clothes/paws_socks.svg) | Little socks for the pet's paws. | Paws |
 
 ## 2. Food Items (Optional)
-Currently, food items use emojis in `src/data/foodItems.ts`. Replacing them with sprites would improve the game's aesthetic.
+Replacing emojis in `src/data/foodItems.ts` with sprites.
 
-**Location:** `assets/sprites/food/` (New directory needed)
-**File Format:** PNG (Transparent background)
-**Recommended Dimensions:** 256x256 or 512x512
+**Location:** `assets/sprites/food/`
 
-| ID | Filename | Description |
-|----|----------|-------------|
-| `kibble` | `kibble.png` | A bowl of dry pet food. |
-| `fish` | `fish.png` | A fresh fish. |
-| `treat` | `treat.png` | A bone or a cookie treat. |
-| `milk` | `milk.png` | A bowl or carton of milk. |
+| ID | Filename | Preview | Description |
+|----|----------|---------|-------------|
+| `kibble` | `kibble.svg` | ![kibble](../assets/sprites/food/kibble.svg) | A bowl of dry pet food. |
+| `fish` | `fish.svg` | ![fish](../assets/sprites/food/fish.svg) | A fresh fish. |
+| `treat` | `treat.svg` | ![treat](../assets/sprites/food/treat.svg) | A bone or a cookie treat. |
+| `milk` | `milk.svg` | ![milk](../assets/sprites/food/milk.svg) | A bowl or carton of milk. |
 
 ## 3. Play Items (Optional)
-Similar to food, play activities use emojis in `src/data/playActivities.ts`.
+Replacing emojis in `src/data/playActivities.ts` with sprites.
 
-**Location:** `assets/sprites/toys/` (New directory needed)
-**File Format:** PNG (Transparent background)
-**Recommended Dimensions:** 256x256 or 512x512
+**Location:** `assets/sprites/toys/`
 
-| ID | Filename | Description |
-|----|----------|-------------|
-| `yarn_ball` | `yarn_ball.png` | A ball of yarn (colors like red or blue). |
-| `small_ball` | `small_ball.png` | A small bouncy ball or tennis ball. |
+| ID | Filename | Preview | Description |
+|----|----------|---------|-------------|
+| `yarn_ball` | `yarn_ball.svg` | ![yarn_ball](../assets/sprites/toys/yarn_ball.svg) | A ball of yarn (colors like red or blue). |
+| `small_ball` | `small_ball.svg` | ![small_ball](../assets/sprites/toys/small_ball.svg) | A small bouncy ball or tennis ball. |
 
 ## Technical Notes
 - **Transparency:** All sprites must have a transparent background.
