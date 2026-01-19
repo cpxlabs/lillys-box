@@ -13,7 +13,7 @@ import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { PetType, PetColor, Gender } from '../types';
-import { useBackButton } from '../hooks/useBackButton';
+import { BackButtonIcon } from '../hooks/useBackButton';
 import { ScreenNavigationProp } from '../types/navigation';
 import { validatePetName, sanitizePetName } from '../utils/validation';
 
@@ -29,7 +29,6 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
   const [petType, setPetType] = useState<PetType>('cat');
   const [gender, setGender] = useState<Gender>('female');
   const [color, setColor] = useState<PetColor>('base');
-  const BackButtonIcon = useBackButton();
 
   // Reset color when switching pet type if the color is not available for the new type
   const handlePetTypeChange = (newType: PetType) => {
@@ -58,6 +57,8 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
       <TouchableOpacity
         style={styles.backButton}
         onPress={() => navigation.navigate('Menu')}
+        accessibilityRole="button"
+        accessibilityLabel={t('common.back')}
       >
         <BackButtonIcon />
         <Text style={styles.backButtonText}>{t('common.back')}</Text>
@@ -73,6 +74,9 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             style={[styles.optionButton, petType === 'cat' && styles.optionSelected]}
             onPress={() => handlePetTypeChange('cat')}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: petType === 'cat' }}
+            accessibilityLabel={t('createPet.cat')}
           >
             <Text style={styles.optionEmoji}>🐱</Text>
             <Text style={styles.optionText}>{t('createPet.cat')}</Text>
@@ -80,6 +84,9 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             style={[styles.optionButton, petType === 'dog' && styles.optionSelected]}
             onPress={() => handlePetTypeChange('dog')}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: petType === 'dog' }}
+            accessibilityLabel={t('createPet.dog')}
           >
             <Text style={styles.optionEmoji}>🐶</Text>
             <Text style={styles.optionText}>{t('createPet.dog')}</Text>
@@ -101,6 +108,9 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             style={[styles.genderButton, gender === 'male' && styles.optionSelected]}
             onPress={() => setGender('male')}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: gender === 'male' }}
+            accessibilityLabel={t('createPet.male')}
           >
             <Text style={styles.genderEmoji}>♂️</Text>
             <Text style={styles.genderText}>{t('createPet.male')}</Text>
@@ -108,6 +118,9 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             style={[styles.genderButton, gender === 'female' && styles.optionSelected]}
             onPress={() => setGender('female')}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: gender === 'female' }}
+            accessibilityLabel={t('createPet.female')}
           >
             <Text style={styles.genderEmoji}>♀️</Text>
             <Text style={styles.genderText}>{t('createPet.female')}</Text>
@@ -119,6 +132,9 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             style={[styles.colorButton, color === 'base' && styles.optionSelected]}
             onPress={() => setColor('base')}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: color === 'base' }}
+            accessibilityLabel={t('createPet.white')}
           >
             <Text style={styles.colorEmoji}>⚪</Text>
             <Text style={styles.colorText}>{t('createPet.white')}</Text>
@@ -126,6 +142,9 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
           <TouchableOpacity
             style={[styles.colorButton, color === 'black' && styles.optionSelected]}
             onPress={() => setColor('black')}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: color === 'black' }}
+            accessibilityLabel={t('createPet.black')}
           >
             <Text style={styles.colorEmoji}>⚫</Text>
             <Text style={styles.colorText}>{t('createPet.black')}</Text>
@@ -135,6 +154,9 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
               <TouchableOpacity
                 style={[styles.colorButton, color === 'brown' && styles.optionSelected]}
                 onPress={() => setColor('brown')}
+                accessibilityRole="radio"
+                accessibilityState={{ selected: color === 'brown' }}
+                accessibilityLabel={t('createPet.brown')}
               >
                 <Text style={styles.colorEmoji}>🟤</Text>
                 <Text style={styles.colorText}>{t('createPet.brown')}</Text>
@@ -142,6 +164,9 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
               <TouchableOpacity
                 style={[styles.colorButton, color === 'whiteandbrown' && styles.optionSelected]}
                 onPress={() => setColor('whiteandbrown')}
+                accessibilityRole="radio"
+                accessibilityState={{ selected: color === 'whiteandbrown' }}
+                accessibilityLabel={t('createPet.whiteBrown')}
               >
                 <Text style={styles.colorEmoji}>🤍🟤</Text>
                 <Text style={styles.colorText}>{t('createPet.whiteBrown')}</Text>
@@ -154,6 +179,9 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
           style={[styles.createButton, !name.trim() && styles.createButtonDisabled]}
           onPress={handleCreate}
           disabled={!name.trim()}
+          accessibilityRole="button"
+          accessibilityLabel={t('createPet.createButton')}
+          accessibilityState={{ disabled: !name.trim() }}
         >
           <Text style={styles.createButtonText}>{t('createPet.createButton')}</Text>
         </TouchableOpacity>
