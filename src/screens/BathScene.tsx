@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   SafeAreaView,
-  TouchableOpacity,
   Image,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -13,8 +12,6 @@ import Animated, {
   useSharedValue,
   useAnimatedStyle,
   withSpring,
-  withTiming,
-  withSequence,
 } from 'react-native-reanimated';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
@@ -30,49 +27,10 @@ import { ANIMATION_DURATION } from '../config/constants';
 import { calculatePetAge } from '../utils/age';
 import { useResponsive } from '../hooks/useResponsive';
 import { ACTION_PET_SIZE, SPONGE_SIZE, SCENE_TEXT_SIZE } from '../config/responsive';
+import { BubbleCanvas } from '../components/bath/BubbleCanvas';
 
 type Props = {
   navigation: ScreenNavigationProp<'Bath'>;
-};
-
-type Bubble = {
-  id: number;
-  x: number;
-  y: number;
-  scale: number;
-};
-
-const BubbleComponent: React.FC<{ bubble: Bubble }> = ({ bubble }) => {
-  const opacity = useSharedValue(1);
-  const scale = useSharedValue(bubble.scale);
-  
-  React.useEffect(() => {
-    opacity.value = withSequence(
-      withTiming(1, { duration: 200 }),
-      withTiming(0, { duration: 1300 })
-    );
-    scale.value = withSequence(
-      withTiming(bubble.scale * 1.5, { duration: 500 }),
-      withTiming(0, { duration: 1000 })
-    );
-  }, [bubble.scale, opacity, scale]);
-
-  const bubbleStyle = useAnimatedStyle(() => ({
-    opacity: opacity.value,
-    transform: [{ scale: scale.value }],
-  }));
-
-  return (
-    <Animated.View
-      style={[
-        styles.dynamicBubble,
-        { left: bubble.x, top: bubble.y },
-        bubbleStyle,
-      ]}
-    >
-      <Text style={styles.bubbleEmoji}>🫧</Text>
-    </Animated.View>
-  );
 };
 
 export const BathScene: React.FC<Props> = ({ navigation }) => {
@@ -83,7 +41,6 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
   const [animationState, setAnimationState] = useState<AnimationState>('idle');
   const [message, setMessage] = useState('');
   const [scrubCount, setScrubCount] = useState(0);
-  const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const BackButtonIcon = useBackButton();
   const { deviceType, spacing, fs } = useResponsive();
 
@@ -95,58 +52,20 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
   const spongeX = useSharedValue(0);
   const spongeY = useSharedValue(0);
   const isMoving = useSharedValue(false);
-  const bubbleIdCounter = React.useRef(0);
-  const timeoutRefs = React.useRef<Set<NodeJS.Timeout>>(new Set());
-  const lastBubbleTime = React.useRef(0);
 
-  if (!pet) return null;
+  // Moved early return to prevent hook errors, but we need safe access
+  // We'll handle the null check in the render or use optional chaining where needed
+  // However, hooks must run.
 
-  const petAge = calculatePetAge(pet.createdAt);
-  const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
+  // Calculate derived values only if pet exists, otherwise defaults
+  const petAge = pet ? calculatePetAge(pet.createdAt) : 0;
+  const petNameDisplay = pet ? `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}` : '';
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
   const SCRUBS_NEEDED = 5;
-  const BUBBLE_VELOCITY_THRESHOLD = 100;
-  const BUBBLE_POSITION_VARIANCE = 40;
-  const BUBBLE_POSITION_OFFSET = 20;
-  const BUBBLE_THROTTLE_MS = 100; // Minimum time between bubble creation
-
-  const addBubble = (x: number, y: number) => {
-    const now = Date.now();
-    
-    // Throttle bubble creation to prevent performance issues
-    if (now - lastBubbleTime.current < BUBBLE_THROTTLE_MS) {
-      return;
-    }
-    
-    lastBubbleTime.current = now;
-    
-    const newBubble: Bubble = {
-      id: now + (bubbleIdCounter.current++),
-      x: x + Math.random() * BUBBLE_POSITION_VARIANCE - BUBBLE_POSITION_OFFSET,
-      y: y + Math.random() * BUBBLE_POSITION_VARIANCE - BUBBLE_POSITION_OFFSET,
-      scale: 0.5 + Math.random() * 0.5,
-    };
-    
-    setBubbles(prev => [...prev, newBubble]);
-    
-    // Remove bubble after animation
-    const timeoutId = setTimeout(() => {
-      setBubbles(prev => prev.filter(b => b.id !== newBubble.id));
-      timeoutRefs.current.delete(timeoutId);
-    }, 1500);
-    timeoutRefs.current.add(timeoutId);
-  };
-
-  // Cleanup timeouts on unmount
-  React.useEffect(() => {
-    return () => {
-      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
-      timeoutRefs.current.clear();
-    };
-  }, []);
 
   const handleScrub = () => {
+    if (!pet) return;
     const newCount = scrubCount + 1;
     setScrubCount(newCount);
 
@@ -195,11 +114,6 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
     .onUpdate((e) => {
       spongeX.value = e.translationX;
       spongeY.value = e.translationY;
-      
-      // Generate bubbles while moving
-      if (Math.abs(e.velocityX) > BUBBLE_VELOCITY_THRESHOLD || Math.abs(e.velocityY) > BUBBLE_VELOCITY_THRESHOLD) {
-        addBubble(e.absoluteX, e.absoluteY);
-      }
     })
     .onEnd(() => {
       isMoving.value = false;
@@ -220,6 +134,11 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
     ],
   }));
 
+  if (!pet) return null;
+
+  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  const spongeImage = require('../../assets/sprites/sponge.png');
+
   return (
     <SafeAreaView style={styles.container}>
       <ScreenHeader
@@ -239,19 +158,27 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[styles.petContainer, animatedStyle]}>
           <PetRenderer pet={pet} animationState={animationState} size={petSize} />
-
-          {/* Dynamic Bubbles */}
-          {bubbles.map(bubble => (
-            <BubbleComponent key={bubble.id} bubble={bubble} />
-          ))}
         </Animated.View>
       </GestureDetector>
+
+      {/* Skia Bubbles Overlay */}
+      <BubbleCanvas
+        spongeX={spongeX}
+        spongeY={spongeY}
+        isScrubbing={isMoving}
+        spongeOrigin={{
+          x: 40,
+          y: spongeSizes.bottom ? (typeof spongeSizes.bottom === 'number' ? 200 : 200) : 200, // Approximate Y start
+          width: spongeSizes.width,
+          height: spongeSizes.height,
+        }}
+      />
 
       {/* Draggable Sponge */}
       <GestureDetector gesture={spongeDragGesture}>
         <Animated.View style={[styles.spongeContainer, spongeAnimatedStyle, { bottom: spongeSizes.bottom }]}>
           <Image
-            source={require('../../assets/sprites/sponge.png')}
+            source={spongeImage}
             style={[styles.spongeImage, { width: spongeSizes.width, height: spongeSizes.height }]}
           />
         </Animated.View>
@@ -313,13 +240,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     position: 'relative',
-  },
-  dynamicBubble: {
-    position: 'absolute',
-    zIndex: 10,
-  },
-  bubbleEmoji: {
-    fontSize: 32,
   },
   spongeContainer: {
     position: 'absolute',
