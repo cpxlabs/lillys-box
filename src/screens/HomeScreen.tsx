@@ -120,6 +120,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
           label={t('home.actions.sleep')}
           onPress={() => navigation.navigate('Sleep')}
           disabled={!canSleep}
+          disabledReason={t('sleep.notTired', { name: pet.name })}
         />
         <IconButton
           emoji={vetStatus === 'urgent' ? '🚨' : '🏥'}

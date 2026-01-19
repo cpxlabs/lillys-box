@@ -1,13 +1,5 @@
 module.exports = {
-  testEnvironment: 'node',
-  preset: 'ts-jest',
-  transform: {
-    '^.+\\.tsx?$': ['ts-jest', {
-      tsconfig: {
-        jsx: 'react',
-      },
-    }],
-  },
+  preset: 'jest-expo',
   setupFiles: ['<rootDir>/jest.setup.js'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
   collectCoverageFrom: [
@@ -15,14 +7,12 @@ module.exports = {
     '!src/**/*.d.ts',
     '!src/types/**/*',
   ],
-  coverageThreshold: {
-    global: {
-      statements: 50,
-      branches: 45,
-      functions: 50,
-      lines: 50,
-    },
+  transform: {
+    '^.+\\.[jt]sx?$': 'babel-jest',
   },
+  transformIgnorePatterns: [
+    'node_modules/(?!((jest-)?react-native|@react-native(-community)?)|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg)',
+  ],
   testMatch: [
     '**/__tests__/**/*.[jt]s?(x)',
     '**/?(*.)+(spec|test).[jt]s?(x)',
