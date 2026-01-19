@@ -1,0 +1,6 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left Star Eye -->
+  <path d="M350 450 L370 500 L420 500 L380 530 L395 580 L350 550 L305 580 L320 530 L280 500 L330 500 Z" fill="#FCD34D" stroke="#F59E0B" stroke-width="10"/>
+  <!-- Right Star Eye -->
+  <path d="M650 450 L670 500 L720 500 L680 530 L695 580 L650 550 L605 580 L620 530 L580 500 L630 500 Z" fill="#FCD34D" stroke="#F59E0B" stroke-width="10"/>
+</svg>

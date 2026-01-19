@@ -1,0 +1,6 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="256" cy="256" r="200" fill="#FCD34D" stroke="#F59E0B" stroke-width="10"/>
+  <!-- Stripe -->
+  <path d="M56 256 Q256 100 456 256" stroke="#EF4444" stroke-width="30" fill="none"/>
+  <path d="M56 256 Q256 412 456 256" stroke="#EF4444" stroke-width="30" fill="none"/>
+</svg>

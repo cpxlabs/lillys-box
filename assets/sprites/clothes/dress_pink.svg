@@ -1,0 +1,8 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Dress Body -->
+  <path d="M412 550 L362 950 L662 950 L612 550" fill="#F472B6" stroke="#DB2777" stroke-width="20"/>
+  <!-- Top -->
+  <path d="M412 550 C412 550, 462 580, 512 580 C562 580, 612 550, 612 550 L612 650 L412 650 Z" fill="#EC4899" stroke="#DB2777" stroke-width="20"/>
+  <!-- Frills -->
+  <path d="M362 950 Q412 980 462 950 T562 950 T662 950" fill="none" stroke="#DB2777" stroke-width="20"/>
+</svg>

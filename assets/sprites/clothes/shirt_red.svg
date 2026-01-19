@@ -1,0 +1,7 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shirt Body -->
+  <path d="M362 600 L362 900 L662 900 L662 600 L612 600 L612 550 C612 550, 562 580, 512 580 C462 580, 412 550, 412 550 L412 600 Z" fill="#EF4444" stroke="#B91C1C" stroke-width="20"/>
+  <!-- Sleeves -->
+  <path d="M362 600 L262 700 L312 750 L412 650" fill="#EF4444" stroke="#B91C1C" stroke-width="20"/>
+  <path d="M662 600 L762 700 L712 750 L612 650" fill="#EF4444" stroke="#B91C1C" stroke-width="20"/>
+</svg>
