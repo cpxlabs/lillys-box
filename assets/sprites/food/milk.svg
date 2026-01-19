@@ -1,0 +1,9 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Carton -->
+  <path d="M156 200 L156 450 L356 450 L356 200 L156 200 Z" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="10"/>
+  <!-- Top -->
+  <path d="M156 200 L256 100 L356 200" fill="#E5E7EB" stroke="#9CA3AF" stroke-width="10"/>
+  <!-- Label -->
+  <rect x="200" y="250" width="112" height="150" fill="#3B82F6"/>
+  <text x="256" y="340" text-anchor="middle" fill="white" font-family="Arial" font-size="60">MILK</text>
+</svg>

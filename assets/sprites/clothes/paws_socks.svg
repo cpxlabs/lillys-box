@@ -1,0 +1,11 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left Sock -->
+  <rect x="350" y="800" width="100" height="150" rx="20" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="10"/>
+  <line x1="350" y1="830" x2="450" y2="830" stroke="#3B82F6" stroke-width="10"/>
+  <line x1="350" y1="860" x2="450" y2="860" stroke="#3B82F6" stroke-width="10"/>
+
+  <!-- Right Sock -->
+  <rect x="574" y="800" width="100" height="150" rx="20" fill="#FFFFFF" stroke="#E5E7EB" stroke-width="10"/>
+  <line x1="574" y1="830" x2="674" y2="830" stroke="#3B82F6" stroke-width="10"/>
+  <line x1="574" y1="860" x2="674" y2="860" stroke="#3B82F6" stroke-width="10"/>
+</svg>

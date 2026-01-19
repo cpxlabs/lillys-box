@@ -1,0 +1,8 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bone -->
+  <path d="M150 220 A30 30 0 0 0 150 280 L362 280 A30 30 0 0 0 362 220 L150 220" fill="#FEF3C7" stroke="#D97706" stroke-width="10"/>
+  <circle cx="140" cy="230" r="30" fill="#FEF3C7" stroke="#D97706" stroke-width="10"/>
+  <circle cx="140" cy="270" r="30" fill="#FEF3C7" stroke="#D97706" stroke-width="10"/>
+  <circle cx="372" cy="230" r="30" fill="#FEF3C7" stroke="#D97706" stroke-width="10"/>
+  <circle cx="372" cy="270" r="30" fill="#FEF3C7" stroke="#D97706" stroke-width="10"/>
+</svg>

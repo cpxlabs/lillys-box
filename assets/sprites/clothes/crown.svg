@@ -1,0 +1,10 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Crown Base -->
+  <path d="M312 600 L312 400 L412 500 L512 300 L612 500 L712 400 L712 600 Z" fill="#FBBF24" stroke="#D97706" stroke-width="20" stroke-linejoin="round"/>
+  <!-- Band -->
+  <rect x="312" y="600" width="400" height="50" fill="#F59E0B" stroke="#D97706" stroke-width="20"/>
+  <!-- Jewels -->
+  <circle cx="512" cy="550" r="20" fill="#EF4444"/>
+  <circle cx="412" cy="550" r="15" fill="#3B82F6"/>
+  <circle cx="612" cy="550" r="15" fill="#10B981"/>
+</svg>

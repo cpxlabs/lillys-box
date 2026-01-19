@@ -1,0 +1,8 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Left Lens -->
+  <circle cx="380" cy="500" r="80" fill="#93C5FD" fill-opacity="0.5" stroke="#1F2937" stroke-width="20"/>
+  <!-- Right Lens -->
+  <circle cx="644" cy="500" r="80" fill="#93C5FD" fill-opacity="0.5" stroke="#1F2937" stroke-width="20"/>
+  <!-- Bridge -->
+  <line x1="460" y1="500" x2="564" y2="500" stroke="#1F2937" stroke-width="20"/>
+</svg>
