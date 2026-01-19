@@ -29,7 +29,7 @@ export const calculateHealth = (pet: Partial<Pet>): number => {
   // Apply status multiplier based on stat thresholds
   const criticalThreshold = GAME_BALANCE.thresholds.statCritical; // 10
   const warningThreshold = GAME_BALANCE.thresholds.statWarning; // 25
-  const mediumThreshold = 50; // TODO: Consider adding to GAME_BALANCE.thresholds
+  const mediumThreshold = GAME_BALANCE.thresholds.statMedium;
 
   const anyStatBelowCritical = hunger < criticalThreshold || hygiene < criticalThreshold || energy < criticalThreshold || happiness < criticalThreshold;
   const anyStatBelowWarning = hunger < warningThreshold || hygiene < warningThreshold || energy < warningThreshold || happiness < warningThreshold;
