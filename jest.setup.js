@@ -1,5 +1,72 @@
 // Minimal mocks for testing utilities
 
+// Mock @react-native/js-polyfills to avoid Flow syntax errors
+jest.mock('@react-native/js-polyfills/error-guard', () => ({}));
+
+// Mock React Native completely to avoid Flow syntax errors  
+// We don't use jest.requireActual because react-native contains Flow syntax
+jest.mock('react-native', () => {
+  const React = require('react');
+  
+  // Create mock components that work with react-test-renderer
+  const mockComponent = (name) => {
+    const Component = React.forwardRef((props, ref) => {
+      return React.createElement(name, { ...props, ref }, props.children);
+    });
+    Component.displayName = name;
+    return Component;
+  };
+
+  return {
+    Platform: {
+      OS: 'ios',
+      select: jest.fn((obj) => obj.ios || obj.default),
+      Version: 14,
+    },
+    StyleSheet: {
+      create: jest.fn((styles) => styles),
+      flatten: jest.fn((style) => style),
+      compose: jest.fn((style1, style2) => [style1, style2]),
+      hairlineWidth: 1,
+    },
+    View: mockComponent('View'),
+    Text: mockComponent('Text'),
+    Pressable: mockComponent('Pressable'),
+    TouchableOpacity: mockComponent('TouchableOpacity'),
+    Image: mockComponent('Image'),
+    ScrollView: mockComponent('ScrollView'),
+    FlatList: mockComponent('FlatList'),
+    TextInput: mockComponent('TextInput'),
+    Animated: {
+      Value: jest.fn(() => ({
+        setValue: jest.fn(),
+        interpolate: jest.fn(() => ({ setValue: jest.fn() })),
+      })),
+      View: mockComponent('Animated.View'),
+      Text: mockComponent('Animated.Text'),
+      timing: jest.fn(() => ({ start: jest.fn() })),
+      spring: jest.fn(() => ({ start: jest.fn() })),
+      sequence: jest.fn(),
+      parallel: jest.fn(),
+    },
+  };
+});
+
+// Mock expo-haptics
+jest.mock('expo-haptics', () => ({
+  impactAsync: jest.fn(),
+  notificationAsync: jest.fn(),
+  selectionAsync: jest.fn(),
+  ImpactFeedbackStyle: {
+    Light: 'light',
+    Medium: 'medium',
+    Heavy: 'heavy',
+  },
+}));
+
+// Mock react-native-get-random-values
+jest.mock('react-native-get-random-values', () => ({}));
+
 // Mock uuid
 jest.mock('uuid', () => ({
   v4: jest.fn(() => 'test-uuid-123'),
@@ -18,3 +85,6 @@ global.console = {
   warn: jest.fn(),
   error: jest.fn(),
 };
+
+// Define React Native __DEV__ global
+global.__DEV__ = true;

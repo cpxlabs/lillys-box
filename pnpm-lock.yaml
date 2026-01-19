@@ -87,6 +87,9 @@ importers:
       '@babel/core':
         specifier: ^7.20.0
         version: 7.28.5
+      '@babel/preset-flow':
+        specifier: ^7.27.1
+        version: 7.27.1(@babel/core@7.28.5)
       '@testing-library/react-hooks':
         specifier: ^8.0.1
         version: 8.0.1(@types/react@18.2.79)(react-dom@18.2.0(react@18.2.0))(react-test-renderer@18.2.0(react@18.2.0))(react@18.2.0)

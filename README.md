@@ -179,6 +179,23 @@ const MyComponent = () => {
 };
 ```
 
+## 🧪 Testes
+
+O projeto possui uma suíte de testes automatizados usando **Jest** e **React Native Testing Library**.
+
+### Executando Testes
+```bash
+npm test
+```
+
+### Cobertura de Testes
+Atualmente, o projeto foca em testar a lógica central (hooks e utilitários) e componentes críticos.
+- **Hooks**: `usePetActions` (ações do pet e animações)
+- **Utils**: `petStats`, `validation`
+- **Componentes**: `IconButton`, `StatusBar`
+
+Para detalhes sobre a implementação e correção dos testes, consulte [docs/TEST_IMPLEMENTATION_PLAN.md](docs/TEST_IMPLEMENTATION_PLAN.md).
+
 ## Checklist
 - [x] Criar pet
 - [x] Renderizar pet com camadas
@@ -188,6 +205,7 @@ const MyComponent = () => {
 - [x] Persistência local
 - [x] Sistema de monetização com AdMob
 - [x] Suporte a múltiplos idiomas (i18n)
+- [x] **Suíte de testes automatizados (CI-Ready)**
 - [ ] Sons e efeitos visuais
 - [ ] Otimizações de performance
 
@@ -196,3 +214,4 @@ Consulte a pasta `docs/` para mais detalhes:
 - `docs/ROADMAP.md`: Planos futuros e melhorias
 - `docs/RESPONSIVE.md`: Guia de responsividade
 - `docs/IMPLEMENTATION_PLAN.md`: Plano de implementação detalhado
+- `docs/TEST_IMPLEMENTATION_PLAN.md`: Detalhes técnicos e correção da suíte de testes
