@@ -22,10 +22,9 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - React Native (Expo)
 - React Navigation
 - AsyncStorage
-- react-native-reanimated
+- react-native-reanimated (animações e efeitos visuais)
 - react-native-gesture-handler
 - react-native-svg
-- @shopify/react-native-skia (para efeitos visuais)
 - react-native-google-mobile-ads
 - i18next & react-i18next (internacionalização)
 
@@ -41,14 +40,14 @@ npm install --legacy-peer-deps
 pnpm install
 ```
 
-**Nota sobre dependências**: O projeto usa `expo-dev-client` que é necessário para módulos nativos como `react-native-google-mobile-ads` e `@shopify/react-native-skia`. Este pacote permite construir uma versão de desenvolvimento personalizada do Expo que inclui módulos nativos.
+**Nota sobre dependências**: O projeto usa `expo-dev-client` que é necessário para módulos nativos como `react-native-google-mobile-ads`. Este pacote permite construir uma versão de desenvolvimento personalizada do Expo que inclui módulos nativos.
 
 2) Rode:
 ```bash
 npx expo start
 ```
 
-**Nota**: Para testar anúncios e funcionalidades Skia, você precisará usar um dispositivo físico ou emulador Android/iOS.
+**Nota**: Para testar anúncios, você precisará usar um dispositivo físico ou emulador Android/iOS.
 
 ## 🎨 Assets necessários
 Coloque os PNGs/SVGs em `assets/sprites/`:
