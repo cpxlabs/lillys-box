@@ -1,5 +1,15 @@
 # Skia Implementation Plan: Bathing Mini-Game
 
+> **⚠️ DEPRECATED - This implementation has been reverted**
+>
+> **Date:** 2026-01-20
+>
+> **Reason:** The Skia-based bubble implementation was removed in favor of the original React Native Reanimated implementation. The original implementation proved to be simpler, more maintainable, and provided sufficient performance for the bathing mini-game.
+>
+> This document is kept for historical reference only.
+
+---
+
 ## Goal
 Enhance the visual quality and performance of the Bathing mini-game by replacing standard React Native views with high-performance 2D graphics using `@shopify/react-native-skia`.
 
@@ -55,3 +65,33 @@ This component will:
 - Bubbles appear when scrubbing.
 - Movement is smooth (60fps).
 - No JS thread blocking (logic moves to UI thread via Worklets).
+
+---
+
+## Reversion Details (2026-01-20)
+
+### What Was Removed
+The Skia-based `BubbleCanvas` component (`src/components/bath/BubbleCanvas.tsx`) was removed from the bath screen implementation.
+
+### What Was Restored
+The original bubble implementation using React Native Reanimated was restored with the following features:
+- **BubbleComponent**: Individual bubble components using `Animated.View` and `withSequence` animations
+- **Bubble State Management**: `useState` array to track active bubbles
+- **Velocity-Based Generation**: Bubbles created when sponge drag velocity exceeds threshold (>100)
+- **Throttling**: 100ms minimum time between bubble creation to prevent performance issues
+- **Cleanup Logic**: Proper timeout cleanup on component unmount
+- **Visual Style**: Emoji-based bubbles (🫧) with fade and scale animations
+
+### Performance Considerations
+The original implementation provides adequate performance for the bathing mini-game:
+- Throttled bubble creation prevents excessive DOM elements
+- Automatic cleanup after 1.5 seconds per bubble
+- Smooth animations using React Native Reanimated
+- No additional native dependencies required
+
+### Dependencies Impact
+The project still uses `@shopify/react-native-skia` for other features, but it is no longer used in the bath screen. Consider removing the dependency entirely if no other components use it.
+
+### Related Commits
+- Removal commit: "Remove Skia from bath screen and restore old bubble logic"
+- Branch: `claude/remove-skia-bath-screen-OMDiA`
