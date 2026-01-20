@@ -113,14 +113,6 @@ const SingleBubble = ({
     }
   });
 
-  const transform = useDerivedValue(() => {
-    return [
-      { translateX: x.value },
-      { translateY: y.value },
-      { scale: active.value ? scale.value * Math.min(1, life.value / 20) : 0 }, // Fade out at end
-    ];
-  });
-
   // Opacity based on life
   const opacity = useDerivedValue(() => {
     if (!active.value) return 0;
@@ -130,9 +122,15 @@ const SingleBubble = ({
     return (life.value / 50) * 0.8;
   });
 
+  // Radius with scale and fade effect
+  const radius = useDerivedValue(() => {
+    if (!active.value) return 0;
+    return 15 * scale.value * Math.min(1, life.value / 20);
+  });
+
   return (
-    <Group transform={transform} opacity={opacity}>
-      <Circle cx={0} cy={0} r={15}>
+    <Group opacity={opacity}>
+      <Circle cx={x} cy={y} r={radius}>
         <RadialGradient
           c={vec(0, 0)}
           r={15}
@@ -141,7 +139,7 @@ const SingleBubble = ({
         />
       </Circle>
       {/* Reflection dot */}
-      <Circle cx={-4} cy={-4} r={3} color="rgba(255, 255, 255, 0.9)" />
+      <Circle cx={useDerivedValue(() => x.value - 4)} cy={useDerivedValue(() => y.value - 4)} r={3} color="rgba(255, 255, 255, 0.9)" />
     </Group>
   );
 };
