@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet } from 'react-native';
 import {
   Canvas,
@@ -7,18 +7,26 @@ import {
   vec,
 } from '@shopify/react-native-skia';
 import {
-  useSharedValue,
-  useFrameCallback,
   SharedValue,
-  useDerivedValue,
+  runOnJS,
+  useAnimatedReaction,
 } from 'react-native-reanimated';
 
 /**
  * Configuration
  */
-const MAX_PARTICLES = 50;
-const DRAG = 0.98;
-const SPAWN_RATE = 0.1;
+const MAX_PARTICLES = 30;
+
+type Bubble = {
+  id: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  scale: number;
+  life: number;
+  wobbleOffset: number;
+};
 
 type Props = {
   spongeX: SharedValue<number>;
@@ -33,115 +41,83 @@ export const BubbleCanvas: React.FC<Props> = ({
   isScrubbing,
   spongeOrigin,
 }) => {
+  const [bubbles, setBubbles] = useState<Bubble[]>([]);
+  const [frameCount, setFrameCount] = useState(0);
+
+  // Spawn bubbles when scrubbing
+  useAnimatedReaction(
+    () => ({ scrubbing: isScrubbing.value, x: spongeX.value, y: spongeY.value }),
+    (current) => {
+      if (current.scrubbing && Math.random() < 0.3) {
+        runOnJS(spawnBubble)(
+          spongeOrigin.x + current.x + spongeOrigin.width / 2,
+          spongeOrigin.y + current.y + spongeOrigin.height / 2
+        );
+      }
+    }
+  );
+
+  const spawnBubble = (centerX: number, centerY: number) => {
+    setBubbles((prev) => {
+      if (prev.length >= MAX_PARTICLES) {
+        return prev;
+      }
+
+      const newBubble: Bubble = {
+        id: Date.now() + Math.random(),
+        x: centerX + (Math.random() - 0.5) * 40,
+        y: centerY + (Math.random() - 0.5) * 40,
+        vx: (Math.random() - 0.5) * 2,
+        vy: -2 - Math.random() * 2,
+        scale: 0.5 + Math.random() * 0.5,
+        life: 60 + Math.random() * 60,
+        wobbleOffset: Math.random() * Math.PI * 2,
+      };
+
+      return [...prev, newBubble];
+    });
+  };
+
+  // Animation loop
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setFrameCount((f) => f + 1);
+      setBubbles((prev) =>
+        prev
+          .map((bubble) => ({
+            ...bubble,
+            x: bubble.x + bubble.vx + Math.sin(frameCount / 20 + bubble.wobbleOffset) * 0.5,
+            y: bubble.y + bubble.vy,
+            vy: bubble.vy * 0.98,
+            life: bubble.life - 1,
+          }))
+          .filter((bubble) => bubble.life > 0 && bubble.y > -50)
+      );
+    }, 16); // ~60fps
+
+    return () => clearInterval(interval);
+  }, [frameCount]);
+
   return (
     <Canvas style={StyleSheet.absoluteFill} pointerEvents="none">
-      {Array.from({ length: MAX_PARTICLES }).map((_, i) => (
-        <SingleBubble
-          key={i}
-          spongeX={spongeX}
-          spongeY={spongeY}
-          isScrubbing={isScrubbing}
-          spongeOrigin={spongeOrigin}
-        />
+      {bubbles.map((bubble) => (
+        <BubbleRenderer key={bubble.id} bubble={bubble} />
       ))}
     </Canvas>
   );
 };
 
-const SingleBubble = ({
-  spongeX,
-  spongeY,
-  isScrubbing,
-  spongeOrigin,
-}: {
-  spongeX: SharedValue<number>;
-  spongeY: SharedValue<number>;
-  isScrubbing: SharedValue<boolean>;
-  spongeOrigin: { x: number; y: number; width: number; height: number };
-}) => {
-  const active = useSharedValue(0);
-  const x = useSharedValue(0);
-  const y = useSharedValue(0);
-  const vx = useSharedValue(0);
-  const vy = useSharedValue(0);
-  const scale = useSharedValue(0);
-  const life = useSharedValue(0);
-  const wobbleOffset = useSharedValue(0);
+const BubbleRenderer = ({ bubble }: { bubble: Bubble }) => {
+  // Calculate opacity based on life
+  const opacity = bubble.life > 50 ? 0.8 : (bubble.life / 50) * 0.8;
 
-  useFrameCallback((frameInfo) => {
-    // 1. If inactive, try to spawn
-    if (active.value === 0) {
-      if (isScrubbing.value && Math.random() < SPAWN_RATE) {
-         // Check if we should spawn (random chance distributed among pool)
-         // To avoid all spawning at once, use index check or random
-         if (Math.random() > 0.95) { // 5% chance per frame per inactive particle
-            active.value = 1;
-
-            // Spawn position: Center of sponge + random offset
-            const startX = spongeOrigin.x + spongeX.value + spongeOrigin.width / 2;
-            const startY = spongeOrigin.y + spongeY.value + spongeOrigin.height / 2;
-
-            x.value = startX + (Math.random() - 0.5) * 40;
-            y.value = startY + (Math.random() - 0.5) * 40;
-
-            vx.value = (Math.random() - 0.5) * 2;
-            vy.value = -2 - Math.random() * 2; // Upward velocity
-
-            scale.value = 0.5 + Math.random() * 0.5;
-            life.value = 60 + Math.random() * 60; // Frames
-            wobbleOffset.value = Math.random() * Math.PI * 2;
-         }
-      }
-    } else {
-      // 2. Update Physics
-      x.value += vx.value;
-      y.value += vy.value;
-
-      // Wobble
-      x.value += Math.sin(frameInfo.timeSinceFirstFrame / 200 + wobbleOffset.value) * 0.5;
-
-      // Gravity / Buoyancy
-      vy.value *= DRAG;
-      // vy.value -= 0.01; // Constant float up
-
-      life.value -= 1;
-
-      if (life.value <= 0 || y.value < -50) {
-        active.value = 0;
-      }
-    }
-  });
-
-  // Radius with scale and fade effect
-  const radius = useDerivedValue(() => {
-    if (!active.value) return 0;
-    return 15 * scale.value * Math.min(1, life.value / 20);
-  });
-
-  // Reflection dot radius with fade
-  const reflectionRadius = useDerivedValue(() => {
-    if (!active.value) return 0;
-    return 3 * Math.min(1, life.value / 20);
-  });
-
-  // Convert SharedValues to derived values for Skia
-  const cx = useDerivedValue(() => x.value);
-  const cy = useDerivedValue(() => y.value);
-  const reflectionCx = useDerivedValue(() => x.value - 4);
-  const reflectionCy = useDerivedValue(() => y.value - 4);
-
-  // Opacity as a plain number derived from life
-  const opacityValue = useDerivedValue(() => {
-    if (!active.value) return 0;
-    // Fade in
-    if (life.value > 50) return 0.8;
-    // Fade out
-    return (life.value / 50) * 0.8;
-  });
+  // Calculate radius with fade effect
+  const radius = 15 * bubble.scale * Math.min(1, bubble.life / 20);
+  const reflectionRadius = 3 * Math.min(1, bubble.life / 20);
 
   return (
     <>
-      <Circle cx={cx} cy={cy} r={radius} opacity={opacityValue}>
+      <Circle cx={bubble.x} cy={bubble.y} r={radius} opacity={opacity}>
         <RadialGradient
           c={vec(0, 0)}
           r={15}
@@ -150,7 +126,13 @@ const SingleBubble = ({
         />
       </Circle>
       {/* Reflection dot */}
-      <Circle cx={reflectionCx} cy={reflectionCy} r={reflectionRadius} color="rgba(255, 255, 255, 0.9)" opacity={opacityValue} />
+      <Circle
+        cx={bubble.x - 4}
+        cy={bubble.y - 4}
+        r={reflectionRadius}
+        color="rgba(255, 255, 255, 0.9)"
+        opacity={opacity}
+      />
     </>
   );
 };
