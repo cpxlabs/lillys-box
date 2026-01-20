@@ -4,7 +4,6 @@ import {
   Canvas,
   Circle,
   RadialGradient,
-  Group,
   vec,
 } from '@shopify/react-native-skia';
 import {
@@ -113,19 +112,16 @@ const SingleBubble = ({
     }
   });
 
-  // Opacity based on life
-  const opacity = useDerivedValue(() => {
-    if (!active.value) return 0;
-    // Fade in
-    if (life.value > 50) return 0.8;
-    // Fade out
-    return (life.value / 50) * 0.8;
-  });
-
   // Radius with scale and fade effect
   const radius = useDerivedValue(() => {
     if (!active.value) return 0;
     return 15 * scale.value * Math.min(1, life.value / 20);
+  });
+
+  // Reflection dot radius with fade
+  const reflectionRadius = useDerivedValue(() => {
+    if (!active.value) return 0;
+    return 3 * Math.min(1, life.value / 20);
   });
 
   // Convert SharedValues to derived values for Skia
@@ -134,9 +130,18 @@ const SingleBubble = ({
   const reflectionCx = useDerivedValue(() => x.value - 4);
   const reflectionCy = useDerivedValue(() => y.value - 4);
 
+  // Opacity as a plain number derived from life
+  const opacityValue = useDerivedValue(() => {
+    if (!active.value) return 0;
+    // Fade in
+    if (life.value > 50) return 0.8;
+    // Fade out
+    return (life.value / 50) * 0.8;
+  });
+
   return (
-    <Group opacity={opacity}>
-      <Circle cx={cx} cy={cy} r={radius}>
+    <>
+      <Circle cx={cx} cy={cy} r={radius} opacity={opacityValue}>
         <RadialGradient
           c={vec(0, 0)}
           r={15}
@@ -145,7 +150,7 @@ const SingleBubble = ({
         />
       </Circle>
       {/* Reflection dot */}
-      <Circle cx={reflectionCx} cy={reflectionCy} r={3} color="rgba(255, 255, 255, 0.9)" />
-    </Group>
+      <Circle cx={reflectionCx} cy={reflectionCy} r={reflectionRadius} color="rgba(255, 255, 255, 0.9)" opacity={opacityValue} />
+    </>
   );
 };
