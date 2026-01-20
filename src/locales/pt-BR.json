@@ -44,7 +44,8 @@
     "black": "Preto",
     "brown": "Marrom",
     "whiteBrown": "Branco/Marrom",
-    "createButton": "Criar Pet! 🎉"
+    "createButton": "Criar Pet! 🎉",
+    "nameRequired": "Por favor, digite um nome para seu pet!"
   },
   "home": {
     "money": "💰 {{amount}} moedas",

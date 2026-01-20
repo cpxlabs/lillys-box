@@ -12,6 +12,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
+import { hapticFeedback } from '../utils/haptics';
 import { PetType, PetColor, Gender } from '../types';
 import { BackButtonIcon } from '../hooks/useBackButton';
 import { ScreenNavigationProp } from '../types/navigation';
@@ -177,11 +178,19 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
 
         <TouchableOpacity
           style={[styles.createButton, !name.trim() && styles.createButtonDisabled]}
-          onPress={handleCreate}
-          disabled={!name.trim()}
+          onPress={() => {
+            if (!name.trim()) {
+              hapticFeedback.light();
+              showToast(t('createPet.nameRequired'), 'info');
+              return;
+            }
+            handleCreate();
+          }}
+          activeOpacity={!name.trim() ? 1 : 0.7}
           accessibilityRole="button"
           accessibilityLabel={t('createPet.createButton')}
           accessibilityState={{ disabled: !name.trim() }}
+          accessibilityHint={!name.trim() ? t('createPet.nameRequired') : undefined}
         >
           <Text style={styles.createButtonText}>{t('createPet.createButton')}</Text>
         </TouchableOpacity>
