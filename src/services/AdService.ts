@@ -21,6 +21,7 @@ let AdEventType: AdEventTypeType;
 // Only import on native platforms
 if (Platform.OS !== 'web') {
   try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
     const AdMobModule = require('react-native-google-mobile-ads');
     MobileAds = AdMobModule.default;
     MaxAdContentRating = AdMobModule.MaxAdContentRating;

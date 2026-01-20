@@ -12,6 +12,8 @@ type StatusBarProps = {
 };
 
 export const StatusBar: React.FC<StatusBarProps> = ({
+  // label is destructured but unused - removing it from props destructuring or keeping it unused is a choice.
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   label,
   value,
   color,

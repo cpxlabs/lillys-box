@@ -7,7 +7,7 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - 📝 Escolher nome e gênero do pet
 - 🎂 Sistema de idade (1 ano inicial, +1 por semana, máximo 19 anos)
 - 🍖 Alimentar o pet
-- 🛁 Dar banho no pet
+- 🛁 Dar banho no pet (Minigame interativo com bolhas!)
 - 🎾 Brincar com o pet
 - 😴 Colocar o pet para dormir
 - 🏥 Levar o pet ao veterinário
@@ -25,6 +25,7 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - react-native-reanimated
 - react-native-gesture-handler
 - react-native-svg
+- @shopify/react-native-skia (para efeitos visuais)
 - react-native-google-mobile-ads
 - i18next & react-i18next (internacionalização)
 
@@ -36,26 +37,26 @@ A estrutura de pastas e arquivos está documentada detalhadamente em [FOLDER_STR
 1) Instale dependências:
 ```bash
 npm install --legacy-peer-deps
+# ou
+pnpm install
 ```
 
-**Nota sobre dependências**: O projeto usa `expo-dev-client` que é necessário para módulos nativos como `react-native-google-mobile-ads`. Este pacote permite construir uma versão de desenvolvimento personalizada do Expo que inclui módulos nativos.
+**Nota sobre dependências**: O projeto usa `expo-dev-client` que é necessário para módulos nativos como `react-native-google-mobile-ads` e `@shopify/react-native-skia`. Este pacote permite construir uma versão de desenvolvimento personalizada do Expo que inclui módulos nativos.
 
 2) Rode:
 ```bash
 npx expo start
 ```
 
-**Nota**: Para testar anúncios, você precisará usar um dispositivo físico ou emulador Android/iOS, pois os anúncios não funcionam em navegadores web.
+**Nota**: Para testar anúncios e funcionalidades Skia, você precisará usar um dispositivo físico ou emulador Android/iOS.
 
 ## 🎨 Assets necessários
-Coloque os PNGs em `assets/sprites/`:
+Coloque os PNGs/SVGs em `assets/sprites/`:
 - `cats/cat_base.png`
 - `dogs/dog_base.png`
-- `clothes/hat_red.png`
-- `clothes/eyes_big.png`
-- `clothes/shirt_blue.png`
-- `clothes/paws_boots.png`
-- (e demais roupas opcionais)
+- `clothes/`
+- `food/`
+- `toys/`
 
 ## 💰 Monetização
 

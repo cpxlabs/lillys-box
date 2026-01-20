@@ -13,7 +13,7 @@ import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { ClothingSlot } from '../types';
-import { CLOTHING_ITEMS, getItemsBySlot } from '../data/clothingItems';
+import { getItemsBySlot } from '../data/clothingItems';
 import { useBackButton } from '../hooks/useBackButton';
 import { ScreenNavigationProp } from '../types/navigation';
 import { calculatePetAge } from '../utils/age';
@@ -36,7 +36,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
   const { pet, setClothing } = usePet();
   const [selectedSlot, setSelectedSlot] = useState<ClothingSlot>('head');
   const BackButtonIcon = useBackButton();
-  const { deviceType, spacing, fs } = useResponsive();
+  const { deviceType, spacing } = useResponsive();
 
   const petSize = PET_SIZE_SMALL[deviceType];
   const wardrobeSizes = WARDROBE_SIZES[deviceType];
