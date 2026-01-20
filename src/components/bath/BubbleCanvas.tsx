@@ -128,9 +128,15 @@ const SingleBubble = ({
     return 15 * scale.value * Math.min(1, life.value / 20);
   });
 
+  // Convert SharedValues to derived values for Skia
+  const cx = useDerivedValue(() => x.value);
+  const cy = useDerivedValue(() => y.value);
+  const reflectionCx = useDerivedValue(() => x.value - 4);
+  const reflectionCy = useDerivedValue(() => y.value - 4);
+
   return (
     <Group opacity={opacity}>
-      <Circle cx={x} cy={y} r={radius}>
+      <Circle cx={cx} cy={cy} r={radius}>
         <RadialGradient
           c={vec(0, 0)}
           r={15}
@@ -139,7 +145,7 @@ const SingleBubble = ({
         />
       </Circle>
       {/* Reflection dot */}
-      <Circle cx={useDerivedValue(() => x.value - 4)} cy={useDerivedValue(() => y.value - 4)} r={3} color="rgba(255, 255, 255, 0.9)" />
+      <Circle cx={reflectionCx} cy={reflectionCy} r={3} color="rgba(255, 255, 255, 0.9)" />
     </Group>
   );
 };
