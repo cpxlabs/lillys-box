@@ -50,12 +50,12 @@ The main source directory containing all application code.
 
 ```
 src/
-├── components/         # Reusable React components
+├── components/         # Reusable React components (+ __tests__)
 ├── screens/           # Screen-level components
 ├── context/           # React Context providers
-├── hooks/             # Custom React hooks
+├── hooks/             # Custom React hooks (+ __tests__)
 ├── services/          # Business logic and external services
-├── utils/             # Utility functions and helpers
+├── utils/             # Utility functions and helpers (+ __tests__)
 ├── data/              # Static data and configurations
 ├── config/            # App configuration files
 ├── types/             # TypeScript type definitions

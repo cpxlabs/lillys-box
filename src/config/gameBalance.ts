@@ -93,6 +93,7 @@ export const GAME_BALANCE = {
     healthForVetUrgent: 40,
     healthForVetSuggested: 60,
     statWarning: 25, // Show warning if any stat < 25
+    statMedium: 50, // Added medium threshold for stats
     statCritical: 10, // Critical state if any stat < 10
   },
 

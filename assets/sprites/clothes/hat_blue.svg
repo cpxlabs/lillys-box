@@ -1,0 +1,6 @@
+<svg width="1024" height="1024" viewBox="0 0 1024 1024" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Hat Base -->
+  <path d="M262 600 C262 400, 400 200, 512 200 C624 200, 762 400, 762 600" fill="#3B82F6" stroke="#1D4ED8" stroke-width="20"/>
+  <!-- Brim -->
+  <path d="M200 600 L824 600 L824 650 C824 700, 200 700, 200 650 Z" fill="#2563EB" stroke="#1D4ED8" stroke-width="20"/>
+</svg>

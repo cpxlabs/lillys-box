@@ -5,6 +5,7 @@ import {
   StyleSheet,
   SafeAreaView,
   Image,
+  useWindowDimensions,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
@@ -43,6 +44,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
   const [scrubCount, setScrubCount] = useState(0);
   const BackButtonIcon = useBackButton();
   const { deviceType, spacing, fs } = useResponsive();
+  const { height: SCREEN_HEIGHT } = useWindowDimensions();
 
   const petSize = ACTION_PET_SIZE[deviceType];
   const spongeSizes = SPONGE_SIZE[deviceType];
@@ -136,8 +138,15 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
 
   if (!pet) return null;
 
-  // eslint-disable-next-line @typescript-eslint/no-var-requires
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const spongeImage = require('../../assets/sprites/sponge.png');
+
+  // Calculate Sponge Initial Position
+  // Styles say: bottom: 200, left: 40
+  // Origin Y = Screen Height - bottomOffset - Sponge Height
+  const bottomOffset = 200;
+  const initialSpongeY = SCREEN_HEIGHT - bottomOffset - spongeSizes.height;
+  const initialSpongeX = 40;
 
   return (
     <SafeAreaView style={styles.container}>
@@ -167,8 +176,8 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
         spongeY={spongeY}
         isScrubbing={isMoving}
         spongeOrigin={{
-          x: 40,
-          y: spongeSizes.bottom ? (typeof spongeSizes.bottom === 'number' ? 200 : 200) : 200, // Approximate Y start
+          x: initialSpongeX,
+          y: initialSpongeY,
           width: spongeSizes.width,
           height: spongeSizes.height,
         }}
@@ -176,7 +185,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
 
       {/* Draggable Sponge */}
       <GestureDetector gesture={spongeDragGesture}>
-        <Animated.View style={[styles.spongeContainer, spongeAnimatedStyle, { bottom: spongeSizes.bottom }]}>
+        <Animated.View style={[styles.spongeContainer, spongeAnimatedStyle, { bottom: bottomOffset }]}>
           <Image
             source={spongeImage}
             style={[styles.spongeImage, { width: spongeSizes.width, height: spongeSizes.height }]}

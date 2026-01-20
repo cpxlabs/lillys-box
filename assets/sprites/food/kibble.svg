@@ -1,0 +1,10 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Bowl -->
+  <path d="M106 300 L156 400 L356 400 L406 300 Z" fill="#EF4444" stroke="#B91C1C" stroke-width="10"/>
+  <!-- Kibble pieces -->
+  <circle cx="200" cy="280" r="20" fill="#78350F"/>
+  <circle cx="250" cy="270" r="25" fill="#92400E"/>
+  <circle cx="300" cy="280" r="20" fill="#78350F"/>
+  <circle cx="220" cy="250" r="20" fill="#92400E"/>
+  <circle cx="280" cy="250" r="20" fill="#78350F"/>
+</svg>

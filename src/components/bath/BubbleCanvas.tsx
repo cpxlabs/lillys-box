@@ -1,43 +1,25 @@
-import React, { useMemo } from 'react';
-import { StyleSheet, Dimensions } from 'react-native';
+import React from 'react';
+import { StyleSheet } from 'react-native';
 import {
   Canvas,
   Circle,
   RadialGradient,
   Group,
   vec,
-  interpolateColors,
-  useFont,
-  Text,
 } from '@shopify/react-native-skia';
 import {
   useSharedValue,
   useFrameCallback,
   SharedValue,
   useDerivedValue,
-  runOnJS,
 } from 'react-native-reanimated';
 
 /**
  * Configuration
  */
 const MAX_PARTICLES = 50;
-const GRAVITY = 0.5;
 const DRAG = 0.98;
-const WOBBLE_SPEED = 0.05;
 const SPAWN_RATE = 0.1;
-
-type ParticleData = {
-  active: number; // 0 or 1
-  x: number;
-  y: number;
-  vx: number;
-  vy: number;
-  scale: number;
-  life: number;
-  maxLife: number;
-  wobbleOffset: number;
-};
 
 type Props = {
   spongeX: SharedValue<number>;
@@ -52,38 +34,11 @@ export const BubbleCanvas: React.FC<Props> = ({
   isScrubbing,
   spongeOrigin,
 }) => {
-  const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
-
-  // We use a Float32Array to store particle data flat for performance
-  // [active, x, y, vx, vy, scale, life, maxLife, wobbleOffset] * MAX_PARTICLES
-  const DATA_SIZE = 9;
-  const particles = useSharedValue(new Float32Array(MAX_PARTICLES * DATA_SIZE));
-
-  // Initialize particles
-  // We can't do this in a useEffect easily with SharedValues, but Float32Array is 0 initialized.
-
-  useFrameCallback(() => {
-    const arr = particles.value;
-    // We can't mutate the array in place and expect React to notice,
-    // but Skia doesn't rely on React render cycle for values driven by SharedValues?
-    // Wait, Skia needs us to map components.
-    // Standard approach: Use an array of SharedValues? Or one big SharedValue<Float32Array>?
-    // Skia's <Circle> needs explicit props.
-    // If we have 50 <Circle> components, each needs a way to read its own data.
-
-    // Approach: Create an array of SharedValues for the UI.
-    // Since we can't change the hook count, we'll create them once.
-    // But updating 50 shared values individually is costly?
-    // Actually, `useDerivedValue` reading from one big array is efficient.
-  });
-
   return (
     <Canvas style={StyleSheet.absoluteFill} pointerEvents="none">
       {Array.from({ length: MAX_PARTICLES }).map((_, i) => (
         <SingleBubble
           key={i}
-          index={i}
-          particles={particles}
           spongeX={spongeX}
           spongeY={spongeY}
           isScrubbing={isScrubbing}
@@ -95,31 +50,16 @@ export const BubbleCanvas: React.FC<Props> = ({
 };
 
 const SingleBubble = ({
-  index,
-  particles,
   spongeX,
   spongeY,
   isScrubbing,
   spongeOrigin,
 }: {
-  index: number;
-  particles: SharedValue<Float32Array>;
   spongeX: SharedValue<number>;
   spongeY: SharedValue<number>;
   isScrubbing: SharedValue<boolean>;
   spongeOrigin: { x: number; y: number; width: number; height: number };
 }) => {
-  const DATA_SIZE = 9;
-  const offset = index * DATA_SIZE;
-
-  // We handle simulation inside useDerivedValue or useFrameCallback per bubble?
-  // Better: Global simulation in parent, read in child.
-  // But parent useFrameCallback can't easily update the shared value in a way that triggers specific children efficiently without creating a new Float32Array?
-  // Actually, mutating the Float32Array inside a worklet works if we trigger an update.
-
-  // Alternative: Each bubble manages itself.
-  // This distributes the load and makes logic cleaner.
-
   const active = useSharedValue(0);
   const x = useSharedValue(0);
   const y = useSharedValue(0);

@@ -1,0 +1,9 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="256" cy="256" r="200" fill="#EF4444" stroke="#B91C1C" stroke-width="10"/>
+  <!-- Threads -->
+  <path d="M156 156 Q256 56 356 156" stroke="#FECACA" stroke-width="5" fill="none"/>
+  <path d="M106 256 Q256 200 406 256" stroke="#FECACA" stroke-width="5" fill="none"/>
+  <path d="M156 356 Q256 456 356 356" stroke="#FECACA" stroke-width="5" fill="none"/>
+  <!-- Loose end -->
+  <path d="M400 350 Q450 400 480 450" stroke="#EF4444" stroke-width="10" fill="none"/>
+</svg>
