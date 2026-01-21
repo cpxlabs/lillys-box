@@ -1,7 +1,7 @@
 # Comprehensive Implementation Plan: Pet Care Game
 
 **Created**: 2026-01-15 (Infrastructure), 2026-01-16 (Game Features)
-**Last Updated**: 2026-01-19 (Merged comprehensive plan)
+**Last Updated**: 2026-01-21 (Added Skia Bath Screen Reimplementation)
 **Status**: Mixed - Parts completed, parts pending
 
 ---
@@ -652,6 +652,162 @@ Create user-facing documentation `RESPONSIVE.md` based on existing `160126-respo
    - Testing Guidelines
 3. Include practical examples
 4. Reference existing implementation
+
+---
+
+## 5. Skia Bath Screen Reimplementation 🎨
+
+**Priority**: 🟡 P1 (Performance & Visual Quality)
+**Status**: 📋 Planning Complete
+**Documentation**: [docs/SKIA_BATH_REIMPLEMENTATION_PLAN.md](./SKIA_BATH_REIMPLEMENTATION_PLAN.md)
+**Created**: 2026-01-21
+**Estimated Timeline**: 3-4 weeks
+
+### Overview
+
+Reintegrate `@shopify/react-native-skia` into the bath screen to provide a high-performance, hardware-accelerated bubble particle system. This replaces the current emoji-based bubble implementation with realistic, physics-based bubbles.
+
+### Why Reintegration?
+
+**Previous Implementation Issues (v0.1.221)**:
+- Outdated Skia version (2+ years old)
+- No object pooling (memory issues)
+- Mixed state/render logic
+- No fallback mechanism
+- Insufficient testing
+
+**New Implementation Benefits (v2.4.14)**:
+- ✅ Latest Skia version with 2+ years of improvements
+- ✅ Worklet-based particle system (60fps on UI thread)
+- ✅ Object pooling for memory efficiency
+- ✅ Advanced visual effects (gradients, physics simulation)
+- ✅ Comprehensive error handling and fallback
+- ✅ Feature flag system for gradual rollout
+- ✅ Full test suite (unit, integration, performance)
+
+### Key Features
+
+1. **Upgrade Skia to 2.4.14**
+   - From version 0.1.221 (2022) to 2.4.14 (2024)
+   - Better performance, stability, and API
+
+2. **Particle System Architecture**
+   - Object pooling (no GC spikes)
+   - Worklet-based physics (UI thread)
+   - 50+ concurrent bubbles at 60fps
+   - Realistic physics (gravity, wobble, drag)
+
+3. **Visual Quality**
+   - Gradient-based bubbles (realistic soap appearance)
+   - Smooth animations (fade in/out)
+   - Hardware-accelerated rendering
+   - Better than emoji bubbles (🫧)
+
+4. **Reliability**
+   - Error boundaries
+   - Graceful fallback to Reanimated
+   - Feature flags for rollout control
+   - Device capability detection
+
+### Implementation Steps
+
+#### Phase 1: Setup (Day 1-2)
+- [ ] Upgrade Skia to 2.4.14
+- [ ] Create feature flags (`src/config/features.ts`)
+- [ ] Verify build and basic rendering
+- [ ] Update dependencies
+
+#### Phase 2: Core System (Day 3-5)
+- [ ] Implement `ParticlePool` (object reuse)
+- [ ] Implement `ParticleSystem` (physics logic)
+- [ ] Create physics configuration
+- [ ] Write unit tests (100% coverage)
+
+#### Phase 3: Rendering (Day 6-8)
+- [ ] Create `BubbleCanvas` component (Skia)
+- [ ] Implement gradient rendering
+- [ ] Add worklet integration
+- [ ] Create `BubbleCanvasFallback` (Reanimated)
+
+#### Phase 4: Integration (Day 9-10)
+- [ ] Update `BathScene.tsx`
+- [ ] Add gesture integration
+- [ ] Test on multiple devices
+- [ ] Polish visual appearance
+
+#### Phase 5: Testing (Day 11-12)
+- [ ] Integration tests
+- [ ] Performance tests (60fps target)
+- [ ] Manual QA on devices
+- [ ] Visual regression tests
+
+#### Phase 6: Optimization (Day 13-14)
+- [ ] Profile performance
+- [ ] Optimize hot paths
+- [ ] Add particle culling
+- [ ] Test on low-end devices
+
+#### Phase 7: Polish (Day 15)
+- [ ] Error handling
+- [ ] Analytics tracking
+- [ ] Documentation
+- [ ] Code review
+
+#### Phase 8: Rollout (Day 16-20)
+- [ ] Deploy with flag disabled
+- [ ] Enable for dev team
+- [ ] Enable for 10% of users
+- [ ] Enable for 100% (if metrics good)
+
+### New File Structure
+
+```
+src/
+├── systems/particles/       # NEW
+│   ├── ParticleSystem.ts    # Core particle logic (Worklet)
+│   ├── ParticlePool.ts      # Object pooling
+│   ├── particlePhysics.ts   # Physics config
+│   └── __tests__/
+├── components/bath/
+│   ├── BubbleCanvas.tsx         # Skia implementation
+│   ├── BubbleCanvasFallback.tsx # Reanimated fallback
+│   └── __tests__/
+├── config/
+│   ├── features.ts          # NEW - Feature flags
+│   └── bubblePhysics.ts     # NEW - Physics constants
+```
+
+### Success Criteria
+
+- ✅ 60fps sustained with 50+ bubbles
+- ✅ Memory usage < 100MB
+- ✅ Zero crash rate increase
+- ✅ Visual quality better than emoji bubbles
+- ✅ Works on Android 8+ / 4GB RAM devices
+
+### Risk Mitigation
+
+1. **Technical Risk**: Fallback to Reanimated implementation
+2. **Performance Risk**: Feature flag allows per-device configuration
+3. **Stability Risk**: Error boundaries catch rendering crashes
+4. **UX Risk**: A/B testing measures actual impact
+
+### Dependencies
+
+```bash
+# Upgrade Skia
+npm uninstall @shopify/react-native-skia
+npm install @shopify/react-native-skia@2.4.14
+
+# Rebuild dev client (if needed)
+npx expo prebuild --clean
+```
+
+### Related Documentation
+
+- Full implementation plan: [SKIA_BATH_REIMPLEMENTATION_PLAN.md](./SKIA_BATH_REIMPLEMENTATION_PLAN.md)
+- Previous implementation history: [SKIA_IMPLEMENTATION_PLAN.md](./SKIA_IMPLEMENTATION_PLAN.md) (deprecated)
+- Testing strategy: [TEST_IMPLEMENTATION_PLAN.md](./TEST_IMPLEMENTATION_PLAN.md)
 
 ---
 

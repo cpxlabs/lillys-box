@@ -36,7 +36,7 @@ This document outlines the roadmap for future development, improvements, and fea
 ---
 
 ### 🔴 Performance Optimizations
-**Status:** Not Started
+**Status:** In Progress
 **Priority:** High
 
 - [ ] Implement image caching and lazy loading
@@ -55,6 +55,39 @@ This document outlines the roadmap for future development, improvements, and fea
 - Screen transition animations (should be 60fps)
 - Memory usage
 - Battery consumption
+
+---
+
+### 🟡 Skia Bath Screen Reimplementation
+**Status:** Planning Complete
+**Priority:** Medium
+**Documentation:** [docs/SKIA_BATH_REIMPLEMENTATION_PLAN.md](./SKIA_BATH_REIMPLEMENTATION_PLAN.md)
+
+Reintegrate Skia 2.4.14 into the bath screen for high-performance bubble particle system.
+
+**Key Features:**
+- [ ] Upgrade Skia from 0.1.221 to 2.4.14
+- [ ] Implement worklet-based particle system (60fps on UI thread)
+- [ ] Add object pooling for memory efficiency
+- [ ] Create gradient-based realistic bubble rendering
+- [ ] Implement physics simulation (gravity, wobble, drag)
+- [ ] Add comprehensive error handling and fallback
+- [ ] Create feature flag system for gradual rollout
+- [ ] Write full test suite (unit, integration, performance)
+- [ ] Implement staged rollout (dev → 10% → 100%)
+
+**Timeline:** 3-4 weeks
+**Success Criteria:**
+- 60fps sustained with 50+ bubbles
+- Memory usage < 100MB
+- Zero crash rate increase
+- Better visual quality than emoji bubbles
+
+**Benefits:**
+- Hardware-accelerated rendering
+- Realistic soap bubble effects
+- Smooth 60fps animations
+- Reduced JS thread blocking
 
 ---
 
@@ -405,6 +438,7 @@ src/
 - [x] Code quality improvements ✅ (ESLint, Prettier, usePetActions hook)
 - [x] i18n support ✅ (English + Portuguese)
 - [x] Accessibility improvements ✅ (partial - haptics, labels)
+- [ ] Skia bath screen reimplementation (Planning Complete - [Plan](./SKIA_BATH_REIMPLEMENTATION_PLAN.md))
 - [ ] Sounds and audio (Next Priority)
 - [ ] Advanced performance optimizations (In Progress)
 

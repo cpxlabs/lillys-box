@@ -244,6 +244,7 @@ Consulte a pasta `docs/` para mais detalhes:
 - `docs/RESPONSIVE.md`: Guia de responsividade
 - `docs/IMPLEMENTATION_PLAN.md`: Plano de implementação detalhado
 - `docs/TEST_IMPLEMENTATION_PLAN.md`: Detalhes técnicos e correção da suíte de testes
+- `docs/SKIA_BATH_REIMPLEMENTATION_PLAN.md`: Plano de reimplementação Skia para tela de banho
 - `docs/FEED_ACTIONS_DOCUMENTATION.md`: Sistema de alimentação
 - `docs/PLAY_ACTIONS_DOCUMENTATION.md`: Sistema de brincadeiras
 - `docs/VET_ACTIONS_DOCUMENTATION.md`: Sistema veterinário
