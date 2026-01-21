@@ -238,6 +238,32 @@ Este hook reduziu em ~90% a duplicação de código nas cenas de ação.
 - ✅ Hooks customizados reutilizáveis
 - ✅ Configuração centralizada (gameBalance, constants, actionConfig)
 
+### 🚀 BMAD Method (Metodologia de Desenvolvimento)
+Este projeto está preparado para usar o **BMAD Method** (Breakthrough Method for Agile AI Driven Development) - uma metodologia orientada por IA que melhora planejamento, implementação e garantia de qualidade.
+
+**Benefícios principais:**
+- 📋 Planejamento estruturado com agentes especializados (PM, Arquiteto, DEV, TEA)
+- 🧪 Desenvolvimento orientado a testes (TDD) com estratégia definida antes da codificação
+- 📐 Revisão de arquitetura para features complexas
+- 📊 Rastreamento de épicos e histórias com estimativas
+- 📚 Documentação gerada automaticamente como parte do fluxo
+
+**Como começar:**
+```bash
+# Instalar BMAD CLI
+npm install -g @bmad/cli
+
+# Inicializar no projeto
+bmad init --type brownfield
+
+# Começar uma feature simples (Quick Flow)
+bmad dev-story --quick-flow --title "Minha primeira feature BMAD"
+```
+
+**Documentação completa:**
+- Para guia de início rápido: [docs/BMAD_QUICKSTART.md](docs/BMAD_QUICKSTART.md)
+- Para plano completo de implementação: [docs/BMAD_IMPLEMENTATION_PLAN.md](docs/BMAD_IMPLEMENTATION_PLAN.md)
+
 ## Documentação Adicional
 Consulte a pasta `docs/` para mais detalhes:
 - `docs/ROADMAP.md`: Planos futuros e melhorias
@@ -245,6 +271,8 @@ Consulte a pasta `docs/` para mais detalhes:
 - `docs/IMPLEMENTATION_PLAN.md`: Plano de implementação detalhado
 - `docs/TEST_IMPLEMENTATION_PLAN.md`: Detalhes técnicos e correção da suíte de testes
 - `docs/SKIA_BATH_REIMPLEMENTATION_PLAN.md`: Plano de reimplementação Skia para tela de banho
+- `docs/BMAD_IMPLEMENTATION_PLAN.md`: Plano completo de implementação do BMAD Method
+- `docs/BMAD_QUICKSTART.md`: Guia rápido para começar com BMAD
 - `docs/FEED_ACTIONS_DOCUMENTATION.md`: Sistema de alimentação
 - `docs/PLAY_ACTIONS_DOCUMENTATION.md`: Sistema de brincadeiras
 - `docs/VET_ACTIONS_DOCUMENTATION.md`: Sistema veterinário
