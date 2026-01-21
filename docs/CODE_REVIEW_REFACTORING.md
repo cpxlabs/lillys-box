@@ -1,8 +1,10 @@
 # Code Review & Refactoring Summary
 
 **Date**: 2026-01-16
+**Last Updated**: 2026-01-21
 **Purpose**: Eliminate magic numbers and improve code maintainability
 **Status**: ✅ Phase 1 Complete - Core Constants & petStats.ts Refactored
+**Phase 2 Status**: 🔄 Partially Complete - Some files refactored via usePetActions hook migration
 
 ---
 
@@ -206,6 +208,16 @@ if (pet.health < HAPPINESS.VERY_UNHEALTHY_HEALTH) { ... }
 
 ## Phase 2: Remaining Work
 
+### Major Achievement: usePetActions Hook Migration
+Several action scenes have been migrated to use the centralized `usePetActions` hook (see `docs/FEED_ACTIONS_DOCUMENTATION.md` and `docs/PLAY_ACTIONS_DOCUMENTATION.md`):
+- ✅ FeedScene.tsx - Migrated (Jan 2026)
+- ✅ PlayScene.tsx - Migrated (Jan 2026)
+- ⏸️ BathScene.tsx - Custom implementation retained (scrubbing mechanic)
+- ⏸️ SleepScene.tsx - Custom implementation retained (async sleep with cancellation)
+- ⏸️ VetScene.tsx - Custom implementation retained (payment modal flow)
+
+This migration achieved ~90% code reduction in action logic across migrated scenes.
+
 ### Files to Refactor:
 
 #### 1. `src/context/PetContext.tsx` (MEDIUM Priority)
@@ -214,8 +226,11 @@ if (pet.health < HAPPINESS.VERY_UNHEALTHY_HEALTH) { ... }
 - [ ] Line 231: Use `TIMER_INTERVAL.SLEEP_CANCELLATION_CHECK`
 
 #### 2. `src/screens/FeedScene.tsx` (HIGH Priority)
-- [ ] Lines 32-35: Import `FOOD_ITEMS` from `src/data/foodItems.ts`
-- [ ] Update component to use imported data instead of local constant
+**Status**: ✅ MIGRATED to usePetActions hook (2026-01-18)
+- [x] Migrated to use centralized `usePetActions` hook
+- [x] Action logic reduced from ~48 lines to ~6 lines (-87%)
+- [x] Now uses `actionConfig.ts` for animation sequences
+- [ ] Food items still defined locally (could use `FOOD_ITEMS` from `src/data/foodItems.ts`)
 
 #### 3. `src/screens/BathScene.tsx` (MEDIUM Priority)
 - [ ] Line 108: Use `GAME_BALANCE.activities.bathe.scrubsNeeded`

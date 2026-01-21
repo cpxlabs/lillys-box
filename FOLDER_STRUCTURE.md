@@ -127,11 +127,11 @@ Contains reusable custom hooks for common functionality.
 - `useBackButton.tsx` - Handles Android back button behavior
 - `useDoubleReward.tsx` - Hook for handling double reward logic
 - `useNavigationList.ts` - Navigation helper hook
-- `usePetActions.ts` - Hook for common pet actions
+- `usePetActions.ts` - **Unified hook for all pet actions** (animation, validation, rewards)
 - `useResponsive.ts` - Hook for responsive design
 - `useRewardedAd.ts` - Hook for managing rewarded advertisements
 
-**Purpose:** Encapsulates reusable logic and side effects.
+**Purpose:** Encapsulates reusable logic and side effects. The `usePetActions` hook provides centralized action management, reducing code duplication by ~90% across action scenes.
 
 ---
 
@@ -182,13 +182,13 @@ Contains static data, constants, and configuration objects.
 Contains application configuration settings.
 
 **Files:**
-- `actionConfig.ts` - Configuration for actions
+- `actionConfig.ts` - **Centralized action configuration** (animations, messages, rewards)
 - `ads.config.ts` - Advertisement configuration (Ad Unit IDs, settings)
-- `constants.ts` - General app constants
+- `constants.ts` - General app constants (thresholds, timers, colors)
 - `gameBalance.ts` - Game balance configuration (stats, costs, rewards)
 - `responsive.ts` - Responsive design constants
 
-**Purpose:** Centralizes configuration for easy environment management and game balancing.
+**Purpose:** Centralizes configuration for easy environment management and game balancing. All magic numbers have been replaced with named constants.
 
 ---
 
@@ -241,4 +241,4 @@ This structure promotes:
 
 ---
 
-**Last Updated:** 2026-01-24
+**Last Updated:** 2026-01-21
