@@ -1,43 +1,62 @@
+# Claude Code ignore file - excludes files from context to reduce token usage
+
 # Dependencies
 node_modules/
-.pnpm-store/
-
-# Build outputs
-.expo/
-dist/
-web-build/
-coverage/
-
-# Cache
-.metro-health-check*
-*.log
-
-# OS
-.DS_Store
-Thumbs.db
-
-# IDE
-.vscode/
-.idea/
-
-# Temp files
-*.tmp
-*.temp
-
-# Lock files (Claude doesn't need these)
 pnpm-lock.yaml
 package-lock.json
-yarn.lock
 
-# Assets (large files)
-assets/sprites/
-assets/backgrounds/
-*.png
-*.jpg
-*.jpeg
-*.gif
-*.svg
-*.ico
+# Build outputs
+dist/
+web-build/
+.expo/
+build/
+android/
+ios/
 
-# Git
+# Cache and temporary files
+.metro-health-check*
+*.cache
+.DS_Store
+
+# Environment files (secrets)
+.env*
+
+# IDE and editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Test coverage
+coverage/
+
+# Native build artifacts
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.pem
+
+# Large/binary files
+assets/sprites/**/*.png
+assets/sprites/**/*.jpg
+assets/fonts/**
+
+# Development helpers
+*.log
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# Documentation (reference, not code)
+docs/
+
+# Git and version control
 .git/
+.gitignore
+
+# Claude Code session files
+.claude-session
+*.claude-context
