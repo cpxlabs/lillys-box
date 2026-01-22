@@ -197,6 +197,13 @@
     "earned": "💰 +{{amount}} coins earned!",
     "doubleEarned": "🎉 Double reward! +{{amount}} coins!"
   },
+  "status": {
+    "hunger": "Hunger",
+    "hygiene": "Hygiene",
+    "energy": "Energy",
+    "happiness": "Happiness",
+    "health": "Health"
+  },
   "ads": {
     "notAvailable": "Ad not available"
   }
