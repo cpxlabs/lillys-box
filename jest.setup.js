@@ -37,6 +37,13 @@ jest.mock('react-native', () => {
     ScrollView: mockComponent('ScrollView'),
     FlatList: mockComponent('FlatList'),
     TextInput: mockComponent('TextInput'),
+    useWindowDimensions: jest.fn(() => ({ width: 375, height: 812, scale: 2, fontScale: 2 })),
+    PixelRatio: {
+      get: jest.fn(() => 2),
+      getFontScale: jest.fn(() => 2),
+      getPixelSizeForLayoutSize: jest.fn((val) => val * 2),
+      roundToNearestPixel: jest.fn((val) => Math.round(val)),
+    },
     Animated: {
       Value: jest.fn(() => ({
         setValue: jest.fn(),

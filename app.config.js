@@ -14,29 +14,49 @@ module.exports = () => {
     },
     assetBundlePatterns: ["**/*"],
     ios: {
-      supportsTablet: true
+      supportsTablet: true,
+      bundleIdentifier: "com.az1nn.petcaregame",
+      googleServicesFile: "./GoogleService-Info.plist"
     },
     android: {
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#ffffff"
       },
-      package: "com.az1nn.petcaregame"
+      package: "com.az1nn.petcaregame",
+      googleServicesFile: "./google-services.json"
     },
     web: {
       favicon: "./assets/favicon.png"
     }
   };
 
-  // Plugins array - empty for now to avoid web build errors
-  // For native builds with AdMob, you'll need to use expo-dev-client
-  // and the plugin will be handled during prebuild
-  const plugins = [];
-  
-  // NOTE: The react-native-google-mobile-ads plugin is intentionally excluded
+  // Determine if building for web (skip native plugins for web builds)
+  // Set EXPO_PUBLIC_BUILD_PLATFORM=web for web builds
+  const isWebBuild = process.env.EXPO_PUBLIC_BUILD_PLATFORM === 'web';
+
+  // Plugins array - only include native plugins for mobile builds
+  const plugins = isWebBuild ? [] : [
+    "@react-native-google-signin/google-signin"
+  ];
+
+  // NOTE: Native plugins are intentionally excluded for web builds to prevent
+  // module resolution errors. The app will use fallback authentication on web.
+  //
+  // For mobile builds (Android/iOS):
+  // - Google Sign-In plugin is included
+  // - Uses actual OAuth authentication
+  // - Requires google-services.json and GoogleService-Info.plist
+  //
+  // For web builds:
+  // - Use: EXPO_PUBLIC_BUILD_PLATFORM=web npm run web
+  // - Fallback: Local-only authentication (no OAuth)
+  // - Works for testing and development
+  //
+  // NOTE: The react-native-google-mobile-ads plugin is also intentionally excluded
   // from the config to prevent web build errors. The native module will still
   // work on iOS/Android when using expo-dev-client with custom dev builds.
-  // 
+  //
   // For production native builds:
   // 1. Uncomment the plugin below
   // 2. Replace test ad IDs with your production IDs
