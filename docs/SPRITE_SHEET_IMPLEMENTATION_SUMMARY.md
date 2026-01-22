@@ -317,7 +317,7 @@ export const SPRITE_SHEETS: SpriteSheetMap = {
 };
 ```
 
-Reference `src/config/spriteSheets.example.ts` for complete configuration.
+Reference `docs/spriteSheets.example.txt` for complete configuration.
 
 ### Step 5: Test
 
@@ -454,7 +454,7 @@ Once tested:
 
 - **Configuration questions**: See `docs/SPRITE_SHEET_GUIDE.md`
 - **Video generation**: See `docs/VIDEO_GENERATION_PROMPTS.md`
-- **Example config**: See `src/config/spriteSheets.example.ts`
+- **Example config**: See `docs/spriteSheets.example.txt`
 - **Code reference**: See inline documentation in source files
 
 ---

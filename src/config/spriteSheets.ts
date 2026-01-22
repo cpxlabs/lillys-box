@@ -74,7 +74,7 @@ const calcDuration = (frameCount: number, fps: number): number => {
  * 1. Generate sprite sheet videos using prompts in /docs/VIDEO_GENERATION_PROMPTS.md
  * 2. Extract frames and create sprite sheets using /tools/create_spritesheet.py
  * 3. Place sprite sheets in /assets/sprites/animations/{petType}/{petType}_{color}_{state}.png
- * 4. See /src/config/spriteSheets.example.ts for full configuration reference
+ * 4. See /docs/spriteSheets.example.txt for full configuration reference
  * 5. Add require() statements for your assets below
  *
  * Example:
