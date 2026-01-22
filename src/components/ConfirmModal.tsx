@@ -48,7 +48,7 @@ export const ConfirmModal: React.FC<Props> = ({
             >
               <Text style={styles.cancelButtonText}>{cancelText}</Text>
             </TouchableOpacity>
-
+            
             <TouchableOpacity
               style={[
                 styles.button,
