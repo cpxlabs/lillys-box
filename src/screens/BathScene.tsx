@@ -4,7 +4,6 @@ import {
   Text,
   StyleSheet,
   SafeAreaView,
-  TouchableOpacity,
   Image,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
@@ -45,7 +44,7 @@ type Bubble = {
 const BubbleComponent: React.FC<{ bubble: Bubble }> = ({ bubble }) => {
   const opacity = useSharedValue(1);
   const scale = useSharedValue(bubble.scale);
-  
+
   React.useEffect(() => {
     opacity.value = withSequence(
       withTiming(1, { duration: 200 }),
@@ -113,23 +112,23 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
 
   const addBubble = (x: number, y: number) => {
     const now = Date.now();
-    
+
     // Throttle bubble creation to prevent performance issues
     if (now - lastBubbleTime.current < BUBBLE_THROTTLE_MS) {
       return;
     }
-    
+
     lastBubbleTime.current = now;
-    
+
     const newBubble: Bubble = {
       id: now + (bubbleIdCounter.current++),
       x: x + Math.random() * BUBBLE_POSITION_VARIANCE - BUBBLE_POSITION_OFFSET,
       y: y + Math.random() * BUBBLE_POSITION_VARIANCE - BUBBLE_POSITION_OFFSET,
       scale: 0.5 + Math.random() * 0.5,
     };
-    
+
     setBubbles(prev => [...prev, newBubble]);
-    
+
     // Remove bubble after animation
     const timeoutId = setTimeout(() => {
       setBubbles(prev => prev.filter(b => b.id !== newBubble.id));
@@ -195,7 +194,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
     .onUpdate((e) => {
       spongeX.value = e.translationX;
       spongeY.value = e.translationY;
-      
+
       // Generate bubbles while moving
       if (Math.abs(e.velocityX) > BUBBLE_VELOCITY_THRESHOLD || Math.abs(e.velocityY) > BUBBLE_VELOCITY_THRESHOLD) {
         addBubble(e.absoluteX, e.absoluteY);

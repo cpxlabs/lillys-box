@@ -44,7 +44,8 @@
     "black": "Black",
     "brown": "Brown",
     "whiteBrown": "White/Brown",
-    "createButton": "Create Pet! 🎉"
+    "createButton": "Create Pet! 🎉",
+    "nameRequired": "Please enter a name for your pet!"
   },
   "home": {
     "money": "💰 {{amount}} coins",
@@ -195,6 +196,13 @@
     },
     "earned": "💰 +{{amount}} coins earned!",
     "doubleEarned": "🎉 Double reward! +{{amount}} coins!"
+  },
+  "status": {
+    "hunger": "Hunger",
+    "hygiene": "Hygiene",
+    "energy": "Energy",
+    "happiness": "Happiness",
+    "health": "Health"
   },
   "ads": {
     "notAvailable": "Ad not available"

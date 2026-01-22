@@ -91,8 +91,9 @@ Contains UI components that are used across multiple screens.
 Contains full-screen components that represent different views in the application.
 
 **Files:**
+- `LoginScreen.tsx` - **[NEW]** Authentication screen with Google Sign-In and guest mode
 - `HomeScreen.tsx` - Main home screen showing the pet
-- `MenuScreen.tsx` - Navigation menu for different activities
+- `MenuScreen.tsx` - Navigation menu for different activities (includes user info header and sign-out)
 - `CreatePetScreen.tsx` - Pet creation and customization screen
 - `FeedScene.tsx` - Feeding interaction screen
 - `BathScene.tsx` - Bathing/cleaning interaction screen
@@ -103,6 +104,11 @@ Contains full-screen components that represent different views in the applicatio
 
 **Purpose:** Each screen represents a distinct user interaction flow or feature.
 
+**Authentication Flow:**
+- Users see `LoginScreen` before authentication
+- After login/guest mode, `MenuScreen` becomes the entry point
+- User info displayed in header with sign-out option
+
 ---
 
 ### `/src/context` - React Context Providers
@@ -111,11 +117,18 @@ Contains Context API providers for global state management.
 
 **Files:**
 - `AdContext.tsx` - Manages advertisement state and functionality
+- `AuthContext.tsx` - **[NEW]** Manages Google OAuth authentication and guest mode
 - `LanguageContext.tsx` - Manages language selection and i18n state
-- `PetContext.tsx` - Manages pet state (hunger, happiness, cleanliness, appearance)
+- `PetContext.tsx` - Manages pet state (hunger, happiness, cleanliness, appearance) with user-scoped storage
 - `ToastContext.tsx` - Manages toast notifications
 
 **Purpose:** Provides shared state across the application without prop drilling.
+
+**Auth Context Features:**
+- Google Sign-In integration
+- Guest mode support
+- User data isolation
+- Auth state persistence
 
 ---
 
@@ -127,11 +140,11 @@ Contains reusable custom hooks for common functionality.
 - `useBackButton.tsx` - Handles Android back button behavior
 - `useDoubleReward.tsx` - Hook for handling double reward logic
 - `useNavigationList.ts` - Navigation helper hook
-- `usePetActions.ts` - Hook for common pet actions
+- `usePetActions.ts` - **Unified hook for all pet actions** (animation, validation, rewards)
 - `useResponsive.ts` - Hook for responsive design
 - `useRewardedAd.ts` - Hook for managing rewarded advertisements
 
-**Purpose:** Encapsulates reusable logic and side effects.
+**Purpose:** Encapsulates reusable logic and side effects. The `usePetActions` hook provides centralized action management, reducing code duplication by ~90% across action scenes.
 
 ---
 
@@ -152,15 +165,21 @@ Contains helper functions and utilities used throughout the app.
 
 **Files:**
 - `age.ts` - Pet age calculation utilities
+- `authStorage.ts` - **[NEW]** AsyncStorage wrapper for authentication state
 - `debounce.ts` - Utility for debouncing functions
 - `haptics.ts` - Haptic feedback utilities
 - `logger.ts` - Logging utility
 - `migration.ts` - Data migration utilities
 - `petStats.ts` - Pet statistics calculation
-- `storage.ts` - AsyncStorage wrapper functions
+- `storage.ts` - AsyncStorage wrapper functions with user-scoped keys
 - `validation.ts` - Input validation utilities
 
 **Purpose:** Provides reusable utility functions for common operations.
+
+**Auth Storage Features:**
+- Save/load/clear auth state
+- Persist user information across app restarts
+- Handle multi-user scenarios
 
 ---
 
@@ -182,13 +201,13 @@ Contains static data, constants, and configuration objects.
 Contains application configuration settings.
 
 **Files:**
-- `actionConfig.ts` - Configuration for actions
+- `actionConfig.ts` - **Centralized action configuration** (animations, messages, rewards)
 - `ads.config.ts` - Advertisement configuration (Ad Unit IDs, settings)
-- `constants.ts` - General app constants
+- `constants.ts` - General app constants (thresholds, timers, colors)
 - `gameBalance.ts` - Game balance configuration (stats, costs, rewards)
 - `responsive.ts` - Responsive design constants
 
-**Purpose:** Centralizes configuration for easy environment management and game balancing.
+**Purpose:** Centralizes configuration for easy environment management and game balancing. All magic numbers have been replaced with named constants.
 
 ---
 
@@ -241,4 +260,21 @@ This structure promotes:
 
 ---
 
-**Last Updated:** 2026-01-19
+---
+
+## Recent Updates (OAuth Implementation)
+
+### New Authentication System
+- **AuthContext** (`src/context/AuthContext.tsx`): Manages Google OAuth and guest mode
+- **LoginScreen** (`src/screens/LoginScreen.tsx`): Handles authentication UI
+- **authStorage** (`src/utils/authStorage.ts`): Persists auth state
+- **User-scoped Storage**: Pet data now isolated per user
+- **Multi-user Support**: Multiple users can play on same device with separate data
+
+### Modified Files for OAuth
+- `PetContext.tsx`: Now uses user ID for storage operations
+- `storage.ts`: Updated to namespace keys by user ID
+- `MenuScreen.tsx`: Added user info header and sign-out functionality
+- `App.tsx`: Integrated AuthProvider and auth-based routing
+
+**Last Updated:** 2026-01-22

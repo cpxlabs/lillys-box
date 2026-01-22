@@ -123,7 +123,7 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
     }, updateInterval);
 
     // Execute sleep
-    const result = await sleep(SLEEP_DURATION);
+    await sleep(SLEEP_DURATION);
 
     // Clean up interval
     if (progressIntervalRef.current) {

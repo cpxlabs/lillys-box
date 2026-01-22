@@ -18,32 +18,18 @@ describe('StatusBar', () => {
   });
 
   it('has correct accessibility attributes', () => {
-    const { getByLabelText, getByRole } = render(<StatusBar {...mockProps} />);
+    const { getByLabelText } = render(
+      <StatusBar
+        label="Hunger"
+        value={50}
+        color="red"
+        emoji="🍖"
+      />
+    );
 
-    // This expects the component to expose its label as an accessibility label
-    // and have a role of progressbar
-    const statusBar = getByLabelText('Hunger');
-    expect(statusBar).toBeTruthy();
+    const progressBar = getByLabelText('Hunger');
 
-    // Check if it has the progressbar role (React Native maps this to 'progressbar' role on web,
-    // on native it might need adjustment depending on how we implement it,
-    // but accessibilityRole="progressbar" is standard in RN)
-    // Note: React Native Testing Library might require getByRole('progressbar')
-    // However, if we put accessibilityLabel on the container, getByLabelText should find it.
-  });
-
-  it('exposes value to accessibility', () => {
-     const { getByLabelText } = render(<StatusBar {...mockProps} />);
-     const statusBar = getByLabelText('Hunger');
-
-     // Check accessibility value
-     // In React Native, accessibilityValue is an object { min, max, now, text }
-     expect(statusBar.props.accessibilityValue).toEqual(
-       expect.objectContaining({
-         min: 0,
-         max: 100,
-         now: 50,
-       })
-     );
+    expect(progressBar.props.accessibilityRole).toBe('progressbar');
+    expect(progressBar.props.accessibilityValue).toEqual({ min: 0, max: 100, now: 50 });
   });
 });

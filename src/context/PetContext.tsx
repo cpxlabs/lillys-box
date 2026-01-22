@@ -1,10 +1,11 @@
-import React, { createContext, useContext, useState, useEffect, useRef, ReactNode, useMemo, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, ReactNode, useMemo } from 'react';
 import { Pet, PetType, PetColor, Gender, ClothingSlot } from '../types';
 import { savePet, loadPet, deletePet } from '../utils/storage';
 import { calculateHealth, getEnergyDecayRate, getEnergyMultiplier, canPerformActivity, calculateHappinessChange } from '../utils/petStats';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { logger } from '../utils/logger';
 import { debounce } from '../utils/debounce';
+import { useAuth } from './AuthContext';
 import 'react-native-get-random-values';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -31,20 +32,36 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [pet, setPet] = useState<Pet | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const sleepCancelRef = useRef<{ cancelled: boolean } | null>(null);
+  const { user, isGuest } = useAuth();
+
+  // Get userId for storage operations
+  const userId = user?.id || (isGuest ? 'guest' : undefined);
 
   // Create debounced save function (save max once per second)
-  const debouncedSave = useRef(
-    debounce((petToSave: Pet) => {
-      savePet(petToSave).catch(logger.error);
-    }, 1000)
-  ).current;
+  // Fix: useMemo instead of useRef to avoid accessing .current during render
+  // and ensure the debounced function is stable across renders but created once.
+  // Actually, useRef is fine if we init it differently, but useMemo is cleaner for this.
+  // However, debounce returns a function.
+  // The lint error was "Cannot access ref value during render" because we were doing `useRef(...).current`
+  // inside the render body to ASSIGN `debouncedSave`.
+  // Standard pattern for stable callback is useCallback or useRef initialized in useEffect or lazy init.
+  // Here we want a stable debounced function instance.
 
+  const debouncedSave = useMemo(
+    () => debounce((petToSave: Pet) => {
+      savePet(petToSave, userId).catch(logger.error);
+    }, 1000),
+    [userId]
+  );
+
+  // Load pet when user changes
   useEffect(() => {
-    loadPet().then((loadedPet) => {
+    setIsLoading(true);
+    loadPet(userId).then((loadedPet) => {
       setPet(loadedPet);
       setIsLoading(false);
     });
-  }, []);
+  }, [userId]);
 
   // Enhanced decay system with energy, happiness, and health
   useEffect(() => {
@@ -118,7 +135,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       isSleeping: false,
     };
     setPet(newPet);
-    await savePet(newPet);
+    await savePet(newPet, userId);
   };
 
   const feed = (amount?: number, cost?: number) => {
@@ -374,7 +391,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   };
 
   const removePet = async () => {
-    await deletePet();
+    await deletePet(userId);
     setPet(null);
   };
 

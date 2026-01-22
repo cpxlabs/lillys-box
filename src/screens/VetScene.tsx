@@ -90,7 +90,6 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
 
     try {
       setIsProcessing(true);
-      const treatmentName = treatmentType === 'antibiotic' ? 'Antibiotic' : 'Anti-inflammatory';
       // Pass callback that will be executed when ad is completed successfully
       await showRewardedAd(() => {
         performVetVisit(treatmentType, false);
