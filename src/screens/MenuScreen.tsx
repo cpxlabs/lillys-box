@@ -69,6 +69,8 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
                         <TouchableOpacity
                             style={styles.continueButton}
                             onPress={handleContinue}
+                            accessibilityLabel={t('menu.continueWith', { name: pet.name, emoji: pet.type === 'cat' ? '🐱' : '🐶' })}
+                            accessibilityRole="button"
                         >
                             <Text style={styles.continueButtonText}>
                                 {t('menu.continueWith', { name: pet.name, emoji: pet.type === 'cat' ? '🐱' : '🐶' })}
@@ -80,6 +82,8 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
                         <TouchableOpacity
                             style={styles.newPetButton}
                             onPress={handleNewPet}
+                            accessibilityLabel={t('menu.createNewPet')}
+                            accessibilityRole="button"
                         >
                             <Text style={styles.newPetButtonText}>
                                 {t('menu.createNewPet')}
@@ -91,6 +95,8 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
                         <TouchableOpacity
                             style={styles.deletePetButton}
                             onPress={handleDeletePet}
+                            accessibilityLabel={t('menu.deletePet')}
+                            accessibilityRole="button"
                         >
                             <Text style={styles.deletePetButtonText}>
                                 {t('menu.deletePet')}

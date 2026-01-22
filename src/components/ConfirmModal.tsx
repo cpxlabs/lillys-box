@@ -45,10 +45,12 @@ export const ConfirmModal: React.FC<Props> = ({
             <TouchableOpacity
               style={[styles.button, styles.cancelButton]}
               onPress={onCancel}
+              accessibilityLabel={cancelText}
+              accessibilityRole="button"
             >
               <Text style={styles.cancelButtonText}>{cancelText}</Text>
             </TouchableOpacity>
-            
+
             <TouchableOpacity
               style={[
                 styles.button,
@@ -56,6 +58,8 @@ export const ConfirmModal: React.FC<Props> = ({
                 confirmStyle === 'destructive' && styles.destructiveButton,
               ]}
               onPress={onConfirm}
+              accessibilityLabel={confirmText}
+              accessibilityRole="button"
             >
               <Text style={styles.confirmButtonText}>{confirmText}</Text>
             </TouchableOpacity>
