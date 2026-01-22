@@ -12,34 +12,37 @@ jest.mock('../../hooks/useResponsive', () => ({
 
 jest.mock('../../config/responsive', () => ({
   STATUS_BAR_SIZE: {
-    phone: { fontSize: 14, emojiSize: 20, barHeight: 10 },
+    phone: { emojiSize: 20, fontSize: 12, barHeight: 10 },
   },
 }));
 
 describe('StatusBar', () => {
-  it('renders correctly with accessibility props', () => {
-    const { getByRole, getByText } = render(
+  it('renders correctly', () => {
+    const { getByText } = render(
       <StatusBar
-        label="Health"
-        value={75}
+        label="Hunger"
+        value={50}
         color="red"
-        emoji="❤️"
+        emoji="🍖"
+      />
+    );
+    expect(getByText('🍖')).toBeTruthy();
+    expect(getByText('50%')).toBeTruthy();
+  });
+
+  it('has correct accessibility attributes', () => {
+    const { getByLabelText } = render(
+      <StatusBar
+        label="Hunger"
+        value={50}
+        color="red"
+        emoji="🍖"
       />
     );
 
-    // Check if the emoji and percentage are rendered
-    expect(getByText('❤️')).toBeTruthy();
-    expect(getByText('75%')).toBeTruthy();
+    const progressBar = getByLabelText('Hunger');
 
-    // Check accessibility
-    // Note: getByRole('progressbar') corresponds to accessibilityRole="progressbar"
-    const progressBar = getByRole('progressbar');
-    expect(progressBar).toBeTruthy();
-    expect(progressBar.props.accessibilityLabel).toBe('Health');
-    expect(progressBar.props.accessibilityValue).toEqual({
-      min: 0,
-      max: 100,
-      now: 75,
-    });
+    expect(progressBar.props.accessibilityRole).toBe('progressbar');
+    expect(progressBar.props.accessibilityValue).toEqual({ min: 0, max: 100, now: 50 });
   });
 });
