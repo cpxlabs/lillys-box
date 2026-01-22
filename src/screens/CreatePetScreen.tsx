@@ -103,6 +103,7 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
             placeholder={t('createPet.namePlaceholder')}
             placeholderTextColor="#999"
             maxLength={20}
+            accessibilityLabel={t('createPet.petName')}
           />
           <Text
             style={styles.charCount}
