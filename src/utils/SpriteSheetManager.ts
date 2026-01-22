@@ -1,5 +1,4 @@
 import { Image, ImageRequireSource } from 'react-native';
-import { Asset } from 'expo-asset';
 import { AnimationState, PetType, PetColor } from '../types';
 import {
   SpriteSheetDefinition,
@@ -108,11 +107,15 @@ class SpriteSheetManager {
     }
 
     try {
-      // Preload the image using Expo Asset
-      const asset = await Asset.fromModule(definition.asset).downloadAsync();
+      // Resolve asset source to get URI
+      const resolvedAsset = Image.resolveAssetSource(definition.asset);
 
-      // Also prefetch with React Native Image
-      await Image.prefetch(asset.uri);
+      if (!resolvedAsset) {
+        throw new Error('Failed to resolve asset source');
+      }
+
+      // Prefetch the image
+      await Image.prefetch(resolvedAsset.uri);
 
       // Update cache
       this.cache.set(cacheKey, {
