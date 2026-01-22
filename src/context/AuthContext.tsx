@@ -1,7 +1,17 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { GoogleSignin, statusCodes } from '@react-native-google-signin/google-signin';
+import { Platform } from 'react-native';
 import { logger } from '../utils/logger';
+
+// Import Google Sign-In only for mobile (not web)
+let GoogleSignin: any = null;
+let statusCodes: any = null;
+
+if (Platform.OS !== 'web') {
+  const googleSignInModule = require('@react-native-google-signin/google-signin');
+  GoogleSignin = googleSignInModule.GoogleSignin;
+  statusCodes = googleSignInModule.statusCodes;
+}
 
 export interface UserInfo {
   id: string;
@@ -35,17 +45,21 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const [error, setError] = useState<string | null>(null);
 
   /**
-   * Initialize Google Sign-In and restore auth state on app launch
+   * Initialize Google Sign-In (mobile) or fallback (web) and restore auth state on app launch
    */
   useEffect(() => {
     const initializeAuth = async () => {
       try {
-        // Initialize Google Sign-In
-        await GoogleSignin.configure({
-          webClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com', // Replace with your web client ID
-          offlineAccess: true,
-          forceCodeForRefreshToken: true,
-        });
+        // Initialize Google Sign-In (mobile only)
+        if (Platform.OS !== 'web' && GoogleSignin) {
+          await GoogleSignin.configure({
+            webClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com', // Replace with your web client ID
+            offlineAccess: true,
+            forceCodeForRefreshToken: true,
+          });
+        } else if (Platform.OS === 'web') {
+          logger.info('Web platform detected - using fallback auth mode (no OAuth)');
+        }
 
         // Restore auth state from AsyncStorage
         const savedAuthState = await AsyncStorage.getItem(AUTH_STORAGE_KEY);
@@ -60,9 +74,14 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 
         setLoading(false);
       } catch (err) {
-        logger.error('Error initializing auth:', err);
+        // On web, initialization errors are expected (GoogleSignin not available)
+        if (Platform.OS === 'web') {
+          logger.info('Web platform - auth initialized in fallback mode');
+        } else {
+          logger.error('Error initializing auth:', err);
+          setError('Failed to initialize authentication');
+        }
         setLoading(false);
-        setError('Failed to initialize authentication');
       }
     };
 
@@ -70,64 +89,88 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   /**
-   * Sign in with Google
+   * Sign in with Google (mobile) or use web fallback (local-only demo user)
    */
   const signIn = async (): Promise<void> => {
     try {
       setLoading(true);
       setError(null);
 
-      // Check if device is online and has Google Play Services
-      const isSignedIn = await GoogleSignin.isSignedIn();
-      if (isSignedIn) {
-        // Already signed in, get current user
-        const userInfo = await GoogleSignin.signInSilently();
-        const userInfoParsed = {
-          id: userInfo.user.id,
-          email: userInfo.user.email,
-          name: userInfo.user.name || 'User',
-          photo: userInfo.user.photo || undefined,
+      if (Platform.OS === 'web') {
+        // Web fallback: Create a demo user for testing
+        const demoUser: UserInfo = {
+          id: 'web-demo-user-' + Date.now(),
+          email: 'demo@petcaregame.local',
+          name: 'Demo User (Web)',
+          photo: undefined,
         };
-        setUser(userInfoParsed);
+        setUser(demoUser);
         setIsGuest(false);
         // Save auth state
         await AsyncStorage.setItem(
           AUTH_STORAGE_KEY,
-          JSON.stringify({ user: userInfoParsed, isGuest: false })
+          JSON.stringify({ user: demoUser, isGuest: false })
         );
-      } else {
-        // Trigger sign-in flow
-        const userInfo = await GoogleSignin.signIn();
-        const userInfoParsed = {
-          id: userInfo.user.id,
-          email: userInfo.user.email,
-          name: userInfo.user.name || 'User',
-          photo: userInfo.user.photo || undefined,
-        };
-        setUser(userInfoParsed);
-        setIsGuest(false);
-        // Save auth state
-        await AsyncStorage.setItem(
-          AUTH_STORAGE_KEY,
-          JSON.stringify({ user: userInfoParsed, isGuest: false })
-        );
+        logger.info('Web: Demo user created for local testing');
+      } else if (GoogleSignin) {
+        // Mobile: Use actual Google Sign-In
+        // Check if device is online and has Google Play Services
+        const isSignedIn = await GoogleSignin.isSignedIn();
+        if (isSignedIn) {
+          // Already signed in, get current user
+          const userInfo = await GoogleSignin.signInSilently();
+          const userInfoParsed = {
+            id: userInfo.user.id,
+            email: userInfo.user.email,
+            name: userInfo.user.name || 'User',
+            photo: userInfo.user.photo || undefined,
+          };
+          setUser(userInfoParsed);
+          setIsGuest(false);
+          // Save auth state
+          await AsyncStorage.setItem(
+            AUTH_STORAGE_KEY,
+            JSON.stringify({ user: userInfoParsed, isGuest: false })
+          );
+        } else {
+          // Trigger sign-in flow
+          const userInfo = await GoogleSignin.signIn();
+          const userInfoParsed = {
+            id: userInfo.user.id,
+            email: userInfo.user.email,
+            name: userInfo.user.name || 'User',
+            photo: userInfo.user.photo || undefined,
+          };
+          setUser(userInfoParsed);
+          setIsGuest(false);
+          // Save auth state
+          await AsyncStorage.setItem(
+            AUTH_STORAGE_KEY,
+            JSON.stringify({ user: userInfoParsed, isGuest: false })
+          );
+        }
       }
     } catch (err: unknown) {
       const error = err as Record<string, unknown>;
 
-      // Handle specific error cases
-      if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        logger.warn('Sign in cancelled');
-        setError('Sign in was cancelled');
-      } else if (error.code === statusCodes.IN_PROGRESS) {
-        logger.warn('Sign in already in progress');
-        setError('Sign in already in progress');
-      } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        logger.warn('Google Play Services not available');
-        setError('Google Play Services is not available');
+      // Handle specific error cases (mobile only)
+      if (Platform.OS !== 'web') {
+        if (error.code === statusCodes?.SIGN_IN_CANCELLED) {
+          logger.warn('Sign in cancelled');
+          setError('Sign in was cancelled');
+        } else if (error.code === statusCodes?.IN_PROGRESS) {
+          logger.warn('Sign in already in progress');
+          setError('Sign in already in progress');
+        } else if (error.code === statusCodes?.PLAY_SERVICES_NOT_AVAILABLE) {
+          logger.warn('Google Play Services not available');
+          setError('Google Play Services is not available');
+        } else {
+          logger.error('Sign in error:', err);
+          setError('Failed to sign in. Please try again.');
+        }
       } else {
-        logger.error('Sign in error:', err);
-        setError('Failed to sign in. Please try again.');
+        logger.error('Web sign in error:', err);
+        setError('Failed to sign in on web. Please try again.');
       }
     } finally {
       setLoading(false);
@@ -135,14 +178,20 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   };
 
   /**
-   * Sign out from Google
+   * Sign out from Google (mobile) or clear local session (web)
    */
   const signOut = async (): Promise<void> => {
     try {
       setLoading(true);
       setError(null);
 
-      await GoogleSignin.signOut();
+      // Sign out from Google (mobile only)
+      if (Platform.OS !== 'web' && GoogleSignin) {
+        await GoogleSignin.signOut();
+      } else if (Platform.OS === 'web') {
+        logger.info('Web: Demo user session cleared');
+      }
+
       setUser(null);
       setIsGuest(false);
 
