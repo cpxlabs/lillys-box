@@ -16,6 +16,7 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - ⚠️ Confirmação ao sair para o menu (funciona em web, iOS e Android)
 - 🗑️ Botão para apagar pet no menu com confirmação
 - 💰 Sistema de moedas com anúncios opcionais para bônus
+- 🔐 **Login com Google e suporte multiusuário**
 - 🌐 **Suporte a múltiplos idiomas (Inglês e Português do Brasil)**
 
 ## 🛠️ Stack Tecnológica
@@ -27,6 +28,7 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - react-native-gesture-handler
 - react-native-svg
 - react-native-google-mobile-ads
+- @react-native-google-signin/google-signin (autenticação)
 - i18next & react-i18next (internacionalização)
 - Jest & React Native Testing Library (testes)
 - ESLint & Prettier (qualidade de código)
@@ -248,6 +250,7 @@ Consulte a pasta `docs/` para mais detalhes:
 - `docs/FEED_ACTIONS_DOCUMENTATION.md`: Sistema de alimentação
 - `docs/PLAY_ACTIONS_DOCUMENTATION.md`: Sistema de brincadeiras
 - `docs/VET_ACTIONS_DOCUMENTATION.md`: Sistema veterinário
+- `docs/GOOGLE_OAUTH_SETUP.md`: Guia de configuração do Google OAuth
 - `FOLDER_STRUCTURE.md`: Estrutura completa de pastas e arquivos
 
 ---
