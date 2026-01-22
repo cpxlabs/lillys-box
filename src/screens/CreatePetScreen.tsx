@@ -95,14 +95,22 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
         </View>
 
         <Text style={styles.label}>{t('createPet.petName')}</Text>
-        <TextInput
-          style={styles.input}
-          value={name}
-          onChangeText={setName}
-          placeholder={t('createPet.namePlaceholder')}
-          placeholderTextColor="#999"
-          maxLength={20}
-        />
+        <View style={styles.inputContainer}>
+          <TextInput
+            style={styles.input}
+            value={name}
+            onChangeText={setName}
+            placeholder={t('createPet.namePlaceholder')}
+            placeholderTextColor="#999"
+            maxLength={20}
+          />
+          <Text
+            style={styles.charCount}
+            accessibilityLabel={`${name.length} / 20`}
+          >
+            {name.length}/20
+          </Text>
+        </View>
 
         <Text style={styles.label}>{t('createPet.gender')}</Text>
         <View style={styles.optionRow}>
@@ -306,6 +314,9 @@ const styles = StyleSheet.create({
     color: '#333',
     marginTop: 4,
   },
+  inputContainer: {
+    marginBottom: 8,
+  },
   input: {
     backgroundColor: '#fff',
     borderRadius: 12,
@@ -313,6 +324,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderWidth: 2,
     borderColor: '#e0e0e0',
+  },
+  charCount: {
+    textAlign: 'right',
+    fontSize: 12,
+    color: '#666',
+    marginTop: 4,
+    marginRight: 4,
   },
   createButton: {
     backgroundColor: '#9b59b6',

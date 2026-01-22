@@ -49,7 +49,13 @@ export const StatusBar: React.FC<StatusBarProps> = ({
   };
 
   return (
-    <View style={[styles.container, dynamicStyles.container]}>
+    <View
+      style={[styles.container, dynamicStyles.container]}
+      accessible={true}
+      accessibilityRole="progressbar"
+      accessibilityLabel={label}
+      accessibilityValue={{ min: 0, max: 100, now: Math.round(value) }}
+    >
       <Text style={[styles.emoji, dynamicStyles.emoji]}>{emoji}</Text>
       <View style={styles.barContainer}>
         <View style={[styles.barBackground, dynamicStyles.barBackground]}>

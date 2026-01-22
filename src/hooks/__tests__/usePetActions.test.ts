@@ -6,7 +6,7 @@
 import React from 'react';
 import { renderHook, act, waitFor } from '@testing-library/react-native';
 import { ActionType } from '../../config/actionConfig';
-import { usePetActions, ActionResult } from '../usePetActions';
+import { usePetActions } from '../usePetActions';
 import { Pet } from '../../types';
 import { usePet } from '../../context/PetContext';
 import { useToast } from '../../context/ToastContext';

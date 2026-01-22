@@ -15,6 +15,7 @@ import { SpriteSheetAnimation } from './SpriteSheetAnimation';
 import { UI } from '../config/constants';
 
 // Mapeamento de assets base
+/* eslint-disable @typescript-eslint/no-require-imports */
 const BASE_ASSETS: Record<PetType, Record<PetColor, ImageRequireSource>> = {
   cat: {
     base: require('../../assets/sprites/cats/cat_base.png'),
@@ -29,6 +30,7 @@ const BASE_ASSETS: Record<PetType, Record<PetColor, ImageRequireSource>> = {
     whiteandbrown: require('../../assets/sprites/dogs/dog_whiteandbrown.png'),
   },
 };
+/* eslint-enable @typescript-eslint/no-require-imports */
 
 // Future-ready sprite sheet assets structure
 // When sprite sheet assets are created, replace placeholder with actual sprite sheets

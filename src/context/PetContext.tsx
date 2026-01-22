@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useRef, ReactNode, useMemo, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useRef, ReactNode, useMemo } from 'react';
 import { Pet, PetType, PetColor, Gender, ClothingSlot } from '../types';
 import { savePet, loadPet, deletePet } from '../utils/storage';
 import { calculateHealth, getEnergyDecayRate, getEnergyMultiplier, canPerformActivity, calculateHappinessChange } from '../utils/petStats';
@@ -33,11 +33,21 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const sleepCancelRef = useRef<{ cancelled: boolean } | null>(null);
 
   // Create debounced save function (save max once per second)
-  const debouncedSave = useRef(
-    debounce((petToSave: Pet) => {
+  // Fix: useMemo instead of useRef to avoid accessing .current during render
+  // and ensure the debounced function is stable across renders but created once.
+  // Actually, useRef is fine if we init it differently, but useMemo is cleaner for this.
+  // However, debounce returns a function.
+  // The lint error was "Cannot access ref value during render" because we were doing `useRef(...).current`
+  // inside the render body to ASSIGN `debouncedSave`.
+  // Standard pattern for stable callback is useCallback or useRef initialized in useEffect or lazy init.
+  // Here we want a stable debounced function instance.
+
+  const debouncedSave = useMemo(
+    () => debounce((petToSave: Pet) => {
       savePet(petToSave).catch(logger.error);
-    }, 1000)
-  ).current;
+    }, 1000),
+    []
+  );
 
   useEffect(() => {
     loadPet().then((loadedPet) => {
