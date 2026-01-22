@@ -1,0 +1,58 @@
+name: Maestro E2E Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  e2e-test:
+    name: Run Maestro Tests
+    runs-on: macos-latest # macOS is needed for hardware accelerated Android emulators (or iOS sims)
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Install Maestro
+        run: |
+          curl -Ls "https://get.maestro.mobile.dev" | bash
+          echo "$HOME/.maestro/bin" >> $GITHUB_PATH
+
+      # Note: In a real environment, you would use 'eas build' or 'npx expo run:android'
+      # to generate the binary. For this example, we assume we want to use the local dev build or Expo Go.
+      # However, CI runners usually need a pre-built APK.
+      #
+      # Below is a simplified setup using a reactive native build action or similar.
+      # For now, we will just show the *Maestro* execution part, assuming an emulator is up.
+
+      - name: Run Android Emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 30
+          target: google_apis
+          arch: x86_64
+          profile: Nexus 6
+          script: |
+            # In a real workflow, you would build the app first:
+            # npx expo prebuild --platform android
+            # cd android && ./gradlew assembleDebug
+            # adb install android/app/build/outputs/apk/debug/app-debug.apk
+
+            # Then run the tests
+            maestro test e2e/flow.yaml

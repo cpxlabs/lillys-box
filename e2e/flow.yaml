@@ -1,0 +1,42 @@
+appId: com.az1nn.petcaregame
+---
+- launchApp
+
+# Wait for Menu Screen
+- extendedWaitUntil:
+    visible: "🐾 Pet Care"
+    timeout: 10000
+
+# Handling Existing State
+# If "Continue with..." is visible, it means a pet exists. We want to clear it.
+- runFlow:
+    when:
+      visible: "Continue with.*"
+    commands:
+        - tapOn: "Delete Pet.*"
+        - tapOn: "Delete" # Modal confirm button
+
+# Create New Pet Flow
+- tapOn: "Create New Pet.*" # Matches "Create New Pet ✨"
+
+# Create Pet Screen
+- extendedWaitUntil:
+    visible: "🐾 Create New Pet"
+    timeout: 5000
+
+- tapOn: "Cat" # Accessibility Label
+- tapOn: "Pet name.*"
+- inputText: "Maestro"
+- hideKeyboard
+- tapOn: "Create Pet!.*" # Matches "Create Pet! 🎉"
+
+# Home Screen Verification
+- extendedWaitUntil:
+    visible: "Maestro"
+    timeout: 5000
+
+- assertVisible: "Feed"
+- assertVisible: "Bath"
+- assertVisible: "Play"
+- assertVisible: "Sleep"
+- assertVisible: "Veterinarian" # or "Vet!" depending on status
