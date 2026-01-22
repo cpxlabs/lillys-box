@@ -1,7 +1,7 @@
 # Comprehensive Implementation Plan: Pet Care Game
 
 **Created**: 2026-01-15 (Infrastructure), 2026-01-16 (Game Features)
-**Last Updated**: 2026-01-21 (Added Skia Bath Screen Reimplementation)
+**Last Updated**: 2026-01-21 (OAuth & Skia Plans)
 **Status**: Mixed - Parts completed, parts pending
 
 ---
@@ -12,8 +12,9 @@
 2. [Part 1: Testing Infrastructure & Developer Setup](#part-1-testing-infrastructure--developer-setup)
 3. [Part 2: Game Features & UI Improvements](#part-2-game-features--ui-improvements)
 4. [Part 3: Code Quality Improvements](#part-3-code-quality-improvements)
-5. [Implementation Timeline](#implementation-timeline)
-6. [Success Criteria](#success-criteria)
+5. [Part 4: Authentication & Multi-User Support](#part-4-authentication--multi-user-support)
+6. [Implementation Timeline](#implementation-timeline)
+7. [Success Criteria](#success-criteria)
 
 ---
 

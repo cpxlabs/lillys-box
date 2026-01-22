@@ -1,5 +1,7 @@
 # Google OAuth Implementation Plan
 
+**Status**: ✅ **COMPLETED** (2026-01-21)
+
 This document outlines the plan to implement Google OAuth login in the Pet Care Game app.
 
 ## Overview
@@ -663,3 +665,41 @@ The implementation will be considered complete when:
 8. ✅ App builds and runs on both Android and iOS
 9. ✅ No crashes or critical errors in auth flows
 10. ✅ User experience is smooth and intuitive
+
+## Completed Tasks
+
+- [x] **Phase 1: Foundation & Dependencies**
+  - [x] Install packages
+  - [x] Configure `app.config.js`
+  - [x] Add placeholder google-services files
+
+- [x] **Phase 2: Authentication Context**
+  - [x] Create `AuthContext.tsx`
+  - [x] Create `authStorage.ts`
+  - [x] Implement signIn/signOut/playAsGuest
+
+- [x] **Phase 3: Multi-User Data Isolation**
+  - [x] Update `storage.ts` for namespacing
+  - [x] Update `PetContext.tsx` to use auth user ID
+
+- [x] **Phase 4: Login Screen**
+  - [x] Create `LoginScreen.tsx`
+  - [x] Add Google Sign-In button
+  - [x] Add Guest button
+
+- [x] **Phase 5: Navigation**
+  - [x] Update `App.tsx` / `AppNavigator`
+  - [x] Guard routes based on auth state
+
+- [x] **Phase 6: Menu Updates**
+  - [x] Show user info in Menu
+  - [x] Add Sign Out button
+
+- [x] **Phase 7: Testing**
+  - [x] Fix Jest configuration for PNPM
+  - [x] Create tests for AuthContext and Storage
+  - [x] Verify existing tests pass
+
+- [x] **Phase 8: Documentation**
+  - [x] Create `GOOGLE_OAUTH_SETUP.md`
+  - [x] Update `README.md`
