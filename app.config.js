@@ -14,24 +14,27 @@ module.exports = () => {
     },
     assetBundlePatterns: ["**/*"],
     ios: {
-      supportsTablet: true
+      supportsTablet: true,
+      bundleIdentifier: "com.az1nn.petcaregame",
+      googleServicesFile: "./GoogleService-Info.plist"
     },
     android: {
       adaptiveIcon: {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#ffffff"
       },
-      package: "com.az1nn.petcaregame"
+      package: "com.az1nn.petcaregame",
+      googleServicesFile: "./google-services.json"
     },
     web: {
       favicon: "./assets/favicon.png"
     }
   };
 
-  // Plugins array - empty for now to avoid web build errors
-  // For native builds with AdMob, you'll need to use expo-dev-client
-  // and the plugin will be handled during prebuild
-  const plugins = [];
+  // Plugins array
+  const plugins = [
+    "@react-native-google-signin/google-signin"
+  ];
   
   // NOTE: The react-native-google-mobile-ads plugin is intentionally excluded
   // from the config to prevent web build errors. The native module will still
