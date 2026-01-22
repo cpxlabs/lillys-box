@@ -31,6 +31,7 @@ Singleton asset manager with advanced features:
 - **Error Handling**: Graceful fallbacks for missing/failed assets
 - **Progress Tracking**: Loading progress callbacks
 - **Cache Statistics**: Real-time cache inspection
+- **Zero Dependencies**: Uses React Native core APIs (`Image.resolveAssetSource`, `Image.prefetch`)
 
 **Key Methods:**
 ```typescript
@@ -374,6 +375,12 @@ Once tested:
 - Batch processing support
 - Configurable priorities
 - Cache statistics for monitoring
+
+### 6. **Zero Dependencies**
+- Uses only React Native core APIs
+- No expo-asset or additional packages required
+- Works across all platforms (iOS, Android, Web)
+- Reduces bundle size and complexity
 
 ---
 
