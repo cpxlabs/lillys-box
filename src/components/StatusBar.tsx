@@ -12,8 +12,6 @@ type StatusBarProps = {
 };
 
 export const StatusBar: React.FC<StatusBarProps> = ({
-  // label is destructured but unused - removing it from props destructuring or keeping it unused is a choice.
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   label,
   value,
   color,
@@ -51,7 +49,12 @@ export const StatusBar: React.FC<StatusBarProps> = ({
   };
 
   return (
-    <View style={[styles.container, dynamicStyles.container]}>
+    <View
+      style={[styles.container, dynamicStyles.container]}
+      accessibilityRole="progressbar"
+      accessibilityLabel={label}
+      accessibilityValue={{ min: 0, max: 100, now: value }}
+    >
       <Text style={[styles.emoji, dynamicStyles.emoji]}>{emoji}</Text>
       <View style={styles.barContainer}>
         <View style={[styles.barBackground, dynamicStyles.barBackground]}>

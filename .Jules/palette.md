@@ -10,3 +10,7 @@
 ## 2025-05-22 - [Form Input Feedback]
 **Learning:** Users filling out forms need immediate feedback on constraints like character limits. Hiding this information or relying solely on validation errors after submission increases cognitive load.
 **Action:** Add visible character counters (`X / MAX`) to text inputs with limits and ensure disabled submit buttons are interactive to explain why they are disabled.
+
+## 2026-05-23 - [Accessible Progress Bars]
+**Learning:** Visual status bars (like health or hunger) are invisible to screen readers without semantic roles. Hardcoded labels in these components also break accessibility for non-English speakers.
+**Action:** Use `accessibilityRole="progressbar"` with `accessibilityValue` for status indicators, and ensure all labels passed to `accessibilityLabel` are localized using i18n keys.

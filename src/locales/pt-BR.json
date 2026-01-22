@@ -196,6 +196,13 @@
     "earned": "💰 +{{amount}} moedas ganhas!",
     "doubleEarned": "🎉 Recompensa em dobro! +{{amount}} moedas!"
   },
+  "status": {
+    "hunger": "Fome",
+    "hygiene": "Higiene",
+    "energy": "Energia",
+    "happiness": "Felicidade",
+    "health": "Saúde"
+  },
   "ads": {
     "notAvailable": "Anúncio não disponível"
   }
