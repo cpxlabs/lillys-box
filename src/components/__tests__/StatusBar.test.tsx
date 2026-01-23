@@ -2,17 +2,30 @@ import React from 'react';
 import { render } from '@testing-library/react-native';
 import { StatusBar } from '../StatusBar';
 
+// Mock dependencies
+jest.mock('../../hooks/useResponsive', () => ({
+  useResponsive: () => ({
+    deviceType: 'phone',
+    spacing: (v: number) => v,
+  }),
+}));
+
+jest.mock('../../config/responsive', () => ({
+  STATUS_BAR_SIZE: {
+    phone: { emojiSize: 20, fontSize: 12, barHeight: 10 },
+  },
+}));
+
 describe('StatusBar', () => {
-  const mockProps = {
-    label: 'Hunger',
-    value: 50,
-    color: 'red',
-    emoji: '🍖',
-  };
-
   it('renders correctly', () => {
-    const { getByText } = render(<StatusBar {...mockProps} />);
-
+    const { getByText } = render(
+      <StatusBar
+        label="Hunger"
+        value={50}
+        color="red"
+        emoji="🍖"
+      />
+    );
     expect(getByText('🍖')).toBeTruthy();
     expect(getByText('50%')).toBeTruthy();
   });
