@@ -66,12 +66,7 @@ export const StatusCard: React.FC<StatusCardProps> = ({
 
         {/* Right Column (30%): Status Bars */}
         <View style={styles.rightColumn}>
-          <EnhancedStatusBar
-            pet={pet}
-            compact={compact}
-            showPercentage={false}
-            twoColumnLayout
-          />
+          <EnhancedStatusBar pet={pet} compact={compact} showPercentage={false} twoColumnLayout />
         </View>
       </View>
     </View>

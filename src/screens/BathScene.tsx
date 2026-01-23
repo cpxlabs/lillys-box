@@ -1,11 +1,5 @@
 import React, { useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  Image,
-} from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, Image } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, {
@@ -62,13 +56,7 @@ const BubbleComponent: React.FC<{ bubble: Bubble }> = ({ bubble }) => {
   }));
 
   return (
-    <Animated.View
-      style={[
-        styles.dynamicBubble,
-        { left: bubble.x, top: bubble.y },
-        bubbleStyle,
-      ]}
-    >
+    <Animated.View style={[styles.dynamicBubble, { left: bubble.x, top: bubble.y }, bubbleStyle]}>
       <Text style={styles.bubbleEmoji}>🫧</Text>
     </Animated.View>
   );
@@ -121,17 +109,17 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
     lastBubbleTime.current = now;
 
     const newBubble: Bubble = {
-      id: now + (bubbleIdCounter.current++),
+      id: now + bubbleIdCounter.current++,
       x: x + Math.random() * BUBBLE_POSITION_VARIANCE - BUBBLE_POSITION_OFFSET,
       y: y + Math.random() * BUBBLE_POSITION_VARIANCE - BUBBLE_POSITION_OFFSET,
       scale: 0.5 + Math.random() * 0.5,
     };
 
-    setBubbles(prev => [...prev, newBubble]);
+    setBubbles((prev) => [...prev, newBubble]);
 
     // Remove bubble after animation
     const timeoutId = setTimeout(() => {
-      setBubbles(prev => prev.filter(b => b.id !== newBubble.id));
+      setBubbles((prev) => prev.filter((b) => b.id !== newBubble.id));
       timeoutRefs.current.delete(timeoutId);
     }, 1500);
     timeoutRefs.current.add(timeoutId);
@@ -140,7 +128,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
   // Cleanup timeouts on unmount
   React.useEffect(() => {
     return () => {
-      timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+      timeoutRefs.current.forEach((timeout) => clearTimeout(timeout));
       timeoutRefs.current.clear();
     };
   }, []);
@@ -196,7 +184,10 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
       spongeY.value = e.translationY;
 
       // Generate bubbles while moving
-      if (Math.abs(e.velocityX) > BUBBLE_VELOCITY_THRESHOLD || Math.abs(e.velocityY) > BUBBLE_VELOCITY_THRESHOLD) {
+      if (
+        Math.abs(e.velocityX) > BUBBLE_VELOCITY_THRESHOLD ||
+        Math.abs(e.velocityY) > BUBBLE_VELOCITY_THRESHOLD
+      ) {
         addBubble(e.absoluteX, e.absoluteY);
       }
     })
@@ -228,19 +219,14 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
       />
 
       {/* Status Card */}
-      <StatusCard
-        pet={pet}
-        petName={petNameDisplay}
-        petAge={petAgeDisplay}
-        compact
-      />
+      <StatusCard pet={pet} petName={petNameDisplay} petAge={petAgeDisplay} compact />
 
       <GestureDetector gesture={panGesture}>
         <Animated.View style={[styles.petContainer, animatedStyle]}>
           <PetRenderer pet={pet} animationState={animationState} size={petSize} />
 
           {/* Dynamic Bubbles */}
-          {bubbles.map(bubble => (
+          {bubbles.map((bubble) => (
             <BubbleComponent key={bubble.id} bubble={bubble} />
           ))}
         </Animated.View>
@@ -248,7 +234,13 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
 
       {/* Draggable Sponge */}
       <GestureDetector gesture={spongeDragGesture}>
-        <Animated.View style={[styles.spongeContainer, spongeAnimatedStyle, { bottom: spongeSizes.bottom }]}>
+        <Animated.View
+          style={[styles.spongeContainer, spongeAnimatedStyle, { bottom: spongeSizes.bottom }]}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={t('bath.instructions')}
+          accessibilityHint="Drag the sponge to bathe your pet"
+        >
           <Image
             source={require('../../assets/sprites/sponge.png')}
             style={[styles.spongeImage, { width: spongeSizes.width, height: spongeSizes.height }]}
@@ -257,14 +249,15 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
       </GestureDetector>
 
       <View style={[styles.messageContainer, { padding: spacing(12) }]}>
-        <Text style={[styles.message, { fontSize: textSizes.messageSize }]}>{message || t('bath.instructions')}</Text>
+        <Text style={[styles.message, { fontSize: textSizes.messageSize }]}>
+          {message || t('bath.instructions')}
+        </Text>
         {scrubCount > 0 && scrubCount < SCRUBS_NEEDED && (
           <Text style={[styles.progress, { fontSize: fs(13), marginTop: spacing(6) }]}>
             {t('bath.scrubbing', { count: scrubCount, needed: SCRUBS_NEEDED })}
           </Text>
         )}
       </View>
-
 
       {/* Double Reward Modal */}
       {DoubleRewardModal}

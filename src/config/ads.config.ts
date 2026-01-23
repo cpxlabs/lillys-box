@@ -2,8 +2,8 @@ import { AdConfig } from '../types/ads';
 
 /**
  * AdMob Configuration
- * 
- * IMPORTANT: These are TEST ad unit IDs. 
+ *
+ * IMPORTANT: These are TEST ad unit IDs.
  * For production, replace with your real AdMob ad unit IDs from https://admob.google.com
  * and set testMode to false.
  */

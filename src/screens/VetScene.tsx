@@ -80,11 +80,7 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
 
   const handleTreatmentWithAd = async (treatmentType: 'antibiotic' | 'antiInflammatory') => {
     if (!isAdReady) {
-      Alert.alert(
-        'Ad Not Ready',
-        'Please wait a moment for the ad to load.',
-        [{ text: 'OK' }]
-      );
+      Alert.alert('Ad Not Ready', 'Please wait a moment for the ad to load.', [{ text: 'OK' }]);
       return;
     }
 
@@ -96,11 +92,7 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
       });
     } catch (error) {
       logger.error('Error showing rewarded ad:', error);
-      Alert.alert(
-        'Error',
-        'Something went wrong. Please try again.',
-        [{ text: 'OK' }]
-      );
+      Alert.alert('Error', 'Something went wrong. Please try again.', [{ text: 'OK' }]);
     } finally {
       setIsProcessing(false);
     }
@@ -141,10 +133,8 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
   };
 
   const getUrgencyMessage = () => {
-    if (vetStatus === 'urgent')
-      return `${pet.name} needs urgent medical attention!`;
-    if (vetStatus === 'suggested')
-      return `${pet.name} could use a checkup.`;
+    if (vetStatus === 'urgent') return `${pet.name} needs urgent medical attention!`;
+    if (vetStatus === 'suggested') return `${pet.name} could use a checkup.`;
     return `${pet.name} is healthy but can still visit for a boost!`;
   };
 
@@ -159,17 +149,45 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent}>
         <View style={[styles.content, { paddingHorizontal: spacing(12), paddingTop: spacing(10) }]}>
           {/* Pet info header - simplified without energy/happiness */}
-          <View style={[styles.petInfoHeader, { borderRadius: spacing(10), padding: spacing(10), marginBottom: spacing(10) }]}>
+          <View
+            style={[
+              styles.petInfoHeader,
+              { borderRadius: spacing(10), padding: spacing(10), marginBottom: spacing(10) },
+            ]}
+          >
             <View style={styles.petInfoLeft}>
-              <Text style={[styles.petInfoName, { fontSize: textSizes.titleSize }]}>{petNameDisplay}</Text>
-              <Text style={[styles.petInfoAge, { fontSize: fs(13), marginTop: spacing(2) }]}>{petAgeDisplay}</Text>
-              <View style={[styles.moneyBadge, { paddingVertical: spacing(3), paddingHorizontal: spacing(8), borderRadius: spacing(6), marginTop: spacing(4) }]}>
+              <Text style={[styles.petInfoName, { fontSize: textSizes.titleSize }]}>
+                {petNameDisplay}
+              </Text>
+              <Text style={[styles.petInfoAge, { fontSize: fs(13), marginTop: spacing(2) }]}>
+                {petAgeDisplay}
+              </Text>
+              <View
+                style={[
+                  styles.moneyBadge,
+                  {
+                    paddingVertical: spacing(3),
+                    paddingHorizontal: spacing(8),
+                    borderRadius: spacing(6),
+                    marginTop: spacing(4),
+                  },
+                ]}
+              >
                 <Text style={[styles.moneyText, { fontSize: fs(13) }]}>💰 {pet.money}</Text>
               </View>
             </View>
             <View style={[styles.healthBadge, { padding: spacing(8), borderRadius: spacing(8) }]}>
-              <Text style={[styles.healthBadgeLabel, { fontSize: fs(11), marginBottom: spacing(2) }]}>Health</Text>
-              <Text style={[styles.healthBadgeValue, { fontSize: textSizes.titleSize, color: getUrgencyColor() }]}>
+              <Text
+                style={[styles.healthBadgeLabel, { fontSize: fs(11), marginBottom: spacing(2) }]}
+              >
+                Health
+              </Text>
+              <Text
+                style={[
+                  styles.healthBadgeValue,
+                  { fontSize: textSizes.titleSize, color: getUrgencyColor() },
+                ]}
+              >
                 {Math.round(pet.health)}%
               </Text>
             </View>
@@ -186,45 +204,102 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
             <View
               style={[
                 styles.statusCard,
-                { borderColor: getUrgencyColor(), borderWidth: 2, borderRadius: spacing(10), padding: spacing(12), width: '70%' },
+                {
+                  borderColor: getUrgencyColor(),
+                  borderWidth: 2,
+                  borderRadius: spacing(10),
+                  padding: spacing(12),
+                  width: '70%',
+                },
               ]}
             >
               <View style={styles.healthContainer}>
                 <Text style={[styles.healthEmoji, { fontSize: fs(28), marginRight: spacing(6) }]}>
                   {vetStatus === 'urgent' ? '🚨' : vetStatus === 'suggested' ? '⚠️' : '✅'}
                 </Text>
-                <Text
-                  style={[styles.healthValue, { fontSize: fs(28), color: getUrgencyColor() }]}
-                >
+                <Text style={[styles.healthValue, { fontSize: fs(28), color: getUrgencyColor() }]}>
                   {Math.round(pet.health)}%
                 </Text>
               </View>
-              <Text style={[styles.urgencyMessage, { fontSize: fs(12), marginTop: spacing(6) }]}>{getUrgencyMessage()}</Text>
+              <Text style={[styles.urgencyMessage, { fontSize: fs(12), marginTop: spacing(6) }]}>
+                {getUrgencyMessage()}
+              </Text>
             </View>
 
             {/* Benefits sidebar on the right - shows treatment options */}
-            <View style={[styles.benefitsSidebar, { borderRadius: spacing(10), padding: spacing(8), maxWidth: spacing(110) }]}>
-              <Text style={[styles.benefitsSidebarTitle, { fontSize: textSizes.sidebarTitle, marginBottom: spacing(4) }]}>Treatments</Text>
+            <View
+              style={[
+                styles.benefitsSidebar,
+                { borderRadius: spacing(10), padding: spacing(8), maxWidth: spacing(110) },
+              ]}
+            >
+              <Text
+                style={[
+                  styles.benefitsSidebarTitle,
+                  { fontSize: textSizes.sidebarTitle, marginBottom: spacing(4) },
+                ]}
+              >
+                Treatments
+              </Text>
 
               {/* Antibiotic info */}
-              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(2), fontWeight: '600' }]}>
+              <Text
+                style={[
+                  styles.benefitsSidebarText,
+                  {
+                    fontSize: textSizes.sidebarText,
+                    marginVertical: spacing(2),
+                    fontWeight: '600',
+                  },
+                ]}
+              >
                 Antibiotic
               </Text>
-              <Text style={[styles.benefitsSidebarText, { fontSize: fs(10), marginVertical: spacing(1) }]}>
+              <Text
+                style={[
+                  styles.benefitsSidebarText,
+                  { fontSize: fs(10), marginVertical: spacing(1) },
+                ]}
+              >
                 💰 {antibioticCost} coins
               </Text>
-              <Text style={[styles.benefitsSidebarText, { fontSize: fs(10), marginVertical: spacing(1) }]}>
+              <Text
+                style={[
+                  styles.benefitsSidebarText,
+                  { fontSize: fs(10), marginVertical: spacing(1) },
+                ]}
+              >
                 ❤️ Health to 50%
               </Text>
 
               {/* Anti-inflammatory info */}
-              <Text style={[styles.benefitsSidebarText, { fontSize: textSizes.sidebarText, marginVertical: spacing(3), fontWeight: '600', marginTop: spacing(6) }]}>
+              <Text
+                style={[
+                  styles.benefitsSidebarText,
+                  {
+                    fontSize: textSizes.sidebarText,
+                    marginVertical: spacing(3),
+                    fontWeight: '600',
+                    marginTop: spacing(6),
+                  },
+                ]}
+              >
                 Anti-inflam
               </Text>
-              <Text style={[styles.benefitsSidebarText, { fontSize: fs(10), marginVertical: spacing(1) }]}>
+              <Text
+                style={[
+                  styles.benefitsSidebarText,
+                  { fontSize: fs(10), marginVertical: spacing(1) },
+                ]}
+              >
                 💰 {antiInflamCost} coins
               </Text>
-              <Text style={[styles.benefitsSidebarText, { fontSize: fs(10), marginVertical: spacing(1) }]}>
+              <Text
+                style={[
+                  styles.benefitsSidebarText,
+                  { fontSize: fs(10), marginVertical: spacing(1) },
+                ]}
+              >
                 ❤️ Health to 80%
               </Text>
             </View>
@@ -237,7 +312,12 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
               <TouchableOpacity
                 style={[
                   styles.payButton,
-                  { paddingVertical: spacing(12), paddingHorizontal: spacing(16), borderRadius: spacing(10), marginBottom: spacing(6) },
+                  {
+                    paddingVertical: spacing(12),
+                    paddingHorizontal: spacing(16),
+                    borderRadius: spacing(10),
+                    marginBottom: spacing(6),
+                  },
                   !canAffordAntibiotic && styles.payButtonDisabled,
                 ]}
                 onPress={() => handleTreatmentWithMoney('antibiotic')}
@@ -246,7 +326,9 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
                 <Text style={[styles.payButtonText, { fontSize: textSizes.buttonText }]}>
                   💊 Antibiotic - {antibioticCost} Coins
                 </Text>
-                <Text style={[styles.payButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}>
+                <Text
+                  style={[styles.payButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}
+                >
                   Health guarantee: 50% • You have: {pet.money} coins
                 </Text>
               </TouchableOpacity>
@@ -254,7 +336,12 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
               <TouchableOpacity
                 style={[
                   styles.adButton,
-                  { paddingVertical: spacing(12), paddingHorizontal: spacing(16), borderRadius: spacing(10), marginBottom: spacing(8) },
+                  {
+                    paddingVertical: spacing(12),
+                    paddingHorizontal: spacing(16),
+                    borderRadius: spacing(10),
+                    marginBottom: spacing(8),
+                  },
                   (!isAdReady || isProcessing) && styles.adButtonDisabled,
                 ]}
                 onPress={() => handleTreatmentWithAd('antibiotic')}
@@ -264,18 +351,28 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
                   {isProcessing ? '⏳ Loading...' : '📺 Watch Ad (Free Antibiotic)'}
                 </Text>
                 {!isAdReady && !isProcessing && (
-                  <Text style={[styles.adButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}>Ad loading...</Text>
+                  <Text
+                    style={[styles.adButtonSubtext, { fontSize: fs(12), marginTop: spacing(2) }]}
+                  >
+                    Ad loading...
+                  </Text>
                 )}
               </TouchableOpacity>
             </View>
 
-            <Text style={[styles.orText, { fontSize: fs(13), marginVertical: spacing(6) }]}>OR</Text>
+            <Text style={[styles.orText, { fontSize: fs(13), marginVertical: spacing(6) }]}>
+              OR
+            </Text>
 
             {/* Anti-inflammatory treatment */}
             <TouchableOpacity
               style={[
                 styles.payButton,
-                { paddingVertical: spacing(12), paddingHorizontal: spacing(16), borderRadius: spacing(10) },
+                {
+                  paddingVertical: spacing(12),
+                  paddingHorizontal: spacing(16),
+                  borderRadius: spacing(10),
+                },
                 !canAffordAntiInflam && styles.payButtonDisabled,
               ]}
               onPress={() => handleTreatmentWithMoney('antiInflammatory')}

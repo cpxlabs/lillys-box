@@ -22,10 +22,10 @@ if (Platform.OS !== 'web') {
 
 /**
  * BannerAd Component
- * 
+ *
  * Displays an adaptive banner ad at the bottom of the screen
  * with child-safe COPPA-compliant settings.
- * 
+ *
  * Automatically hides if the ad fails to load.
  * Not supported on web platform.
  */

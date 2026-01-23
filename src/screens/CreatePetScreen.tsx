@@ -176,6 +176,7 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
             style={styles.charCount}
             accessibilityLabel={`${name.length} ${t('common.of', { defaultValue: 'of' })} 20`}
           >
+
             {name.length}/20
           </Text>
         </View>

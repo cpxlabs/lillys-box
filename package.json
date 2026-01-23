@@ -7,7 +7,7 @@
     "start": "expo start",
     "android": "expo start --android",
     "ios": "expo start --ios",
-    "web": "expo start --web",
+    "web": "EXPO_PUBLIC_BUILD_PLATFORM=web expo start --web",
     "test": "jest",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
@@ -50,6 +50,7 @@
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@babel/preset-flow": "^7.27.1",
+    "@eslint/js": "^9.39.2",
     "@testing-library/react-hooks": "^8.0.1",
     "@testing-library/react-native": "^13.3.3",
     "@types/jest": "^30.0.0",

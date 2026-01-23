@@ -329,7 +329,12 @@ describe('petStats', () => {
   });
 
   describe('calculateHappinessChange', () => {
-    const createMockPet = (hunger: number, hygiene: number, energy: number, health: number): Pet => ({
+    const createMockPet = (
+      hunger: number,
+      hygiene: number,
+      energy: number,
+      health: number
+    ): Pet => ({
       id: '1',
       name: 'Test',
       type: 'cat',

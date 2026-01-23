@@ -95,7 +95,8 @@ export type UsePetActionsReturn = {
  */
 export function usePetActions(): UsePetActionsReturn {
   const { t } = useTranslation();
-  const { pet, feed, play, bathe, sleep, cancelSleep, exercise, petCuddle, visitVet, earnMoney } = usePet();
+  const { pet, feed, play, bathe, sleep, cancelSleep, exercise, petCuddle, visitVet, earnMoney } =
+    usePet();
   const { showToast } = useToast();
   const { triggerReward, DoubleRewardModal } = useDoubleReward({ earnMoney, showToast });
 
@@ -112,7 +113,7 @@ export function usePetActions(): UsePetActionsReturn {
    * Cleanup all active timeouts
    */
   const clearAllTimeouts = useCallback(() => {
-    timeoutRefs.current.forEach(timeout => clearTimeout(timeout));
+    timeoutRefs.current.forEach((timeout) => clearTimeout(timeout));
     timeoutRefs.current = [];
   }, []);
 
@@ -128,118 +129,123 @@ export function usePetActions(): UsePetActionsReturn {
   /**
    * Execute the context action based on type
    */
-  const executeContextAction = useCallback((
-    type: ActionType,
-    options: ActionOptions
-  ): void | Promise<{ completed: boolean }> => {
-    switch (type) {
-      case 'feed':
-        feed(options.amount, options.cost);
-        break;
-      case 'play':
-        play();
-        break;
-      case 'bathe':
-        bathe(options.amount);
-        break;
-      case 'sleep':
-        // Sleep returns a promise - handle specially
-        return sleep(options.duration);
-      case 'exercise':
-        exercise();
-        break;
-      case 'cuddle':
-        petCuddle();
-        break;
-      case 'vet':
-        visitVet(options.useMoney);
-        break;
-      default:
-        logger.error(`Unknown action type: ${type}`);
-    }
-  }, [feed, play, bathe, sleep, exercise, petCuddle, visitVet]);
+  const executeContextAction = useCallback(
+    (type: ActionType, options: ActionOptions): void | Promise<{ completed: boolean }> => {
+      switch (type) {
+        case 'feed':
+          feed(options.amount, options.cost);
+          break;
+        case 'play':
+          play();
+          break;
+        case 'bathe':
+          bathe(options.amount);
+          break;
+        case 'sleep':
+          // Sleep returns a promise - handle specially
+          return sleep(options.duration);
+        case 'exercise':
+          exercise();
+          break;
+        case 'cuddle':
+          petCuddle();
+          break;
+        case 'vet':
+          visitVet(options.useMoney);
+          break;
+        default:
+          logger.error(`Unknown action type: ${type}`);
+      }
+    },
+    [feed, play, bathe, sleep, exercise, petCuddle, visitVet]
+  );
 
   /**
    * Build message with variable interpolation
    */
-  const buildMessage = useCallback((
-    messageKey: string,
-    messageVars: string[] | undefined,
-    options: ActionOptions
-  ): string => {
-    if (!messageKey || !pet) return '';
+  const buildMessage = useCallback(
+    (messageKey: string, messageVars: string[] | undefined, options: ActionOptions): string => {
+      if (!messageKey || !pet) return '';
 
-    const vars: Record<string, string> = {
-      name: pet.name,
-    };
+      const vars: Record<string, string> = {
+        name: pet.name,
+      };
 
-    // Add activity-specific variables
-    if (messageVars?.includes('activity') && options.activity) {
-      vars.activity = t(options.activity.nameKey);
-    }
+      // Add activity-specific variables
+      if (messageVars?.includes('activity') && options.activity) {
+        vars.activity = t(options.activity.nameKey);
+      }
 
-    // For feed, 'food' is same as 'activity'
-    if (messageVars?.includes('food') && options.activity) {
-      vars.food = t(options.activity.nameKey);
-    }
+      // For feed, 'food' is same as 'activity'
+      if (messageVars?.includes('food') && options.activity) {
+        vars.food = t(options.activity.nameKey);
+      }
 
-    return t(messageKey, vars);
-  }, [pet, t]);
+      return t(messageKey, vars);
+    },
+    [pet, t]
+  );
 
   /**
    * Execute animation sequence
    */
-  const executeAnimationSequence = useCallback(async (
-    config: ActionAnimationSequence,
-    options: ActionOptions,
-    type: ActionType
-  ): Promise<void> => {
-    for (let i = 0; i < config.states.length; i++) {
-      const step = config.states[i];
+  const executeAnimationSequence = useCallback(
+    async (
+      config: ActionAnimationSequence,
+      options: ActionOptions,
+      type: ActionType
+    ): Promise<void> => {
+      for (let i = 0; i < config.states.length; i++) {
+        const step = config.states[i];
 
-      // Set animation state
-      setAnimationState(step.state);
+        // Set animation state
+        setAnimationState(step.state);
 
-      // Set message
-      const msg = buildMessage(step.messageKey, step.messageVars, options);
-      setMessage(msg);
+        // Set message
+        const msg = buildMessage(step.messageKey, step.messageVars, options);
+        setMessage(msg);
 
-      // Execute context action on first step (if configured)
-      if (i === 0 && config.executeOnStart) {
-        executeContextAction(type, options);
+        // Execute context action on first step (if configured)
+        if (i === 0 && config.executeOnStart) {
+          executeContextAction(type, options);
+        }
+
+        // Wait for animation duration
+        if (step.duration > 0) {
+          await new Promise<void>((resolve) => {
+            const timeout = setTimeout(resolve, step.duration);
+            timeoutRefs.current.push(timeout);
+          });
+        }
       }
-
-      // Wait for animation duration
-      if (step.duration > 0) {
-        await new Promise<void>((resolve) => {
-          const timeout = setTimeout(resolve, step.duration);
-          timeoutRefs.current.push(timeout);
-        });
-      }
-    }
-  }, [buildMessage, executeContextAction]);
+    },
+    [buildMessage, executeContextAction]
+  );
 
   /**
    * Handle reward triggering
    */
-  const handleReward = useCallback((type: ActionType) => {
-    const amount = getRewardAmount(type);
+  const handleReward = useCallback(
+    (type: ActionType) => {
+      const amount = getRewardAmount(type);
 
-    if (amount <= 0) {
-      return; // No reward for this action
-    }
+      if (amount <= 0) {
+        return; // No reward for this action
+      }
 
-    const needsDoubleReward = checkRequiresDoubleReward(type);
+      const needsDoubleReward = checkRequiresDoubleReward(type);
 
-    if (needsDoubleReward && AdsConfig.enabled && AdsConfig.rewards.activityDoubleReward) {
-      // Show double reward modal
-      triggerReward(amount);
-    } else {
-      // Give reward immediately
-      earnMoney(amount);
-      showToast(t('rewards.earned', { amount }), 'success');
-    }
-  }, [triggerReward, earnMoney, showToast, t]);
+      if (needsDoubleReward && AdsConfig.enabled && AdsConfig.rewards.activityDoubleReward) {
+        // Show double reward modal
+        triggerReward(amount);
+      } else {
+        // Give reward immediately
+        earnMoney(amount);
+        showToast(t('rewards.earned', { amount }), 'success');
+      }
+    },
+    [triggerReward, earnMoney, showToast, t]
+  );
 
   /**
    * Perform an action
@@ -248,85 +254,84 @@ export function usePetActions(): UsePetActionsReturn {
    * @param options - Options for the action
    * @returns Promise with action result
    */
-  const performAction = useCallback(async (
-    type: ActionType,
-    options: ActionOptions = {}
-  ): Promise<ActionResult> => {
-    if (!pet) {
-      logger.warn('performAction: No pet exists');
-      return { success: false };
-    }
-
-    // 1. Validate action
-    const validation = validateAction(pet, type);
-    if (!validation.canPerform) {
-      if (validation.reason) {
-        showToast(t(validation.reason, { name: pet.name }), 'info');
+  const performAction = useCallback(
+    async (type: ActionType, options: ActionOptions = {}): Promise<ActionResult> => {
+      if (!pet) {
+        logger.warn('performAction: No pet exists');
+        return { success: false };
       }
-      return { success: false };
-    }
 
-    // 2. Get animation config
-    const config = getActionConfig(type);
-    if (!config) {
-      logger.error(`No animation config for action: ${type}`);
-      return { success: false };
-    }
+      // 1. Validate action
+      const validation = validateAction(pet, type);
+      if (!validation.canPerform) {
+        if (validation.reason) {
+          showToast(t(validation.reason, { name: pet.name }), 'info');
+        }
+        return { success: false };
+      }
 
-    try {
-      // 3. Clear existing timeouts
-      clearAllTimeouts();
-      currentActionRef.current = type;
-      setIsAnimating(true);
+      // 2. Get animation config
+      const config = getActionConfig(type);
+      if (!config) {
+        logger.error(`No animation config for action: ${type}`);
+        return { success: false };
+      }
 
-      // 4. Handle sleep specially (async with cancellation)
-      if (type === 'sleep') {
-        setAnimationState('sleeping');
-        setMessage(buildMessage('sleep.sleeping', ['name'], options));
+      try {
+        // 3. Clear existing timeouts
+        clearAllTimeouts();
+        currentActionRef.current = type;
+        setIsAnimating(true);
 
-        const result = await sleep(options.duration);
+        // 4. Handle sleep specially (async with cancellation)
+        if (type === 'sleep') {
+          setAnimationState('sleeping');
+          setMessage(buildMessage('sleep.sleeping', ['name'], options));
 
+          const result = await sleep(options.duration);
+
+          setAnimationState('idle');
+          setMessage('');
+          setIsAnimating(false);
+          currentActionRef.current = null;
+
+          return { success: true, completed: result.completed };
+        }
+
+        // 5. Execute animation sequence
+        await executeAnimationSequence(config, options, type);
+
+        // 6. Trigger reward
+        handleReward(type);
+
+        // 7. Reset state
+        setIsAnimating(false);
+        currentActionRef.current = null;
+
+        return { success: true };
+      } catch (error) {
+        logger.error(`Error performing action ${type}:`, error);
+
+        // Reset state on error
         setAnimationState('idle');
         setMessage('');
         setIsAnimating(false);
         currentActionRef.current = null;
 
-        return { success: true, completed: result.completed };
+        return { success: false };
       }
-
-      // 5. Execute animation sequence
-      await executeAnimationSequence(config, options, type);
-
-      // 6. Trigger reward
-      handleReward(type);
-
-      // 7. Reset state
-      setIsAnimating(false);
-      currentActionRef.current = null;
-
-      return { success: true };
-
-    } catch (error) {
-      logger.error(`Error performing action ${type}:`, error);
-
-      // Reset state on error
-      setAnimationState('idle');
-      setMessage('');
-      setIsAnimating(false);
-      currentActionRef.current = null;
-
-      return { success: false };
-    }
-  }, [
-    pet,
-    t,
-    showToast,
-    clearAllTimeouts,
-    executeAnimationSequence,
-    handleReward,
-    sleep,
-    buildMessage,
-  ]);
+    },
+    [
+      pet,
+      t,
+      showToast,
+      clearAllTimeouts,
+      executeAnimationSequence,
+      handleReward,
+      sleep,
+      buildMessage,
+    ]
+  );
 
   /**
    * Cancel current action (mainly for sleep)

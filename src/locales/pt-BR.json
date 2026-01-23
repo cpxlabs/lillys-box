@@ -14,8 +14,12 @@
     "title": "🐾 Pet Care",
     "subtitle": "Cuide do seu pet virtual!",
     "continueWith": "Continuar com {{name}} {{emoji}}",
+    "continueHint": "Retomar o jogo com seu pet",
     "createNewPet": "Criar Novo Pet ✨",
+    "createPetHint": "Começar um novo jogo com um novo pet",
     "deletePet": "Excluir Pet 🗑️",
+    "deletePetHint": "Remover permanentemente seu pet atual",
+
     "createPetModal": {
       "title": "Criar Novo Pet",
       "message": "Tem certeza? Seu pet \"{{name}}\" será removido permanentemente.",

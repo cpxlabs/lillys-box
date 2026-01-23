@@ -16,7 +16,7 @@ import { LanguageSelector } from '../components/LanguageSelector';
 import { ScreenNavigationProp } from '../types/navigation';
 
 type Props = {
-    navigation: ScreenNavigationProp<'Menu'>;
+  navigation: ScreenNavigationProp<'Menu'>;
 };
 
 export const MenuScreen: React.FC<Props> = ({ navigation }) => {
@@ -27,36 +27,36 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
     const [showDeletePetConfirm, setShowDeletePetConfirm] = useState(false);
     const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
 
-    const handleContinue = () => {
-        if (pet) {
-            navigation.navigate('Home');
-        }
-    };
+  const handleContinue = () => {
+    if (pet) {
+      navigation.navigate('Home');
+    }
+  };
 
-    const handleNewPet = () => {
-        if (pet) {
-            setShowNewPetConfirm(true);
-        } else {
-            navigation.navigate('CreatePet');
-        }
-    };
+  const handleNewPet = () => {
+    if (pet) {
+      setShowNewPetConfirm(true);
+    } else {
+      navigation.navigate('CreatePet');
+    }
+  };
 
-    const handleConfirmNewPet = async () => {
-        setShowNewPetConfirm(false);
-        await removePet();
-        navigation.navigate('CreatePet');
-    };
+  const handleConfirmNewPet = async () => {
+    setShowNewPetConfirm(false);
+    await removePet();
+    navigation.navigate('CreatePet');
+  };
 
-    const handleDeletePet = () => {
-        if (pet) {
-            setShowDeletePetConfirm(true);
-        }
-    };
+  const handleDeletePet = () => {
+    if (pet) {
+      setShowDeletePetConfirm(true);
+    }
+  };
 
-    const handleConfirmDeletePet = async () => {
-        setShowDeletePetConfirm(false);
-        await removePet();
-    };
+  const handleConfirmDeletePet = async () => {
+    setShowDeletePetConfirm(false);
+    await removePet();
+  };
 
     const handleSignOut = () => {
         setShowSignOutConfirm(true);
@@ -115,57 +115,68 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
                 <Text style={styles.title}>{t('menu.title')}</Text>
                 <Text style={styles.subtitle}>{t('menu.subtitle')}</Text>
 
-                {/* Language Selector */}
-                <View style={styles.languageContainer}>
-                    <LanguageSelector />
-                </View>
+        {/* Language Selector */}
+        <View style={styles.languageContainer}>
+          <LanguageSelector />
+        </View>
 
-                <View style={styles.buttonContainer}>
-                    {pet && (
-                        <TouchableOpacity
-                            style={styles.continueButton}
-                            onPress={handleContinue}
-                        >
-                            <Text style={styles.continueButtonText}>
-                                {t('menu.continueWith', { name: pet.name, emoji: pet.type === 'cat' ? '🐱' : '🐶' })}
-                            </Text>
-                        </TouchableOpacity>
-                    )}
+        <View style={styles.buttonContainer}>
+          {pet && (
+            <TouchableOpacity
+              style={styles.continueButton}
+              onPress={handleContinue}
+              accessibilityRole="button"
+              accessibilityLabel={t('menu.continueWith', {
+                name: pet.name,
+                emoji: pet.type === 'cat' ? '🐱' : '🐶',
+              })}
+              accessibilityHint={t('menu.continueHint')}
+            >
+              <Text style={styles.continueButtonText}>
+                {t('menu.continueWith', {
+                  name: pet.name,
+                  emoji: pet.type === 'cat' ? '🐱' : '🐶',
+                })}
+              </Text>
+            </TouchableOpacity>
+          )}
 
-                    {!pet && (
-                        <TouchableOpacity
-                            style={styles.newPetButton}
-                            onPress={handleNewPet}
-                        >
-                            <Text style={styles.newPetButtonText}>
-                                {t('menu.createNewPet')}
-                            </Text>
-                        </TouchableOpacity>
-                    )}
+          {!pet && (
+            <TouchableOpacity
+              style={styles.newPetButton}
+              onPress={handleNewPet}
+              accessibilityRole="button"
+              accessibilityLabel={t('menu.createNewPet')}
+              accessibilityHint={t('menu.createPetHint')}
+            >
+              <Text style={styles.newPetButtonText}>{t('menu.createNewPet')}</Text>
+            </TouchableOpacity>
+          )}
 
-                    {pet && (
-                        <TouchableOpacity
-                            style={styles.deletePetButton}
-                            onPress={handleDeletePet}
-                        >
-                            <Text style={styles.deletePetButtonText}>
-                                {t('menu.deletePet')}
-                            </Text>
-                        </TouchableOpacity>
-                    )}
-                </View>
-            </View>
+          {pet && (
+            <TouchableOpacity
+              style={styles.deletePetButton}
+              onPress={handleDeletePet}
+              accessibilityRole="button"
+              accessibilityLabel={t('menu.deletePet')}
+              accessibilityHint={t('menu.deletePetHint')}
+            >
+              <Text style={styles.deletePetButtonText}>{t('menu.deletePet')}</Text>
+            </TouchableOpacity>
+          )}
+        </View>
+      </View>
 
-            <ConfirmModal
-                visible={showNewPetConfirm}
-                title={t('menu.createPetModal.title')}
-                message={pet ? t('menu.createPetModal.message', { name: pet.name }) : ''}
-                confirmText={t('menu.createPetModal.confirmText')}
-                cancelText={t('menu.createPetModal.cancelText')}
-                confirmStyle="destructive"
-                onConfirm={handleConfirmNewPet}
-                onCancel={() => setShowNewPetConfirm(false)}
-            />
+      <ConfirmModal
+        visible={showNewPetConfirm}
+        title={t('menu.createPetModal.title')}
+        message={pet ? t('menu.createPetModal.message', { name: pet.name }) : ''}
+        confirmText={t('menu.createPetModal.confirmText')}
+        cancelText={t('menu.createPetModal.cancelText')}
+        confirmStyle="destructive"
+        onConfirm={handleConfirmNewPet}
+        onCancel={() => setShowNewPetConfirm(false)}
+      />
 
             <ConfirmModal
                 visible={showDeletePetConfirm}

@@ -65,7 +65,7 @@ const ToastItem: React.FC<{ toast: Toast }> = ({ toast }) => {
     const fadeInDuration = 300;
     const fadeOutDuration = 300;
     const visibleDuration = TOAST_DURATION - fadeInDuration - fadeOutDuration;
-    
+
     Animated.sequence([
       Animated.timing(fadeAnim, {
         toValue: 1,

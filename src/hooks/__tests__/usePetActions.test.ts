@@ -1,4 +1,3 @@
-
 /**
  * Tests for usePetActions Hook
  */
@@ -128,8 +127,12 @@ const createMockPetContext = (overrides = {}) => ({
 const renderHookWithErrorBoundary = (hook: () => any) => {
   let renderError: any = null;
   class ErrorBoundary extends React.Component<{ children: React.ReactNode }> {
-    componentDidCatch(error: any) { renderError = error; }
-    render() { return this.props.children; }
+    componentDidCatch(error: any) {
+      renderError = error;
+    }
+    render() {
+      return this.props.children;
+    }
   }
   const result = renderHook(hook, {
     wrapper: ({ children }) => React.createElement(ErrorBoundary, null, children),
@@ -168,18 +171,20 @@ describe('usePetActions', () => {
     mockShowToast = jest.fn();
     mockTriggerReward = jest.fn();
 
-    (usePet as jest.Mock).mockReturnValue(createMockPetContext({
-      pet: mockPet,
-      feed: mockFeed,
-      play: mockPlay,
-      bathe: mockBathe,
-      sleep: mockSleep,
-      cancelSleep: mockCancelSleep,
-      exercise: mockExercise,
-      petCuddle: mockPetCuddle,
-      visitVet: mockVisitVet,
-      earnMoney: mockEarnMoney,
-    }));
+    (usePet as jest.Mock).mockReturnValue(
+      createMockPetContext({
+        pet: mockPet,
+        feed: mockFeed,
+        play: mockPlay,
+        bathe: mockBathe,
+        sleep: mockSleep,
+        cancelSleep: mockCancelSleep,
+        exercise: mockExercise,
+        petCuddle: mockPetCuddle,
+        visitVet: mockVisitVet,
+        earnMoney: mockEarnMoney,
+      })
+    );
 
     (useToast as jest.Mock).mockReturnValue({ showToast: mockShowToast });
 
@@ -194,11 +199,7 @@ describe('usePetActions', () => {
     jest.clearAllTimers();
   });
 
-  const performActionWithTimers = async (
-    result: any,
-    type: ActionType,
-    options: any = {},
-  ) => {
+  const performActionWithTimers = async (result: any, type: ActionType, options: any = {}) => {
     return await act(async () => {
       return await result.current.performAction(type, options);
     });
@@ -265,15 +266,24 @@ describe('usePetActions', () => {
     it('should display feeding message', async () => {
       (actionConfigModule.getActionConfig as jest.Mock).mockReturnValue({
         states: [
-          { state: 'eating', duration: 100, messageKey: 'feed.eating', messageVars: ['name', 'activity'] },
+          {
+            state: 'eating',
+            duration: 100,
+            messageKey: 'feed.eating',
+            messageVars: ['name', 'activity'],
+          },
           { state: 'idle', duration: 0, messageKey: '' },
         ],
         rewardAmount: 5,
         executeOnStart: true,
       });
       const { result } = renderHook(() => usePetActions());
-      act(() => { result.current.performAction('feed', { activity: { emoji: '🍖', nameKey: 'kibble' } }); });
-      await waitFor(() => { expect(result.current.message).toContain('feed.eating'); });
+      act(() => {
+        result.current.performAction('feed', { activity: { emoji: '🍖', nameKey: 'kibble' } });
+      });
+      await waitFor(() => {
+        expect(result.current.message).toContain('feed.eating');
+      });
     });
   });
 
@@ -289,18 +299,24 @@ describe('usePetActions', () => {
   describe('Sleep Action', () => {
     it('should execute sleep action', async () => {
       const { result } = renderHook(() => usePetActions());
-      await act(async () => { await result.current.performAction('sleep', { duration: 30000 }); });
+      await act(async () => {
+        await result.current.performAction('sleep', { duration: 30000 });
+      });
       expect(mockSleep).toHaveBeenCalledWith(30000);
     });
 
     it('should handle sleep completion and cancellation', async () => {
       mockSleep.mockResolvedValueOnce({ completed: true });
       const { result } = renderHook(() => usePetActions());
-      let res = await act(async () => { return await result.current.performAction('sleep'); });
+      let res = await act(async () => {
+        return await result.current.performAction('sleep');
+      });
       expect(res.completed).toBe(true);
 
       mockSleep.mockResolvedValueOnce({ completed: false });
-      res = await act(async () => { return await result.current.performAction('sleep'); });
+      res = await act(async () => {
+        return await result.current.performAction('sleep');
+      });
       expect(res.completed).toBe(false);
     });
   });
@@ -334,14 +350,20 @@ describe('usePetActions', () => {
   describe('Animation Sequencing & State', () => {
     it('should manage isAnimating state', async () => {
       const { result } = renderHook(() => usePetActions());
-      act(() => { result.current.performAction('feed'); });
+      act(() => {
+        result.current.performAction('feed');
+      });
       expect(result.current.isAnimating).toBe(true);
-      await waitFor(() => { expect(result.current.isAnimating).toBe(false); });
+      await waitFor(() => {
+        expect(result.current.isAnimating).toBe(false);
+      });
     });
 
     it('should clear previous timeouts when new action starts', async () => {
       const { result } = renderHook(() => usePetActions());
-      act(() => { result.current.performAction('feed'); });
+      act(() => {
+        result.current.performAction('feed');
+      });
       await performActionWithTimers(result, 'play');
       expect(mockPlay).toHaveBeenCalled();
       expect(result.current.animationState).toBe('idle');
@@ -359,8 +381,12 @@ describe('usePetActions', () => {
   describe('Cancel Action', () => {
     it('should handle cancellation', async () => {
       const { result } = renderHook(() => usePetActions());
-      act(() => { result.current.performAction('sleep'); });
-      act(() => { result.current.cancelAction(); });
+      act(() => {
+        result.current.performAction('sleep');
+      });
+      act(() => {
+        result.current.cancelAction();
+      });
       expect(mockCancelSleep).toHaveBeenCalled();
       expect(result.current.animationState).toBe('idle');
     });
@@ -369,7 +395,9 @@ describe('usePetActions', () => {
   describe('Cleanup', () => {
     it('should clear timeouts on unmount', () => {
       const { result, unmount } = renderHook(() => usePetActions());
-      act(() => { result.current.performAction('feed'); });
+      act(() => {
+        result.current.performAction('feed');
+      });
       unmount();
       expect(true).toBe(true);
     });

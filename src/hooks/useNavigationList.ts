@@ -39,11 +39,14 @@ export function useNavigationList<T>(
     setCurrentIndex((prev) => (prev - 1 + items.length) % items.length);
   }, [items]);
 
-  const setIndexDirectly = useCallback((index: number) => {
-    if (items.length === 0) return;
-    const validIndex = Math.max(0, Math.min(index, items.length - 1));
-    setCurrentIndex(validIndex);
-  }, [items]);
+  const setIndexDirectly = useCallback(
+    (index: number) => {
+      if (items.length === 0) return;
+      const validIndex = Math.max(0, Math.min(index, items.length - 1));
+      setCurrentIndex(validIndex);
+    },
+    [items]
+  );
 
   // For circular navigation, next/previous are always available when there's more than one item
   const hasNext = items.length > 1;

@@ -58,5 +58,7 @@ export type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;
  * };
  * ```
  */
-export type ScreenNavigationProp<T extends keyof RootStackParamList> =
-  NativeStackNavigationProp<RootStackParamList, T>;
+export type ScreenNavigationProp<T extends keyof RootStackParamList> = NativeStackNavigationProp<
+  RootStackParamList,
+  T
+>;

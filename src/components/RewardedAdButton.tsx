@@ -19,10 +19,10 @@ type Props = {
 
 /**
  * RewardedAdButton Component
- * 
+ *
  * Displays an attractive button for watching rewarded video ads.
  * Shows loading state and disables when no ad is available.
- * 
+ *
  * Props:
  * - rewardText: Display text (e.g., "Watch for +50 coins!")
  * - onRewardEarned: Callback when user completes the ad
@@ -46,11 +46,7 @@ export const RewardedAdButton: React.FC<Props> = ({
 
   return (
     <TouchableOpacity
-      style={[
-        styles.button,
-        isDisabled && styles.buttonDisabled,
-        style,
-      ]}
+      style={[styles.button, isDisabled && styles.buttonDisabled, style]}
       onPress={handlePress}
       disabled={isDisabled}
       activeOpacity={0.7}
@@ -61,13 +57,9 @@ export const RewardedAdButton: React.FC<Props> = ({
           <Text style={[styles.text, isDisabled && styles.textDisabled]}>
             {isLoading ? t('common.loading') : rewardText}
           </Text>
-          {!isAdReady && !isLoading && (
-            <Text style={styles.subtitle}>{t('ads.notAvailable')}</Text>
-          )}
+          {!isAdReady && !isLoading && <Text style={styles.subtitle}>{t('ads.notAvailable')}</Text>}
         </View>
-        {isLoading && (
-          <ActivityIndicator color="#fff" style={styles.loader} />
-        )}
+        {isLoading && <ActivityIndicator color="#fff" style={styles.loader} />}
       </View>
     </TouchableOpacity>
   );

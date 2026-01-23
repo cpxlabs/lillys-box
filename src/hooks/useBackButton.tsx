@@ -10,18 +10,11 @@ interface BackButtonIconProps {
 /**
  * Back button icon component with fallback for web platform
  */
-export const BackButtonIcon: React.FC<BackButtonIconProps> = ({
-  size = 24,
-  color = '#9b59b6'
-}) => {
+export const BackButtonIcon: React.FC<BackButtonIconProps> = ({ size = 24, color = '#9b59b6' }) => {
   // Check if we're on web platform
   if (Platform.OS === 'web') {
     // Use Unicode arrow character as fallback for web
-    return (
-      <Text style={[styles.webArrow, { fontSize: size, color: color }]}>
-        ←
-      </Text>
-    );
+    return <Text style={[styles.webArrow, { fontSize: size, color: color }]}>←</Text>;
   }
 
   // Use Ionicons for native platforms (iOS, Android)

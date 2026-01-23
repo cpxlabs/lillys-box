@@ -81,11 +81,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       {/* Unified Status Card with Pet Name, Age, Money and Status Bars */}
-      <StatusCard
-        pet={pet}
-        petName={petNameDisplay}
-        petAge={petAgeDisplay}
-      />
+      <StatusCard pet={pet} petName={petNameDisplay} petAge={petAgeDisplay} />
       {hasWarnings && (
         <Text style={[styles.warningText, dynamicStyles.warningText]}>
           {t('home.warningAttention')}
@@ -137,11 +133,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
           label={t('home.actions.play')}
           onPress={() => navigation.navigate('Play')}
         />
-        <IconButton
-          emoji="🏠"
-          label={t('home.actions.menu')}
-          onPress={handleMenuPress}
-        />
+        <IconButton emoji="🏠" label={t('home.actions.menu')} onPress={handleMenuPress} />
       </View>
 
       <ConfirmModal

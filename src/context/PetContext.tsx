@@ -1,7 +1,21 @@
-import React, { createContext, useContext, useState, useEffect, useRef, ReactNode, useMemo } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  useRef,
+  ReactNode,
+  useMemo,
+} from 'react';
 import { Pet, PetType, PetColor, Gender, ClothingSlot } from '../types';
 import { savePet, loadPet, deletePet } from '../utils/storage';
-import { calculateHealth, getEnergyDecayRate, getEnergyMultiplier, canPerformActivity, calculateHappinessChange } from '../utils/petStats';
+import {
+  calculateHealth,
+  getEnergyDecayRate,
+  getEnergyMultiplier,
+  canPerformActivity,
+  calculateHappinessChange,
+} from '../utils/petStats';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { logger } from '../utils/logger';
 import { debounce } from '../utils/debounce';
@@ -52,6 +66,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       savePet(petToSave, userId).catch(logger.error);
     }, 1000),
     [userId]
+
   );
 
   // Load pet when user changes
@@ -151,7 +166,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         energy: Math.min(100, currentPet.energy + effects.energy),
         happiness: Math.min(100, currentPet.happiness + effects.happiness * multiplier),
         hygiene: Math.max(0, currentPet.hygiene + effects.hygiene),
-        money: Math.max(0, currentPet.money - (cost || 0)),  // Deduct food cost
+        money: Math.max(0, currentPet.money - (cost || 0)), // Deduct food cost
       };
 
       updatedPet.health = calculateHealth(updatedPet);
@@ -203,7 +218,9 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     });
   };
 
-  const sleep = async (duration: number = GAME_BALANCE.activities.sleep.duration): Promise<{ completed: boolean }> => {
+  const sleep = async (
+    duration: number = GAME_BALANCE.activities.sleep.duration
+  ): Promise<{ completed: boolean }> => {
     // Check if pet can sleep before starting
     if (!pet || !canPerformActivity(pet, 'sleep')) {
       return { completed: false };
@@ -288,7 +305,10 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
     }
   };
 
-  const visitVet = (treatmentType: 'antibiotic' | 'antiInflammatory' = 'antibiotic', useMoney: boolean = true): boolean => {
+  const visitVet = (
+    treatmentType: 'antibiotic' | 'antiInflammatory' = 'antibiotic',
+    useMoney: boolean = true
+  ): boolean => {
     if (!pet) {
       logger.error('visitVet: No pet exists');
       return false;
@@ -302,7 +322,9 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       return false;
     }
 
-    logger.info(`visitVet: Starting vet visit (treatment: ${treatmentType}, useMoney: ${useMoney})`);
+    logger.info(
+      `visitVet: Starting vet visit (treatment: ${treatmentType}, useMoney: ${useMoney})`
+    );
 
     setPet((currentPet) => {
       if (!currentPet) return currentPet;
@@ -377,7 +399,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const setClothing = (slot: ClothingSlot, itemId: string | null) => {
     setPet((currentPet) => {
       if (!currentPet) return currentPet;
-      
+
       const updatedPet: Pet = {
         ...currentPet,
         clothes: {
@@ -398,7 +420,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const earnMoney = (amount: number) => {
     setPet((currentPet) => {
       if (!currentPet) return currentPet;
-      
+
       const updatedPet: Pet = {
         ...currentPet,
         money: (currentPet.money ?? 0) + amount, // Defensive fallback for robustness

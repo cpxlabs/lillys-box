@@ -43,12 +43,7 @@ export type AnimationState =
   | 'tired'
   | 'sick';
 
-export type PetMood =
-  | 'excellent'
-  | 'good'
-  | 'fair'
-  | 'poor'
-  | 'critical';
+export type PetMood = 'excellent' | 'good' | 'fair' | 'poor' | 'critical';
 
 export type StatLevel = {
   value: number;

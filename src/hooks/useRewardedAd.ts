@@ -4,7 +4,7 @@ import { logger } from '../utils/logger';
 
 /**
  * Custom hook to simplify rewarded ad usage in screens
- * 
+ *
  * @returns Object with showRewardedAd function, isAdReady state, and isLoading state
  */
 export const useRewardedAd = () => {
@@ -17,10 +17,10 @@ export const useRewardedAd = () => {
    */
   const showRewardedAd = async (onReward: () => void): Promise<void> => {
     setIsLoading(true);
-    
+
     try {
       const success = await showAd(onReward);
-      
+
       if (!success) {
         logger.log('[useRewardedAd] Ad was not completed or failed');
       }

@@ -8,42 +8,42 @@ import { Platform, NativeModules } from 'react-native';
 
 const getDeviceLanguage = () => {
   let locale = 'en';
-  
+
   if (Platform.OS === 'ios') {
-    locale = NativeModules.SettingsManager?.settings?.AppleLocale ||
-             NativeModules.SettingsManager?.settings?.AppleLanguages?.[0] || 'en';
+    locale =
+      NativeModules.SettingsManager?.settings?.AppleLocale ||
+      NativeModules.SettingsManager?.settings?.AppleLanguages?.[0] ||
+      'en';
   } else if (Platform.OS === 'android') {
     locale = NativeModules.I18nManager?.localeIdentifier || 'en';
   } else {
     // For web, use browser language
     locale = navigator.language || 'en';
   }
-  
+
   // Normalize locale (e.g., 'pt-BR', 'pt_BR', 'pt' -> 'pt-BR')
   if (locale.toLowerCase().startsWith('pt')) {
     return 'pt-BR';
   }
-  
+
   return 'en';
 };
 
-i18n
-  .use(initReactI18next)
-  .init({
-    resources: {
-      en: {
-        translation: en,
-      },
-      'pt-BR': {
-        translation: ptBR,
-      },
+i18n.use(initReactI18next).init({
+  resources: {
+    en: {
+      translation: en,
     },
-    lng: getDeviceLanguage(),
-    fallbackLng: 'en',
-    interpolation: {
-      escapeValue: false,
+    'pt-BR': {
+      translation: ptBR,
     },
-    compatibilityJSON: 'v4',
-  });
+  },
+  lng: getDeviceLanguage(),
+  fallbackLng: 'en',
+  interpolation: {
+    escapeValue: false,
+  },
+  compatibilityJSON: 'v4',
+});
 
 export default i18n;

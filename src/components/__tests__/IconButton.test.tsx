@@ -36,18 +36,14 @@ describe('IconButton', () => {
   });
 
   it('renders correctly', () => {
-    const { getByText } = render(
-      <IconButton emoji="👋" label="Hello" onPress={() => {}} />
-    );
+    const { getByText } = render(<IconButton emoji="👋" label="Hello" onPress={() => {}} />);
     expect(getByText('👋')).toBeTruthy();
     expect(getByText('Hello')).toBeTruthy();
   });
 
   it('calls onPress when enabled', () => {
     const onPressMock = jest.fn();
-    const { getByText } = render(
-      <IconButton emoji="👋" label="Hello" onPress={onPressMock} />
-    );
+    const { getByText } = render(<IconButton emoji="👋" label="Hello" onPress={onPressMock} />);
 
     fireEvent.press(getByText('Hello'));
     expect(onPressMock).toHaveBeenCalled();

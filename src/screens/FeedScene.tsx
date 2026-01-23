@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  SafeAreaView,
-  TouchableOpacity,
-  Alert,
-} from 'react-native';
+import { View, Text, StyleSheet, SafeAreaView, TouchableOpacity, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { PetRenderer } from '../components/PetRenderer';
@@ -34,7 +27,8 @@ const FOODS = [
 export const FeedScene: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { pet } = usePet();
-  const { animationState, message, isAnimating, performAction, DoubleRewardModal } = usePetActions();
+  const { animationState, message, isAnimating, performAction, DoubleRewardModal } =
+    usePetActions();
   const BackButtonIcon = useBackButton();
   const { deviceType, spacing, fs } = useResponsive();
 
@@ -56,7 +50,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
   const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
   const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
-  const handleFeed = async (food: typeof FOODS[0]) => {
+  const handleFeed = async (food: (typeof FOODS)[0]) => {
     // Check if pet has enough money
     if (pet.money < food.cost) {
       Alert.alert(
@@ -86,46 +80,110 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
       />
 
       {/* Status Card */}
-      <StatusCard
-        pet={pet}
-        petName={petNameDisplay}
-        petAge={petAgeDisplay}
-        compact
-      />
+      <StatusCard pet={pet} petName={petNameDisplay} petAge={petAgeDisplay} compact />
 
       <View style={styles.petContainer}>
         <PetRenderer pet={pet} animationState={animationState} size={petSize} />
-        {message ? <Text style={[styles.message, { fontSize: textSizes.messageSize }]}>{message}</Text> : null}
+        {message ? (
+          <Text style={[styles.message, { fontSize: textSizes.messageSize }]}>{message}</Text>
+        ) : null}
       </View>
 
-      <View style={[styles.foodContainer, { padding: spacing(16), borderTopLeftRadius: spacing(20), borderTopRightRadius: spacing(20) }]}>
-        <Text style={[styles.foodTitle, { fontSize: textSizes.titleSize, marginBottom: spacing(12) }]}>{t('feed.chooseFood')}</Text>
+      <View
+        style={[
+          styles.foodContainer,
+          {
+            padding: spacing(16),
+            borderTopLeftRadius: spacing(20),
+            borderTopRightRadius: spacing(20),
+          },
+        ]}
+      >
+        <Text
+          style={[styles.foodTitle, { fontSize: textSizes.titleSize, marginBottom: spacing(12) }]}
+        >
+          {t('feed.chooseFood')}
+        </Text>
 
         {/* Navigation arrows and current food display */}
         <View style={[styles.navigationContainer, { marginBottom: spacing(10) }]}>
           <TouchableOpacity
-            style={[styles.arrowButton, { width: buttonSizes.arrowSize, height: buttonSizes.arrowSize, borderRadius: buttonSizes.arrowSize / 2, marginHorizontal: spacing(6) }]}
+            style={[
+              styles.arrowButton,
+              {
+                width: buttonSizes.arrowSize,
+                height: buttonSizes.arrowSize,
+                borderRadius: buttonSizes.arrowSize / 2,
+                marginHorizontal: spacing(6),
+              },
+            ]}
             onPress={goToPrevious}
             disabled={isAnimating}
+            accessibilityRole="button"
+            accessibilityLabel="Previous food"
+            accessibilityHint="Show previous food option"
+            accessibilityState={{ disabled: isAnimating }}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>←</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.currentFoodButton, { minWidth: buttonSizes.itemWidth, padding: buttonSizes.itemPadding, borderRadius: spacing(16), opacity: pet.money < currentFood.cost ? 0.5 : 1 }]}
+            style={[
+              styles.currentFoodButton,
+              {
+                minWidth: buttonSizes.itemWidth,
+                padding: buttonSizes.itemPadding,
+                borderRadius: spacing(16),
+                opacity: pet.money < currentFood.cost ? 0.5 : 1,
+              },
+            ]}
             onPress={() => handleFeed(currentFood)}
             disabled={isAnimating || pet.hunger >= 100 || pet.money < currentFood.cost}
+            accessibilityRole="button"
+            accessibilityLabel={`${t(currentFood.nameKey)}, ${currentFood.value} percent hunger, costs ${currentFood.cost} coins`}
+            accessibilityHint={pet.money < currentFood.cost ? "Not enough money" : "Feed this food to your pet"}
+            accessibilityState={{ disabled: isAnimating || pet.hunger >= 100 || pet.money < currentFood.cost }}
           >
-            <Text style={[styles.currentFoodEmoji, { fontSize: buttonSizes.itemEmoji, marginBottom: spacing(6) }]}>{currentFood.emoji}</Text>
-            <Text style={[styles.currentFoodName, { fontSize: buttonSizes.itemFont, marginBottom: spacing(3) }]}>{t(currentFood.nameKey)}</Text>
-            <Text style={[styles.currentFoodValue, { fontSize: buttonSizes.valueFont }]}>+{currentFood.value}%</Text>
-            <Text style={[styles.foodCost, { fontSize: fs(10), marginTop: spacing(2) }]}>💰 {currentFood.cost} coins</Text>
+            <Text
+              style={[
+                styles.currentFoodEmoji,
+                { fontSize: buttonSizes.itemEmoji, marginBottom: spacing(6) },
+              ]}
+            >
+              {currentFood.emoji}
+            </Text>
+            <Text
+              style={[
+                styles.currentFoodName,
+                { fontSize: buttonSizes.itemFont, marginBottom: spacing(3) },
+              ]}
+            >
+              {t(currentFood.nameKey)}
+            </Text>
+            <Text style={[styles.currentFoodValue, { fontSize: buttonSizes.valueFont }]}>
+              +{currentFood.value}%
+            </Text>
+            <Text style={[styles.foodCost, { fontSize: fs(10), marginTop: spacing(2) }]}>
+              💰 {currentFood.cost} coins
+            </Text>
           </TouchableOpacity>
 
           <TouchableOpacity
-            style={[styles.arrowButton, { width: buttonSizes.arrowSize, height: buttonSizes.arrowSize, borderRadius: buttonSizes.arrowSize / 2, marginHorizontal: spacing(6) }]}
+            style={[
+              styles.arrowButton,
+              {
+                width: buttonSizes.arrowSize,
+                height: buttonSizes.arrowSize,
+                borderRadius: buttonSizes.arrowSize / 2,
+                marginHorizontal: spacing(6),
+              },
+            ]}
             onPress={goToNext}
             disabled={isAnimating}
+            accessibilityRole="button"
+            accessibilityLabel="Next food"
+            accessibilityHint="Show next food option"
+            accessibilityState={{ disabled: isAnimating }}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>→</Text>
           </TouchableOpacity>

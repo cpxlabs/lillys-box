@@ -8,9 +8,9 @@ export const GAME_BALANCE = {
   // Stat decay rates (per minute) - positive values will be subtracted
   // Reduced by ~50% for better gameplay balance
   decay: {
-    hunger: 0.5,      // Changed from 1.0 - slower hunger decay
-    hygiene: 0.5,     // Changed from 1.0 - slower hygiene decay
-    energyDay: 0.25,  // Changed from 0.5 - 6 AM - 10 PM (~6.6h to deplete)
+    hunger: 0.5, // Changed from 1.0 - slower hunger decay
+    hygiene: 0.5, // Changed from 1.0 - slower hygiene decay
+    energyDay: 0.25, // Changed from 0.5 - 6 AM - 10 PM (~6.6h to deplete)
     energyNight: 0.1, // Changed from 0.2 - 10 PM - 6 AM (~16.6h to deplete)
     happinessHealthy: 0.5, // Gain when all stats > 70
     happinessUnhealthy: 0.3, // Loss when health < 60
@@ -49,7 +49,7 @@ export const GAME_BALANCE = {
       hunger: -15,
       hygiene: -15,
       energy: -25,
-      money: 15,  // Increased from 0 to 15 - primary income source
+      money: 15, // Increased from 0 to 15 - primary income source
     },
     sleep: {
       energy: 40,
@@ -62,7 +62,7 @@ export const GAME_BALANCE = {
       hunger: -20,
       hygiene: -10,
       energy: -30,
-      money: 25,  // Increased from 10 to 25
+      money: 25, // Increased from 10 to 25
     },
     petCuddle: {
       happiness: 10,
@@ -117,9 +117,9 @@ export const GAME_BALANCE = {
   // Health calculation weights
   healthWeights: {
     hunger: 0.25,
-    hygiene: 0.20,
+    hygiene: 0.2,
     energy: 0.25,
-    happiness: 0.30,
+    happiness: 0.3,
   },
 
   // Health status multipliers
@@ -141,9 +141,9 @@ export const GAME_BALANCE = {
   initialStats: {
     hunger: 100,
     hygiene: 100,
-    energy: 100,    // Changed from 80 - all stats start at 100%
+    energy: 100, // Changed from 80 - all stats start at 100%
     happiness: 100, // Changed from 75 - all stats start at 100%
-    health: 100,    // Changed from 85 - all stats start at 100%
+    health: 100, // Changed from 85 - all stats start at 100%
     money: 0,
   },
 };

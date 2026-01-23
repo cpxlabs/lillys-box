@@ -70,7 +70,7 @@ export const AdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
    */
   const showRewardedAd = async (onReward: () => void): Promise<boolean> => {
     const success = await AdService.showRewardedAd(onReward);
-    
+
     // Update ready state after showing
     setAdState((prev) => ({
       ...prev,
@@ -133,7 +133,7 @@ export const AdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     await AdService.showInterstitialAd();
 
     const now = Date.now();
-    
+
     // Update state and persist
     setAdState((prev) => ({
       ...prev,

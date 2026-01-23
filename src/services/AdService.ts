@@ -36,10 +36,10 @@ if (Platform.OS !== 'web') {
 
 /**
  * AdService - Centralized Ad Management Service
- * 
+ *
  * Handles initialization, loading, and displaying of AdMob ads
  * with COPPA compliance for child safety.
- * 
+ *
  * Note: Ads are only supported on native platforms (iOS/Android).
  * On web, all ad operations are no-ops.
  */
@@ -68,7 +68,7 @@ class AdService {
 
     try {
       logger.log('[AdService] Initializing AdMob...');
-      
+
       await MobileAds().initialize();
 
       // Configure COPPA compliance settings
@@ -161,7 +161,7 @@ class AdService {
 
     try {
       logger.log('[AdService] Showing rewarded ad');
-      
+
       return new Promise((resolve) => {
         let rewardEarned = false;
 
@@ -175,14 +175,11 @@ class AdService {
         );
 
         // Set up one-time close listener
-        const closedListener = this.rewardedAd!.addAdEventListener(
-          AdEventType.CLOSED,
-          () => {
-            earnedRewardListener();
-            closedListener();
-            resolve(rewardEarned);
-          }
-        );
+        const closedListener = this.rewardedAd!.addAdEventListener(AdEventType.CLOSED, () => {
+          earnedRewardListener();
+          closedListener();
+          resolve(rewardEarned);
+        });
 
         this.rewardedAd!.show();
       });

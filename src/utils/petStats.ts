@@ -31,9 +31,21 @@ export const calculateHealth = (pet: Partial<Pet>): number => {
   const warningThreshold = GAME_BALANCE.thresholds.statWarning; // 25
   const mediumThreshold = GAME_BALANCE.thresholds.statMedium;
 
-  const anyStatBelowCritical = hunger < criticalThreshold || hygiene < criticalThreshold || energy < criticalThreshold || happiness < criticalThreshold;
-  const anyStatBelowWarning = hunger < warningThreshold || hygiene < warningThreshold || energy < warningThreshold || happiness < warningThreshold;
-  const anyStatBelowMedium = hunger < mediumThreshold || hygiene < mediumThreshold || energy < mediumThreshold || happiness < mediumThreshold;
+  const anyStatBelowCritical =
+    hunger < criticalThreshold ||
+    hygiene < criticalThreshold ||
+    energy < criticalThreshold ||
+    happiness < criticalThreshold;
+  const anyStatBelowWarning =
+    hunger < warningThreshold ||
+    hygiene < warningThreshold ||
+    energy < warningThreshold ||
+    happiness < warningThreshold;
+  const anyStatBelowMedium =
+    hunger < mediumThreshold ||
+    hygiene < mediumThreshold ||
+    energy < mediumThreshold ||
+    happiness < mediumThreshold;
 
   let multiplier = 1.0;
   if (anyStatBelowCritical) {
@@ -96,8 +108,7 @@ export const getStatLevel = (value: number): StatLevel => {
 export const getEnergyDecayRate = (): number => {
   const hour = new Date().getHours();
   const isDaytime =
-    hour >= GAME_BALANCE.time.dayStartHour &&
-    hour < GAME_BALANCE.time.nightStartHour;
+    hour >= GAME_BALANCE.time.dayStartHour && hour < GAME_BALANCE.time.nightStartHour;
   return isDaytime ? GAME_BALANCE.decay.energyDay : GAME_BALANCE.decay.energyNight;
 };
 
@@ -210,15 +221,16 @@ export const getMostUrgentNeed = (
 /**
  * Calculate happiness change based on current conditions
  */
-export const calculateHappinessChange = (
-  pet: Pet,
-  minutesPassed: number
-): number => {
+export const calculateHappinessChange = (pet: Pet, minutesPassed: number): number => {
   const { HAPPINESS } = STAT_THRESHOLDS;
   let happinessChange = 0;
 
   // Happiness gain if all stats high
-  if (pet.hunger > HAPPINESS.HEALTHY_STAT && pet.hygiene > HAPPINESS.HEALTHY_STAT && pet.energy > HAPPINESS.HEALTHY_STAT) {
+  if (
+    pet.hunger > HAPPINESS.HEALTHY_STAT &&
+    pet.hygiene > HAPPINESS.HEALTHY_STAT &&
+    pet.energy > HAPPINESS.HEALTHY_STAT
+  ) {
     happinessChange += GAME_BALANCE.decay.happinessHealthy * minutesPassed;
   }
 
@@ -250,10 +262,7 @@ export const calculateHappinessChange = (
  * }
  * ```
  */
-export const validateAction = (
-  pet: Pet,
-  actionType: ActionType
-): ValidationResult => {
+export const validateAction = (pet: Pet, actionType: ActionType): ValidationResult => {
   // Energy check for most actions (except sleep and cuddle)
   if (['feed', 'play', 'bathe', 'exercise'].includes(actionType)) {
     if (!canPerformActivity(pet, actionType)) {
