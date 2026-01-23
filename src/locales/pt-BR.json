@@ -3,7 +3,7 @@
     "back": "Voltar",
     "confirm": "Confirmar",
     "cancel": "Cancelar",
-    "delete": "Apagar",
+    "delete": "Excluir",
     "coins": "moedas",
     "year": "ano",
     "years": "anos",
@@ -12,20 +12,20 @@
   },
   "menu": {
     "title": "🐾 Pet Care",
-    "subtitle": "Cuide do seu amiguinho virtual!",
+    "subtitle": "Cuide do seu pet virtual!",
     "continueWith": "Continuar com {{name}} {{emoji}}",
     "createNewPet": "Criar Novo Pet ✨",
-    "deletePet": "Apagar Pet 🗑️",
+    "deletePet": "Excluir Pet 🗑️",
     "createPetModal": {
       "title": "Criar Novo Pet",
-      "message": "Você tem certeza? Seu pet \"{{name}}\" será removido permanentemente.",
+      "message": "Tem certeza? Seu pet \"{{name}}\" será removido permanentemente.",
       "confirmText": "Confirmar",
       "cancelText": "Cancelar"
     },
     "deletePetModal": {
-      "title": "Apagar Pet",
-      "message": "Você tem certeza que deseja apagar o pet \"{{name}}\"? Esta ação não pode ser desfeita.",
-      "confirmText": "Apagar",
+      "title": "Excluir Pet",
+      "message": "Tem certeza que deseja excluir o pet \"{{name}}\"? Esta ação não pode ser desfeita.",
+      "confirmText": "Excluir",
       "cancelText": "Cancelar"
     }
   },
@@ -44,7 +44,12 @@
     "black": "Preto",
     "brown": "Marrom",
     "whiteBrown": "Branco/Marrom",
-    "createButton": "Criar Pet! 🎉"
+    "createButton": "Criar Pet! 🎉",
+    "nameRequired": "Por favor, digite um nome para seu pet!"
+  },
+  "languages": {
+    "en": "Inglês",
+    "pt-BR": "Português (Brasil)"
   },
   "home": {
     "money": "💰 {{amount}} moedas",
@@ -63,7 +68,7 @@
     },
     "menuModal": {
       "title": "Voltar ao Menu",
-      "message": "Tem certeza que quer sair? O status atual do seu pet será salvo.",
+      "message": "Tem certeza que deseja sair? O status atual do seu pet será salvo.",
       "confirmText": "Confirmar",
       "cancelText": "Cancelar"
     }
@@ -88,7 +93,7 @@
     "hygiene": "Higiene: {{amount}}%",
     "instructions": "Arraste a esponja para dar banho! 🧽",
     "bathing": "{{name}} está tomando banho! 🛁💦",
-    "clean": "{{name}} está limpinho! ✨",
+    "clean": "{{name}} está limpo! ✨",
     "scrubbing": "Esfregando: {{count}}/{{needed}} 🧽",
     "needsRest": "{{name}} está muito cansado para tomar banho. Precisa descansar!",
     "alreadyClean": "{{name}} já está limpo!"
@@ -97,7 +102,7 @@
     "title": "🎮 Brincar",
     "chooseActivity": "Escolha a atividade:",
     "activities": {
-      "yarnBall": "Bola de lã",
+      "yarnBall": "Novelo de Lã",
       "smallBall": "Bolinha"
     },
     "playing": "{{name}} está brincando com {{activity}}! 🎉",
@@ -111,7 +116,7 @@
     "notTired": "{{name}} não está cansado o suficiente para dormir!",
     "progress": "Dormindo... {{progress}}%",
     "remaining": "{{seconds}}s restantes",
-    "wakeUpEarly": "Acordar Cedo",
+    "wakeUpEarly": "Acordar Mais Cedo",
     "sleepButton": "💤 Dormir ({{duration}}s)",
     "energyHigh": "⚡ Energia está alta",
     "benefits": "Benefícios do Sono:",
@@ -120,7 +125,7 @@
     "hungerDecrease": "🍖 Fome {{value}}"
   },
   "exercise": {
-    "title": "🏃 Exercitar",
+    "title": "🏃 Exercício",
     "exercising": "{{name}} está se exercitando! 🏃💪",
     "energized": "{{name}} está energizado! ⚡",
     "needsRest": "{{name}} está muito cansado para se exercitar. Precisa descansar!"
@@ -131,45 +136,45 @@
   },
   "vet": {
     "title": "🏥 Clínica Veterinária",
-    "petHealth": "Saúde do {{name}}",
+    "petHealth": "Saúde de {{name}}",
     "treating": "{{name}} está sendo tratado... 🏥",
     "notNeeded": "{{name}} está saudável e não precisa do veterinário agora!",
-    "benefits": "Benefícios da Visita ao Vet:",
-    "healthRestore": "❤️ Saúde restaurada para no mínimo {{target}}%",
+    "benefits": "Benefícios da Visita:",
+    "healthRestore": "❤️ Saúde restaurada para o mínimo {{target}}%",
     "statsBoost": "📈 Todos os status +{{boost}}",
     "energyDecrease": "⚡ Energia {{value}} (exame é estressante)",
     "happinessDecrease": "😊 Felicidade {{value}} (desconforto temporário)",
     "notEnoughMoney": {
-      "title": "Sem Moedas Suficientes",
-      "message": "Você precisa de {{cost}} moedas para uma visita ao vet. Você tem {{amount}} moedas."
+      "title": "Dinheiro Insuficiente",
+      "message": "Você precisa de {{cost}} moedas para uma visita ao veterinário. Você tem {{amount}} moedas."
     },
     "confirmVisit": {
-      "title": "Visitar o Vet?",
+      "title": "Visitar Veterinário?",
       "message": "Isso custará {{cost}} moedas. Seu pet será examinado e tratado.",
       "cancel": "Cancelar",
       "visit": "Visitar"
     },
     "adNotReady": {
-      "title": "Anúncio Não Está Pronto",
-      "message": "Por favor, aguarde um momento para o anúncio carregar."
+      "title": "Anúncio Não Pronto",
+      "message": "Por favor aguarde um momento para o anúncio carregar."
     },
     "adFailed": {
-      "title": "Anúncio Falhou",
+      "title": "Falha no Anúncio",
       "message": "Não foi possível exibir o anúncio. Tente novamente."
     },
     "error": {
       "title": "Erro",
-      "message": "Algo deu errado. Por favor, tente novamente."
+      "message": "Algo deu errado. Por favor tente novamente."
     },
     "checkupComplete": {
-      "title": "✅ Exame Completo!",
+      "title": "✅ Check-up Completo!",
       "message": "{{name}} foi examinado e está se sentindo muito melhor!",
       "button": "Ótimo!"
     },
     "status": {
       "urgent": "{{name}} precisa de atenção médica urgente!",
-      "warning": "{{name}} precisa de um exame.",
-      "healthy": "{{name}} está saudável, mas ainda pode visitar para um reforço!"
+      "warning": "{{name}} poderia usar um check-up.",
+      "healthy": "{{name}} está saudável mas ainda pode visitar para um boost!"
     },
     "payButton": "💰 Pagar {{cost}} Moedas",
     "youHave": "Você tem: {{amount}} moedas",
@@ -177,19 +182,19 @@
     "loadingAd": "Carregando anúncio..."
   },
   "wardrobe": {
-    "title": "👕 Armário",
+    "title": "👕 Guarda-roupa",
     "slots": {
       "head": "Cabeça",
       "eyes": "Olhos",
-      "torso": "Torso",
+      "torso": "Tronco",
       "paws": "Patas"
     },
     "none": "Nenhum"
   },
   "rewards": {
     "doubleReward": {
-      "title": "🎉 Ganhe o Dobro!",
-      "message": "Ótimo trabalho! Assista a um anúncio para ganhar {{double}} moedas em vez de {{normal}}?",
+      "title": "🎉 Ganhe em Dobro!",
+      "message": "Ótimo trabalho! Assista um anúncio para ganhar {{double}} moedas em vez de {{normal}}?",
       "watchAd": "Assistir Anúncio",
       "noThanks": "Não, Obrigado"
     },

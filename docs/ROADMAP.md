@@ -244,6 +244,30 @@ src/
 
 ---
 
+### ✅ Authentication System (Google OAuth)
+**Priority:** High
+**Status:** COMPLETED (Jan 2026)
+
+- [x] Google Sign-In integration with @react-native-google-signin/google-signin
+- [x] Guest mode support for users who don't want to login
+- [x] AuthContext for global authentication state management
+- [x] Multi-user data isolation (per-user pet storage)
+- [x] Auth state persistence across app restarts
+- [x] LoginScreen with professional UI
+- [x] User info display in MenuScreen header
+- [x] Sign-out functionality with confirmation
+- [x] Guest login prompt banner
+- [x] Comprehensive setup guide (GOOGLE_OAUTH_SETUP.md)
+
+**Features Implemented:**
+- User can sign in with Google account
+- User can play as guest without authentication
+- Each user has isolated pet data on the same device
+- User info displayed at top of menu screen
+- Smooth auth-based routing in navigation stack
+
+---
+
 ### 🟡 Accessibility
 **Priority:** Low
 **Status:** PARTIALLY COMPLETED
@@ -432,12 +456,17 @@ src/
 ## 🎯 Milestones
 
 ### Milestone 1: MVP Enhancement (v1.1)
-**Status:** 75% COMPLETE
+**Status:** 80% COMPLETE
 - [x] Folder structure documentation ✅
 - [x] Testing infrastructure ✅ (99% tests passing)
 - [x] Code quality improvements ✅ (ESLint, Prettier, usePetActions hook)
 - [x] i18n support ✅ (English + Portuguese)
 - [x] Accessibility improvements ✅ (partial - haptics, labels)
+- [x] Authentication system with Google OAuth ✅ (NEW - Jan 2026)
+  - [x] Google Sign-In integration
+  - [x] Guest mode support
+  - [x] Multi-user data isolation
+  - [x] Comprehensive setup documentation
 - [ ] Skia bath screen reimplementation (Planning Complete - [Plan](./SKIA_BATH_REIMPLEMENTATION_PLAN.md))
 - [ ] Sounds and audio (Next Priority)
 - [ ] Advanced performance optimizations (In Progress)
@@ -488,10 +517,11 @@ src/
 
 ---
 
-**Last Updated:** 2026-01-21
-**Current Version:** 1.0.0
-**Status:** ✅ Core features complete, testing infrastructure in place (99% tests passing)
-**Next Version Target:** 1.1.0 (Sounds & Performance - 75% complete)
+**Last Updated:** 2026-01-22
+**Current Version:** 1.0.0 (with OAuth in branch)
+**Status:** ✅ Core features complete, testing infrastructure in place, OAuth authentication implemented
+**Features Completed:** 80% (core game + OAuth)
+**Next Version Target:** 1.1.0 (Sounds, Performance, & Skia Bath - 80% core complete)
 
 ---
 

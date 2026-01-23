@@ -13,6 +13,9 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - 🏥 Levar o pet ao veterinário
 - 👕 Trocar roupas e acessórios (cabeça, olhos, torso, patas)
 - 💾 Persistência local dos dados
+- 🔐 **Autenticação com Google OAuth** (novo!)
+- 👤 Modo convidado para jogar sem criar conta
+- 📱 Dados isolados por usuário (múltiplos usuários no mesmo dispositivo)
 - ⚠️ Confirmação ao sair para o menu (funciona em web, iOS e Android)
 - 🗑️ Botão para apagar pet no menu com confirmação
 - 💰 Sistema de moedas com anúncios opcionais para bônus
@@ -23,6 +26,7 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - TypeScript
 - React Navigation
 - AsyncStorage
+- @react-native-google-signin/google-signin (autenticação OAuth)
 - react-native-reanimated (animações e efeitos visuais)
 - react-native-gesture-handler
 - react-native-svg
@@ -112,6 +116,48 @@ ios: 'ca-app-pub-3940256099942544/2934735716'
 - Após completar atividades (alimentar, banho, brincar), opção de assistir anúncio para dobrar as moedas ganhas
 - Anúncios intersticiais aparecem a cada 4 transições de tela (com mínimo de 5 minutos entre eles)
 - Todos os anúncios são opcionais - nunca bloqueiam funcionalidades do jogo
+
+## 🔐 Autenticação com Google OAuth
+
+Este aplicativo integra autenticação com Google, permitindo que os usuários façam login seguro com suas contas do Google ou joguem como convidado.
+
+### Funcionalidades de Autenticação
+- **Login com Google**: Usuários podem fazer login com suas contas do Google
+- **Modo Convidado**: Jogar sem criar conta, dados armazenados localmente
+- **Multi-usuário**: Múltiplos usuários podem jogar no mesmo dispositivo com dados isolados
+- **Persistência**: O estado de autenticação é mantido entre sessões do aplicativo
+- **Sincronização de Dados**: Cada usuário tem seus próprios dados de pet isolados
+
+### Configuração do Google OAuth
+Para usar a autenticação com Google, você precisa:
+
+1. Configurar um projeto no Google Cloud Console
+2. Criar credenciais OAuth 2.0 para Android e iOS
+3. Fazer download dos arquivos de configuração (`google-services.json` e `GoogleService-Info.plist`)
+4. Colocar os arquivos na raiz do projeto (mesmo nível que `app.config.js`)
+
+**Para instruções detalhadas, veja [GOOGLE_OAUTH_SETUP.md](docs/GOOGLE_OAUTH_SETUP.md)**
+
+### Fluxo de Autenticação
+1. **Tela de Login**: Usuários veem duas opções na inicialização:
+   - Entrar com Google (requer conta do Google)
+   - Jogar como Convidado (sem conta necessária)
+
+2. **Após Login**:
+   - Usuários são levados à tela de Menu
+   - Dados de usuário são exibidos no topo da tela
+   - Opção de "Sign Out" disponível para usuários autenticados
+
+3. **Isolamento de Dados**:
+   - Cada usuário tem seu próprio armazenamento de dados
+   - Trocar de usuário mostra dados diferentes
+   - Dados de convidado são preservados como "guest"
+
+### Estrutura de Autenticação
+- **AuthContext** (`src/context/AuthContext.tsx`): Gerencia estado de autenticação global
+- **LoginScreen** (`src/screens/LoginScreen.tsx`): Interface de login
+- **Auth Storage** (`src/utils/authStorage.ts`): Persistência de estado de autenticação
+- **Multi-user Storage**: Storage de pet é namespaced por userId
 
 ## 🌐 Internacionalização (i18n)
 
@@ -238,6 +284,32 @@ Este hook reduziu em ~90% a duplicação de código nas cenas de ação.
 - ✅ Hooks customizados reutilizáveis
 - ✅ Configuração centralizada (gameBalance, constants, actionConfig)
 
+### 🚀 BMAD Method (Metodologia de Desenvolvimento)
+Este projeto está preparado para usar o **BMAD Method** (Breakthrough Method for Agile AI Driven Development) - uma metodologia orientada por IA que melhora planejamento, implementação e garantia de qualidade.
+
+**Benefícios principais:**
+- 📋 Planejamento estruturado com agentes especializados (PM, Arquiteto, DEV, TEA)
+- 🧪 Desenvolvimento orientado a testes (TDD) com estratégia definida antes da codificação
+- 📐 Revisão de arquitetura para features complexas
+- 📊 Rastreamento de épicos e histórias com estimativas
+- 📚 Documentação gerada automaticamente como parte do fluxo
+
+**Como começar:**
+```bash
+# Instalar BMAD CLI
+npm install -g @bmad/cli
+
+# Inicializar no projeto
+bmad init --type brownfield
+
+# Começar uma feature simples (Quick Flow)
+bmad dev-story --quick-flow --title "Minha primeira feature BMAD"
+```
+
+**Documentação completa:**
+- Para guia de início rápido: [docs/BMAD_QUICKSTART.md](docs/BMAD_QUICKSTART.md)
+- Para plano completo de implementação: [docs/BMAD_IMPLEMENTATION_PLAN.md](docs/BMAD_IMPLEMENTATION_PLAN.md)
+
 ## Documentação Adicional
 Consulte a pasta `docs/` para mais detalhes:
 - `docs/ROADMAP.md`: Planos futuros e melhorias
@@ -245,6 +317,8 @@ Consulte a pasta `docs/` para mais detalhes:
 - `docs/IMPLEMENTATION_PLAN.md`: Plano de implementação detalhado
 - `docs/TEST_IMPLEMENTATION_PLAN.md`: Detalhes técnicos e correção da suíte de testes
 - `docs/SKIA_BATH_REIMPLEMENTATION_PLAN.md`: Plano de reimplementação Skia para tela de banho
+- `docs/BMAD_IMPLEMENTATION_PLAN.md`: Plano completo de implementação do BMAD Method
+- `docs/BMAD_QUICKSTART.md`: Guia rápido para começar com BMAD
 - `docs/FEED_ACTIONS_DOCUMENTATION.md`: Sistema de alimentação
 - `docs/PLAY_ACTIONS_DOCUMENTATION.md`: Sistema de brincadeiras
 - `docs/VET_ACTIONS_DOCUMENTATION.md`: Sistema veterinário

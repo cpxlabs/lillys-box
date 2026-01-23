@@ -44,7 +44,12 @@
     "black": "Black",
     "brown": "Brown",
     "whiteBrown": "White/Brown",
-    "createButton": "Create Pet! 🎉"
+    "createButton": "Create Pet! 🎉",
+    "nameRequired": "Please enter a name for your pet!"
+  },
+  "languages": {
+    "en": "English",
+    "pt-BR": "Portuguese (Brazil)"
   },
   "home": {
     "money": "💰 {{amount}} coins",
