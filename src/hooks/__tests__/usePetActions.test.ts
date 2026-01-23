@@ -157,7 +157,7 @@ describe('usePetActions', () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
-    jest.useRealTimers();
+    jest.useFakeTimers();
 
     mockFeed = jest.fn();
     mockPlay = jest.fn();
@@ -194,15 +194,27 @@ describe('usePetActions', () => {
     });
   });
 
-  afterEach(async () => {
+  afterEach(() => {
     jest.clearAllMocks();
     jest.clearAllTimers();
+    jest.useRealTimers();
   });
 
   const performActionWithTimers = async (result: any, type: ActionType, options: any = {}) => {
-    return await act(async () => {
-      return await result.current.performAction(type, options);
+    let actionPromise: any;
+    
+    await act(async () => {
+      actionPromise = result.current.performAction(type, options);
+      // Advance by a small amount to trigger immediate state updates
+      jest.advanceTimersByTime(100); 
     });
+    
+    // Most animations in tests are mocked to be short or we need to proceed
+    await act(async () => {
+       jest.runAllTimers();
+    });
+
+    return await actionPromise;
   };
 
   describe('Hook Initialization', () => {
@@ -268,7 +280,7 @@ describe('usePetActions', () => {
         states: [
           {
             state: 'eating',
-            duration: 100,
+            duration: 100, // Short duration
             messageKey: 'feed.eating',
             messageVars: ['name', 'activity'],
           },
@@ -278,12 +290,24 @@ describe('usePetActions', () => {
         executeOnStart: true,
       });
       const { result } = renderHook(() => usePetActions());
-      act(() => {
-        result.current.performAction('feed', { activity: { emoji: '🍖', nameKey: 'kibble' } });
+      
+      let actionPromise: any;
+      await act(async () => {
+        actionPromise = result.current.performAction('feed', { activity: { emoji: '🍖', nameKey: 'kibble' } });
       });
-      await waitFor(() => {
-        expect(result.current.message).toContain('feed.eating');
+
+      // Advance slightly to enter the first state
+      await act(async () => {
+          jest.advanceTimersByTime(10);
       });
+
+      expect(result.current.message).toContain('feed.eating');
+      
+      // Finish up
+      await act(async () => {
+          jest.runAllTimers();
+      });
+      await actionPromise;
     });
   });
 
@@ -300,7 +324,9 @@ describe('usePetActions', () => {
     it('should execute sleep action', async () => {
       const { result } = renderHook(() => usePetActions());
       await act(async () => {
-        await result.current.performAction('sleep', { duration: 30000 });
+        const promise = result.current.performAction('sleep', { duration: 30000 });
+        jest.runAllTimers();
+        await promise;
       });
       expect(mockSleep).toHaveBeenCalledWith(30000);
     });
@@ -308,14 +334,19 @@ describe('usePetActions', () => {
     it('should handle sleep completion and cancellation', async () => {
       mockSleep.mockResolvedValueOnce({ completed: true });
       const { result } = renderHook(() => usePetActions());
-      let res = await act(async () => {
-        return await result.current.performAction('sleep');
+      let res: any;
+      await act(async () => {
+        const promise = result.current.performAction('sleep');
+        jest.runAllTimers();
+        res = await promise;
       });
       expect(res.completed).toBe(true);
 
       mockSleep.mockResolvedValueOnce({ completed: false });
-      res = await act(async () => {
-        return await result.current.performAction('sleep');
+      await act(async () => {
+         const promise = result.current.performAction('sleep');
+         jest.runAllTimers();
+         res = await promise;
       });
       expect(res.completed).toBe(false);
     });
@@ -350,23 +381,45 @@ describe('usePetActions', () => {
   describe('Animation Sequencing & State', () => {
     it('should manage isAnimating state', async () => {
       const { result } = renderHook(() => usePetActions());
-      act(() => {
-        result.current.performAction('feed');
+      
+      let actionPromise: any;
+      await act(async () => {
+        actionPromise = result.current.performAction('feed');
       });
+      
+      // Check immediate state
       expect(result.current.isAnimating).toBe(true);
-      await waitFor(() => {
-        expect(result.current.isAnimating).toBe(false);
+      
+      // Finish animation
+      await act(async () => {
+        jest.runAllTimers();
       });
+      await actionPromise;
+      
+      expect(result.current.isAnimating).toBe(false);
     });
 
     it('should clear previous timeouts when new action starts', async () => {
       const { result } = renderHook(() => usePetActions());
-      act(() => {
-        result.current.performAction('feed');
+      
+      // Start first action (fire and forget for this test pattern, but we need to advance time)
+      let feedPromise: any;
+      await act(async () => {
+        feedPromise = result.current.performAction('feed');
+        jest.advanceTimersByTime(10);
       });
+      
+      // Start second action immediately
       await performActionWithTimers(result, 'play');
+      
       expect(mockPlay).toHaveBeenCalled();
       expect(result.current.animationState).toBe('idle');
+
+      // Ensure first action doesn't crash or cause issues when it would have finished
+      await act(async () => {
+        jest.runAllTimers();
+      });
+      // We don't await feedPromise here as it might have been effectively cancelled/overwritten in state logic
     });
   });
 
@@ -380,14 +433,30 @@ describe('usePetActions', () => {
 
   describe('Cancel Action', () => {
     it('should handle cancellation', async () => {
+      // Mock sleep to be long-running so we can cancel it
+      mockSleep.mockImplementation(() => new Promise(resolve => {
+        setTimeout(() => resolve({ completed: true }), 5000);
+      }));
+
       const { result } = renderHook(() => usePetActions());
-      act(() => {
-        result.current.performAction('sleep');
+      let sleepPromise: any;
+      
+      await act(async () => {
+        sleepPromise = result.current.performAction('sleep');
+        jest.advanceTimersByTime(10);
       });
-      act(() => {
+      
+      await act(async () => {
         result.current.cancelAction();
+        // Run timers to resolve the sleep promise or allow cancellation logic to proceed
+        jest.runAllTimers(); 
       });
+
       expect(mockCancelSleep).toHaveBeenCalled();
+      
+      // After cancellation, we expect state to potentially return to idle or be handled by context
+      // The promise might resolve with completed: false (or whatever the mock does if cancelled, but here we just check the call)
+      const res = await sleepPromise; 
       expect(result.current.animationState).toBe('idle');
     });
   });
