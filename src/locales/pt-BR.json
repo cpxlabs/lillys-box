@@ -47,6 +47,10 @@
     "createButton": "Criar Pet! 🎉",
     "nameRequired": "Por favor, digite um nome para seu pet!"
   },
+  "languages": {
+    "en": "Inglês",
+    "pt-BR": "Português (Brasil)"
+  },
   "home": {
     "money": "💰 {{amount}} moedas",
     "warningAttention": "⚠️ Seu pet precisa de atenção!",

@@ -1,15 +1,20 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../context/LanguageContext';
 
 export const LanguageSelector: React.FC = () => {
   const { language, setLanguage } = useLanguage();
+  const { t } = useTranslation();
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={[styles.button, language === 'en' && styles.buttonActive]}
         onPress={() => setLanguage('en')}
+        accessibilityRole="radio"
+        accessibilityState={{ selected: language === 'en' }}
+        accessibilityLabel={t('languages.en')}
       >
         <Text style={[styles.flag, language === 'en' && styles.flagActive]}>🇺🇸</Text>
         <Text style={[styles.text, language === 'en' && styles.textActive]}>EN</Text>
@@ -18,6 +23,9 @@ export const LanguageSelector: React.FC = () => {
       <TouchableOpacity
         style={[styles.button, language === 'pt-BR' && styles.buttonActive]}
         onPress={() => setLanguage('pt-BR')}
+        accessibilityRole="radio"
+        accessibilityState={{ selected: language === 'pt-BR' }}
+        accessibilityLabel={t('languages.pt-BR')}
       >
         <Text style={[styles.flag, language === 'pt-BR' && styles.flagActive]}>🇧🇷</Text>
         <Text style={[styles.text, language === 'pt-BR' && styles.textActive]}>PT</Text>

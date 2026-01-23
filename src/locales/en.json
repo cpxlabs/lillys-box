@@ -47,6 +47,10 @@
     "createButton": "Create Pet! 🎉",
     "nameRequired": "Please enter a name for your pet!"
   },
+  "languages": {
+    "en": "English",
+    "pt-BR": "Portuguese (Brazil)"
+  },
   "home": {
     "money": "💰 {{amount}} coins",
     "warningAttention": "⚠️ Your pet needs attention!",
