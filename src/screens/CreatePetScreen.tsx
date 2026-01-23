@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -8,8 +8,17 @@ import {
   SafeAreaView,
   KeyboardAvoidingView,
   Platform,
+  ViewStyle,
+  TextStyle,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withSpring,
+  withSequence,
+  withTiming,
+} from 'react-native-reanimated';
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { hapticFeedback } from '../utils/haptics';
@@ -21,6 +30,67 @@ import { validatePetName, sanitizePetName } from '../utils/validation';
 type Props = {
   navigation: ScreenNavigationProp<'CreatePet'>;
 };
+
+// --- SelectionButton Component ---
+// Incorporates micro-interactions: scale animation and haptic feedback
+const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
+
+interface SelectionButtonProps {
+  selected: boolean;
+  onPress: () => void;
+  emoji: string;
+  label: string;
+  style?: ViewStyle;
+  emojiStyle?: TextStyle;
+  textStyle?: TextStyle;
+}
+
+const SelectionButton: React.FC<SelectionButtonProps> = ({
+  selected,
+  onPress,
+  emoji,
+  label,
+  style,
+  emojiStyle,
+  textStyle,
+}) => {
+  const scale = useSharedValue(1);
+
+  useEffect(() => {
+    if (selected) {
+      scale.value = withSequence(
+        withTiming(1.1, { duration: 100 }),
+        withSpring(1, { damping: 10, stiffness: 100 })
+      );
+    } else {
+      scale.value = withTiming(1, { duration: 200 });
+    }
+  }, [selected, scale]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ scale: scale.value }],
+  }));
+
+  const handlePress = () => {
+    hapticFeedback.selection();
+    onPress();
+  };
+
+  return (
+    <AnimatedTouchableOpacity
+      style={[style, selected && styles.optionSelected, animatedStyle]}
+      onPress={handlePress}
+      activeOpacity={0.8}
+      accessibilityRole="radio"
+      accessibilityState={{ selected }}
+      accessibilityLabel={label}
+    >
+      <Text style={emojiStyle}>{emoji}</Text>
+      <Text style={textStyle}>{label}</Text>
+    </AnimatedTouchableOpacity>
+  );
+};
+// ---------------------------------
 
 export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
   const { createPet } = usePet();
@@ -72,26 +142,24 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
 
         <Text style={styles.label}>{t('createPet.choosePet')}</Text>
         <View style={styles.optionRow}>
-          <TouchableOpacity
-            style={[styles.optionButton, petType === 'cat' && styles.optionSelected]}
+          <SelectionButton
+            selected={petType === 'cat'}
             onPress={() => handlePetTypeChange('cat')}
-            accessibilityRole="radio"
-            accessibilityState={{ selected: petType === 'cat' }}
-            accessibilityLabel={t('createPet.cat')}
-          >
-            <Text style={styles.optionEmoji}>🐱</Text>
-            <Text style={styles.optionText}>{t('createPet.cat')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.optionButton, petType === 'dog' && styles.optionSelected]}
+            emoji="🐱"
+            label={t('createPet.cat')}
+            style={styles.optionButton}
+            emojiStyle={styles.optionEmoji}
+            textStyle={styles.optionText}
+          />
+          <SelectionButton
+            selected={petType === 'dog'}
             onPress={() => handlePetTypeChange('dog')}
-            accessibilityRole="radio"
-            accessibilityState={{ selected: petType === 'dog' }}
-            accessibilityLabel={t('createPet.dog')}
-          >
-            <Text style={styles.optionEmoji}>🐶</Text>
-            <Text style={styles.optionText}>{t('createPet.dog')}</Text>
-          </TouchableOpacity>
+            emoji="🐶"
+            label={t('createPet.dog')}
+            style={styles.optionButton}
+            emojiStyle={styles.optionEmoji}
+            textStyle={styles.optionText}
+          />
         </View>
 
         <Text style={styles.label}>{t('createPet.petName')}</Text>
@@ -106,7 +174,7 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
           />
           <Text
             style={styles.charCount}
-            accessibilityLabel={`${name.length} / 20`}
+            accessibilityLabel={`${name.length} ${t('common.of', { defaultValue: 'of' })} 20`}
           >
             {name.length}/20
           </Text>
@@ -114,72 +182,66 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
 
         <Text style={styles.label}>{t('createPet.gender')}</Text>
         <View style={styles.optionRow}>
-          <TouchableOpacity
-            style={[styles.genderButton, gender === 'male' && styles.optionSelected]}
+          <SelectionButton
+            selected={gender === 'male'}
             onPress={() => setGender('male')}
-            accessibilityRole="radio"
-            accessibilityState={{ selected: gender === 'male' }}
-            accessibilityLabel={t('createPet.male')}
-          >
-            <Text style={styles.genderEmoji}>♂️</Text>
-            <Text style={styles.genderText}>{t('createPet.male')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.genderButton, gender === 'female' && styles.optionSelected]}
+            emoji="♂️"
+            label={t('createPet.male')}
+            style={styles.genderButton}
+            emojiStyle={styles.genderEmoji}
+            textStyle={styles.genderText}
+          />
+          <SelectionButton
+            selected={gender === 'female'}
             onPress={() => setGender('female')}
-            accessibilityRole="radio"
-            accessibilityState={{ selected: gender === 'female' }}
-            accessibilityLabel={t('createPet.female')}
-          >
-            <Text style={styles.genderEmoji}>♀️</Text>
-            <Text style={styles.genderText}>{t('createPet.female')}</Text>
-          </TouchableOpacity>
+            emoji="♀️"
+            label={t('createPet.female')}
+            style={styles.genderButton}
+            emojiStyle={styles.genderEmoji}
+            textStyle={styles.genderText}
+          />
         </View>
 
         <Text style={styles.label}>{t('createPet.coatColor')}</Text>
         <View style={styles.colorContainer}>
-          <TouchableOpacity
-            style={[styles.colorButton, color === 'base' && styles.optionSelected]}
+          <SelectionButton
+            selected={color === 'base'}
             onPress={() => setColor('base')}
-            accessibilityRole="radio"
-            accessibilityState={{ selected: color === 'base' }}
-            accessibilityLabel={t('createPet.white')}
-          >
-            <Text style={styles.colorEmoji}>⚪</Text>
-            <Text style={styles.colorText}>{t('createPet.white')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[styles.colorButton, color === 'black' && styles.optionSelected]}
+            emoji="⚪"
+            label={t('createPet.white')}
+            style={styles.colorButton}
+            emojiStyle={styles.colorEmoji}
+            textStyle={styles.colorText}
+          />
+          <SelectionButton
+            selected={color === 'black'}
             onPress={() => setColor('black')}
-            accessibilityRole="radio"
-            accessibilityState={{ selected: color === 'black' }}
-            accessibilityLabel={t('createPet.black')}
-          >
-            <Text style={styles.colorEmoji}>⚫</Text>
-            <Text style={styles.colorText}>{t('createPet.black')}</Text>
-          </TouchableOpacity>
+            emoji="⚫"
+            label={t('createPet.black')}
+            style={styles.colorButton}
+            emojiStyle={styles.colorEmoji}
+            textStyle={styles.colorText}
+          />
           {petType === 'dog' && (
             <>
-              <TouchableOpacity
-                style={[styles.colorButton, color === 'brown' && styles.optionSelected]}
+              <SelectionButton
+                selected={color === 'brown'}
                 onPress={() => setColor('brown')}
-                accessibilityRole="radio"
-                accessibilityState={{ selected: color === 'brown' }}
-                accessibilityLabel={t('createPet.brown')}
-              >
-                <Text style={styles.colorEmoji}>🟤</Text>
-                <Text style={styles.colorText}>{t('createPet.brown')}</Text>
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[styles.colorButton, color === 'whiteandbrown' && styles.optionSelected]}
+                emoji="🟤"
+                label={t('createPet.brown')}
+                style={styles.colorButton}
+                emojiStyle={styles.colorEmoji}
+                textStyle={styles.colorText}
+              />
+              <SelectionButton
+                selected={color === 'whiteandbrown'}
                 onPress={() => setColor('whiteandbrown')}
-                accessibilityRole="radio"
-                accessibilityState={{ selected: color === 'whiteandbrown' }}
-                accessibilityLabel={t('createPet.whiteBrown')}
-              >
-                <Text style={styles.colorEmoji}>🤍🟤</Text>
-                <Text style={styles.colorText}>{t('createPet.whiteBrown')}</Text>
-              </TouchableOpacity>
+                emoji="🤍🟤"
+                label={t('createPet.whiteBrown')}
+                style={styles.colorButton}
+                emojiStyle={styles.colorEmoji}
+                textStyle={styles.colorText}
+              />
             </>
           )}
         </View>

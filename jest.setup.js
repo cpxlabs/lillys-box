@@ -37,6 +37,8 @@ jest.mock('react-native', () => {
     ScrollView: mockComponent('ScrollView'),
     FlatList: mockComponent('FlatList'),
     TextInput: mockComponent('TextInput'),
+    SafeAreaView: mockComponent('SafeAreaView'),
+    KeyboardAvoidingView: mockComponent('KeyboardAvoidingView'),
     useWindowDimensions: jest.fn(() => ({ width: 375, height: 812, scale: 2, fontScale: 2 })),
     PixelRatio: {
       get: jest.fn(() => 2),
@@ -56,6 +58,7 @@ jest.mock('react-native', () => {
       sequence: jest.fn(),
       parallel: jest.fn(),
     },
+    findNodeHandle: jest.fn(),
   };
 });
 
@@ -84,6 +87,23 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(() => Promise.resolve()),
   getItem: jest.fn(() => Promise.resolve(null)),
   removeItem: jest.fn(() => Promise.resolve()),
+}));
+
+// Mock Google Signin
+jest.mock('@react-native-google-signin/google-signin', () => ({
+  GoogleSignin: {
+    configure: jest.fn(),
+    hasPlayServices: jest.fn(() => Promise.resolve(true)),
+    signIn: jest.fn(() => Promise.resolve({ user: { id: 'test', name: 'Test User' } })),
+    signOut: jest.fn(() => Promise.resolve()),
+    isSignedIn: jest.fn(() => Promise.resolve(false)),
+    getTokens: jest.fn(() => Promise.resolve({ accessToken: 'test' })),
+  },
+  statusCodes: {
+    SIGN_IN_CANCELLED: 'SIGN_IN_CANCELLED',
+    IN_PROGRESS: 'IN_PROGRESS',
+    PLAY_SERVICES_NOT_AVAILABLE: 'PLAY_SERVICES_NOT_AVAILABLE',
+  },
 }));
 
 // Silence console in tests

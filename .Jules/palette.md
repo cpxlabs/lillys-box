@@ -17,3 +17,7 @@
 ## 2025-05-23 - [Accessible Progress Bars]
 **Learning:** Visual status bars (like health or hunger) are invisible to screen readers without semantic roles. Hardcoded labels in these components also break accessibility for non-English speakers.
 **Action:** Use `accessibilityRole="progressbar"` with `accessibilityValue` for status indicators, and ensure all labels passed to `accessibilityLabel` are localized using i18n keys.
+
+## 2026-05-24 - [Testing Reanimated Components]
+**Learning:** Testing components using `react-native-reanimated` with `react-test-renderer` requires strict environment mocking, specifically `findNodeHandle` in `react-native` mock, or mocking the library entirely to avoid DOM-related errors (like `getBoundingClientRect`).
+**Action:** When adding Reanimated to existing components, update `jest.setup.js` to include `findNodeHandle: jest.fn()` in the `react-native` mock, or wrap the component in a test that mocks `react-native-reanimated` logic.
