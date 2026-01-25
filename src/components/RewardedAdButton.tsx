@@ -9,6 +9,8 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useRewardedAd } from '../hooks/useRewardedAd';
+import { useToast } from '../context/ToastContext';
+import { hapticFeedback } from '../utils/haptics';
 
 type Props = {
   rewardText: string;
@@ -37,19 +39,33 @@ export const RewardedAdButton: React.FC<Props> = ({
 }) => {
   const { showRewardedAd, isAdReady, isLoading } = useRewardedAd();
   const { t } = useTranslation();
-
-  const handlePress = async () => {
-    await showRewardedAd(onRewardEarned);
-  };
+  const { showToast } = useToast();
 
   const isDisabled = disabled || !isAdReady || isLoading;
+
+  const handlePress = async () => {
+    if (isDisabled) {
+      hapticFeedback.light();
+      if (isLoading) {
+        showToast(t('common.loading'), 'info');
+      } else if (!isAdReady) {
+        showToast(t('ads.notAvailable'), 'info');
+      }
+      return;
+    }
+    await showRewardedAd(onRewardEarned);
+  };
 
   return (
     <TouchableOpacity
       style={[styles.button, isDisabled && styles.buttonDisabled, style]}
       onPress={handlePress}
-      disabled={isDisabled}
-      activeOpacity={0.7}
+      disabled={false} // Always interactive to provide feedback
+      activeOpacity={isDisabled ? 1 : 0.7}
+      accessibilityRole="button"
+      accessibilityLabel={isLoading ? t('common.loading') : rewardText}
+      accessibilityHint={isDisabled ? t('ads.notAvailable') : undefined}
+      accessibilityState={{ disabled: isDisabled }}
     >
       <View style={styles.content}>
         <Text style={styles.icon}>📺</Text>
