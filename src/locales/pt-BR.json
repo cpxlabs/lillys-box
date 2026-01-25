@@ -8,7 +8,8 @@
     "year": "ano",
     "years": "anos",
     "loading": "Carregando...",
-    "or": "OU"
+    "or": "OU",
+    "signOut": "Sair"
   },
   "menu": {
     "title": "🐾 Pet Care",
@@ -30,6 +31,12 @@
       "title": "Excluir Pet",
       "message": "Tem certeza que deseja excluir o pet \"{{name}}\"? Esta ação não pode ser desfeita.",
       "confirmText": "Excluir",
+      "cancelText": "Cancelar"
+    },
+    "signOutModal": {
+      "title": "Sair",
+      "message": "Tem certeza que deseja sair? Os dados do seu pet serão preservados.",
+      "confirmText": "Sair",
       "cancelText": "Cancelar"
     }
   },

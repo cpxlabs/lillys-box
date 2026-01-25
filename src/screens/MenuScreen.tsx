@@ -67,6 +67,8 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
         try {
             await signOut();
         } catch (error) {
+            // Log error if needed, or just ignore for now as we show a generic alert
+            console.error(error);
             Alert.alert('Error', 'Failed to sign out. Please try again.');
         }
     };
@@ -96,8 +98,11 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
                     <TouchableOpacity
                         style={styles.signOutButton}
                         onPress={handleSignOut}
+                        accessibilityRole="button"
+                        accessibilityLabel={t('common.signOut')}
+                        accessibilityHint={t('menu.signOutModal.message')}
                     >
-                        <Text style={styles.signOutButtonText}>Sign Out</Text>
+                        <Text style={styles.signOutButtonText}>{t('common.signOut')}</Text>
                     </TouchableOpacity>
                 )}
             </View>
@@ -191,10 +196,10 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
 
             <ConfirmModal
                 visible={showSignOutConfirm}
-                title="Sign Out"
-                message="Are you sure you want to sign out? Your pet data will be preserved."
-                confirmText="Sign Out"
-                cancelText="Cancel"
+                title={t('menu.signOutModal.title')}
+                message={t('menu.signOutModal.message')}
+                confirmText={t('menu.signOutModal.confirmText')}
+                cancelText={t('menu.signOutModal.cancelText')}
                 confirmStyle="destructive"
                 onConfirm={handleConfirmSignOut}
                 onCancel={() => setShowSignOutConfirm(false)}

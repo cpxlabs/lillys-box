@@ -8,7 +8,8 @@
     "year": "year",
     "years": "years",
     "loading": "Loading...",
-    "or": "OR"
+    "or": "OR",
+    "signOut": "Sign Out"
   },
   "menu": {
     "title": "🐾 Pet Care",
@@ -29,6 +30,12 @@
       "title": "Delete Pet",
       "message": "Are you sure you want to delete the pet \"{{name}}\"? This action cannot be undone.",
       "confirmText": "Delete",
+      "cancelText": "Cancel"
+    },
+    "signOutModal": {
+      "title": "Sign Out",
+      "message": "Are you sure you want to sign out? Your pet data will be preserved.",
+      "confirmText": "Sign Out",
       "cancelText": "Cancel"
     }
   },
