@@ -10,6 +10,7 @@ jest.mock('../../context/PetContext', () => ({
 }));
 
 jest.mock('react-native-reanimated', () => {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const Reanimated = require('react-native-reanimated/mock');
 
   // The mock for `call` immediately calls the callback which is incorrect
@@ -82,5 +83,19 @@ describe('CreatePetScreen', () => {
     // Check if accessibility label is present (initially 0/20, then 6/20)
     // The current implementation uses t('common.of') which mocks to "common.of"
     expect(getByLabelText('6 common.of 20')).toBeTruthy();
+  });
+
+  it('button is accessible and interactive even when name is empty', () => {
+    const { getByLabelText } = render(<CreatePetScreen navigation={mockNavigation} />);
+
+    const createButton = getByLabelText('createPet.createButton');
+
+    // Should NOT have disabled state for screen reader (so it's clickable to show toast)
+    expect(createButton.props.accessibilityState).not.toEqual(
+      expect.objectContaining({ disabled: true })
+    );
+
+    // Should have hint explaining requirement
+    expect(createButton.props.accessibilityHint).toBe('createPet.nameRequired');
   });
 });

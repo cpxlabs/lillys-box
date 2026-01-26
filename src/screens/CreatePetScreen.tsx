@@ -12,6 +12,7 @@ import {
   TextStyle,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { COLORS } from '../config/constants';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -34,6 +35,12 @@ type Props = {
 // --- SelectionButton Component ---
 // Incorporates micro-interactions: scale animation and haptic feedback
 const AnimatedTouchableOpacity = Animated.createAnimatedComponent(TouchableOpacity);
+
+const getCharCountColor = (length: number, max: number) => {
+  if (length >= max) return COLORS.STAT_LEVELS.LOW;
+  if (length >= max * 0.75) return COLORS.STAT_LEVELS.MEDIUM;
+  return '#666';
+};
 
 interface SelectionButtonProps {
   selected: boolean;
@@ -173,10 +180,9 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
             maxLength={20}
           />
           <Text
-            style={styles.charCount}
+            style={[styles.charCount, { color: getCharCountColor(name.length, 20) }]}
             accessibilityLabel={`${name.length} ${t('common.of', { defaultValue: 'of' })} 20`}
           >
-
             {name.length}/20
           </Text>
         </View>
@@ -260,7 +266,6 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
           activeOpacity={!name.trim() ? 1 : 0.7}
           accessibilityRole="button"
           accessibilityLabel={t('createPet.createButton')}
-          accessibilityState={{ disabled: !name.trim() }}
           accessibilityHint={!name.trim() ? t('createPet.nameRequired') : undefined}
         >
           <Text style={styles.createButtonText}>{t('createPet.createButton')}</Text>
