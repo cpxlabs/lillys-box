@@ -17,11 +17,11 @@ type Props = {
   navigation: ScreenNavigationProp<'Wardrobe'>;
 };
 
-const SLOTS: { key: ClothingSlot; label: string; emoji: string }[] = [
-  { key: 'head', label: 'Cabeça', emoji: '🎩' },
-  { key: 'eyes', label: 'Olhos', emoji: '👀' },
-  { key: 'torso', label: 'Torso', emoji: '👕' },
-  { key: 'paws', label: 'Patas', emoji: '🧦' },
+const SLOTS: { key: ClothingSlot; emoji: string }[] = [
+  { key: 'head', emoji: '🎩' },
+  { key: 'eyes', emoji: '👀' },
+  { key: 'torso', emoji: '👕' },
+  { key: 'paws', emoji: '🧦' },
 ];
 
 export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
@@ -49,7 +49,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScreenHeader
-        title="👕 Armário"
+        title={t('wardrobe.title')}
         onBackPress={() => navigation.goBack()}
         BackButtonIcon={BackButtonIcon}
       />
@@ -80,6 +80,9 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
               selectedSlot === slot.key && styles.slotButtonSelected,
             ]}
             onPress={() => setSelectedSlot(slot.key)}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: selectedSlot === slot.key }}
+            accessibilityLabel={t(`wardrobe.slots.${slot.key}`)}
           >
             <Text style={[styles.slotEmoji, { fontSize: wardrobeSizes.slotEmoji }]}>
               {slot.emoji}
@@ -90,7 +93,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
                 { fontSize: wardrobeSizes.slotLabel, marginTop: spacing(2) },
               ]}
             >
-              {slot.label}
+              {t(`wardrobe.slots.${slot.key}`)}
             </Text>
           </TouchableOpacity>
         ))}
@@ -110,6 +113,9 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
               pet.clothes[selectedSlot] === null && styles.itemButtonSelected,
             ]}
             onPress={() => handleSelectItem(null)}
+            accessibilityRole="button"
+            accessibilityState={{ selected: pet.clothes[selectedSlot] === null }}
+            accessibilityLabel={t('wardrobe.none')}
           >
             <Text
               style={[
@@ -119,7 +125,9 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
             >
               ❌
             </Text>
-            <Text style={[styles.itemName, { fontSize: wardrobeSizes.itemName }]}>Nenhum</Text>
+            <Text style={[styles.itemName, { fontSize: wardrobeSizes.itemName }]}>
+              {t('wardrobe.none')}
+            </Text>
           </TouchableOpacity>
 
           {itemsForSlot.map((item) => (
@@ -136,6 +144,9 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
                 pet.clothes[selectedSlot] === item.id && styles.itemButtonSelected,
               ]}
               onPress={() => handleSelectItem(item.id)}
+              accessibilityRole="button"
+              accessibilityState={{ selected: pet.clothes[selectedSlot] === item.id }}
+              accessibilityLabel={item.name}
             >
               <View style={[styles.itemPreview, { width: spacing(40), height: spacing(40) }]}>
                 <Text style={[styles.itemPlaceholder, { fontSize: wardrobeSizes.itemEmoji }]}>
