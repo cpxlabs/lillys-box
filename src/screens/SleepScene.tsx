@@ -9,6 +9,8 @@ import ReanimatedView, {
 } from 'react-native-reanimated';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
+import { useToast } from '../context/ToastContext';
+import { hapticFeedback } from '../utils/haptics';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { ScreenNavigationProp } from '../types/navigation';
 import { StatusCard } from '../components/StatusCard';
@@ -64,6 +66,7 @@ type Props = {
 export const SleepScene: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { pet, sleep, cancelSleep: cancelSleepContext } = usePet();
+  const { showToast } = useToast();
   const [isSleeping, setIsSleeping] = useState(false);
   const [sleepProgress, setSleepProgress] = useState(0);
   const [fadeAnim] = useState(new Animated.Value(1));
@@ -78,6 +81,12 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
 
   const startSleep = async () => {
     if (!pet) return;
+
+    if (pet.energy >= GAME_BALANCE.thresholds.energyForSleep) {
+      hapticFeedback.light();
+      showToast(t('sleep.energyHigh'), 'info');
+      return;
+    }
 
     setIsSleeping(true);
     setSleepProgress(0);
@@ -275,12 +284,10 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
                 !canSleep && styles.sleepButtonDisabled,
               ]}
               onPress={startSleep}
-              disabled={!canSleep}
               accessibilityRole="button"
               accessibilityLabel={canSleep
                 ? t('sleep.sleepButton', { duration: SLEEP_DURATION / 1000 })
                 : t('sleep.energyHigh')}
-              accessibilityState={{ disabled: !canSleep }}
               accessibilityHint={canSleep ? "Put your pet to sleep" : "Pet is not tired enough"}
             >
               <Text style={[styles.sleepButtonText, { fontSize: textSizes.buttonText }]}>
