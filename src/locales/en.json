@@ -8,7 +8,10 @@
     "year": "year",
     "years": "years",
     "loading": "Loading...",
-    "or": "OR"
+    "or": "OR",
+    "previous": "Previous",
+    "next": "Next",
+    "of": "of"
   },
   "menu": {
     "title": "🐾 Pet Care",
@@ -104,6 +107,7 @@
   "play": {
     "title": "🎮 Play",
     "chooseActivity": "Choose the activity:",
+    "activity": "Activity",
     "activities": {
       "yarnBall": "Yarn Ball",
       "smallBall": "Small Ball"

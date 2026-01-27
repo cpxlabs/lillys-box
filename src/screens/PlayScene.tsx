@@ -104,6 +104,9 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
             ]}
             onPress={goToPrevious}
             disabled={isAnimating}
+            accessibilityRole="button"
+            accessibilityLabel={`${t('common.previous')} ${t('play.activity')}`}
+            accessibilityHint={t('play.chooseActivity')}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>←</Text>
           </TouchableOpacity>
@@ -145,12 +148,18 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
             ]}
             onPress={goToNext}
             disabled={isAnimating}
+            accessibilityRole="button"
+            accessibilityLabel={`${t('common.next')} ${t('play.activity')}`}
+            accessibilityHint={t('play.chooseActivity')}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>→</Text>
           </TouchableOpacity>
         </View>
 
-        <Text style={[styles.pageIndicator, { fontSize: fs(13), marginBottom: spacing(12) }]}>
+        <Text
+          style={[styles.pageIndicator, { fontSize: fs(13), marginBottom: spacing(12) }]}
+          accessibilityLabel={`${currentIndex + 1} ${t('common.of')} ${totalItems}`}
+        >
           {currentIndex + 1} / {totalItems}
         </Text>
       </View>
