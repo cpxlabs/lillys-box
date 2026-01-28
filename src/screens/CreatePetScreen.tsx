@@ -10,6 +10,7 @@ import {
   Platform,
   ViewStyle,
   TextStyle,
+  ActivityIndicator,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import Animated, {
@@ -100,6 +101,7 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
   const [petType, setPetType] = useState<PetType>('cat');
   const [gender, setGender] = useState<Gender>('female');
   const [color, setColor] = useState<PetColor>('base');
+  const [isLoading, setIsLoading] = useState(false);
 
   // Reset color when switching pet type if the color is not available for the new type
   const handlePetTypeChange = (newType: PetType) => {
@@ -118,9 +120,15 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
       return;
     }
 
-    const sanitizedName = sanitizePetName(name);
-    await createPet(sanitizedName, petType, gender, color);
-    navigation.replace('Home');
+    try {
+      setIsLoading(true);
+      const sanitizedName = sanitizePetName(name);
+      await createPet(sanitizedName, petType, gender, color);
+      navigation.replace('Home');
+    } catch {
+      setIsLoading(false);
+      showToast(t('createPet.error', { defaultValue: 'Failed to create pet' }), 'error');
+    }
   };
 
   return (
@@ -248,8 +256,12 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
         </View>
 
         <TouchableOpacity
-          style={[styles.createButton, !name.trim() && styles.createButtonDisabled]}
+          style={[
+            styles.createButton,
+            (!name.trim() || isLoading) && styles.createButtonDisabled,
+          ]}
           onPress={() => {
+            if (isLoading) return;
             if (!name.trim()) {
               hapticFeedback.light();
               showToast(t('createPet.nameRequired'), 'info');
@@ -257,13 +269,17 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
             }
             handleCreate();
           }}
-          activeOpacity={!name.trim() ? 1 : 0.7}
+          activeOpacity={!name.trim() || isLoading ? 1 : 0.7}
           accessibilityRole="button"
           accessibilityLabel={t('createPet.createButton')}
-          accessibilityState={{ disabled: !name.trim() }}
+          accessibilityState={{ disabled: !name.trim() || isLoading, busy: isLoading }}
           accessibilityHint={!name.trim() ? t('createPet.nameRequired') : undefined}
         >
-          <Text style={styles.createButtonText}>{t('createPet.createButton')}</Text>
+          {isLoading ? (
+            <ActivityIndicator color="#fff" />
+          ) : (
+            <Text style={styles.createButtonText}>{t('createPet.createButton')}</Text>
+          )}
         </TouchableOpacity>
       </KeyboardAvoidingView>
     </SafeAreaView>

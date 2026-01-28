@@ -27,3 +27,7 @@
 ## 2026-05-24 - [Testing Reanimated Components]
 **Learning:** Testing components using `react-native-reanimated` with `react-test-renderer` requires strict environment mocking, specifically `findNodeHandle` in `react-native` mock, or mocking the library entirely to avoid DOM-related errors (like `getBoundingClientRect`).
 **Action:** When adding Reanimated to existing components, update `jest.setup.js` to include `findNodeHandle: jest.fn()` in the `react-native` mock, or wrap the component in a test that mocks `react-native-reanimated` logic.
+
+## 2026-05-25 - [Accessibility State for Loading Buttons]
+**Learning:** Buttons performing async actions need to communicate their state to screen readers. Simply disabling them is insufficient; the `busy` state informs users that processing is occurring.
+**Action:** When adding loading states to buttons, always include `accessibilityState={{ busy: true }}` alongside the visual indicator (like `ActivityIndicator`).
