@@ -22,6 +22,7 @@ import Animated, {
 import { usePet } from '../context/PetContext';
 import { useToast } from '../context/ToastContext';
 import { hapticFeedback } from '../utils/haptics';
+import { COLORS } from '../config/constants';
 import { PetType, PetColor, Gender } from '../types';
 import { BackButtonIcon } from '../hooks/useBackButton';
 import { ScreenNavigationProp } from '../types/navigation';
@@ -123,6 +124,12 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
     navigation.replace('Home');
   };
 
+  const getCharCountColor = () => {
+    if (name.length >= 20) return COLORS.STAT_LEVELS.LOW;
+    if (name.length >= 15) return COLORS.STAT_LEVELS.MEDIUM;
+    return '#666';
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
@@ -173,7 +180,7 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
             maxLength={20}
           />
           <Text
-            style={styles.charCount}
+            style={[styles.charCount, { color: getCharCountColor() }]}
             accessibilityLabel={`${name.length} ${t('common.of', { defaultValue: 'of' })} 20`}
           >
 

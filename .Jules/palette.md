@@ -27,3 +27,7 @@
 ## 2026-05-24 - [Testing Reanimated Components]
 **Learning:** Testing components using `react-native-reanimated` with `react-test-renderer` requires strict environment mocking, specifically `findNodeHandle` in `react-native` mock, or mocking the library entirely to avoid DOM-related errors (like `getBoundingClientRect`).
 **Action:** When adding Reanimated to existing components, update `jest.setup.js` to include `findNodeHandle: jest.fn()` in the `react-native` mock, or wrap the component in a test that mocks `react-native-reanimated` logic.
+
+## 2026-05-25 - [Consistent Constraint Feedback]
+**Learning:** Reusing existing semantic color tokens (like `COLORS.STAT_LEVELS` for health/stats) for form validation (e.g., character limits) creates a consistent visual language where "Low Health" (Red) maps to "Limit Reached" (Red).
+**Action:** Before creating new color tokens for warnings/errors, check if existing semantic tokens can be reused to maintain design system consistency.
