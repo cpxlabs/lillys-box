@@ -116,12 +116,12 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
                 borderRadius: buttonSizes.arrowSize / 2,
                 marginHorizontal: spacing(6),
               },
+              isAnimating && styles.arrowButtonDisabled,
             ]}
             onPress={goToPrevious}
             disabled={isAnimating}
             accessibilityRole="button"
-            accessibilityLabel="Previous food"
-            accessibilityHint="Show previous food option"
+            accessibilityLabel={t('common.previous')}
             accessibilityState={{ disabled: isAnimating }}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>←</Text>
@@ -177,12 +177,12 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
                 borderRadius: buttonSizes.arrowSize / 2,
                 marginHorizontal: spacing(6),
               },
+              isAnimating && styles.arrowButtonDisabled,
             ]}
             onPress={goToNext}
             disabled={isAnimating}
             accessibilityRole="button"
-            accessibilityLabel="Next food"
-            accessibilityHint="Show next food option"
+            accessibilityLabel={t('common.next')}
             accessibilityState={{ disabled: isAnimating }}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>→</Text>
@@ -274,6 +274,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 8,
+  },
+  arrowButtonDisabled: {
+    opacity: 0.5,
   },
   arrowText: {
     fontSize: 28,

@@ -8,7 +8,9 @@
     "year": "ano",
     "years": "anos",
     "loading": "Carregando...",
-    "or": "OU"
+    "or": "OU",
+    "previous": "Anterior",
+    "next": "Próximo"
   },
   "menu": {
     "title": "🐾 Pet Care",

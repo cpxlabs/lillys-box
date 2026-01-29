@@ -101,9 +101,12 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
                 borderRadius: buttonSizes.arrowSize / 2,
                 marginHorizontal: spacing(6),
               },
+              isAnimating && styles.arrowButtonDisabled,
             ]}
             onPress={goToPrevious}
             disabled={isAnimating}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.previous')}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>←</Text>
           </TouchableOpacity>
@@ -142,9 +145,12 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
                 borderRadius: buttonSizes.arrowSize / 2,
                 marginHorizontal: spacing(6),
               },
+              isAnimating && styles.arrowButtonDisabled,
             ]}
             onPress={goToNext}
             disabled={isAnimating}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.next')}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>→</Text>
           </TouchableOpacity>
@@ -226,6 +232,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 8,
+  },
+  arrowButtonDisabled: {
+    opacity: 0.5,
   },
   arrowText: {
     fontSize: 28,
