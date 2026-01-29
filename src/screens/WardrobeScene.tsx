@@ -80,6 +80,9 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
               selectedSlot === slot.key && styles.slotButtonSelected,
             ]}
             onPress={() => setSelectedSlot(slot.key)}
+            accessibilityRole="tab"
+            accessibilityState={{ selected: selectedSlot === slot.key }}
+            accessibilityLabel={slot.label}
           >
             <Text style={[styles.slotEmoji, { fontSize: wardrobeSizes.slotEmoji }]}>
               {slot.emoji}
@@ -110,6 +113,9 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
               pet.clothes[selectedSlot] === null && styles.itemButtonSelected,
             ]}
             onPress={() => handleSelectItem(null)}
+            accessibilityRole="radio"
+            accessibilityState={{ selected: pet.clothes[selectedSlot] === null }}
+            accessibilityLabel={t('wardrobe.none')}
           >
             <Text
               style={[
@@ -136,6 +142,9 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
                 pet.clothes[selectedSlot] === item.id && styles.itemButtonSelected,
               ]}
               onPress={() => handleSelectItem(item.id)}
+              accessibilityRole="radio"
+              accessibilityState={{ selected: pet.clothes[selectedSlot] === item.id }}
+              accessibilityLabel={item.name}
             >
               <View style={[styles.itemPreview, { width: spacing(40), height: spacing(40) }]}>
                 <Text style={[styles.itemPlaceholder, { fontSize: wardrobeSizes.itemEmoji }]}>
