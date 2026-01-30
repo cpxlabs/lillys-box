@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { useTranslation } from 'react-i18next';
 import { Pet } from '../types';
 import { EnhancedStatusBar } from './EnhancedStatusBar';
 import { useResponsive } from '../hooks/useResponsive';
@@ -18,6 +19,7 @@ export const StatusCard: React.FC<StatusCardProps> = ({
   petAge,
 }) => {
   const { fs, spacing } = useResponsive();
+  const { t } = useTranslation();
 
   const dynamicStyles = {
     card: {
@@ -55,7 +57,12 @@ export const StatusCard: React.FC<StatusCardProps> = ({
         <View style={styles.leftColumn}>
           <Text style={[styles.petName, dynamicStyles.petName]}>{petName}</Text>
           <Text style={[styles.petAge, dynamicStyles.petAge]}>{petAge}</Text>
-          <View style={[styles.moneyContainer, dynamicStyles.moneyContainer]}>
+          <View
+            style={[styles.moneyContainer, dynamicStyles.moneyContainer]}
+            accessible={true}
+            accessibilityRole="text"
+            accessibilityLabel={t('home.money', { amount: pet.money ?? 0 })}
+          >
             <Text style={[styles.coinIcon, dynamicStyles.coinIcon]}>💰</Text>
             <Text style={[styles.moneyValue, dynamicStyles.moneyValue]}>{pet.money ?? 0}</Text>
           </View>
