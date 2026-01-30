@@ -104,6 +104,8 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
             ]}
             onPress={goToPrevious}
             disabled={isAnimating}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.previous')}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>←</Text>
           </TouchableOpacity>
@@ -145,6 +147,8 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
             ]}
             onPress={goToNext}
             disabled={isAnimating}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.next')}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>→</Text>
           </TouchableOpacity>

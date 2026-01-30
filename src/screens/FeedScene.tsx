@@ -120,8 +120,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
             onPress={goToPrevious}
             disabled={isAnimating}
             accessibilityRole="button"
-            accessibilityLabel="Previous food"
-            accessibilityHint="Show previous food option"
+            accessibilityLabel={t('common.previous')}
             accessibilityState={{ disabled: isAnimating }}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>←</Text>
@@ -181,8 +180,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
             onPress={goToNext}
             disabled={isAnimating}
             accessibilityRole="button"
-            accessibilityLabel="Next food"
-            accessibilityHint="Show next food option"
+            accessibilityLabel={t('common.next')}
             accessibilityState={{ disabled: isAnimating }}
           >
             <Text style={[styles.arrowText, { fontSize: buttonSizes.arrowFontSize }]}>→</Text>
