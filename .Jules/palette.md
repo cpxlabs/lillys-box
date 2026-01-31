@@ -27,3 +27,7 @@
 ## 2026-05-24 - [Testing Reanimated Components]
 **Learning:** Testing components using `react-native-reanimated` with `react-test-renderer` requires strict environment mocking, specifically `findNodeHandle` in `react-native` mock, or mocking the library entirely to avoid DOM-related errors (like `getBoundingClientRect`).
 **Action:** When adding Reanimated to existing components, update `jest.setup.js` to include `findNodeHandle: jest.fn()` in the `react-native` mock, or wrap the component in a test that mocks `react-native-reanimated` logic.
+
+## 2026-05-24 - [Grouping Information for Accessibility]
+**Learning:** Elements that visually group an icon and a text value (e.g., currency displays "💰 100") are read as separate, disconnected items by screen readers ("Money bag", "100") if not grouped.
+**Action:** Wrap related icon and text elements in a container View with `accessible={true}`, `accessibilityRole="text"`, and a comprehensive `accessibilityLabel` (e.g., "100 coins") to provide a coherent experience.
