@@ -4,25 +4,25 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 
-import './src/app/i18n'; // Initialize i18n
-import { ErrorBoundary } from './src/app/components/ErrorBoundary';
-import { LanguageProvider } from './src/app/context/LanguageContext';
-import { AuthProvider } from './src/app/context/AuthContext';
-import { PetProvider, usePet } from './src/games/pet-care/context/PetContext';
-import { ToastProvider } from './src/app/context/ToastContext';
-import { AdProvider, useAd } from './src/app/context/AdContext';
-import AdService from './src/app/services/AdService';
-import { useAuth } from './src/app/context/AuthContext';
-import { MenuScreen } from './src/games/pet-care/screens/MenuScreen';
-import { LoginScreen } from './src/app/screens/LoginScreen';
-import { CreatePetScreen } from './src/games/pet-care/screens/CreatePetScreen';
-import { HomeScreen } from './src/games/pet-care/screens/HomeScreen';
-import { FeedScene } from './src/games/pet-care/screens/FeedScene';
-import { BathScene } from './src/games/pet-care/screens/BathScene';
-import { WardrobeScene } from './src/games/pet-care/screens/WardrobeScene';
-import { PlayScene } from './src/games/pet-care/screens/PlayScene';
-import { SleepScene } from './src/games/pet-care/screens/SleepScene';
-import { VetScene } from './src/games/pet-care/screens/VetScene';
+import './i18n'; // Initialize i18n
+import { ErrorBoundary } from './components/ErrorBoundary';
+import { LanguageProvider } from './context/LanguageContext';
+import { AuthProvider } from './context/AuthContext';
+import { PetProvider, usePet } from '../games/pet-care/context/PetContext';
+import { ToastProvider } from './context/ToastContext';
+import { AdProvider, useAd } from './context/AdContext';
+import AdService from './services/AdService';
+import { useAuth } from './context/AuthContext';
+import { MenuScreen } from '../games/pet-care/screens/MenuScreen';
+import { LoginScreen } from './screens/LoginScreen';
+import { CreatePetScreen } from '../games/pet-care/screens/CreatePetScreen';
+import { HomeScreen } from '../games/pet-care/screens/HomeScreen';
+import { FeedScene } from '../games/pet-care/screens/FeedScene';
+import { BathScene } from '../games/pet-care/screens/BathScene';
+import { WardrobeScene } from '../games/pet-care/screens/WardrobeScene';
+import { PlayScene } from '../games/pet-care/screens/PlayScene';
+import { SleepScene } from '../games/pet-care/screens/SleepScene';
+import { VetScene } from '../games/pet-care/screens/VetScene';
 
 const Stack = createNativeStackNavigator();
 
