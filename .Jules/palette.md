@@ -27,3 +27,7 @@
 ## 2026-05-24 - [Testing Reanimated Components]
 **Learning:** Testing components using `react-native-reanimated` with `react-test-renderer` requires strict environment mocking, specifically `findNodeHandle` in `react-native` mock, or mocking the library entirely to avoid DOM-related errors (like `getBoundingClientRect`).
 **Action:** When adding Reanimated to existing components, update `jest.setup.js` to include `findNodeHandle: jest.fn()` in the `react-native` mock, or wrap the component in a test that mocks `react-native-reanimated` logic.
+
+## 2026-05-24 - [Semantic Grouping of Values and Icons]
+**Learning:** Displays that combine an icon and a value (like "💰 100") are often read as two separate, disconnected items by screen readers.
+**Action:** Wrap the icon and value in a container View with `accessible={true}`, `accessibilityRole="text"`, and a constructed `accessibilityLabel` (e.g., "100 coins") to present them as a single semantic unit.
