@@ -43,3 +43,4 @@ GoogleService-Info.plist
 .claude-session
 *.claude-context
 pnpm-lock.yaml
+# .archive/ directory added to .gitignore
