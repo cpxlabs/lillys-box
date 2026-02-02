@@ -53,7 +53,7 @@ export const useDoubleReward = ({
   showToast,
 }: UseDoubleRewardParams): UseDoubleRewardReturn => {
   const { showRewardedAd, isAdReady } = useRewardedAd();
-  const { t } = useTranslation();
+  const { t } = useTranslation('pet-care');
   const [showDoubleRewardModal, setShowDoubleRewardModal] = useState(false);
   const [pendingReward, setPendingReward] = useState(0);
 

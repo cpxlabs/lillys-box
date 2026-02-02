@@ -24,7 +24,7 @@ type Props = {
 export const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { pet, earnMoney } = usePet();
   const { showToast } = useToast();
-  const { t } = useTranslation();
+  const { t } = useTranslation('pet-care');
   const [showMenuConfirm, setShowMenuConfirm] = useState(false);
   const { deviceType, spacing, fs } = useResponsive();
 

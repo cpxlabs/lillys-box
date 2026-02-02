@@ -25,7 +25,7 @@ const SLOTS: { key: ClothingSlot; label: string; emoji: string }[] = [
 ];
 
 export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('pet-care');
   const { pet, setClothing } = usePet();
   const [selectedSlot, setSelectedSlot] = useState<ClothingSlot>('head');
   const BackButtonIcon = useBackButton();

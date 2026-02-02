@@ -1,5 +1,6 @@
 import { Game, GameCategory, GameRegistryInterface } from './types';
 import { logger } from '../../shared/utils/logger';
+import i18n from '../i18n';
 
 /**
  * GameRegistry - Singleton class for managing game registration
@@ -78,6 +79,9 @@ class GameRegistry implements GameRegistryInterface {
 
     // Validate the game object
     this.validateGame(game);
+
+    // Register game translations with i18n
+    this.registerGameTranslations(game);
 
     // Add to registry
     this.games.set(game.id, game);
@@ -297,6 +301,34 @@ class GameRegistry implements GameRegistryInterface {
     }
 
     logger.log(`✓ Game validation passed: ${game.id}`);
+  }
+
+  /**
+   * Register game translations with i18n
+   *
+   * Adds the game's translations to i18n as a namespace using the game ID.
+   * This allows game-specific translations to be accessed via the game's ID.
+   *
+   * @param game - The game with translations to register
+   *
+   * @private
+   */
+  private registerGameTranslations(game: Game): void {
+    try {
+      // Register English translations
+      if (game.translations.en) {
+        i18n.addResourceBundle('en', game.id, game.translations.en, true, true);
+      }
+
+      // Register Portuguese-BR translations
+      if (game.translations['pt-BR']) {
+        i18n.addResourceBundle('pt-BR', game.id, game.translations['pt-BR'], true, true);
+      }
+
+      logger.log(`✓ Translations registered for game: ${game.id}`);
+    } catch (error) {
+      logger.error(`Failed to register translations for game ${game.id}:`, error);
+    }
   }
 }
 

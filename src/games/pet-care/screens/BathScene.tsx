@@ -63,7 +63,7 @@ const BubbleComponent: React.FC<{ bubble: Bubble }> = ({ bubble }) => {
 };
 
 export const BathScene: React.FC<Props> = ({ navigation }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('pet-care');
   const { pet, bathe, earnMoney } = usePet();
   const { showToast } = useToast();
   const { triggerReward, DoubleRewardModal } = useDoubleReward({ earnMoney, showToast });
