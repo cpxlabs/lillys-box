@@ -242,7 +242,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
           accessibilityHint="Drag the sponge to bathe your pet"
         >
           <Image
-            source={require('../../assets/sprites/sponge.png')}
+            source={require('../../../../assets/sprites/sponge.png')}
             style={[styles.spongeImage, { width: spongeSizes.width, height: spongeSizes.height }]}
           />
         </Animated.View>
