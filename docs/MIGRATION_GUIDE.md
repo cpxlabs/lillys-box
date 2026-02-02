@@ -500,6 +500,141 @@ After updating, verify:
 
 ---
 
-**Last Updated**: 2026-01-22
-**Version**: 1.0
-**Status**: Complete
+## i18n Translation System Update (v1.1)
+
+### What Changed
+
+The i18n translation system was updated to properly support game-specific translations using namespaces.
+
+### Breaking Changes
+
+#### ⚠️ useTranslation Hook Must Specify Namespace
+
+**Before:**
+```typescript
+// Game components used default namespace
+import { useTranslation } from 'react-i18next';
+
+const MyGameScreen = () => {
+  const { t } = useTranslation();
+  return <Text>{t('menu.title')}</Text>;
+};
+```
+
+**After:**
+```typescript
+// Game components must specify namespace (game ID)
+import { useTranslation } from 'react-i18next';
+
+const MyGameScreen = () => {
+  const { t } = useTranslation('pet-care'); // ✓ Namespace required
+  return <Text>{t('menu.title')}</Text>;
+};
+```
+
+### Technical Details
+
+**GameRegistry Enhancement:**
+```typescript
+// GameRegistry now automatically registers game translations
+private registerGameTranslations(game: Game): void {
+  // Register as namespace using game ID
+  i18n.addResourceBundle('en', game.id, game.translations.en, true, true);
+  i18n.addResourceBundle('pt-BR', game.id, game.translations['pt-BR'], true, true);
+}
+```
+
+**When games are registered:**
+1. Translations are extracted from the game definition
+2. Added to i18n as namespaces keyed by game ID
+3. Accessible via `useTranslation(gameId)`
+
+### Migration Steps
+
+For game developers adding new games:
+
+1. **Define translations in game module:**
+```typescript
+// src/games/my-game/index.tsx
+import enTranslations from './locales/en.json';
+import ptBRTranslations from './locales/pt-BR.json';
+
+const myGame: Game = {
+  id: 'my-game',
+  translations: {
+    en: enTranslations,
+    'pt-BR': ptBRTranslations,
+  },
+  // ... other config
+};
+
+gameRegistry.register(myGame);
+```
+
+2. **Use translation hook with namespace:**
+```typescript
+// In any game component/screen/hook
+import { useTranslation } from 'react-i18next';
+
+const MyScreen = () => {
+  const { t } = useTranslation('my-game'); // Use game ID as namespace
+  return <Text>{t('screen.title')}</Text>;
+};
+```
+
+3. **Translation file structure:**
+```json
+// src/games/my-game/locales/en.json
+{
+  "screen": {
+    "title": "My Game Title",
+    "description": "Game description"
+  },
+  "actions": {
+    "play": "Play",
+    "pause": "Pause"
+  }
+}
+```
+
+### Verification
+
+After migration, verify:
+
+- [ ] All game screens use `useTranslation(gameId)`
+- [ ] All game components use `useTranslation(gameId)`
+- [ ] All game hooks use `useTranslation(gameId)`
+- [ ] Translations display correctly (not showing keys)
+- [ ] Language switching works for all text
+- [ ] Both English and Portuguese-BR work
+
+### Files Updated in Pet-Care Game
+
+The following files were updated to use the correct namespace:
+
+**Screens (9 files):**
+- `src/games/pet-care/screens/MenuScreen.tsx`
+- `src/games/pet-care/screens/CreatePetScreen.tsx`
+- `src/games/pet-care/screens/HomeScreen.tsx`
+- `src/games/pet-care/screens/FeedScene.tsx`
+- `src/games/pet-care/screens/BathScene.tsx`
+- `src/games/pet-care/screens/WardrobeScene.tsx`
+- `src/games/pet-care/screens/PlayScene.tsx`
+- `src/games/pet-care/screens/SleepScene.tsx`
+- `src/games/pet-care/screens/VetScene.tsx`
+
+**Components (1 file):**
+- `src/games/pet-care/components/EnhancedStatusBar.tsx`
+
+**Hooks (2 files):**
+- `src/games/pet-care/hooks/useDoubleReward.tsx`
+- `src/games/pet-care/hooks/usePetActions.ts`
+
+**Registry (1 file):**
+- `src/app/registry/GameRegistry.ts` - Added `registerGameTranslations()` method
+
+---
+
+**Last Updated**: 2026-02-02
+**Version**: 1.1
+**Status**: Complete - OAuth + i18n fixes

@@ -175,6 +175,84 @@ python3 -m http.server --directory build
 
 ## Troubleshooting Web Builds
 
+### Common Import Path Errors (Fixed)
+
+The following import path issues have been resolved in the codebase:
+
+#### 1. Asset Import Paths
+**Symptom:** `Unable to resolve module ../../assets/sprites/...`
+
+**Cause:** Asset imports using incorrect relative paths from game components
+
+**Fixed Files:**
+- `src/games/pet-care/components/PetRenderer.tsx` - All sprite assets
+- `src/games/pet-care/screens/BathScene.tsx` - Sponge sprite
+
+**Solution Applied:** Updated paths from `../../assets/` to `../../../../assets/`
+
+#### 2. Haptics Import Path
+**Symptom:** `Unable to resolve module ../utils/haptics`
+
+**Cause:** IconButton trying to import from non-existent `src/app/utils/haptics`
+
+**Fixed File:** `src/app/components/IconButton.tsx`
+
+**Solution Applied:** Changed import from `../utils/haptics` to `../../shared/utils/haptics`
+
+#### 3. ConfirmModal Import Path
+**Symptom:** `Unable to resolve module ../components/ConfirmModal`
+
+**Cause:** Game hook importing from wrong component directory
+
+**Fixed File:** `src/games/pet-care/hooks/useDoubleReward.tsx`
+
+**Solution Applied:** Changed import from `../components/ConfirmModal` to `../../../app/components/ConfirmModal`
+
+#### 4. Hook and Config Import Paths
+**Symptom:** `Unable to resolve module ./useRewardedAd` or `../config/ads.config`
+
+**Cause:** Game hooks trying to import app-level utilities from local directories
+
+**Fixed File:** `src/games/pet-care/hooks/useDoubleReward.tsx`
+
+**Solution Applied:**
+- `useRewardedAd`: Changed from `./useRewardedAd` to `../../../app/hooks/useRewardedAd`
+- `AdsConfig`: Changed from `../config/ads.config` to `../../../app/config/ads.config`
+
+#### 5. i18n Import Path
+**Symptom:** `Unable to resolve module ../../i18n`
+
+**Cause:** LanguageContext using incorrect relative path
+
+**Fixed File:** `src/app/context/LanguageContext.tsx`
+
+**Solution Applied:** Changed import from `../../i18n` to `../i18n`
+
+### i18n Translation Not Working
+
+**Symptom:** Translation keys showing as fallback text instead of actual translations
+
+**Cause:** Game translations not registered with i18n instance
+
+**Solution Applied:**
+1. Updated `GameRegistry.ts` to register game translations as namespaces
+2. Updated all game components to use `useTranslation('pet-care')` instead of `useTranslation()`
+
+**Files Updated:** 13 files including all game screens, hooks, and components
+
+**Technical Details:**
+```typescript
+// GameRegistry now calls this when registering games
+private registerGameTranslations(game: Game): void {
+  i18n.addResourceBundle('en', game.id, game.translations.en, true, true);
+  i18n.addResourceBundle('pt-BR', game.id, game.translations['pt-BR'], true, true);
+}
+
+// Game components use namespace
+const { t } = useTranslation('pet-care'); // ✓ Correct
+const { t } = useTranslation();           // ✗ Old (incorrect)
+```
+
 ### "Cannot find module '@react-native-google-signin'"
 
 **Cause:** Building for web without setting environment variable
@@ -363,9 +441,9 @@ You can extend the fallback to use:
 
 ---
 
-**Last Updated**: 2026-01-22
-**Version**: 1.0
-**Status**: Complete
+**Last Updated**: 2026-02-02
+**Version**: 1.1
+**Status**: Complete - All import errors fixed, i18n working
 
 ---
 
