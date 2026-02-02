@@ -22,7 +22,7 @@ type Props = {
 export const MenuScreen: React.FC<Props> = ({ navigation }) => {
     const { pet, removePet } = usePet();
     const { user, isGuest, signOut } = useAuth();
-    const { t } = useTranslation();
+    const { t } = useTranslation('pet-care');
     const [showNewPetConfirm, setShowNewPetConfirm] = useState(false);
     const [showDeletePetConfirm, setShowDeletePetConfirm] = useState(false);
     const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);

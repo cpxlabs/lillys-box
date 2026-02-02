@@ -8,9 +8,9 @@
 
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ConfirmModal } from '../components/ConfirmModal';
-import { useRewardedAd } from './useRewardedAd';
-import { AdsConfig } from '../config/ads.config';
+import { ConfirmModal } from '../../../app/components/ConfirmModal';
+import { useRewardedAd } from '../../../app/hooks/useRewardedAd';
+import { AdsConfig } from '../../../app/config/ads.config';
 import { REWARD_MULTIPLIER } from '../../../app/config/constants';
 
 type UseDoubleRewardParams = {
@@ -53,7 +53,7 @@ export const useDoubleReward = ({
   showToast,
 }: UseDoubleRewardParams): UseDoubleRewardReturn => {
   const { showRewardedAd, isAdReady } = useRewardedAd();
-  const { t } = useTranslation();
+  const { t } = useTranslation('pet-care');
   const [showDoubleRewardModal, setShowDoubleRewardModal] = useState(false);
   const [pendingReward, setPendingReward] = useState(0);
 

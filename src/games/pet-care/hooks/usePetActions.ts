@@ -94,7 +94,7 @@ export type UsePetActionsReturn = {
  * @returns Object with animation state and action functions
  */
 export function usePetActions(): UsePetActionsReturn {
-  const { t } = useTranslation();
+  const { t } = useTranslation('pet-care');
   const { pet, feed, play, bathe, sleep, cancelSleep, exercise, petCuddle, visitVet, earnMoney } =
     usePet();
   const { showToast } = useToast();

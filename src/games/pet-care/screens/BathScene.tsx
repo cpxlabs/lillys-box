@@ -63,7 +63,7 @@ const BubbleComponent: React.FC<{ bubble: Bubble }> = ({ bubble }) => {
 };
 
 export const BathScene: React.FC<Props> = ({ navigation }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('pet-care');
   const { pet, bathe, earnMoney } = usePet();
   const { showToast } = useToast();
   const { triggerReward, DoubleRewardModal } = useDoubleReward({ earnMoney, showToast });
@@ -242,7 +242,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
           accessibilityHint="Drag the sponge to bathe your pet"
         >
           <Image
-            source={require('../../assets/sprites/sponge.png')}
+            source={require('../../../../assets/sprites/sponge.png')}
             style={[styles.spongeImage, { width: spongeSizes.width, height: spongeSizes.height }]}
           />
         </Animated.View>

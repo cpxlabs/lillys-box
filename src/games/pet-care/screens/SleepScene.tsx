@@ -62,7 +62,7 @@ type Props = {
 };
 
 export const SleepScene: React.FC<Props> = ({ navigation }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('pet-care');
   const { pet, sleep, cancelSleep: cancelSleepContext } = usePet();
   const [isSleeping, setIsSleeping] = useState(false);
   const [sleepProgress, setSleepProgress] = useState(0);

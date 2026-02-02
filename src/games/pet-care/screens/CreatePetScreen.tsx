@@ -95,7 +95,7 @@ const SelectionButton: React.FC<SelectionButtonProps> = ({
 export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
   const { createPet } = usePet();
   const { showToast } = useToast();
-  const { t } = useTranslation();
+  const { t } = useTranslation('pet-care');
   const [name, setName] = useState('');
   const [petType, setPetType] = useState<PetType>('cat');
   const [gender, setGender] = useState<Gender>('female');

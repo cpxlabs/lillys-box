@@ -1,6 +1,6 @@
 import React from 'react';
 import { TouchableOpacity, Text, StyleSheet, ViewStyle } from 'react-native';
-import { hapticFeedback } from '../utils/haptics';
+import { hapticFeedback } from '../../shared/utils/haptics';
 import { useResponsive } from '../hooks/useResponsive';
 import { ICON_BUTTON_SIZE } from '../config/responsive';
 import { useToast } from '../context/ToastContext';

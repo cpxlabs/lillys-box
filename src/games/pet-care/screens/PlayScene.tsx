@@ -19,7 +19,7 @@ type Props = {
 };
 
 export const PlayScene: React.FC<Props> = ({ navigation }) => {
-  const { t } = useTranslation();
+  const { t } = useTranslation('pet-care');
   const { pet } = usePet();
   const { animationState, message, isAnimating, performAction, DoubleRewardModal } =
     usePetActions();
