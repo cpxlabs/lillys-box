@@ -26,6 +26,7 @@ import { PetType, PetColor, Gender } from '../types';
 import { BackButtonIcon } from '../hooks/useBackButton';
 import { ScreenNavigationProp } from '../types/navigation';
 import { validatePetName, sanitizePetName } from '../utils/validation';
+import { COLORS } from '../config/constants';
 
 type Props = {
   navigation: ScreenNavigationProp<'CreatePet'>;
@@ -123,6 +124,17 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
     navigation.replace('Home');
   };
 
+  const getCharCountStyle = () => {
+    const length = name.length;
+    if (length >= 20) {
+      return { color: COLORS.STAT_LEVELS.LOW, fontWeight: 'bold' as const };
+    }
+    if (length >= 15) {
+      return { color: COLORS.STAT_LEVELS.MEDIUM, fontWeight: 'bold' as const };
+    }
+    return { color: '#666' };
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity
@@ -173,10 +185,9 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
             maxLength={20}
           />
           <Text
-            style={styles.charCount}
+            style={[styles.charCount, getCharCountStyle()]}
             accessibilityLabel={`${name.length} ${t('common.of', { defaultValue: 'of' })} 20`}
           >
-
             {name.length}/20
           </Text>
         </View>

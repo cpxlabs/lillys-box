@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { CreatePetScreen } from '../CreatePetScreen';
+import { COLORS } from '../../config/constants';
 
 // Mock dependencies
 jest.mock('../../context/PetContext', () => ({
@@ -82,5 +83,43 @@ describe('CreatePetScreen', () => {
     // Check if accessibility label is present (initially 0/20, then 6/20)
     // The current implementation uses t('common.of') which mocks to "common.of"
     expect(getByLabelText('6 common.of 20')).toBeTruthy();
+  });
+
+  it('updates character count color based on length', () => {
+    const { getByLabelText, getByPlaceholderText } = render(
+      <CreatePetScreen navigation={mockNavigation} />
+    );
+    const input = getByPlaceholderText('createPet.namePlaceholder');
+
+    // Default color (< 15 chars)
+    fireEvent.changeText(input, 'ShortName');
+    const charCountDefault = getByLabelText('9 common.of 20');
+    expect(charCountDefault.props.style).toEqual(
+      expect.arrayContaining([expect.objectContaining({ color: '#666' })])
+    );
+
+    // Warning color (>= 15 chars)
+    fireEvent.changeText(input, 'ThisNameIsLong!'); // 15 chars
+    const charCountWarning = getByLabelText('15 common.of 20');
+    expect(charCountWarning.props.style).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          color: COLORS.STAT_LEVELS.MEDIUM,
+          fontWeight: 'bold',
+        }),
+      ])
+    );
+
+    // Limit color (20 chars)
+    fireEvent.changeText(input, 'ThisNameIsVeryLong!!'); // 20 chars
+    const charCountLimit = getByLabelText('20 common.of 20');
+    expect(charCountLimit.props.style).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          color: COLORS.STAT_LEVELS.LOW,
+          fontWeight: 'bold',
+        }),
+      ])
+    );
   });
 });
