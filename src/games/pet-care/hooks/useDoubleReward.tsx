@@ -9,8 +9,8 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ConfirmModal } from '../../../app/components/ConfirmModal';
-import { useRewardedAd } from './useRewardedAd';
-import { AdsConfig } from '../config/ads.config';
+import { useRewardedAd } from '../../../app/hooks/useRewardedAd';
+import { AdsConfig } from '../../../app/config/ads.config';
 import { REWARD_MULTIPLIER } from '../../../app/config/constants';
 
 type UseDoubleRewardParams = {
