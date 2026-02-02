@@ -35,12 +35,21 @@ jest.mock('react-native', () => {
     TouchableOpacity: mockComponent('TouchableOpacity'),
     ActivityIndicator: mockComponent('ActivityIndicator'),
     Image: mockComponent('Image'),
+    Modal: mockComponent('Modal'),
     ScrollView: mockComponent('ScrollView'),
     FlatList: mockComponent('FlatList'),
     TextInput: mockComponent('TextInput'),
     SafeAreaView: mockComponent('SafeAreaView'),
     KeyboardAvoidingView: mockComponent('KeyboardAvoidingView'),
     useWindowDimensions: jest.fn(() => ({ width: 375, height: 812, scale: 2, fontScale: 2 })),
+    Dimensions: {
+      get: jest.fn(() => ({ width: 375, height: 812 })),
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+    },
+    Alert: {
+      alert: jest.fn(),
+    },
     PixelRatio: {
       get: jest.fn(() => 2),
       getFontScale: jest.fn(() => 2),
