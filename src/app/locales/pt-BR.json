@@ -1,0 +1,32 @@
+{
+  "gameSelection": {
+    "title": "Escolha Seu Jogo",
+    "subtitle": "Selecione um jogo para começar a jogar",
+    "loading": "Carregando jogos...",
+    "error": "Erro",
+    "noGames": "Nenhum Jogo Disponível",
+    "noGamesDescription": "Por favor, volte mais tarde para novos jogos.",
+    "comingSoon": "Em Breve",
+    "premium": "Premium"
+  },
+  "navigation": {
+    "logout": "Sair",
+    "settings": "Configurações",
+    "language": "Idioma"
+  },
+  "common": {
+    "error": "Erro",
+    "success": "Sucesso",
+    "warning": "Aviso",
+    "info": "Informação",
+    "loading": "Carregando...",
+    "tryAgain": "Tentar Novamente",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "delete": "Deletar",
+    "save": "Salvar",
+    "close": "Fechar",
+    "back": "Voltar",
+    "next": "Próximo"
+  }
+}
