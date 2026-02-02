@@ -27,3 +27,7 @@
 ## 2026-05-24 - [Testing Reanimated Components]
 **Learning:** Testing components using `react-native-reanimated` with `react-test-renderer` requires strict environment mocking, specifically `findNodeHandle` in `react-native` mock, or mocking the library entirely to avoid DOM-related errors (like `getBoundingClientRect`).
 **Action:** When adding Reanimated to existing components, update `jest.setup.js` to include `findNodeHandle: jest.fn()` in the `react-native` mock, or wrap the component in a test that mocks `react-native-reanimated` logic.
+
+## 2026-05-24 - [Visual Feedback for Input Limits]
+**Learning:** Character counts are helpful, but color-coded feedback (e.g., turning orange/red near the limit) provides a stronger, pre-attentive warning that reduces user error before it happens.
+**Action:** When implementing character limits, use dynamic colors (Warning/Error states) for the counter text to visually reinforce the constraint alongside the numerical value.
