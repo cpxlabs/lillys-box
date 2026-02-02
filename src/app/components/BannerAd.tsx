@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import AdService from '../services/AdService';
 import { AdsConfig } from '../config/ads.config';
-import { logger } from '../utils/logger';
+import { logger } from '../../shared/utils/logger';
 
 // Type definitions for AdMob components (for TypeScript)
 let GoogleBannerAd: any;

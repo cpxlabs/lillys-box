@@ -10,10 +10,10 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
-import { useAuth } from '../context/AuthContext';
-import { ConfirmModal } from '../components/ConfirmModal';
-import { LanguageSelector } from '../components/LanguageSelector';
-import { ScreenNavigationProp } from '../types/navigation';
+import { useAuth } from '../../../app/context/AuthContext';
+import { ConfirmModal } from '../../../app/components/ConfirmModal';
+import { LanguageSelector } from '../../../app/components/LanguageSelector';
+import { ScreenNavigationProp } from '../../../app/types/navigation';
 
 type Props = {
   navigation: ScreenNavigationProp<'Menu'>;

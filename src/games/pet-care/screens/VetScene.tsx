@@ -10,17 +10,17 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
-import { useRewardedAd } from '../hooks/useRewardedAd';
+import { useRewardedAd } from '../../../app/hooks/useRewardedAd';
 import { needsVet } from '../utils/petStats';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { PetRenderer } from '../components/PetRenderer';
 import { GAME_BALANCE } from '../config/gameBalance';
-import { logger } from '../utils/logger';
-import { ScreenNavigationProp } from '../types/navigation';
+import { logger } from '../../../shared/utils/logger';
+import { ScreenNavigationProp } from '../../../app/types/navigation';
 import { calculatePetAge } from '../utils/age';
-import { useBackButton } from '../hooks/useBackButton';
-import { useResponsive } from '../hooks/useResponsive';
-import { PET_SIZE_SMALL, SCENE_TEXT_SIZE } from '../config/responsive';
+import { useBackButton } from '../../../shared/hooks/useBackButton';
+import { useResponsive } from '../../../app/hooks/useResponsive';
+import { PET_SIZE_SMALL, SCENE_TEXT_SIZE } from '../../../app/config/responsive';
 
 type Props = {
   navigation: ScreenNavigationProp<'Vet'>;

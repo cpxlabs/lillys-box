@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { useResponsive } from '../hooks/useResponsive';
-import { STATUS_BAR_SIZE } from '../config/responsive';
+import { useResponsive } from '../../../app/hooks/useResponsive';
+import { STATUS_BAR_SIZE } from '../../../app/config/responsive';
 
 type StatusBarProps = {
   label: string;

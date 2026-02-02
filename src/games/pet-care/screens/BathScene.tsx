@@ -10,19 +10,19 @@ import Animated, {
   withSequence,
 } from 'react-native-reanimated';
 import { usePet } from '../context/PetContext';
-import { useToast } from '../context/ToastContext';
+import { useToast } from '../../../app/context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { AnimationState } from '../types';
-import { useBackButton } from '../hooks/useBackButton';
+import { useBackButton } from '../../../shared/hooks/useBackButton';
 import { useDoubleReward } from '../hooks/useDoubleReward';
-import { AdsConfig } from '../config/ads.config';
-import { ScreenNavigationProp } from '../types/navigation';
+import { AdsConfig } from '../../../app/config/ads.config';
+import { ScreenNavigationProp } from '../../../app/types/navigation';
 import { ANIMATION_DURATION } from '../config/constants';
 import { calculatePetAge } from '../utils/age';
-import { useResponsive } from '../hooks/useResponsive';
-import { ACTION_PET_SIZE, SPONGE_SIZE, SCENE_TEXT_SIZE } from '../config/responsive';
+import { useResponsive } from '../../../app/hooks/useResponsive';
+import { ACTION_PET_SIZE, SPONGE_SIZE, SCENE_TEXT_SIZE } from '../../../app/config/responsive';
 
 type Props = {
   navigation: ScreenNavigationProp<'Bath'>;

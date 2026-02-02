@@ -10,14 +10,14 @@ import ReanimatedView, {
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { GAME_BALANCE } from '../config/gameBalance';
-import { ScreenNavigationProp } from '../types/navigation';
+import { ScreenNavigationProp } from '../../../app/types/navigation';
 import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { PetRenderer } from '../components/PetRenderer';
 import { calculatePetAge } from '../utils/age';
-import { useBackButton } from '../hooks/useBackButton';
-import { useResponsive } from '../hooks/useResponsive';
-import { PET_SIZE_SMALL, SCENE_TEXT_SIZE } from '../config/responsive';
+import { useBackButton } from '../../../shared/hooks/useBackButton';
+import { useResponsive } from '../../../app/hooks/useResponsive';
+import { PET_SIZE_SMALL, SCENE_TEXT_SIZE } from '../../../app/config/responsive';
 
 // Animated floating Z component for sleeping state
 const FloatingZ: React.FC = () => {

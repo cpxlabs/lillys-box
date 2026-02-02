@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Pet } from '../types';
 import { EnhancedStatusBar } from './EnhancedStatusBar';
-import { useResponsive } from '../hooks/useResponsive';
+import { useResponsive } from '../../../app/hooks/useResponsive';
 
 type StatusCardProps = {
   pet: Pet;

@@ -7,11 +7,11 @@ import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { ClothingSlot } from '../types';
 import { getItemsBySlot } from '../data/clothingItems';
-import { useBackButton } from '../hooks/useBackButton';
-import { ScreenNavigationProp } from '../types/navigation';
+import { useBackButton } from '../../../shared/hooks/useBackButton';
+import { ScreenNavigationProp } from '../../../app/types/navigation';
 import { calculatePetAge } from '../utils/age';
-import { useResponsive } from '../hooks/useResponsive';
-import { PET_SIZE_SMALL, WARDROBE_SIZES } from '../config/responsive';
+import { useResponsive } from '../../../app/hooks/useResponsive';
+import { PET_SIZE_SMALL, WARDROBE_SIZES } from '../../../app/config/responsive';
 
 type Props = {
   navigation: ScreenNavigationProp<'Wardrobe'>;

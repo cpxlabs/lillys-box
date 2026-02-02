@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useAd } from '../context/AdContext';
-import { logger } from '../utils/logger';
+import { logger } from '../../shared/utils/logger';
 
 /**
  * Custom hook to simplify rewarded ad usage in screens

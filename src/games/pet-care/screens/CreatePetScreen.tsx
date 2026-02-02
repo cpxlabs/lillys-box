@@ -20,12 +20,12 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 import { usePet } from '../context/PetContext';
-import { useToast } from '../context/ToastContext';
-import { hapticFeedback } from '../utils/haptics';
+import { useToast } from '../../../app/context/ToastContext';
+import { hapticFeedback } from '../../../shared/utils/haptics';
 import { PetType, PetColor, Gender } from '../types';
-import { BackButtonIcon } from '../hooks/useBackButton';
-import { ScreenNavigationProp } from '../types/navigation';
-import { validatePetName, sanitizePetName } from '../utils/validation';
+import { BackButtonIcon } from '../../../shared/hooks/useBackButton';
+import { ScreenNavigationProp } from '../../../app/types/navigation';
+import { validatePetName, sanitizePetName } from '../../../shared/utils/validation';
 
 type Props = {
   navigation: ScreenNavigationProp<'CreatePet'>;

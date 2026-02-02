@@ -1,6 +1,6 @@
 import { Platform } from 'react-native';
 import { AdsConfig } from '../config/ads.config';
-import { logger } from '../utils/logger';
+import { logger } from '../../shared/utils/logger';
 
 // Type definitions for AdMob (for TypeScript)
 type MobileAdsType = any;
