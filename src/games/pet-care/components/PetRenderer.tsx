@@ -12,7 +12,7 @@ import Animated, {
 import { Pet, PetType, PetColor, AnimationState } from '../types/types';
 import { CLOTHING_ITEMS } from '../data/clothingItems';
 import { SpriteSheetAnimation } from './SpriteSheetAnimation';
-import { UI } from '../config/constants';
+import { UI } from '../../../app/config/constants';
 import { useSpriteSheet } from '../hooks/useSpriteSheet';
 
 // Mapeamento de assets base

@@ -1,6 +1,6 @@
 import { Pet, PetMood, StatLevel } from '../types/types';
 import { GAME_BALANCE } from '../config/gameBalance';
-import { STAT_THRESHOLDS, COLORS } from '../config/constants';
+import { STAT_THRESHOLDS, COLORS } from '../../../app/config/constants';
 import { ActionType } from '../config/actionConfig';
 
 /**

@@ -19,7 +19,7 @@ import { useBackButton } from '../../../shared/hooks/useBackButton';
 import { useDoubleReward } from '../hooks/useDoubleReward';
 import { AdsConfig } from '../../../app/config/ads.config';
 import { ScreenNavigationProp } from '../../../app/types/navigation';
-import { ANIMATION_DURATION } from '../config/constants';
+import { ANIMATION_DURATION } from '../../../app/config/constants';
 import { calculatePetAge } from '../utils/age';
 import { useResponsive } from '../../../app/hooks/useResponsive';
 import { ACTION_PET_SIZE, SPONGE_SIZE, SCENE_TEXT_SIZE } from '../../../app/config/responsive';

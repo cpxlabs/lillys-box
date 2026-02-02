@@ -9,7 +9,7 @@ import {
   Alert,
 } from 'react-native';
 import { useAuth } from '../context/AuthContext';
-import { logger } from '../utils/logger';
+import { logger } from '../../shared/utils/logger';
 
 export const LoginScreen: React.FC = () => {
   const { signIn, playAsGuest, loading, error } = useAuth();

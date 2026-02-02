@@ -11,7 +11,7 @@
  * consistent behavior across all action scenes.
  */
 
-import { ANIMATION_DURATION } from './constants';
+import { ANIMATION_DURATION } from '../../../app/config/constants';
 import { AnimationState } from '../types/types';
 
 export type ActionType = 'feed' | 'play' | 'bathe' | 'sleep' | 'exercise' | 'cuddle' | 'vet';

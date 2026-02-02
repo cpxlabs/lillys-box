@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { useRewardedAd } from './useRewardedAd';
 import { AdsConfig } from '../config/ads.config';
-import { REWARD_MULTIPLIER } from '../config/constants';
+import { REWARD_MULTIPLIER } from '../../../app/config/constants';
 
 type UseDoubleRewardParams = {
   /** Function to add money to the user's balance */

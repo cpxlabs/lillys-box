@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { Pet } from '../types/types';
 import { spriteSheetManager } from '../utils/SpriteSheetManager';
-import { COLORS } from '../config/constants';
+import { COLORS } from '../../../app/config/constants';
 
 interface SpriteSheetPreloaderProps {
   /** Current pet to preload animations for */

@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { UserInfo } from '../context/AuthContext';
-import { logger } from './logger';
+import { logger } from '../../shared/utils/logger';
 
 const AUTH_STATE_KEY = '@pet_care_game:auth_state';
 
