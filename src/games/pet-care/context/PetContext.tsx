@@ -170,7 +170,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };
@@ -192,7 +192,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };
@@ -213,7 +213,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };
@@ -240,7 +240,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         isSleeping: true,
         sleepStartTime: startTime,
       };
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
 
@@ -289,7 +289,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
 
@@ -349,7 +349,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         `visitVet: Health updated - calculated: ${calculatedHealth}, target: ${effects.healthTarget}, final: ${updatedPet.health}`
       );
 
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
 
@@ -373,7 +373,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };
@@ -391,7 +391,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };
@@ -407,7 +407,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
           [slot]: itemId,
         },
       };
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };
@@ -425,7 +425,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         ...currentPet,
         money: (currentPet.money ?? 0) + amount, // Defensive fallback for robustness
       };
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };

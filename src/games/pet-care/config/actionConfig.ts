@@ -12,7 +12,7 @@
  */
 
 import { ANIMATION_DURATION } from './constants';
-import { AnimationState } from '../types';
+import { AnimationState } from '../types/types';
 
 export type ActionType = 'feed' | 'play' | 'bathe' | 'sleep' | 'exercise' | 'cuddle' | 'vet';
 

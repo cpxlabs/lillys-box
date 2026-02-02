@@ -1,4 +1,4 @@
-import { ClothingItem, ClothingSlot } from '../types';
+import { ClothingItem, ClothingSlot } from '../types/types';
 import { ImageSourcePropType } from 'react-native';
 
 type ClothingItemWithAsset = ClothingItem & {

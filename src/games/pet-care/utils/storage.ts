@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Pet } from '../types';
+import { Pet } from '../types/types';
 import { migratePetData, validatePetData, repairPetData } from './migration';
-import { logger } from './logger';
+import { logger } from '../../../shared/utils/logger';
 
 const BASE_PET_STORAGE_KEY = '@pet_care_game:pet';
 

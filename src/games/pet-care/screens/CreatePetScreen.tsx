@@ -22,7 +22,7 @@ import Animated, {
 import { usePet } from '../context/PetContext';
 import { useToast } from '../../../app/context/ToastContext';
 import { hapticFeedback } from '../../../shared/utils/haptics';
-import { PetType, PetColor, Gender } from '../types';
+import { PetType, PetColor, Gender } from '../types/types';
 import { BackButtonIcon } from '../../../shared/hooks/useBackButton';
 import { ScreenNavigationProp } from '../../../app/types/navigation';
 import { validatePetName, sanitizePetName } from '../../../shared/utils/validation';

@@ -11,7 +11,7 @@ import {
   hasCriticalStats,
   getMostUrgentNeed,
 } from '../petStats';
-import { Pet } from '../../types';
+import { Pet } from '../../types/types';
 import { GAME_BALANCE } from '../../config/gameBalance';
 
 describe('petStats', () => {

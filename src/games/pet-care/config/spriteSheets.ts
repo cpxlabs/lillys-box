@@ -1,5 +1,5 @@
 import { ImageRequireSource } from 'react-native';
-import { AnimationState, PetType, PetColor } from '../types';
+import { AnimationState, PetType, PetColor } from '../types/types';
 
 /**
  * Sprite sheet configuration interface

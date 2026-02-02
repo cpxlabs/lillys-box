@@ -2,7 +2,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { StatusBar } from './StatusBar';
-import { Pet } from '../types';
+import { Pet } from '../types/types';
 import { getStatLevel } from '../utils/petStats';
 
 type EnhancedStatusBarProps = {

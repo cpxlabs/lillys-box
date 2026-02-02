@@ -27,10 +27,10 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
-import { useToast } from '../context/ToastContext';
+import { useToast } from '../../../app/context/ToastContext';
 import { useDoubleReward } from './useDoubleReward';
-import { AdsConfig } from '../config/ads.config';
-import { AnimationState } from '../types';
+import { AdsConfig } from '../../../app/config/ads.config';
+import { AnimationState } from '../types/types';
 import {
   ActionType,
   ActionAnimationSequence,
@@ -39,7 +39,7 @@ import {
   requiresDoubleReward as checkRequiresDoubleReward,
 } from '../config/actionConfig';
 import { validateAction } from '../utils/petStats';
-import { logger } from '../utils/logger';
+import { logger } from '../../../shared/utils/logger';
 
 /**
  * Options that can be passed to performAction

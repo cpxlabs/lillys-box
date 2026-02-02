@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
-import { Pet } from '../types';
+import { Pet } from '../types/types';
 import { spriteSheetManager } from '../utils/SpriteSheetManager';
 import { COLORS } from '../config/constants';
 

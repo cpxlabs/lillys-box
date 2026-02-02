@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
-import { Pet } from '../types';
+import { Pet } from '../types/types';
 import { EnhancedStatusBar } from './EnhancedStatusBar';
 import { useResponsive } from '../../../app/hooks/useResponsive';
 

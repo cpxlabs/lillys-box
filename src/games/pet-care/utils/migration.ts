@@ -1,7 +1,7 @@
-import { Pet } from '../types';
+import { Pet } from '../types/types';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { calculateHealth } from './petStats';
-import { logger } from './logger';
+import { logger } from '../../../shared/utils/logger';
 
 /**
  * Migrate old pet data to new schema

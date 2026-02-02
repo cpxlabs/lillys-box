@@ -14,7 +14,7 @@ import { useToast } from '../../../app/context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { AnimationState } from '../types';
+import { AnimationState } from '../types/types';
 import { useBackButton } from '../../../shared/hooks/useBackButton';
 import { useDoubleReward } from '../hooks/useDoubleReward';
 import { AdsConfig } from '../../../app/config/ads.config';

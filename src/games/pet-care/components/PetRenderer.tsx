@@ -9,7 +9,7 @@ import Animated, {
   withSpring,
   Easing,
 } from 'react-native-reanimated';
-import { Pet, PetType, PetColor, AnimationState } from '../types';
+import { Pet, PetType, PetColor, AnimationState } from '../types/types';
 import { CLOTHING_ITEMS } from '../data/clothingItems';
 import { SpriteSheetAnimation } from './SpriteSheetAnimation';
 import { UI } from '../config/constants';

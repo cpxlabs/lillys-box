@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { AnimationState, PetType, PetColor } from '../types';
+import { AnimationState, PetType, PetColor } from '../types/types';
 import { SpriteSheetDefinition } from '../config/spriteSheets';
 import { spriteSheetManager } from '../utils/SpriteSheetManager';
 

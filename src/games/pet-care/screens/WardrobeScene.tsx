@@ -5,7 +5,7 @@ import { usePet } from '../context/PetContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
-import { ClothingSlot } from '../types';
+import { ClothingSlot } from '../types/types';
 import { getItemsBySlot } from '../data/clothingItems';
 import { useBackButton } from '../../../shared/hooks/useBackButton';
 import { ScreenNavigationProp } from '../../../app/types/navigation';
