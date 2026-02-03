@@ -17,6 +17,8 @@ import { GameContainer } from './src/screens/GameContainer';
 import { gameRegistry } from './src/registry/GameRegistry';
 import { PetProvider } from './src/context/PetContext';
 import { PetGameNavigator } from './src/screens/PetGameNavigator';
+import { MuitoProvider } from './src/context/MuitoContext';
+import { MuitoNavigator } from './src/screens/MuitoNavigator';
 
 // Register the pet-care game
 gameRegistry.register({
@@ -27,6 +29,18 @@ gameRegistry.register({
   category: 'pet',
   navigator: PetGameNavigator,
   providers: [PetProvider],
+  isEnabled: true,
+});
+
+// Register the muito counting game
+gameRegistry.register({
+  id: 'muito',
+  nameKey: 'selectGame.muito.name',
+  descriptionKey: 'selectGame.muito.description',
+  emoji: '🔢',
+  category: 'casual',
+  navigator: MuitoNavigator,
+  providers: [MuitoProvider],
   isEnabled: true,
 });
 
