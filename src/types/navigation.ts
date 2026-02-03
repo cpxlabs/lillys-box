@@ -16,7 +16,11 @@ import { NativeStackNavigationProp } from '@react-navigation/native-stack';
  * - Use object types for routes that accept parameters
  */
 export type RootStackParamList = {
-  /** Main menu screen */
+  /** Game selection screen */
+  GameSelection: undefined;
+  /** Game container — mounts the selected game's providers and navigator */
+  GameContainer: { gameId: string };
+  /** Main menu screen (pet game) */
   Menu: undefined;
   /** Pet creation screen */
   CreatePet: undefined;

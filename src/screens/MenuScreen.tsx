@@ -79,6 +79,16 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
+        {/* Back to Game Selection */}
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.navigate('GameSelection')}
+          accessibilityRole="button"
+          accessibilityLabel="Back to games"
+        >
+          <Feather name="chevron-left" size={24} color="#9b59b6" />
+        </TouchableOpacity>
+
         {/* Profile Card */}
         <View style={styles.profileCard}>
           <View style={styles.profileHeader}>
@@ -249,6 +259,10 @@ const styles = StyleSheet.create({
   scrollContent: {
     padding: 20,
     paddingBottom: 40,
+  },
+  backButton: {
+    alignSelf: 'flex-start',
+    marginBottom: 8,
   },
   // Profile Card
   profileCard: {

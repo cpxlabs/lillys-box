@@ -215,5 +215,13 @@
   },
   "ads": {
     "notAvailable": "Anúncio não disponível"
+  },
+  "selectGame": {
+    "title": "Escolha o Seu Jogo",
+    "subtitle": "Selecione um jogo para jogar",
+    "petCare": {
+      "name": "Cuidado com o Pet",
+      "description": "Cuide do seu pet virtual!"
+    }
   }
 }

@@ -7,33 +7,36 @@ import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import './src/i18n'; // Initialize i18n
 import { ErrorBoundary } from './src/components/ErrorBoundary';
 import { LanguageProvider } from './src/context/LanguageContext';
-import { AuthProvider } from './src/context/AuthContext';
-import { PetProvider, usePet } from './src/context/PetContext';
+import { AuthProvider, useAuth } from './src/context/AuthContext';
 import { ToastProvider } from './src/context/ToastContext';
 import { AdProvider, useAd } from './src/context/AdContext';
 import AdService from './src/services/AdService';
-import { useAuth } from './src/context/AuthContext';
-import { MenuScreen } from './src/screens/MenuScreen';
 import { LoginScreen } from './src/screens/LoginScreen';
-import { CreatePetScreen } from './src/screens/CreatePetScreen';
-import { HomeScreen } from './src/screens/HomeScreen';
-import { FeedScene } from './src/screens/FeedScene';
-import { BathScene } from './src/screens/BathScene';
-import { WardrobeScene } from './src/screens/WardrobeScene';
-import { PlayScene } from './src/screens/PlayScene';
-import { SleepScene } from './src/screens/SleepScene';
-import { VetScene } from './src/screens/VetScene';
+import { GameSelectionScreen } from './src/screens/GameSelectionScreen';
+import { GameContainer } from './src/screens/GameContainer';
+import { gameRegistry } from './src/registry/GameRegistry';
+import { PetProvider } from './src/context/PetContext';
+import { PetGameNavigator } from './src/screens/PetGameNavigator';
+
+// Register the pet-care game
+gameRegistry.register({
+  id: 'pet-care',
+  nameKey: 'selectGame.petCare.name',
+  descriptionKey: 'selectGame.petCare.description',
+  emoji: '🐾',
+  category: 'pet',
+  navigator: PetGameNavigator,
+  providers: [PetProvider],
+  isEnabled: true,
+});
 
 const Stack = createNativeStackNavigator();
 
 const AppNavigator: React.FC = () => {
-  const { isLoading: petLoading } = usePet();
   const { user, isGuest, loading: authLoading } = useAuth();
   const { incrementScreenCount, shouldShowInterstitial, showInterstitialAd } = useAd();
 
-  const isLoading = authLoading || petLoading;
-
-  if (isLoading) {
+  if (authLoading) {
     return (
       <View style={styles.loading}>
         <ActivityIndicator size="large" color="#9b59b6" />
@@ -46,7 +49,6 @@ const AppNavigator: React.FC = () => {
   return (
     <NavigationContainer
       onStateChange={() => {
-        // Only track and show ads if user is authenticated
         if (isAuthenticated) {
           incrementScreenCount();
 
@@ -57,7 +59,7 @@ const AppNavigator: React.FC = () => {
       }}
     >
       <Stack.Navigator
-        initialRouteName={isAuthenticated ? 'Menu' : 'Login'}
+        initialRouteName={isAuthenticated ? 'GameSelection' : 'Login'}
         screenOptions={{
           headerShown: false,
           animation: 'slide_from_right',
@@ -67,15 +69,8 @@ const AppNavigator: React.FC = () => {
           <Stack.Screen name="Login" component={LoginScreen} />
         ) : (
           <>
-            <Stack.Screen name="Menu" component={MenuScreen} />
-            <Stack.Screen name="CreatePet" component={CreatePetScreen} />
-            <Stack.Screen name="Home" component={HomeScreen} />
-            <Stack.Screen name="Feed" component={FeedScene} />
-            <Stack.Screen name="Bath" component={BathScene} />
-            <Stack.Screen name="Wardrobe" component={WardrobeScene} />
-            <Stack.Screen name="Play" component={PlayScene} />
-            <Stack.Screen name="Sleep" component={SleepScene} />
-            <Stack.Screen name="Vet" component={VetScene} />
+            <Stack.Screen name="GameSelection" component={GameSelectionScreen} />
+            <Stack.Screen name="GameContainer" component={GameContainer} />
           </>
         )}
       </Stack.Navigator>
@@ -94,13 +89,11 @@ export default function App() {
       <GestureHandlerRootView style={{ flex: 1 }}>
         <LanguageProvider>
           <AuthProvider>
-            <PetProvider>
-              <AdProvider>
-                <ToastProvider>
-                  <AppNavigator />
-                </ToastProvider>
-              </AdProvider>
-            </PetProvider>
+            <AdProvider>
+              <ToastProvider>
+                <AppNavigator />
+              </ToastProvider>
+            </AdProvider>
           </AuthProvider>
         </LanguageProvider>
       </GestureHandlerRootView>

@@ -214,5 +214,13 @@
   },
   "ads": {
     "notAvailable": "Ad not available"
+  },
+  "selectGame": {
+    "title": "Choose Your Game",
+    "subtitle": "Pick a game to play",
+    "petCare": {
+      "name": "Pet Care",
+      "description": "Take care of your virtual pet!"
+    }
   }
 }
