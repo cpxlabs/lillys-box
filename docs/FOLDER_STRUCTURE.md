@@ -59,7 +59,8 @@ src/
 ├── data/              # Static data and configurations
 ├── config/            # App configuration files
 ├── types/             # TypeScript type definitions
-└── locales/           # i18n translation files
+├── locales/           # i18n translation files
+└── registry/          # Game Registry (singleton, GameDefinition interface)
 ```
 
 ---
@@ -101,6 +102,12 @@ Contains full-screen components that represent different views in the applicatio
 - `SleepScene.tsx` - Sleeping interaction screen
 - `VetScene.tsx` - Veterinary interaction screen
 - `WardrobeScene.tsx` - Clothing customization screen
+- `GameSelectionScreen.tsx` - Multi-game selection grid (reads from GameRegistry)
+- `GameContainer.tsx` - Mounts a selected game's providers and navigator
+- `PetGameNavigator.tsx` - Nested stack navigator for the Pet Care game
+- `MuitoNavigator.tsx` - Nested stack navigator for the Muito counting game
+- `MuitoHomeScreen.tsx` - Muito title screen with best-score card and Play button
+- `MuitoGameScreen.tsx` - Muito counting puzzle (objects → 4-choice answer)
 
 **Purpose:** Each screen represents a distinct user interaction flow or feature.
 
@@ -120,6 +127,7 @@ Contains Context API providers for global state management.
 - `AuthContext.tsx` - **[NEW]** Manages Google OAuth authentication and guest mode
 - `LanguageContext.tsx` - Manages language selection and i18n state
 - `PetContext.tsx` - Manages pet state (hunger, happiness, cleanliness, appearance) with user-scoped storage
+- `MuitoContext.tsx` - Manages Muito game state (current score, persisted best score per user)
 - `ToastContext.tsx` - Manages toast notifications
 
 **Purpose:** Provides shared state across the application without prop drilling.
@@ -277,4 +285,25 @@ This structure promotes:
 - `MenuScreen.tsx`: Added user info header and sign-out functionality
 - `App.tsx`: Integrated AuthProvider and auth-based routing
 
-**Last Updated:** 2026-01-22
+---
+
+## Recent Updates (Multi-Game Platform + Muito)
+
+### Game Registry & Selection
+- **GameRegistry** (`src/registry/GameRegistry.ts`): Singleton that holds all registered `GameDefinition` objects. Games self-register via `gameRegistry.register(...)` in `App.tsx`.
+- **GameSelectionScreen** (`src/screens/GameSelectionScreen.tsx`): 2-column grid rendered from `gameRegistry.getAllGames()`.
+- **GameContainer** (`src/screens/GameContainer.tsx`): Receives `gameId` via route params, wraps the game's navigator with its declared providers, and renders it.
+
+### Muito — Counting Game (second game)
+- **MuitoContext** (`src/context/MuitoContext.tsx`): Provides `score` (resets each play) and `bestScore` (persisted to `@muito_game:bestScore:{userId}`). Safe load-before-persist ordering avoids overwriting on mount.
+- **MuitoNavigator** (`src/screens/MuitoNavigator.tsx`): Two-screen stack — `MuitoHome` → `MuitoGame`.
+- **MuitoHomeScreen** (`src/screens/MuitoHomeScreen.tsx`): Title card, best-score display, Play button. Back button pops back to GameSelection via `navigation.getParent()?.goBack()`.
+- **MuitoGameScreen** (`src/screens/MuitoGameScreen.tsx`): Each round renders N emoji objects and presents 4 numeric answer choices. Correct → +10 points, 1.5 s feedback, then auto-advance. Difficulty scales: rounds 1–3 use 2–4 objects, rounds 4–7 use 3–6, rounds 8+ use 4–9.
+
+### Navigation Types
+- `RootStackParamList` in `src/types/navigation.ts` now includes `MuitoHome` and `MuitoGame` alongside the existing Pet Care routes.
+
+### Locale Files
+- Both `en.json` and `pt-BR.json` contain a `selectGame.muito` block (game-card copy) and a top-level `muito` namespace (11 in-game strings).
+
+**Last Updated:** 2026-02-04

@@ -20,6 +20,8 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - 🗑️ Botão para apagar pet no menu com confirmação
 - 💰 Sistema de moedas com anúncios opcionais para bônus
 - 🌐 **Suporte a múltiplos idiomas (Inglês e Português do Brasil)**
+- 🎮 **Plataforma multi-jogo** com Game Registry e tela de seleção de jogos
+- 🔢 **Muito** — jogo de contagem para crianças (segundo jogo da plataforma)
 
 ## 🚀 Quick Start (Início Rápido)
 
@@ -164,7 +166,9 @@ resources: {
   "wardrobe": { /* Strings do armário */ },
   "background": { /* Strings do cenário */ },
   "rewards": { /* Strings de recompensas */ },
-  "ads": { /* Strings de anúncios */ }
+  "ads": { /* Strings de anúncios */ },
+  "selectGame": { /* Strings da tela de seleção de jogos */ },
+  "muito": { /* Strings do jogo Muito (contagem) */ }
 }
 ```
 
@@ -217,6 +221,8 @@ Para detalhes sobre a implementação e correção dos testes, consulte [docs/TE
 - [x] Sistema de monetização com AdMob
 - [x] Suporte a múltiplos idiomas (i18n)
 - [x] **Suíte de testes automatizados (CI-Ready)**
+- [x] **Plataforma multi-jogo** (Game Registry, seletor, GameContainer)
+- [x] **Muito** — segundo jogo (contagem de objetos com níveis progressivos)
 - [ ] Sons e efeitos visuais
 - [ ] Otimizações de performance
 
