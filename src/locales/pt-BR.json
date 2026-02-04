@@ -238,6 +238,37 @@
     "question": "Quantos {{emoji}} tem?",
     "correct": "✓ Correto! +10",
     "wrong": "✗ Tente novamente!",
-    "answerLabel": "Resposta"
+    "answerLabel": "Resposta",
+    "multiplayer": {
+      "play": "Multijogador",
+      "title": "Multijogador",
+      "connecting": "Conectando...",
+      "host": "Anfitrião",
+      "join": "Entrar",
+      "hostDescription": "Crie uma sala e compartilhe o código com seu oponente.",
+      "joinDescription": "Digite o código da sala compartilhado pelo seu oponente.",
+      "createRoom": "Criar Sala",
+      "joinRoom": "Entrar na Sala",
+      "codePlaceholder": "Digite o código de 6 caracteres",
+      "lobby": "Sala de Espera",
+      "roomCode": "Código da Sala",
+      "players": "Jogadores",
+      "waitingForOpponent": "Esperando pelo oponente...",
+      "waitingForHost": "Esperando o anfitrião iniciar...",
+      "waitingForRound": "Esperando pela rodada...",
+      "start": "Iniciar Jogo",
+      "round": "Rodada {{current}}/{{total}}",
+      "you": "Você",
+      "opponent": "Oponente",
+      "youWonRound": "Você ganhou esta rodada!",
+      "opponentWonRound": "Oponente ganhou esta rodada!",
+      "tieRound": "Foi um empate!",
+      "resultWin": "Você Ganhou!",
+      "resultLose": "Você Perdeu!",
+      "resultTie": "Foi um Empate!",
+      "playAgain": "Jogar Novamente",
+      "backToMenu": "Voltar ao Menu",
+      "opponentDisconnected": "Oponente desconectou"
+    }
   }
 }

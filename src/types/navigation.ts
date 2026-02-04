@@ -42,6 +42,12 @@ export type RootStackParamList = {
   MuitoHome: undefined;
   /** Muito counting game screen */
   MuitoGame: undefined;
+  /** Muito multiplayer lobby */
+  MuitoLobby: undefined;
+  /** Muito multiplayer game screen */
+  MuitoMultiGame: undefined;
+  /** Muito multiplayer results screen */
+  MuitoResults: undefined;
 };
 
 /**

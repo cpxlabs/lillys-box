@@ -17,6 +17,10 @@ export const MuitoHomeScreen: React.FC<Props> = ({ navigation }) => {
     navigation.navigate('MuitoGame');
   };
 
+  const handleMultiplayer = () => {
+    navigation.navigate('MuitoLobby');
+  };
+
   const handleBack = () => {
     if (navigation.canGoBack()) {
       navigation.goBack();
@@ -56,6 +60,16 @@ export const MuitoHomeScreen: React.FC<Props> = ({ navigation }) => {
           accessibilityLabel={t('muito.play')}
         >
           <Text style={styles.playButtonText}>{t('muito.play')}</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.multiplayerButton}
+          onPress={handleMultiplayer}
+          activeOpacity={0.85}
+          accessibilityRole="button"
+          accessibilityLabel={t('muito.multiplayer.play')}
+        >
+          <Text style={styles.multiplayerButtonText}>{t('muito.multiplayer.play')}</Text>
         </TouchableOpacity>
 
         <Text style={styles.instructions}>{t('muito.instructions')}</Text>
@@ -139,6 +153,23 @@ const styles = StyleSheet.create({
   },
   playButtonText: {
     fontSize: 22,
+    fontWeight: '700',
+    color: '#fff',
+  },
+  multiplayerButton: {
+    backgroundColor: '#27ae60',
+    paddingVertical: 14,
+    paddingHorizontal: 40,
+    borderRadius: 32,
+    shadowColor: '#27ae60',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+    marginTop: 12,
+  },
+  multiplayerButtonText: {
+    fontSize: 18,
     fontWeight: '700',
     color: '#fff',
   },

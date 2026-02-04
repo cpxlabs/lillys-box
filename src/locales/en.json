@@ -237,6 +237,37 @@
     "question": "How many {{emoji}} are there?",
     "correct": "✓ Correct! +10",
     "wrong": "✗ Try again!",
-    "answerLabel": "Answer"
+    "answerLabel": "Answer",
+    "multiplayer": {
+      "play": "Multiplayer",
+      "title": "Multiplayer",
+      "connecting": "Connecting...",
+      "host": "Host",
+      "join": "Join",
+      "hostDescription": "Create a room and share the code with your opponent.",
+      "joinDescription": "Enter the room code shared by your opponent.",
+      "createRoom": "Create Room",
+      "joinRoom": "Join Room",
+      "codePlaceholder": "Enter 6-character code",
+      "lobby": "Game Lobby",
+      "roomCode": "Room Code",
+      "players": "Players",
+      "waitingForOpponent": "Waiting for opponent...",
+      "waitingForHost": "Waiting for host to start...",
+      "waitingForRound": "Waiting for round...",
+      "start": "Start Game",
+      "round": "Round {{current}}/{{total}}",
+      "you": "You",
+      "opponent": "Opponent",
+      "youWonRound": "You won this round!",
+      "opponentWonRound": "Opponent won this round!",
+      "tieRound": "It's a tie!",
+      "resultWin": "You Win!",
+      "resultLose": "You Lost!",
+      "resultTie": "It's a Tie!",
+      "playAgain": "Play Again",
+      "backToMenu": "Back to Menu",
+      "opponentDisconnected": "Opponent disconnected"
+    }
   }
 }
