@@ -587,8 +587,8 @@ AsyncStorage
 ```
 AsyncStorage
 ├─ pets:${userId}              → Pet Care game data
-├─ puzzles:${userId}           → Puzzle game data
-├─ rpg:${userId}               → RPG game data
+├─ muito_game:bestScore:${userId} → Muito best-score (implemented)
+├─ rpg:${userId}               → RPG game data (future)
 └─ gameProgress:${userId}      → Cross-game metadata
     ├─ lastPlayedGame: 'pet-care'
     ├─ playCounts: { 'pet-care': 50, 'puzzle': 10 }
@@ -866,23 +866,21 @@ This architecture provides:
 - ✅ **User Experience**: Intuitive game selection
 - ✅ **Developer Experience**: Simple game creation process
 
-The pet care game will continue to work exactly as before, but now it's one of potentially many games in the platform.
+The pet care game continues to work exactly as before. **Muito** (a kids' counting game) is now live as the second game in the platform, validating the registry → selection → container flow end-to-end. Adding further games follows the same four-step pattern documented in the Developer Experience section above.
 
 ---
 
 ## Next Steps
 
-1. Review and approve this architecture plan
-2. Create feature branch for implementation
-3. Start with Phase 1 (restructuring)
-4. Implement phases sequentially
-5. Test thoroughly at each phase
-6. Deploy to production
-7. Prepare for adding new games
+1. ✅ Architecture plan reviewed and approved
+2. ✅ Feature branches created and merged
+3. ✅ Phases 1–8 implemented (registry, selection, container, pet-care module, Muito game)
+4. Add additional games following the Developer Experience pattern
+5. Evaluate Phase 9+ enhancements (achievements, analytics, cross-game currency)
 
 ---
 
-**Document Version**: 1.0
-**Last Updated**: 2026-02-01
+**Document Version**: 2.0
+**Last Updated**: 2026-02-04
 **Author**: Claude (AI Assistant)
-**Status**: Proposed - Awaiting Approval
+**Status**: Implemented — Pet Care + Muito live

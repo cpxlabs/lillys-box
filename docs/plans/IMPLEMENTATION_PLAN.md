@@ -1184,6 +1184,85 @@ All code quality improvements have been successfully implemented in commit `18d0
 
 ---
 
+---
+
+# Part 5: Muito Counting Game ✅ Complete
+
+**Status:** 100% Complete
+**Date:** 2026-02-04
+
+## Overview
+
+Muito is the second game added to the multi-game platform. It is a casual counting game aimed at young children: objects (emoji) appear on screen and the player must select the correct count from four choices.
+
+## Architecture
+
+| Layer | File | Responsibility |
+|-------|------|----------------|
+| Navigator | `src/screens/MuitoNavigator.tsx` | Two-screen nested stack: `MuitoHome` → `MuitoGame` |
+| Provider | `src/context/MuitoContext.tsx` | Exposes `score`, `bestScore`, `addScore()`, `resetScore()`. Best score persisted per-user to `@muito_game:bestScore:{userId}`. |
+| Home screen | `src/screens/MuitoHomeScreen.tsx` | Title card, best-score display, Play button, back-to-selection nav |
+| Game screen | `src/screens/MuitoGameScreen.tsx` | Puzzle generation, answer evaluation, feedback loop, difficulty scaling |
+| Registration | `App.tsx` | `gameRegistry.register({ id: 'muito', … })` with `MuitoProvider` and `MuitoNavigator` |
+| Locales | `en.json` / `pt-BR.json` | `selectGame.muito` (card) + `muito.*` (11 in-game keys) |
+| Nav types | `src/types/navigation.ts` | `MuitoHome` and `MuitoGame` added to `RootStackParamList` |
+
+## Gameplay Loop
+
+1. Player opens Muito from the game-selection grid.
+2. `MuitoHomeScreen` shows the title, any existing best score, and a **Play** button.
+3. Pressing Play resets the current score and navigates to `MuitoGameScreen`.
+4. Each round:
+   - A random emoji is chosen from a pool of 12.
+   - `N` copies are rendered in a card grid.
+   - Four numeric options are shown (one correct, three nearby wrong values).
+   - Tapping an option highlights it green (correct, +10 points) or red (wrong).
+   - After a 1.5 s feedback pause the next round auto-generates.
+5. Difficulty scales with the round number:
+
+| Rounds | Object count range |
+|--------|--------------------|
+| 1 – 3  | 2 – 4              |
+| 4 – 7  | 3 – 6              |
+| 8 +    | 4 – 9              |
+
+6. Best score is compared and persisted after every correct answer; the comparison uses a ref that is initialised only after the initial AsyncStorage load completes, preventing a race that would overwrite the stored value with 0.
+
+## Persistence Details
+
+- Key pattern: `@muito_game:bestScore:{userId}` — matches the project convention of `{gameId}:{dataSlug}:{userId}`.
+- `MuitoContext` loads the stored best score in a `useEffect` on mount and sets a `loadedRef` flag. A second `useEffect` watches `score`; it only updates `bestScore` (and persists) when `loadedRef` is `true` **and** the new score exceeds the current best.
+
+## i18n Keys Added
+
+### English (`en.json`)
+```json
+"selectGame.muito": { "name": "Muito", "description": "Count the objects!" }
+"muito": {
+  "title", "subtitle", "instructions", "play",
+  "bestScore", "score", "question", "correct", "wrong", "answerLabel"
+}
+```
+
+### Portuguese (`pt-BR.json`)
+Same structure; all values in Brazilian Portuguese.
+
+## Files Changed
+
+**New (4)**
+- `src/context/MuitoContext.tsx`
+- `src/screens/MuitoNavigator.tsx`
+- `src/screens/MuitoHomeScreen.tsx`
+- `src/screens/MuitoGameScreen.tsx`
+
+**Modified (4)**
+- `App.tsx` — import + `gameRegistry.register()`
+- `src/types/navigation.ts` — two new route entries
+- `src/locales/en.json` — `selectGame.muito` + `muito` namespace
+- `src/locales/pt-BR.json` — same
+
+---
+
 # Notes
 
 ## Backward Compatibility
@@ -1207,9 +1286,9 @@ All code quality improvements have been successfully implemented in commit `18d0
 
 ---
 
-**Last Updated**: 2026-01-22
-**Plan Version**: 3.0 (OAuth Implementation Complete)
-**Status**: Core Features & Auth Complete, Infrastructure Partial
+**Last Updated**: 2026-02-04
+**Plan Version**: 4.0 (Muito Counting Game Complete)
+**Status**: Core Features, Auth & Multi-Game Platform Complete, Infrastructure Partial
 
 ## Completion Summary by Part
 
@@ -1219,7 +1298,11 @@ All code quality improvements have been successfully implemented in commit `18d0
 | 2 | Game Features & UI | Complete | 100% ✅ |
 | 3 | Code Quality | Complete | 100% ✅ |
 | 4 | Authentication (OAuth) | Complete | 100% ✅ |
+| 5 | Muito Counting Game | Complete | 100% ✅ |
 
-**Key Achievement**: Successfully implemented Google OAuth authentication with multi-user support and data isolation (Phase 1-5 of OAUTH_PLAN.md).
+**Key Achievements**:
+- Successfully implemented Google OAuth authentication with multi-user support and data isolation (Phase 1-5 of OAUTH_PLAN.md).
+- Shipped the multi-game platform: Game Registry, selection screen, and GameContainer are live.
+- Muito is the second game on the platform — validates the full registry → selection → provider-wrapping → nested-navigator flow.
 
 For detailed OAuth implementation steps, see: [docs/GOOGLE_OAUTH_SETUP.md](docs/GOOGLE_OAUTH_SETUP.md)

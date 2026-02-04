@@ -38,6 +38,10 @@ export type RootStackParamList = {
   Vet: undefined;
   /** Wardrobe customization scene */
   Wardrobe: undefined;
+  /** Muito game home screen */
+  MuitoHome: undefined;
+  /** Muito counting game screen */
+  MuitoGame: undefined;
 };
 
 /**

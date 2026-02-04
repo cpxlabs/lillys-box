@@ -222,6 +222,22 @@
     "petCare": {
       "name": "Cuidado com o Pet",
       "description": "Cuide do seu pet virtual!"
+    },
+    "muito": {
+      "name": "Muito",
+      "description": "Conte os objetos!"
     }
+  },
+  "muito": {
+    "title": "Muito",
+    "subtitle": "Um jogo de contagem divertido!",
+    "instructions": "Conte quantos objetos aparecem e escolha o número correto.",
+    "play": "Jogar! 🎮",
+    "bestScore": "Melhor Pontuação",
+    "score": "Pontuação",
+    "question": "Quantos {{emoji}} tem?",
+    "correct": "✓ Correto! +10",
+    "wrong": "✗ Tente novamente!",
+    "answerLabel": "Resposta"
   }
 }

@@ -221,6 +221,22 @@
     "petCare": {
       "name": "Pet Care",
       "description": "Take care of your virtual pet!"
+    },
+    "muito": {
+      "name": "Muito",
+      "description": "Count the objects!"
     }
+  },
+  "muito": {
+    "title": "Muito",
+    "subtitle": "A fun counting game!",
+    "instructions": "Count how many objects appear and pick the right number.",
+    "play": "Play! 🎮",
+    "bestScore": "Best Score",
+    "score": "Score",
+    "question": "How many {{emoji}} are there?",
+    "correct": "✓ Correct! +10",
+    "wrong": "✗ Try again!",
+    "answerLabel": "Answer"
   }
 }
