@@ -21,6 +21,8 @@ import { MuitoProvider } from './src/context/MuitoContext';
 import { MuitoNavigator } from './src/screens/MuitoNavigator';
 import { MemoryMatchProvider } from './src/context/MemoryMatchContext';
 import { MemoryMatchNavigator } from './src/screens/MemoryMatchNavigator';
+import { PetRunnerProvider } from './src/context/PetRunnerContext';
+import { PetRunnerNavigator } from './src/screens/PetRunnerNavigator';
 
 // Register the pet-care game
 gameRegistry.register({
@@ -55,6 +57,18 @@ gameRegistry.register({
   category: 'puzzle',
   navigator: MemoryMatchNavigator,
   providers: [MemoryMatchProvider],
+  isEnabled: true,
+});
+
+// Register the pet runner game
+gameRegistry.register({
+  id: 'pet-runner',
+  nameKey: 'selectGame.petRunner.name',
+  descriptionKey: 'selectGame.petRunner.description',
+  emoji: '🏃',
+  category: 'casual',
+  navigator: PetRunnerNavigator,
+  providers: [PetRunnerProvider],
   isEnabled: true,
 });
 

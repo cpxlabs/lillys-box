@@ -229,6 +229,10 @@
     "memoryMatch": {
       "name": "Memory Match",
       "description": "Find all the matching pairs!"
+    },
+    "petRunner": {
+      "name": "Pet Runner",
+      "description": "Run, jump and collect coins!"
     }
   },
   "muito": {
@@ -262,6 +266,22 @@
       "title": "Well Done!",
       "moves": "Moves",
       "time": "Time",
+      "score": "Score",
+      "newBest": "New Best!",
+      "playAgain": "Play Again"
+    }
+  },
+  "petRunner": {
+    "title": "Pet Runner",
+    "subtitle": "Run, jump, collect!",
+    "instructions": "Tap to jump over obstacles and collect coins.",
+    "play": "Play!",
+    "bestScore": "Best Score",
+    "tapToStart": "Tap to Start!",
+    "gameOver": {
+      "title": "Game Over!",
+      "distance": "Distance",
+      "coins": "Coins",
       "score": "Score",
       "newBest": "New Best!",
       "playAgain": "Play Again"
