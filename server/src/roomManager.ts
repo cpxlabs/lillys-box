@@ -1,0 +1,133 @@
+import { Server, Socket } from 'socket.io';
+import { Events } from '../../shared/src/events';
+import { GameLoop } from './gameLoop';
+
+function generateRoomCode(): string {
+  // Omit O, 0, I, 1 to avoid visual confusion
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let code = '';
+  for (let i = 0; i < 6; i++) {
+    code += chars[Math.floor(Math.random() * chars.length)];
+  }
+  return code;
+}
+
+export interface RoomPlayer {
+  socketId: string;
+  userId: string;
+  displayName: string;
+}
+
+export interface RoomState {
+  code: string;
+  players: RoomPlayer[];
+  gameLoop: GameLoop | null;
+  createdAt: number;
+}
+
+class RoomManager {
+  private rooms = new Map<string, RoomState>();
+  /** Reverse index: socketId → roomCode */
+  private socketToRoom = new Map<string, string>();
+
+  createRoom(socket: Socket, userId: string, displayName: string): string {
+    const code = generateRoomCode();
+    const room: RoomState = {
+      code,
+      players: [{ socketId: socket.id, userId, displayName }],
+      gameLoop: null,
+      createdAt: Date.now(),
+    };
+    this.rooms.set(code, room);
+    this.socketToRoom.set(socket.id, code);
+    socket.join(code);
+    return code;
+  }
+
+  joinRoom(
+    socket: Socket,
+    code: string,
+    userId: string,
+    displayName: string
+  ): { success: boolean; error?: string; room?: RoomState } {
+    const room = this.rooms.get(code);
+    if (!room) return { success: false, error: 'Room not found' };
+    if (room.players.length >= 2) return { success: false, error: 'Room is full' };
+    if (room.players.some((p) => p.userId === userId))
+      return { success: false, error: 'Already in this room' };
+    if (room.gameLoop) return { success: false, error: 'Game already started' };
+
+    room.players.push({ socketId: socket.id, userId, displayName });
+    this.socketToRoom.set(socket.id, code);
+    socket.join(code);
+    return { success: true, room };
+  }
+
+  getRoomBySocket(socketId: string): RoomState | undefined {
+    const code = this.socketToRoom.get(socketId);
+    return code ? this.rooms.get(code) : undefined;
+  }
+
+  getRoomByCode(code: string): RoomState | undefined {
+    return this.rooms.get(code);
+  }
+
+  /**
+   * Remove a player from their current room.
+   * Deletes the room entirely if it becomes empty.
+   */
+  removePlayerFromRoom(socketId: string): {
+    room?: RoomState;
+    removedPlayer?: RoomPlayer;
+  } {
+    const code = this.socketToRoom.get(socketId);
+    if (!code) return {};
+    const room = this.rooms.get(code);
+    if (!room) return {};
+
+    const idx = room.players.findIndex((p) => p.socketId === socketId);
+    if (idx === -1) return {};
+
+    const [removed] = room.players.splice(idx, 1);
+    this.socketToRoom.delete(socketId);
+
+    if (room.players.length === 0) {
+      this.rooms.delete(code);
+    }
+    return { room, removedPlayer: removed };
+  }
+
+  /**
+   * Called when a socket disconnects.
+   * Stops any active game loop and notifies the remaining player.
+   */
+  handleDisconnect(io: Server, socketId: string): void {
+    const code = this.socketToRoom.get(socketId);
+    if (!code) return;
+
+    const room = this.rooms.get(code);
+    if (!room) return;
+
+    // Stop any running game
+    if (room.gameLoop) {
+      room.gameLoop.destroy();
+      room.gameLoop = null;
+    }
+
+    const { removedPlayer } = this.removePlayerFromRoom(socketId);
+
+    // Notify the remaining player (if any)
+    if (room.players.length > 0) {
+      io.to(code).emit(Events.OPPONENT_DISCONNECTED, {
+        message: removedPlayer?.displayName || 'Opponent',
+      });
+    }
+  }
+
+  setGameLoop(code: string, gameLoop: GameLoop): void {
+    const room = this.rooms.get(code);
+    if (room) room.gameLoop = gameLoop;
+  }
+}
+
+export const roomManager = new RoomManager();

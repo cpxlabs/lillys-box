@@ -16,10 +16,7 @@
     "format": "prettier --write \"src/**/*.{ts,tsx}\"",
     "format:check": "prettier --check \"src/**/*.{ts,tsx}\"",
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
-    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
-    "create-game": "node scripts/create-game.js",
-    "backend:dev": "pnpm --dir backend run dev",
-    "backend:start": "pnpm --dir backend run start"
+    "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix"
   },
   "dependencies": {
     "@babel/runtime": "^7.28.4",
@@ -48,7 +45,7 @@
     "react-native-screens": "~3.29.0",
     "react-native-svg": "14.1.0",
     "react-native-web": "~0.19.6",
-    "react-native-webview": "13.8.6",
+    "socket.io-client": "^4.8.0",
     "uuid": "^9.0.0"
   },
   "devDependencies": {

@@ -20,6 +20,7 @@
     "createPetHint": "Começar um novo jogo com um novo pet",
     "deletePet": "Excluir Pet 🗑️",
     "deletePetHint": "Remover permanentemente seu pet atual",
+
     "createPetModal": {
       "title": "Criar Novo Pet",
       "message": "Tem certeza? Seu pet \"{{name}}\" será removido permanentemente.",
@@ -225,18 +226,6 @@
     "muito": {
       "name": "Muito",
       "description": "Conte os objetos!"
-    },
-    "memoryMatch": {
-      "name": "Jogo da Memória",
-      "description": "Encontre todos os pares!"
-    },
-    "petRunner": {
-      "name": "Pet Corredor",
-      "description": "Corra, pule e colete moedas!"
-    },
-    "colorTap": {
-      "name": "Color Tap",
-      "description": "Tap the matching color!"
     }
   },
   "muito": {
@@ -249,60 +238,37 @@
     "question": "Quantos {{emoji}} tem?",
     "correct": "✓ Correto! +10",
     "wrong": "✗ Tente novamente!",
-    "answerLabel": "Resposta"
-  },
-  "memoryMatch": {
-    "title": "Jogo da Memória",
-    "subtitle": "Treine sua memória!",
-    "instructions": "Vire duas cartas de cada vez e encontre todos os pares.",
-    "play": "Jogar!",
-    "bestScore": "Melhor Pontuação",
-    "moves": "Jogadas",
-    "time": "Tempo",
-    "matched": "Combinado",
-    "cardFaceDown": "Carta virada para baixo",
-    "difficulty": {
-      "easy": "Fácil",
-      "medium": "Médio",
-      "hard": "Difícil"
-    },
-    "gameOver": {
-      "title": "Muito Bem!",
-      "moves": "Jogadas",
-      "time": "Tempo",
-      "score": "Pontuação",
-      "newBest": "Novo Recorde!",
-      "playAgain": "Jogar Novamente"
-    }
-  },
-  "petRunner": {
-    "title": "Pet Corredor",
-    "subtitle": "Corra, pule, colete!",
-    "instructions": "Toque para pular obstáculos e coletar moedas.",
-    "play": "Jogar!",
-    "bestScore": "Melhor Pontuação",
-    "tapToStart": "Toque para Começar!",
-    "gameOver": {
-      "title": "Fim de Jogo!",
-      "distance": "Distância",
-      "coins": "Moedas",
-      "score": "Pontuação",
-      "newBest": "Novo Recorde!",
-      "playAgain": "Jogar Novamente"
-    }
-  },
-  "colorTap": {
-    "title": "Color Tap",
-    "subtitle": "Tap the matching color!",
-    "instructions": "Play Color Tap and try to beat your best score!",
-    "play": "Play!",
-    "bestScore": "Best Score",
-    "score": "Score",
-    "gameOver": {
-      "title": "Game Over!",
-      "score": "Score",
-      "newBest": "New Best!",
-      "playAgain": "Play Again"
+    "answerLabel": "Resposta",
+    "multiplayer": {
+      "play": "Multijogador",
+      "title": "Multijogador",
+      "connecting": "Conectando...",
+      "host": "Anfitrião",
+      "join": "Entrar",
+      "hostDescription": "Crie uma sala e compartilhe o código com seu oponente.",
+      "joinDescription": "Digite o código da sala compartilhado pelo seu oponente.",
+      "createRoom": "Criar Sala",
+      "joinRoom": "Entrar na Sala",
+      "codePlaceholder": "Digite o código de 6 caracteres",
+      "lobby": "Sala de Espera",
+      "roomCode": "Código da Sala",
+      "players": "Jogadores",
+      "waitingForOpponent": "Esperando pelo oponente...",
+      "waitingForHost": "Esperando o anfitrião iniciar...",
+      "waitingForRound": "Esperando pela rodada...",
+      "start": "Iniciar Jogo",
+      "round": "Rodada {{current}}/{{total}}",
+      "you": "Você",
+      "opponent": "Oponente",
+      "youWonRound": "Você ganhou esta rodada!",
+      "opponentWonRound": "Oponente ganhou esta rodada!",
+      "tieRound": "Foi um empate!",
+      "resultWin": "Você Ganhou!",
+      "resultLose": "Você Perdeu!",
+      "resultTie": "Foi um Empate!",
+      "playAgain": "Jogar Novamente",
+      "backToMenu": "Voltar ao Menu",
+      "opponentDisconnected": "Oponente desconectou"
     }
   }
 }

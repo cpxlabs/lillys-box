@@ -587,9 +587,7 @@ AsyncStorage
 ```
 AsyncStorage
 ├─ pets:${userId}              → Pet Care game data
-├─ muito_game:bestScore:${userId} → Molto best-score (implemented)
-├─ @memory_match:bestScore:*   → Memory Match best scores (implemented)
-├─ @pet_runner:bestScore:*     → Pet Runner best score (implemented)
+├─ muito_game:bestScore:${userId} → Muito best-score (implemented)
 ├─ rpg:${userId}               → RPG game data (future)
 └─ gameProgress:${userId}      → Cross-game metadata
     ├─ lastPlayedGame: 'pet-care'
@@ -868,7 +866,7 @@ This architecture provides:
 - ✅ **User Experience**: Intuitive game selection
 - ✅ **Developer Experience**: Simple game creation process
 
-The pet care game continues to work exactly as before. **Muito** (a kids' counting game), **Memory Match** (a card-flipping puzzle), and **Pet Runner** (an endless runner) are now live, demonstrating the registry → selection → container flow scales to multiple games. Adding further games follows the same four-step pattern documented in the Developer Experience section above.
+The pet care game continues to work exactly as before. **Muito** (a kids' counting game) is now live as the second game in the platform, validating the registry → selection → container flow end-to-end. Adding further games follows the same four-step pattern documented in the Developer Experience section above.
 
 ---
 
@@ -877,14 +875,12 @@ The pet care game continues to work exactly as before. **Muito** (a kids' counti
 1. ✅ Architecture plan reviewed and approved
 2. ✅ Feature branches created and merged
 3. ✅ Phases 1–8 implemented (registry, selection, container, pet-care module, Muito game)
-4. ✅ Memory Match game added as third game
-5. ✅ Pet Runner (endless runner) added as fourth game
-6. Add additional games following the Developer Experience pattern
-7. Evaluate Phase 9+ enhancements (achievements, analytics, cross-game currency)
+4. Add additional games following the Developer Experience pattern
+5. Evaluate Phase 9+ enhancements (achievements, analytics, cross-game currency)
 
 ---
 
-**Document Version**: 3.0
-**Last Updated**: 2026-02-06
+**Document Version**: 2.0
+**Last Updated**: 2026-02-04
 **Author**: Claude (AI Assistant)
-**Status**: Implemented — Pet Care + Muito + Memory Match + Pet Runner live
+**Status**: Implemented — Pet Care + Muito live

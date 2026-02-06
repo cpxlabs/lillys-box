@@ -42,6 +42,12 @@ export type RootStackParamList = {
   MuitoHome: undefined;
   /** Muito counting game screen */
   MuitoGame: undefined;
+  /** Muito multiplayer lobby */
+  MuitoLobby: undefined;
+  /** Muito multiplayer game screen */
+  MuitoMultiGame: undefined;
+  /** Muito multiplayer results screen */
+  MuitoResults: undefined;
   /** Memory Match home screen */
   MemoryMatchHome: undefined;
   /** Memory Match game screen */
@@ -62,8 +68,8 @@ export type RootStackParamList = {
  * Usage:
  * ```typescript
  * const navigation = useNavigation<RootNavigationProp>();
- * navigation.navigate('Home'); // Type-safe
- * navigation.navigate('InvalidRoute'); // TypeScript error
+ * navigation.navigate('Home'); // ✓ Type-safe
+ * navigation.navigate('InvalidRoute'); // ✗ TypeScript error
  * ```
  */
 export type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;

@@ -225,18 +225,6 @@
     "muito": {
       "name": "Muito",
       "description": "Count the objects!"
-    },
-    "memoryMatch": {
-      "name": "Memory Match",
-      "description": "Find all the matching pairs!"
-    },
-    "petRunner": {
-      "name": "Pet Runner",
-      "description": "Run, jump and collect coins!"
-    },
-    "colorTap": {
-      "name": "Color Tap",
-      "description": "Tap the matching color!"
     }
   },
   "muito": {
@@ -249,60 +237,37 @@
     "question": "How many {{emoji}} are there?",
     "correct": "✓ Correct! +10",
     "wrong": "✗ Try again!",
-    "answerLabel": "Answer"
-  },
-  "memoryMatch": {
-    "title": "Memory Match",
-    "subtitle": "Train your memory!",
-    "instructions": "Flip two cards at a time and find all matching pairs.",
-    "play": "Play!",
-    "bestScore": "Best Score",
-    "moves": "Moves",
-    "time": "Time",
-    "matched": "Matched",
-    "cardFaceDown": "Card face down",
-    "difficulty": {
-      "easy": "Easy",
-      "medium": "Medium",
-      "hard": "Hard"
-    },
-    "gameOver": {
-      "title": "Well Done!",
-      "moves": "Moves",
-      "time": "Time",
-      "score": "Score",
-      "newBest": "New Best!",
-      "playAgain": "Play Again"
-    }
-  },
-  "petRunner": {
-    "title": "Pet Runner",
-    "subtitle": "Run, jump, collect!",
-    "instructions": "Tap to jump over obstacles and collect coins.",
-    "play": "Play!",
-    "bestScore": "Best Score",
-    "tapToStart": "Tap to Start!",
-    "gameOver": {
-      "title": "Game Over!",
-      "distance": "Distance",
-      "coins": "Coins",
-      "score": "Score",
-      "newBest": "New Best!",
-      "playAgain": "Play Again"
-    }
-  },
-  "colorTap": {
-    "title": "Color Tap",
-    "subtitle": "Tap the matching color!",
-    "instructions": "Play Color Tap and try to beat your best score!",
-    "play": "Play!",
-    "bestScore": "Best Score",
-    "score": "Score",
-    "gameOver": {
-      "title": "Game Over!",
-      "score": "Score",
-      "newBest": "New Best!",
-      "playAgain": "Play Again"
+    "answerLabel": "Answer",
+    "multiplayer": {
+      "play": "Multiplayer",
+      "title": "Multiplayer",
+      "connecting": "Connecting...",
+      "host": "Host",
+      "join": "Join",
+      "hostDescription": "Create a room and share the code with your opponent.",
+      "joinDescription": "Enter the room code shared by your opponent.",
+      "createRoom": "Create Room",
+      "joinRoom": "Join Room",
+      "codePlaceholder": "Enter 6-character code",
+      "lobby": "Game Lobby",
+      "roomCode": "Room Code",
+      "players": "Players",
+      "waitingForOpponent": "Waiting for opponent...",
+      "waitingForHost": "Waiting for host to start...",
+      "waitingForRound": "Waiting for round...",
+      "start": "Start Game",
+      "round": "Round {{current}}/{{total}}",
+      "you": "You",
+      "opponent": "Opponent",
+      "youWonRound": "You won this round!",
+      "opponentWonRound": "Opponent won this round!",
+      "tieRound": "It's a tie!",
+      "resultWin": "You Win!",
+      "resultLose": "You Lost!",
+      "resultTie": "It's a Tie!",
+      "playAgain": "Play Again",
+      "backToMenu": "Back to Menu",
+      "opponentDisconnected": "Opponent disconnected"
     }
   }
 }
