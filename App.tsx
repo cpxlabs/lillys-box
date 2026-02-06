@@ -19,6 +19,8 @@ import { PetProvider } from './src/context/PetContext';
 import { PetGameNavigator } from './src/screens/PetGameNavigator';
 import { MuitoProvider } from './src/context/MuitoContext';
 import { MuitoNavigator } from './src/screens/MuitoNavigator';
+import { MemoryMatchProvider } from './src/context/MemoryMatchContext';
+import { MemoryMatchNavigator } from './src/screens/MemoryMatchNavigator';
 
 // Register the pet-care game
 gameRegistry.register({
@@ -41,6 +43,18 @@ gameRegistry.register({
   category: 'casual',
   navigator: MuitoNavigator,
   providers: [MuitoProvider],
+  isEnabled: true,
+});
+
+// Register the memory match game
+gameRegistry.register({
+  id: 'memory-match',
+  nameKey: 'selectGame.memoryMatch.name',
+  descriptionKey: 'selectGame.memoryMatch.description',
+  emoji: '🧠',
+  category: 'puzzle',
+  navigator: MemoryMatchNavigator,
+  providers: [MemoryMatchProvider],
   isEnabled: true,
 });
 

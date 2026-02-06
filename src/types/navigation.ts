@@ -42,6 +42,10 @@ export type RootStackParamList = {
   MuitoHome: undefined;
   /** Muito counting game screen */
   MuitoGame: undefined;
+  /** Memory Match home screen */
+  MemoryMatchHome: undefined;
+  /** Memory Match game screen */
+  MemoryMatchGame: { difficulty: 'easy' | 'medium' | 'hard' };
 };
 
 /**
