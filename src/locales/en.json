@@ -225,6 +225,10 @@
     "muito": {
       "name": "Muito",
       "description": "Count the objects!"
+    },
+    "memoryMatch": {
+      "name": "Memory Match",
+      "description": "Find all the matching pairs!"
     }
   },
   "muito": {
@@ -238,5 +242,29 @@
     "correct": "✓ Correct! +10",
     "wrong": "✗ Try again!",
     "answerLabel": "Answer"
+  },
+  "memoryMatch": {
+    "title": "Memory Match",
+    "subtitle": "Train your memory!",
+    "instructions": "Flip two cards at a time and find all matching pairs.",
+    "play": "Play!",
+    "bestScore": "Best Score",
+    "moves": "Moves",
+    "time": "Time",
+    "matched": "Matched",
+    "cardFaceDown": "Card face down",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "gameOver": {
+      "title": "Well Done!",
+      "moves": "Moves",
+      "time": "Time",
+      "score": "Score",
+      "newBest": "New Best!",
+      "playAgain": "Play Again"
+    }
   }
 }

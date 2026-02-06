@@ -226,6 +226,10 @@
     "muito": {
       "name": "Muito",
       "description": "Conte os objetos!"
+    },
+    "memoryMatch": {
+      "name": "Jogo da Memória",
+      "description": "Encontre todos os pares!"
     }
   },
   "muito": {
@@ -239,5 +243,29 @@
     "correct": "✓ Correto! +10",
     "wrong": "✗ Tente novamente!",
     "answerLabel": "Resposta"
+  },
+  "memoryMatch": {
+    "title": "Jogo da Memória",
+    "subtitle": "Treine sua memória!",
+    "instructions": "Vire duas cartas de cada vez e encontre todos os pares.",
+    "play": "Jogar!",
+    "bestScore": "Melhor Pontuação",
+    "moves": "Jogadas",
+    "time": "Tempo",
+    "matched": "Combinado",
+    "cardFaceDown": "Carta virada para baixo",
+    "difficulty": {
+      "easy": "Fácil",
+      "medium": "Médio",
+      "hard": "Difícil"
+    },
+    "gameOver": {
+      "title": "Muito Bem!",
+      "moves": "Jogadas",
+      "time": "Tempo",
+      "score": "Pontuação",
+      "newBest": "Novo Recorde!",
+      "playAgain": "Jogar Novamente"
+    }
   }
 }
