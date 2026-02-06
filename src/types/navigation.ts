@@ -42,6 +42,18 @@ export type RootStackParamList = {
   MuitoHome: undefined;
   /** Muito counting game screen */
   MuitoGame: undefined;
+  /** Memory Match home screen */
+  MemoryMatchHome: undefined;
+  /** Memory Match game screen */
+  MemoryMatchGame: { difficulty: 'easy' | 'medium' | 'hard' };
+  /** Pet Runner home screen */
+  PetRunnerHome: undefined;
+  /** Pet Runner game screen */
+  PetRunnerGame: undefined;
+  /** ColorTap home screen */
+  ColorTapHome: undefined;
+  /** ColorTap game screen */
+  ColorTapGame: undefined;
 };
 
 /**
@@ -50,8 +62,8 @@ export type RootStackParamList = {
  * Usage:
  * ```typescript
  * const navigation = useNavigation<RootNavigationProp>();
- * navigation.navigate('Home'); // ✓ Type-safe
- * navigation.navigate('InvalidRoute'); // ✗ TypeScript error
+ * navigation.navigate('Home'); // Type-safe
+ * navigation.navigate('InvalidRoute'); // TypeScript error
  * ```
  */
 export type RootNavigationProp = NativeStackNavigationProp<RootStackParamList>;

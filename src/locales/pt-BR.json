@@ -20,7 +20,6 @@
     "createPetHint": "Começar um novo jogo com um novo pet",
     "deletePet": "Excluir Pet 🗑️",
     "deletePetHint": "Remover permanentemente seu pet atual",
-
     "createPetModal": {
       "title": "Criar Novo Pet",
       "message": "Tem certeza? Seu pet \"{{name}}\" será removido permanentemente.",
@@ -226,6 +225,18 @@
     "muito": {
       "name": "Muito",
       "description": "Conte os objetos!"
+    },
+    "memoryMatch": {
+      "name": "Jogo da Memória",
+      "description": "Encontre todos os pares!"
+    },
+    "petRunner": {
+      "name": "Pet Corredor",
+      "description": "Corra, pule e colete moedas!"
+    },
+    "colorTap": {
+      "name": "Color Tap",
+      "description": "Tap the matching color!"
     }
   },
   "muito": {
@@ -239,5 +250,59 @@
     "correct": "✓ Correto! +10",
     "wrong": "✗ Tente novamente!",
     "answerLabel": "Resposta"
+  },
+  "memoryMatch": {
+    "title": "Jogo da Memória",
+    "subtitle": "Treine sua memória!",
+    "instructions": "Vire duas cartas de cada vez e encontre todos os pares.",
+    "play": "Jogar!",
+    "bestScore": "Melhor Pontuação",
+    "moves": "Jogadas",
+    "time": "Tempo",
+    "matched": "Combinado",
+    "cardFaceDown": "Carta virada para baixo",
+    "difficulty": {
+      "easy": "Fácil",
+      "medium": "Médio",
+      "hard": "Difícil"
+    },
+    "gameOver": {
+      "title": "Muito Bem!",
+      "moves": "Jogadas",
+      "time": "Tempo",
+      "score": "Pontuação",
+      "newBest": "Novo Recorde!",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "petRunner": {
+    "title": "Pet Corredor",
+    "subtitle": "Corra, pule, colete!",
+    "instructions": "Toque para pular obstáculos e coletar moedas.",
+    "play": "Jogar!",
+    "bestScore": "Melhor Pontuação",
+    "tapToStart": "Toque para Começar!",
+    "gameOver": {
+      "title": "Fim de Jogo!",
+      "distance": "Distância",
+      "coins": "Moedas",
+      "score": "Pontuação",
+      "newBest": "Novo Recorde!",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "colorTap": {
+    "title": "Color Tap",
+    "subtitle": "Tap the matching color!",
+    "instructions": "Play Color Tap and try to beat your best score!",
+    "play": "Play!",
+    "bestScore": "Best Score",
+    "score": "Score",
+    "gameOver": {
+      "title": "Game Over!",
+      "score": "Score",
+      "newBest": "New Best!",
+      "playAgain": "Play Again"
+    }
   }
 }
