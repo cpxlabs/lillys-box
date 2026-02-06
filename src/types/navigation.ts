@@ -38,6 +38,28 @@ export type RootStackParamList = {
   Vet: undefined;
   /** Wardrobe customization scene */
   Wardrobe: undefined;
+  /** Menu design picker */
+  MenuDesignPicker: undefined;
+  /** Menu design option 1 - Glassmorphism */
+  MenuDesign1: undefined;
+  /** Menu design option 2 - Neomorphism */
+  MenuDesign2: undefined;
+  /** Menu design option 3 - Vibrant Gradients */
+  MenuDesign3: undefined;
+  /** Menu design option 4 - Minimal Clean */
+  MenuDesign4: undefined;
+  /** Menu design option 5 - Dark Mode Neon */
+  MenuDesign5: undefined;
+  /** Menu design option 6 - Playful Bubbly */
+  MenuDesign6: undefined;
+  /** Menu design option 7 - Card Stack */
+  MenuDesign7: undefined;
+  /** Menu design option 8 - Dashboard */
+  MenuDesign8: undefined;
+  /** Menu design option 9 - Retro Pixel */
+  MenuDesign9: undefined;
+  /** Menu design option 10 - Nature Garden */
+  MenuDesign10: undefined;
   /** Muito game home screen */
   MuitoHome: undefined;
   /** Muito counting game screen */
