@@ -1,0 +1,3 @@
+allowedBuiltDependencies:
+  - better-sqlite3
+  - esbuild

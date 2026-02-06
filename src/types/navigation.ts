@@ -48,6 +48,18 @@ export type RootStackParamList = {
   MuitoMultiGame: undefined;
   /** Muito multiplayer results screen */
   MuitoResults: undefined;
+  /** Memory Match home screen */
+  MemoryMatchHome: undefined;
+  /** Memory Match game screen */
+  MemoryMatchGame: { difficulty: 'easy' | 'medium' | 'hard' };
+  /** Pet Runner home screen */
+  PetRunnerHome: undefined;
+  /** Pet Runner game screen */
+  PetRunnerGame: undefined;
+  /** ColorTap home screen */
+  ColorTapHome: undefined;
+  /** ColorTap game screen */
+  ColorTapGame: undefined;
 };
 
 /**
