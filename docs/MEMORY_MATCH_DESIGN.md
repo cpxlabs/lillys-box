@@ -186,14 +186,26 @@ gameRegistry.register({
 ### File Structure
 ```
 src/
-├── context/MemoryMatchContext.tsx
+├── context/
+│   ├── MemoryMatchContext.tsx
+│   └── __tests__/MemoryMatchContext.test.tsx
 ├── screens/
 │   ├── MemoryMatchNavigator.tsx
 │   ├── MemoryMatchHomeScreen.tsx
-│   └── MemoryMatchGameScreen.tsx
+│   ├── MemoryMatchGameScreen.tsx
+│   └── __tests__/
+│       ├── MemoryMatchHomeScreen.test.tsx
+│       └── MemoryMatchGameScreen.test.tsx
 ```
+
+### Test Coverage
+Tests cover:
+- **MemoryMatchContext**: Best score loading, persistence, per-difficulty updates, guard clause
+- **MemoryMatchHomeScreen**: Rendering, difficulty selector, best score display, navigation
+- **MemoryMatchGameScreen**: Card grid rendering, card flipping, move counting, timer, navigation
 
 ---
 
-**Document Version:** 1.0
+**Document Version:** 1.1
 **Created:** 2026-02-06
+**Implementation Status:** ✅ Complete (code, i18n, registration, tests)

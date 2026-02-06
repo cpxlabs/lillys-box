@@ -195,13 +195,15 @@ npm run test:ci          # Executa testes em modo CI
 ```
 
 ### Cobertura de Testes
-✅ **Status**: 99% dos testes passando (71/72 testes)
 
 Áreas cobertas:
-- **Hooks**: `usePetActions` (29/30 testes - ações do pet e animações)
+- **Hooks**: `usePetActions` (ações do pet e animações)
 - **Utils**: `petStats`, `validation`, `storage`
-- **Context**: `PetContext`
-- **Componentes**: `IconButton`, `StatusBar`
+- **Context**: `PetContext`, `MuitoContext`, `MemoryMatchContext`, `PetRunnerContext`
+- **Componentes**: `IconButton`, `StatusBar`, `StatusCard`, `LanguageSelector`, `RewardedAdButton`
+- **Telas**: `MenuScreen`, `CreatePetScreen`, `SleepScene`, `WardrobeScene`
+- **Mini-games**: Muito (Home + Game), Memory Match (Home + Game + Context), Pet Runner (Home + Game + Context)
+- **Registry**: `GameRegistry`
 
 ## Checklist
 - [x] Criar pet
@@ -213,6 +215,12 @@ npm run test:ci          # Executa testes em modo CI
 - [x] Sistema de monetização com AdMob
 - [x] Suporte a múltiplos idiomas (i18n)
 - [x] **Suíte de testes automatizados (CI-Ready)**
+- [x] Multi-game platform com Game Registry
+- [x] Game 1: Pet Care (jogo principal)
+- [x] Game 2: Muito (jogo de contagem)
+- [x] Game 3: Memory Match (jogo da memória)
+- [x] Game 4: Pet Runner (corrida infinita)
+- [x] Game 5: Color Tap (jogo de cores)
 - [ ] Sons e efeitos visuais
 - [ ] Otimizações de performance
 
@@ -249,6 +257,12 @@ This directory contains all project documentation organized by purpose.
 - **[FEED_ACTIONS_DOCUMENTATION.md](./FEED_ACTIONS_DOCUMENTATION.md)** - Feed system documentation including migration to usePetActions hook
 - **[PLAY_ACTIONS_DOCUMENTATION.md](./PLAY_ACTIONS_DOCUMENTATION.md)** - Play system documentation including migration to usePetActions hook
 - **[VET_ACTIONS_DOCUMENTATION.md](./VET_ACTIONS_DOCUMENTATION.md)** - Vet system documentation and why it wasn't migrated to usePetActions
+
+## 🎮 Game Design Documents
+
+- **[MEMORY_MATCH_DESIGN.md](./MEMORY_MATCH_DESIGN.md)** - Memory Match card-flipping game design (3rd game)
+- **[PET_RUNNER_DESIGN.md](./PET_RUNNER_DESIGN.md)** - Pet Runner endless runner game design (4th game)
+- **[GAME_IDEAS_BRAINSTORM.md](./GAME_IDEAS_BRAINSTORM.md)** - Brainstorm of future game ideas
 
 ## 🔧 System Documentation
 
@@ -305,6 +319,6 @@ This directory contains all project documentation organized by purpose.
 
 ---
 
-**Versão**: 1.0.0  
-**Última Atualização**: 2026-01-22  
+**Versão**: 1.0.0
+**Última Atualização**: 2026-02-06
 **Status**: ✅ Funcional e testado
