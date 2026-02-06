@@ -233,6 +233,10 @@
     "petRunner": {
       "name": "Pet Runner",
       "description": "Run, jump and collect coins!"
+    },
+    "colorTap": {
+      "name": "Color Tap",
+      "description": "Tap the matching color!"
     }
   },
   "muito": {
@@ -282,6 +286,20 @@
       "title": "Game Over!",
       "distance": "Distance",
       "coins": "Coins",
+      "score": "Score",
+      "newBest": "New Best!",
+      "playAgain": "Play Again"
+    }
+  },
+  "colorTap": {
+    "title": "Color Tap",
+    "subtitle": "Tap the matching color!",
+    "instructions": "Play Color Tap and try to beat your best score!",
+    "play": "Play!",
+    "bestScore": "Best Score",
+    "score": "Score",
+    "gameOver": {
+      "title": "Game Over!",
       "score": "Score",
       "newBest": "New Best!",
       "playAgain": "Play Again"
