@@ -46,6 +46,10 @@ export type RootStackParamList = {
   MemoryMatchHome: undefined;
   /** Memory Match game screen */
   MemoryMatchGame: { difficulty: 'easy' | 'medium' | 'hard' };
+  /** Pet Runner home screen */
+  PetRunnerHome: undefined;
+  /** Pet Runner game screen */
+  PetRunnerGame: undefined;
 };
 
 /**

@@ -230,6 +230,10 @@
     "memoryMatch": {
       "name": "Jogo da Memória",
       "description": "Encontre todos os pares!"
+    },
+    "petRunner": {
+      "name": "Pet Corredor",
+      "description": "Corra, pule e colete moedas!"
     }
   },
   "muito": {
@@ -263,6 +267,22 @@
       "title": "Muito Bem!",
       "moves": "Jogadas",
       "time": "Tempo",
+      "score": "Pontuação",
+      "newBest": "Novo Recorde!",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "petRunner": {
+    "title": "Pet Corredor",
+    "subtitle": "Corra, pule, colete!",
+    "instructions": "Toque para pular obstáculos e coletar moedas.",
+    "play": "Jogar!",
+    "bestScore": "Melhor Pontuação",
+    "tapToStart": "Toque para Começar!",
+    "gameOver": {
+      "title": "Fim de Jogo!",
+      "distance": "Distância",
+      "coins": "Moedas",
       "score": "Pontuação",
       "newBest": "Novo Recorde!",
       "playAgain": "Jogar Novamente"
