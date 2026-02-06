@@ -20,7 +20,6 @@
     "createPetHint": "Começar um novo jogo com um novo pet",
     "deletePet": "Excluir Pet 🗑️",
     "deletePetHint": "Remover permanentemente seu pet atual",
-
     "createPetModal": {
       "title": "Criar Novo Pet",
       "message": "Tem certeza? Seu pet \"{{name}}\" será removido permanentemente.",
@@ -234,6 +233,10 @@
     "petRunner": {
       "name": "Pet Corredor",
       "description": "Corra, pule e colete moedas!"
+    },
+    "colorTap": {
+      "name": "Color Tap",
+      "description": "Tap the matching color!"
     }
   },
   "muito": {
@@ -286,6 +289,20 @@
       "score": "Pontuação",
       "newBest": "Novo Recorde!",
       "playAgain": "Jogar Novamente"
+    }
+  },
+  "colorTap": {
+    "title": "Color Tap",
+    "subtitle": "Tap the matching color!",
+    "instructions": "Play Color Tap and try to beat your best score!",
+    "play": "Play!",
+    "bestScore": "Best Score",
+    "score": "Score",
+    "gameOver": {
+      "title": "Game Over!",
+      "score": "Score",
+      "newBest": "New Best!",
+      "playAgain": "Play Again"
     }
   }
 }

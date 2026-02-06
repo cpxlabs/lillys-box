@@ -24,6 +24,9 @@ import { MemoryMatchNavigator } from './src/screens/MemoryMatchNavigator';
 import { PetRunnerProvider } from './src/context/PetRunnerContext';
 import { PetRunnerNavigator } from './src/screens/PetRunnerNavigator';
 
+import { ColorTapProvider } from './src/context/ColorTapContext';
+import { ColorTapNavigator } from './src/screens/ColorTapNavigator';
+
 // Register the pet-care game
 gameRegistry.register({
   id: 'pet-care',
@@ -69,6 +72,19 @@ gameRegistry.register({
   category: 'casual',
   navigator: PetRunnerNavigator,
   providers: [PetRunnerProvider],
+  isEnabled: true,
+});
+
+
+// Register the colorTap game
+gameRegistry.register({
+  id: 'color-tap',
+  nameKey: 'selectGame.colorTap.name',
+  descriptionKey: 'selectGame.colorTap.description',
+  emoji: '🎨',
+  category: 'casual',
+  navigator: ColorTapNavigator,
+  providers: [ColorTapProvider],
   isEnabled: true,
 });
 
