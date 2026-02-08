@@ -40,6 +40,16 @@ import { MenuDesign17 } from './src/screens/menu-designs/MenuDesign17';
 import { MenuDesign18 } from './src/screens/menu-designs/MenuDesign18';
 import { MenuDesign19 } from './src/screens/menu-designs/MenuDesign19';
 import { MenuDesign20 } from './src/screens/menu-designs/MenuDesign20';
+import { MenuDesign21 } from './src/screens/menu-designs/MenuDesign21';
+import { MenuDesign22 } from './src/screens/menu-designs/MenuDesign22';
+import { MenuDesign23 } from './src/screens/menu-designs/MenuDesign23';
+import { MenuDesign24 } from './src/screens/menu-designs/MenuDesign24';
+import { MenuDesign25 } from './src/screens/menu-designs/MenuDesign25';
+import { MenuDesign26 } from './src/screens/menu-designs/MenuDesign26';
+import { MenuDesign27 } from './src/screens/menu-designs/MenuDesign27';
+import { MenuDesign28 } from './src/screens/menu-designs/MenuDesign28';
+import { MenuDesign29 } from './src/screens/menu-designs/MenuDesign29';
+import { MenuDesign30 } from './src/screens/menu-designs/MenuDesign30';
 
 // Register the pet-care game
 gameRegistry.register({
@@ -101,6 +111,16 @@ const DesignPreviewNavigator: React.FC = () => (
       <DesignStack.Screen name="MenuDesign18" component={MenuDesign18} />
       <DesignStack.Screen name="MenuDesign19" component={MenuDesign19} />
       <DesignStack.Screen name="MenuDesign20" component={MenuDesign20} />
+      <DesignStack.Screen name="MenuDesign21" component={MenuDesign21} />
+      <DesignStack.Screen name="MenuDesign22" component={MenuDesign22} />
+      <DesignStack.Screen name="MenuDesign23" component={MenuDesign23} />
+      <DesignStack.Screen name="MenuDesign24" component={MenuDesign24} />
+      <DesignStack.Screen name="MenuDesign25" component={MenuDesign25} />
+      <DesignStack.Screen name="MenuDesign26" component={MenuDesign26} />
+      <DesignStack.Screen name="MenuDesign27" component={MenuDesign27} />
+      <DesignStack.Screen name="MenuDesign28" component={MenuDesign28} />
+      <DesignStack.Screen name="MenuDesign29" component={MenuDesign29} />
+      <DesignStack.Screen name="MenuDesign30" component={MenuDesign30} />
     </DesignStack.Navigator>
   </PetProvider>
 );

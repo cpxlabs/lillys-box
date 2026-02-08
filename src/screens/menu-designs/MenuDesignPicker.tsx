@@ -158,6 +158,76 @@ const DESIGN_OPTIONS: DesignOption[] = [
     accent: '#dc2626',
     screen: 'MenuDesign20',
   },
+  {
+    id: 21,
+    name: 'Soft Clouds',
+    description: 'Nuvens suaves, azul celeste, acolhedor',
+    accent: '#7ec8e3',
+    screen: 'MenuDesign21',
+  },
+  {
+    id: 22,
+    name: 'Watercolor',
+    description: 'Aquarela, tons pastel, pinceladas suaves',
+    accent: '#c97b5a',
+    screen: 'MenuDesign22',
+  },
+  {
+    id: 23,
+    name: 'Geometric Fun',
+    description: 'Formas geom\u00e9tricas coloridas, c\u00edrculos e quadrados',
+    accent: '#6c5ce7',
+    screen: 'MenuDesign23',
+  },
+  {
+    id: 24,
+    name: 'Chalk Board',
+    description: 'Lousa verde, giz colorido, escola',
+    accent: '#2d4a3e',
+    screen: 'MenuDesign24',
+  },
+  {
+    id: 25,
+    name: 'Paper Craft',
+    description: 'Papel kraft, recortes, camadas de papel',
+    accent: '#e05252',
+    screen: 'MenuDesign25',
+  },
+  {
+    id: 26,
+    name: 'Storybook',
+    description: 'Livro de hist\u00f3rias, molduras douradas, cl\u00e1ssico',
+    accent: '#2c3e6b',
+    screen: 'MenuDesign26',
+  },
+  {
+    id: 27,
+    name: 'Bubble Pop',
+    description: 'Bolhas de sab\u00e3o, c\u00edrculos flutuantes, menta',
+    accent: '#a29bfe',
+    screen: 'MenuDesign27',
+  },
+  {
+    id: 28,
+    name: 'Crayon Box',
+    description: 'Giz de cera, cores vivas, tra\u00e7os grossos',
+    accent: '#3498db',
+    screen: 'MenuDesign28',
+  },
+  {
+    id: 29,
+    name: 'Animal Paws',
+    description: 'Patinhas, tons terrosos, tema pet',
+    accent: '#8B6F47',
+    screen: 'MenuDesign29',
+  },
+  {
+    id: 30,
+    name: 'Playground',
+    description: 'Parquinho, cerca de madeira, grama verde',
+    accent: '#42a5f5',
+    screen: 'MenuDesign30',
+  },
 ];
 
 type Props = {
@@ -186,6 +256,12 @@ export const MenuDesignPicker: React.FC<Props> = ({ navigation }) => {
                   <Text style={styles.sectionEmoji}>🎨🧸🌈</Text>
                   <Text style={styles.sectionTitle}>Infantil & Colorido</Text>
                   <Text style={styles.sectionSubtitle}>Temas focados no jogo pet care</Text>
+                </View>
+              )}
+              {design.id === 21 && (
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.sectionTitle}>Unissex & Sem Emojis</Text>
+                  <Text style={styles.sectionSubtitle}>Infantil, clean, com formas decorativas</Text>
                 </View>
               )}
               <TouchableOpacity

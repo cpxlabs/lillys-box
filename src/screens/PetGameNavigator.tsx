@@ -32,6 +32,16 @@ import { MenuDesign17 } from './menu-designs/MenuDesign17';
 import { MenuDesign18 } from './menu-designs/MenuDesign18';
 import { MenuDesign19 } from './menu-designs/MenuDesign19';
 import { MenuDesign20 } from './menu-designs/MenuDesign20';
+import { MenuDesign21 } from './menu-designs/MenuDesign21';
+import { MenuDesign22 } from './menu-designs/MenuDesign22';
+import { MenuDesign23 } from './menu-designs/MenuDesign23';
+import { MenuDesign24 } from './menu-designs/MenuDesign24';
+import { MenuDesign25 } from './menu-designs/MenuDesign25';
+import { MenuDesign26 } from './menu-designs/MenuDesign26';
+import { MenuDesign27 } from './menu-designs/MenuDesign27';
+import { MenuDesign28 } from './menu-designs/MenuDesign28';
+import { MenuDesign29 } from './menu-designs/MenuDesign29';
+import { MenuDesign30 } from './menu-designs/MenuDesign30';
 
 const Stack = createNativeStackNavigator();
 
@@ -76,6 +86,16 @@ export const PetGameNavigator: React.FC = () => {
       <Stack.Screen name="MenuDesign18" component={MenuDesign18} />
       <Stack.Screen name="MenuDesign19" component={MenuDesign19} />
       <Stack.Screen name="MenuDesign20" component={MenuDesign20} />
+      <Stack.Screen name="MenuDesign21" component={MenuDesign21} />
+      <Stack.Screen name="MenuDesign22" component={MenuDesign22} />
+      <Stack.Screen name="MenuDesign23" component={MenuDesign23} />
+      <Stack.Screen name="MenuDesign24" component={MenuDesign24} />
+      <Stack.Screen name="MenuDesign25" component={MenuDesign25} />
+      <Stack.Screen name="MenuDesign26" component={MenuDesign26} />
+      <Stack.Screen name="MenuDesign27" component={MenuDesign27} />
+      <Stack.Screen name="MenuDesign28" component={MenuDesign28} />
+      <Stack.Screen name="MenuDesign29" component={MenuDesign29} />
+      <Stack.Screen name="MenuDesign30" component={MenuDesign30} />
       <Stack.Screen name="CreatePet" component={CreatePetScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Feed" component={FeedScene} />
