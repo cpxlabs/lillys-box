@@ -48,7 +48,11 @@ export const useMenuLogic = (navigation: ScreenNavigationProp<'Menu'>) => {
     }
   };
 
-  const handleBack = () => navigation.navigate('GameSelection' as never);
+  const handleBack = () => {
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    }
+  };
 
   return {
     pet,

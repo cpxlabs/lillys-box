@@ -101,17 +101,6 @@ export const MenuDesignPicker: React.FC<Props> = ({ navigation }) => {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        {/* Back Button */}
-        <TouchableOpacity
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-          accessibilityRole="button"
-          accessibilityLabel="Go back"
-        >
-          <Feather name="chevron-left" size={24} color="#7c3aed" />
-          <Text style={styles.backButtonText}>Back</Text>
-        </TouchableOpacity>
-
         {/* Header */}
         <View style={styles.headerContainer}>
           <Text style={styles.title}>Menu Design Options</Text>

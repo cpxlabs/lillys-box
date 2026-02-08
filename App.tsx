@@ -19,6 +19,17 @@ import { PetProvider } from './src/context/PetContext';
 import { PetGameNavigator } from './src/screens/PetGameNavigator';
 import { MuitoProvider } from './src/context/MuitoContext';
 import { MuitoNavigator } from './src/screens/MuitoNavigator';
+import { MenuDesignPicker } from './src/screens/menu-designs/MenuDesignPicker';
+import { MenuDesign1 } from './src/screens/menu-designs/MenuDesign1';
+import { MenuDesign2 } from './src/screens/menu-designs/MenuDesign2';
+import { MenuDesign3 } from './src/screens/menu-designs/MenuDesign3';
+import { MenuDesign4 } from './src/screens/menu-designs/MenuDesign4';
+import { MenuDesign5 } from './src/screens/menu-designs/MenuDesign5';
+import { MenuDesign6 } from './src/screens/menu-designs/MenuDesign6';
+import { MenuDesign7 } from './src/screens/menu-designs/MenuDesign7';
+import { MenuDesign8 } from './src/screens/menu-designs/MenuDesign8';
+import { MenuDesign9 } from './src/screens/menu-designs/MenuDesign9';
+import { MenuDesign10 } from './src/screens/menu-designs/MenuDesign10';
 
 // Register the pet-care game
 gameRegistry.register({
@@ -45,12 +56,40 @@ gameRegistry.register({
 });
 
 const Stack = createNativeStackNavigator();
+const DesignStack = createNativeStackNavigator();
+
+// Temporary preview mode: set to true to directly access design options
+const DESIGN_PREVIEW_MODE = true;
+
+const DesignPreviewNavigator: React.FC = () => (
+  <PetProvider>
+    <DesignStack.Navigator
+      initialRouteName="MenuDesignPicker"
+      screenOptions={{
+        headerShown: false,
+        animation: 'slide_from_right',
+      }}
+    >
+      <DesignStack.Screen name="MenuDesignPicker" component={MenuDesignPicker} />
+      <DesignStack.Screen name="MenuDesign1" component={MenuDesign1} />
+      <DesignStack.Screen name="MenuDesign2" component={MenuDesign2} />
+      <DesignStack.Screen name="MenuDesign3" component={MenuDesign3} />
+      <DesignStack.Screen name="MenuDesign4" component={MenuDesign4} />
+      <DesignStack.Screen name="MenuDesign5" component={MenuDesign5} />
+      <DesignStack.Screen name="MenuDesign6" component={MenuDesign6} />
+      <DesignStack.Screen name="MenuDesign7" component={MenuDesign7} />
+      <DesignStack.Screen name="MenuDesign8" component={MenuDesign8} />
+      <DesignStack.Screen name="MenuDesign9" component={MenuDesign9} />
+      <DesignStack.Screen name="MenuDesign10" component={MenuDesign10} />
+    </DesignStack.Navigator>
+  </PetProvider>
+);
 
 const AppNavigator: React.FC = () => {
   const { user, isGuest, loading: authLoading } = useAuth();
   const { incrementScreenCount, shouldShowInterstitial, showInterstitialAd } = useAd();
 
-  if (authLoading) {
+  if (authLoading && !DESIGN_PREVIEW_MODE) {
     return (
       <View style={styles.loading}>
         <ActivityIndicator size="large" color="#9b59b6" />
@@ -59,6 +98,23 @@ const AppNavigator: React.FC = () => {
   }
 
   const isAuthenticated = user !== null || isGuest;
+
+  // Design preview mode: skip auth, go straight to design picker
+  if (DESIGN_PREVIEW_MODE) {
+    return (
+      <NavigationContainer>
+        <Stack.Navigator
+          initialRouteName="DesignPreview"
+          screenOptions={{
+            headerShown: false,
+            animation: 'slide_from_right',
+          }}
+        >
+          <Stack.Screen name="DesignPreview" component={DesignPreviewNavigator} />
+        </Stack.Navigator>
+      </NavigationContainer>
+    );
+  }
 
   return (
     <NavigationContainer
