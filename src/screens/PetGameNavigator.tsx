@@ -22,6 +22,16 @@ import { MenuDesign7 } from './menu-designs/MenuDesign7';
 import { MenuDesign8 } from './menu-designs/MenuDesign8';
 import { MenuDesign9 } from './menu-designs/MenuDesign9';
 import { MenuDesign10 } from './menu-designs/MenuDesign10';
+import { MenuDesign11 } from './menu-designs/MenuDesign11';
+import { MenuDesign12 } from './menu-designs/MenuDesign12';
+import { MenuDesign13 } from './menu-designs/MenuDesign13';
+import { MenuDesign14 } from './menu-designs/MenuDesign14';
+import { MenuDesign15 } from './menu-designs/MenuDesign15';
+import { MenuDesign16 } from './menu-designs/MenuDesign16';
+import { MenuDesign17 } from './menu-designs/MenuDesign17';
+import { MenuDesign18 } from './menu-designs/MenuDesign18';
+import { MenuDesign19 } from './menu-designs/MenuDesign19';
+import { MenuDesign20 } from './menu-designs/MenuDesign20';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +66,16 @@ export const PetGameNavigator: React.FC = () => {
       <Stack.Screen name="MenuDesign8" component={MenuDesign8} />
       <Stack.Screen name="MenuDesign9" component={MenuDesign9} />
       <Stack.Screen name="MenuDesign10" component={MenuDesign10} />
+      <Stack.Screen name="MenuDesign11" component={MenuDesign11} />
+      <Stack.Screen name="MenuDesign12" component={MenuDesign12} />
+      <Stack.Screen name="MenuDesign13" component={MenuDesign13} />
+      <Stack.Screen name="MenuDesign14" component={MenuDesign14} />
+      <Stack.Screen name="MenuDesign15" component={MenuDesign15} />
+      <Stack.Screen name="MenuDesign16" component={MenuDesign16} />
+      <Stack.Screen name="MenuDesign17" component={MenuDesign17} />
+      <Stack.Screen name="MenuDesign18" component={MenuDesign18} />
+      <Stack.Screen name="MenuDesign19" component={MenuDesign19} />
+      <Stack.Screen name="MenuDesign20" component={MenuDesign20} />
       <Stack.Screen name="CreatePet" component={CreatePetScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
       <Stack.Screen name="Feed" component={FeedScene} />

@@ -88,6 +88,76 @@ const DESIGN_OPTIONS: DesignOption[] = [
     accent: '#66bb6a',
     screen: 'MenuDesign10',
   },
+  {
+    id: 11,
+    name: 'Candy Land',
+    description: 'Doces, cores de chiclete, emojis de candy',
+    accent: '#ff69b4',
+    screen: 'MenuDesign11',
+  },
+  {
+    id: 12,
+    name: 'Ocean Adventure',
+    description: 'Fundo do mar, peixes, bolhas, coral',
+    accent: '#0077b6',
+    screen: 'MenuDesign12',
+  },
+  {
+    id: 13,
+    name: 'Space Pets',
+    description: 'Galáxia, estrelas, foguetes, planetas',
+    accent: '#5b2c8e',
+    screen: 'MenuDesign13',
+  },
+  {
+    id: 14,
+    name: 'Rainbow Joy',
+    description: 'Arco-íris completo, cores vibrantes',
+    accent: '#ff6b6b',
+    screen: 'MenuDesign14',
+  },
+  {
+    id: 15,
+    name: 'Jungle Safari',
+    description: 'Selva tropical, animais, folhas',
+    accent: '#2d6a4f',
+    screen: 'MenuDesign15',
+  },
+  {
+    id: 16,
+    name: 'Fairy Tale',
+    description: 'Conto de fadas, castelo, magia, unicórnio',
+    accent: '#7c3aed',
+    screen: 'MenuDesign16',
+  },
+  {
+    id: 17,
+    name: 'Toy Box',
+    description: 'Blocos de montar, brinquedos, cores primárias',
+    accent: '#e63946',
+    screen: 'MenuDesign17',
+  },
+  {
+    id: 18,
+    name: 'Ice Cream Party',
+    description: 'Sorvetes, granulados, cores doces',
+    accent: '#ff6b8a',
+    screen: 'MenuDesign18',
+  },
+  {
+    id: 19,
+    name: 'Dino World',
+    description: 'Dinossauros, pré-história, vulcões',
+    accent: '#4caf50',
+    screen: 'MenuDesign19',
+  },
+  {
+    id: 20,
+    name: 'Circus Fun',
+    description: 'Circo, balões, show, cores vibrantes',
+    accent: '#dc2626',
+    screen: 'MenuDesign20',
+  },
 ];
 
 type Props = {
@@ -110,29 +180,37 @@ export const MenuDesignPicker: React.FC<Props> = ({ navigation }) => {
         {/* Design Cards */}
         <View style={styles.cardList}>
           {DESIGN_OPTIONS.map((design) => (
-            <TouchableOpacity
-              key={design.id}
-              style={[styles.card, { borderLeftColor: design.accent }]}
-              onPress={() => navigation.navigate(design.screen)}
-              activeOpacity={0.7}
-              accessibilityRole="button"
-              accessibilityLabel={`${design.name}: ${design.description}`}
-            >
-              <View
-                style={[styles.numberBadge, { backgroundColor: design.accent }]}
+            <React.Fragment key={design.id}>
+              {design.id === 11 && (
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.sectionEmoji}>🎨🧸🌈</Text>
+                  <Text style={styles.sectionTitle}>Infantil & Colorido</Text>
+                  <Text style={styles.sectionSubtitle}>Temas focados no jogo pet care</Text>
+                </View>
+              )}
+              <TouchableOpacity
+                style={[styles.card, { borderLeftColor: design.accent }]}
+                onPress={() => navigation.navigate(design.screen)}
+                activeOpacity={0.7}
+                accessibilityRole="button"
+                accessibilityLabel={`${design.name}: ${design.description}`}
               >
-                <Text style={styles.numberText}>{design.id}</Text>
-              </View>
+                <View
+                  style={[styles.numberBadge, { backgroundColor: design.accent }]}
+                >
+                  <Text style={styles.numberText}>{design.id}</Text>
+                </View>
 
-              <View style={styles.textArea}>
-                <Text style={styles.designName}>{design.name}</Text>
-                <Text style={styles.designDescription}>
-                  {design.description}
-                </Text>
-              </View>
+                <View style={styles.textArea}>
+                  <Text style={styles.designName}>{design.name}</Text>
+                  <Text style={styles.designDescription}>
+                    {design.description}
+                  </Text>
+                </View>
 
-              <Feather name="chevron-right" size={20} color="#c0c0c0" />
-            </TouchableOpacity>
+                <Feather name="chevron-right" size={20} color="#c0c0c0" />
+              </TouchableOpacity>
+            </React.Fragment>
           ))}
         </View>
       </ScrollView>
@@ -220,5 +298,26 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#888',
     fontWeight: '400',
+  },
+  sectionHeader: {
+    alignItems: 'center',
+    marginTop: 24,
+    marginBottom: 8,
+    paddingVertical: 12,
+  },
+  sectionEmoji: {
+    fontSize: 28,
+    marginBottom: 6,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: '800',
+    color: '#e91e63',
+    marginBottom: 2,
+  },
+  sectionSubtitle: {
+    fontSize: 13,
+    color: '#888',
+    fontWeight: '500',
   },
 });
