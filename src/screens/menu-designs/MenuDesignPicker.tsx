@@ -228,6 +228,76 @@ const DESIGN_OPTIONS: DesignOption[] = [
     accent: '#42a5f5',
     screen: 'MenuDesign30',
   },
+  {
+    id: 31,
+    name: 'Starry Night',
+    description: 'Céu estrelado, lua, constelações suaves',
+    accent: '#1a237e',
+    screen: 'MenuDesign31',
+  },
+  {
+    id: 32,
+    name: 'Polka Dots',
+    description: 'Bolinhas coloridas, padrão divertido',
+    accent: '#e91e63',
+    screen: 'MenuDesign32',
+  },
+  {
+    id: 33,
+    name: 'Treehouse',
+    description: 'Casa na árvore, madeira, folhas verdes',
+    accent: '#33691e',
+    screen: 'MenuDesign33',
+  },
+  {
+    id: 34,
+    name: 'Mosaic Tiles',
+    description: 'Mosaico colorido, azulejos geométricos',
+    accent: '#00897b',
+    screen: 'MenuDesign34',
+  },
+  {
+    id: 35,
+    name: 'Hot Air Balloon',
+    description: 'Balões no céu, nuvens, aventura',
+    accent: '#ff7043',
+    screen: 'MenuDesign35',
+  },
+  {
+    id: 36,
+    name: 'Music Notes',
+    description: 'Notas musicais, ritmo, melodia colorida',
+    accent: '#5c6bc0',
+    screen: 'MenuDesign36',
+  },
+  {
+    id: 37,
+    name: 'Patchwork Quilt',
+    description: 'Colcha de retalhos, tecidos, costura',
+    accent: '#ad1457',
+    screen: 'MenuDesign37',
+  },
+  {
+    id: 38,
+    name: 'Kite Flying',
+    description: 'Pipas coloridas, vento, céu azul',
+    accent: '#0288d1',
+    screen: 'MenuDesign38',
+  },
+  {
+    id: 39,
+    name: 'Garden Path',
+    description: 'Caminho no jardim, flores, pedras',
+    accent: '#2e7d32',
+    screen: 'MenuDesign39',
+  },
+  {
+    id: 40,
+    name: 'Train Ride',
+    description: 'Trem colorido, trilhos, viagem divertida',
+    accent: '#d84315',
+    screen: 'MenuDesign40',
+  },
 ];
 
 type Props = {
@@ -262,6 +332,12 @@ export const MenuDesignPicker: React.FC<Props> = ({ navigation }) => {
                 <View style={styles.sectionHeader}>
                   <Text style={styles.sectionTitle}>Unissex & Sem Emojis</Text>
                   <Text style={styles.sectionSubtitle}>Infantil, clean, com formas decorativas</Text>
+                </View>
+              )}
+              {design.id === 31 && (
+                <View style={styles.sectionHeader}>
+                  <Text style={styles.sectionTitle}>Mais Temas Criativos</Text>
+                  <Text style={styles.sectionSubtitle}>Sem emojis, unissex, formas e ícones</Text>
                 </View>
               )}
               <TouchableOpacity

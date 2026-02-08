@@ -100,6 +100,26 @@ export type RootStackParamList = {
   MenuDesign29: undefined;
   /** Menu design option 30 - Playground */
   MenuDesign30: undefined;
+  /** Menu design option 31 - Starry Night */
+  MenuDesign31: undefined;
+  /** Menu design option 32 - Polka Dots */
+  MenuDesign32: undefined;
+  /** Menu design option 33 - Treehouse */
+  MenuDesign33: undefined;
+  /** Menu design option 34 - Mosaic Tiles */
+  MenuDesign34: undefined;
+  /** Menu design option 35 - Hot Air Balloon */
+  MenuDesign35: undefined;
+  /** Menu design option 36 - Music Notes */
+  MenuDesign36: undefined;
+  /** Menu design option 37 - Patchwork Quilt */
+  MenuDesign37: undefined;
+  /** Menu design option 38 - Kite Flying */
+  MenuDesign38: undefined;
+  /** Menu design option 39 - Garden Path */
+  MenuDesign39: undefined;
+  /** Menu design option 40 - Train Ride */
+  MenuDesign40: undefined;
   /** Muito game home screen */
   MuitoHome: undefined;
   /** Muito counting game screen */
