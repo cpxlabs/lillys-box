@@ -20,7 +20,7 @@ export type RootStackParamList = {
   GameSelection: undefined;
   /** Game container — mounts the selected game's providers and navigator */
   GameContainer: { gameId: string };
-  /** Main menu screen (pet game) */
+  /** Main menu screen (pet game) — Patchwork Quilt theme */
   Menu: undefined;
   /** Pet creation screen */
   CreatePet: undefined;

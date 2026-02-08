@@ -11,14 +11,17 @@
     "or": "OU",
     "of": "de"
   },
+  "guest": "convidado",
+  "deleteAccount": "Excluir Conta",
   "menu": {
-    "title": "🐾 Pet Care",
-    "subtitle": "Cuide do seu pet virtual!",
-    "continueWith": "Continuar com {{name}} {{emoji}}",
+    "title": "Pet Care",
+    "subtitle": "Quente e aconchegante",
+    "continueWith": "Continuar com {{name}}",
     "continueHint": "Retomar o jogo com seu pet",
-    "createNewPet": "Criar Novo Pet ✨",
+    "stitchYourPet": "Costurar seu pet",
+    "createNewPet": "Criar Novo Pet",
     "createPetHint": "Começar um novo jogo com um novo pet",
-    "deletePet": "Excluir Pet 🗑️",
+    "deletePet": "Excluir Pet",
     "deletePetHint": "Remover permanentemente seu pet atual",
 
     "createPetModal": {

@@ -11,14 +11,17 @@
     "or": "OR",
     "of": "of"
   },
+  "guest": "guest",
+  "deleteAccount": "Delete Account",
   "menu": {
-    "title": "🐾 Pet Care",
-    "subtitle": "Care for your virtual pet!",
-    "continueWith": "Continue with {{name}} {{emoji}}",
+    "title": "Pet Care",
+    "subtitle": "Warm and cozy",
+    "continueWith": "Continue with {{name}}",
     "continueHint": "Resume playing with your pet",
-    "createNewPet": "Create New Pet ✨",
+    "stitchYourPet": "Stitch your pet",
+    "createNewPet": "Create New Pet",
     "createPetHint": "Start a new game with a new pet",
-    "deletePet": "Delete Pet 🗑️",
+    "deletePet": "Delete Pet",
     "deletePetHint": "Permanently remove your current pet",
     "createPetModal": {
       "title": "Create New Pet",
