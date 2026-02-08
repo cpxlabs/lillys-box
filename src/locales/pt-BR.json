@@ -229,6 +229,18 @@
     "muito": {
       "name": "Muito",
       "description": "Conte os objetos!"
+    },
+    "colorTap": {
+      "name": "Color Tap",
+      "description": "Toque nas cores certas!"
+    },
+    "memoryMatch": {
+      "name": "Jogo da Memória",
+      "description": "Encontre os pares!"
+    },
+    "petRunner": {
+      "name": "Pet Runner",
+      "description": "Corra e desvie dos obstáculos!"
     }
   },
   "muito": {

@@ -228,6 +228,18 @@
     "muito": {
       "name": "Muito",
       "description": "Count the objects!"
+    },
+    "colorTap": {
+      "name": "Color Tap",
+      "description": "Tap the right colors!"
+    },
+    "memoryMatch": {
+      "name": "Memory Match",
+      "description": "Match the pairs!"
+    },
+    "petRunner": {
+      "name": "Pet Runner",
+      "description": "Run and dodge obstacles!"
     }
   },
   "muito": {

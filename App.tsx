@@ -19,6 +19,12 @@ import { PetProvider } from './src/context/PetContext';
 import { PetGameNavigator } from './src/screens/PetGameNavigator';
 import { MuitoProvider } from './src/context/MuitoContext';
 import { MuitoNavigator } from './src/screens/MuitoNavigator';
+import { ColorTapProvider } from './src/context/ColorTapContext';
+import { ColorTapNavigator } from './src/screens/ColorTapNavigator';
+import { MemoryMatchProvider } from './src/context/MemoryMatchContext';
+import { MemoryMatchNavigator } from './src/screens/MemoryMatchNavigator';
+import { PetRunnerProvider } from './src/context/PetRunnerContext';
+import { PetRunnerNavigator } from './src/screens/PetRunnerNavigator';
 
 // Register the pet-care game
 gameRegistry.register({
@@ -41,6 +47,42 @@ gameRegistry.register({
   category: 'casual',
   navigator: MuitoNavigator,
   providers: [MuitoProvider],
+  isEnabled: true,
+});
+
+// Register the color tap game
+gameRegistry.register({
+  id: 'color-tap',
+  nameKey: 'selectGame.colorTap.name',
+  descriptionKey: 'selectGame.colorTap.description',
+  emoji: '🎨',
+  category: 'casual',
+  navigator: ColorTapNavigator,
+  providers: [ColorTapProvider],
+  isEnabled: true,
+});
+
+// Register the memory match game
+gameRegistry.register({
+  id: 'memory-match',
+  nameKey: 'selectGame.memoryMatch.name',
+  descriptionKey: 'selectGame.memoryMatch.description',
+  emoji: '🧠',
+  category: 'puzzle',
+  navigator: MemoryMatchNavigator,
+  providers: [MemoryMatchProvider],
+  isEnabled: true,
+});
+
+// Register the pet runner game
+gameRegistry.register({
+  id: 'pet-runner',
+  nameKey: 'selectGame.petRunner.name',
+  descriptionKey: 'selectGame.petRunner.description',
+  emoji: '🏃',
+  category: 'adventure',
+  navigator: PetRunnerNavigator,
+  providers: [PetRunnerProvider],
   isEnabled: true,
 });
 
