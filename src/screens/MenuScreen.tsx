@@ -185,7 +185,7 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
             accessibilityLabel={t('menu.createNewPet')}
             accessibilityHint={t('menu.createPetHint')}
           >
-            <Text style={styles.heroText}>{t('menu.stitchYourPet') || 'Stitch your pet'}</Text>
+            <Text style={styles.heroText}>{t('menu.stitchYourPet')}</Text>
           </TouchableOpacity>
         )}
 
@@ -220,7 +220,7 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
             accessibilityRole="button"
             accessibilityLabel={t('menu.deletePet')}
           >
-            <Text style={styles.deleteText}>{t('common.delete') || 'deleteAccount'}</Text>
+            <Text style={styles.deleteText}>{t('deleteAccount')}</Text>
           </TouchableOpacity>
         )}
       </ScrollView>
