@@ -94,7 +94,7 @@ Contains full-screen components that represent different views in the applicatio
 **Files:**
 - `LoginScreen.tsx` - **[NEW]** Authentication screen with Google Sign-In and guest mode
 - `HomeScreen.tsx` - Main home screen showing the pet
-- `MenuScreen.tsx` - Navigation menu for different activities (includes user info header and sign-out)
+- `MenuScreen.tsx` - Navigation menu with Patchwork Quilt theme (warm beige background, dashed-border quilt patches, pastel colors, Feather icons). Uses `QuiltStrip` decorative component, profile card with dashed borders, and a warm cozy aesthetic.
 - `CreatePetScreen.tsx` - Pet creation and customization screen
 - `FeedScene.tsx` - Feeding interaction screen
 - `BathScene.tsx` - Bathing/cleaning interaction screen

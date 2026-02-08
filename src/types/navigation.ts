@@ -20,7 +20,7 @@ export type RootStackParamList = {
   GameSelection: undefined;
   /** Game container — mounts the selected game's providers and navigator */
   GameContainer: { gameId: string };
-  /** Main menu screen (pet game) */
+  /** Main menu screen (pet game) — Patchwork Quilt theme */
   Menu: undefined;
   /** Pet creation screen */
   CreatePet: undefined;
@@ -38,88 +38,6 @@ export type RootStackParamList = {
   Vet: undefined;
   /** Wardrobe customization scene */
   Wardrobe: undefined;
-  /** Menu design picker */
-  MenuDesignPicker: undefined;
-  /** Menu design option 1 - Glassmorphism */
-  MenuDesign1: undefined;
-  /** Menu design option 2 - Neomorphism */
-  MenuDesign2: undefined;
-  /** Menu design option 3 - Vibrant Gradients */
-  MenuDesign3: undefined;
-  /** Menu design option 4 - Minimal Clean */
-  MenuDesign4: undefined;
-  /** Menu design option 5 - Dark Mode Neon */
-  MenuDesign5: undefined;
-  /** Menu design option 6 - Playful Bubbly */
-  MenuDesign6: undefined;
-  /** Menu design option 7 - Card Stack */
-  MenuDesign7: undefined;
-  /** Menu design option 8 - Dashboard */
-  MenuDesign8: undefined;
-  /** Menu design option 9 - Retro Pixel */
-  MenuDesign9: undefined;
-  /** Menu design option 10 - Nature Garden */
-  MenuDesign10: undefined;
-  /** Menu design option 11 - Candy Land */
-  MenuDesign11: undefined;
-  /** Menu design option 12 - Ocean Adventure */
-  MenuDesign12: undefined;
-  /** Menu design option 13 - Space Pets */
-  MenuDesign13: undefined;
-  /** Menu design option 14 - Rainbow Joy */
-  MenuDesign14: undefined;
-  /** Menu design option 15 - Jungle Safari */
-  MenuDesign15: undefined;
-  /** Menu design option 16 - Fairy Tale */
-  MenuDesign16: undefined;
-  /** Menu design option 17 - Toy Box */
-  MenuDesign17: undefined;
-  /** Menu design option 18 - Ice Cream Party */
-  MenuDesign18: undefined;
-  /** Menu design option 19 - Dino World */
-  MenuDesign19: undefined;
-  /** Menu design option 20 - Circus Fun */
-  MenuDesign20: undefined;
-  /** Menu design option 21 - Soft Clouds */
-  MenuDesign21: undefined;
-  /** Menu design option 22 - Watercolor */
-  MenuDesign22: undefined;
-  /** Menu design option 23 - Geometric Fun */
-  MenuDesign23: undefined;
-  /** Menu design option 24 - Chalk Board */
-  MenuDesign24: undefined;
-  /** Menu design option 25 - Paper Craft */
-  MenuDesign25: undefined;
-  /** Menu design option 26 - Storybook */
-  MenuDesign26: undefined;
-  /** Menu design option 27 - Bubble Pop */
-  MenuDesign27: undefined;
-  /** Menu design option 28 - Crayon Box */
-  MenuDesign28: undefined;
-  /** Menu design option 29 - Animal Paws */
-  MenuDesign29: undefined;
-  /** Menu design option 30 - Playground */
-  MenuDesign30: undefined;
-  /** Menu design option 31 - Starry Night */
-  MenuDesign31: undefined;
-  /** Menu design option 32 - Polka Dots */
-  MenuDesign32: undefined;
-  /** Menu design option 33 - Treehouse */
-  MenuDesign33: undefined;
-  /** Menu design option 34 - Mosaic Tiles */
-  MenuDesign34: undefined;
-  /** Menu design option 35 - Hot Air Balloon */
-  MenuDesign35: undefined;
-  /** Menu design option 36 - Music Notes */
-  MenuDesign36: undefined;
-  /** Menu design option 37 - Patchwork Quilt */
-  MenuDesign37: undefined;
-  /** Menu design option 38 - Kite Flying */
-  MenuDesign38: undefined;
-  /** Menu design option 39 - Garden Path */
-  MenuDesign39: undefined;
-  /** Menu design option 40 - Train Ride */
-  MenuDesign40: undefined;
   /** Muito game home screen */
   MuitoHome: undefined;
   /** Muito counting game screen */

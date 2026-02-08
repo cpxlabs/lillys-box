@@ -109,7 +109,7 @@ App.tsx
 │                             └─ PetProvider      ← Game-level context
 │                                └─ PetGameNavigator
 │                                   └─ Stack.Navigator
-│                                      ├─ Menu
+│                                      ├─ Menu (Patchwork Quilt theme)
 │                                      ├─ CreatePet
 │                                      ├─ Home
 │                                      ├─ Feed

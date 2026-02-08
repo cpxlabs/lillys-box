@@ -3,6 +3,7 @@
 Um jogo 2D infantil para Android usando React Native, onde crianças podem cuidar de animais domésticos (gatos ou cachorros).
 
 ## ✨ Funcionalidades
+- 🧵 **Menu Patchwork Quilt** — tema visual infantil com retalhos coloridos e bordas tracejadas
 - 🐱🐶 Criar pets (gato ou cachorro)
 - 📝 Escolher nome e gênero do pet
 - 🎂 Sistema de idade (1 ano inicial, +1 por semana, máximo 19 anos)
@@ -223,6 +224,7 @@ Para detalhes sobre a implementação e correção dos testes, consulte [docs/TE
 - [x] **Suíte de testes automatizados (CI-Ready)**
 - [x] **Plataforma multi-jogo** (Game Registry, seletor, GameContainer)
 - [x] **Muito** — segundo jogo (contagem de objetos com níveis progressivos)
+- [x] **Menu Patchwork Quilt** — tema visual infantil com retalhos, bordas tracejadas e cores pastel
 - [ ] Sons e efeitos visuais
 - [ ] Otimizações de performance
 
