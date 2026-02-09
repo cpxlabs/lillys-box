@@ -1,5 +1,6 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { EmojiIcon } from './EmojiIcon';
 
 interface Props {
   children: ReactNode;
@@ -52,7 +53,7 @@ export class ErrorBoundary extends Component<Props, State> {
 
       return (
         <View style={styles.container}>
-          <Text style={styles.emoji}>😿</Text>
+          <EmojiIcon emoji="😿" size={64} style={styles.emoji} label="sad cat" />
           <Text style={styles.title}>Oops! Something went wrong</Text>
           <Text style={styles.message}>
             {this.state.error?.message || 'An unexpected error occurred'}

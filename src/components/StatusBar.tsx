@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useResponsive } from '../hooks/useResponsive';
 import { STATUS_BAR_SIZE } from '../config/responsive';
+import { EmojiIcon } from './EmojiIcon';
 
 type StatusBarProps = {
   label: string;
@@ -56,7 +57,7 @@ export const StatusBar: React.FC<StatusBarProps> = ({
       accessibilityLabel={label}
       accessibilityValue={{ min: 0, max: 100, now: value }}
     >
-      <Text style={[styles.emoji, dynamicStyles.emoji]}>{emoji}</Text>
+      <EmojiIcon emoji={emoji} size={sizes.emojiSize} style={dynamicStyles.emoji} label={label} />
       <View style={styles.barContainer}>
         <View style={[styles.barBackground, dynamicStyles.barBackground]}>
           <View

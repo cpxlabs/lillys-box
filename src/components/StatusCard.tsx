@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { Pet } from '../types';
 import { EnhancedStatusBar } from './EnhancedStatusBar';
 import { useResponsive } from '../hooks/useResponsive';
+import { EmojiIcon } from './EmojiIcon';
 
 type StatusCardProps = {
   pet: Pet;
@@ -63,7 +64,7 @@ export const StatusCard: React.FC<StatusCardProps> = ({
             accessibilityRole="text"
             accessibilityLabel={`${pet.money ?? 0} ${t('common.coins')}`}
           >
-            <Text style={[styles.coinIcon, dynamicStyles.coinIcon]}>💰</Text>
+            <EmojiIcon emoji="💰" size={dynamicStyles.coinIcon.fontSize} style={styles.coinIcon} label="coins" />
             <Text style={[styles.moneyValue, dynamicStyles.moneyValue]}>{pet.money ?? 0}</Text>
           </View>
         </View>

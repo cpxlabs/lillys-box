@@ -11,6 +11,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { usePetRunner } from '../context/PetRunnerContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { EmojiIcon } from '../components/EmojiIcon';
 
 type Props = {
   navigation: ScreenNavigationProp<'PetRunnerGame'>;
@@ -287,7 +288,7 @@ export const PetRunnerGameScreen: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.backText}>{t('common.back')}</Text>
         </TouchableOpacity>
         <Text style={styles.headerStat}>
-          {COIN_EMOJI} {renderState.coinCount}
+          <EmojiIcon emoji={COIN_EMOJI} size={16} /> {renderState.coinCount}
         </Text>
         <Text style={styles.headerStat}>{distanceDisplay}m</Text>
       </View>
@@ -297,56 +298,50 @@ export const PetRunnerGameScreen: React.FC<Props> = ({ navigation }) => {
           {/* Tap to start message */}
           {renderState.gameStatus === 'ready' && (
             <View style={styles.startOverlay}>
-              <Text style={styles.startEmoji}>{PET_EMOJI}</Text>
+              <EmojiIcon emoji={PET_EMOJI} size={48} style={styles.startEmoji} />
               <Text style={styles.startText}>{t('petRunner.tapToStart')}</Text>
             </View>
           )}
 
           {/* Pet */}
-          <Text
-            style={[
-              styles.pet,
-              {
-                left: PET_X,
-                top: renderState.petY,
-              },
-            ]}
-          >
-            {PET_EMOJI}
-          </Text>
+          <EmojiIcon
+            emoji={PET_EMOJI}
+            size={PET_SIZE}
+            style={{
+              position: 'absolute',
+              left: PET_X,
+              top: renderState.petY,
+            }}
+          />
 
           {/* Obstacles */}
           {renderState.obstacles.map((obs, i) => (
-            <Text
+            <EmojiIcon
               key={`obs-${i}`}
-              style={[
-                styles.obstacle,
-                {
-                  left: obs.x,
-                  top: GROUND_Y - OBSTACLE_HEIGHT,
-                },
-              ]}
-            >
-              {obs.emoji}
-            </Text>
+              emoji={obs.emoji}
+              size={OBSTACLE_HEIGHT}
+              style={{
+                position: 'absolute',
+                left: obs.x,
+                top: GROUND_Y - OBSTACLE_HEIGHT,
+              }}
+            />
           ))}
 
           {/* Coins */}
           {renderState.coins
             .filter((c) => !c.collected)
             .map((coin, i) => (
-              <Text
+              <EmojiIcon
                 key={`coin-${i}`}
-                style={[
-                  styles.coin,
-                  {
-                    left: coin.x,
-                    top: coin.y,
-                  },
-                ]}
-              >
-                {COIN_EMOJI}
-              </Text>
+                emoji={COIN_EMOJI}
+                size={COIN_SIZE}
+                style={{
+                  position: 'absolute',
+                  left: coin.x,
+                  top: coin.y,
+                }}
+              />
             ))}
 
           {/* Ground */}

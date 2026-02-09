@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useMultiPlayerMuito, MultiGamePhase } from '../context/MultiPlayerMuitoContext';
 import { useAuth } from '../context/AuthContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { EmojiIcon } from '../components/EmojiIcon';
 
 type Props = {
   navigation: ScreenNavigationProp<'MuitoMultiGame'>;
@@ -123,9 +124,7 @@ export const MuitoMultiGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.objectsCard}>
         <View style={styles.objectsGrid}>
           {Array.from({ length: puzzle.count }, (_, i) => (
-            <Text key={i} style={styles.object}>
-              {puzzle.emoji}
-            </Text>
+            <EmojiIcon key={i} emoji={puzzle.emoji} size={36} style={styles.object} />
           ))}
         </View>
       </View>

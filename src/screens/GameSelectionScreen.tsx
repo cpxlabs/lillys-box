@@ -10,6 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { gameRegistry, GameDefinition } from '../registry/GameRegistry';
 import { LanguageSelector } from '../components/LanguageSelector';
+import { EmojiIcon } from '../components/EmojiIcon';
 import { ScreenNavigationProp } from '../types/navigation';
 
 type Props = {
@@ -32,7 +33,7 @@ export const GameSelectionScreen: React.FC<Props> = ({ navigation }) => {
       accessibilityRole="button"
       accessibilityLabel={`${t(item.nameKey)}: ${t(item.descriptionKey)}`}
     >
-      <Text style={styles.gameEmoji}>{item.emoji}</Text>
+      <EmojiIcon emoji={item.emoji} size={48} style={styles.gameEmoji} />
       <Text style={styles.gameName}>{t(item.nameKey)}</Text>
       <Text style={styles.gameDescription}>{t(item.descriptionKey)}</Text>
     </TouchableOpacity>
@@ -104,7 +105,6 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   gameEmoji: {
-    fontSize: 48,
     marginBottom: 12,
   },
   gameName: {

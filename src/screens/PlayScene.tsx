@@ -13,6 +13,7 @@ import { calculatePetAge } from '../utils/age';
 import { useResponsive } from '../hooks/useResponsive';
 import { ACTION_PET_SIZE, ACTION_BUTTON_SIZE, SCENE_TEXT_SIZE } from '../config/responsive';
 import { PLAY_ACTIVITIES } from '../data/playActivities';
+import { EmojiIcon } from '../components/EmojiIcon';
 
 type Props = {
   navigation: ScreenNavigationProp<'Play'>;
@@ -120,14 +121,11 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
             onPress={() => handlePlay(currentActivity)}
             disabled={isAnimating}
           >
-            <Text
-              style={[
-                styles.currentActivityEmoji,
-                { fontSize: buttonSizes.itemEmoji, marginBottom: spacing(6) },
-              ]}
-            >
-              {currentActivity.emoji}
-            </Text>
+            <EmojiIcon
+              emoji={currentActivity.emoji}
+              size={buttonSizes.itemEmoji}
+              style={{ marginBottom: spacing(6) }}
+            />
             <Text style={[styles.currentActivityName, { fontSize: buttonSizes.itemFont }]}>
               {t(currentActivity.nameKey)}
             </Text>
