@@ -39,6 +39,10 @@ jest.mock('@expo/vector-icons', () => ({
   Feather: 'Feather',
 }));
 
+jest.mock('../../components/WebSafeIcon', () => ({
+  WebSafeIcon: 'WebSafeIcon',
+}));
+
 // Mock navigation
 const mockNavigation = {
   navigate: jest.fn(),

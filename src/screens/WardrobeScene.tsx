@@ -12,6 +12,7 @@ import { ScreenNavigationProp } from '../types/navigation';
 import { calculatePetAge } from '../utils/age';
 import { useResponsive } from '../hooks/useResponsive';
 import { PET_SIZE_SMALL, WARDROBE_SIZES } from '../config/responsive';
+import { EmojiIcon } from '../components/EmojiIcon';
 
 type Props = {
   navigation: ScreenNavigationProp<'Wardrobe'>;
@@ -84,9 +85,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
             accessibilityState={{ selected: selectedSlot === slot.key }}
             accessibilityLabel={t(`wardrobe.slots.${slot.key}`)}
           >
-            <Text style={[styles.slotEmoji, { fontSize: wardrobeSizes.slotEmoji }]}>
-              {slot.emoji}
-            </Text>
+            <EmojiIcon emoji={slot.emoji} size={wardrobeSizes.slotEmoji} />
             <Text
               style={[
                 styles.slotLabel,
@@ -117,14 +116,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
             accessibilityState={{ selected: pet.clothes[selectedSlot] === null }}
             accessibilityLabel={t('wardrobe.none')}
           >
-            <Text
-              style={[
-                styles.itemEmoji,
-                { fontSize: wardrobeSizes.itemEmoji, marginBottom: spacing(3) },
-              ]}
-            >
-              ❌
-            </Text>
+            <EmojiIcon emoji="❌" size={wardrobeSizes.itemEmoji} style={{ marginBottom: spacing(3) }} />
             <Text style={[styles.itemName, { fontSize: wardrobeSizes.itemName }]}>
               {t('wardrobe.none')}
             </Text>
@@ -149,9 +141,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
               accessibilityLabel={item.name}
             >
               <View style={[styles.itemPreview, { width: spacing(40), height: spacing(40) }]}>
-                <Text style={[styles.itemPlaceholder, { fontSize: wardrobeSizes.itemEmoji }]}>
-                  👔
-                </Text>
+                <EmojiIcon emoji="👔" size={wardrobeSizes.itemEmoji} />
               </View>
               <Text style={[styles.itemName, { fontSize: wardrobeSizes.itemName }]}>
                 {item.name}

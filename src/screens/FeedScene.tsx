@@ -12,6 +12,7 @@ import { ScreenNavigationProp } from '../types/navigation';
 import { calculatePetAge } from '../utils/age';
 import { useResponsive } from '../hooks/useResponsive';
 import { ACTION_PET_SIZE, ACTION_BUTTON_SIZE, SCENE_TEXT_SIZE } from '../config/responsive';
+import { EmojiIcon } from '../components/EmojiIcon';
 
 type Props = {
   navigation: ScreenNavigationProp<'Feed'>;
@@ -144,14 +145,11 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
             accessibilityHint={pet.money < currentFood.cost ? "Not enough money" : "Feed this food to your pet"}
             accessibilityState={{ disabled: isAnimating || pet.hunger >= 100 || pet.money < currentFood.cost }}
           >
-            <Text
-              style={[
-                styles.currentFoodEmoji,
-                { fontSize: buttonSizes.itemEmoji, marginBottom: spacing(6) },
-              ]}
-            >
-              {currentFood.emoji}
-            </Text>
+            <EmojiIcon
+              emoji={currentFood.emoji}
+              size={buttonSizes.itemEmoji}
+              style={{ marginBottom: spacing(6) }}
+            />
             <Text
               style={[
                 styles.currentFoodName,
@@ -164,7 +162,7 @@ export const FeedScene: React.FC<Props> = ({ navigation }) => {
               +{currentFood.value}%
             </Text>
             <Text style={[styles.foodCost, { fontSize: fs(10), marginTop: spacing(2) }]}>
-              💰 {currentFood.cost} coins
+              <EmojiIcon emoji="💰" size={fs(10)} /> {currentFood.cost} coins
             </Text>
           </TouchableOpacity>
 

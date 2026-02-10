@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-na
 import { useTranslation } from 'react-i18next';
 import { usePetRunner } from '../context/PetRunnerContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { EmojiIcon } from '../components/EmojiIcon';
 
 type Props = {
   navigation: ScreenNavigationProp<'PetRunnerHome'>;
@@ -36,7 +37,7 @@ export const PetRunnerHomeScreen: React.FC<Props> = ({ navigation }) => {
       </TouchableOpacity>
 
       <View style={styles.content}>
-        <Text style={styles.emoji}>🏃</Text>
+        <EmojiIcon emoji="🏃" size={72} style={styles.emoji} />
         <Text style={styles.title}>{t('petRunner.title')}</Text>
         <Text style={styles.subtitle}>{t('petRunner.subtitle')}</Text>
 

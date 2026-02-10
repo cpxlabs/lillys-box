@@ -12,6 +12,7 @@ import {
   TextStyle,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { EmojiIcon } from '../components/EmojiIcon';
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -86,7 +87,7 @@ const SelectionButton: React.FC<SelectionButtonProps> = ({
       accessibilityState={{ selected }}
       accessibilityLabel={label}
     >
-      <Text style={emojiStyle}>{emoji}</Text>
+      <EmojiIcon emoji={emoji} size={(emojiStyle as { fontSize?: number })?.fontSize ?? 24} style={emojiStyle} label={label} />
       <Text style={textStyle}>{label}</Text>
     </AnimatedTouchableOpacity>
   );

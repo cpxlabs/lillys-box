@@ -4,6 +4,7 @@ import { hapticFeedback } from '../utils/haptics';
 import { useResponsive } from '../hooks/useResponsive';
 import { ICON_BUTTON_SIZE } from '../config/responsive';
 import { useToast } from '../context/ToastContext';
+import { EmojiIcon } from './EmojiIcon';
 
 type IconButtonProps = {
   emoji: string;
@@ -38,9 +39,6 @@ export const IconButton: React.FC<IconButtonProps> = React.memo(
         padding: sizes.padding,
         borderRadius: spacing(12),
       },
-      emoji: {
-        fontSize: sizes.emoji,
-      },
       label: {
         fontSize: sizes.label,
       },
@@ -62,7 +60,7 @@ export const IconButton: React.FC<IconButtonProps> = React.memo(
         accessibilityState={{ disabled }}
         accessibilityHint={disabledReason}
       >
-        <Text style={[styles.emoji, dynamicStyles.emoji]}>{emoji}</Text>
+        <EmojiIcon emoji={emoji} size={sizes.emoji} style={styles.emoji} label={label} />
         <Text style={[styles.label, dynamicStyles.label]}>{label}</Text>
       </TouchableOpacity>
     );

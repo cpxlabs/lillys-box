@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useMemoryMatch, Difficulty } from '../context/MemoryMatchContext';
 import { RootStackParamList } from '../types/navigation';
+import { EmojiIcon } from '../components/EmojiIcon';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MemoryMatchGame'>;
 
@@ -252,9 +253,7 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
           ]}
         >
           {isRevealed ? (
-            <Text style={[styles.cardEmoji, { fontSize: cardSize * 0.45 }]}>
-              {card.emoji}
-            </Text>
+            <EmojiIcon emoji={card.emoji} size={cardSize * 0.45} />
           ) : (
             <Text style={[styles.cardBack, { fontSize: cardSize * 0.35 }]}>?</Text>
           )}

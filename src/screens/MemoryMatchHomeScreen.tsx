@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-na
 import { useTranslation } from 'react-i18next';
 import { useMemoryMatch, Difficulty } from '../context/MemoryMatchContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { EmojiIcon } from '../components/EmojiIcon';
 
 type Props = {
   navigation: ScreenNavigationProp<'MemoryMatchHome'>;
@@ -41,7 +42,7 @@ export const MemoryMatchHomeScreen: React.FC<Props> = ({ navigation }) => {
       </TouchableOpacity>
 
       <View style={styles.content}>
-        <Text style={styles.emoji}>🧠</Text>
+        <EmojiIcon emoji="🧠" size={72} style={styles.emoji} />
         <Text style={styles.title}>{t('memoryMatch.title')}</Text>
         <Text style={styles.subtitle}>{t('memoryMatch.subtitle')}</Text>
 

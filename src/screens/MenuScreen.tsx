@@ -15,7 +15,7 @@ import { useAuth } from '../context/AuthContext';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { LanguageSelector } from '../components/LanguageSelector';
 import { ScreenNavigationProp } from '../types/navigation';
-import { Feather } from '@expo/vector-icons';
+import { WebSafeIcon } from '../components/WebSafeIcon';
 
 const PATCH_COLORS = ['#f4a5a5', '#a5c8e4', '#a5d6a7', '#fff59d', '#ce93d8'];
 
@@ -103,7 +103,7 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
           accessibilityRole="button"
           accessibilityLabel="Back to games"
         >
-          <Feather name="arrow-left" size={22} color="#c0606b" />
+          <WebSafeIcon name="arrow-left" size={22} color="#c0606b" />
         </TouchableOpacity>
 
         {/* Quilt Strip Decoration */}
@@ -147,11 +147,11 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
                 accessibilityRole="button"
                 accessibilityLabel="Sign Out"
               >
-                <Feather name="log-out" size={18} color="#c0606b" />
+                <WebSafeIcon name="log-out" size={18} color="#c0606b" />
               </TouchableOpacity>
             ) : (
               <View style={styles.decorativePatch}>
-                <Feather name="user" size={18} color="#bbb" />
+                <WebSafeIcon name="user" size={18} color="#bbb" />
               </View>
             )}
           </View>
@@ -171,9 +171,9 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
             accessibilityHint={t('menu.continueHint')}
           >
             <View style={styles.heroContent}>
-              <Feather name="heart" size={24} color="#fff" style={styles.heroIcon} />
+              <WebSafeIcon name="heart" size={24} color="#fff" style={styles.heroIcon} />
               <Text style={styles.heroText}>{pet.name}</Text>
-              <Feather name="chevron-right" size={24} color="rgba(255,255,255,0.7)" />
+              <WebSafeIcon name="chevron-right" size={24} color="rgba(255,255,255,0.7)" />
             </View>
           </TouchableOpacity>
         ) : (
@@ -198,7 +198,7 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
             accessibilityRole="button"
             accessibilityLabel={t('menu.createNewPet')}
           >
-            <Feather name="plus-circle" size={18} color="#6a9bc3" />
+            <WebSafeIcon name="plus-circle" size={18} color="#6a9bc3" />
             <Text style={styles.newPetText}>{t('menu.createNewPet')}</Text>
           </TouchableOpacity>
         )}
