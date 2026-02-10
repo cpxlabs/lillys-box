@@ -81,3 +81,27 @@ const EMOJI_FALLBACKS: Record<string, string> = {
 export function getEmojiFallback(emoji: string): string {
   return EMOJI_FALLBACKS[emoji] ?? emoji;
 }
+
+/**
+ * Mapping from Feather icon names to emoji equivalents for web fallback.
+ * Used by WebSafeIcon when @expo/vector-icons can't load on web.
+ */
+export const FEATHER_TO_EMOJI: Record<string, string> = {
+  'arrow-left': '←',
+  'arrow-right': '→',
+  'chevron-left': '‹',
+  'chevron-right': '›',
+  'heart': '♥',
+  'log-out': '↪',
+  'user': '👤',
+  'plus-circle': '⊕',
+  'plus': '+',
+  'settings': '⚙',
+  'trash-2': '🗑',
+  'edit': '✎',
+  'x': '✕',
+  'check': '✓',
+  'search': '🔍',
+  'star': '★',
+  'home': '⌂',
+};
