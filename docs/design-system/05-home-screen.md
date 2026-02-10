@@ -3,6 +3,8 @@
 > Main pet care hub. Displays pet with status and action buttons.
 > Source: `src/screens/HomeScreen.tsx`
 
+![HomeScreen](./screenshots/05-home-screen.png)
+
 ---
 
 ## Layout Structure

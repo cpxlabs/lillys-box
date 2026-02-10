@@ -3,6 +3,8 @@
 > Color matching game. Home screen uses native UI; game screen uses HTML artifact.
 > Sources: `src/screens/ColorTapHomeScreen.tsx`, `src/screens/ColorTapGameScreen.tsx`
 
+![ColorTapHome](./screenshots/13-color-tap-home.png)
+
 ---
 
 ## ColorTapHomeScreen

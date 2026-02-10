@@ -3,6 +3,8 @@
 > Dark-themed sleep screen with progress bar and floating Z animation.
 > Source: `src/screens/SleepScene.tsx`
 
+> **Note:** No screenshot available - this screen requires low pet energy to access, which can't be triggered in automated testing. Refer to the layout diagram and specs below.
+
 ---
 
 ## Layout Structure

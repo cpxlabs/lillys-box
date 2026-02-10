@@ -3,6 +3,8 @@
 > Side-scrolling runner game with tap-to-jump mechanics, obstacles, and coins.
 > Sources: `src/screens/PetRunnerHomeScreen.tsx`, `src/screens/PetRunnerGameScreen.tsx`
 
+![PetRunnerHome](./screenshots/15-pet-runner-home.png)
+
 ---
 
 ## PetRunnerHomeScreen

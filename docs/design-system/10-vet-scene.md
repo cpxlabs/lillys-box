@@ -3,6 +3,8 @@
 > Veterinarian care screen with health status, treatment options, and payment methods.
 > Source: `src/screens/VetScene.tsx`
 
+![VetScene](./screenshots/10-vet-scene.png)
+
 ---
 
 ## Layout Structure

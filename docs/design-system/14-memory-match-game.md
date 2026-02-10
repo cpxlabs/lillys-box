@@ -3,6 +3,10 @@
 > Card-flipping memory game with difficulty selection and scoring.
 > Sources: `src/screens/MemoryMatchHomeScreen.tsx`, `src/screens/MemoryMatchGameScreen.tsx`
 
+| Home | Game |
+|------|------|
+| ![MemoryMatchHome](./screenshots/14-memory-match-home.png) | ![MemoryMatchGame](./screenshots/14-memory-match-game.png) |
+
 ---
 
 ## MemoryMatchHomeScreen

@@ -3,6 +3,10 @@
 > Counting/number game with single-player and multiplayer modes.
 > Sources: `src/screens/MuitoHomeScreen.tsx`, `src/screens/MuitoGameScreen.tsx`
 
+| Home | Game |
+|------|------|
+| ![MuitoHome](./screenshots/12-muito-home.png) | ![MuitoGame](./screenshots/12-muito-game.png) |
+
 ---
 
 ## MuitoHomeScreen

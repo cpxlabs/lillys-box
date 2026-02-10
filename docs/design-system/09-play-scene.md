@@ -3,6 +3,8 @@
 > Play activity screen with carousel-style activity selection.
 > Source: `src/screens/PlayScene.tsx`
 
+![PlayScene](./screenshots/09-play-scene.png)
+
 ---
 
 ## Layout Structure

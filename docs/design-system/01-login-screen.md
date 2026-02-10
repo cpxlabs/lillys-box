@@ -3,6 +3,8 @@
 > Authentication entry point. Google Sign-In or Guest mode.
 > Source: `src/screens/LoginScreen.tsx`
 
+![LoginScreen](./screenshots/01-login-screen.png)
+
 ---
 
 ## Layout Structure

@@ -3,6 +3,8 @@
 > Clothing/costume system with slot-based selection and item grid.
 > Source: `src/screens/WardrobeScene.tsx`
 
+![WardrobeScene](./screenshots/11-wardrobe-scene.png)
+
 ---
 
 ## Layout Structure

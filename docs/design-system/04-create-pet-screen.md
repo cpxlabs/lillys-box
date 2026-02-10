@@ -3,6 +3,8 @@
 > Pet creation form with type, name, gender, and coat color selection.
 > Source: `src/screens/CreatePetScreen.tsx`
 
+![CreatePetScreen](./screenshots/04-create-pet-screen.png)
+
 ---
 
 ## Layout Structure

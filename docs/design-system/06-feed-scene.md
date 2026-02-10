@@ -3,6 +3,8 @@
 > Feeding action screen with food carousel navigation.
 > Source: `src/screens/FeedScene.tsx`
 
+![FeedScene](./screenshots/06-feed-scene.png)
+
 ---
 
 ## Layout Structure

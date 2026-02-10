@@ -3,6 +3,8 @@
 > Main pet management menu with patchwork/quilt visual theme.
 > Source: `src/screens/MenuScreen.tsx`
 
+![MenuScreen](./screenshots/03-menu-screen.png)
+
 ---
 
 ## Layout Structure

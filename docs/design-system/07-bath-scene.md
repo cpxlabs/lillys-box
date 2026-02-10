@@ -3,6 +3,8 @@
 > Interactive bathing screen with gesture-based sponge scrubbing and bubble effects.
 > Source: `src/screens/BathScene.tsx`
 
+![BathScene](./screenshots/07-bath-scene.png)
+
 ---
 
 ## Layout Structure

@@ -3,6 +3,8 @@
 > Hub for selecting which game to play. Displays all available games in a 2-column grid.
 > Source: `src/screens/GameSelectionScreen.tsx`
 
+![GameSelectionScreen](./screenshots/02-game-selection-screen.png)
+
 ---
 
 ## Layout Structure
