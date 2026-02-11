@@ -1,180 +1,172 @@
 # React Native Template App — Bootstrap Guide
 
-This document describes the full architecture, conventions, and configuration of this repository so that new React Native applications can be bootstrapped from it as a template.
+Reference for bootstrapping new React Native apps using the framework, Expo configuration, and npm packages established in this repository.
 
 ---
 
 ## Table of Contents
 
-1. [Tech Stack](#tech-stack)
-2. [Project Structure](#project-structure)
-3. [Getting Started](#getting-started)
-4. [Configuration Files](#configuration-files)
-5. [Architecture Patterns](#architecture-patterns)
-6. [State Management](#state-management)
-7. [Navigation](#navigation)
-8. [Multi-Game Registry](#multi-game-registry)
-9. [Internationalization (i18n)](#internationalization-i18n)
-10. [Authentication](#authentication)
-11. [Monetization (Ads)](#monetization-ads)
-12. [Animation & Graphics](#animation--graphics)
-13. [Data Persistence](#data-persistence)
-14. [Responsive Design](#responsive-design)
-15. [Testing](#testing)
-16. [Code Quality (Lint & Format)](#code-quality-lint--format)
-17. [Scripts Reference](#scripts-reference)
-18. [Platform-Specific Considerations](#platform-specific-considerations)
-19. [Checklist for New Apps](#checklist-for-new-apps)
+1. [Core Framework](#core-framework)
+2. [npm Packages](#npm-packages)
+3. [Expo Configuration](#expo-configuration)
+4. [TypeScript](#typescript)
+5. [Babel](#babel)
+6. [Metro Bundler](#metro-bundler)
+7. [React Navigation](#react-navigation)
+8. [State Management (Context API)](#state-management-context-api)
+9. [Animations (Reanimated)](#animations-reanimated)
+10. [Gestures](#gestures)
+11. [Graphics (Skia & SVG)](#graphics-skia--svg)
+12. [Internationalization (i18n)](#internationalization-i18n)
+13. [Local Storage (AsyncStorage)](#local-storage-asyncstorage)
+14. [Authentication (Google Sign-In)](#authentication-google-sign-in)
+15. [Ads (Google AdMob)](#ads-google-admob)
+16. [Realtime (Socket.io)](#realtime-socketio)
+17. [Haptics](#haptics)
+18. [Web Support](#web-support)
+19. [Testing](#testing)
+20. [ESLint](#eslint)
+21. [Prettier](#prettier)
+22. [Scripts](#scripts)
+23. [Platform Notes](#platform-notes)
 
 ---
 
-## Tech Stack
+## Core Framework
 
-| Layer | Technology | Version |
+| Package | Version | Purpose |
 |---|---|---|
-| Framework | React Native (Expo managed) | 0.73.2 / Expo ~50 |
-| Language | TypeScript (strict mode) | ^5.1.3 |
-| Navigation | React Navigation (native-stack) | ^6.x |
-| State | React Context API + custom hooks | — |
-| Animation | react-native-reanimated | ~3.6.1 |
-| Gestures | react-native-gesture-handler | ~2.14.0 |
-| Graphics | @shopify/react-native-skia | 0.1.221 |
-| SVG | react-native-svg | 14.1.0 |
-| Storage | @react-native-async-storage/async-storage | 1.21.0 |
-| Auth | @react-native-google-signin/google-signin | ^16.1.1 |
-| Ads | react-native-google-mobile-ads | ^16.0.1 |
-| i18n | i18next + react-i18next | ^25.x / ^16.x |
-| Realtime | socket.io-client | ^4.8.0 |
-| Web | react-native-web | ~0.19.6 |
-| Testing | Jest + jest-expo + Testing Library | ^30.x |
-| Lint | ESLint + TypeScript plugin | ^9.x |
-| Format | Prettier | ^3.8.0 |
-| Package manager | pnpm | ^10.x |
+| `react` | 18.2.0 | UI library |
+| `react-native` | 0.73.2 | Native runtime |
+| `expo` | ~50.0.0 | Managed workflow, dev tooling, OTA updates |
+| `typescript` | ^5.1.3 | Type-safe development (strict mode) |
+
+Expo managed workflow is used — no ejected native projects. Native modules that require custom builds use `expo-dev-client`.
 
 ---
 
-## Project Structure
+## npm Packages
 
-```
-<app-root>/
-├── App.tsx                      # Entry point — provider tree + root navigator
-├── app.config.js                # Expo config (dynamic, platform-aware)
-├── babel.config.js              # Babel — expo preset + reanimated plugin
-├── metro.config.js              # Metro bundler — web overrides
-├── tsconfig.json                # TypeScript — strict, path aliases
-├── jest.config.js               # Jest — expo preset, transforms, mappers
-├── jest.setup.js                # Global mocks for native modules
-├── .eslintrc.js                 # ESLint rules
-├── .prettierrc                  # Prettier formatting rules
-│
-├── src/
-│   ├── components/              # Reusable UI components
-│   │   └── __tests__/           # Component unit tests
-│   │
-│   ├── screens/                 # Full-screen views + navigators
-│   │   └── __tests__/           # Screen unit tests
-│   │
-│   ├── context/                 # React Context providers (global state)
-│   │   └── __tests__/           # Context unit tests
-│   │
-│   ├── hooks/                   # Custom React hooks
-│   │   └── __tests__/           # Hook unit tests
-│   │
-│   ├── config/                  # App configuration & constants
-│   ├── data/                    # Static data (items, activities)
-│   ├── utils/                   # Utility/helper functions
-│   │   └── __tests__/           # Utility unit tests
-│   │
-│   ├── services/                # Business logic services
-│   ├── types/                   # TypeScript type definitions
-│   ├── registry/                # Game registry (plugin architecture)
-│   │   └── __tests__/
-│   │
-│   ├── locales/                 # i18n translation JSON files
-│   │   ├── en.json
-│   │   └── pt-BR.json
-│   │
-│   ├── artifacts/               # Standalone embeddable components
-│   └── i18n.ts                  # i18n initialization
-│
-├── assets/                      # Images, sprites, icons
-├── backend/                     # Fastify API server (optional)
-├── server/                      # Socket.io multiplayer server (optional)
-├── shared/                      # Shared code across packages (optional)
-├── docs/                        # Project documentation
-├── e2e/                         # End-to-end tests (Maestro)
-├── __mocks__/                   # Global Jest mocks
-└── scripts/                     # Helper/build scripts
-```
+### Production Dependencies
 
-### Conventions
+| Package | Version | Category |
+|---|---|---|
+| `react` | 18.2.0 | Core |
+| `react-native` | 0.73.2 | Core |
+| `expo` | ~50.0.0 | Core |
+| `react-dom` | 18.2.0 | Web |
+| `react-native-web` | ~0.19.6 | Web |
+| `@expo/metro-runtime` | ~3.1.3 | Web |
+| `@react-navigation/native` | ^6.1.9 | Navigation |
+| `@react-navigation/native-stack` | ^6.9.17 | Navigation |
+| `react-native-screens` | ~3.29.0 | Navigation |
+| `react-native-safe-area-context` | 4.8.2 | Navigation / Layout |
+| `react-native-reanimated` | ~3.6.1 | Animation |
+| `react-native-gesture-handler` | ~2.14.0 | Gestures |
+| `@shopify/react-native-skia` | 0.1.221 | 2D graphics |
+| `react-native-svg` | 14.1.0 | SVG rendering |
+| `@react-native-async-storage/async-storage` | 1.21.0 | Local storage |
+| `@react-native-google-signin/google-signin` | ^16.1.1 | Authentication |
+| `react-native-google-mobile-ads` | ^16.0.1 | Monetization |
+| `i18next` | ^25.7.4 | Internationalization |
+| `react-i18next` | ^16.5.3 | i18n React bindings |
+| `socket.io-client` | ^4.8.0 | WebSocket / realtime |
+| `expo-haptics` | ^15.0.8 | Haptic feedback |
+| `expo-dev-client` | ^6.0.20 | Custom native dev builds |
+| `react-native-webview` | ^13.16.0 | Embedded web views |
+| `react-native-get-random-values` | ^2.0.0 | Crypto polyfill (required by uuid) |
+| `uuid` | ^9.0.0 | Unique ID generation |
+| `@expo/vector-icons` | ^14.1.0 | Icon sets |
+| `@react-native/assets-registry` | ^0.83.1 | Asset resolution |
+| `@babel/runtime` | ^7.28.4 | Babel polyfills |
 
-- **One context per feature**: each feature domain (auth, ads, language, each game) has its own context file under `src/context/`.
-- **Co-located tests**: every directory that contains source files has a `__tests__/` subdirectory.
-- **Path alias**: `@/*` resolves to `src/*` (configured in `tsconfig.json` and `jest.config.js`).
-- **Screens vs Components**: `screens/` holds full-screen views and navigators. `components/` holds reusable UI pieces used across multiple screens.
+### Dev Dependencies
 
----
-
-## Getting Started
-
-### Prerequisites
-
-- Node.js >= 18
-- pnpm (`npm install -g pnpm`)
-- Expo CLI (`npx expo`)
-- Android Studio / Xcode (for native builds)
-
-### Install & Run
-
-```bash
-# Install dependencies
-pnpm install
-
-# Start the Expo dev server
-pnpm start
-
-# Platform-specific
-pnpm run android
-pnpm run ios
-pnpm run web           # sets EXPO_PUBLIC_BUILD_PLATFORM=web automatically
-```
-
-### Bootstrapping a New App
-
-1. Clone or copy this repository.
-2. Update `package.json`: `name`, `description`, `version`.
-3. Update `app.config.js`: `name`, `slug`, `bundleIdentifier` (iOS), `package` (Android).
-4. Replace assets in `assets/` (icon, splash, adaptive-icon, favicon).
-5. Remove game-specific code under `src/screens/`, `src/context/`, and game registrations in `App.tsx`.
-6. Keep the provider skeleton in `App.tsx` (ErrorBoundary, GestureHandler, Language, Auth, Ad, Toast).
-7. Register your own screens/games using the GameRegistry pattern or replace with direct navigation.
-8. Update translation keys in `src/locales/`.
+| Package | Version | Category |
+|---|---|---|
+| `typescript` | ^5.1.3 | Language |
+| `@babel/core` | ^7.20.0 | Build |
+| `@babel/preset-flow` | ^7.27.1 | Build |
+| `babel-jest` | ^30.2.0 | Test transform |
+| `jest` | ^30.2.0 | Test runner |
+| `jest-expo` | 50.0.0 | Test preset |
+| `@testing-library/react-native` | ^13.3.3 | Component testing |
+| `@testing-library/react-hooks` | ^8.0.1 | Hook testing |
+| `react-test-renderer` | ^18.2.0 | Render testing |
+| `ts-jest` | ^29.4.6 | TS transform |
+| `@types/jest` | ^30.0.0 | Types |
+| `@types/node` | ^25.0.9 | Types |
+| `@types/react` | ~18.2.45 | Types |
+| `@types/uuid` | ^9.0.0 | Types |
+| `eslint` | ^9.39.2 | Linting |
+| `@eslint/js` | ^9.39.2 | Linting |
+| `@typescript-eslint/eslint-plugin` | ^8.53.0 | Linting |
+| `@typescript-eslint/parser` | ^8.53.0 | Linting |
+| `eslint-plugin-react` | ^7.37.5 | Linting |
+| `eslint-plugin-react-hooks` | ^7.0.1 | Linting |
+| `prettier` | ^3.8.0 | Formatting |
 
 ---
 
-## Configuration Files
+## Expo Configuration
 
-### `app.config.js` — Expo Configuration
-
-Dynamic configuration that conditionally includes native plugins based on the build platform:
+`app.config.js` uses a dynamic function to conditionally include native-only plugins:
 
 ```js
 module.exports = () => {
   const isWebBuild = process.env.EXPO_PUBLIC_BUILD_PLATFORM === 'web';
+
   const plugins = isWebBuild ? [] : [
     "@react-native-google-signin/google-signin"
+    // For production, also add:
+    // ["react-native-google-mobile-ads", {
+    //   androidAppId: "ca-app-pub-xxx",
+    //   iosAppId: "ca-app-pub-xxx"
+    // }]
   ];
-  return { expo: { ...baseConfig, plugins } };
+
+  return {
+    expo: {
+      name: "App Name",
+      slug: "app-slug",
+      version: "1.0.0",
+      orientation: "portrait",
+      icon: "./assets/icon.png",
+      userInterfaceStyle: "light",
+      splash: {
+        image: "./assets/splash.png",
+        resizeMode: "contain",
+        backgroundColor: "#ffffff"
+      },
+      assetBundlePatterns: ["**/*"],
+      ios: {
+        supportsTablet: true,
+        bundleIdentifier: "com.yourorg.yourapp",
+        googleServicesFile: "./GoogleService-Info.plist"
+      },
+      android: {
+        adaptiveIcon: {
+          foregroundImage: "./assets/adaptive-icon.png",
+          backgroundColor: "#ffffff"
+        },
+        package: "com.yourorg.yourapp",
+        googleServicesFile: "./google-services.json"
+      },
+      web: { favicon: "./assets/favicon.png" },
+      plugins
+    }
+  };
 };
 ```
 
 Key points:
-- Native-only plugins (Google Sign-In, AdMob) are excluded from web builds.
-- `EXPO_PUBLIC_BUILD_PLATFORM=web` env var controls web mode.
-- Google services files (`google-services.json`, `GoogleService-Info.plist`) are required for mobile OAuth.
+- Native-only plugins (Google Sign-In, AdMob) are excluded when `EXPO_PUBLIC_BUILD_PLATFORM=web`.
+- `expo-dev-client` is used for custom dev builds that include native modules.
+- Google services config files are required for mobile auth/ads.
 
-### `tsconfig.json` — TypeScript
+---
+
+## TypeScript
 
 ```json
 {
@@ -183,166 +175,137 @@ Key points:
     "strict": true,
     "baseUrl": ".",
     "paths": { "@/*": ["src/*"] }
-  }
+  },
+  "include": ["**/*.ts", "**/*.tsx"]
 }
 ```
 
-### `babel.config.js` — Babel
+- **Strict mode** is enabled.
+- **Path alias** `@/*` maps to `src/*` — must also be configured in `jest.config.js` and `babel.config.js` if used.
+- Extends Expo's base TS config for React Native compatibility.
+
+---
+
+## Babel
 
 ```js
 module.exports = function (api) {
   api.cache(true);
   return {
-    presets: [['babel-preset-expo', { flow: false }], '@babel/preset-flow'],
-    plugins: ['react-native-reanimated/plugin'],  // must be listed last
+    presets: [
+      ['babel-preset-expo', { flow: false }],
+      '@babel/preset-flow',
+    ],
+    plugins: ['react-native-reanimated/plugin'],  // MUST be last
   };
 };
 ```
 
-> The `react-native-reanimated/plugin` must always be the **last** plugin in the list.
-
-### `metro.config.js` — Metro Bundler
-
-Extends Expo's default config with:
-- Web platform overrides (resolve `react-native-web` Platform module).
-- Empty module resolution for native-only packages on web (e.g., `react-native-google-mobile-ads`).
-
-### `.eslintrc.js` — ESLint
-
-Extends:
-- `eslint:recommended`
-- `plugin:@typescript-eslint/recommended`
-- `plugin:react/recommended`
-- `plugin:react-hooks/recommended`
-
-Notable rules:
-- `react/react-in-jsx-scope`: off (React 17+ JSX transform)
-- `@typescript-eslint/no-explicit-any`: warn
-- `react-hooks/rules-of-hooks`: error
-- `react-hooks/exhaustive-deps`: warn
-
-### `.prettierrc` — Prettier
-
-```json
-{
-  "semi": true,
-  "trailingComma": "es5",
-  "singleQuote": true,
-  "printWidth": 100,
-  "tabWidth": 2,
-  "arrowParens": "always",
-  "endOfLine": "lf"
-}
-```
+- `babel-preset-expo` handles React Native + JSX transform.
+- `@babel/preset-flow` for Flow-typed third-party code.
+- **`react-native-reanimated/plugin` must always be the last plugin** in the list.
 
 ---
 
-## Architecture Patterns
+## Metro Bundler
 
-### Provider Tree (App.tsx)
+```js
+const { getDefaultConfig } = require('expo/metro-config');
+const config = getDefaultConfig(__dirname);
 
-The root `App` component composes global providers in a fixed nesting order. Every new app should preserve this skeleton:
+config.resolver.sourceExts = [...config.resolver.sourceExts, 'tsx', 'ts'];
 
-```tsx
-export default function App() {
-  return (
-    <ErrorBoundary>
-      <GestureHandlerRootView style={{ flex: 1 }}>
-        <LanguageProvider>
-          <AuthProvider>
-            <AdProvider>
-              <ToastProvider>
-                <AppNavigator />
-              </ToastProvider>
-            </AdProvider>
-          </AuthProvider>
-        </LanguageProvider>
-      </GestureHandlerRootView>
-    </ErrorBoundary>
-  );
-}
-```
+config.resolver.resolveRequest = (context, moduleName, platform) => {
+  const originalResolveRequest = context.resolveRequest;
 
-Order matters:
-1. **ErrorBoundary** — catches all render errors.
-2. **GestureHandlerRootView** — required by react-native-gesture-handler.
-3. **LanguageProvider** — i18n must be available to all children.
-4. **AuthProvider** — auth state gates navigation.
-5. **AdProvider** — ad logic depends on auth state.
-6. **ToastProvider** — toasts can appear anywhere.
+  if (platform === 'web') {
+    // Resolve RN Platform module to web equivalent
+    if (moduleName.includes('../Utilities/Platform')) {
+      return {
+        type: 'sourceFile',
+        filePath: require.resolve('react-native-web/dist/exports/Platform'),
+      };
+    }
+    // Empty-resolve native-only modules on web
+    if (moduleName === 'react-native-google-mobile-ads') {
+      return { type: 'empty' };
+    }
+  }
 
-### Custom Hooks Pattern
-
-Complex logic is extracted into custom hooks under `src/hooks/`. Key examples:
-
-| Hook | Purpose |
-|---|---|
-| `usePetActions` | Unified handler for animation + reward + state updates on pet actions |
-| `useDoubleReward` | Rewarded ad flow with double-coin logic |
-| `useResponsive` | Returns current breakpoint and scaling values |
-| `useBackButton` | Android hardware back button handler |
-| `useSocket` | WebSocket connection lifecycle |
-| `useSpriteSheet` | Async sprite sheet loading with cache |
-
-### Service Layer
-
-Stateless services live in `src/services/`:
-
-- **AdService** — AdMob initialization and platform checks.
-- **EmojiService** — Emoji asset management.
-
-### Config-Driven Design
-
-Game balance, animation sequences, ad settings, and responsive breakpoints are all defined as configuration objects in `src/config/`:
-
-| File | Contains |
-|---|---|
-| `gameBalance.ts` | Stat decay rates, activity effects, reward values |
-| `actionConfig.ts` | Animation state sequences and durations |
-| `ads.config.ts` | AdMob unit IDs, frequency settings |
-| `constants.ts` | Global constants |
-| `responsive.ts` | Breakpoints (mobile < 480, tablet < 1024, desktop) |
-| `spriteSheets.ts` | Sprite sheet definitions and frame maps |
-
----
-
-## State Management
-
-This project uses **React Context API** exclusively (no Redux/MobX). Each feature domain has its own context:
-
-| Context | Responsibility |
-|---|---|
-| `AuthContext` | User session, Google OAuth, guest mode |
-| `PetContext` | Pet state, stats, actions, persistence |
-| `AdContext` | Ad availability, interstitial scheduling |
-| `LanguageContext` | Language preference persistence |
-| `ToastContext` | Toast notification queue |
-| `MuitoContext` | Counting game state |
-| `MultiPlayerMuitoContext` | Multiplayer game state via Socket.io |
-| `ColorTapContext` | Color tap game state |
-| `MemoryMatchContext` | Memory match game state |
-| `PetRunnerContext` | Pet runner game state |
-
-### Context Pattern
-
-Each context follows the same structure:
-
-```tsx
-// 1. Define types
-interface MyState { /* ... */ }
-interface MyContextValue extends MyState { /* action methods */ }
-
-// 2. Create context
-const MyContext = createContext<MyContextValue | undefined>(undefined);
-
-// 3. Create provider with state + actions
-export const MyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [state, setState] = useState<MyState>(initialState);
-  // ... actions that call setState
-  return <MyContext.Provider value={{ ...state, ...actions }}>{children}</MyContext.Provider>;
+  return originalResolveRequest(context, moduleName, platform);
 };
 
-// 4. Create consumer hook with guard
+module.exports = config;
+```
+
+Use the `resolveRequest` hook to:
+- Map native modules to their web equivalents.
+- Return `{ type: 'empty' }` for packages that have no web support.
+
+---
+
+## React Navigation
+
+Packages: `@react-navigation/native`, `@react-navigation/native-stack`, `react-native-screens`, `react-native-safe-area-context`.
+
+### Setup
+
+Wrap the app in `NavigationContainer` and define stacks with `createNativeStackNavigator`:
+
+```tsx
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+
+const Stack = createNativeStackNavigator();
+
+const AppNavigator = () => (
+  <NavigationContainer>
+    <Stack.Navigator
+      initialRouteName="Home"
+      screenOptions={{ headerShown: false, animation: 'slide_from_right' }}
+    >
+      <Stack.Screen name="Home" component={HomeScreen} />
+      <Stack.Screen name="Details" component={DetailsScreen} />
+    </Stack.Navigator>
+  </NavigationContainer>
+);
+```
+
+### Type-Safe Routes
+
+Define param list types for compile-time route safety:
+
+```ts
+type RootStackParamList = {
+  Home: undefined;
+  Details: { id: string };
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+```
+
+---
+
+## State Management (Context API)
+
+No external state library is used. Each feature domain has its own React Context:
+
+```tsx
+// 1. Types
+interface MyState { count: number }
+interface MyContextValue extends MyState { increment: () => void }
+
+// 2. Context
+const MyContext = createContext<MyContextValue | undefined>(undefined);
+
+// 3. Provider
+export const MyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [count, setCount] = useState(0);
+  const increment = () => setCount((c) => c + 1);
+  return <MyContext.Provider value={{ count, increment }}>{children}</MyContext.Provider>;
+};
+
+// 4. Consumer hook with guard
 export const useMy = () => {
   const ctx = useContext(MyContext);
   if (!ctx) throw new Error('useMy must be used within MyProvider');
@@ -350,117 +313,130 @@ export const useMy = () => {
 };
 ```
 
----
+### Provider Composition
 
-## Navigation
-
-Built on **React Navigation** with `@react-navigation/native-stack`.
-
-### Root Navigation Flow
-
-```
-Login ──(auth)──> GameSelection ──(pick game)──> GameContainer
-                                                      │
-                                    ┌─────────────────┼─────────────────┐
-                                    │                 │                 │
-                              PetGameNavigator  MuitoNavigator  ColorTapNavigator ...
-```
-
-- **LoginScreen** — shown when no user session exists.
-- **GameSelectionScreen** — grid of registered games.
-- **GameContainer** — dynamically wraps the selected game's navigator with its context providers.
-
-### Per-Game Navigators
-
-Each game defines its own stack navigator (e.g., `PetGameNavigator`, `MuitoNavigator`). This isolates game-specific navigation from the root stack.
-
-### Type-Safe Navigation
-
-Navigation types are defined in `src/types/navigation.ts`. Each navigator declares its own param list type for compile-time route safety.
-
----
-
-## Multi-Game Registry
-
-The **GameRegistry** pattern (`src/registry/GameRegistry.ts`) enables a plugin-like architecture for adding games:
-
-```ts
-interface GameDefinition {
-  id: string;
-  nameKey: string;          // i18n key
-  descriptionKey: string;   // i18n key
-  emoji: string;
-  category: 'pet' | 'puzzle' | 'adventure' | 'casual';
-  navigator: React.ComponentType;
-  providers: Array<React.ComponentType<{ children: React.ReactNode }>>;
-  isEnabled: boolean;
-}
-```
-
-### Registering a New Game
-
-In `App.tsx`:
+Providers are nested in `App.tsx` in dependency order:
 
 ```tsx
-import { gameRegistry } from './src/registry/GameRegistry';
-import { MyProvider } from './src/context/MyContext';
-import { MyNavigator } from './src/screens/MyNavigator';
-
-gameRegistry.register({
-  id: 'my-game',
-  nameKey: 'selectGame.myGame.name',
-  descriptionKey: 'selectGame.myGame.description',
-  emoji: '🎮',
-  category: 'casual',
-  navigator: MyNavigator,
-  providers: [MyProvider],
-  isEnabled: true,
-});
+<ErrorBoundary>
+  <GestureHandlerRootView style={{ flex: 1 }}>
+    <LanguageProvider>
+      <AuthProvider>
+        <AdProvider>
+          <ToastProvider>
+            <AppNavigator />
+          </ToastProvider>
+        </AdProvider>
+      </AuthProvider>
+    </LanguageProvider>
+  </GestureHandlerRootView>
+</ErrorBoundary>
 ```
 
-The `GameContainer` component reads the registry and automatically wraps the navigator with the declared providers.
+Order matters — outer providers are available to inner ones.
+
+---
+
+## Animations (Reanimated)
+
+Package: `react-native-reanimated` ~3.6.1
+
+Animations run on the native UI thread via worklets.
+
+### Key APIs
+
+| API | Use |
+|---|---|
+| `useSharedValue` | Mutable value on UI thread |
+| `useAnimatedStyle` | Derives animated styles from shared values |
+| `withSpring(target, config)` | Physics-based spring animation |
+| `withTiming(target, config)` | Duration-based animation |
+| `withRepeat(animation, count)` | Loop an animation |
+| `withSequence(a, b, c)` | Chain animations in order |
+| `withDelay(ms, animation)` | Delay before starting |
+
+### Example
+
+```tsx
+import Animated, { useSharedValue, useAnimatedStyle, withSpring } from 'react-native-reanimated';
+
+const scale = useSharedValue(1);
+const animatedStyle = useAnimatedStyle(() => ({
+  transform: [{ scale: scale.value }],
+}));
+
+// Trigger:
+scale.value = withSpring(1.2);
+
+return <Animated.View style={animatedStyle} />;
+```
+
+### Setup Reminder
+
+- Babel plugin (`react-native-reanimated/plugin`) must be **last** in `babel.config.js`.
+- `GestureHandlerRootView` must wrap the app root.
+
+---
+
+## Gestures
+
+Package: `react-native-gesture-handler` ~2.14.0
+
+- `GestureHandlerRootView` must wrap the entire app.
+- Provides `Pan`, `Tap`, `LongPress`, `Pinch`, `Rotation` gesture handlers.
+- Works with Reanimated for gesture-driven animations.
+
+---
+
+## Graphics (Skia & SVG)
+
+| Package | Use |
+|---|---|
+| `@shopify/react-native-skia` 0.1.221 | High-performance 2D canvas (particle effects, custom drawing) |
+| `react-native-svg` 14.1.0 | SVG rendering (icons, shapes, vector art) |
 
 ---
 
 ## Internationalization (i18n)
 
-### Setup (`src/i18n.ts`)
+Packages: `i18next` ^25.7.4, `react-i18next` ^16.5.3
 
-- Uses `i18next` + `react-i18next`.
-- Auto-detects device language (iOS, Android, Web).
-- Falls back to English.
-- Translation files live in `src/locales/{lang}.json`.
-
-### Translation File Structure
-
-```json
-{
-  "common": { "back": "Back", "confirm": "Confirm", "cancel": "Cancel" },
-  "menu": { "title": "Menu", "settings": "Settings" },
-  "selectGame": {
-    "myGame": { "name": "My Game", "description": "A fun game" }
-  }
-}
-```
-
-### Adding a New Language
-
-1. Create `src/locales/{lang}.json` with all keys from `en.json`.
-2. Register it in `src/i18n.ts`:
+### Initialization
 
 ```ts
-import newLang from './locales/{lang}.json';
+import i18n from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import en from './locales/en.json';
+import ptBR from './locales/pt-BR.json';
 
-// Add to resources:
-resources: {
-  en: { translation: en },
-  '{lang}': { translation: newLang },
-}
+i18n.use(initReactI18next).init({
+  resources: {
+    en: { translation: en },
+    'pt-BR': { translation: ptBR },
+  },
+  lng: 'en',           // or auto-detect from device
+  fallbackLng: 'en',
+  interpolation: { escapeValue: false },
+  compatibilityJSON: 'v4',
+});
 ```
 
-3. Update device language detection in `getDeviceLanguage()` if needed.
+### Device Language Detection
 
-### Usage in Components
+```ts
+import { Platform, NativeModules } from 'react-native';
+
+const getDeviceLanguage = () => {
+  if (Platform.OS === 'ios') {
+    return NativeModules.SettingsManager?.settings?.AppleLocale || 'en';
+  } else if (Platform.OS === 'android') {
+    return NativeModules.I18nManager?.localeIdentifier || 'en';
+  }
+  return navigator.language || 'en';  // web
+};
+```
+
+### Usage
 
 ```tsx
 import { useTranslation } from 'react-i18next';
@@ -471,199 +447,239 @@ const MyComponent = () => {
 };
 ```
 
----
+### Adding a Language
 
-## Authentication
-
-### Supported Modes
-
-| Mode | Platform | Description |
-|---|---|---|
-| Google OAuth 2.0 | Android, iOS | Full Google Sign-In with user profile |
-| Guest | All | No account, data stored locally as `guest` |
-| Web fallback | Web | Local-only demo user (no OAuth on web) |
-
-### Setup Requirements
-
-- **Android**: place `google-services.json` in project root.
-- **iOS**: place `GoogleService-Info.plist` in project root.
-- Configure Web Client ID in `AuthContext.tsx`.
-
-### Auth Flow
-
-1. `AuthProvider` restores persisted session from AsyncStorage on mount.
-2. `LoginScreen` offers "Sign in with Google" or "Play as Guest".
-3. On success, `AuthContext` stores user info and the navigator switches to the authenticated stack.
-4. Pet/game data is isolated by `userId` (or `'guest'`).
+1. Create `src/locales/{lang}.json` with the same keys as `en.json`.
+2. Import and add it to the `resources` object in the i18n init.
 
 ---
 
-## Monetization (Ads)
+## Local Storage (AsyncStorage)
 
-COPPA-compliant ad integration using Google AdMob.
-
-### Ad Types
-
-| Type | Placement | Behavior |
-|---|---|---|
-| Banner | Bottom of home screen | Always visible |
-| Rewarded | Optional button for bonus coins | User-initiated |
-| Interstitial | Between screen transitions | Every 4 transitions, min 5 min apart |
-
-### Configuration (`src/config/ads.config.ts`)
-
-- Test ad unit IDs are pre-configured for development.
-- Replace with production IDs before release.
-- Child-directed settings enabled by default.
-
-### Disabling Ads
-
-To create an ad-free app, remove `AdProvider` from the provider tree in `App.tsx` and delete `src/context/AdContext.tsx`, `src/services/AdService.ts`, and `src/config/ads.config.ts`.
-
----
-
-## Animation & Graphics
-
-### Reanimated
-
-All animations use `react-native-reanimated` worklets that run on the native UI thread:
-
-- `withSpring` — physics-based spring animations.
-- `withTiming` — duration-based transitions.
-- `withRepeat` / `withSequence` — looping and chaining.
-
-### Animation States
-
-Defined as a union type in `src/types/types.ts`:
+Package: `@react-native-async-storage/async-storage` 1.21.0
 
 ```ts
-type AnimationState = 'idle' | 'eating' | 'bathing' | 'happy' | 'sleeping' | 'playing' | 'tired' | 'sick';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// Write
+await AsyncStorage.setItem('key', JSON.stringify(data));
+
+// Read
+const raw = await AsyncStorage.getItem('key');
+const data = raw ? JSON.parse(raw) : null;
+
+// Delete
+await AsyncStorage.removeItem('key');
 ```
 
-Animation sequences for each state are configured in `src/config/actionConfig.ts`.
-
-### Sprite System
-
-- Sprite sheets managed by `SpriteSheetManager` (`src/utils/SpriteSheetManager.ts`).
-- Configuration in `src/config/spriteSheets.ts`.
-- `useSpriteSheet` hook handles async loading with caching.
-- `SpriteSheetAnimation` component handles frame sequencing.
-
-### Skia
-
-`@shopify/react-native-skia` is available for advanced 2D graphics (particle effects, custom drawing).
+Tips:
+- Namespace keys by user ID for multi-user isolation.
+- Debounce frequent writes to avoid performance issues.
+- Validate data on read to handle schema changes.
 
 ---
 
-## Data Persistence
+## Authentication (Google Sign-In)
 
-### Strategy
+Package: `@react-native-google-signin/google-signin` ^16.1.1
 
-- **AsyncStorage** for all local data.
-- Storage keys are namespaced by `userId` for multi-user isolation.
-- Writes are **debounced** (max 1 save per second) via `src/utils/debounce.ts`.
-- Data validation on load via `src/utils/validation.ts`.
-- Migration support for schema changes via `src/utils/migration.ts`.
-
-### Storage Utility (`src/utils/storage.ts`)
-
-Wraps AsyncStorage with typed get/set helpers and user-scoped key management.
+- **Android**: requires `google-services.json` in project root.
+- **iOS**: requires `GoogleService-Info.plist` in project root.
+- **Web**: not supported — use a fallback (guest mode or web OAuth).
+- Must be listed as an Expo plugin in `app.config.js` for native builds.
+- Excluded from web builds via the `EXPO_PUBLIC_BUILD_PLATFORM` check.
 
 ---
 
-## Responsive Design
+## Ads (Google AdMob)
 
-### Breakpoints (`src/config/responsive.ts`)
+Package: `react-native-google-mobile-ads` ^16.0.1
 
-| Breakpoint | Width |
-|---|---|
-| Mobile | < 480px |
-| Tablet | 480px – 1024px |
-| Desktop | > 1024px |
+- Supports banner, rewarded, and interstitial ad formats.
+- COPPA-compliant child-directed settings available.
+- Test ad unit IDs available for development.
+- Not available on web — resolve as empty module in `metro.config.js`.
+- Requires `expo-dev-client` for custom native builds.
 
-### Hook
+---
 
-```tsx
-const { breakpoint, scale } = useResponsive();
-// breakpoint: 'mobile' | 'tablet' | 'desktop'
+## Realtime (Socket.io)
+
+Package: `socket.io-client` ^4.8.0
+
+```ts
+import { io } from 'socket.io-client';
+
+const socket = io('https://your-server.com');
+socket.on('connect', () => { /* connected */ });
+socket.on('event-name', (data) => { /* handle */ });
+socket.emit('event-name', payload);
+socket.disconnect();
 ```
 
-### Platform Handling
+Wrap connection lifecycle in a custom hook for clean mount/unmount handling.
 
-- `SafeAreaView` for iOS notches.
-- `react-native-web` for browser rendering.
-- Dynamic sizing based on `Dimensions.get('window')`.
+---
+
+## Haptics
+
+Package: `expo-haptics` ^15.0.8
+
+```ts
+import * as Haptics from 'expo-haptics';
+
+Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+```
+
+No-op on web — safe to call on all platforms.
+
+---
+
+## Web Support
+
+Package: `react-native-web` ~0.19.6, `@expo/metro-runtime` ~3.1.3
+
+### Running
+
+```bash
+EXPO_PUBLIC_BUILD_PLATFORM=web expo start --web
+```
+
+### Metro Overrides
+
+Native-only modules must be handled in `metro.config.js`:
+- Map `react-native` Platform to `react-native-web` equivalent.
+- Return `{ type: 'empty' }` for packages without web support (e.g., `react-native-google-mobile-ads`).
+
+### Expo Config
+
+Exclude native-only plugins from `app.config.js` when `EXPO_PUBLIC_BUILD_PLATFORM === 'web'`.
 
 ---
 
 ## Testing
 
-### Framework
+### Packages
 
-- **Jest** with `jest-expo` preset.
-- **@testing-library/react-native** for component rendering.
-- **@testing-library/react-hooks** for hook testing.
+| Package | Purpose |
+|---|---|
+| `jest` ^30.2.0 | Test runner |
+| `jest-expo` 50.0.0 | Expo-aware Jest preset |
+| `babel-jest` ^30.2.0 | Transform JS/TS for Jest |
+| `@testing-library/react-native` ^13.3.3 | Component rendering & queries |
+| `@testing-library/react-hooks` ^8.0.1 | Hook testing utilities |
+| `react-test-renderer` ^18.2.0 | Render tree snapshots |
+| `ts-jest` ^29.4.6 | TypeScript transform |
 
-### Configuration (`jest.config.js`)
+### Jest Configuration
 
-- Transforms all `.ts`/`.tsx`/`.js`/`.jsx` through `babel-jest`.
-- `transformIgnorePatterns` whitelist for React Native and Expo packages.
-- Path alias `@/*` mapped via `moduleNameMapper`.
-- Image imports mapped to `__mocks__/fileMock.js`.
-- Coverage collected from `src/` excluding `.d.ts` and `types/`.
+```js
+module.exports = {
+  preset: 'jest-expo',
+  setupFiles: ['<rootDir>/jest.setup.js'],
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json'],
+  collectCoverageFrom: [
+    'src/**/*.{ts,tsx}',
+    '!src/**/*.d.ts',
+    '!src/types/**/*',
+  ],
+  transform: {
+    '^.+\\.[jt]sx?$': 'babel-jest',
+  },
+  transformIgnorePatterns: [
+    'node_modules/(?!.*((jest-)?react-native|@react-native(-community)?|'
+    + '@react-native/.*|expo(nent)?|@expo(nent)?/.*|react-navigation|'
+    + '@react-navigation/.*|@unimodules/.*|unimodules|react-native-svg|'
+    + 'react-native-reanimated|react-native-gesture-handler|'
+    + 'react-native-safe-area-context|react-native-screens|'
+    + 'react-native-get-random-values|react-native-google-mobile-ads|'
+    + 'uuid|@shopify/react-native-skia|expo-haptics|expo-constants))',
+  ],
+  moduleNameMapper: {
+    '^@/(.*)$': '<rootDir>/src/$1',
+    '\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/__mocks__/fileMock.js',
+  },
+};
+```
+
+Key details:
+- `transformIgnorePatterns` whitelists React Native and Expo packages that ship un-transpiled ESM.
+- `moduleNameMapper` mirrors the `@/*` path alias and stubs image imports.
+- Coverage excludes `.d.ts` files and the `types/` directory.
 
 ### Mock Setup (`jest.setup.js`)
 
-Pre-configured mocks for:
-- React Native core components and APIs.
-- AsyncStorage.
-- Google Sign-In.
-- expo-haptics.
-- UUID.
-- Native modules.
+Pre-configure mocks for native modules that don't run in Node:
+- React Native core (View, Text, ScrollView, FlatList, etc.)
+- AsyncStorage
+- Google Sign-In
+- expo-haptics
+- uuid
+- Any native module your app uses
 
-### Writing Tests
+### Test File Convention
 
-Place test files in `__tests__/` directories adjacent to the code they test:
+Place tests in `__tests__/` directories next to the source:
 
 ```
-src/hooks/usePetActions.ts
-src/hooks/__tests__/usePetActions.test.ts
-```
-
-### Running Tests
-
-```bash
-pnpm test                # Single run
-pnpm run test:watch      # Watch mode
-pnpm run test:coverage   # With coverage report
-pnpm run test:ci         # CI mode (coverage + limited workers)
-pnpm run test:e2e        # Maestro E2E tests
+src/hooks/useMyHook.ts
+src/hooks/__tests__/useMyHook.test.ts
 ```
 
 ---
 
-## Code Quality (Lint & Format)
+## ESLint
 
-### Lint
-
-```bash
-pnpm run lint            # Check for issues
-pnpm run lint:fix        # Auto-fix
+```js
+module.exports = {
+  root: true,
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react/recommended',
+    'plugin:react-hooks/recommended',
+  ],
+  parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaFeatures: { jsx: true },
+    ecmaVersion: 2021,
+    sourceType: 'module',
+  },
+  plugins: ['@typescript-eslint', 'react', 'react-hooks'],
+  rules: {
+    'react/react-in-jsx-scope': 'off',        // React 17+ JSX transform
+    'react/prop-types': 'off',                 // Using TypeScript
+    '@typescript-eslint/no-explicit-any': 'warn',
+    '@typescript-eslint/explicit-module-boundary-types': 'off',
+    'react-hooks/rules-of-hooks': 'error',
+    'react-hooks/exhaustive-deps': 'warn',
+  },
+  settings: { react: { version: 'detect' } },
+  env: { browser: true, es2021: true, node: true },
+};
 ```
-
-### Format
-
-```bash
-pnpm run format          # Auto-format all src files
-pnpm run format:check    # Check without writing
-```
-
-Both tools target `src/**/*.{ts,tsx}`.
 
 ---
 
-## Scripts Reference
+## Prettier
+
+```json
+{
+  "semi": true,
+  "trailingComma": "es5",
+  "singleQuote": true,
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "arrowParens": "always",
+  "endOfLine": "lf"
+}
+```
+
+---
+
+## Scripts
 
 | Script | Command | Description |
 |---|---|---|
@@ -672,10 +688,10 @@ Both tools target `src/**/*.{ts,tsx}`.
 | `ios` | `expo start --ios` | Run on iOS |
 | `web` | `EXPO_PUBLIC_BUILD_PLATFORM=web expo start --web` | Run on web |
 | `test` | `jest` | Run test suite |
-| `test:watch` | `jest --watch` | Run tests in watch mode |
-| `test:coverage` | `jest --coverage` | Run tests with coverage |
-| `test:ci` | `jest --ci --coverage --maxWorkers=2` | CI-optimized test run |
-| `test:e2e` | `maestro test e2e/flow.yaml` | Run Maestro E2E tests |
+| `test:watch` | `jest --watch` | Watch mode |
+| `test:coverage` | `jest --coverage` | With coverage report |
+| `test:ci` | `jest --ci --coverage --maxWorkers=2` | CI-optimized |
+| `test:e2e` | `maestro test e2e/flow.yaml` | Maestro E2E tests |
 | `lint` | `eslint "src/**/*.{ts,tsx}"` | Lint source files |
 | `lint:fix` | `eslint "src/**/*.{ts,tsx}" --fix` | Lint and auto-fix |
 | `format` | `prettier --write "src/**/*.{ts,tsx}"` | Format source files |
@@ -683,44 +699,21 @@ Both tools target `src/**/*.{ts,tsx}`.
 
 ---
 
-## Platform-Specific Considerations
-
-### Web
-
-- `EXPO_PUBLIC_BUILD_PLATFORM=web` must be set to exclude native plugins.
-- `metro.config.js` resolves `react-native-web` Platform module and empties native-only packages.
-- Google Sign-In falls back to a local demo user on web.
-- AdMob is not available on web (module resolved as empty).
+## Platform Notes
 
 ### Android
-
 - Requires `google-services.json` for Firebase/Google services.
 - Uses `expo-dev-client` for custom dev builds with native modules.
-- Hardware back button handled via `useBackButton` hook.
+- Hardware back button handling via `BackHandler` from `react-native`.
 - Haptic feedback via `expo-haptics`.
 
 ### iOS
-
 - Requires `GoogleService-Info.plist` for Firebase/Google services.
-- `SafeAreaView` handles notch/Dynamic Island.
-- `supportsTablet: true` in app config.
+- `SafeAreaView` (from `react-native-safe-area-context`) for notch/Dynamic Island.
+- `supportsTablet: true` in Expo config to enable iPad.
 
----
-
-## Checklist for New Apps
-
-Use this checklist when bootstrapping a new application from this template:
-
-- [ ] Update `package.json` — name, description, version
-- [ ] Update `app.config.js` — name, slug, bundleIdentifier, package
-- [ ] Replace `assets/` — icon.png, splash.png, adaptive-icon.png, favicon.png
-- [ ] Clear game-specific code — remove existing screens, contexts, and game registrations from `App.tsx`
-- [ ] Keep the provider skeleton — ErrorBoundary, GestureHandler, Language, Auth, Ad, Toast
-- [ ] Update `src/locales/` — replace translation keys with your app's strings
-- [ ] Configure auth — add your Google OAuth credentials or remove `AuthProvider` if not needed
-- [ ] Configure ads — update ad unit IDs in `src/config/ads.config.ts` or remove `AdProvider` if not needed
-- [ ] Register your screens/games — use the GameRegistry or set up direct navigation
-- [ ] Update `src/config/` — adjust game balance, constants, and responsive breakpoints
-- [ ] Run `pnpm test` — verify the test setup works after your changes
-- [ ] Run `pnpm run lint` — ensure code quality passes
-- [ ] Update `docs/` — replace documentation with your app's specifics
+### Web
+- Set `EXPO_PUBLIC_BUILD_PLATFORM=web` to exclude native plugins.
+- `metro.config.js` must resolve `react-native-web` Platform and empty-resolve native-only packages.
+- Google Sign-In and AdMob are not available — implement fallbacks.
+- `expo-haptics` is a safe no-op on web.
