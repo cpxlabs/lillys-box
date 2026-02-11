@@ -24,6 +24,7 @@ export const MuitoMultiGameScreen: React.FC<Props> = ({ navigation }) => {
     roundStartedAt,
     opponentDisconnected,
     submitAnswer,
+    leaveRoom,
   } = useMultiPlayerMuito();
 
   const myUserId = user?.id || (isGuest ? 'guest' : 'guest');
@@ -77,10 +78,24 @@ export const MuitoMultiGameScreen: React.FC<Props> = ({ navigation }) => {
     [selectedAnswer, lastRoundResult, submitAnswer]
   );
 
+  const handleBack = () => {
+    leaveRoom();
+    navigation.goBack();
+  };
+
   // ── loading / waiting ────────────────────────────────────────────
   if (!puzzle) {
     return (
       <SafeAreaView style={styles.container}>
+        <View style={styles.waitingHeader}>
+          <TouchableOpacity
+            onPress={handleBack}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.back')}
+          >
+            <Text style={styles.backText}>{t('common.back')}</Text>
+          </TouchableOpacity>
+        </View>
         <View style={styles.centerContent}>
           <Text style={styles.waitingText}>{t('muito.multiplayer.waitingForRound')}</Text>
         </View>
@@ -94,8 +109,15 @@ export const MuitoMultiGameScreen: React.FC<Props> = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* header: round counter + timer */}
+      {/* header: back button + round counter + timer */}
       <View style={styles.header}>
+        <TouchableOpacity
+          onPress={handleBack}
+          accessibilityRole="button"
+          accessibilityLabel={t('common.back')}
+        >
+          <Text style={styles.backText}>{t('common.back')}</Text>
+        </TouchableOpacity>
         <Text style={styles.roundText}>
           {t('muito.multiplayer.round', { current: currentRound, total: totalRounds })}
         </Text>
@@ -204,6 +226,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
+  },
+  waitingHeader: {
+    paddingHorizontal: 20,
+    paddingTop: 16,
+  },
+  backText: {
+    fontSize: 16,
+    color: '#9b59b6',
+    fontWeight: '600',
   },
   waitingText: {
     fontSize: 18,

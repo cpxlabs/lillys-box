@@ -15,9 +15,9 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
   return (
     <View style={styles.header}>
       <View style={styles.leftSection}>
-        {onBackPress && BackButtonIcon && (
+        {onBackPress && (
           <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
-            <BackButtonIcon />
+            {BackButtonIcon && <BackButtonIcon />}
             <Text style={styles.backButtonText}>Voltar</Text>
           </TouchableOpacity>
         )}
