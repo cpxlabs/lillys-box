@@ -99,7 +99,13 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
         {/* Back Button */}
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => navigation.navigate('GameSelection')}
+          onPress={() => {
+            if (navigation.canGoBack()) {
+              navigation.goBack();
+            } else {
+              navigation.getParent()?.goBack();
+            }
+          }}
           accessibilityRole="button"
           accessibilityLabel="Back to games"
         >

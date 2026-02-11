@@ -17,7 +17,11 @@ export const ColorTapHomeScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const handleBack = () => {
-    navigation.getParent()?.goBack();
+    if (navigation.canGoBack()) {
+      navigation.goBack();
+    } else {
+      navigation.getParent()?.goBack();
+    }
   };
 
   return (
