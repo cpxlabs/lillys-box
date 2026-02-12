@@ -366,6 +366,8 @@
       "playAgain": "Play Again",
       "nextRound": "Next Round",
       "back": "Back"
+    }
+  },
   "memoryMatch": {
     "title": "Memory Match",
     "subtitle": "Find matching pairs!",

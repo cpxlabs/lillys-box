@@ -367,6 +367,8 @@
       "playAgain": "Jogar Novamente",
       "nextRound": "Próxima Rodada",
       "back": "Voltar"
+    }
+  },
   "memoryMatch": {
     "title": "Jogo da Memória",
     "subtitle": "Encontre os pares!",
