@@ -103,7 +103,14 @@ export const FeedThePetGameScreen: React.FC<Props> = ({ navigation }) => {
 
   const gameLoop = useCallback(() => {
     const s = stateRef.current;
-    if (s.gameStatus !== 'playing') return;
+    if (s.gameStatus !== 'playing') {
+      // Stop the loop if game is not playing
+      if (rafRef.current) {
+        cancelAnimationFrame(rafRef.current);
+        rafRef.current = null;
+      }
+      return;
+    }
 
     s.frames += 1;
     const currentTime = Date.now();
@@ -155,6 +162,9 @@ export const FeedThePetGameScreen: React.FC<Props> = ({ navigation }) => {
             if (isNewBest) {
               updateBestScore(finalScore);
             }
+            // Don't continue loop after game over
+            setRenderState({ ...s });
+            return;
           }
         }
       }
@@ -175,8 +185,10 @@ export const FeedThePetGameScreen: React.FC<Props> = ({ navigation }) => {
     // Update render
     setRenderState({ ...s });
 
-    // Continue loop
-    rafRef.current = requestAnimationFrame(gameLoop);
+    // Continue loop only if still playing
+    if (s.gameStatus === 'playing') {
+      rafRef.current = requestAnimationFrame(gameLoop);
+    }
   }, [bestScore, updateBestScore]);
 
   useEffect(() => {
@@ -189,12 +201,19 @@ export const FeedThePetGameScreen: React.FC<Props> = ({ navigation }) => {
   }, [gameLoop, renderState.gameStatus]);
 
   const handleStart = useCallback(() => {
+    // Clean up any existing animation frame
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+
     const newState = createInitialState();
     newState.gameStatus = 'playing';
     newState.lastSpawnTime = Date.now();
     stateRef.current = newState;
     setRenderState(newState);
     isNewBestRef.current = false;
+    itemIdCounter.current = 0; // Reset item counter
   }, []);
 
   const handlePlayAgain = useCallback(() => {
@@ -202,6 +221,12 @@ export const FeedThePetGameScreen: React.FC<Props> = ({ navigation }) => {
   }, [handleStart]);
 
   const handleBack = useCallback(() => {
+    // Clean up animation frame before navigating
+    if (rafRef.current) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+
     if (navigation.canGoBack()) {
       navigation.goBack();
     } else {

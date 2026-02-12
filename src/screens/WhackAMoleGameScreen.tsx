@@ -266,6 +266,16 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
   );
 
   const handleStart = useCallback(() => {
+    // Clear any existing intervals first
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    if (spawnRef.current) {
+      clearInterval(spawnRef.current);
+      spawnRef.current = null;
+    }
+
     const newState = createInitialState();
     newState.gameStatus = 'playing';
     stateRef.current = newState;
@@ -291,6 +301,8 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
 
         if (timerRef.current) clearInterval(timerRef.current);
         if (spawnRef.current) clearInterval(spawnRef.current);
+        timerRef.current = null;
+        spawnRef.current = null;
       }
 
       setRenderState({ ...s });
@@ -309,8 +321,14 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
   }, [handleStart]);
 
   const handleBack = useCallback(() => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    if (spawnRef.current) clearInterval(spawnRef.current);
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+    if (spawnRef.current) {
+      clearInterval(spawnRef.current);
+      spawnRef.current = null;
+    }
 
     if (navigation.canGoBack()) {
       navigation.goBack();
@@ -319,10 +337,17 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
     }
   }, [navigation]);
 
+  // Cleanup on unmount
   useEffect(() => {
     return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-      if (spawnRef.current) clearInterval(spawnRef.current);
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+      if (spawnRef.current) {
+        clearInterval(spawnRef.current);
+        spawnRef.current = null;
+      }
     };
   }, []);
 
