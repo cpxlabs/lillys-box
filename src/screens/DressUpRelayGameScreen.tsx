@@ -159,6 +159,7 @@ export const DressUpRelayGameScreen: React.FC<Props> = ({ navigation }) => {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const countdownTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const previewTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const handleSubmitRef = useRef<() => void>(() => {});
 
   const countdownAnim = useRef(new Animated.Value(1)).current;
 
@@ -221,8 +222,8 @@ export const DressUpRelayGameScreen: React.FC<Props> = ({ navigation }) => {
         setTimeRemaining((prev) => {
           if (prev <= 100) {
             clearInterval(timerRef.current!);
-            // Time's up - check outfit
-            handleSubmit();
+            // Time's up - use ref to avoid stale closure
+            handleSubmitRef.current();
             return 0;
           }
           // Haptic at 5 seconds
@@ -270,6 +271,9 @@ export const DressUpRelayGameScreen: React.FC<Props> = ({ navigation }) => {
       Haptics.notificationAsync(Haptics.NotificationFeedbackType.Warning);
     }
   }, [playerOutfit, targetOutfit, timeRemaining]);
+
+  // Keep ref in sync so the timer interval always calls the latest handleSubmit
+  handleSubmitRef.current = handleSubmit;
 
   const handleNextRound = useCallback(() => {
     if (round >= TOTAL_ROUNDS) {
@@ -447,7 +451,7 @@ export const DressUpRelayGameScreen: React.FC<Props> = ({ navigation }) => {
               onPress={handleSubmit}
               activeOpacity={0.85}
             >
-              <Text style={styles.submitButtonText}>{t('dressUpRelay.correct')}</Text>
+              <Text style={styles.submitButtonText}>{t('colorMixer.check')}</Text>
             </TouchableOpacity>
           )}
         </>
@@ -462,11 +466,11 @@ export const DressUpRelayGameScreen: React.FC<Props> = ({ navigation }) => {
 
           <View style={styles.resultComparison}>
             <View style={styles.resultColumn}>
-              <Text style={styles.resultLabel}>Target</Text>
+              <Text style={styles.resultLabel}>{t('dressUpRelay.target')}</Text>
               <PetRenderer pet={targetPet} size={140} animationState="idle" />
             </View>
             <View style={styles.resultColumn}>
-              <Text style={styles.resultLabel}>Your Outfit</Text>
+              <Text style={styles.resultLabel}>{t('dressUpRelay.yourOutfit')}</Text>
               <PetRenderer pet={playerPet} size={140} animationState="idle" />
             </View>
           </View>
@@ -492,7 +496,7 @@ export const DressUpRelayGameScreen: React.FC<Props> = ({ navigation }) => {
 
           <TouchableOpacity style={styles.nextButton} onPress={handleNextRound} activeOpacity={0.85}>
             <Text style={styles.nextButtonText}>
-              {round >= TOTAL_ROUNDS ? t('dressUpRelay.gameOver.title') : 'Next Round'}
+              {round >= TOTAL_ROUNDS ? t('dressUpRelay.gameOver.title') : t('dressUpRelay.nextRound')}
             </Text>
           </TouchableOpacity>
         </View>

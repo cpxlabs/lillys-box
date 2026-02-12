@@ -13,7 +13,7 @@ const DressUpRelayContext = createContext<DressUpRelayContextType | undefined>(u
 
 export const DressUpRelayProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isGuest } = useAuth();
-  const userId = user?.id || (isGuest ? 'guest' : 'guest');
+  const userId = user?.id || 'guest';
 
   const [bestScore, setBestScore] = useState<number>(0);
   const bestScoreRef = useRef<number>(0);

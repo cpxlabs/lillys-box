@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   View,
   Text,
@@ -41,15 +41,17 @@ export const ColorMixerGameScreen: React.FC<Props> = ({ navigation, route }) => 
   const levelId = route.params.level;
   const level = LEVELS.find((l) => l.id === levelId);
 
-  if (!level) {
-    navigation.goBack();
-    return null;
-  }
-
   const [mixedColors, setMixedColors] = useState<RGB[]>([]);
   const [showResultModal, setShowResultModal] = useState(false);
   const [stars, setStars] = useState(0);
   const [accuracy, setAccuracy] = useState(0);
+
+  // Navigate back if level not found (avoid side effect during render)
+  useEffect(() => {
+    if (!level) {
+      navigation.goBack();
+    }
+  }, [level, navigation]);
 
   const currentMix = mixedColors.length > 0 ? mixColors(mixedColors) : { r: 255, g: 255, b: 255 };
 
@@ -92,6 +94,10 @@ export const ColorMixerGameScreen: React.FC<Props> = ({ navigation, route }) => 
     navigation.goBack();
   };
 
+  if (!level) {
+    return null;
+  }
+
   return (
     <GestureHandlerRootView style={styles.gestureRoot}>
       <LinearGradient colors={['#fef3c7', '#dbeafe']} style={styles.container}>
@@ -129,7 +135,7 @@ export const ColorMixerGameScreen: React.FC<Props> = ({ navigation, route }) => 
               <Text style={styles.sectionLabel}>{t('colorMixer.mixingBowl')}</Text>
               <View style={[styles.bowl, { backgroundColor: rgbToString(currentMix) }]}>
                 {mixedColors.length === 0 && (
-                  <Text style={styles.emptyBowlText}>Drag colors here</Text>
+                  <Text style={styles.emptyBowlText}>{t('colorMixer.dragHere')}</Text>
                 )}
               </View>
               <TouchableOpacity
@@ -201,7 +207,7 @@ export const ColorMixerGameScreen: React.FC<Props> = ({ navigation, route }) => 
                     />
                   </View>
                   <View style={styles.comparisonItem}>
-                    <Text style={styles.comparisonLabel}>Your Mix</Text>
+                    <Text style={styles.comparisonLabel}>{t('colorMixer.yourMix')}</Text>
                     <View
                       style={[
                         styles.comparisonSwatch,

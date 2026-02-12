@@ -5,12 +5,11 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useColorMixer } from '../context/ColorMixerContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
+import { TOTAL_LEVELS } from '../data/colorMixerLevels';
 
 type Props = {
   navigation: ScreenNavigationProp<'ColorMixerHome'>;
 };
-
-const TOTAL_LEVELS = 20;
 
 export const ColorMixerHomeScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();

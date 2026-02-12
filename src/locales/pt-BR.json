@@ -450,6 +450,9 @@
     "dressYourPet": "Vista seu pet!",
     "perfect": "Perfeito! 🌟",
     "correct": "Correto!",
+    "target": "Alvo",
+    "yourOutfit": "Sua Roupa",
+    "nextRound": "Próxima Rodada",
     "gameOver": {
       "title": "Fim de Jogo!",
       "totalScore": "Pontuação Total",
@@ -476,6 +479,8 @@
     "backToLevels": "Voltar aos Níveis",
     "accuracy": "Precisão",
     "levelsCompleted": "Níveis Completados",
-    "totalStars": "Estrelas Totais"
+    "totalStars": "Estrelas Totais",
+    "dragHere": "Arraste as cores aqui",
+    "yourMix": "Sua Mistura"
   }
 }
