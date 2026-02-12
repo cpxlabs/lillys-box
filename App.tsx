@@ -129,6 +129,9 @@ gameRegistry.register({
   category: 'puzzle',
   navigator: ColorMixerNavigator,
   providers: [ColorMixerProvider],
+  isEnabled: true,
+});
+
 // Register the feed the pet game
 gameRegistry.register({
   id: 'feed-the-pet',
