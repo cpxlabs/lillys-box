@@ -25,6 +25,10 @@ import { MemoryMatchProvider } from './src/context/MemoryMatchContext';
 import { MemoryMatchNavigator } from './src/screens/MemoryMatchNavigator';
 import { PetRunnerProvider } from './src/context/PetRunnerContext';
 import { PetRunnerNavigator } from './src/screens/PetRunnerNavigator';
+import { FeedThePetProvider } from './src/context/FeedThePetContext';
+import { FeedThePetNavigator } from './src/screens/FeedThePetNavigator';
+import { WhackAMoleProvider } from './src/context/WhackAMoleContext';
+import { WhackAMoleNavigator } from './src/screens/WhackAMoleNavigator';
 
 // Register the pet-care game
 gameRegistry.register({
@@ -83,6 +87,30 @@ gameRegistry.register({
   category: 'adventure',
   navigator: PetRunnerNavigator,
   providers: [PetRunnerProvider],
+  isEnabled: true,
+});
+
+// Register the feed the pet game
+gameRegistry.register({
+  id: 'feed-the-pet',
+  nameKey: 'selectGame.feedThePet.name',
+  descriptionKey: 'selectGame.feedThePet.description',
+  emoji: '🍽️',
+  category: 'casual',
+  navigator: FeedThePetNavigator,
+  providers: [FeedThePetProvider],
+  isEnabled: true,
+});
+
+// Register the whack-a-mole game
+gameRegistry.register({
+  id: 'whack-a-mole',
+  nameKey: 'selectGame.whackAMole.name',
+  descriptionKey: 'selectGame.whackAMole.description',
+  emoji: '🔨',
+  category: 'casual',
+  navigator: WhackAMoleNavigator,
+  providers: [WhackAMoleProvider],
   isEnabled: true,
 });
 
