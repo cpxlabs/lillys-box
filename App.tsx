@@ -25,6 +25,12 @@ import { MemoryMatchProvider } from './src/context/MemoryMatchContext';
 import { MemoryMatchNavigator } from './src/screens/MemoryMatchNavigator';
 import { PetRunnerProvider } from './src/context/PetRunnerContext';
 import { PetRunnerNavigator } from './src/screens/PetRunnerNavigator';
+import { SimonSaysProvider } from './src/context/SimonSaysContext';
+import { SimonSaysNavigator } from './src/screens/SimonSaysNavigator';
+import { DressUpRelayProvider } from './src/context/DressUpRelayContext';
+import { DressUpRelayNavigator } from './src/screens/DressUpRelayNavigator';
+import { ColorMixerProvider } from './src/context/ColorMixerContext';
+import { ColorMixerNavigator } from './src/screens/ColorMixerNavigator';
 
 // Register the pet-care game
 gameRegistry.register({
@@ -83,6 +89,42 @@ gameRegistry.register({
   category: 'adventure',
   navigator: PetRunnerNavigator,
   providers: [PetRunnerProvider],
+  isEnabled: true,
+});
+
+// Register the simon says game
+gameRegistry.register({
+  id: 'simon-says',
+  nameKey: 'selectGame.simonSays.name',
+  descriptionKey: 'selectGame.simonSays.description',
+  emoji: '🎮',
+  category: 'puzzle',
+  navigator: SimonSaysNavigator,
+  providers: [SimonSaysProvider],
+  isEnabled: true,
+});
+
+// Register the dress-up relay game
+gameRegistry.register({
+  id: 'dress-up-relay',
+  nameKey: 'selectGame.dressUpRelay.name',
+  descriptionKey: 'selectGame.dressUpRelay.description',
+  emoji: '👗',
+  category: 'casual',
+  navigator: DressUpRelayNavigator,
+  providers: [DressUpRelayProvider],
+  isEnabled: true,
+});
+
+// Register the color mixer lab game
+gameRegistry.register({
+  id: 'color-mixer',
+  nameKey: 'selectGame.colorMixer.name',
+  descriptionKey: 'selectGame.colorMixer.description',
+  emoji: '🎨',
+  category: 'puzzle',
+  navigator: ColorMixerNavigator,
+  providers: [ColorMixerProvider],
   isEnabled: true,
 });
 

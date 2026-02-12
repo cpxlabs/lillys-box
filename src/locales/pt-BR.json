@@ -241,6 +241,18 @@
     "petRunner": {
       "name": "Pet Runner",
       "description": "Corra e desvie dos obstáculos!"
+    },
+    "simonSays": {
+      "name": "Simon Diz",
+      "description": "Lembre-se do padrão!"
+    },
+    "dressUpRelay": {
+      "name": "Corrida da Roupa",
+      "description": "Combine a roupa!"
+    },
+    "colorMixer": {
+      "name": "Laboratório de Cores",
+      "description": "Misture a cor perfeita!"
     }
   },
   "muito": {
@@ -323,5 +335,65 @@
       "newBest": "⭐ Novo Recorde!",
       "playAgain": "Jogar Novamente"
     }
+  },
+  "simonSays": {
+    "title": "Simon Diz",
+    "subtitle": "Jogo de Memória de Padrões",
+    "instructions": "Observe o padrão se iluminar, depois repita tocando nos botões na mesma ordem!",
+    "play": "Jogar! 🎮",
+    "bestScore": "Melhor Pontuação",
+    "round": "Rodada",
+    "score": "Pontuação",
+    "getReady": "Prepare-se!",
+    "watch": "Observe o padrão...",
+    "yourTurn": "Sua vez!",
+    "correct": "✓ Correto!",
+    "wrong": "✗ Errado!",
+    "gameOver": {
+      "title": "Fim de Jogo!",
+      "roundsCompleted": "Rodadas Completadas",
+      "newRecord": "Novo Recorde!",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "dressUpRelay": {
+    "title": "Corrida da Roupa",
+    "subtitle": "Combine a roupa rapidamente!",
+    "instructions": "Memorize a roupa alvo, depois vista seu pet para combiná-la antes que o tempo acabe!",
+    "play": "Jogar! 🎮",
+    "bestScore": "Melhor Pontuação",
+    "round": "Rodada",
+    "timeLeft": "Tempo Restante",
+    "memorize": "Memorize esta roupa!",
+    "dressYourPet": "Vista seu pet!",
+    "perfect": "Perfeito! 🌟",
+    "correct": "Correto!",
+    "gameOver": {
+      "title": "Fim de Jogo!",
+      "totalScore": "Pontuação Total",
+      "accuracy": "Precisão",
+      "roundsCompleted": "Rodadas",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "colorMixer": {
+    "title": "Laboratório de Cores",
+    "subtitle": "Misture a cor perfeita!",
+    "instructions": "Arraste as cores de tinta para o recipiente de mistura para combinar a cor alvo. Acerte para ganhar estrelas!",
+    "play": "Jogar! 🎮",
+    "level": "Nível",
+    "target": "Cor Alvo",
+    "mixingBowl": "Recipiente de Mistura",
+    "check": "Verificar",
+    "reset": "Reiniciar",
+    "perfect": "Perfeito! 🌟",
+    "close": "Perto!",
+    "tryAgain": "Tente Novamente",
+    "levelComplete": "Nível Completo!",
+    "nextLevel": "Próximo Nível",
+    "backToLevels": "Voltar aos Níveis",
+    "accuracy": "Precisão",
+    "levelsCompleted": "Níveis Completados",
+    "totalStars": "Estrelas Totais"
   }
 }

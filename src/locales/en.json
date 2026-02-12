@@ -240,6 +240,18 @@
     "petRunner": {
       "name": "Pet Runner",
       "description": "Run and dodge obstacles!"
+    },
+    "simonSays": {
+      "name": "Simon Says",
+      "description": "Remember the pattern!"
+    },
+    "dressUpRelay": {
+      "name": "Dress-Up Relay",
+      "description": "Match the outfit!"
+    },
+    "colorMixer": {
+      "name": "Color Mixer Lab",
+      "description": "Mix the perfect color!"
     }
   },
   "muito": {
@@ -322,5 +334,65 @@
       "newBest": "⭐ New Best!",
       "playAgain": "Play Again"
     }
+  },
+  "simonSays": {
+    "title": "Simon Says",
+    "subtitle": "Pattern Memory Game",
+    "instructions": "Watch the pattern light up, then repeat it by tapping the buttons in the same order!",
+    "play": "Play! 🎮",
+    "bestScore": "Best Score",
+    "round": "Round",
+    "score": "Score",
+    "getReady": "Get Ready!",
+    "watch": "Watch the pattern...",
+    "yourTurn": "Your turn!",
+    "correct": "✓ Correct!",
+    "wrong": "✗ Wrong!",
+    "gameOver": {
+      "title": "Game Over!",
+      "roundsCompleted": "Rounds Completed",
+      "newRecord": "New Record!",
+      "playAgain": "Play Again"
+    }
+  },
+  "dressUpRelay": {
+    "title": "Dress-Up Relay",
+    "subtitle": "Match the outfit fast!",
+    "instructions": "Memorize the target outfit, then dress your pet to match it before time runs out!",
+    "play": "Play! 🎮",
+    "bestScore": "Best Score",
+    "round": "Round",
+    "timeLeft": "Time Left",
+    "memorize": "Memorize this outfit!",
+    "dressYourPet": "Dress your pet!",
+    "perfect": "Perfect! 🌟",
+    "correct": "Correct!",
+    "gameOver": {
+      "title": "Game Over!",
+      "totalScore": "Total Score",
+      "accuracy": "Accuracy",
+      "roundsCompleted": "Rounds",
+      "playAgain": "Play Again"
+    }
+  },
+  "colorMixer": {
+    "title": "Color Mixer Lab",
+    "subtitle": "Mix the perfect color!",
+    "instructions": "Drag paint colors into the mixing bowl to match the target color. Get it right to earn stars!",
+    "play": "Play! 🎮",
+    "level": "Level",
+    "target": "Target Color",
+    "mixingBowl": "Mixing Bowl",
+    "check": "Check",
+    "reset": "Reset",
+    "perfect": "Perfect! 🌟",
+    "close": "Close!",
+    "tryAgain": "Try Again",
+    "levelComplete": "Level Complete!",
+    "nextLevel": "Next Level",
+    "backToLevels": "Back to Levels",
+    "accuracy": "Accuracy",
+    "levelsCompleted": "Levels Completed",
+    "totalStars": "Total Stars"
   }
 }
