@@ -252,6 +252,7 @@
     "colorMixer": {
       "name": "Color Mixer Lab",
       "description": "Mix the perfect color!"
+    },
     "feedThePet": {
       "name": "Feed the Pet",
       "description": "Catch falling food!"
