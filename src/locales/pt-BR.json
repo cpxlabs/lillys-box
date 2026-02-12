@@ -253,6 +253,7 @@
     "colorMixer": {
       "name": "Laboratório de Cores",
       "description": "Misture a cor perfeita!"
+    },
     "feedThePet": {
       "name": "Alimentar o Pet",
       "description": "Pegue a comida que cai!"
