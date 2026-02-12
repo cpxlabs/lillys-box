@@ -341,6 +341,42 @@
       "playAgain": "Jogar Novamente",
       "nextRound": "Próxima Rodada",
       "back": "Voltar"
+  "memoryMatch": {
+    "title": "Jogo da Memória",
+    "subtitle": "Encontre os pares!",
+    "instructions": "Toque nas cartas para virá-las e encontre os pares. Complete o tabuleiro com menos movimentos para uma pontuação maior!",
+    "play": "Jogar! 🎮",
+    "bestScore": "Melhor Pontuação",
+    "moves": "Movimentos",
+    "matched": "combinado",
+    "cardFaceDown": "Carta virada para baixo",
+    "difficulty": {
+      "easy": "Fácil",
+      "medium": "Médio",
+      "hard": "Difícil"
+    },
+    "gameOver": {
+      "title": "Parabéns! 🎉",
+      "moves": "Movimentos",
+      "time": "Tempo",
+      "score": "Pontuação",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "petRunner": {
+    "title": "Pet Corredor",
+    "subtitle": "Corra, pule, colete!",
+    "instructions": "Toque para pular os obstáculos e coletar moedas. Até onde você consegue ir?",
+    "play": "Jogar! 🎮",
+    "bestScore": "Melhor Pontuação",
+    "tapToStart": "Toque para Começar",
+    "gameOver": {
+      "title": "Fim de Jogo",
+      "distance": "Distância",
+      "coins": "Moedas",
+      "score": "Pontuação",
+      "newBest": "⭐ Novo Recorde!",
+      "playAgain": "Jogar Novamente"
     }
   }
 }

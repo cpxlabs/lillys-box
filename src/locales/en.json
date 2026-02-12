@@ -340,6 +340,42 @@
       "playAgain": "Play Again",
       "nextRound": "Next Round",
       "back": "Back"
+  "memoryMatch": {
+    "title": "Memory Match",
+    "subtitle": "Find matching pairs!",
+    "instructions": "Tap cards to flip them and find matching pairs. Complete the board with fewer moves for a higher score!",
+    "play": "Play! 🎮",
+    "bestScore": "Best Score",
+    "moves": "Moves",
+    "matched": "matched",
+    "cardFaceDown": "Card face down",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    },
+    "gameOver": {
+      "title": "Congratulations! 🎉",
+      "moves": "Moves",
+      "time": "Time",
+      "score": "Score",
+      "playAgain": "Play Again"
+    }
+  },
+  "petRunner": {
+    "title": "Pet Runner",
+    "subtitle": "Run, jump, collect!",
+    "instructions": "Tap to jump over obstacles and collect coins. How far can you go?",
+    "play": "Play! 🎮",
+    "bestScore": "Best Score",
+    "tapToStart": "Tap to Start",
+    "gameOver": {
+      "title": "Game Over",
+      "distance": "Distance",
+      "coins": "Coins",
+      "score": "Score",
+      "newBest": "⭐ New Best!",
+      "playAgain": "Play Again"
     }
   }
 }
