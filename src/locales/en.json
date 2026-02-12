@@ -293,6 +293,32 @@
       "opponentDisconnected": "Opponent disconnected"
     }
   },
+  "petRunner": {
+    "title": "Pet Runner",
+    "subtitle": "Run and collect coins!",
+    "instructions": "Tap to jump over obstacles. Collect coins and survive as long as you can!",
+    "bestScore": "Best Score",
+    "play": "Play"
+  },
+  "memoryMatch": {
+    "title": "Memory Match",
+    "subtitle": "Find matching pairs!",
+    "instructions": "Tap cards to flip them. Find all matching pairs to win!",
+    "bestScore": "Best Score",
+    "play": "Play",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    }
+  },
+  "colorTap": {
+    "title": "Color Tap",
+    "subtitle": "Tap the matching colors!",
+    "instructions": "Tap the circle that matches the color name. Be quick!",
+    "bestScore": "Best Score",
+    "play": "Play"
+  },
   "feedThePet": {
     "home": {
       "title": "Feed the Pet",
