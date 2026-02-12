@@ -245,6 +245,10 @@
     "feedThePet": {
       "name": "Alimentar o Pet",
       "description": "Pegue a comida que cai!"
+    },
+    "whackAMole": {
+      "name": "Acerte a Toupeira",
+      "description": "Acerte as pragas do jardim!"
     }
   },
   "muito": {
@@ -307,6 +311,35 @@
       "coinsEarned": "Moedas Ganhas",
       "newBest": "NOVO RECORDE!",
       "playAgain": "Jogar Novamente",
+      "back": "Voltar"
+    }
+  },
+  "whackAMole": {
+    "home": {
+      "title": "Acerte a Toupeira",
+      "subtitle": "Acerte as pragas, evite os pets!",
+      "instructions": "Toque nas pragas rapidamente! Não toque nos animais amigáveis ou você perde pontos!",
+      "bestScore": "Melhor Pontuação",
+      "play": "Jogar"
+    },
+    "game": {
+      "score": "Pontos",
+      "round": "Rodada",
+      "time": "Tempo",
+      "combo": "Combo",
+      "powerUps": {
+        "freeze": "Congelar",
+        "double": "2x Pontos"
+      },
+      "roundComplete": "Rodada Completa!",
+      "gameOver": "Fim de Jogo!",
+      "finalScore": "Pontuação Final",
+      "pestsBopped": "Pragas Acertadas",
+      "accuracy": "Precisão",
+      "coinsEarned": "Moedas Ganhas",
+      "newBest": "NOVO RECORDE!",
+      "playAgain": "Jogar Novamente",
+      "nextRound": "Próxima Rodada",
       "back": "Voltar"
     }
   }

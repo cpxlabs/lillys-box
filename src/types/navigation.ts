@@ -64,6 +64,10 @@ export type RootStackParamList = {
   FeedThePetHome: undefined;
   /** Feed the Pet game screen */
   FeedThePetGame: undefined;
+  /** Whack-a-Mole home screen */
+  WhackAMoleHome: undefined;
+  /** Whack-a-Mole game screen */
+  WhackAMoleGame: undefined;
 };
 
 /**

@@ -244,6 +244,10 @@
     "feedThePet": {
       "name": "Feed the Pet",
       "description": "Catch falling food!"
+    },
+    "whackAMole": {
+      "name": "Whack-a-Mole",
+      "description": "Bop the garden pests!"
     }
   },
   "muito": {
@@ -306,6 +310,35 @@
       "coinsEarned": "Coins Earned",
       "newBest": "NEW BEST!",
       "playAgain": "Play Again",
+      "back": "Back"
+    }
+  },
+  "whackAMole": {
+    "home": {
+      "title": "Whack-a-Mole",
+      "subtitle": "Bop the pests, avoid the pets!",
+      "instructions": "Tap the pests quickly! Don't tap the friendly animals or you lose points!",
+      "bestScore": "Best Score",
+      "play": "Play"
+    },
+    "game": {
+      "score": "Score",
+      "round": "Round",
+      "time": "Time",
+      "combo": "Combo",
+      "powerUps": {
+        "freeze": "Freeze",
+        "double": "2x Points"
+      },
+      "roundComplete": "Round Complete!",
+      "gameOver": "Game Over!",
+      "finalScore": "Final Score",
+      "pestsBopped": "Pests Bopped",
+      "accuracy": "Accuracy",
+      "coinsEarned": "Coins Earned",
+      "newBest": "NEW BEST!",
+      "playAgain": "Play Again",
+      "nextRound": "Next Round",
       "back": "Back"
     }
   }
