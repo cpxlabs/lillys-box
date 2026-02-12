@@ -60,6 +60,20 @@ export type RootStackParamList = {
   ColorTapHome: undefined;
   /** ColorTap game screen */
   ColorTapGame: undefined;
+  /** Simon Says home screen */
+  SimonSaysHome: undefined;
+  /** Simon Says game screen */
+  SimonSaysGame: undefined;
+  /** Dress-Up Relay home screen */
+  DressUpRelayHome: undefined;
+  /** Dress-Up Relay game screen */
+  DressUpRelayGame: undefined;
+  /** Color Mixer home screen */
+  ColorMixerHome: undefined;
+  /** Color Mixer level selection screen */
+  ColorMixerLevels: undefined;
+  /** Color Mixer game screen */
+  ColorMixerGame: { level: number };
   /** Feed the Pet home screen */
   FeedThePetHome: undefined;
   /** Feed the Pet game screen */

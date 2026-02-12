@@ -30,6 +30,9 @@
 - **[13 - Color Tap Game](./13-color-tap-game.md)** - Color matching (home + HTML artifact)
 - **[14 - Memory Match Game](./14-memory-match-game.md)** - Card flipping with difficulty levels
 - **[15 - Pet Runner Game](./15-pet-runner-game.md)** - Side-scrolling runner (green theme)
+- **[17 - Simon Says Game](./17-simon-says-game.md)** - Pattern memory with colored buttons (red theme)
+- **[18 - Dress-Up Relay Game](./18-dress-up-relay-game.md)** - Timed outfit matching (pink theme)
+- **[19 - Color Mixer Lab Game](./19-color-mixer-game.md)** - Educational color mixing (gradient theme)
 
 ### Components
 - **[16 - Shared Components](./16-shared-components.md)** - StatusCard, IconButton, ScreenHeader, ConfirmModal, etc.
