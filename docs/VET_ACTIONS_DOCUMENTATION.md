@@ -330,7 +330,7 @@ vet: {
 
 ### Why VetScene Was Not Migrated
 
-As part of the stats hook refactor project (see [STATS_HOOK_MIGRATION_STATUS.md](../STATS_HOOK_MIGRATION_STATUS.md)), all 5 action scenes were evaluated for migration to the centralized `usePetActions` hook. VetScene was determined to be a **poor fit** for the hook abstraction.
+As part of the stats hook refactor project, all 5 action scenes were evaluated for migration to the centralized `usePetActions` hook. VetScene was determined to be a **poor fit** for the hook abstraction.
 
 ---
 
@@ -437,7 +437,6 @@ User chooses payment → [Process payment] → Execute action → Navigate back
 
 ### Related Documentation
 
-- **Migration Status**: [STATS_HOOK_MIGRATION_STATUS.md](../STATS_HOOK_MIGRATION_STATUS.md)
 - **Hook Implementation**: [src/hooks/usePetActions.ts](../src/hooks/usePetActions.ts)
 - **Action Configuration**: [src/config/actionConfig.ts](../src/config/actionConfig.ts)
 - **Migrated Examples**:

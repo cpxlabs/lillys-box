@@ -695,7 +695,6 @@ Both validations now provide clear user feedback automatically.
 ### Documentation Updates
 
 **Related Documentation:**
-- See `STATS_HOOK_MIGRATION_STATUS.md` for full migration report
 - See `src/hooks/usePetActions.ts` for hook implementation details
 - See `src/config/actionConfig.ts` for action configuration
 
