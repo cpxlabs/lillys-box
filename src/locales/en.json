@@ -240,6 +240,10 @@
     "petRunner": {
       "name": "Pet Runner",
       "description": "Run and dodge obstacles!"
+    },
+    "feedThePet": {
+      "name": "Feed the Pet",
+      "description": "Catch falling food!"
     }
   },
   "muito": {
@@ -283,6 +287,26 @@
       "playAgain": "Play Again",
       "backToMenu": "Back to Menu",
       "opponentDisconnected": "Opponent disconnected"
+    }
+  },
+  "feedThePet": {
+    "home": {
+      "title": "Feed the Pet",
+      "subtitle": "Catch the falling treats!",
+      "instructions": "Drag the bowl to catch food. Avoid bad items! 3 lives.",
+      "bestScore": "Best Score",
+      "play": "Play"
+    },
+    "game": {
+      "score": "Score",
+      "lives": "Lives",
+      "combo": "Combo",
+      "gameOver": "Game Over!",
+      "finalScore": "Final Score",
+      "coinsEarned": "Coins Earned",
+      "newBest": "NEW BEST!",
+      "playAgain": "Play Again",
+      "back": "Back"
     }
   }
 }

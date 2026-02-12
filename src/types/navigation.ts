@@ -60,6 +60,10 @@ export type RootStackParamList = {
   ColorTapHome: undefined;
   /** ColorTap game screen */
   ColorTapGame: undefined;
+  /** Feed the Pet home screen */
+  FeedThePetHome: undefined;
+  /** Feed the Pet game screen */
+  FeedThePetGame: undefined;
 };
 
 /**

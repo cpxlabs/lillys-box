@@ -241,6 +241,10 @@
     "petRunner": {
       "name": "Pet Runner",
       "description": "Corra e desvie dos obstáculos!"
+    },
+    "feedThePet": {
+      "name": "Alimentar o Pet",
+      "description": "Pegue a comida que cai!"
     }
   },
   "muito": {
@@ -284,6 +288,26 @@
       "playAgain": "Jogar Novamente",
       "backToMenu": "Voltar ao Menu",
       "opponentDisconnected": "Oponente desconectou"
+    }
+  },
+  "feedThePet": {
+    "home": {
+      "title": "Alimentar o Pet",
+      "subtitle": "Pegue os petiscos que caem!",
+      "instructions": "Arraste a tigela para pegar comida. Evite itens ruins! 3 vidas.",
+      "bestScore": "Melhor Pontuação",
+      "play": "Jogar"
+    },
+    "game": {
+      "score": "Pontos",
+      "lives": "Vidas",
+      "combo": "Combo",
+      "gameOver": "Fim de Jogo!",
+      "finalScore": "Pontuação Final",
+      "coinsEarned": "Moedas Ganhas",
+      "newBest": "NOVO RECORDE!",
+      "playAgain": "Jogar Novamente",
+      "back": "Voltar"
     }
   }
 }
