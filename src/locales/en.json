@@ -367,6 +367,9 @@
     "dressYourPet": "Dress your pet!",
     "perfect": "Perfect! 🌟",
     "correct": "Correct!",
+    "target": "Target",
+    "yourOutfit": "Your Outfit",
+    "nextRound": "Next Round",
     "gameOver": {
       "title": "Game Over!",
       "totalScore": "Total Score",
@@ -393,6 +396,8 @@
     "backToLevels": "Back to Levels",
     "accuracy": "Accuracy",
     "levelsCompleted": "Levels Completed",
-    "totalStars": "Total Stars"
+    "totalStars": "Total Stars",
+    "dragHere": "Drag colors here",
+    "yourMix": "Your Mix"
   }
 }

@@ -33,7 +33,7 @@ export const DressUpRelayHomeScreen: React.FC<Props> = ({ navigation }) => {
         accessibilityRole="button"
         accessibilityLabel={t('common.back')}
       >
-        <Text style={styles.backText}>{t('common.back')}</Text>
+        <Text style={styles.backText}>← {t('common.back')}</Text>
       </TouchableOpacity>
 
       <View style={styles.content}>

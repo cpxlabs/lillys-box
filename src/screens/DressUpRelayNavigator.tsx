@@ -9,6 +9,7 @@ const Stack = createNativeStackNavigator<RootStackParamList>();
 export const DressUpRelayNavigator: React.FC = () => {
   return (
     <Stack.Navigator
+      initialRouteName="DressUpRelayHome"
       screenOptions={{
         headerShown: false,
         animation: 'slide_from_right',

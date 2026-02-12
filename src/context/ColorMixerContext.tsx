@@ -26,7 +26,7 @@ const ColorMixerContext = createContext<ColorMixerContextType | undefined>(undef
 
 export const ColorMixerProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isGuest } = useAuth();
-  const userId = user?.id || (isGuest ? 'guest' : 'guest');
+  const userId = user?.id || 'guest';
 
   const [progress, setProgress] = useState<ColorMixerProgressData>({ levels: {} });
   const progressRef = useRef<ColorMixerProgressData>({ levels: {} });

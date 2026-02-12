@@ -13,7 +13,7 @@ const SimonSaysContext = createContext<SimonSaysContextType | undefined>(undefin
 
 export const SimonSaysProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isGuest } = useAuth();
-  const userId = user?.id || (isGuest ? 'guest' : 'guest');
+  const userId = user?.id || 'guest';
 
   const [bestScore, setBestScore] = useState<number>(0);
   const bestScoreRef = useRef<number>(0);

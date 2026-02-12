@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import {
   View,
   Text,
@@ -11,7 +11,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useSimonSays } from '../context/SimonSaysContext';
 import { ScreenNavigationProp } from '../types/navigation';
-import { Audio } from 'expo-av';
 import * as Haptics from 'expo-haptics';
 
 type Props = {
@@ -21,10 +20,10 @@ type Props = {
 type ColorId = 0 | 1 | 2 | 3;
 
 const COLORS = [
-  { id: 0, name: 'red', color: '#e74c3c', lightColor: '#ff6b6b', frequency: 440 },
-  { id: 1, name: 'blue', color: '#3498db', lightColor: '#74b9ff', frequency: 494 },
-  { id: 2, name: 'green', color: '#27ae60', lightColor: '#55efc4', frequency: 523 },
-  { id: 3, name: 'yellow', color: '#f1c40f', lightColor: '#ffeaa7', frequency: 587 },
+  { id: 0, name: 'red', color: '#e74c3c', lightColor: '#ff6b6b' },
+  { id: 1, name: 'blue', color: '#3498db', lightColor: '#74b9ff' },
+  { id: 2, name: 'green', color: '#27ae60', lightColor: '#55efc4' },
+  { id: 3, name: 'yellow', color: '#f1c40f', lightColor: '#ffeaa7' },
 ];
 
 type GamePhase = 'ready' | 'showing' | 'playing' | 'correct' | 'wrong' | 'gameOver';
@@ -40,53 +39,21 @@ export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
   const [phase, setPhase] = useState<GamePhase>('ready');
   const [activeButton, setActiveButton] = useState<ColorId | null>(null);
   const [showGameOver, setShowGameOver] = useState(false);
+  const [isNewRecord, setIsNewRecord] = useState(false);
+
+  // Use refs to avoid stale closures in setTimeout callbacks
+  const sequenceRef = useRef<ColorId[]>([]);
+  const currentRoundRef = useRef<number>(0);
+  const bestScoreRef = useRef<number>(bestScore);
 
   const scaleAnims = useRef(COLORS.map(() => new Animated.Value(1))).current;
 
+  // Keep bestScoreRef in sync
   useEffect(() => {
-    startNewRound();
-  }, []);
+    bestScoreRef.current = bestScore;
+  }, [bestScore]);
 
-  const startNewRound = () => {
-    const newColor = Math.floor(Math.random() * 4) as ColorId;
-    const newSequence = [...sequence, newColor];
-    setSequence(newSequence);
-    setPlayerSequence([]);
-    setCurrentRound(currentRound + 1);
-    setPhase('showing');
-
-    setTimeout(() => {
-      playSequence(newSequence);
-    }, 1000);
-  };
-
-  const playSequence = async (seq: ColorId[]) => {
-    const delay = currentRound >= 10 ? 600 : 1000;
-
-    for (let i = 0; i < seq.length; i++) {
-      await new Promise((resolve) => setTimeout(resolve, delay));
-      await activateButton(seq[i], 300);
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, 500));
-    setPhase('playing');
-  };
-
-  const activateButton = async (colorId: ColorId, duration: number) => {
-    setActiveButton(colorId);
-    playTone(COLORS[colorId].frequency);
-    animateButton(colorId);
-    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
-
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        setActiveButton(null);
-        resolve(true);
-      }, duration);
-    });
-  };
-
-  const animateButton = (colorId: ColorId) => {
+  const animateButton = useCallback((colorId: ColorId) => {
     Animated.sequence([
       Animated.spring(scaleAnims[colorId], {
         toValue: 1.05,
@@ -99,30 +66,65 @@ export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
         speed: 50,
       }),
     ]).start();
-  };
+  }, [scaleAnims]);
 
-  const playTone = async (frequency: number) => {
-    // Simple beep sound using expo-av
-    // In a real implementation, you would load actual sound files
-    try {
-      const { sound } = await Audio.Sound.createAsync(
-        { uri: `data:audio/wav;base64,${generateToneBase64(frequency)}` },
-        { shouldPlay: true }
-      );
+  const activateButton = useCallback(async (colorId: ColorId, duration: number) => {
+    setActiveButton(colorId);
+    animateButton(colorId);
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+
+    return new Promise((resolve) => {
       setTimeout(() => {
-        sound.unloadAsync();
-      }, 300);
-    } catch (error) {
-      console.log('Audio error:', error);
+        setActiveButton(null);
+        resolve(true);
+      }, duration);
+    });
+  }, [animateButton]);
+
+  const playSequence = useCallback(async (seq: ColorId[], round: number) => {
+    const delay = round >= 10 ? 600 : 1000;
+
+    for (let i = 0; i < seq.length; i++) {
+      await new Promise((resolve) => setTimeout(resolve, delay));
+      await activateButton(seq[i], 300);
     }
-  };
 
-  const generateToneBase64 = (frequency: number): string => {
-    // Placeholder - in production, use actual audio files
-    return '';
-  };
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    setPhase('playing');
+  }, [activateButton]);
 
-  const handleButtonPress = async (colorId: ColorId) => {
+  const startNewRound = useCallback(() => {
+    const newColor = Math.floor(Math.random() * 4) as ColorId;
+    const newSequence = [...sequenceRef.current, newColor];
+    const newRound = currentRoundRef.current + 1;
+
+    sequenceRef.current = newSequence;
+    currentRoundRef.current = newRound;
+
+    setSequence(newSequence);
+    setPlayerSequence([]);
+    setCurrentRound(newRound);
+    setPhase('showing');
+
+    setTimeout(() => {
+      playSequence(newSequence, newRound);
+    }, 1000);
+  }, [playSequence]);
+
+  const endGame = useCallback(() => {
+    // currentRound is the round where the player failed, so completed = currentRound - 1
+    const roundsCompleted = currentRoundRef.current - 1;
+    const finalScore = Math.max(0, roundsCompleted);
+    const newRecord = finalScore > bestScoreRef.current;
+
+    setScore(finalScore);
+    setIsNewRecord(newRecord);
+    updateBestScore(finalScore);
+    setPhase('gameOver');
+    setShowGameOver(true);
+  }, [updateBestScore]);
+
+  const handleButtonPress = useCallback(async (colorId: ColorId) => {
     if (phase !== 'playing') return;
 
     const newPlayerSequence = [...playerSequence, colorId];
@@ -131,7 +133,7 @@ export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
     await activateButton(colorId, 200);
 
     // Check if the input is correct
-    if (colorId !== sequence[newPlayerSequence.length - 1]) {
+    if (colorId !== sequenceRef.current[newPlayerSequence.length - 1]) {
       // Wrong!
       setPhase('wrong');
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
@@ -142,10 +144,10 @@ export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
     }
 
     // Check if sequence is complete
-    if (newPlayerSequence.length === sequence.length) {
+    if (newPlayerSequence.length === sequenceRef.current.length) {
       // Correct! Move to next round
       setPhase('correct');
-      const newScore = currentRound;
+      const newScore = currentRoundRef.current;
       setScore(newScore);
       await Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 
@@ -153,27 +155,27 @@ export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
         startNewRound();
       }, 1500);
     }
-  };
+  }, [phase, playerSequence, activateButton, endGame, startNewRound]);
 
-  const endGame = () => {
-    const finalScore = currentRound;
-    setScore(finalScore);
-    updateBestScore(finalScore);
-    setPhase('gameOver');
-    setShowGameOver(true);
-  };
+  useEffect(() => {
+    startNewRound();
+  }, []);
 
-  const handlePlayAgain = () => {
+  const handlePlayAgain = useCallback(() => {
+    sequenceRef.current = [];
+    currentRoundRef.current = 0;
+
     setSequence([]);
     setPlayerSequence([]);
     setCurrentRound(0);
     setScore(0);
+    setIsNewRecord(false);
     setPhase('ready');
     setShowGameOver(false);
     setTimeout(() => {
       startNewRound();
     }, 500);
-  };
+  }, [startNewRound]);
 
   const handleBack = () => {
     if (navigation.canGoBack()) {
@@ -262,10 +264,10 @@ export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
               <Text style={styles.scoreLabel}>
                 {t('simonSays.gameOver.roundsCompleted')}
               </Text>
-              <Text style={styles.scoreValue}>{currentRound}</Text>
+              <Text style={styles.scoreValue}>{score}</Text>
             </View>
 
-            {score > bestScore && (
+            {isNewRecord && (
               <Text style={styles.newRecord}>🎉 {t('simonSays.gameOver.newRecord')}</Text>
             )}
 
