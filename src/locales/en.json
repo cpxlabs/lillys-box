@@ -252,6 +252,13 @@
     "colorMixer": {
       "name": "Color Mixer Lab",
       "description": "Mix the perfect color!"
+    "feedThePet": {
+      "name": "Feed the Pet",
+      "description": "Catch falling food!"
+    },
+    "whackAMole": {
+      "name": "Whack-a-Mole",
+      "description": "Bop the garden pests!"
     }
   },
   "muito": {
@@ -295,6 +302,81 @@
       "playAgain": "Play Again",
       "backToMenu": "Back to Menu",
       "opponentDisconnected": "Opponent disconnected"
+    }
+  },
+  "petRunner": {
+    "title": "Pet Runner",
+    "subtitle": "Run and collect coins!",
+    "instructions": "Tap to jump over obstacles. Collect coins and survive as long as you can!",
+    "bestScore": "Best Score",
+    "play": "Play"
+  },
+  "memoryMatch": {
+    "title": "Memory Match",
+    "subtitle": "Find matching pairs!",
+    "instructions": "Tap cards to flip them. Find all matching pairs to win!",
+    "bestScore": "Best Score",
+    "play": "Play",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard"
+    }
+  },
+  "colorTap": {
+    "title": "Color Tap",
+    "subtitle": "Tap the matching colors!",
+    "instructions": "Tap the circle that matches the color name. Be quick!",
+    "bestScore": "Best Score",
+    "play": "Play"
+  },
+  "feedThePet": {
+    "home": {
+      "title": "Feed the Pet",
+      "subtitle": "Catch the falling treats!",
+      "instructions": "Drag the bowl to catch food. Avoid bad items! 3 lives.",
+      "bestScore": "Best Score",
+      "play": "Play"
+    },
+    "game": {
+      "score": "Score",
+      "lives": "Lives",
+      "combo": "Combo",
+      "gameOver": "Game Over!",
+      "finalScore": "Final Score",
+      "coinsEarned": "Coins Earned",
+      "newBest": "NEW BEST!",
+      "playAgain": "Play Again",
+      "back": "Back"
+    }
+  },
+  "whackAMole": {
+    "home": {
+      "title": "Whack-a-Mole",
+      "subtitle": "Bop the pests, avoid the pets!",
+      "instructions": "Tap the pests quickly! Don't tap the friendly animals or you lose points!",
+      "bestScore": "Best Score",
+      "play": "Play"
+    },
+    "game": {
+      "score": "Score",
+      "round": "Round",
+      "time": "Time",
+      "combo": "Combo",
+      "powerUps": {
+        "freeze": "Freeze",
+        "double": "2x Points"
+      },
+      "roundComplete": "Round Complete!",
+      "gameOver": "Game Over!",
+      "finalScore": "Final Score",
+      "pestsBopped": "Pests Bopped",
+      "accuracy": "Accuracy",
+      "coinsEarned": "Coins Earned",
+      "newBest": "NEW BEST!",
+      "playAgain": "Play Again",
+      "nextRound": "Next Round",
+      "back": "Back"
     }
   },
   "memoryMatch": {

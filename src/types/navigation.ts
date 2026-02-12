@@ -74,6 +74,14 @@ export type RootStackParamList = {
   ColorMixerLevels: undefined;
   /** Color Mixer game screen */
   ColorMixerGame: { level: number };
+  /** Feed the Pet home screen */
+  FeedThePetHome: undefined;
+  /** Feed the Pet game screen */
+  FeedThePetGame: undefined;
+  /** Whack-a-Mole home screen */
+  WhackAMoleHome: undefined;
+  /** Whack-a-Mole game screen */
+  WhackAMoleGame: undefined;
 };
 
 /**

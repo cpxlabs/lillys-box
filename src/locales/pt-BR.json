@@ -253,6 +253,13 @@
     "colorMixer": {
       "name": "Laboratório de Cores",
       "description": "Misture a cor perfeita!"
+    "feedThePet": {
+      "name": "Alimentar o Pet",
+      "description": "Pegue a comida que cai!"
+    },
+    "whackAMole": {
+      "name": "Acerte a Toupeira",
+      "description": "Acerte as pragas do jardim!"
     }
   },
   "muito": {
@@ -296,6 +303,81 @@
       "playAgain": "Jogar Novamente",
       "backToMenu": "Voltar ao Menu",
       "opponentDisconnected": "Oponente desconectou"
+    }
+  },
+  "petRunner": {
+    "title": "Pet Runner",
+    "subtitle": "Corra e colete moedas!",
+    "instructions": "Toque para pular sobre obstáculos. Colete moedas e sobreviva o máximo que puder!",
+    "bestScore": "Melhor Pontuação",
+    "play": "Jogar"
+  },
+  "memoryMatch": {
+    "title": "Jogo da Memória",
+    "subtitle": "Encontre pares correspondentes!",
+    "instructions": "Toque nas cartas para virá-las. Encontre todos os pares correspondentes para ganhar!",
+    "bestScore": "Melhor Pontuação",
+    "play": "Jogar",
+    "difficulty": {
+      "easy": "Fácil",
+      "medium": "Médio",
+      "hard": "Difícil"
+    }
+  },
+  "colorTap": {
+    "title": "Color Tap",
+    "subtitle": "Toque nas cores correspondentes!",
+    "instructions": "Toque no círculo que corresponde ao nome da cor. Seja rápido!",
+    "bestScore": "Melhor Pontuação",
+    "play": "Jogar"
+  },
+  "feedThePet": {
+    "home": {
+      "title": "Alimentar o Pet",
+      "subtitle": "Pegue os petiscos que caem!",
+      "instructions": "Arraste a tigela para pegar comida. Evite itens ruins! 3 vidas.",
+      "bestScore": "Melhor Pontuação",
+      "play": "Jogar"
+    },
+    "game": {
+      "score": "Pontos",
+      "lives": "Vidas",
+      "combo": "Combo",
+      "gameOver": "Fim de Jogo!",
+      "finalScore": "Pontuação Final",
+      "coinsEarned": "Moedas Ganhas",
+      "newBest": "NOVO RECORDE!",
+      "playAgain": "Jogar Novamente",
+      "back": "Voltar"
+    }
+  },
+  "whackAMole": {
+    "home": {
+      "title": "Acerte a Toupeira",
+      "subtitle": "Acerte as pragas, evite os pets!",
+      "instructions": "Toque nas pragas rapidamente! Não toque nos animais amigáveis ou você perde pontos!",
+      "bestScore": "Melhor Pontuação",
+      "play": "Jogar"
+    },
+    "game": {
+      "score": "Pontos",
+      "round": "Rodada",
+      "time": "Tempo",
+      "combo": "Combo",
+      "powerUps": {
+        "freeze": "Congelar",
+        "double": "2x Pontos"
+      },
+      "roundComplete": "Rodada Completa!",
+      "gameOver": "Fim de Jogo!",
+      "finalScore": "Pontuação Final",
+      "pestsBopped": "Pragas Acertadas",
+      "accuracy": "Precisão",
+      "coinsEarned": "Moedas Ganhas",
+      "newBest": "NOVO RECORDE!",
+      "playAgain": "Jogar Novamente",
+      "nextRound": "Próxima Rodada",
+      "back": "Voltar"
     }
   },
   "memoryMatch": {
