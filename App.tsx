@@ -35,6 +35,10 @@ import { FeedThePetProvider } from './src/context/FeedThePetContext';
 import { FeedThePetNavigator } from './src/screens/FeedThePetNavigator';
 import { WhackAMoleProvider } from './src/context/WhackAMoleContext';
 import { WhackAMoleNavigator } from './src/screens/WhackAMoleNavigator';
+import { CatchTheBallProvider } from './src/context/CatchTheBallContext';
+import { CatchTheBallNavigator } from './src/screens/CatchTheBallNavigator';
+import { SlidingPuzzleProvider } from './src/context/SlidingPuzzleContext';
+import { SlidingPuzzleNavigator } from './src/screens/SlidingPuzzleNavigator';
 
 // Register the pet-care game
 gameRegistry.register({
@@ -153,6 +157,30 @@ gameRegistry.register({
   category: 'casual',
   navigator: WhackAMoleNavigator,
   providers: [WhackAMoleProvider],
+  isEnabled: true,
+});
+
+// Register the catch the ball game
+gameRegistry.register({
+  id: 'catch-the-ball',
+  nameKey: 'selectGame.catchTheBall.name',
+  descriptionKey: 'selectGame.catchTheBall.description',
+  emoji: '🎾',
+  category: 'casual',
+  navigator: CatchTheBallNavigator,
+  providers: [CatchTheBallProvider],
+  isEnabled: true,
+});
+
+// Register the sliding puzzle game
+gameRegistry.register({
+  id: 'sliding-puzzle',
+  nameKey: 'selectGame.slidingPuzzle.name',
+  descriptionKey: 'selectGame.slidingPuzzle.description',
+  emoji: '🧩',
+  category: 'puzzle',
+  navigator: SlidingPuzzleNavigator,
+  providers: [SlidingPuzzleProvider],
   isEnabled: true,
 });
 

@@ -82,6 +82,14 @@ export type RootStackParamList = {
   WhackAMoleHome: undefined;
   /** Whack-a-Mole game screen */
   WhackAMoleGame: undefined;
+  /** Catch the Ball home screen */
+  CatchTheBallHome: undefined;
+  /** Catch the Ball game screen */
+  CatchTheBallGame: undefined;
+  /** Sliding Puzzle home screen */
+  SlidingPuzzleHome: undefined;
+  /** Sliding Puzzle game screen */
+  SlidingPuzzleGame: { difficulty: 'easy' | 'hard' };
 };
 
 /**
