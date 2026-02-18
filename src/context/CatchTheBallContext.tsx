@@ -12,8 +12,8 @@ interface CatchTheBallContextType {
 const CatchTheBallContext = createContext<CatchTheBallContextType | undefined>(undefined);
 
 export const CatchTheBallProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user, isGuest } = useAuth();
-  const userId = user?.id || (isGuest ? 'guest' : 'guest');
+  const { user } = useAuth();
+  const userId = user?.id || 'guest';
   const storageKey = `${STORAGE_KEY_BASE}:${userId}`;
 
   const [bestScore, setBestScore] = useState(0);
