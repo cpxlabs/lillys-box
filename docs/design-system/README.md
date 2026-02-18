@@ -33,6 +33,10 @@
 - **[17 - Simon Says Game](./17-simon-says-game.md)** - Pattern memory with colored buttons (red theme)
 - **[18 - Dress-Up Relay Game](./18-dress-up-relay-game.md)** - Timed outfit matching (pink theme)
 - **[19 - Color Mixer Lab Game](./19-color-mixer-game.md)** - Educational color mixing (gradient theme)
+- **[20 - Feed the Pet Game](./20-feed-the-pet-game.md)** - Catching game with falling food (amber theme)
+- **[21 - Whack-a-Mole Game](./21-whack-a-mole-game.md)** - Tap reaction game with 3x3 grid (green theme)
+- **[22 - Catch the Ball Game](./22-catch-the-ball-game.md)** - Lane-based catching game (sky blue theme)
+- **[23 - Sliding Puzzle Game](./23-sliding-puzzle-game.md)** - Classic sliding tile puzzle (purple theme)
 
 ### Components
 - **[16 - Shared Components](./16-shared-components.md)** - StatusCard, IconButton, ScreenHeader, ConfirmModal, etc.
@@ -55,21 +59,43 @@ LoginScreen
        │    │         ├─ VetScene
        │    │         └─ WardrobeScene
        │    └─ (back to GameSelection)
-       ├─ Muito Game
+       ├─ Muito Game (🔢 casual)
        │    ├─ MuitoHomeScreen
        │    ├─ MuitoGameScreen
        │    ├─ MuitoLobbyScreen
        │    ├─ MuitoMultiGameScreen
        │    └─ MuitoResultsScreen
-       ├─ Color Tap Game
+       ├─ Color Tap Game (🎨 casual)
        │    ├─ ColorTapHomeScreen
        │    └─ ColorTapGameScreen (HTML)
-       ├─ Memory Match Game
+       ├─ Memory Match Game (🧠 puzzle)
        │    ├─ MemoryMatchHomeScreen
        │    └─ MemoryMatchGameScreen
-       └─ Pet Runner Game
-            ├─ PetRunnerHomeScreen
-            └─ PetRunnerGameScreen
+       ├─ Pet Runner Game (🏃 adventure)
+       │    ├─ PetRunnerHomeScreen
+       │    └─ PetRunnerGameScreen
+       ├─ Simon Says Game (🎮 puzzle)
+       │    ├─ SimonSaysHomeScreen
+       │    └─ SimonSaysGameScreen
+       ├─ Dress-Up Relay Game (👗 casual)
+       │    ├─ DressUpRelayHomeScreen
+       │    └─ DressUpRelayGameScreen
+       ├─ Color Mixer Lab Game (🎨 puzzle)
+       │    ├─ ColorMixerHomeScreen
+       │    ├─ ColorMixerLevelScreen
+       │    └─ ColorMixerGameScreen
+       ├─ Feed the Pet Game (🍽️ casual)
+       │    ├─ FeedThePetHomeScreen
+       │    └─ FeedThePetGameScreen
+       ├─ Whack-a-Mole Game (🔨 casual)
+       │    ├─ WhackAMoleHomeScreen
+       │    └─ WhackAMoleGameScreen
+       ├─ Catch the Ball Game (🎾 casual)
+       │    ├─ CatchTheBallHomeScreen
+       │    └─ CatchTheBallGameScreen
+       └─ Sliding Puzzle Game (🧩 puzzle)
+            ├─ SlidingPuzzleHomeScreen
+            └─ SlidingPuzzleGameScreen
 ```
 
 ---
@@ -102,6 +128,13 @@ Each screen has a unique background color for visual differentiation:
 - Wardrobe: Pink (`#fce4ec`)
 - Menu: Cream (`#fdf6ec`)
 - Runner: Sky blue (`#87CEEB`)
+- Simon Says: Red (`#e74c3c`) on purple (`#f5f0ff`)
+- Dress-Up Relay: Pink (`#fce4ec`)
+- Color Mixer Lab: Gradient (`#fef3c7` → `#dbeafe`)
+- Feed the Pet: Amber (`#fff8e1`)
+- Whack-a-Mole: Green (`#e8f5e8`)
+- Catch the Ball: Sky blue (`#e1f5fe`)
+- Sliding Puzzle: Lavender (`#f3e5f5`)
 
 ### Responsive Design
 All screens use the `useResponsive()` hook providing:
