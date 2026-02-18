@@ -93,21 +93,28 @@ Reintegrate Skia 2.4.14 into the bath screen for high-performance bubble particl
 
 ## 🎮 Feature Enhancements
 
-### 🟡 Mini-Games and Activities
+### ✅ Mini-Games and Activities
 **Priority:** Medium
+**Status:** COMPLETED (Feb 2026)
 
-- [ ] Add "Play" scene with interactive mini-games:
-  - Catch the ball game
-  - Find the toy (memory game)
-  - Simple puzzle games
-- [ ] Each mini-game rewards coins and increases happiness
-- [ ] Difficulty scales with pet age
-- [ ] Daily mini-game challenges
-
-**Files to create:**
-- `/src/screens/PlayScene.tsx`
-- `/src/components/MiniGame/`
-- `/src/data/minigames.ts`
+- [x] 11 mini-games implemented and registered in GameRegistry:
+  - **Muito** (🔢 casual) - Counting game with multiplayer support
+  - **Color Tap** (🎨 casual) - Color matching with HTML gameplay
+  - **Memory Match** (🧠 puzzle) - Card flipping with difficulty levels
+  - **Pet Runner** (🏃 adventure) - Side-scrolling runner
+  - **Simon Says** (🎮 puzzle) - Pattern memory with colored buttons
+  - **Dress-Up Relay** (👗 casual) - Timed outfit matching
+  - **Color Mixer Lab** (🎨 puzzle) - Educational color mixing with 20 levels
+  - **Feed the Pet** (🍽️ casual) - Catching game with falling food
+  - **Whack-a-Mole** (🔨 casual) - Tap reaction game with power-ups
+  - **Catch the Ball** (🎾 casual) - Lane-based catching game
+  - **Sliding Puzzle** (🧩 puzzle) - Classic tile puzzle with 2 difficulty levels
+- [x] Each mini-game has Home + Game screens with consistent design patterns
+- [x] Best score/progress tracking with AsyncStorage (per-user)
+- [x] i18n support (English + Portuguese)
+- [x] Haptic feedback integration
+- [ ] Difficulty scales with pet age (Future)
+- [ ] Daily mini-game challenges (Future)
 
 ---
 
@@ -474,7 +481,7 @@ src/
 ### Milestone 2: Feature Complete (v1.5)
 **Target:** 4-6 weeks
 - [ ] All core features polished
-- [ ] Mini-games implemented
+- [x] Mini-games implemented (11 games across 4 categories)
 - [ ] Shop system
 - [ ] Enhanced pet needs
 
@@ -517,11 +524,11 @@ src/
 
 ---
 
-**Last Updated:** 2026-01-22
+**Last Updated:** 2026-02-18
 **Current Version:** 1.0.0 (with OAuth in branch)
-**Status:** ✅ Core features complete, testing infrastructure in place, OAuth authentication implemented
-**Features Completed:** 80% (core game + OAuth)
-**Next Version Target:** 1.1.0 (Sounds, Performance, & Skia Bath - 80% core complete)
+**Status:** ✅ Core features complete, testing infrastructure in place, OAuth authentication implemented, 11 mini-games implemented
+**Features Completed:** 90% (core game + OAuth + mini-games)
+**Next Version Target:** 1.1.0 (Sounds, Performance, & Skia Bath)
 
 ---
 
