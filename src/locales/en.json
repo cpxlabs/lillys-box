@@ -260,6 +260,14 @@
     "whackAMole": {
       "name": "Whack-a-Mole",
       "description": "Bop the garden pests!"
+    },
+    "catchTheBall": {
+      "name": "Catch the Ball",
+      "description": "Catch falling toys!"
+    },
+    "slidingPuzzle": {
+      "name": "Sliding Puzzle",
+      "description": "Slide the tiles into order!"
     }
   },
   "muito": {
@@ -307,21 +315,40 @@
   },
   "petRunner": {
     "title": "Pet Runner",
-    "subtitle": "Run and collect coins!",
-    "instructions": "Tap to jump over obstacles. Collect coins and survive as long as you can!",
+    "subtitle": "Run, jump, collect!",
+    "instructions": "Tap to jump over obstacles and collect coins. How far can you go?",
+    "play": "Play! 🎮",
     "bestScore": "Best Score",
-    "play": "Play"
+    "tapToStart": "Tap to Start",
+    "gameOver": {
+      "title": "Game Over",
+      "distance": "Distance",
+      "coins": "Coins",
+      "score": "Score",
+      "newBest": "⭐ New Best!",
+      "playAgain": "Play Again"
+    }
   },
   "memoryMatch": {
     "title": "Memory Match",
     "subtitle": "Find matching pairs!",
-    "instructions": "Tap cards to flip them. Find all matching pairs to win!",
+    "instructions": "Tap cards to flip them and find matching pairs. Complete the board with fewer moves for a higher score!",
+    "play": "Play! 🎮",
     "bestScore": "Best Score",
-    "play": "Play",
+    "moves": "Moves",
+    "matched": "matched",
+    "cardFaceDown": "Card face down",
     "difficulty": {
       "easy": "Easy",
       "medium": "Medium",
       "hard": "Hard"
+    },
+    "gameOver": {
+      "title": "Congratulations! 🎉",
+      "moves": "Moves",
+      "time": "Time",
+      "score": "Score",
+      "playAgain": "Play Again"
     }
   },
   "colorTap": {
@@ -378,44 +405,6 @@
       "playAgain": "Play Again",
       "nextRound": "Next Round",
       "back": "Back"
-    }
-  },
-  "memoryMatch": {
-    "title": "Memory Match",
-    "subtitle": "Find matching pairs!",
-    "instructions": "Tap cards to flip them and find matching pairs. Complete the board with fewer moves for a higher score!",
-    "play": "Play! 🎮",
-    "bestScore": "Best Score",
-    "moves": "Moves",
-    "matched": "matched",
-    "cardFaceDown": "Card face down",
-    "difficulty": {
-      "easy": "Easy",
-      "medium": "Medium",
-      "hard": "Hard"
-    },
-    "gameOver": {
-      "title": "Congratulations! 🎉",
-      "moves": "Moves",
-      "time": "Time",
-      "score": "Score",
-      "playAgain": "Play Again"
-    }
-  },
-  "petRunner": {
-    "title": "Pet Runner",
-    "subtitle": "Run, jump, collect!",
-    "instructions": "Tap to jump over obstacles and collect coins. How far can you go?",
-    "play": "Play! 🎮",
-    "bestScore": "Best Score",
-    "tapToStart": "Tap to Start",
-    "gameOver": {
-      "title": "Game Over",
-      "distance": "Distance",
-      "coins": "Coins",
-      "score": "Score",
-      "newBest": "⭐ New Best!",
-      "playAgain": "Play Again"
     }
   },
   "simonSays": {
@@ -482,5 +471,54 @@
     "totalStars": "Total Stars",
     "dragHere": "Drag colors here",
     "yourMix": "Your Mix"
+  },
+  "catchTheBall": {
+    "home": {
+      "title": "Catch the Ball",
+      "subtitle": "Catch the toys, dodge the bombs!",
+      "instructions": "Tap a lane number to move the basket. Catch toys to score, avoid bombs!",
+      "bestScore": "Best Score",
+      "play": "Play"
+    },
+    "game": {
+      "back": "Back",
+      "score": "Score",
+      "ready": "Get ready to catch!",
+      "tapToStart": "Tap to Start",
+      "lane": "Lane",
+      "gameOver": "Time Up!",
+      "finalScore": "Final Score",
+      "caught": "Caught",
+      "missed": "Missed",
+      "coinsEarned": "Coins Earned",
+      "newBest": "NEW BEST!",
+      "playAgain": "Play Again"
+    }
+  },
+  "slidingPuzzle": {
+    "home": {
+      "title": "Sliding Puzzle",
+      "subtitle": "Arrange the pet tiles in order!",
+      "chooseDifficulty": "Choose Difficulty",
+      "easy": "Easy",
+      "easyDesc": "3×3 grid • 8 tiles",
+      "hard": "Hard",
+      "hardDesc": "4×4 grid • 15 tiles",
+      "best": "Best",
+      "moves": "moves",
+      "instructions": "Tap tiles next to the empty space to slide them. Arrange all tiles in order to win!"
+    },
+    "game": {
+      "back": "Back",
+      "moves": "Moves",
+      "easy": "Easy",
+      "hard": "Hard",
+      "tile": "Tile",
+      "newGame": "New Game",
+      "youWon": "Puzzle Solved!",
+      "coinsEarned": "Coins Earned",
+      "newBest": "NEW BEST!",
+      "playAgain": "Play Again"
+    }
   }
 }

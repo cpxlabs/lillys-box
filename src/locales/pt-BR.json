@@ -23,7 +23,6 @@
     "createPetHint": "Começar um novo jogo com um novo pet",
     "deletePet": "Excluir Pet",
     "deletePetHint": "Remover permanentemente seu pet atual",
-
     "createPetModal": {
       "title": "Criar Novo Pet",
       "message": "Tem certeza? Seu pet \"{{name}}\" será removido permanentemente.",
@@ -261,6 +260,14 @@
     "whackAMole": {
       "name": "Acerte a Toupeira",
       "description": "Acerte as pragas do jardim!"
+    },
+    "catchTheBall": {
+      "name": "Pega a Bolinha",
+      "description": "Pegue os brinquedos caindo!"
+    },
+    "slidingPuzzle": {
+      "name": "Quebra-Cabeça Deslizante",
+      "description": "Deslize as peças em ordem!"
     }
   },
   "muito": {
@@ -307,22 +314,41 @@
     }
   },
   "petRunner": {
-    "title": "Pet Runner",
-    "subtitle": "Corra e colete moedas!",
-    "instructions": "Toque para pular sobre obstáculos. Colete moedas e sobreviva o máximo que puder!",
+    "title": "Pet Corredor",
+    "subtitle": "Corra, pule, colete!",
+    "instructions": "Toque para pular os obstáculos e coletar moedas. Até onde você consegue ir?",
+    "play": "Jogar! 🎮",
     "bestScore": "Melhor Pontuação",
-    "play": "Jogar"
+    "tapToStart": "Toque para Começar",
+    "gameOver": {
+      "title": "Fim de Jogo",
+      "distance": "Distância",
+      "coins": "Moedas",
+      "score": "Pontuação",
+      "newBest": "⭐ Novo Recorde!",
+      "playAgain": "Jogar Novamente"
+    }
   },
   "memoryMatch": {
     "title": "Jogo da Memória",
-    "subtitle": "Encontre pares correspondentes!",
-    "instructions": "Toque nas cartas para virá-las. Encontre todos os pares correspondentes para ganhar!",
+    "subtitle": "Encontre os pares!",
+    "instructions": "Toque nas cartas para virá-las e encontre os pares. Complete o tabuleiro com menos movimentos para uma pontuação maior!",
+    "play": "Jogar! 🎮",
     "bestScore": "Melhor Pontuação",
-    "play": "Jogar",
+    "moves": "Movimentos",
+    "matched": "combinado",
+    "cardFaceDown": "Carta virada para baixo",
     "difficulty": {
       "easy": "Fácil",
       "medium": "Médio",
       "hard": "Difícil"
+    },
+    "gameOver": {
+      "title": "Parabéns! 🎉",
+      "moves": "Movimentos",
+      "time": "Tempo",
+      "score": "Pontuação",
+      "playAgain": "Jogar Novamente"
     }
   },
   "colorTap": {
@@ -379,44 +405,6 @@
       "playAgain": "Jogar Novamente",
       "nextRound": "Próxima Rodada",
       "back": "Voltar"
-    }
-  },
-  "memoryMatch": {
-    "title": "Jogo da Memória",
-    "subtitle": "Encontre os pares!",
-    "instructions": "Toque nas cartas para virá-las e encontre os pares. Complete o tabuleiro com menos movimentos para uma pontuação maior!",
-    "play": "Jogar! 🎮",
-    "bestScore": "Melhor Pontuação",
-    "moves": "Movimentos",
-    "matched": "combinado",
-    "cardFaceDown": "Carta virada para baixo",
-    "difficulty": {
-      "easy": "Fácil",
-      "medium": "Médio",
-      "hard": "Difícil"
-    },
-    "gameOver": {
-      "title": "Parabéns! 🎉",
-      "moves": "Movimentos",
-      "time": "Tempo",
-      "score": "Pontuação",
-      "playAgain": "Jogar Novamente"
-    }
-  },
-  "petRunner": {
-    "title": "Pet Corredor",
-    "subtitle": "Corra, pule, colete!",
-    "instructions": "Toque para pular os obstáculos e coletar moedas. Até onde você consegue ir?",
-    "play": "Jogar! 🎮",
-    "bestScore": "Melhor Pontuação",
-    "tapToStart": "Toque para Começar",
-    "gameOver": {
-      "title": "Fim de Jogo",
-      "distance": "Distância",
-      "coins": "Moedas",
-      "score": "Pontuação",
-      "newBest": "⭐ Novo Recorde!",
-      "playAgain": "Jogar Novamente"
     }
   },
   "simonSays": {
@@ -483,5 +471,54 @@
     "totalStars": "Estrelas Totais",
     "dragHere": "Arraste as cores aqui",
     "yourMix": "Sua Mistura"
+  },
+  "catchTheBall": {
+    "home": {
+      "title": "Pega a Bolinha",
+      "subtitle": "Pegue os brinquedos, desvie das bombas!",
+      "instructions": "Toque no número da pista para mover a cesta. Pegue brinquedos para pontuar, evite bombas!",
+      "bestScore": "Melhor Pontuação",
+      "play": "Jogar"
+    },
+    "game": {
+      "back": "Voltar",
+      "score": "Pontos",
+      "ready": "Prepare-se para pegar!",
+      "tapToStart": "Toque para Começar",
+      "lane": "Pista",
+      "gameOver": "Tempo Esgotado!",
+      "finalScore": "Pontuação Final",
+      "caught": "Pegou",
+      "missed": "Perdeu",
+      "coinsEarned": "Moedas Ganhas",
+      "newBest": "NOVO RECORDE!",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "slidingPuzzle": {
+    "home": {
+      "title": "Quebra-Cabeça",
+      "subtitle": "Organize as peças dos pets em ordem!",
+      "chooseDifficulty": "Escolha a Dificuldade",
+      "easy": "Fácil",
+      "easyDesc": "Grade 3×3 • 8 peças",
+      "hard": "Difícil",
+      "hardDesc": "Grade 4×4 • 15 peças",
+      "best": "Melhor",
+      "moves": "movimentos",
+      "instructions": "Toque nas peças ao lado do espaço vazio para deslizá-las. Organize todas as peças em ordem para vencer!"
+    },
+    "game": {
+      "back": "Voltar",
+      "moves": "Movimentos",
+      "easy": "Fácil",
+      "hard": "Difícil",
+      "tile": "Peça",
+      "newGame": "Novo Jogo",
+      "youWon": "Quebra-Cabeça Resolvido!",
+      "coinsEarned": "Moedas Ganhas",
+      "newBest": "NOVO RECORDE!",
+      "playAgain": "Jogar Novamente"
+    }
   }
 }
