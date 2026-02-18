@@ -61,13 +61,11 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           logger.info('Web platform detected - using fallback auth mode (no OAuth)');
         }
 
-        // Restore auth state from AsyncStorage
+        // Restore auth state from AsyncStorage (guest mode is not persisted)
         const savedAuthState = await AsyncStorage.getItem(AUTH_STORAGE_KEY);
         if (savedAuthState) {
-          const { user: savedUser, isGuest: savedIsGuest } = JSON.parse(savedAuthState);
-          if (savedIsGuest) {
-            setIsGuest(true);
-          } else if (savedUser) {
+          const { user: savedUser } = JSON.parse(savedAuthState);
+          if (savedUser) {
             setUser(savedUser);
           }
         }
@@ -216,11 +214,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       setUser(null);
       setIsGuest(true);
 
-      // Save guest mode state
-      await AsyncStorage.setItem(
-        AUTH_STORAGE_KEY,
-        JSON.stringify({ user: null, isGuest: true })
-      );
+      // Guest mode is intentionally not persisted — guests see the login screen on next launch
     } catch (err) {
       logger.error('Guest mode error:', err);
       setError('Failed to enable guest mode');
