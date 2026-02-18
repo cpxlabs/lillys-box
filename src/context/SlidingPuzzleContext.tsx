@@ -17,8 +17,8 @@ interface SlidingPuzzleContextType {
 const SlidingPuzzleContext = createContext<SlidingPuzzleContextType | undefined>(undefined);
 
 export const SlidingPuzzleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { user, isGuest } = useAuth();
-  const userId = user?.id || (isGuest ? 'guest' : 'guest');
+  const { user } = useAuth();
+  const userId = user?.id || 'guest';
   const storageKey = `${STORAGE_KEY_BASE}:${userId}`;
 
   const [bestMoves, setBestMoves] = useState<BestMoves>({ easy: null, hard: null });
