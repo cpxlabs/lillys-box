@@ -214,23 +214,23 @@
 
 Mark with `[x]` the games you want to implement:
 
-- [ ] 1. Bubble Pop Party
-- [ ] 2. Pet Dance Party
-- [ ] 3. Treasure Dig
-- [ ] 4. Balloon Float
-- [ ] 5. Paint Splash
-- [ ] 6. Snack Stack
-- [ ] 7. Lightning Tap
-- [ ] 8. Path Finder
-- [ ] 9. Shape Sorter
-- [ ] 10. Mirror Match
-- [ ] 11. Word Bubbles
-- [ ] 12. Jigsaw Pets
-- [ ] 13. Connect the Dots
-- [ ] 14. Pet Explorer
-- [ ] 15. Weather Wizard
-- [ ] 16. Pet Taxi
-- [ ] 17. Pet Chef
-- [ ] 18. Music Maker
-- [ ] 19. Garden Grow
-- [ ] 20. Photo Studio
+- [x] 1. Bubble Pop Party ✅ Implemented 2026-02-18
+- [x] 2. Pet Dance Party ✅ Implemented 2026-02-18
+- [x] 3. Treasure Dig ✅ Implemented 2026-02-18
+- [x] 4. Balloon Float ✅ Implemented 2026-02-18
+- [x] 5. Paint Splash ✅ Implemented 2026-02-18
+- [x] 6. Snack Stack ✅ Implemented 2026-02-18
+- [x] 7. Lightning Tap ✅ Implemented 2026-02-18
+- [x] 8. Path Finder ✅ Implemented 2026-02-18
+- [x] 9. Shape Sorter ✅ Implemented 2026-02-18
+- [x] 10. Mirror Match ✅ Implemented 2026-02-18
+- [x] 11. Word Bubbles ✅ Implemented 2026-02-18
+- [x] 12. Jigsaw Pets ✅ Implemented 2026-02-18
+- [x] 13. Connect the Dots ✅ Implemented 2026-02-18
+- [x] 14. Pet Explorer ✅ Implemented 2026-02-18
+- [x] 15. Weather Wizard ✅ Implemented 2026-02-18
+- [x] 16. Pet Taxi ✅ Implemented 2026-02-18
+- [x] 17. Pet Chef ✅ Implemented 2026-02-18
+- [x] 18. Music Maker ✅ Implemented 2026-02-18
+- [x] 19. Garden Grow ✅ Implemented 2026-02-18
+- [x] 20. Photo Studio ✅ Implemented 2026-02-18
