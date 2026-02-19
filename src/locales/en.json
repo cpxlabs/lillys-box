@@ -221,40 +221,6 @@
   "selectGame": {
     "title": "Choose Your Game",
     "subtitle": "Pick a game to play",
-<<<<<<< claude/implement-brainstorm-games-RyxPs
-    "petCare": { "name": "Pet Care", "description": "Take care of your virtual pet!" },
-    "muito": { "name": "Muito", "description": "Count the objects!" },
-    "colorTap": { "name": "Color Tap", "description": "Tap the right colors!" },
-    "memoryMatch": { "name": "Memory Match", "description": "Match the pairs!" },
-    "petRunner": { "name": "Pet Runner", "description": "Run and dodge obstacles!" },
-    "simonSays": { "name": "Simon Says", "description": "Remember the pattern!" },
-    "dressUpRelay": { "name": "Dress-Up Relay", "description": "Match the outfit!" },
-    "colorMixer": { "name": "Color Mixer Lab", "description": "Mix the perfect color!" },
-    "feedThePet": { "name": "Feed the Pet", "description": "Catch falling food!" },
-    "whackAMole": { "name": "Whack-a-Mole", "description": "Bop the garden pests!" },
-    "catchTheBall": { "name": "Catch the Ball", "description": "Catch falling toys!" },
-    "slidingPuzzle": { "name": "Sliding Puzzle", "description": "Slide the tiles into order!" },
-    "bubblePop": { "name": "Bubble Pop Party", "description": "Pop all the bubbles!" },
-    "petDanceParty": { "name": "Pet Dance Party", "description": "Dance to the beat!" },
-    "treasureDig": { "name": "Treasure Dig", "description": "Find hidden treasures!" },
-    "balloonFloat": { "name": "Balloon Float", "description": "Float high and dodge obstacles!" },
-    "paintSplash": { "name": "Paint Splash", "description": "Paint the colorful canvas!" },
-    "snackStack": { "name": "Snack Stack", "description": "Stack snacks as high as you can!" },
-    "lightningTap": { "name": "Lightning Tap", "description": "Tap the glowing tiles fast!" },
-    "pathFinder": { "name": "Path Finder", "description": "Draw the shortest path!" },
-    "shapeSorter": { "name": "Shape Sorter", "description": "Sort shapes into holes!" },
-    "mirrorMatch": { "name": "Mirror Match", "description": "Create the mirror image!" },
-    "wordBubbles": { "name": "Word Bubbles", "description": "Spell words with bubbles!" },
-    "jigsawPets": { "name": "Jigsaw Pets", "description": "Put the pet puzzle together!" },
-    "connectDots": { "name": "Connect the Dots", "description": "Reveal the hidden picture!" },
-    "petExplorer": { "name": "Pet Explorer", "description": "Explore exciting worlds!" },
-    "weatherWizard": { "name": "Weather Wizard", "description": "Control the weather!" },
-    "petTaxi": { "name": "Pet Taxi", "description": "Drive animal passengers!" },
-    "petChef": { "name": "Pet Chef", "description": "Cook delicious meals!" },
-    "musicMaker": { "name": "Music Maker", "description": "Create your own beats!" },
-    "gardenGrow": { "name": "Garden Grow", "description": "Grow a beautiful garden!" },
-    "photoStudio": { "name": "Photo Studio", "description": "Take fun pet photos!" }
-=======
     "allGames": "All",
     "sortBy": "Sort:",
     "addFavorite": "Add to favorites",
@@ -318,8 +284,87 @@
     "slidingPuzzle": {
       "name": "Sliding Puzzle",
       "description": "Slide the tiles into order!"
+    },
+    "bubblePop": {
+      "name": "Bubble Pop Party",
+      "description": "Pop all the bubbles!"
+    },
+    "petDanceParty": {
+      "name": "Pet Dance Party",
+      "description": "Dance to the beat!"
+    },
+    "treasureDig": {
+      "name": "Treasure Dig",
+      "description": "Find hidden treasures!"
+    },
+    "balloonFloat": {
+      "name": "Balloon Float",
+      "description": "Float high and dodge obstacles!"
+    },
+    "paintSplash": {
+      "name": "Paint Splash",
+      "description": "Paint the colorful canvas!"
+    },
+    "snackStack": {
+      "name": "Snack Stack",
+      "description": "Stack snacks as high as you can!"
+    },
+    "lightningTap": {
+      "name": "Lightning Tap",
+      "description": "Tap the glowing tiles fast!"
+    },
+    "pathFinder": {
+      "name": "Path Finder",
+      "description": "Draw the shortest path!"
+    },
+    "shapeSorter": {
+      "name": "Shape Sorter",
+      "description": "Sort shapes into holes!"
+    },
+    "mirrorMatch": {
+      "name": "Mirror Match",
+      "description": "Create the mirror image!"
+    },
+    "wordBubbles": {
+      "name": "Word Bubbles",
+      "description": "Spell words with bubbles!"
+    },
+    "jigsawPets": {
+      "name": "Jigsaw Pets",
+      "description": "Put the pet puzzle together!"
+    },
+    "connectDots": {
+      "name": "Connect the Dots",
+      "description": "Reveal the hidden picture!"
+    },
+    "petExplorer": {
+      "name": "Pet Explorer",
+      "description": "Explore exciting worlds!"
+    },
+    "weatherWizard": {
+      "name": "Weather Wizard",
+      "description": "Control the weather!"
+    },
+    "petTaxi": {
+      "name": "Pet Taxi",
+      "description": "Drive animal passengers!"
+    },
+    "petChef": {
+      "name": "Pet Chef",
+      "description": "Cook delicious meals!"
+    },
+    "musicMaker": {
+      "name": "Music Maker",
+      "description": "Create your own beats!"
+    },
+    "gardenGrow": {
+      "name": "Garden Grow",
+      "description": "Grow a beautiful garden!"
+    },
+    "photoStudio": {
+      "name": "Photo Studio",
+      "description": "Take fun pet photos!"
     }
->>>>>>> master
   },
   "muito": {
     "title": "Muito",
