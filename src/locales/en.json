@@ -221,6 +221,22 @@
   "selectGame": {
     "title": "Choose Your Game",
     "subtitle": "Pick a game to play",
+    "allGames": "All",
+    "sortBy": "Sort:",
+    "addFavorite": "Add to favorites",
+    "removeFavorite": "Remove from favorites",
+    "categories": {
+      "pet": "Pet",
+      "puzzle": "Puzzle",
+      "adventure": "Adventure",
+      "casual": "Casual"
+    },
+    "sort": {
+      "default": "Default",
+      "name": "Name",
+      "category": "Category",
+      "favorites": "Favorites"
+    },
     "petCare": {
       "name": "Pet Care",
       "description": "Take care of your virtual pet!"
