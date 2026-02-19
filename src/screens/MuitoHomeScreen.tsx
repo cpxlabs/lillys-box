@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useMuito } from '../context/MuitoContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'MuitoHome'>;
@@ -13,6 +14,8 @@ export const MuitoHomeScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { bestScore, resetScore } = useMuito();
 
+  const handleBack = useGameBack(navigation);
+
   const handlePlay = () => {
     resetScore();
     navigation.navigate('MuitoGame');
@@ -20,14 +23,6 @@ export const MuitoHomeScreen: React.FC<Props> = ({ navigation }) => {
 
   const handleMultiplayer = () => {
     navigation.navigate('MuitoLobby');
-  };
-
-  const handleBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    } else {
-      navigation.getParent()?.goBack();
-    }
   };
 
   return (

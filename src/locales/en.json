@@ -221,6 +221,7 @@
   "selectGame": {
     "title": "Choose Your Game",
     "subtitle": "Pick a game to play",
+<<<<<<< claude/implement-brainstorm-games-RyxPs
     "petCare": { "name": "Pet Care", "description": "Take care of your virtual pet!" },
     "muito": { "name": "Muito", "description": "Count the objects!" },
     "colorTap": { "name": "Color Tap", "description": "Tap the right colors!" },
@@ -253,6 +254,72 @@
     "musicMaker": { "name": "Music Maker", "description": "Create your own beats!" },
     "gardenGrow": { "name": "Garden Grow", "description": "Grow a beautiful garden!" },
     "photoStudio": { "name": "Photo Studio", "description": "Take fun pet photos!" }
+=======
+    "allGames": "All",
+    "sortBy": "Sort:",
+    "addFavorite": "Add to favorites",
+    "removeFavorite": "Remove from favorites",
+    "categories": {
+      "pet": "Pet",
+      "puzzle": "Puzzle",
+      "adventure": "Adventure",
+      "casual": "Casual"
+    },
+    "sort": {
+      "default": "Default",
+      "name": "Name",
+      "category": "Category",
+      "favorites": "Favorites"
+    },
+    "petCare": {
+      "name": "Pet Care",
+      "description": "Take care of your virtual pet!"
+    },
+    "muito": {
+      "name": "Muito",
+      "description": "Count the objects!"
+    },
+    "colorTap": {
+      "name": "Color Tap",
+      "description": "Tap the right colors!"
+    },
+    "memoryMatch": {
+      "name": "Memory Match",
+      "description": "Match the pairs!"
+    },
+    "petRunner": {
+      "name": "Pet Runner",
+      "description": "Run and dodge obstacles!"
+    },
+    "simonSays": {
+      "name": "Simon Says",
+      "description": "Remember the pattern!"
+    },
+    "dressUpRelay": {
+      "name": "Dress-Up Relay",
+      "description": "Match the outfit!"
+    },
+    "colorMixer": {
+      "name": "Color Mixer Lab",
+      "description": "Mix the perfect color!"
+    },
+    "feedThePet": {
+      "name": "Feed the Pet",
+      "description": "Catch falling food!"
+    },
+    "whackAMole": {
+      "name": "Whack-a-Mole",
+      "description": "Bop the garden pests!"
+    },
+    "catchTheBall": {
+      "name": "Catch the Ball",
+      "description": "Catch falling toys!"
+    },
+    "slidingPuzzle": {
+      "name": "Sliding Puzzle",
+      "description": "Slide the tiles into order!"
+    }
+>>>>>>> master
   },
   "muito": {
     "title": "Muito",

@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useSimonSays } from '../context/SimonSaysContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import * as Haptics from 'expo-haptics';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'SimonSaysGame'>;
@@ -177,11 +178,7 @@ export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
     }, 500);
   }, [startNewRound]);
 
-  const handleBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    }
-  };
+  const handleBack = useGameBack(navigation);
 
   const getStatusMessage = () => {
     switch (phase) {

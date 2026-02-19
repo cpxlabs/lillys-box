@@ -13,6 +13,7 @@ import { useFeedThePet } from '../context/FeedThePetContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { getRandomItem, FeedThePetItem } from '../data/feedThePetItems';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'FeedThePetGame'>;
@@ -220,19 +221,14 @@ export const FeedThePetGameScreen: React.FC<Props> = ({ navigation }) => {
     handleStart();
   }, [handleStart]);
 
-  const handleBack = useCallback(() => {
-    // Clean up animation frame before navigating
+  const cleanupRaf = useCallback(() => {
     if (rafRef.current) {
       cancelAnimationFrame(rafRef.current);
       rafRef.current = null;
     }
+  }, []);
 
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    } else {
-      navigation.getParent()?.goBack();
-    }
-  }, [navigation]);
+  const handleBack = useGameBack(navigation, { cleanup: cleanupRaf });
 
   // Pan gesture for bowl
   const panGesture = Gesture.Pan()

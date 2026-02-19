@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { useWhackAMole } from '../context/WhackAMoleContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { getRandomPest, getRandomFriendly, getRandomPowerUp, PowerUpItem } from '../data/whackAMoleItems';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'WhackAMoleGame'>;
@@ -320,7 +321,7 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
     handleStart();
   }, [handleStart]);
 
-  const handleBack = useCallback(() => {
+  const cleanupTimers = useCallback(() => {
     if (timerRef.current) {
       clearInterval(timerRef.current);
       timerRef.current = null;
@@ -329,27 +330,14 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
       clearInterval(spawnRef.current);
       spawnRef.current = null;
     }
+  }, []);
 
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    } else {
-      navigation.getParent()?.goBack();
-    }
-  }, [navigation]);
+  const handleBack = useGameBack(navigation, { cleanup: cleanupTimers });
 
   // Cleanup on unmount
   useEffect(() => {
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-        timerRef.current = null;
-      }
-      if (spawnRef.current) {
-        clearInterval(spawnRef.current);
-        spawnRef.current = null;
-      }
-    };
-  }, []);
+    return () => cleanupTimers();
+  }, [cleanupTimers]);
 
   const { gameStatus, holes, score, round, timeRemaining, combo, pestsBopped, totalPests, activePowerUp } =
     renderState;
