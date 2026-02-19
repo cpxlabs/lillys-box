@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSlidingPuzzle } from '../context/SlidingPuzzleContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'SlidingPuzzleHome'>;
@@ -13,16 +14,10 @@ export const SlidingPuzzleHomeScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { bestMoves } = useSlidingPuzzle();
 
+  const handleBack = useGameBack(navigation);
+
   const handlePlay = (difficulty: 'easy' | 'hard') => {
     navigation.navigate('SlidingPuzzleGame', { difficulty });
-  };
-
-  const handleBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    } else {
-      navigation.getParent()?.goBack();
-    }
   };
 
   return (

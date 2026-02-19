@@ -13,6 +13,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { useColorMixer } from '../context/ColorMixerContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { LEVELS, rgbToString } from '../data/colorMixerLevels';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'ColorMixerLevels'>;
@@ -35,11 +36,7 @@ export const ColorMixerLevelScreen: React.FC<Props> = ({ navigation }) => {
     }
   };
 
-  const handleBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    }
-  };
+  const handleBack = useGameBack(navigation);
 
   const renderStars = (stars: number) => {
     return (

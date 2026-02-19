@@ -6,6 +6,7 @@ import { useColorMixer } from '../context/ColorMixerContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { TOTAL_LEVELS } from '../data/colorMixerLevels';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'ColorMixerHome'>;
@@ -19,16 +20,10 @@ export const ColorMixerHomeScreen: React.FC<Props> = ({ navigation }) => {
   const completedLevels = getCompletedLevelsCount();
   const maxStars = TOTAL_LEVELS * 3;
 
+  const handleBack = useGameBack(navigation);
+
   const handlePlay = () => {
     navigation.navigate('ColorMixerLevels');
-  };
-
-  const handleBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    } else {
-      navigation.getParent()?.goBack();
-    }
   };
 
   return (

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSimonSays } from '../context/SimonSaysContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'SimonSaysHome'>;
@@ -13,16 +14,10 @@ export const SimonSaysHomeScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { bestScore } = useSimonSays();
 
+  const handleBack = useGameBack(navigation);
+
   const handlePlay = () => {
     navigation.navigate('SimonSaysGame');
-  };
-
-  const handleBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    } else {
-      navigation.getParent()?.goBack();
-    }
   };
 
   return (

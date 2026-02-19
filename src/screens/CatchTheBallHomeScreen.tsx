@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useCatchTheBall } from '../context/CatchTheBallContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'CatchTheBallHome'>;
@@ -13,16 +14,10 @@ export const CatchTheBallHomeScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { bestScore } = useCatchTheBall();
 
+  const handleBack = useGameBack(navigation);
+
   const handlePlay = () => {
     navigation.navigate('CatchTheBallGame');
-  };
-
-  const handleBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    } else {
-      navigation.getParent()?.goBack();
-    }
   };
 
   return (

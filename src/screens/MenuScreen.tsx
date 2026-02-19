@@ -16,6 +16,7 @@ import { ConfirmModal } from '../components/ConfirmModal';
 import { LanguageSelector } from '../components/LanguageSelector';
 import { ScreenNavigationProp } from '../types/navigation';
 import { WebSafeIcon } from '../components/WebSafeIcon';
+import { useGameBack } from '../hooks/useGameBack';
 
 const PATCH_COLORS = ['#f4a5a5', '#a5c8e4', '#a5d6a7', '#fff59d', '#ce93d8'];
 
@@ -43,6 +44,7 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
   const [showNewPetConfirm, setShowNewPetConfirm] = useState(false);
   const [showDeletePetConfirm, setShowDeletePetConfirm] = useState(false);
   const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
+  const handleBack = useGameBack(navigation);
 
   const handleContinue = () => {
     if (pet) {
@@ -99,13 +101,7 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
         {/* Back Button */}
         <TouchableOpacity
           style={styles.backButton}
-          onPress={() => {
-            if (navigation.canGoBack()) {
-              navigation.goBack();
-            } else {
-              navigation.getParent()?.goBack();
-            }
-          }}
+          onPress={handleBack}
           accessibilityRole="button"
           accessibilityLabel="Back to games"
         >

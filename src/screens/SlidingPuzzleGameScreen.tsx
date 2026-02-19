@@ -10,6 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useSlidingPuzzle } from '../context/SlidingPuzzleContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'SlidingPuzzleGame'>;
@@ -161,13 +162,7 @@ export const SlidingPuzzleGameScreen: React.FC<Props> = ({ navigation, route }) 
     setGameState(createFreshPuzzle());
   }, [createFreshPuzzle]);
 
-  const handleBack = useCallback(() => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    } else {
-      navigation.getParent()?.goBack();
-    }
-  }, [navigation]);
+  const handleBack = useGameBack(navigation);
 
   const { board, moves, gameStatus } = gameState;
   const coinsEarned = gameStatus === 'won' ? Math.max(5, 20 - Math.floor(moves / 5)) : 0;
