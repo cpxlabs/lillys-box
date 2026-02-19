@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-na
 import { useTranslation } from 'react-i18next';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useColorTap } from '../context/ColorTapContext';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'ColorTapHome'>;
@@ -12,16 +13,10 @@ export const ColorTapHomeScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { bestScore } = useColorTap();
 
+  const handleBack = useGameBack(navigation);
+
   const handlePlay = () => {
     navigation.navigate('ColorTapGame');
-  };
-
-  const handleBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    } else {
-      navigation.getParent()?.goBack();
-    }
   };
 
   return (

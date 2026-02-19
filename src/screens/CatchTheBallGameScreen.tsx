@@ -10,6 +10,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useCatchTheBall } from '../context/CatchTheBallContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'CatchTheBallGame'>;
@@ -226,14 +227,7 @@ export const CatchTheBallGameScreen: React.FC<Props> = ({ navigation }) => {
     setRenderState({ ...s });
   }, []);
 
-  const handleBack = useCallback(() => {
-    stopGame();
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    } else {
-      navigation.getParent()?.goBack();
-    }
-  }, [navigation, stopGame]);
+  const handleBack = useGameBack(navigation, { cleanup: stopGame });
 
   useEffect(() => {
     return () => {

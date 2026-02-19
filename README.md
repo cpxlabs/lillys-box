@@ -13,7 +13,7 @@ A 2D children's game for Android using React Native, where kids can create and c
 - Multi-language support (English and Brazilian Portuguese)
 - Google OAuth authentication + guest mode
 - Multi-game platform with Game Registry and game selection screen
-- Additional mini-games: Muito (counting), Color Tap, Memory Match, Pet Runner, Simon Says
+- 12 mini-games: Pet Care, Muito (counting), Color Tap, Memory Match, Pet Runner, Simon Says, Dress Up Relay, Color Mixer, Feed the Pet, Whack-a-Mole, Catch the Ball, Sliding Puzzle
 
 ## Quick Start
 

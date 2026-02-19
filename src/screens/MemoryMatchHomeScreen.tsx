@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useMemoryMatch, Difficulty } from '../context/MemoryMatchContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'MemoryMatchHome'>;
@@ -16,16 +17,10 @@ export const MemoryMatchHomeScreen: React.FC<Props> = ({ navigation }) => {
   const { bestScores } = useMemoryMatch();
   const [selectedDifficulty, setSelectedDifficulty] = useState<Difficulty>('easy');
 
+  const handleBack = useGameBack(navigation);
+
   const handlePlay = () => {
     navigation.navigate('MemoryMatchGame', { difficulty: selectedDifficulty });
-  };
-
-  const handleBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    } else {
-      navigation.getParent()?.goBack();
-    }
   };
 
   const currentBest = bestScores[selectedDifficulty];

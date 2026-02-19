@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useDressUpRelay } from '../context/DressUpRelayContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'DressUpRelayHome'>;
@@ -13,16 +14,10 @@ export const DressUpRelayHomeScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { bestScore } = useDressUpRelay();
 
+  const handleBack = useGameBack(navigation);
+
   const handlePlay = () => {
     navigation.navigate('DressUpRelayGame');
-  };
-
-  const handleBack = () => {
-    if (navigation.canGoBack()) {
-      navigation.goBack();
-    } else {
-      navigation.getParent()?.goBack();
-    }
   };
 
   return (
