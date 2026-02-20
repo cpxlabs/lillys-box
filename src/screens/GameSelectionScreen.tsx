@@ -26,6 +26,21 @@ import {
   Alt8RetroArcade,
   Alt9FlatMaterial,
   Alt10SidebarCategories,
+  Alt11ToyBox,
+  Alt12StickerBook,
+  Alt13CandyLand,
+  Alt14Crayon,
+  Alt15BigButtons,
+  Alt16RainbowRows,
+  Alt17Treehouse,
+  Alt18LunchboxGrid,
+  Alt19Storybook,
+  Alt20Playground,
+  Alt21CloudFloat,
+  Alt22IceCream,
+  Alt23AlphabetBlocks,
+  Alt24Watercolor,
+  Alt25Pocket,
 } from './game-selector-alts';
 
 type Props = {
@@ -65,6 +80,21 @@ const UI_VARIANTS: {
   { key: 'alt8', label: '8 Retro Arcade', component: Alt8RetroArcade },
   { key: 'alt9', label: '9 Material', component: Alt9FlatMaterial },
   { key: 'alt10', label: '10 Sidebar', component: Alt10SidebarCategories },
+  { key: 'alt11', label: '11 Toy Box', component: Alt11ToyBox },
+  { key: 'alt12', label: '12 Sticker Book', component: Alt12StickerBook },
+  { key: 'alt13', label: '13 Candy Land', component: Alt13CandyLand },
+  { key: 'alt14', label: '14 Crayon', component: Alt14Crayon },
+  { key: 'alt15', label: '15 Big Buttons', component: Alt15BigButtons },
+  { key: 'alt16', label: '16 Rainbow Rows', component: Alt16RainbowRows },
+  { key: 'alt17', label: '17 Treehouse', component: Alt17Treehouse },
+  { key: 'alt18', label: '18 Lunchbox', component: Alt18LunchboxGrid },
+  { key: 'alt19', label: '19 Storybook', component: Alt19Storybook },
+  { key: 'alt20', label: '20 Playground', component: Alt20Playground },
+  { key: 'alt21', label: '21 Cloud Float', component: Alt21CloudFloat },
+  { key: 'alt22', label: '22 Ice Cream', component: Alt22IceCream },
+  { key: 'alt23', label: '23 ABC Blocks', component: Alt23AlphabetBlocks },
+  { key: 'alt24', label: '24 Watercolor', component: Alt24Watercolor },
+  { key: 'alt25', label: '25 Pocket', component: Alt25Pocket },
 ];
 
 export const GameSelectionScreen: React.FC<Props> = ({ navigation }) => {
