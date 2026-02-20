@@ -66,6 +66,7 @@ export const Alt16RainbowRows: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.tabs}
+      style={{ flexGrow: 0 }}
       >
         <TouchableOpacity
           style={[styles.tab, !selectedCategory && styles.tabActive]}

@@ -70,6 +70,7 @@ export const Alt20Playground: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
+      style={{ flexGrow: 0 }}
       >
         <TouchableOpacity
           style={[styles.filterBtn, !selectedCategory && styles.filterBtnActive]}

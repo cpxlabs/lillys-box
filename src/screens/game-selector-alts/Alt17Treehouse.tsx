@@ -70,6 +70,7 @@ export const Alt17Treehouse: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
+      style={{ flexGrow: 0 }}
       >
         <TouchableOpacity
           style={[styles.leaf, !selectedCategory && styles.leafActive]}

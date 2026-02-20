@@ -93,6 +93,7 @@ export const Alt4Carousel: React.FC<GameSelectorAltProps> = ({
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.carousel}
+            style={{ flexGrow: 0 }}
             >
               {data.map(renderGameCard)}
             </ScrollView>

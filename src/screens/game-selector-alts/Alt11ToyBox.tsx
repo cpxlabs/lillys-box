@@ -54,6 +54,7 @@ export const Alt11ToyBox: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
+      style={{ flexGrow: 0 }}
       >
         <TouchableOpacity
           style={[styles.filterBtn, !selectedCategory && styles.filterBtnActive]}

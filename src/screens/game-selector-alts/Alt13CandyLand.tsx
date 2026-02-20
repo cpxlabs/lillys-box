@@ -79,6 +79,7 @@ export const Alt13CandyLand: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
+      style={{ flexGrow: 0 }}
       >
         <TouchableOpacity
           style={[styles.pill, !selectedCategory && styles.pillActive]}

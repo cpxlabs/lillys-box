@@ -52,6 +52,7 @@ export const Alt18LunchboxGrid: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
+      style={{ flexGrow: 0 }}
       >
         <TouchableOpacity
           style={[styles.chip, !selectedCategory && styles.chipActive]}

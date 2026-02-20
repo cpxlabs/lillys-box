@@ -47,7 +47,8 @@ export const Alt2MinimalGrid: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.tabs}
-      >
+        style={{ flexGrow: 0 }}
+        >
         <TouchableOpacity
           style={[styles.tab, !selectedCategory && styles.tabActive]}
           onPress={() => setSelectedCategory(null)}

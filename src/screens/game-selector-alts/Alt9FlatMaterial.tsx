@@ -84,6 +84,7 @@ export const Alt9FlatMaterial: React.FC<GameSelectorAltProps> = ({
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.segmentRow}
+        style={{ flexGrow: 0 }}
         >
           <TouchableOpacity
             style={[styles.segment, !selectedCategory && styles.segmentActive]}

@@ -115,6 +115,7 @@ export const Alt7AppStore: React.FC<GameSelectorAltProps> = ({
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.catRow}
+        style={{ flexGrow: 0 }}
         >
           <TouchableOpacity
             style={[styles.catChip, !selectedCategory && styles.catChipActive]}
