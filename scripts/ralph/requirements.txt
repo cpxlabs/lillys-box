@@ -1,7 +1,3 @@
-# Ralph and core dependencies
-ralph-cli==4.0.0
-ralph-loops==0.1.0
-
 # Data processing
 pandas>=2.0.0
 numpy>=1.24.0
