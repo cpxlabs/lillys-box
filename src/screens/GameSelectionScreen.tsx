@@ -9,15 +9,11 @@ import {
   ScrollView,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'expo-router';
 import { gameRegistry, GameDefinition } from '../registry/GameRegistry';
 import { LanguageSelector } from '../components/LanguageSelector';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { useFavoriteGames } from '../hooks/useFavoriteGames';
-import { ScreenNavigationProp } from '../types/navigation';
-
-type Props = {
-  navigation: ScreenNavigationProp<'GameSelection'>;
-};
 
 type SortOption = 'default' | 'name' | 'category' | 'favorites';
 
@@ -35,7 +31,8 @@ const CATEGORY_EMOJI: Record<string, string> = {
   casual: '🎲',
 };
 
-export const GameSelectionScreen: React.FC<Props> = ({ navigation }) => {
+export const GameSelectionScreen: React.FC = () => {
+  const router = useRouter();
   const { t } = useTranslation();
   const games = gameRegistry.getAllGames();
   const { toggleFavorite, isFavorite } = useFavoriteGames();
@@ -77,9 +74,9 @@ export const GameSelectionScreen: React.FC<Props> = ({ navigation }) => {
 
   const handleGameSelect = useCallback(
     (gameId: string) => {
-      navigation.navigate('GameContainer', { gameId });
+      router.push(`/game/${gameId}`);
     },
-    [navigation],
+    [router],
   );
 
   const handleToggleFavorite = useCallback(
