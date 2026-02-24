@@ -72,6 +72,23 @@ jest.mock('react-native', () => {
   };
 });
 
+// Mock expo-router
+jest.mock('expo-router', () => ({
+  useRouter: jest.fn(() => ({
+    push: jest.fn(),
+    replace: jest.fn(),
+    back: jest.fn(),
+    canGoBack: jest.fn(() => false),
+  })),
+  useLocalSearchParams: jest.fn(() => ({})),
+  useSegments: jest.fn(() => []),
+  usePathname: jest.fn(() => '/'),
+  Stack: {
+    Screen: jest.fn(() => null),
+  },
+  Link: jest.fn(({ children }) => children),
+}));
+
 // Mock expo-haptics
 jest.mock('expo-haptics', () => ({
   impactAsync: jest.fn(),

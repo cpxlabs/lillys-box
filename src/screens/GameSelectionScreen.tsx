@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { useRouter } from 'expo-router';
 import { gameRegistry, GameDefinition } from '../registry/GameRegistry';
 import { LanguageSelector } from '../components/LanguageSelector';
 import { EmojiIcon } from '../components/EmojiIcon';
@@ -98,6 +99,8 @@ const UI_VARIANTS: {
 ];
 
 export const GameSelectionScreen: React.FC<Props> = ({ navigation }) => {
+export const GameSelectionScreen: React.FC = () => {
+  const router = useRouter();
   const { t } = useTranslation();
   const games = gameRegistry.getAllGames();
   const { toggleFavorite, isFavorite } = useFavoriteGames();
@@ -141,9 +144,9 @@ export const GameSelectionScreen: React.FC<Props> = ({ navigation }) => {
 
   const handleGameSelect = useCallback(
     (gameId: string) => {
-      navigation.navigate('GameContainer', { gameId });
+      router.push(`/game/${gameId}`);
     },
-    [navigation],
+    [router],
   );
 
   const handleToggleFavorite = useCallback(
