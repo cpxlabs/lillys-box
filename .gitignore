@@ -1,45 +1,55 @@
-# Dependencies
+# Node.js / React Native
 node_modules/
-package-lock.json
-pnpm-lock.yaml
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
 
-# Expo
-.expo/
+# Build outputs
 dist/
-web-build/
+build/
+*.tsbuildinfo
+web_output.log
 
-# Native builds
-*.orig.*
+# Environment
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Testing
+coverage/
+.nyc_output/
+
+# OS
+Thumbs.db
+
+# Python / Ralph
+scripts/ralph/venv/
+scripts/ralph/__pycache__/
+scripts/ralph/*.pyc
+scripts/ralph/*.pyo
+scripts/ralph/*.pyd
+scripts/ralph/.Python
+scripts/ralph/data/
+scripts/ralph/output/
+scripts/ralph/*.log
+scripts/ralph/.pytest_cache/
+scripts/ralph/.coverage
+scripts/ralph/htmlcov/
+
+# Expo / React Native
+.expo/
+.expo-shared/
 *.jks
 *.p8
 *.p12
 *.key
 *.mobileprovision
-
-# Metro
-.metro-health-check*
-
-# Debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
-
-# macOS
-.DS_Store
-*.pem
-
-# Local env files
-.env*.local
-
-# Google OAuth Configuration Files (contain sensitive data)
-google-services.json
-GoogleService-Info.plist
-
-# TypeScript
-*.tsbuildinfo
-
-# Claude Code
-.claude/
-.claude-session
-*.claude-context
-pnpm-lock.yaml
+*.orig.*
