@@ -39,7 +39,6 @@
     "expo-router": "~3.4.10",
     "expo-status-bar": "~1.11.1",
     "i18next": "^25.7.4",
-    "pnpm": "^10.26.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-i18next": "^16.5.3",
