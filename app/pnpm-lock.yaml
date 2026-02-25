@@ -47,6 +47,9 @@ importers:
       expo-haptics:
         specifier: ^15.0.8
         version: 15.0.8(expo@50.0.21(@babel/core@7.28.6)(@react-native/babel-preset@0.73.21(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6)))(react-native@0.73.2(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6))(react@18.2.0))(react@18.2.0))
+      expo-image-picker:
+        specifier: ~14.7.1
+        version: 14.7.1(expo@50.0.21(@babel/core@7.28.6)(@react-native/babel-preset@0.73.21(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6)))(react-native@0.73.2(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6))(react@18.2.0))(react@18.2.0))
       expo-linear-gradient:
         specifier: ~12.3.0
         version: 12.3.0(expo@50.0.21(@babel/core@7.28.6)(@react-native/babel-preset@0.73.21(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6)))(react-native@0.73.2(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6))(react@18.2.0))(react@18.2.0))
@@ -62,9 +65,6 @@ importers:
       i18next:
         specifier: ^25.7.4
         version: 25.7.4(typescript@5.9.3)
-      pnpm:
-        specifier: ^10.26.2
-        version: 10.28.1
       react:
         specifier: 18.2.0
         version: 18.2.0
@@ -2926,6 +2926,16 @@ packages:
     peerDependencies:
       expo: '*'
 
+  expo-image-loader@4.6.0:
+    resolution: {integrity: sha512-RHQTDak7/KyhWUxikn2yNzXL7i2cs16cMp6gEAgkHOjVhoCJQoOJ0Ljrt4cKQ3IowxgCuOrAgSUzGkqs7omj8Q==}
+    peerDependencies:
+      expo: '*'
+
+  expo-image-picker@14.7.1:
+    resolution: {integrity: sha512-ILQVOJgI3aEzrDmCFGDPtpAepYkn8mot8G7vfQ51BfFdQbzL6N3Wm1fS/ofdWlAZJl/qT2DwaIh5xYmf3SyGZA==}
+    peerDependencies:
+      expo: '*'
+
   expo-json-utils@0.15.0:
     resolution: {integrity: sha512-duRT6oGl80IDzH2LD2yEFWNwGIC2WkozsB6HF3cDYNoNNdUvFk6uN3YiwsTsqVM/D0z6LEAQ01/SlYvN+Fw0JQ==}
 
@@ -4627,11 +4637,6 @@ packages:
   pngjs@3.4.0:
     resolution: {integrity: sha512-NCrCHhWmnQklfH4MtJMRjZ2a8c80qXeMlQMv2uVp9ISJMTt562SbGd6n2oq0PaPgKm7Z6pL9E2UlLIhC+SHL3w==}
     engines: {node: '>=4.0.0'}
-
-  pnpm@10.28.1:
-    resolution: {integrity: sha512-fX27yp6ZRHt8O/enMoavqva+mSUeuUmLrvp9QGiS9nuHmts6HX5of8TMwaOIxxdfuq5WeiarRNEGe1T8sNajFg==}
-    engines: {node: '>=18.12'}
-    hasBin: true
 
   possible-typed-array-names@1.1.0:
     resolution: {integrity: sha512-/+5VFTchJDoVj3bhoqi6UeymcD00DAwb1nJwamzPvHEszJ4FpF6SNNbUbOS8yI56qHzdV8eK0qEfOSiodkTdxg==}
@@ -9813,6 +9818,15 @@ snapshots:
     dependencies:
       expo: 50.0.21(@babel/core@7.28.6)(@react-native/babel-preset@0.73.21(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6)))(react-native@0.73.2(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6))(react@18.2.0))(react@18.2.0)
 
+  expo-image-loader@4.6.0(expo@50.0.21(@babel/core@7.28.6)(@react-native/babel-preset@0.73.21(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6)))(react-native@0.73.2(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6))(react@18.2.0))(react@18.2.0)):
+    dependencies:
+      expo: 50.0.21(@babel/core@7.28.6)(@react-native/babel-preset@0.73.21(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6)))(react-native@0.73.2(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6))(react@18.2.0))(react@18.2.0)
+
+  expo-image-picker@14.7.1(expo@50.0.21(@babel/core@7.28.6)(@react-native/babel-preset@0.73.21(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6)))(react-native@0.73.2(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6))(react@18.2.0))(react@18.2.0)):
+    dependencies:
+      expo: 50.0.21(@babel/core@7.28.6)(@react-native/babel-preset@0.73.21(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6)))(react-native@0.73.2(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6))(react@18.2.0))(react@18.2.0)
+      expo-image-loader: 4.6.0(expo@50.0.21(@babel/core@7.28.6)(@react-native/babel-preset@0.73.21(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6)))(react-native@0.73.2(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6))(react@18.2.0))(react@18.2.0))
+
   expo-json-utils@0.15.0: {}
 
   expo-keep-awake@12.8.2(expo@50.0.21(@babel/core@7.28.6)(@react-native/babel-preset@0.73.21(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6)))(react-native@0.73.2(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6))(react@18.2.0))(react@18.2.0)):
@@ -11945,8 +11959,6 @@ snapshots:
       xmlbuilder: 15.1.1
 
   pngjs@3.4.0: {}
-
-  pnpm@10.28.1: {}
 
   possible-typed-array-names@1.1.0: {}
 

@@ -1,6 +1,22 @@
+# Implementation Plans — Pet Care Game
+
+> **Last Updated:** 2026-02-25
+>
+> This file tracks the active implementation plans for the project.
+> See `app/docs/ROADMAP.md` for the full feature roadmap.
+
+## Active Plans
+
+| Plan | Status | Doc |
+|------|--------|-----|
+| User Stats, Auth & Firebase | 📋 Not started | [Details below](#user-stats-auth--profile---implementation-plan) |
+| Game Review System | 📋 Not started | [`app/docs/plans/REVIEW_SYSTEM_PLAN.md`](./app/docs/plans/REVIEW_SYSTEM_PLAN.md) |
+
+---
+
 # User Stats, Auth & Profile - Implementation Plan
 
-## Current State Summary
+## Current State Summary (Feb 2026)
 
 | Area | Current State |
 |------|--------------|
@@ -10,6 +26,7 @@
 | **User Profile** | Only Google account info (id, email, name, photo) |
 | **Scores** | Stored locally per game, no cross-device sync, no leaderboards |
 | **Registration** | No email/password flow. Google or Guest only |
+| **Web Deploy** | ✅ Live on Vercel — `npm install --legacy-peer-deps` + expo export |
 
 ---
 

@@ -17,19 +17,25 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - 🗑️ Botão para apagar pet no menu com confirmação
 - 💰 Sistema de moedas com anúncios opcionais para bônus
 - 🌐 **Suporte a múltiplos idiomas (Inglês e Português do Brasil)**
+- 🎮 **30+ mini-games** (Color Tap, Memory Match, Simon Says, Pet Runner, Whack-A-Mole, Sliding Puzzle, e muito mais)
+- 🔐 **Autenticação Google OAuth + modo convidado** com isolamento de dados por usuário
+- 🌍 **Deploy web via Vercel** (Expo web export)
 
 ## 🛠️ Stack Tecnológica
-- React Native (Expo)
-- TypeScript
-- React Navigation
-- AsyncStorage
-- react-native-reanimated (animações e efeitos visuais)
+- React Native 0.73.2 (Expo 50)
+- TypeScript 5.1.3
+- Expo Router 3.4.10 (file-based navigation)
+- AsyncStorage (persistência local)
+- react-native-reanimated 3.6.1 (animações e efeitos visuais)
 - react-native-gesture-handler
-- react-native-svg
-- react-native-google-mobile-ads
-- i18next & react-i18next (internacionalização)
-- Jest & React Native Testing Library (testes)
+- react-native-svg / @shopify/react-native-skia (gráficos)
+- @react-native-google-signin/google-signin (autenticação)
+- react-native-google-mobile-ads (AdMob)
+- socket.io-client 4.8.0 (multiplayer)
+- i18next & react-i18next (internacionalização EN + PT-BR)
+- Jest 30 & React Native Testing Library (testes)
 - ESLint & Prettier (qualidade de código)
+- Vercel (deploy web)
 
 ## 📂 Estrutura do Projeto
 
@@ -39,15 +45,20 @@ A estrutura de pastas e arquivos está documentada detalhadamente em [FOLDER_STR
 1) Instale dependências:
 ```bash
 npm install --legacy-peer-deps
-# ou
-pnpm install
 ```
 
-**Nota sobre dependências**: O projeto usa `expo-dev-client` que é necessário para módulos nativos como `react-native-google-mobile-ads`. Este pacote permite construir uma versão de desenvolvimento personalizada do Expo que inclui módulos nativos.
+> O projeto usa `packageManager: pnpm@10.30.2` localmente, mas o Vercel e ambientes CI usam `npm install --legacy-peer-deps` para evitar incompatibilidades de versão do pnpm com Node 20+.
+
+> **Nota sobre dependências**: O projeto usa `expo-dev-client` que é necessário para módulos nativos como `react-native-google-mobile-ads`. Este pacote permite construir uma versão de desenvolvimento personalizada do Expo que inclui módulos nativos.
 
 2) Rode:
 ```bash
 npx expo start
+```
+
+3) Para o build web (deploy Vercel):
+```bash
+EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export --platform web
 ```
 
 **Nota**: Para testar anúncios, você precisará usar um dispositivo físico ou emulador Android/iOS.
@@ -213,6 +224,10 @@ npm run test:ci          # Executa testes em modo CI
 - [x] Sistema de monetização com AdMob
 - [x] Suporte a múltiplos idiomas (i18n)
 - [x] **Suíte de testes automatizados (CI-Ready)**
+- [x] **30+ mini-games implementados**
+- [x] **Autenticação Google OAuth + modo convidado**
+- [x] **Deploy web via Vercel**
+- [ ] Sistema de reviews de jogos (modal com comentários e mídia)
 - [ ] Sons e efeitos visuais
 - [ ] Otimizações de performance
 
@@ -305,6 +320,6 @@ This directory contains all project documentation organized by purpose.
 
 ---
 
-**Versão**: 1.0.0  
-**Última Atualização**: 2026-01-22  
-**Status**: ✅ Funcional e testado
+**Versão**: 1.1.0
+**Última Atualização**: 2026-02-25
+**Status**: ✅ Funcional e testado — deploy web ativo no Vercel

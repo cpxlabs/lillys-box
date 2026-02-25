@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react';
+import React, { useMemo, useState, useCallback, useEffect } from 'react';
 import {
   View,
   Text,
@@ -16,6 +16,10 @@ import { EmojiIcon } from '../components/EmojiIcon';
 import { useFavoriteGames } from '../hooks/useFavoriteGames';
 import { ScreenNavigationProp } from '../types/navigation';
 import { GameSelectorAltProps } from './game-selector-alts/types';
+import { ReviewModal } from '../components/ReviewModal';
+import { GameReviewsScreen } from './GameReviewsScreen';
+import { ReviewService } from '../services/ReviewService';
+import { ReviewSummary } from '../types/review';
 import {
   Alt1CompactList,
   Alt2MinimalGrid,
@@ -107,6 +111,21 @@ export const GameSelectionScreen: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [uiIndex, setUiIndex] = useState(0);
   const [showPicker, setShowPicker] = useState(false);
+
+  // Review state
+  const [reviewGameId, setReviewGameId] = useState<string | null>(null);
+  const [reviewsGameId, setReviewsGameId] = useState<string | null>(null);
+  const [summaries, setSummaries] = useState<Record<string, ReviewSummary>>({});
+
+  useEffect(() => {
+    const load = async () => {
+      const entries = await Promise.all(
+        games.map(async (g) => [g.id, await ReviewService.getSummary(g.id)] as const),
+      );
+      setSummaries(Object.fromEntries(entries));
+    };
+    load();
+  }, [games]);
 
   const categories = useMemo(() => {
     const cats = new Set(games.map((g) => g.category));
@@ -242,6 +261,8 @@ export const GameSelectionScreen: React.FC = () => {
   const renderGameCard = ({ item }: { item: GameDefinition }) => {
     const fav = isFavorite(item.id);
     const colors = CATEGORY_COLORS[item.category] || CATEGORY_COLORS.casual;
+    const summary = summaries[item.id];
+    const hasRating = summary && summary.totalReviews > 0;
 
     return (
       <TouchableOpacity
@@ -256,9 +277,7 @@ export const GameSelectionScreen: React.FC = () => {
           hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
           accessibilityRole="button"
           accessibilityLabel={
-            fav
-              ? t('selectGame.removeFavorite')
-              : t('selectGame.addFavorite')
+            fav ? t('selectGame.removeFavorite') : t('selectGame.addFavorite')
           }
         >
           <Text style={[styles.favoriteIcon, fav && styles.favoriteIconActive]}>
@@ -281,6 +300,28 @@ export const GameSelectionScreen: React.FC = () => {
           <Text style={[styles.categoryBadgeText, { color: colors.text }]}>
             {t(`selectGame.categories.${item.category}`)}
           </Text>
+        </View>
+
+        {/* Rating row */}
+        <View style={styles.ratingRow}>
+          <TouchableOpacity
+            style={styles.ratingBadge}
+            onPress={() => setReviewsGameId(item.id)}
+            hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
+          >
+            <Text style={styles.ratingText}>
+              {hasRating
+                ? `⭐ ${summary.averageRating.toFixed(1)} (${summary.totalReviews})`
+                : `⭐ ${t('review.noRating')}`}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.reviewBtn}
+            onPress={() => setReviewGameId(item.id)}
+            hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
+          >
+            <Text style={styles.reviewBtnText}>{t('review.rate')}</Text>
+          </TouchableOpacity>
         </View>
       </TouchableOpacity>
     );
@@ -354,6 +395,37 @@ export const GameSelectionScreen: React.FC = () => {
       </View>
 
       {switcher}
+
+      {/* Review write modal */}
+      {reviewGameId && (
+        <ReviewModal
+          gameId={reviewGameId}
+          gameName={t(games.find((g) => g.id === reviewGameId)?.nameKey ?? '')}
+          visible={!!reviewGameId}
+          onClose={() => {
+            setReviewGameId(null);
+            // Refresh summaries after writing a review
+            ReviewService.getSummary(reviewGameId).then((s) =>
+              setSummaries((prev) => ({ ...prev, [reviewGameId]: s })),
+            );
+          }}
+          onViewAll={() => {
+            setReviewsGameId(reviewGameId);
+            setReviewGameId(null);
+          }}
+        />
+      )}
+
+      {/* Reviews list overlay */}
+      {reviewsGameId && (
+        <View style={styles.reviewsOverlay}>
+          <GameReviewsScreen
+            gameId={reviewsGameId}
+            gameName={t(games.find((g) => g.id === reviewsGameId)?.nameKey ?? '')}
+            onBack={() => setReviewsGameId(null)}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 };
@@ -698,5 +770,40 @@ const styles = StyleSheet.create({
   footer: {
     paddingVertical: 12,
     alignItems: 'center',
+  },
+  ratingRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    marginTop: 8,
+    width: '100%',
+    gap: 6,
+  },
+  ratingBadge: {
+    flex: 1,
+  },
+  ratingText: {
+    fontSize: 10,
+    color: '#888',
+    fontWeight: '500',
+  },
+  reviewBtn: {
+    backgroundColor: '#f5f0ff',
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 8,
+  },
+  reviewBtnText: {
+    fontSize: 10,
+    color: '#9b59b6',
+    fontWeight: '700',
+  },
+  reviewsOverlay: {
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 300,
   },
 });

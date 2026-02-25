@@ -123,6 +123,34 @@ Reintegrate Skia 2.4.14 into the bath screen for high-performance bubble particl
 
 ---
 
+### 🟡 Game Review System
+**Status:** Planning — [Plan](./plans/REVIEW_SYSTEM_PLAN.md)
+**Priority:** Medium
+
+Allow players to leave reviews on individual games directly from the game screen. Reviews include text comments, star ratings, and optional image/GIF attachments.
+
+- [ ] `ReviewModal` component (bottom sheet, opens from any game screen)
+- [ ] Star rating widget (1–5 stars)
+- [ ] Text comment input (multiline, max 500 chars)
+- [ ] Image attachment via `expo-image-picker`
+- [ ] GIF search via Tenor API with inline browser
+- [ ] Media preview strip with remove capability
+- [ ] Local persistence (AsyncStorage) for MVP
+- [ ] Firebase Firestore + Storage sync (Phase 2, after auth overhaul)
+- [ ] Reviews list screen per game
+- [ ] Moderation flag button on each review
+
+**Files to create:**
+- `src/components/ReviewModal.tsx`
+- `src/components/StarRating.tsx`
+- `src/components/MediaAttachment.tsx`
+- `src/components/GifPicker.tsx`
+- `src/hooks/useReview.ts`
+- `src/services/ReviewService.ts`
+- `src/screens/GameReviewsScreen.tsx`
+
+---
+
 ### 🟢 Social Features
 **Priority:** Low
 
@@ -165,6 +193,18 @@ Reintegrate Skia 2.4.14 into the bath screen for high-performance bubble particl
 ---
 
 ## 🛠️ Technical Improvements
+
+### ✅ Vercel Web Deployment
+**Priority:** High
+**Status:** COMPLETED (Feb 2026)
+
+- [x] `vercel.json` configured with `installCommand: npm install --legacy-peer-deps`
+- [x] `buildCommand: EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export --platform web`
+- [x] SPA rewrites configured (all routes → index.html)
+- [x] `pnpm-lock.yaml` moved into `app/` directory (monorepo fix)
+- [x] `pnpm` removed from `dependencies` (packageManager field is canonical)
+
+---
 
 ### ✅ Testing Infrastructure
 **Priority:** Medium
@@ -517,11 +557,11 @@ src/
 
 ---
 
-**Last Updated:** 2026-01-22
-**Current Version:** 1.0.0 (with OAuth in branch)
-**Status:** ✅ Core features complete, testing infrastructure in place, OAuth authentication implemented
-**Features Completed:** 80% (core game + OAuth)
-**Next Version Target:** 1.1.0 (Sounds, Performance, & Skia Bath - 80% core complete)
+**Last Updated:** 2026-02-25
+**Current Version:** 1.1.0
+**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel
+**Features Completed:** 85% (core game + OAuth + web deploy)
+**Next Version Target:** 1.2.0 (Game Review System + Sounds)
 
 ---
 
