@@ -27,6 +27,12 @@
     "noReviews": "No reviews yet. Be the first! ⭐",
     "flag": "Report",
     "delete": "Delete",
+    "sort": {
+      "recent": "Recent",
+      "helpful": "Helpful",
+      "highest": "Highest",
+      "lowest": "Lowest"
+    },
     "gifPickerTitle": "Search GIFs",
     "gifSearchPlaceholder": "Search GIFs...",
     "gifNoResults": "No GIFs found",

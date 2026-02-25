@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   View,
   Text,
@@ -15,7 +15,7 @@ import { useReview } from '../hooks/useReview';
 import { useAuth } from '../context/AuthContext';
 import { StarRating } from '../components/StarRating';
 import { ReviewModal } from '../components/ReviewModal';
-import { Review } from '../types/review';
+import { Review, ReviewSortOption } from '../types/review';
 
 type Props = {
   gameId: string;
@@ -26,8 +26,24 @@ type Props = {
 export const GameReviewsScreen: React.FC<Props> = ({ gameId, gameName, onBack }) => {
   const { t } = useTranslation();
   const { user } = useAuth();
-  const { reviews, summary, loading, deleteReview, flagReview } = useReview(gameId);
+  const { reviews, summary, loading, deleteReview, flagReview, reactToReview } = useReview(gameId);
   const [writeVisible, setWriteVisible] = useState(false);
+  const [sortBy, setSortBy] = useState<ReviewSortOption>('recent');
+
+  const sortedReviews = useMemo(() => {
+    const sorted = [...reviews];
+    switch (sortBy) {
+      case 'helpful':
+        return sorted.sort((a, b) => (b.helpfulUserIds?.length ?? 0) - (a.helpfulUserIds?.length ?? 0));
+      case 'highest':
+        return sorted.sort((a, b) => b.rating - a.rating);
+      case 'lowest':
+        return sorted.sort((a, b) => a.rating - b.rating);
+      case 'recent':
+      default:
+        return sorted.sort((a, b) => b.createdAt - a.createdAt);
+    }
+  }, [reviews, sortBy]);
 
   const renderRatingBar = (star: 1 | 2 | 3 | 4 | 5) => {
     const count = summary?.ratingDistribution[star] ?? 0;
@@ -79,12 +95,23 @@ export const GameReviewsScreen: React.FC<Props> = ({ gameId, gameName, onBack })
 
         <View style={styles.reviewActions}>
           {!isOwn && (
-            <TouchableOpacity
-              onPress={() => flagReview(item.id)}
-              hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
-            >
-              <Text style={styles.flagBtn}>{item.flagged ? '🚩 ' : '⚑ '}{t('review.flag')}</Text>
-            </TouchableOpacity>
+            <>
+              <TouchableOpacity
+                onPress={() => reactToReview(item.id)}
+                hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+              >
+                <Text style={styles.helpfulBtn}>
+                  {item.helpfulUserIds?.includes(user?.id ?? 'guest') ? '👍' : '👍 '}
+                  {item.helpfulUserIds?.length ?? 0}
+                </Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => flagReview(item.id)}
+                hitSlop={{ top: 6, bottom: 6, left: 6, right: 6 }}
+              >
+                <Text style={styles.flagBtn}>{item.flagged ? '🚩 ' : '⚑ '}{t('review.flag')}</Text>
+              </TouchableOpacity>
+            </>
           )}
           {isOwn && (
             <TouchableOpacity
@@ -116,7 +143,7 @@ export const GameReviewsScreen: React.FC<Props> = ({ gameId, gameName, onBack })
         <ActivityIndicator style={styles.loader} size="large" color="#9b59b6" />
       ) : (
         <FlatList
-          data={reviews}
+          data={sortedReviews}
           keyExtractor={(item) => item.id}
           renderItem={renderReview}
           contentContainerStyle={styles.list}
@@ -138,6 +165,19 @@ export const GameReviewsScreen: React.FC<Props> = ({ gameId, gameName, onBack })
               </Text>
               <View style={styles.barsContainer}>
                 {([5, 4, 3, 2, 1] as const).map(renderRatingBar)}
+              </View>
+              <View style={styles.sortRow}>
+                {(['recent', 'helpful', 'highest', 'lowest'] as const).map((opt) => (
+                  <TouchableOpacity
+                    key={opt}
+                    style={[styles.sortBtn, sortBy === opt && styles.sortBtnActive]}
+                    onPress={() => setSortBy(opt)}
+                  >
+                    <Text style={[styles.sortBtnText, sortBy === opt && styles.sortBtnTextActive]}>
+                      {t(`review.sort.${opt}`)}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
               </View>
             </View>
           }
@@ -265,6 +305,30 @@ const styles = StyleSheet.create({
     color: '#999',
     textAlign: 'right',
   },
+  sortRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 8,
+    marginTop: 16,
+    justifyContent: 'center',
+  },
+  sortBtn: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    backgroundColor: '#f0e6f6',
+  },
+  sortBtnActive: {
+    backgroundColor: '#9b59b6',
+  },
+  sortBtnText: {
+    fontSize: 12,
+    color: '#666',
+    fontWeight: '500',
+  },
+  sortBtnTextActive: {
+    color: '#fff',
+  },
   reviewCard: {
     backgroundColor: '#fff',
     borderRadius: 16,
@@ -336,6 +400,11 @@ const styles = StyleSheet.create({
   reviewActions: {
     flexDirection: 'row',
     justifyContent: 'flex-end',
+    gap: 16,
+  },
+  helpfulBtn: {
+    fontSize: 12,
+    color: '#666',
   },
   flagBtn: {
     fontSize: 12,

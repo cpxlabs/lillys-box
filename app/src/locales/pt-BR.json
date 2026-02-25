@@ -27,6 +27,12 @@
     "noReviews": "Sem avaliações ainda. Seja o primeiro! ⭐",
     "flag": "Denunciar",
     "delete": "Excluir",
+    "sort": {
+      "recent": "Recentes",
+      "helpful": "Úteis",
+      "highest": "Maiores",
+      "lowest": "Menores"
+    },
     "gifPickerTitle": "Buscar GIFs",
     "gifSearchPlaceholder": "Pesquisar GIFs...",
     "gifNoResults": "Nenhum GIF encontrado",

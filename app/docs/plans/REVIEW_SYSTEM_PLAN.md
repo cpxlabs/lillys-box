@@ -1,6 +1,6 @@
 # Game Review System — Implementation Plan
 
-**Status:** 📋 Planning
+**Status:** ✅ Implemented (Phase 1 & 2 complete)
 **Last Updated:** 2026-02-25
 **Target Version:** 1.2.0
 
@@ -165,8 +165,11 @@ Full-screen view of all reviews for a game. Accessible from the game card (long-
 
 **Sections:**
 - Summary header: average stars, total count, rating distribution bar chart
+- Sort buttons: Recent, Helpful, Highest, Lowest
 - Flat list of review cards (avatar, nickname, stars, comment, media thumbnails, date)
+- Helpful reaction button with count on each card
 - Flag button on each card (marks review as flagged in local storage)
+- Delete button for own reviews
 - "Write a Review" FAB button → opens `ReviewModal`
 
 ---
