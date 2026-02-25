@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useBubblePop } from '../context/BubblePopContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'BubblePopHome'> };
 
@@ -11,10 +12,7 @@ export const BubblePopHomeScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { bestScore } = useBubblePop();
 
-  const handleBack = () => {
-    if (navigation.canGoBack()) navigation.goBack();
-    else navigation.getParent()?.goBack();
-  };
+  const handleBack = useGameBack(navigation);
 
   return (
     <SafeAreaView style={styles.container}>

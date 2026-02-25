@@ -6,6 +6,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useBubblePop } from '../context/BubblePopContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'BubblePopGame'> };
 
@@ -126,11 +127,9 @@ export const BubblePopGameScreen: React.FC<Props> = ({ navigation }) => {
     };
   }, [spawnBubble, updateBestScore]);
 
-  const handleBack = () => {
-    gameActiveRef.current = false;
-    if (navigation.canGoBack()) navigation.goBack();
-    else navigation.getParent()?.goBack();
-  };
+  const handleBack = useGameBack(navigation, { 
+    cleanup: () => { gameActiveRef.current = false; }
+  });
 
   return (
     <SafeAreaView style={styles.container}>

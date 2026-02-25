@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal } from 'r
 import { useTranslation } from 'react-i18next';
 import { useTreasureDig } from '../context/TreasureDigContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'TreasureDigGame'> };
 
@@ -85,7 +86,7 @@ export const TreasureDigGameScreen: React.FC<Props> = ({ navigation }) => {
   }, [digsLeft, gameOver, tiles, found, score, updateBestScore]);
 
   const restart = () => { setTiles(initGrid()); setDigsLeft(MAX_DIGS); setScore(0); setFound(0); setGameOver(false); setLastHeat(0); };
-  const handleBack = () => { if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation);
 
   return (
     <SafeAreaView style={styles.container}>

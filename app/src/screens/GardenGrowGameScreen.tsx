@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal, ScrollVi
 import { useTranslation } from 'react-i18next';
 import { useGardenGrow } from '../context/GardenGrowContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'GardenGrowGame'> };
 
@@ -100,7 +101,7 @@ export const GardenGrowGameScreen: React.FC<Props> = ({ navigation }) => {
   }, []);
 
   const restart = () => { setPlots(Array(GRID_SIZE * GRID_SIZE).fill(null).map(emptyPlot)); setScore(0); setHarvested(0); setGameOver(false); };
-  const handleBack = () => { if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation);
 
   const TOOLS = [
     { id: 'plant' as const, emoji: '🌱', label: 'Plant' },

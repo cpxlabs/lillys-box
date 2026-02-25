@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal, ScrollVi
 import { useTranslation } from 'react-i18next';
 import { usePaintSplash } from '../context/PaintSplashContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'PaintSplashGame'> };
 
@@ -42,7 +43,7 @@ export const PaintSplashGameScreen: React.FC<Props> = ({ navigation }) => {
   }, [selectedColor, painted, updateBestScore]);
 
   const restart = () => { setPainted({}); setScore(0); setGameOver(false); };
-  const handleBack = () => { if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation);
 
   const progress = (Object.keys(painted).length / SECTIONS.length) * 100;
 

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal } from 'r
 import { useTranslation } from 'react-i18next';
 import { useMirrorMatchGame } from '../context/MirrorMatchContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'MirrorMatchGame'> };
 
@@ -59,7 +60,7 @@ export const MirrorMatchGameScreen: React.FC<Props> = ({ navigation }) => {
     }
   }, [userGrid, target, score, updateBestScore]);
 
-  const handleBack = () => { if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation);
 
   return (
     <SafeAreaView style={styles.container}>

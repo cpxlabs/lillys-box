@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView } fr
 import { useTranslation } from 'react-i18next';
 import { useMusicMaker } from '../context/MusicMakerContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'MusicMakerGame'> };
 
@@ -86,7 +87,9 @@ export const MusicMakerGameScreen: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => { return () => { if (timerRef.current) clearInterval(timerRef.current); }; }, []);
 
-  const handleBack = () => { stopPlay(); if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation, { 
+    cleanup: () => { stopPlay(); }
+  });
 
   return (
     <SafeAreaView style={styles.container}>

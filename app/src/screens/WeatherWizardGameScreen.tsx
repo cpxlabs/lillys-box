@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal } from 'r
 import { useTranslation } from 'react-i18next';
 import { useWeatherWizard } from '../context/WeatherWizardContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'WeatherWizardGame'> };
 
@@ -96,7 +97,7 @@ export const WeatherWizardGameScreen: React.FC<Props> = ({ navigation }) => {
   }, [currentStep, stepIndex, scene, sceneIndex, score, updateBestScore]);
 
   const restart = () => { setSceneIndex(0); setStepIndex(0); setStepResult(''); setScore(0); setGameOver(false); setFeedback(''); };
-  const handleBack = () => { if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation);
 
   return (
     <SafeAreaView style={styles.container}>

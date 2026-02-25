@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Animated, Modal
 import { useTranslation } from 'react-i18next';
 import { usePetDanceParty } from '../context/PetDancePartyContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'PetDancePartyGame'> };
 
@@ -109,7 +110,9 @@ export const PetDancePartyGameScreen: React.FC<Props> = ({ navigation }) => {
     return () => { gameActiveRef.current = false; clearInterval(spawnI); clearInterval(timerI); };
   }, [spawnArrow, updateBestScore]);
 
-  const handleBack = () => { gameActiveRef.current = false; if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation, { 
+    cleanup: () => { gameActiveRef.current = false; }
+  });
 
   return (
     <SafeAreaView style={styles.container}>

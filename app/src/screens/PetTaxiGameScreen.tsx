@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Animated, Modal
 import { useTranslation } from 'react-i18next';
 import { usePetTaxi } from '../context/PetTaxiContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'PetTaxiGame'> };
 const { width: SW } = Dimensions.get('window');
@@ -83,7 +84,9 @@ export const PetTaxiGameScreen: React.FC<Props> = ({ navigation }) => {
   }, [spawnPassenger, updateBestScore]);
 
   const restart = () => { setCarLane(1); carLaneRef.current = 1; setPassengers([]); setCurrentPassenger(null); currentPassRef.current = null; setScore(0); setDelivered(0); setTimeLeft(GAME_DURATION); setGameOver(false); setCoins(0); scoreRef.current = 0; gameActiveRef.current = true; };
-  const handleBack = () => { gameActiveRef.current = false; if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation, { 
+    cleanup: () => { gameActiveRef.current = false; }
+  });
 
   return (
     <SafeAreaView style={styles.container}>

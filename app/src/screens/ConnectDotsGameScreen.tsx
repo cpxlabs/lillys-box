@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal, Dimensio
 import { useTranslation } from 'react-i18next';
 import { useConnectDots } from '../context/ConnectDotsContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'ConnectDotsGame'> };
 const { width: SW } = Dimensions.get('window');
@@ -71,7 +72,7 @@ export const ConnectDotsGameScreen: React.FC<Props> = ({ navigation }) => {
   }, [nextDot, connected, score, pic.dots.length, picIndex, updateBestScore]);
 
   const restart = () => { setPicIndex(0); setNextDot(0); setConnected([]); setScore(0); setGameOver(false); setShowReveal(false); };
-  const handleBack = () => { if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation);
 
   return (
     <SafeAreaView style={styles.container}>

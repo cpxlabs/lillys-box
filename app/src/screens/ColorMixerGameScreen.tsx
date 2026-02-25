@@ -14,6 +14,7 @@ import { LinearGradient } from 'expo-linear-gradient';
 import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useColorMixer } from '../context/ColorMixerContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 import {
   LEVELS,
   RGB,
@@ -90,9 +91,7 @@ export const ColorMixerGameScreen: React.FC<Props> = ({ navigation, route }) => 
     navigation.navigate('ColorMixerLevels');
   };
 
-  const handleBack = () => {
-    navigation.goBack();
-  };
+  const handleBack = useGameBack(navigation);
 
   if (!level) {
     return null;

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Animated, Modal
 import { useTranslation } from 'react-i18next';
 import { useSnackStack } from '../context/SnackStackContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'SnackStackGame'> };
 const { width: SW } = Dimensions.get('window');
@@ -99,7 +100,9 @@ export const SnackStackGameScreen: React.FC<Props> = ({ navigation }) => {
     swingAnim.setValue(0);
   };
 
-  const handleBack = () => { gameActiveRef.current = false; if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation, { 
+    cleanup: () => { gameActiveRef.current = false; }
+  });
 
   return (
     <SafeAreaView style={styles.container}>

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal } from 'r
 import { useTranslation } from 'react-i18next';
 import { useWordBubbles } from '../context/WordBubblesContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'WordBubblesGame'> };
 
@@ -69,7 +70,7 @@ export const WordBubblesGameScreen: React.FC<Props> = ({ navigation }) => {
     }
   }, [tapped, letters, currentWord, score, wordIndex, updateBestScore]);
 
-  const handleBack = () => { if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation);
 
   return (
     <SafeAreaView style={styles.container}>

@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Mod
 import { useTranslation } from 'react-i18next';
 import { usePhotoStudio } from '../context/PhotoStudioContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'PhotoStudioGame'> };
 
@@ -65,7 +66,7 @@ export const PhotoStudioGameScreen: React.FC<Props> = ({ navigation }) => {
     updateBestScore(newScore);
   }, [bgIndex, poseIndex, activeProps, activeStickers, gallery, score, updateBestScore]);
 
-  const handleBack = () => { if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation);
 
   return (
     <SafeAreaView style={styles.container}>

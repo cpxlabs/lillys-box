@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Animated, PanRe
 import { useTranslation } from 'react-i18next';
 import { useBalloonFloat } from '../context/BalloonFloatContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'BalloonFloatGame'> };
 
@@ -101,7 +102,9 @@ export const BalloonFloatGameScreen: React.FC<Props> = ({ navigation }) => {
     setStars(prev => prev.filter(s => s.id !== starId));
   };
 
-  const handleBack = () => { gameActiveRef.current = false; if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation, { 
+    cleanup: () => { gameActiveRef.current = false; }
+  });
 
   return (
     <SafeAreaView style={styles.container}>

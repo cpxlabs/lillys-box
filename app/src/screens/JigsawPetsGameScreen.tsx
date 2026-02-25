@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal } from 'r
 import { useTranslation } from 'react-i18next';
 import { useJigsawPets } from '../context/JigsawPetsContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'JigsawPetsGame'> };
 
@@ -58,7 +59,7 @@ export const JigsawPetsGameScreen: React.FC<Props> = ({ navigation }) => {
   }, [selectedPiece, board, originalPieces, selectedPieceIndex, updateBestScore]);
 
   const restart = () => { setBoard(Array(TOTAL).fill(null)); setRemaining(shuffle(originalPieces)); setSelectedPiece(null); setSelectedPieceIndex(null); setScore(0); setMoves(0); setGameOver(false); };
-  const handleBack = () => { if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation);
 
   return (
     <SafeAreaView style={styles.container}>

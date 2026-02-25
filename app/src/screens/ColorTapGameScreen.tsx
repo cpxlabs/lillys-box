@@ -5,6 +5,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/navigation';
 import { ArtifactGameAdapter, ArtifactMessage } from '../components/ArtifactGameAdapter';
 import { useColorTap } from '../context/ColorTapContext';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ColorTapGame'>;
 
@@ -264,9 +265,7 @@ export const ColorTapGameScreen: React.FC<Props> = ({ navigation }) => {
     [navigation],
   );
 
-  const handleBack = () => {
-    navigation.goBack();
-  };
+  const handleBack = useGameBack(navigation);
 
   return (
     <SafeAreaView style={styles.container}>

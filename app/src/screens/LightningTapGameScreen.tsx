@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal } from 'r
 import { useTranslation } from 'react-i18next';
 import { useLightningTap } from '../context/LightningTapContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'LightningTapGame'> };
 
@@ -71,7 +72,9 @@ export const LightningTapGameScreen: React.FC<Props> = ({ navigation }) => {
   }, []);
 
   const restart = () => { setScore(0); setMisses(0); setTimeLeft(GAME_DURATION); setGameOver(false); setLitTiles(new Set()); litRef.current = new Set(); scoreRef.current = 0; gameActiveRef.current = true; };
-  const handleBack = () => { gameActiveRef.current = false; if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation, { 
+    cleanup: () => { gameActiveRef.current = false; }
+  });
 
   const getRTLabel = (ms: number) => {
     if (ms < 200) return '⚡ Lightning fast!';

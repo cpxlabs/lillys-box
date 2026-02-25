@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Mod
 import { useTranslation } from 'react-i18next';
 import { usePetExplorer } from '../context/PetExplorerContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'PetExplorerGame'> };
 
@@ -76,7 +77,7 @@ export const PetExplorerGameScreen: React.FC<Props> = ({ navigation }) => {
   }, [zoneIndex]);
 
   const restart = () => { setZoneIndex(0); setObjects(ZONES.map(z => [...z.objects])); setScore(0); setCollected(0); setGameOver(false); setPetPos(0); };
-  const handleBack = () => { if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation);
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: zone.bg }]}>

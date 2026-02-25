@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Mod
 import { useTranslation } from 'react-i18next';
 import { usePetChef } from '../context/PetChefContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'PetChefGame'> };
 
@@ -70,7 +71,7 @@ export const PetChefGameScreen: React.FC<Props> = ({ navigation }) => {
   }, [recipe, score, recipeIndex, updateBestScore]);
 
   const restart = () => { setRecipeIndex(0); setAdded([]); setCooked(false); setScore(0); setAllDone(false); setPetReaction('🐾'); };
-  const handleBack = () => { if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation);
 
   return (
     <SafeAreaView style={styles.container}>

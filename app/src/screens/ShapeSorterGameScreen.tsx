@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal } from 'r
 import { useTranslation } from 'react-i18next';
 import { useShapeSorter } from '../context/ShapeSorterContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'ShapeSorterGame'> };
 
@@ -70,7 +71,7 @@ export const ShapeSorterGameScreen: React.FC<Props> = ({ navigation }) => {
   }, [selectedShape, targets, round, score, updateBestScore]);
 
   const restart = () => { setTargets(generateRound()); setFallingShapes(generateRound().map(t => t.shape)); setSelectedShape(null); setScore(0); setRound(1); setGameOver(false); };
-  const handleBack = () => { if (navigation.canGoBack()) navigation.goBack(); else navigation.getParent()?.goBack(); };
+  const handleBack = useGameBack(navigation);
 
   return (
     <SafeAreaView style={styles.container}>
