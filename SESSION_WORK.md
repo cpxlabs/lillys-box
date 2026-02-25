@@ -7,6 +7,33 @@
 
 ---
 
+## 2026-02-25: Review System & Bug Fixes
+
+**Branch:** `master` (direct push)
+
+### Features Added
+- **Game Review System** - Complete implementation:
+  - Review types, service, and hook
+  - ReviewModal, StarRating, MediaAttachment, GifPicker components
+  - GameReviewsScreen with sorting (recent/helpful/highest/lowest)
+  - Helpful reaction feature
+  - Firebase Firestore integration for sync
+  - Average rating display on game cards
+
+### Bugs Fixed (from Code Review)
+1. `savePet` missing userId in all activity functions (PetContext.tsx) - data loss bug
+2. `visitVet` argument mismatch in usePetActions.ts
+3. Sleep cancellation memory leak - added cleanup for checker timeout
+4. CreatePetScreen error handling - added try-catch with toast
+5. Accented characters in pet names - updated regex for Unicode support
+
+### Documentation Updated
+- REVIEW_SYSTEM_PLAN.md - marked complete
+- PLAN.md - marked review system complete
+- CODE_REVIEW.md - marked fixed items as done
+
+---
+
 ## What Was Built
 
 ### 20 New Games Added

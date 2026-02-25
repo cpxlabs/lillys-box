@@ -626,18 +626,18 @@ If the app is updated and the data schema changes, there is no app-version-based
 
 ### 🔴 Do Before Any Release
 
-1. **Fix `savePet` missing `userId`** in all 9 activity functions in `PetContext.tsx` — this causes data loss for authenticated users.
+1. ~~**Fix `savePet` missing `userId`** in all 9 activity functions in `PetContext.tsx` — this causes data loss for authenticated users.~~ ✅ Fixed
 2. **Replace placeholder OAuth client ID** (`YOUR_WEB_CLIENT_ID`) with a real value, loaded from environment variables.
 3. **Replace test AdMob IDs** and set `testMode: false`, gated on `!__DEV__`.
-4. **Fix sleep cancellation leak** — replace infinite polling loop with proper cleanup.
-5. **Fix `visitVet` argument mismatch** in `usePetActions.ts` — pass `treatmentType` explicitly.
-6. **Add error handling** in `CreatePetScreen.handleCreate` for AsyncStorage failures.
+4. ~~**Fix sleep cancellation leak** — replace infinite polling loop with proper cleanup.~~ ✅ Fixed
+5. ~~**Fix `visitVet` argument mismatch** in `usePetActions.ts` — pass `treatmentType` explicitly.~~ ✅ Fixed
+6. ~~**Add error handling** in `CreatePetScreen.handleCreate` for AsyncStorage failures.~~ ✅ Fixed
 
 ### 🟡 High Priority (Before Beta)
 
 7. **Fix stale `pet` closure** in `visitVet` money check — move check inside `setPet` updater.
 8. **Fix happiness decay** using inconsistent `currentPet.happiness` vs `tempPet.happiness`.
-9. **Allow accented characters** in pet name validation for pt-BR users.
+9. ~~**Allow accented characters** in pet name validation for pt-BR users.~~ ✅ Fixed
 10. **Localize validation error messages** (currently hardcoded English strings).
 11. **Fix Jest version mismatch** (`jest@30` + `jest-expo@50`).
 12. **Add tests for** the critical paths listed in §7.1.
