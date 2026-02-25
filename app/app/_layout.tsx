@@ -3,14 +3,14 @@ import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { Stack, useRouter, useSegments, usePathname } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
-import './src/i18n';
-import { registerAllGames } from './src/gameRegistrations';
-import { ErrorBoundary } from './src/components/ErrorBoundary';
-import { LanguageProvider } from './src/context/LanguageContext';
-import { AuthProvider, useAuth } from './src/context/AuthContext';
-import { ToastProvider } from './src/context/ToastContext';
-import { AdProvider, useAd } from './src/context/AdContext';
-import AdService from './src/services/AdService';
+import '../src/i18n';
+import { registerAllGames } from '../src/gameRegistrations';
+import { ErrorBoundary } from '../src/components/ErrorBoundary';
+import { LanguageProvider } from '../src/context/LanguageContext';
+import { AuthProvider, useAuth } from '../src/context/AuthContext';
+import { ToastProvider } from '../src/context/ToastContext';
+import { AdProvider, useAd } from '../src/context/AdContext';
+import AdService from '../src/services/AdService';
 
 registerAllGames();
 
