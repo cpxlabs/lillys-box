@@ -1,7 +1,6 @@
 # Dependencies
 node_modules/
 package-lock.json
-pnpm-lock.yaml
 
 # Expo
 .expo/
@@ -42,4 +41,3 @@ GoogleService-Info.plist
 .claude/
 .claude-session
 *.claude-context
-pnpm-lock.yaml
