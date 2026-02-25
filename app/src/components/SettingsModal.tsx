@@ -4,10 +4,9 @@ import {
   Text,
   TouchableOpacity,
   ScrollView,
-  Modal,
   StyleSheet,
-  SafeAreaView,
   Platform,
+  Pressable,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../context/LanguageContext';
@@ -78,14 +77,17 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
     onClose();
   };
 
+  if (!visible) return null;
+
   return (
-    <Modal
-      visible={visible}
-      animationType="slide"
-      presentationStyle="pageSheet"
-      onRequestClose={onClose}
-    >
-      <SafeAreaView style={styles.container}>
+    <View style={styles.overlay} pointerEvents="box-none">
+      <Pressable 
+        style={styles.backdrop} 
+        onPress={onClose}
+      />
+      <View style={styles.sheet}>
+        <View style={styles.handle} />
+        
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.title}>{t('settings.title', 'Settings')}</Text>
@@ -170,15 +172,36 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </View>
           )}
         </ScrollView>
-      </SafeAreaView>
-    </Modal>
+      </View>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'flex-end',
+    zIndex: 1000,
+  },
+  backdrop: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+  },
+  sheet: {
     backgroundColor: '#f5f5f5',
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    maxHeight: '80%',
+    paddingBottom: Platform.OS === 'ios' ? 34 : 20,
+  },
+  handle: {
+    width: 40,
+    height: 4,
+    backgroundColor: '#ddd',
+    borderRadius: 2,
+    alignSelf: 'center',
+    marginTop: 12,
+    marginBottom: 8,
   },
   header: {
     flexDirection: 'row',
