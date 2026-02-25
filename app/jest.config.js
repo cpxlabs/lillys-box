@@ -11,7 +11,7 @@ module.exports = {
     '^.+\\.[jt]sx?$': 'babel-jest',
   },
   transformIgnorePatterns: [
-    'node_modules/(?!.*((jest-)?react-native|@react-native(-community)?|@react-native/.*|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|react-native-reanimated|react-native-gesture-handler|react-native-safe-area-context|react-native-screens|react-native-get-random-values|react-native-google-mobile-ads|uuid|@shopify/react-native-skia|@react-native/js-polyfills|expo-haptics|expo-constants|expo-router|expo-linking|expo-status-bar))',
+    'node_modules/(?!.*((jest-)?react-native|@react-native(-community)?|@react-native/.*|expo(nent)?|@expo(nent)?/.*|@expo-google-fonts/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|react-native-svg|react-native-reanimated|react-native-gesture-handler|react-native-safe-area-context|react-native-screens|react-native-get-random-values|react-native-google-mobile-ads|uuid|@shopify/react-native-skia|@react-native/js-polyfills|expo-haptics|expo-constants))',
 
   ],
   testMatch: [

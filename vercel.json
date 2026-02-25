@@ -1,6 +1,0 @@
-{
-  "buildCommand": "EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export --platform web",
-  "outputDirectory": "dist",
-  "framework": null,
-  "installCommand": "pnpm install"
-}

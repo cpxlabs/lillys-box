@@ -26,10 +26,8 @@ module.exports = () => {
       package: "com.az1nn.petcaregame",
       googleServicesFile: "./google-services.json"
     },
-    scheme: "pet-care-game",
     web: {
-      favicon: "./assets/favicon.png",
-      bundler: "metro"
+      favicon: "./assets/favicon.png"
     }
   };
 
@@ -38,10 +36,7 @@ module.exports = () => {
   const isWebBuild = process.env.EXPO_PUBLIC_BUILD_PLATFORM === 'web';
 
   // Plugins array - only include native plugins for mobile builds
-  const plugins = isWebBuild ? [
-    "expo-router"
-  ] : [
-    "expo-router",
+  const plugins = isWebBuild ? [] : [
     "@react-native-google-signin/google-signin"
   ];
 
