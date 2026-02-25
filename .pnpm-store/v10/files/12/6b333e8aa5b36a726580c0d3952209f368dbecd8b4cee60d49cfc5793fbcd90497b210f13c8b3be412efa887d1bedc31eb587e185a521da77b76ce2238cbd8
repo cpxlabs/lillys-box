@@ -1,1 +1,0 @@
-"use strict";var Segment;Object.defineProperty(exports,"__esModule",{value:!0}),exports.Segment=void 0,function(e){e.CORE="core",e.VENDORS_DISCLOSED="vendorsDisclosed",e.VENDORS_ALLOWED="vendorsAllowed",e.PUBLISHER_TC="publisherTC"}(Segment=exports.Segment||(exports.Segment={}));
