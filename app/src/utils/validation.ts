@@ -1,7 +1,7 @@
 export const PET_NAME_VALIDATION = {
   MIN_LENGTH: 1,
   MAX_LENGTH: 20,
-  ALLOWED_CHARS: /^[a-zA-Z0-9\s\-']+$/,
+  ALLOWED_CHARS: /^[\p{L}\p{N}\s\-']+$/u,
 };
 
 export interface ValidationResult {

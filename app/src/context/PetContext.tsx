@@ -170,7 +170,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };
@@ -192,7 +192,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };
@@ -213,7 +213,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };
@@ -240,11 +240,12 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         isSleeping: true,
         sleepStartTime: startTime,
       };
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
 
     // Wait for sleep duration with cancellation support using Promise.race
+    let checkerTimeout: ReturnType<typeof setTimeout> | null = null;
     const completed = await Promise.race([
       // Sleep timer
       new Promise<boolean>((resolve) => {
@@ -263,12 +264,17 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
             resolve(false);
           } else {
             // Check again in 100ms
-            setTimeout(checkCancellation, 100);
+            checkerTimeout = setTimeout(checkCancellation, 100);
           }
         };
         checkCancellation();
       }),
     ]);
+
+    // Clean up checker timeout to prevent memory leak
+    if (checkerTimeout) {
+      clearTimeout(checkerTimeout);
+    }
 
     // Calculate partial recovery if cancelled early
     const actualDuration = Math.min(Date.now() - startTime, duration);
@@ -289,7 +295,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
 
@@ -349,7 +355,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         `visitVet: Health updated - calculated: ${calculatedHealth}, target: ${effects.healthTarget}, final: ${updatedPet.health}`
       );
 
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
 
@@ -373,7 +379,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };
@@ -391,7 +397,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       };
 
       updatedPet.health = calculateHealth(updatedPet);
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };
@@ -407,7 +413,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
           [slot]: itemId,
         },
       };
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };
@@ -425,7 +431,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
         ...currentPet,
         money: (currentPet.money ?? 0) + amount, // Defensive fallback for robustness
       };
-      savePet(updatedPet).catch(logger.error);
+      savePet(updatedPet, userId).catch(logger.error);
       return updatedPet;
     });
   };

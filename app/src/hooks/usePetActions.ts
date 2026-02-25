@@ -151,7 +151,7 @@ export function usePetActions(): UsePetActionsReturn {
           petCuddle();
           break;
         case 'vet':
-          visitVet(options.useMoney);
+          visitVet('antibiotic', options.useMoney);
           break;
         default:
           logger.error(`Unknown action type: ${type}`);

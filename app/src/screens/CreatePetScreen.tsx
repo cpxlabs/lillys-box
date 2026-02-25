@@ -118,9 +118,13 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
       return;
     }
 
-    const sanitizedName = sanitizePetName(name);
-    await createPet(sanitizedName, petType, gender, color);
-    navigation.replace('Home');
+    try {
+      const sanitizedName = sanitizePetName(name);
+      await createPet(sanitizedName, petType, gender, color);
+      navigation.replace('Home');
+    } catch (error) {
+      showToast(t('common.error') || 'Failed to create pet. Please try again.', 'error');
+    }
   };
 
   return (

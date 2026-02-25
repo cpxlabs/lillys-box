@@ -10,7 +10,7 @@
 | Plan | Status | Doc |
 |------|--------|-----|
 | User Stats, Auth & Firebase | 📋 Not started | [Details below](#user-stats-auth--profile---implementation-plan) |
-| Game Review System | 📋 Not started | [`app/docs/plans/REVIEW_SYSTEM_PLAN.md`](./app/docs/plans/REVIEW_SYSTEM_PLAN.md) |
+| Game Review System | ✅ Complete | [`app/docs/plans/REVIEW_SYSTEM_PLAN.md`](./app/docs/plans/REVIEW_SYSTEM_PLAN.md) |
 
 ---
 
