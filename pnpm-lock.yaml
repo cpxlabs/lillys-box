@@ -62,9 +62,6 @@ importers:
       i18next:
         specifier: ^25.7.4
         version: 25.7.4(typescript@5.9.3)
-      pnpm:
-        specifier: ^10.26.2
-        version: 10.28.1
       react:
         specifier: 18.2.0
         version: 18.2.0
