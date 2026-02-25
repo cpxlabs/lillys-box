@@ -2,7 +2,7 @@
   "buildCommand": "EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export --platform web",
   "outputDirectory": "dist",
   "framework": null,
-  "installCommand": "npm install -g pnpm@10.30.2 && pnpm install --no-frozen-lockfile",
+  "installCommand": "npm install --legacy-peer-deps",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
