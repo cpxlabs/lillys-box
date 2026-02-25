@@ -123,24 +123,29 @@ Reintegrate Skia 2.4.14 into the bath screen for high-performance bubble particl
 
 ---
 
-### 🟡 Game Review System
-**Status:** Planning — [Plan](./plans/REVIEW_SYSTEM_PLAN.md)
+### ✅ Game Review System
+**Status:** COMPLETED (Feb 2026)
 **Priority:** Medium
+**Documentation:** [docs/plans/REVIEW_SYSTEM_PLAN.md](./plans/REVIEW_SYSTEM_PLAN.md)
 
 Allow players to leave reviews on individual games directly from the game screen. Reviews include text comments, star ratings, and optional image/GIF attachments.
 
-- [ ] `ReviewModal` component (bottom sheet, opens from any game screen)
-- [ ] Star rating widget (1–5 stars)
-- [ ] Text comment input (multiline, max 500 chars)
-- [ ] Image attachment via `expo-image-picker`
-- [ ] GIF search via Tenor API with inline browser
-- [ ] Media preview strip with remove capability
-- [ ] Local persistence (AsyncStorage) for MVP
-- [ ] Firebase Firestore + Storage sync (Phase 2, after auth overhaul)
-- [ ] Reviews list screen per game
-- [ ] Moderation flag button on each review
+- [x] `ReviewModal` component (bottom sheet, opens from any game screen)
+- [x] Star rating widget (1–5 stars)
+- [x] Text comment input (multiline, max 500 chars)
+- [x] Image attachment via `expo-image-picker`
+- [x] GIF search via Tenor API with inline browser
+- [x] Media preview strip with remove capability
+- [x] Local persistence (AsyncStorage) for MVP
+- [x] Firebase Firestore + Storage sync (Phase 2)
+- [x] Reviews list screen per game
+- [x] Moderation flag button on each review
+- [x] Helpful reaction on reviews
+- [x] Sort reviews (recent, helpful, highest, lowest)
+- [x] Delete own reviews
+- [x] Update existing reviews
 
-**Files to create:**
+**Files created:**
 - `src/components/ReviewModal.tsx`
 - `src/components/StarRating.tsx`
 - `src/components/MediaAttachment.tsx`
@@ -148,6 +153,7 @@ Allow players to leave reviews on individual games directly from the game screen
 - `src/hooks/useReview.ts`
 - `src/services/ReviewService.ts`
 - `src/screens/GameReviewsScreen.tsx`
+- `src/types/review.ts`
 
 ---
 
@@ -495,18 +501,24 @@ src/
 
 ## 🎯 Milestones
 
-### Milestone 1: MVP Enhancement (v1.1)
-**Status:** 80% COMPLETE
+### Milestone 1: MVP Enhancement (v1.2)
+**Status:** 90% COMPLETE
 - [x] Folder structure documentation ✅
 - [x] Testing infrastructure ✅ (99% tests passing)
 - [x] Code quality improvements ✅ (ESLint, Prettier, usePetActions hook)
 - [x] i18n support ✅ (English + Portuguese)
 - [x] Accessibility improvements ✅ (partial - haptics, labels)
-- [x] Authentication system with Google OAuth ✅ (NEW - Jan 2026)
+- [x] Authentication system with Google OAuth ✅ (Jan 2026)
   - [x] Google Sign-In integration
   - [x] Guest mode support
   - [x] Multi-user data isolation
   - [x] Comprehensive setup documentation
+- [x] Game Review System ✅ (Feb 2026)
+  - [x] Review modal with stars, comments, media
+  - [x] Image/GIF attachments
+  - [x] Firebase Firestore sync
+  - [x] Helpful reactions
+  - [x] Sort and filter
 - [ ] Skia bath screen reimplementation (Planning Complete - [Plan](./SKIA_BATH_REIMPLEMENTATION_PLAN.md))
 - [ ] Sounds and audio (Next Priority)
 - [ ] Advanced performance optimizations (In Progress)
@@ -558,10 +570,10 @@ src/
 ---
 
 **Last Updated:** 2026-02-25
-**Current Version:** 1.1.0
-**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel
-**Features Completed:** 85% (core game + OAuth + web deploy)
-**Next Version Target:** 1.2.0 (Game Review System + Sounds)
+**Current Version:** 1.2.0
+**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System
+**Features Completed:** 90% (core game + OAuth + web deploy + review system)
+**Next Version Target:** 1.3.0 (Sounds + Performance)
 
 ---
 
