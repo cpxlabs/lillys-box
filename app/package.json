@@ -1,6 +1,7 @@
 {
   "name": "pet-care-game",
   "version": "1.0.0",
+  "packageManager": "pnpm@10.30.2",
   "description": "Jogo 2D infantil para Android usando React Native - cuidar de animais domésticos",
   "main": "expo-router/entry",
   "scripts": {
