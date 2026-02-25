@@ -1,4 +1,12 @@
 {
+  "settings": {
+    "title": "Settings",
+    "language": "Language",
+    "interface": "Interface",
+    "selectLanguage": "Select Language",
+    "selectInterface": "Select Interface",
+    "interfaceHint": "Choose how games are displayed"
+  },
   "review": {
     "modalTitle": "Review {{name}}",
     "ratingLabel": "Your rating",

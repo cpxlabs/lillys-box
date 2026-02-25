@@ -11,7 +11,6 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
 import { gameRegistry, GameDefinition } from '../registry/GameRegistry';
-import { LanguageSelector } from '../components/LanguageSelector';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { useFavoriteGames } from '../hooks/useFavoriteGames';
 import { ScreenNavigationProp } from '../types/navigation';
@@ -20,6 +19,7 @@ import { ReviewModal } from '../components/ReviewModal';
 import { GameReviewsScreen } from './GameReviewsScreen';
 import { ReviewService } from '../services/ReviewService';
 import { ReviewSummary } from '../types/review';
+import { SettingsModal } from '../components/SettingsModal';
 import {
   Alt1CompactList,
   Alt2MinimalGrid,
@@ -111,6 +111,7 @@ export const GameSelectionScreen: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [uiIndex, setUiIndex] = useState(0);
   const [showPicker, setShowPicker] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
 
   // Review state
   const [reviewGameId, setReviewGameId] = useState<string | null>(null);
@@ -193,15 +194,16 @@ export const GameSelectionScreen: React.FC = () => {
   const currentVariant = UI_VARIANTS[uiIndex];
   const AltComponent = currentVariant.component;
 
-  // ── UI Switcher (shared across all variants) ──────────────────
-  const switcher = (
-    <UISwitcher
-      uiIndex={uiIndex}
-      setUiIndex={setUiIndex}
-      showPicker={showPicker}
-      setShowPicker={setShowPicker}
-      currentLabel={currentVariant.label}
-    />
+  // ── Settings button (shared across all variants) ──────────────────
+  const settingsButton = (
+    <TouchableOpacity
+      style={switcherStyles.fab}
+      onPress={() => setShowSettings(true)}
+      activeOpacity={0.85}
+    >
+      <Text style={switcherStyles.fabIcon}>⚙️</Text>
+      <Text style={switcherStyles.fabLabel}>{t('settings.title', 'Settings')}</Text>
+    </TouchableOpacity>
   );
 
   // ── Render alternative UI if selected ─────────────────────────
@@ -209,7 +211,13 @@ export const GameSelectionScreen: React.FC = () => {
     return (
       <View style={{ flex: 1 }}>
         <AltComponent {...altProps} />
-        {switcher}
+        {settingsButton}
+        <SettingsModal
+          visible={showSettings}
+          onClose={() => setShowSettings(false)}
+          uiIndex={uiIndex}
+          onUiIndexChange={setUiIndex}
+        />
       </View>
     );
   }
@@ -391,10 +399,10 @@ export const GameSelectionScreen: React.FC = () => {
       />
 
       <View style={styles.footer}>
-        <LanguageSelector />
+        {/* Language moved to SettingsModal */}
       </View>
 
-      {switcher}
+      {settingsButton}
 
       {/* Review write modal */}
       {reviewGameId && (
@@ -426,6 +434,14 @@ export const GameSelectionScreen: React.FC = () => {
           />
         </View>
       )}
+
+      {/* Settings Modal */}
+      <SettingsModal
+        visible={showSettings}
+        onClose={() => setShowSettings(false)}
+        uiIndex={uiIndex}
+        onUiIndexChange={setUiIndex}
+      />
     </SafeAreaView>
   );
 };
