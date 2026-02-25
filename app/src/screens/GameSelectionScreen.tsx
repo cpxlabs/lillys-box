@@ -248,7 +248,6 @@ export const GameSelectionScreen: React.FC = () => {
         style={[styles.gameCard, fav && styles.gameCardFavorite]}
         onPress={() => handleGameSelect(item.id)}
         activeOpacity={0.85}
-        accessibilityRole="button"
         accessibilityLabel={`${t(item.nameKey)}: ${t(item.descriptionKey)}`}
       >
         <TouchableOpacity

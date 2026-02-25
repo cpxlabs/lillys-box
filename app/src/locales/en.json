@@ -213,5 +213,153 @@
   },
   "ads": {
     "notAvailable": "Ad not available"
+  },
+  "selectGame": {
+    "title": "🎮 Choose a Game",
+    "subtitle": "Pick your adventure!",
+    "allGames": "All",
+    "sortBy": "Sort:",
+    "addFavorite": "Add to Favorites",
+    "removeFavorite": "Remove from Favorites",
+    "sort": {
+      "default": "Default",
+      "name": "Name",
+      "category": "Category",
+      "favorites": "Favorites"
+    },
+    "categories": {
+      "pet": "Pet",
+      "puzzle": "Puzzle",
+      "adventure": "Adventure",
+      "casual": "Casual"
+    },
+    "petCare": {
+      "name": "Pet Care",
+      "description": "Care for your virtual pet daily!"
+    },
+    "muito": {
+      "name": "Muito",
+      "description": "Match numbers to score big!"
+    },
+    "colorTap": {
+      "name": "Color Tap",
+      "description": "Tap the right colors fast!"
+    },
+    "memoryMatch": {
+      "name": "Memory Match",
+      "description": "Find all matching pairs!"
+    },
+    "petRunner": {
+      "name": "Pet Runner",
+      "description": "Run, jump, and dodge obstacles!"
+    },
+    "simonSays": {
+      "name": "Simon Says",
+      "description": "Repeat the color sequence!"
+    },
+    "dressUpRelay": {
+      "name": "Dress Up Relay",
+      "description": "Dress up your pet in style!"
+    },
+    "colorMixer": {
+      "name": "Color Mixer",
+      "description": "Mix colors to match the target!"
+    },
+    "feedThePet": {
+      "name": "Feed the Pet",
+      "description": "Catch falling food for your pet!"
+    },
+    "whackAMole": {
+      "name": "Whack a Mole",
+      "description": "Tap the moles before they hide!"
+    },
+    "catchTheBall": {
+      "name": "Catch the Ball",
+      "description": "Catch falling balls in your basket!"
+    },
+    "slidingPuzzle": {
+      "name": "Sliding Puzzle",
+      "description": "Slide tiles to complete the picture!"
+    },
+    "bubblePop": {
+      "name": "Bubble Pop",
+      "description": "Pop all the colorful bubbles!"
+    },
+    "petDanceParty": {
+      "name": "Pet Dance Party",
+      "description": "Dance along with your pet!"
+    },
+    "treasureDig": {
+      "name": "Treasure Dig",
+      "description": "Dig deep to find hidden treasure!"
+    },
+    "balloonFloat": {
+      "name": "Balloon Float",
+      "description": "Float your balloon to the top!"
+    },
+    "paintSplash": {
+      "name": "Paint Splash",
+      "description": "Create colorful splashes of paint!"
+    },
+    "snackStack": {
+      "name": "Snack Stack",
+      "description": "Stack snacks without dropping!"
+    },
+    "lightningTap": {
+      "name": "Lightning Tap",
+      "description": "Tap as fast as lightning!"
+    },
+    "pathFinder": {
+      "name": "Path Finder",
+      "description": "Find the path to the goal!"
+    },
+    "shapeSorter": {
+      "name": "Shape Sorter",
+      "description": "Sort shapes into the right slots!"
+    },
+    "mirrorMatch": {
+      "name": "Mirror Match",
+      "description": "Mirror the patterns to win!"
+    },
+    "wordBubbles": {
+      "name": "Word Bubbles",
+      "description": "Pop bubbles to spell words!"
+    },
+    "jigsawPets": {
+      "name": "Jigsaw Pets",
+      "description": "Complete the pet puzzle!"
+    },
+    "connectDots": {
+      "name": "Connect Dots",
+      "description": "Connect the dots to reveal the picture!"
+    },
+    "petExplorer": {
+      "name": "Pet Explorer",
+      "description": "Explore the world with your pet!"
+    },
+    "weatherWizard": {
+      "name": "Weather Wizard",
+      "description": "Control the weather with magic!"
+    },
+    "petTaxi": {
+      "name": "Pet Taxi",
+      "description": "Drive your pet taxi around town!"
+    },
+    "petChef": {
+      "name": "Pet Chef",
+      "description": "Cook delicious meals for pets!"
+    },
+    "musicMaker": {
+      "name": "Music Maker",
+      "description": "Create fun music with your pet!"
+    },
+    "gardenGrow": {
+      "name": "Garden Grow",
+      "description": "Grow a beautiful garden!"
+    },
+    "photoStudio": {
+      "name": "Photo Studio",
+      "description": "Take cute photos of your pet!"
+    }
   }
 }

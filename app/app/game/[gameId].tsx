@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { useLocalSearchParams } from 'expo-router';
-import { gameRegistry } from '../src/registry/GameRegistry';
+import { gameRegistry } from '../../src/registry/GameRegistry';
 
 export default function GameRoute() {
   const { gameId } = useLocalSearchParams<{ gameId: string }>();
