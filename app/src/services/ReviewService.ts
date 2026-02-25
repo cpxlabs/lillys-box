@@ -175,6 +175,69 @@ export class ReviewService {
     );
   }
 
+  // ── Update (edit) ────────────────────────────────────────────────────────
+
+  static async updateReview(review: Review): Promise<void> {
+    const updated = { ...review, updatedAt: Date.now() };
+    // Upload any new local images
+    const withMedia: Review = isFirebaseConfigured
+      ? { ...updated, media: await ReviewService.uploadMedia(updated.media, updated.id, updated.gameId) }
+      : updated;
+
+    if (isFirebaseConfigured) {
+      const db = getFirestoreDB();
+      if (db) {
+        await setDoc(doc(db, REVIEWS_COLLECTION, withMedia.id), withMedia);
+        await ReviewService._recomputeSummaryFirestore(withMedia.gameId);
+      }
+    } else {
+      await ReviewService._saveToLocal(withMedia);
+    }
+  }
+
+  // ── React (helpful) ───────────────────────────────────────────────────────
+
+  static async reactToReview(
+    gameId: string,
+    reviewId: string,
+    userId: string,
+  ): Promise<void> {
+    try {
+      if (isFirebaseConfigured) {
+        const db = getFirestoreDB();
+        if (!db) return;
+        const docRef = doc(db, REVIEWS_COLLECTION, reviewId);
+        const snap = await getDoc(docRef);
+        if (!snap.exists()) return;
+        const review = snap.data() as Review;
+        const helpfulUserIds = review.helpfulUserIds ?? [];
+        const already = helpfulUserIds.includes(userId);
+        await updateDoc(docRef, {
+          helpfulUserIds: already
+            ? helpfulUserIds.filter((id) => id !== userId)
+            : [...helpfulUserIds, userId],
+        });
+      } else {
+        const reviews = await ReviewService._getFromLocal(gameId);
+        const updated = reviews.map((r) => {
+          if (r.id !== reviewId) return r;
+          const helpfulUserIds = r.helpfulUserIds ?? [];
+          const already = helpfulUserIds.includes(userId);
+          return {
+            ...r,
+            helpfulUserIds: already
+              ? helpfulUserIds.filter((id) => id !== userId)
+              : [...helpfulUserIds, userId],
+          };
+        });
+        await AsyncStorage.setItem(reviewsKey(gameId), JSON.stringify(updated));
+      }
+    } catch (error) {
+      logger.error('ReviewService.reactToReview error:', error);
+      throw error;
+    }
+  }
+
   // ── Delete ────────────────────────────────────────────────────────────────
 
   static async deleteReview(gameId: string, reviewId: string): Promise<void> {

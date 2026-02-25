@@ -18,7 +18,10 @@ export type Review = {
   createdAt: number;
   updatedAt?: number;
   flagged?: boolean;
+  helpfulUserIds?: string[]; // users who marked this as helpful
 };
+
+export type ReviewSortOption = 'recent' | 'helpful' | 'highest' | 'lowest';
 
 export type ReviewSummary = {
   gameId: string;

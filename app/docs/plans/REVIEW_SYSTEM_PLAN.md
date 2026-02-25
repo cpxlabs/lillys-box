@@ -54,7 +54,10 @@ type Review = {
   createdAt: number;    // Date.now()
   updatedAt?: number;
   flagged?: boolean;    // moderation
+  helpfulUserIds?: string[]; // users who marked this as helpful
 };
+
+type ReviewSortOption = 'recent' | 'helpful' | 'highest' | 'lowest';
 
 type ReviewSummary = {
   gameId: string;
@@ -179,11 +182,14 @@ const useReview = (gameId: string) => {
   reviews: Review[]
   summary: ReviewSummary | null
   loading: boolean
+  userReview: Review | null  // current user's existing review for this game
 
   // Actions
-  submitReview: (data: Omit<Review, 'id' | 'userId' | 'userNickname' | 'userAvatar' | 'createdAt'>) => Promise<void>
+  submitReview: (data: Omit<Review, 'id' | 'userId' | 'userNickname' | 'userAvatar' | 'createdAt' | 'helpfulUserIds'>) => Promise<void>
+  updateReview: (reviewId: string, data: Partial<Review>) => Promise<void>
   deleteReview: (reviewId: string) => Promise<void>
   flagReview: (reviewId: string) => Promise<void>
+  reactToReview: (reviewId: string) => Promise<void>  // toggle "helpful" reaction
   refreshReviews: () => Promise<void>
 }
 ```
@@ -203,8 +209,10 @@ Thin data layer. Phase 1 uses AsyncStorage; Phase 2 adds Firestore behind the sa
 class ReviewService {
   static async getReviews(gameId: string): Promise<Review[]>
   static async saveReview(review: Review): Promise<void>
+  static async updateReview(review: Review): Promise<void>
   static async deleteReview(gameId: string, reviewId: string): Promise<void>
   static async flagReview(gameId: string, reviewId: string): Promise<void>
+  static async reactToReview(gameId: string, reviewId: string, userId: string): Promise<void>
   static async getSummary(gameId: string): Promise<ReviewSummary>
 }
 ```

@@ -14,10 +14,12 @@ type SubmitData = {
 
 export const useReview = (gameId: string) => {
   const { user } = useAuth();
+  const currentUserId = user?.id ?? 'guest';
+
   const [reviews, setReviews] = useState<Review[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Derive summary from reviews in memory — no separate fetch needed
+  // Derive summary in-memory — no separate fetch needed
   const summary = useMemo<ReviewSummary | null>(() => {
     if (reviews.length === 0) return null;
     const dist: Record<number, number> = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
@@ -34,6 +36,12 @@ export const useReview = (gameId: string) => {
     };
   }, [reviews, gameId]);
 
+  // Current user's existing review for this game
+  const userReview = useMemo(
+    () => reviews.find((r) => r.userId === currentUserId) ?? null,
+    [reviews, currentUserId],
+  );
+
   // Fallback refresh for local-only mode
   const refreshReviews = useCallback(async () => {
     if (isFirebaseConfigured) return; // onSnapshot handles updates
@@ -45,7 +53,6 @@ export const useReview = (gameId: string) => {
 
   useEffect(() => {
     if (isFirebaseConfigured) {
-      // Real-time Firestore subscription
       setLoading(true);
       const unsubscribe = ReviewService.subscribeToReviews(
         gameId,
@@ -57,7 +64,6 @@ export const useReview = (gameId: string) => {
       );
       return () => unsubscribe();
     } else {
-      // Local AsyncStorage load
       refreshReviews();
     }
   }, [gameId, refreshReviews]);
@@ -66,7 +72,7 @@ export const useReview = (gameId: string) => {
     async (data: SubmitData) => {
       const review: Review = {
         id: uuidv4(),
-        userId: user?.id ?? 'guest',
+        userId: currentUserId,
         userNickname: user?.name ?? 'Guest',
         userAvatar: user?.photo ?? '🐾',
         gameId,
@@ -74,12 +80,22 @@ export const useReview = (gameId: string) => {
         comment: data.comment,
         media: data.media,
         createdAt: Date.now(),
+        helpfulUserIds: [],
       };
       await ReviewService.saveReview(review);
       if (!isFirebaseConfigured) await refreshReviews();
-      // Firebase: onSnapshot auto-updates state
     },
-    [user, gameId, refreshReviews],
+    [user, currentUserId, gameId, refreshReviews],
+  );
+
+  const updateReview = useCallback(
+    async (reviewId: string, data: SubmitData) => {
+      const existing = reviews.find((r) => r.id === reviewId);
+      if (!existing) return;
+      await ReviewService.updateReview({ ...existing, ...data, updatedAt: Date.now() });
+      if (!isFirebaseConfigured) await refreshReviews();
+    },
+    [reviews, refreshReviews],
   );
 
   const deleteReview = useCallback(
@@ -98,5 +114,24 @@ export const useReview = (gameId: string) => {
     [gameId, refreshReviews],
   );
 
-  return { reviews, summary, loading, submitReview, deleteReview, flagReview, refreshReviews };
+  const reactToReview = useCallback(
+    async (reviewId: string) => {
+      await ReviewService.reactToReview(gameId, reviewId, currentUserId);
+      if (!isFirebaseConfigured) await refreshReviews();
+    },
+    [gameId, currentUserId, refreshReviews],
+  );
+
+  return {
+    reviews,
+    summary,
+    loading,
+    userReview,
+    submitReview,
+    updateReview,
+    deleteReview,
+    flagReview,
+    reactToReview,
+    refreshReviews,
+  };
 };
