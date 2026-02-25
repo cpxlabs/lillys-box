@@ -98,7 +98,6 @@ const UI_VARIANTS: {
   { key: 'alt25', label: '25 Pocket', component: Alt25Pocket },
 ];
 
-export const GameSelectionScreen: React.FC<Props> = ({ navigation }) => {
 export const GameSelectionScreen: React.FC = () => {
   const router = useRouter();
   const { t } = useTranslation();
