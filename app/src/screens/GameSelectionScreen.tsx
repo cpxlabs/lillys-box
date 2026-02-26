@@ -126,11 +126,18 @@ export const GameSelectionScreen: React.FC = () => {
     setSummaries(prev => ({ ...prev, [gameId]: summary }));
   }, []);
 
+  const loadSummaryRef = useRef(loadSummaryForGame);
+  loadSummaryRef.current = loadSummaryForGame;
+
+  const handleViewableItemsChanged = useCallback(({ viewableItems }: { viewableItems: Array<{ item: { id: string } }> }) => {
+    viewableItems.forEach(({ item }) => loadSummaryRef.current(item.id));
+  }, []);
+
   useEffect(() => {
     loadedSummaries.current.clear();
     setSummaries({});
-    games.slice(0, 6).forEach(g => loadSummaryForGame(g.id));
-  }, [games, loadSummaryForGame]);
+    games.slice(0, 6).forEach(g => loadSummaryRef.current(g.id));
+  }, [games]);
 
   const categories = useMemo(() => {
     const cats = new Set(games.map((g) => g.category));
@@ -339,7 +346,7 @@ export const GameSelectionScreen: React.FC = () => {
         </TouchableOpacity>
       );
     },
-    [summaries, isFavorite, handleGameSelect, handleToggleFavorite, t, loadSummaryForGame],
+    [summaries, isFavorite, handleGameSelect, handleToggleFavorite, t],
   );
 
   return (
@@ -407,9 +414,7 @@ export const GameSelectionScreen: React.FC = () => {
         maxToRenderPerBatch={6}
         initialNumToRender={6}
         removeClippedSubviews={true}
-        onViewableItemsChanged={({ viewableItems }) => {
-          viewableItems.forEach(({ item }) => loadSummaryForGame(item.id));
-        }}
+        onViewableItemsChanged={handleViewableItemsChanged}
         viewabilityConfig={{
           itemVisiblePercentThreshold: 50,
         }}
