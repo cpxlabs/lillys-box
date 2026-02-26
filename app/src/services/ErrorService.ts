@@ -1,4 +1,5 @@
 import { Platform } from 'react-native';
+import * as Sentry from '@sentry/react-native';
 import { logger } from '../utils/logger';
 
 export interface ErrorReport {
@@ -18,8 +19,30 @@ class ErrorService {
   private errorListeners: Array<(report: ErrorReport) => void> = [];
   private maxStoredErrors = 10;
   private errorBuffer: ErrorReport[] = [];
+  private isSentryInitialized = false;
 
-  init(): void {
+  /**
+   * Initialize Sentry for error tracking
+   * @param dsn - Sentry DSN from project settings (can also use SENTRY_DSN env var)
+   */
+  init(dsn?: string): void {
+    if (this.isSentryInitialized) return;
+
+    const sentryDsn = dsn || process.env.EXPO_PUBLIC_SENTRY_DSN;
+    
+    if (sentryDsn) {
+      Sentry.init({
+        dsn: sentryDsn,
+        environment: __DEV__ ? 'development' : 'production',
+        enabled: !__DEV__,
+        tracesSampleRate: 1.0,
+      });
+      this.isSentryInitialized = true;
+      logger.log('[ErrorService] Sentry initialized');
+    } else {
+      logger.warn('[ErrorService] Sentry DSN not provided - error tracking disabled');
+    }
+
     if (Platform.OS === 'web') {
       if (typeof window !== 'undefined') {
         window.onerror = this.handleGlobalError.bind(this);
@@ -87,8 +110,16 @@ class ErrorService {
 
     if (level === 'error') {
       logger.error('[ErrorService] Error reported:', fullReport.message, fullReport.stack);
+      if (this.isSentryInitialized) {
+        Sentry.captureException(new Error(fullReport.message), {
+          extra: fullReport.extra,
+        });
+      }
     } else {
       logger.warn('[ErrorService] Warning reported:', fullReport.message);
+      if (this.isSentryInitialized) {
+        Sentry.captureMessage(fullReport.message, 'warning');
+      }
     }
   }
 
