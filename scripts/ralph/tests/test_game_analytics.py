@@ -79,6 +79,74 @@ class TestGameEventProcessor:
         assert result["user123"]["event_types"]["pet_play"] == 1
 
 
+class TestRunLoop:
+    """Test GameEventProcessor.run_loop method."""
+
+    def _make_event(self, user_id: str = "user1", event_type: str = "pet_feed", ts: str = "2025-02-24T10:00:00Z"):
+        return {"user_id": user_id, "event_type": event_type, "timestamp": ts}
+
+    def test_run_loop_processes_up_to_limit(self):
+        """Loop stops after processing exactly `limit` events."""
+        processor = GameEventProcessor()
+        for i in range(5):
+            processor.add_event(self._make_event(user_id=f"user{i}"))
+
+        result = processor.run_loop(limit=3)
+
+        assert result["processed"] == 3
+        assert result["limit_reached"] is True
+        assert len(result["events"]) == 3
+
+    def test_run_loop_processes_all_when_under_limit(self):
+        """Loop processes all events when fewer than limit exist."""
+        processor = GameEventProcessor()
+        for i in range(2):
+            processor.add_event(self._make_event(user_id=f"user{i}"))
+
+        result = processor.run_loop(limit=10)
+
+        assert result["processed"] == 2
+        assert result["limit_reached"] is False
+        assert len(result["events"]) == 2
+
+    def test_run_loop_skips_invalid_events(self):
+        """Loop skips malformed events and continues counting valid ones."""
+        processor = GameEventProcessor()
+        processor.add_event({"user_id": "user1", "event_type": "pet_feed"})  # missing timestamp
+        processor.add_event(self._make_event(user_id="user2"))
+        processor.add_event(self._make_event(user_id="user3"))
+
+        result = processor.run_loop(limit=2)
+
+        assert result["processed"] == 2
+        assert result["limit_reached"] is True
+        # Only the two valid events are in results
+        assert all("processed_at" in e for e in result["events"])
+
+    def test_run_loop_empty_queue(self):
+        """Loop on an empty queue returns zero processed events."""
+        processor = GameEventProcessor()
+        result = processor.run_loop(limit=5)
+
+        assert result["processed"] == 0
+        assert result["limit_reached"] is False
+        assert result["events"] == []
+
+    def test_run_loop_invalid_limit_raises(self):
+        """Passing a non-positive limit raises ValueError."""
+        processor = GameEventProcessor()
+        with pytest.raises(ValueError):
+            processor.run_loop(limit=0)
+
+    def test_add_event_appends_to_queue(self):
+        """add_event stores events in self.events."""
+        processor = GameEventProcessor()
+        processor.add_event(self._make_event())
+        processor.add_event(self._make_event(user_id="user2"))
+
+        assert len(processor.events) == 2
+
+
 class TestTransformPetStats:
     """Test transform_pet_stats function."""
 
