@@ -13,10 +13,12 @@ This document outlines the roadmap for future development, improvements, and fea
 ## 📋 Immediate Tasks (From Checklist)
 
 ### 🔴 Add Sounds and Audio Effects
-**Status:** Not Started
+**Status:** In Progress
 **Priority:** High
 
-- [ ] Integrate `expo-av` or `react-native-sound` for audio playback
+- [x] Integrate `expo-av` for audio playback
+- [x] Create AudioService.ts with background music and sound effects management
+- [x] Create useAudio hook for easy usage in components
 - [ ] Add background music (with mute toggle)
 - [ ] Pet sounds (meow/bark, happy sounds, sad sounds)
 - [ ] UI sound effects (button clicks, coin collection, notifications)
@@ -28,7 +30,7 @@ This document outlines the roadmap for future development, improvements, and fea
 - [ ] Volume controls in settings menu
 - [ ] Respect device silent mode
 
-**Files to create:**
+**Files created:**
 - `/assets/sounds/` directory structure
 - `/src/services/AudioService.ts`
 - `/src/hooks/useAudio.ts`
@@ -39,14 +41,14 @@ This document outlines the roadmap for future development, improvements, and fea
 **Status:** In Progress
 **Priority:** High
 
-- [ ] Implement image caching and lazy loading
-- [ ] Optimize sprite sheet rendering
-- [ ] Use `React.memo()` for expensive components
-- [ ] Implement `useMemo()` and `useCallback()` where appropriate
+- [x] Implement image caching and lazy loading
+- [x] Optimize sprite sheet rendering
+- [x] Use `React.memo()` for expensive components
+- [x] Implement `useMemo()` and `useCallback()` where appropriate
+- [x] Optimize state updates to prevent unnecessary re-renders
+- [x] Implement virtual lists for scrollable content (FlatList with onViewableItemsChanged)
 - [ ] Analyze bundle size with `npx expo-doctor`
 - [ ] Profile with React DevTools and Flipper
-- [ ] Optimize state updates to prevent unnecessary re-renders
-- [ ] Implement virtual lists if adding scrollable content
 - [ ] Consider using `react-native-fast-image` for better image performance
 - [ ] Test on low-end Android devices (4GB RAM or less)
 
@@ -521,7 +523,7 @@ src/
   - [x] Sort and filter
 - [ ] Skia bath screen reimplementation (Planning Complete - [Plan](./SKIA_BATH_REIMPLEMENTATION_PLAN.md))
 - [ ] Sounds and audio (Next Priority)
-- [ ] Advanced performance optimizations (In Progress)
+- [x] Advanced performance optimizations (In Progress - virtual lists, React.memo, useCallback)
 
 ### Milestone 2: Feature Complete (v1.5)
 **Target:** 4-6 weeks
@@ -569,7 +571,7 @@ src/
 
 ---
 
-**Last Updated:** 2026-02-25
+**Last Updated:** 2026-02-26
 **Current Version:** 1.2.0
 **Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System
 **Features Completed:** 90% (core game + OAuth + web deploy + review system)
