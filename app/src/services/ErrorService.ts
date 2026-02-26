@@ -30,7 +30,7 @@ class ErrorService {
 
     const sentryDsn = dsn || process.env.EXPO_PUBLIC_SENTRY_DSN;
     
-    if (sentryDsn) {
+    if (sentryDsn && Platform.OS !== 'web') {
       Sentry.init({
         dsn: sentryDsn,
         environment: __DEV__ ? 'development' : 'production',
@@ -39,6 +39,8 @@ class ErrorService {
       });
       this.isSentryInitialized = true;
       logger.log('[ErrorService] Sentry initialized');
+    } else if (Platform.OS === 'web') {
+      logger.log('[ErrorService] Sentry skipped on web platform');
     } else {
       logger.warn('[ErrorService] Sentry DSN not provided - error tracking disabled');
     }
