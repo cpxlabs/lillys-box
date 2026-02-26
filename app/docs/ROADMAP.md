@@ -13,25 +13,32 @@ This document outlines the roadmap for future development, improvements, and fea
 ## 📋 Immediate Tasks (From Checklist)
 
 ### 🔴 Add Sounds and Audio Effects
-**Status:** Not Started
+**Status:** In Progress
 **Priority:** High
 
-- [ ] Integrate `expo-av` or `react-native-sound` for audio playback
+- [x] Integrate `expo-av` for audio playback
+- [x] Create AudioService.ts with background music and sound effects management
+- [x] Create useAudio hook for easy usage in components
+- [x] Add button click sounds to IconButton component
+- [x] Add pet action sounds to usePetActions hook (feed, play, bathe, sleep, cuddle, exercise, vet)
+- [x] Add sound settings to SettingsModal (sound effects, music, volume toggles)
+- [ ] Add interface variant persistence (save uiIndex to AsyncStorage)
+- [ ] Add actual MP3 sound files to assets/sounds/
 - [ ] Add background music (with mute toggle)
-- [ ] Pet sounds (meow/bark, happy sounds, sad sounds)
-- [ ] UI sound effects (button clicks, coin collection, notifications)
 - [ ] Activity-specific sounds:
   - Eating/chewing sounds for feeding
   - Water/splash sounds for bathing
   - Play sounds (ball bounce, toy squeaks)
   - Clothing swap sounds for wardrobe
-- [ ] Volume controls in settings menu
 - [ ] Respect device silent mode
 
-**Files to create:**
+**Files created/updated:**
 - `/assets/sounds/` directory structure
 - `/src/services/AudioService.ts`
 - `/src/hooks/useAudio.ts`
+- `/src/components/IconButton.tsx` (sound integration)
+- `/src/hooks/usePetActions.ts` (sound integration)
+- `/src/components/SettingsModal.tsx` (sound settings)
 
 ---
 
@@ -39,14 +46,14 @@ This document outlines the roadmap for future development, improvements, and fea
 **Status:** In Progress
 **Priority:** High
 
-- [ ] Implement image caching and lazy loading
-- [ ] Optimize sprite sheet rendering
-- [ ] Use `React.memo()` for expensive components
-- [ ] Implement `useMemo()` and `useCallback()` where appropriate
+- [x] Implement image caching and lazy loading
+- [x] Optimize sprite sheet rendering
+- [x] Use `React.memo()` for expensive components
+- [x] Implement `useMemo()` and `useCallback()` where appropriate
+- [x] Optimize state updates to prevent unnecessary re-renders
+- [x] Implement virtual lists for scrollable content (FlatList with onViewableItemsChanged)
 - [ ] Analyze bundle size with `npx expo-doctor`
 - [ ] Profile with React DevTools and Flipper
-- [ ] Optimize state updates to prevent unnecessary re-renders
-- [ ] Implement virtual lists if adding scrollable content
 - [ ] Consider using `react-native-fast-image` for better image performance
 - [ ] Test on low-end Android devices (4GB RAM or less)
 
@@ -123,24 +130,29 @@ Reintegrate Skia 2.4.14 into the bath screen for high-performance bubble particl
 
 ---
 
-### 🟡 Game Review System
-**Status:** Planning — [Plan](./plans/REVIEW_SYSTEM_PLAN.md)
+### ✅ Game Review System
+**Status:** COMPLETED (Feb 2026)
 **Priority:** Medium
+**Documentation:** [docs/plans/REVIEW_SYSTEM_PLAN.md](./plans/REVIEW_SYSTEM_PLAN.md)
 
 Allow players to leave reviews on individual games directly from the game screen. Reviews include text comments, star ratings, and optional image/GIF attachments.
 
-- [ ] `ReviewModal` component (bottom sheet, opens from any game screen)
-- [ ] Star rating widget (1–5 stars)
-- [ ] Text comment input (multiline, max 500 chars)
-- [ ] Image attachment via `expo-image-picker`
-- [ ] GIF search via Tenor API with inline browser
-- [ ] Media preview strip with remove capability
-- [ ] Local persistence (AsyncStorage) for MVP
-- [ ] Firebase Firestore + Storage sync (Phase 2, after auth overhaul)
-- [ ] Reviews list screen per game
-- [ ] Moderation flag button on each review
+- [x] `ReviewModal` component (bottom sheet, opens from any game screen)
+- [x] Star rating widget (1–5 stars)
+- [x] Text comment input (multiline, max 500 chars)
+- [x] Image attachment via `expo-image-picker`
+- [x] GIF search via Tenor API with inline browser
+- [x] Media preview strip with remove capability
+- [x] Local persistence (AsyncStorage) for MVP
+- [x] Firebase Firestore + Storage sync (Phase 2)
+- [x] Reviews list screen per game
+- [x] Moderation flag button on each review
+- [x] Helpful reaction on reviews
+- [x] Sort reviews (recent, helpful, highest, lowest)
+- [x] Delete own reviews
+- [x] Update existing reviews
 
-**Files to create:**
+**Files created:**
 - `src/components/ReviewModal.tsx`
 - `src/components/StarRating.tsx`
 - `src/components/MediaAttachment.tsx`
@@ -148,6 +160,7 @@ Allow players to leave reviews on individual games directly from the game screen
 - `src/hooks/useReview.ts`
 - `src/services/ReviewService.ts`
 - `src/screens/GameReviewsScreen.tsx`
+- `src/types/review.ts`
 
 ---
 
@@ -246,6 +259,16 @@ src/
 - `/src/services/AnalyticsService.ts`
 - `/src/services/ErrorService.ts`
 - `/src/components/ErrorBoundary.tsx`
+
+---
+
+### 🟡 UX Improvements
+**Priority:** Low
+
+- [ ] **Interface setting persistence** - Save uiIndex to AsyncStorage so UI variant selection survives app restart
+  - Files to update:
+    - `/src/screens/GameSelectionScreen.tsx` - Load/save uiIndex from AsyncStorage
+  - See: `docs/SETTINGS_MODAL_TESTING.md` (KI-001)
 
 ---
 
@@ -495,21 +518,27 @@ src/
 
 ## 🎯 Milestones
 
-### Milestone 1: MVP Enhancement (v1.1)
-**Status:** 80% COMPLETE
+### Milestone 1: MVP Enhancement (v1.2)
+**Status:** 90% COMPLETE
 - [x] Folder structure documentation ✅
 - [x] Testing infrastructure ✅ (99% tests passing)
 - [x] Code quality improvements ✅ (ESLint, Prettier, usePetActions hook)
 - [x] i18n support ✅ (English + Portuguese)
 - [x] Accessibility improvements ✅ (partial - haptics, labels)
-- [x] Authentication system with Google OAuth ✅ (NEW - Jan 2026)
+- [x] Authentication system with Google OAuth ✅ (Jan 2026)
   - [x] Google Sign-In integration
   - [x] Guest mode support
   - [x] Multi-user data isolation
   - [x] Comprehensive setup documentation
+- [x] Game Review System ✅ (Feb 2026)
+  - [x] Review modal with stars, comments, media
+  - [x] Image/GIF attachments
+  - [x] Firebase Firestore sync
+  - [x] Helpful reactions
+  - [x] Sort and filter
 - [ ] Skia bath screen reimplementation (Planning Complete - [Plan](./SKIA_BATH_REIMPLEMENTATION_PLAN.md))
 - [ ] Sounds and audio (Next Priority)
-- [ ] Advanced performance optimizations (In Progress)
+- [x] Advanced performance optimizations (In Progress - virtual lists, React.memo, useCallback)
 
 ### Milestone 2: Feature Complete (v1.5)
 **Target:** 4-6 weeks
@@ -557,11 +586,11 @@ src/
 
 ---
 
-**Last Updated:** 2026-02-25
-**Current Version:** 1.1.0
-**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel
-**Features Completed:** 85% (core game + OAuth + web deploy)
-**Next Version Target:** 1.2.0 (Game Review System + Sounds)
+**Last Updated:** 2026-02-26
+**Current Version:** 1.2.0
+**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System
+**Features Completed:** 90% (core game + OAuth + web deploy + review system)
+**Next Version Target:** 1.3.0 (Sounds + Performance)
 
 ---
 

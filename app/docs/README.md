@@ -227,9 +227,9 @@ npm run test:ci          # Executa testes em modo CI
 - [x] **30+ mini-games implementados**
 - [x] **Autenticação Google OAuth + modo convidado**
 - [x] **Deploy web via Vercel**
-- [ ] Sistema de reviews de jogos (modal com comentários e mídia)
+- [x] **Sistema de reviews de jogos** (modal com comentários, estrelas, mídia e reactions)
+- [x] **Otimizações de performance** (lazy loading de reviews, FlatList virtualizado)
 - [ ] Sons e efeitos visuais
-- [ ] Otimizações de performance
 
 ## 📐 Arquitetura e Código
 
@@ -320,6 +320,6 @@ This directory contains all project documentation organized by purpose.
 
 ---
 
-**Versão**: 1.1.0
+**Versão**: 1.2.0
 **Última Atualização**: 2026-02-25
-**Status**: ✅ Funcional e testado — deploy web ativo no Vercel
+**Status**: ✅ Funcional e testado — deploy web ativo no Vercel, review system implementado

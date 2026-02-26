@@ -73,12 +73,15 @@ Contains UI components that are used across multiple screens.
 - `ConfirmModal.tsx` - Confirmation dialog modal
 - `EnhancedStatusBar.tsx` - Improved status bar component
 - `ErrorBoundary.tsx` - Error boundary for crash handling
+- `GifPicker.tsx` - **[NEW]** Tenor GIF search modal for review attachments
 - `IconButton.tsx` - Reusable button component with icon support
 - `LanguageSelector.tsx` - Component for changing app language
+- `MediaAttachment.tsx` - **[NEW]** Image/GIF strip component for reviews
 - `PetRenderer.tsx` - Renders the pet with customizations (clothes, accessories)
 - `RewardedAdButton.tsx` - Button that triggers rewarded ads
 - `ScreenHeader.tsx` - Standard header for screens
 - `SpriteSheetAnimation.tsx` - Handles sprite sheet animations
+- `StarRating.tsx` - **[NEW]** Interactive star rating widget (1-5 stars)
 - `StatusBar.tsx` - Displays pet status (hunger, happiness, cleanliness)
 - `StatusCard.tsx` - Card component for displaying individual stats
 
@@ -101,6 +104,8 @@ Contains full-screen components that represent different views in the applicatio
 - `SleepScene.tsx` - Sleeping interaction screen
 - `VetScene.tsx` - Veterinary interaction screen
 - `WardrobeScene.tsx` - Clothing customization screen
+- `GameReviewsScreen.tsx` - **[NEW]** Full reviews list per game
+- `GameSelectionScreen.tsx` - **[NEW]** Game hub with reviews integration
 
 **Purpose:** Each screen represents a distinct user interaction flow or feature.
 
@@ -143,6 +148,7 @@ Contains reusable custom hooks for common functionality.
 - `usePetActions.ts` - **Unified hook for all pet actions** (animation, validation, rewards)
 - `useResponsive.ts` - Hook for responsive design
 - `useRewardedAd.ts` - Hook for managing rewarded advertisements
+- `useReview.ts` - **[NEW]** Review state management hook
 
 **Purpose:** Encapsulates reusable logic and side effects. The `usePetActions` hook provides centralized action management, reducing code duplication by ~90% across action scenes.
 
@@ -154,6 +160,7 @@ Contains service layer code for complex business logic and external integrations
 
 **Files:**
 - `AdService.ts` - Advertisement integration (AdMob)
+- `ReviewService.ts` - **[NEW]** Review data layer (AsyncStorage + Firebase Firestore)
 
 **Purpose:** Separates business logic from UI components, handles external API integrations.
 
@@ -218,6 +225,7 @@ Contains TypeScript type definitions and interfaces.
 **Files:**
 - `ads.ts` - Advertisement-related type definitions
 - `navigation.ts` - Navigation-related type definitions
+- `review.ts` - **[NEW]** Review system type definitions (Review, ReviewMedia, ReviewSummary)
 - `types.ts` (in src root) - General type definitions
 
 **Purpose:** Provides type safety and better IDE support.
@@ -277,4 +285,29 @@ This structure promotes:
 - `MenuScreen.tsx`: Added user info header and sign-out functionality
 - `App.tsx`: Integrated AuthProvider and auth-based routing
 
-**Last Updated:** 2026-01-22
+---
+
+## Recent Updates (Game Review System - Feb 2026)
+
+### New Review System
+- **ReviewModal** (`src/components/ReviewModal.tsx`): Bottom sheet modal for writing reviews
+- **StarRating** (`src/components/StarRating.tsx`): Interactive 1-5 star rating widget
+- **MediaAttachment** (`src/components/MediaAttachment.tsx`): Image/GIF strip for review attachments
+- **GifPicker** (`src/components/GifPicker.tsx`): Tenor API integration for GIF search
+- **useReview** (`src/hooks/useReview.ts`): Review state management hook
+- **ReviewService** (`src/services/ReviewService.ts`): Data layer with AsyncStorage + Firebase Firestore
+- **GameReviewsScreen** (`src/screens/GameReviewsScreen.tsx`): Full reviews list per game
+- **GameSelectionScreen**: Integrated with reviews (show ratings on game cards)
+
+### Features Implemented
+- Star ratings (1-5)
+- Text comments (max 500 chars)
+- Image attachments via expo-image-picker
+- GIF search via Tenor API
+- Firebase Firestore sync for cloud backup
+- Helpful reactions on reviews
+- Sort reviews (recent, helpful, highest, lowest)
+- Delete and update own reviews
+- Moderation flag button
+
+**Last Updated:** 2026-02-25

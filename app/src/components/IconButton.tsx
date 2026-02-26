@@ -4,6 +4,7 @@ import { hapticFeedback } from '../utils/haptics';
 import { useResponsive } from '../hooks/useResponsive';
 import { ICON_BUTTON_SIZE } from '../config/responsive';
 import { useToast } from '../context/ToastContext';
+import { audioService } from '../services/AudioService';
 
 type IconButtonProps = {
   emoji: string;
@@ -12,10 +13,11 @@ type IconButtonProps = {
   style?: ViewStyle;
   disabled?: boolean;
   disabledReason?: string;
+  soundEnabled?: boolean;
 };
 
 export const IconButton: React.FC<IconButtonProps> = React.memo(
-  ({ emoji, label, onPress, style, disabled = false, disabledReason }) => {
+  ({ emoji, label, onPress, style, disabled = false, disabledReason, soundEnabled = true }) => {
     const { deviceType, spacing } = useResponsive();
     const { showToast } = useToast();
     const sizes = ICON_BUTTON_SIZE[deviceType];
@@ -29,6 +31,9 @@ export const IconButton: React.FC<IconButtonProps> = React.memo(
         return;
       }
       hapticFeedback.light();
+      if (soundEnabled) {
+        audioService.playSound('button_click');
+      }
       onPress();
     };
 

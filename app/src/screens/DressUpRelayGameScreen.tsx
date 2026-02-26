@@ -17,6 +17,7 @@ import { PetRenderer } from '../components/PetRenderer';
 import { Pet, ClothingSlot } from '../types';
 import { CLOTHING_ITEMS, getItemsBySlot } from '../data/clothingItems';
 import * as Haptics from 'expo-haptics';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DressUpRelayGame'>;
 
@@ -139,6 +140,7 @@ const calculateRoundScore = (
 export const DressUpRelayGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useDressUpRelay();
+  const handleBack = useGameBack(navigation);
 
   const [phase, setPhase] = useState<GamePhase>('preview');
   const [round, setRound] = useState(1);
@@ -328,7 +330,7 @@ export const DressUpRelayGameScreen: React.FC<Props> = ({ navigation }) => {
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={() => handleBack()}
           accessibilityRole="button"
           accessibilityLabel={t('common.back')}
         >
@@ -525,7 +527,7 @@ export const DressUpRelayGameScreen: React.FC<Props> = ({ navigation }) => {
               <Text style={styles.playAgainText}>{t('dressUpRelay.gameOver.playAgain')}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.backToHomeButton} onPress={() => navigation.goBack()}>
+            <TouchableOpacity style={styles.backToHomeButton} onPress={() => handleBack()}>
               <Text style={styles.backToHomeText}>{t('common.back')}</Text>
             </TouchableOpacity>
           </View>

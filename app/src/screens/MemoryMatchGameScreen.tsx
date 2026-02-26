@@ -13,6 +13,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { useMemoryMatch, Difficulty } from '../context/MemoryMatchContext';
 import { RootStackParamList } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MemoryMatchGame'>;
 
@@ -81,6 +82,7 @@ function calculateStars(moves: number, pairs: number): number {
 export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useMemoryMatch();
+  const handleBack = useGameBack(navigation);
   const difficulty = route.params.difficulty;
   const config = GRID_CONFIG[difficulty];
 
@@ -273,7 +275,7 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={() => handleBack()}
           accessibilityRole="button"
           accessibilityLabel={t('common.back')}
         >
@@ -336,7 +338,7 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
 
             <TouchableOpacity
               style={styles.backToHomeButton}
-              onPress={() => navigation.goBack()}
+              onPress={() => handleBack()}
               accessibilityRole="button"
               accessibilityLabel={t('common.back')}
             >
