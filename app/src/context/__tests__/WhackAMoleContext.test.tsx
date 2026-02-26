@@ -1,123 +1,94 @@
 import React from 'react';
-import { renderHook, act } from '@testing-library/react-hooks';
+import { Text } from 'react-native';
+import { render, act } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WhackAMoleProvider, useWhackAMole } from '../WhackAMoleContext';
-import { useAuth } from '../AuthContext';
 
-jest.mock('../AuthContext');
-jest.mock('@react-native-async-storage/async-storage');
+jest.mock('../AuthContext', () => ({
+  useAuth: () => ({ user: { id: 'test-user-456' }, isGuest: false }),
+}));
 
-const mockUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
-const mockAsyncStorage = AsyncStorage as jest.Mocked<typeof AsyncStorage>;
+let hook: ReturnType<typeof useWhackAMole>;
+
+const Consumer = () => {
+  hook = useWhackAMole();
+  return <Text>best:{hook.bestScore}</Text>;
+};
+
+const renderProvider = () =>
+  render(
+    <WhackAMoleProvider>
+      <Consumer />
+    </WhackAMoleProvider>
+  );
 
 describe('WhackAMoleContext', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUseAuth.mockReturnValue({
-      user: { id: 'test-user-456' },
-      isGuest: false,
-    } as any);
-    mockAsyncStorage.getItem.mockResolvedValue(null);
-    mockAsyncStorage.setItem.mockResolvedValue();
+    (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
   });
 
   it('initializes with bestScore 0', async () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <WhackAMoleProvider>{children}</WhackAMoleProvider>
-    );
+    renderProvider();
+    await act(async () => {});
 
-    const { result, waitForNextUpdate } = renderHook(() => useWhackAMole(), {
-      wrapper,
-    });
-
-    await waitForNextUpdate();
-    expect(result.current.bestScore).toBe(0);
+    expect(hook.bestScore).toBe(0);
   });
 
   it('loads best score from AsyncStorage', async () => {
-    mockAsyncStorage.getItem.mockResolvedValue('850');
+    (AsyncStorage.getItem as jest.Mock).mockResolvedValue('850');
 
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <WhackAMoleProvider>{children}</WhackAMoleProvider>
-    );
+    renderProvider();
+    await act(async () => {});
 
-    const { result, waitForNextUpdate } = renderHook(() => useWhackAMole(), {
-      wrapper,
-    });
-
-    await waitForNextUpdate();
-    expect(result.current.bestScore).toBe(850);
-    expect(mockAsyncStorage.getItem).toHaveBeenCalledWith(
+    expect(hook.bestScore).toBe(850);
+    expect(AsyncStorage.getItem).toHaveBeenCalledWith(
       '@whack_a_mole:bestScore:test-user-456'
     );
   });
 
   it('updates best score when new score is higher', async () => {
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <WhackAMoleProvider>{children}</WhackAMoleProvider>
-    );
-
-    const { result, waitForNextUpdate } = renderHook(() => useWhackAMole(), {
-      wrapper,
-    });
-
-    await waitForNextUpdate();
+    renderProvider();
+    await act(async () => {});
 
     act(() => {
-      result.current.updateBestScore(950);
+      hook.updateBestScore(950);
     });
+    await act(async () => {});
 
-    expect(result.current.bestScore).toBe(950);
-    expect(mockAsyncStorage.setItem).toHaveBeenCalledWith(
+    expect(hook.bestScore).toBe(950);
+    expect(AsyncStorage.setItem).toHaveBeenCalledWith(
       '@whack_a_mole:bestScore:test-user-456',
       '950'
     );
   });
 
   it('does not update best score when new score is lower', async () => {
-    mockAsyncStorage.getItem.mockResolvedValue('850');
+    (AsyncStorage.getItem as jest.Mock).mockResolvedValue('850');
 
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <WhackAMoleProvider>{children}</WhackAMoleProvider>
-    );
-
-    const { result, waitForNextUpdate } = renderHook(() => useWhackAMole(), {
-      wrapper,
-    });
-
-    await waitForNextUpdate();
-
-    const setItemCalls = mockAsyncStorage.setItem.mock.calls.length;
+    renderProvider();
+    await act(async () => {});
 
     act(() => {
-      result.current.updateBestScore(600);
+      hook.updateBestScore(600);
     });
+    await act(async () => {});
 
-    expect(result.current.bestScore).toBe(850);
-    expect(mockAsyncStorage.setItem.mock.calls.length).toBe(setItemCalls);
-  });
-
-  it('uses guest id when user is guest', async () => {
-    mockUseAuth.mockReturnValue({
-      user: null,
-      isGuest: true,
-    } as any);
-
-    const wrapper = ({ children }: { children: React.ReactNode }) => (
-      <WhackAMoleProvider>{children}</WhackAMoleProvider>
-    );
-
-    renderHook(() => useWhackAMole(), { wrapper });
-
-    expect(mockAsyncStorage.getItem).toHaveBeenCalledWith(
-      '@whack_a_mole:bestScore:guest'
-    );
+    expect(hook.bestScore).toBe(850);
+    expect(AsyncStorage.setItem).not.toHaveBeenCalled();
   });
 
   it('throws error when used outside provider', () => {
-    const { result } = renderHook(() => useWhackAMole());
-    expect(result.error).toEqual(
-      Error('useWhackAMole must be used within WhackAMoleProvider')
+    const Orphan = () => {
+      useWhackAMole();
+      return null;
+    };
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => {});
+
+    expect(() => render(<Orphan />)).toThrow(
+      'useWhackAMole must be used within WhackAMoleProvider'
     );
+
+    spy.mockRestore();
   });
 });

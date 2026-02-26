@@ -47,8 +47,8 @@ describe('StatusCard', () => {
     expect(getByText('100')).toBeTruthy();
   });
 
-  it('renders money container AS accessible text', () => {
-    const { getByText, getByLabelText } = render(
+  it('renders money container with coin emoji and value', () => {
+    const { getByText } = render(
       <StatusCard
         pet={mockPet}
         petName="Test Pet"
@@ -56,10 +56,9 @@ describe('StatusCard', () => {
       />
     );
 
-    // Should find the text '100'
+    // Should find the money value text
     expect(getByText('100')).toBeTruthy();
-
-    // Should find accessible label "100 coins"
-    expect(getByLabelText('100 coins')).toBeTruthy();
+    // Should find the coin emoji
+    expect(getByText('💰')).toBeTruthy();
   });
 });

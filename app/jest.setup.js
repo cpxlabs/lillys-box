@@ -39,7 +39,21 @@ jest.mock('react-native', () => {
     TextInput: mockComponent('TextInput'),
     SafeAreaView: mockComponent('SafeAreaView'),
     KeyboardAvoidingView: mockComponent('KeyboardAvoidingView'),
+    Modal: mockComponent('Modal'),
+    ActivityIndicator: mockComponent('ActivityIndicator'),
     useWindowDimensions: jest.fn(() => ({ width: 375, height: 812, scale: 2, fontScale: 2 })),
+    Dimensions: {
+      get: jest.fn(() => ({ width: 375, height: 812, scale: 2, fontScale: 1 })),
+      addEventListener: jest.fn(() => ({ remove: jest.fn() })),
+    },
+    BackHandler: {
+      addEventListener: jest.fn(() => ({ remove: jest.fn() })),
+      removeEventListener: jest.fn(),
+      exitApp: jest.fn(),
+    },
+    Alert: {
+      alert: jest.fn(),
+    },
     PixelRatio: {
       get: jest.fn(() => 2),
       getFontScale: jest.fn(() => 2),
@@ -53,7 +67,7 @@ jest.mock('react-native', () => {
       })),
       View: mockComponent('Animated.View'),
       Text: mockComponent('Animated.Text'),
-      timing: jest.fn(() => ({ start: jest.fn() })),
+      timing: jest.fn(() => ({ start: jest.fn((cb) => cb && cb()) })),
       spring: jest.fn(() => ({ start: jest.fn() })),
       sequence: jest.fn(),
       parallel: jest.fn(),

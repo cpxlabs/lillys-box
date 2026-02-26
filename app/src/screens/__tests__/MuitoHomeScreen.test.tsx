@@ -24,7 +24,11 @@ const navigation = {
   navigate: mockNavigate,
   goBack: mockGoBack,
   canGoBack: jest.fn(() => false),
-  getParent: jest.fn(() => ({ goBack: mockParentGoBack })),
+  getParent: jest.fn(() => ({
+    goBack: mockParentGoBack,
+    canGoBack: () => true,
+    getParent: () => undefined,
+  })),
 };
 
 describe('MuitoHomeScreen', () => {
