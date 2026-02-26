@@ -69,6 +69,10 @@ const CATEGORY_EMOJI: Record<string, string> = {
   casual: '🎲',
 };
 
+const VIEWABILITY_CONFIG = {
+  itemVisiblePercentThreshold: 50,
+};
+
 // ── UI Alternatives registry ────────────────────────────────────
 const UI_VARIANTS: {
   key: string;
@@ -106,7 +110,7 @@ const UI_VARIANTS: {
 export const GameSelectionScreen: React.FC = () => {
   const router = useRouter();
   const { t } = useTranslation();
-  const games = gameRegistry.getAllGames();
+  const games = useMemo(() => gameRegistry.getAllGames(), []);
   const { toggleFavorite, isFavorite } = useFavoriteGames();
   const [sortBy, setSortBy] = useState<SortOption>('default');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
@@ -218,7 +222,7 @@ export const GameSelectionScreen: React.FC = () => {
 
   // ── Shared props for all alternative UIs ──────────────────────
   const altProps: GameSelectorAltProps = {
-    navigation,
+    navigation: null as any,
     games,
     sortedGames,
     categories,
@@ -445,9 +449,7 @@ export const GameSelectionScreen: React.FC = () => {
         initialNumToRender={6}
         removeClippedSubviews={true}
         onViewableItemsChanged={handleViewableItemsChanged}
-        viewabilityConfig={{
-          itemVisiblePercentThreshold: 50,
-        }}
+        viewabilityConfig={VIEWABILITY_CONFIG}
       />
 
       <View style={styles.footer}>
