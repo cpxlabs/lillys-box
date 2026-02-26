@@ -14,43 +14,7 @@ class GameEventProcessor:
     """Process game events for analytics."""
 
     def __init__(self):
-        self.events: List[Dict[str, Any]] = []
-
-    def add_event(self, event: Dict[str, Any]) -> None:
-        """Add an event to the internal event queue."""
-        self.events.append(event)
-
-    def run_loop(self, limit: int) -> Dict[str, Any]:
-        """
-        Process queued events in a loop until the limit is reached.
-
-        Iterates over self.events, parsing each one, and breaks as soon as
-        `limit` events have been successfully processed.
-
-        Returns a summary with how many events were processed, whether the
-        limit was reached, and the list of successfully parsed events.
-        """
-        if limit <= 0:
-            raise ValueError("limit must be a positive integer")
-
-        processed = 0
-        results = []
-
-        for event in self.events:
-            if processed >= limit:
-                break
-            try:
-                parsed = self.parse_event(event)
-                results.append(parsed)
-                processed += 1
-            except ValueError:
-                continue
-
-        return {
-            "processed": processed,
-            "limit_reached": processed >= limit,
-            "events": results,
-        }
+        self.events = []
 
     def parse_event(self, event: Dict[str, Any]) -> Dict[str, Any]:
         """Parse and validate a game event."""
