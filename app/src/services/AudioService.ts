@@ -1,5 +1,6 @@
 import { Audio, AVPlaybackStatus, AVPlaybackStatusSuccess } from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Platform } from 'react-native';
 
 const SOUND_ENABLED_KEY = 'sound_enabled';
 const MUSIC_ENABLED_KEY = 'music_enabled';
@@ -21,7 +22,9 @@ export type SoundType =
   | 'success'
   | 'error';
 
-const SOUND_MAP: Record<SoundType, any> = {
+const isWeb = Platform.OS === 'web';
+
+const SOUND_MAP: Record<SoundType, any> = isWeb ? {} : {
   button_click: require('../../assets/sounds/ui/button_click.mp3'),
   coin_collect: require('../../assets/sounds/ui/coin_collect.mp3'),
   notification: require('../../assets/sounds/ui/notification.mp3'),
@@ -38,7 +41,7 @@ const SOUND_MAP: Record<SoundType, any> = {
   error: require('../../assets/sounds/ui/error.mp3'),
 };
 
-const BACKGROUND_MUSIC = require('../../assets/sounds/music/background.mp3');
+const BACKGROUND_MUSIC = isWeb ? null : require('../../assets/sounds/music/background.mp3');
 
 class AudioService {
   private sounds: Map<SoundType, Audio.Sound> = new Map();
@@ -114,7 +117,7 @@ class AudioService {
   }
 
   async playSound(soundType: SoundType): Promise<void> {
-    if (!this.soundEnabled || !this.isInitialized) return;
+    if (isWeb || !this.soundEnabled || !this.isInitialized) return;
 
     try {
       let sound = this.sounds.get(soundType);
@@ -145,7 +148,7 @@ class AudioService {
   }
 
   async playBackgroundMusic(): Promise<void> {
-    if (!this.musicEnabled || !this.isInitialized) return;
+    if (isWeb || !this.musicEnabled || !this.isInitialized || !BACKGROUND_MUSIC) return;
 
     try {
       if (!this.backgroundMusic) {
@@ -193,7 +196,7 @@ class AudioService {
   }
 
   async resumeBackgroundMusic(): Promise<void> {
-    if (!this.musicEnabled) return;
+    if (isWeb || !this.musicEnabled || !BACKGROUND_MUSIC) return;
 
     try {
       if (this.backgroundMusic) {
@@ -210,7 +213,7 @@ class AudioService {
   }
 
   async preloadSounds(): Promise<void> {
-    if (!this.soundEnabled) return;
+    if (isWeb || !this.soundEnabled || Object.keys(SOUND_MAP).length === 0) return;
 
     const soundTypes = Object.keys(SOUND_MAP) as SoundType[];
 
