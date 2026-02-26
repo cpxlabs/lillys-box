@@ -22,6 +22,7 @@ This document outlines the roadmap for future development, improvements, and fea
 - [x] Add button click sounds to IconButton component
 - [x] Add pet action sounds to usePetActions hook (feed, play, bathe, sleep, cuddle, exercise, vet)
 - [x] Add sound settings to SettingsModal (sound effects, music, volume toggles)
+- [ ] Add interface variant persistence (save uiIndex to AsyncStorage)
 - [ ] Add actual MP3 sound files to assets/sounds/
 - [ ] Add background music (with mute toggle)
 - [ ] Activity-specific sounds:
@@ -258,6 +259,16 @@ src/
 - `/src/services/AnalyticsService.ts`
 - `/src/services/ErrorService.ts`
 - `/src/components/ErrorBoundary.tsx`
+
+---
+
+### 🟡 UX Improvements
+**Priority:** Low
+
+- [ ] **Interface setting persistence** - Save uiIndex to AsyncStorage so UI variant selection survives app restart
+  - Files to update:
+    - `/src/screens/GameSelectionScreen.tsx` - Load/save uiIndex from AsyncStorage
+  - See: `docs/SETTINGS_MODAL_TESTING.md` (KI-001)
 
 ---
 
