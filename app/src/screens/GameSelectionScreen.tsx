@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback, useEffect } from 'react';
+import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
 import {
   View,
   Text,
@@ -117,16 +117,20 @@ export const GameSelectionScreen: React.FC = () => {
   const [reviewGameId, setReviewGameId] = useState<string | null>(null);
   const [reviewsGameId, setReviewsGameId] = useState<string | null>(null);
   const [summaries, setSummaries] = useState<Record<string, ReviewSummary>>({});
+  const loadedSummaries = useRef<Set<string>>(new Set());
+
+  const loadSummaryForGame = useCallback(async (gameId: string) => {
+    if (loadedSummaries.current.has(gameId)) return;
+    loadedSummaries.current.add(gameId);
+    const summary = await ReviewService.getSummary(gameId);
+    setSummaries(prev => ({ ...prev, [gameId]: summary }));
+  }, []);
 
   useEffect(() => {
-    const load = async () => {
-      const entries = await Promise.all(
-        games.map(async (g) => [g.id, await ReviewService.getSummary(g.id)] as const),
-      );
-      setSummaries(Object.fromEntries(entries));
-    };
-    load();
-  }, [games]);
+    loadedSummaries.current.clear();
+    setSummaries({});
+    games.slice(0, 6).forEach(g => loadSummaryForGame(g.id));
+  }, [games, loadSummaryForGame]);
 
   const categories = useMemo(() => {
     const cats = new Set(games.map((g) => g.category));
@@ -266,74 +270,77 @@ export const GameSelectionScreen: React.FC = () => {
     );
   };
 
-  const renderGameCard = ({ item }: { item: GameDefinition }) => {
-    const fav = isFavorite(item.id);
-    const colors = CATEGORY_COLORS[item.category] || CATEGORY_COLORS.casual;
-    const summary = summaries[item.id];
-    const hasRating = summary && summary.totalReviews > 0;
+  const renderGameCard = useCallback(
+    ({ item }: { item: GameDefinition }) => {
+      const fav = isFavorite(item.id);
+      const colors = CATEGORY_COLORS[item.category] || CATEGORY_COLORS.casual;
+      const summary = summaries[item.id];
+      const hasRating = summary && summary.totalReviews > 0;
 
-    return (
-      <TouchableOpacity
-        style={[styles.gameCard, fav && styles.gameCardFavorite]}
-        onPress={() => handleGameSelect(item.id)}
-        activeOpacity={0.85}
-        accessibilityLabel={`${t(item.nameKey)}: ${t(item.descriptionKey)}`}
-      >
+      return (
         <TouchableOpacity
-          style={styles.favoriteButton}
-          onPress={() => handleToggleFavorite(item.id)}
-          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-          accessibilityRole="button"
-          accessibilityLabel={
-            fav ? t('selectGame.removeFavorite') : t('selectGame.addFavorite')
-          }
+          style={[styles.gameCard, fav && styles.gameCardFavorite]}
+          onPress={() => handleGameSelect(item.id)}
+          activeOpacity={0.85}
+          accessibilityLabel={`${t(item.nameKey)}: ${t(item.descriptionKey)}`}
         >
-          <Text style={[styles.favoriteIcon, fav && styles.favoriteIconActive]}>
-            {fav ? '★' : '☆'}
-          </Text>
-        </TouchableOpacity>
-
-        <View style={styles.emojiContainer}>
-          <EmojiIcon emoji={item.emoji} size={44} style={styles.gameEmoji} />
-        </View>
-
-        <Text style={styles.gameName} numberOfLines={1}>
-          {t(item.nameKey)}
-        </Text>
-        <Text style={styles.gameDescription} numberOfLines={2}>
-          {t(item.descriptionKey)}
-        </Text>
-
-        <View style={[styles.categoryBadge, { backgroundColor: colors.bg }]}>
-          <Text style={[styles.categoryBadgeText, { color: colors.text }]}>
-            {t(`selectGame.categories.${item.category}`)}
-          </Text>
-        </View>
-
-        {/* Rating row */}
-        <View style={styles.ratingRow}>
           <TouchableOpacity
-            style={styles.ratingBadge}
-            onPress={() => setReviewsGameId(item.id)}
-            hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
+            style={styles.favoriteButton}
+            onPress={() => handleToggleFavorite(item.id)}
+            hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            accessibilityRole="button"
+            accessibilityLabel={
+              fav ? t('selectGame.removeFavorite') : t('selectGame.addFavorite')
+            }
           >
-            <Text style={styles.ratingText}>
-              {hasRating
-                ? `⭐ ${summary.averageRating.toFixed(1)} (${summary.totalReviews})`
-                : `⭐ ${t('review.noRating')}`}
+            <Text style={[styles.favoriteIcon, fav && styles.favoriteIconActive]}>
+              {fav ? '★' : '☆'}
             </Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.reviewBtn}
-            onPress={() => setReviewGameId(item.id)}
-            hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
-          >
-            <Text style={styles.reviewBtnText}>{t('review.rate')}</Text>
-          </TouchableOpacity>
-        </View>
-      </TouchableOpacity>
-    );
-  };
+
+          <View style={styles.emojiContainer}>
+            <EmojiIcon emoji={item.emoji} size={44} style={styles.gameEmoji} />
+          </View>
+
+          <Text style={styles.gameName} numberOfLines={1}>
+            {t(item.nameKey)}
+          </Text>
+          <Text style={styles.gameDescription} numberOfLines={2}>
+            {t(item.descriptionKey)}
+          </Text>
+
+          <View style={[styles.categoryBadge, { backgroundColor: colors.bg }]}>
+            <Text style={[styles.categoryBadgeText, { color: colors.text }]}>
+              {t(`selectGame.categories.${item.category}`)}
+            </Text>
+          </View>
+
+          {/* Rating row */}
+          <View style={styles.ratingRow}>
+            <TouchableOpacity
+              style={styles.ratingBadge}
+              onPress={() => setReviewsGameId(item.id)}
+              hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
+            >
+              <Text style={styles.ratingText}>
+                {hasRating
+                  ? `⭐ ${summary.averageRating.toFixed(1)} (${summary.totalReviews})`
+                  : `⭐ ${t('review.noRating')}`}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.reviewBtn}
+              onPress={() => setReviewGameId(item.id)}
+              hitSlop={{ top: 4, bottom: 4, left: 4, right: 4 }}
+            >
+              <Text style={styles.reviewBtnText}>{t('review.rate')}</Text>
+            </TouchableOpacity>
+          </View>
+        </TouchableOpacity>
+      );
+    },
+    [summaries, isFavorite, handleGameSelect, handleToggleFavorite, t, loadSummaryForGame],
+  );
 
   return (
     <SafeAreaView style={styles.container}>
@@ -396,6 +403,16 @@ export const GameSelectionScreen: React.FC = () => {
         contentContainerStyle={styles.list}
         columnWrapperStyle={styles.columnWrapper}
         showsVerticalScrollIndicator={false}
+        windowSize={5}
+        maxToRenderPerBatch={6}
+        initialNumToRender={6}
+        removeClippedSubviews={true}
+        onViewableItemsChanged={({ viewableItems }) => {
+          viewableItems.forEach(({ item }) => loadSummaryForGame(item.id));
+        }}
+        viewabilityConfig={{
+          itemVisiblePercentThreshold: 50,
+        }}
       />
 
       <View style={styles.footer}>
