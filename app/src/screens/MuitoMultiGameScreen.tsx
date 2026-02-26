@@ -5,6 +5,7 @@ import { useMultiPlayerMuito, MultiGamePhase } from '../context/MultiPlayerMuito
 import { useAuth } from '../context/AuthContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'MuitoMultiGame'>;
@@ -26,6 +27,11 @@ export const MuitoMultiGameScreen: React.FC<Props> = ({ navigation }) => {
     submitAnswer,
     leaveRoom,
   } = useMultiPlayerMuito();
+  const goBack = useGameBack(navigation);
+  const handleBack = () => {
+    leaveRoom();
+    goBack();
+  };
 
   const myUserId = user?.id || (isGuest ? 'guest' : 'guest');
   const myScore = scores[myUserId] || 0;
@@ -77,11 +83,6 @@ export const MuitoMultiGameScreen: React.FC<Props> = ({ navigation }) => {
     },
     [selectedAnswer, lastRoundResult, submitAnswer]
   );
-
-  const handleBack = () => {
-    leaveRoom();
-    navigation.goBack();
-  };
 
   // ── loading / waiting ────────────────────────────────────────────
   if (!puzzle) {

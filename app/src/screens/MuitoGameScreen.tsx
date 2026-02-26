@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useMuito } from '../context/MuitoContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'MuitoGame'>;
@@ -47,6 +48,7 @@ function generatePuzzle(round: number): Puzzle {
 export const MuitoGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { score, addScore } = useMuito();
+  const handleBack = useGameBack(navigation);
   const roundRef = useRef(1);
   const [puzzle, setPuzzle] = useState<Puzzle>(() => generatePuzzle(1));
   const [selected, setSelected] = useState<number | null>(null);
@@ -84,7 +86,7 @@ export const MuitoGameScreen: React.FC<Props> = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <View style={styles.header}>
         <TouchableOpacity
-          onPress={() => navigation.goBack()}
+          onPress={() => handleBack()}
           accessibilityRole="button"
           accessibilityLabel={t('common.back')}
         >

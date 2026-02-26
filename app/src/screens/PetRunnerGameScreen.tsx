@@ -12,6 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { usePetRunner } from '../context/PetRunnerContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'PetRunnerGame'>;
@@ -130,6 +131,11 @@ function checkCoinCollision(
 export const PetRunnerGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { bestScore, updateBestScore } = usePetRunner();
+  const handleBack = useGameBack(navigation, {
+    cleanup: () => {
+      if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
+    },
+  });
 
   const [renderState, setRenderState] = useState<GameState>(createInitialState);
   const stateRef = useRef<GameState>(createInitialState());
@@ -279,8 +285,7 @@ export const PetRunnerGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.header}>
         <TouchableOpacity
           onPress={() => {
-            if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-            navigation.goBack();
+            handleBack();
           }}
           accessibilityRole="button"
           accessibilityLabel={t('common.back')}
@@ -381,10 +386,7 @@ export const PetRunnerGameScreen: React.FC<Props> = ({ navigation }) => {
 
             <TouchableOpacity
               style={styles.backToHomeButton}
-              onPress={() => {
-                if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
-                navigation.goBack();
-              }}
+              onPress={() => handleBack()}
               accessibilityRole="button"
               accessibilityLabel={t('common.back')}
             >
