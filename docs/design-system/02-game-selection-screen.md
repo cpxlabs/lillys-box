@@ -93,3 +93,34 @@ Each game card renders from the `gameRegistry` with:
 - `nameKey` - i18n key for name
 - `descriptionKey` - i18n key for description
 - `id` - Navigation parameter
+- `category` - Pet, Puzzle, Adventure, or Casual
+
+---
+
+## Rating & Reviews
+
+- Games display average rating and review count
+- Rating loads lazily (first 6 on mount, more on scroll)
+- Users can tap rating to view all reviews
+- Users can submit their own review with stars
+
+---
+
+## Performance Optimizations
+
+The screen implements several optimizations to reduce RAM usage:
+
+| Optimization | Description |
+|-------------|-------------|
+| Lazy summary loading | Only loads review summaries for visible games (6 on mount) |
+| On-demand loading | Loads more summaries as user scrolls via `onViewableItemsChanged` |
+| FlatList virtualization | `windowSize={5}`, `maxToRenderPerBatch={6}`, `initialNumToRender={6}`, `removeClippedSubviews={true}` |
+| Memoized render | `renderGameCard` wrapped in `useCallback` |
+
+---
+
+## Filtering & Sorting
+
+- Category filter chips (All, Pet, Puzzle, Adventure, Casual)
+- Sort options: Default, Name, Category, Favorites
+- Favorites toggle persisted via `useFavoriteGames` hook

@@ -228,8 +228,8 @@ npm run test:ci          # Executa testes em modo CI
 - [x] **Autenticação Google OAuth + modo convidado**
 - [x] **Deploy web via Vercel**
 - [x] **Sistema de reviews de jogos** (modal com comentários, estrelas, mídia e reactions)
+- [x] **Otimizações de performance** (lazy loading de reviews, FlatList virtualizado)
 - [ ] Sons e efeitos visuais
-- [ ] Otimizações de performance
 
 ## 📐 Arquitetura e Código
 
