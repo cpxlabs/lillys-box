@@ -265,5 +265,712 @@
   },
   "ads": {
     "notAvailable": "Anúncio não disponível"
+  },
+  "selectGame": {
+    "title": "🎮 Escolha um Jogo",
+    "subtitle": "Escolha sua aventura!",
+    "allGames": "Todos",
+    "sortBy": "Ordenar:",
+    "addFavorite": "Adicionar aos Favoritos",
+    "removeFavorite": "Remover dos Favoritos",
+    "sort": {
+      "default": "Padrão",
+      "name": "Nome",
+      "category": "Categoria",
+      "favorites": "Favoritos"
+    },
+    "categories": {
+      "pet": "Pet",
+      "puzzle": "Puzzle",
+      "adventure": "Aventura",
+      "casual": "Casual"
+    },
+    "petCare": {
+      "name": "Pet Care",
+      "description": "Cuide do seu pet virtual todos os dias!"
+    },
+    "muito": {
+      "name": "Muito",
+      "description": "Combine números para fazer pontos!"
+    },
+    "colorTap": {
+      "name": "Color Tap",
+      "description": "Toque nas cores certas rapidamente!"
+    },
+    "memoryMatch": {
+      "name": "Memory Match",
+      "description": "Encontre todos os pares iguais!"
+    },
+    "petRunner": {
+      "name": "Pet Runner",
+      "description": "Corra, pule e desvie dos obstáculos!"
+    },
+    "simonSays": {
+      "name": "Simon Says",
+      "description": "Repita a sequência de cores!"
+    },
+    "dressUpRelay": {
+      "name": "Dress Up Relay",
+      "description": "Vista seu pet com estilo!"
+    },
+    "colorMixer": {
+      "name": "Color Mixer",
+      "description": "Misture cores para acertar o alvo!"
+    },
+    "feedThePet": {
+      "name": "Feed the Pet",
+      "description": "Pegue a comida que cai para seu pet!"
+    },
+    "whackAMole": {
+      "name": "Whack a Mole",
+      "description": "Toque nas toupeiras antes que se escondam!"
+    },
+    "catchTheBall": {
+      "name": "Catch the Ball",
+      "description": "Pegue as bolas que caem no cesto!"
+    },
+    "slidingPuzzle": {
+      "name": "Sliding Puzzle",
+      "description": "Deslize as peças para completar a imagem!"
+    },
+    "bubblePop": {
+      "name": "Bubble Pop",
+      "description": "Estoure todas as bolhas coloridas!"
+    },
+    "petDanceParty": {
+      "name": "Pet Dance Party",
+      "description": "Dance junto com seu pet!"
+    },
+    "treasureDig": {
+      "name": "Treasure Dig",
+      "description": "Cave fundo para encontrar tesouros!"
+    },
+    "balloonFloat": {
+      "name": "Balloon Float",
+      "description": "Flutue seu balão até o topo!"
+    },
+    "paintSplash": {
+      "name": "Paint Splash",
+      "description": "Crie respingos coloridos de tinta!"
+    },
+    "snackStack": {
+      "name": "Snack Stack",
+      "description": "Empilhe lanches sem deixar cair!"
+    },
+    "lightningTap": {
+      "name": "Lightning Tap",
+      "description": "Toque rápido como um relâmpago!"
+    },
+    "pathFinder": {
+      "name": "Path Finder",
+      "description": "Encontre o caminho até o objetivo!"
+    },
+    "shapeSorter": {
+      "name": "Shape Sorter",
+      "description": "Encaixe as formas nos lugares certos!"
+    },
+    "mirrorMatch": {
+      "name": "Mirror Match",
+      "description": "Espelhe os padrões para vencer!"
+    },
+    "wordBubbles": {
+      "name": "Word Bubbles",
+      "description": "Estoure bolhas para formar palavras!"
+    },
+    "jigsawPets": {
+      "name": "Jigsaw Pets",
+      "description": "Complete o puzzle do pet!"
+    },
+    "connectDots": {
+      "name": "Connect Dots",
+      "description": "Conecte os pontos para revelar a imagem!"
+    },
+    "petExplorer": {
+      "name": "Pet Explorer",
+      "description": "Explore o mundo com seu pet!"
+    },
+    "weatherWizard": {
+      "name": "Weather Wizard",
+      "description": "Controle o clima com magia!"
+    },
+    "petTaxi": {
+      "name": "Pet Taxi",
+      "description": "Dirija seu táxi de pets pela cidade!"
+    },
+    "petChef": {
+      "name": "Pet Chef",
+      "description": "Cozinhe refeições deliciosas para pets!"
+    },
+    "musicMaker": {
+      "name": "Music Maker",
+      "description": "Crie músicas divertidas com seu pet!"
+    },
+    "gardenGrow": {
+      "name": "Garden Grow",
+      "description": "Cultive um lindo jardim!"
+    },
+    "photoStudio": {
+      "name": "Photo Studio",
+      "description": "Tire fotos fofas do seu pet!"
+    }
+  },
+  "balloonFloat": {
+    "home": {
+      "title": "Balloon Float",
+      "subtitle": "Flutue seu balão até o topo!",
+      "play": "Jogar",
+      "instructions": "Toque para fazer seu balão subir. Evite obstáculos!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "score": "Pontuação",
+      "gameOver": "Fim de Jogo",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "bubblePop": {
+    "home": {
+      "title": "Bubble Pop",
+      "subtitle": "Estoure todas as bolhas coloridas!",
+      "play": "Jogar",
+      "instructions": "Toque nas bolhas para estourá-las!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "score": "Pontuação",
+      "combo": "Combo",
+      "finalScore": "Pontuação Final",
+      "gameOver": "Fim de Jogo",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "catchTheBall": {
+    "home": {
+      "title": "Catch the Ball",
+      "subtitle": "Pegue as bolas que caem no cesto!",
+      "play": "Jogar",
+      "instructions": "Mova o cesto para pegar as bolas que caem!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "score": "Pontuação",
+      "caught": "Pegou",
+      "missed": "Perdeu",
+      "lane": "Faixa",
+      "finalScore": "Pontuação Final",
+      "gameOver": "Fim de Jogo",
+      "newBest": "Novo Recorde!",
+      "coinsEarned": "Moedas Ganhas",
+      "ready": "Pronto!",
+      "tapToStart": "Toque para Começar",
+      "playAgain": "Jogar Novamente",
+      "back": "Voltar"
+    }
+  },
+  "colorMixer": {
+    "title": "Color Mixer",
+    "subtitle": "Misture cores para acertar o alvo!",
+    "play": "Jogar",
+    "instructions": "Arraste as amostras de cor para a tigela e acerte a cor alvo!",
+    "levelsCompleted": "Níveis Completos",
+    "totalStars": "Total de Estrelas",
+    "level": "Nível",
+    "levelComplete": "Nível Completo!",
+    "accuracy": "Precisão",
+    "backToLevels": "Voltar aos Níveis",
+    "nextLevel": "Próximo Nível",
+    "tryAgain": "Tentar Novamente",
+    "check": "Verificar",
+    "reset": "Resetar",
+    "target": "Alvo",
+    "yourMix": "Sua Mistura",
+    "dragHere": "Arraste aqui",
+    "mixingBowl": "Tigela de Mistura"
+  },
+  "colorTap": {
+    "title": "Color Tap",
+    "subtitle": "Toque nas cores certas rapidamente!",
+    "play": "Jogar",
+    "instructions": "Toque nos botões coloridos na ordem correta!",
+    "bestScore": "Melhor Pontuação",
+    "gameOver": {
+      "title": "Fim de Jogo",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "connectDots": {
+    "home": {
+      "title": "Connect Dots",
+      "subtitle": "Conecte os pontos para revelar a imagem!",
+      "play": "Jogar",
+      "instructions": "Conecte todos os pontos em ordem para completar a imagem!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "complete": "Completo!",
+      "revealed": "Revelado",
+      "tapNext": "Toque no próximo ponto",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "dressUpRelay": {
+    "title": "Dress Up Relay",
+    "subtitle": "Vista seu pet com estilo!",
+    "play": "Jogar",
+    "instructions": "Memorize a roupa e recrie-a no seu pet!",
+    "bestScore": "Melhor Pontuação",
+    "round": "Rodada",
+    "timeLeft": "Tempo Restante",
+    "memorize": "Memorize a roupa!",
+    "dressYourPet": "Vista seu pet!",
+    "target": "Alvo",
+    "yourOutfit": "Sua Roupa",
+    "correct": "Correto!",
+    "perfect": "Perfeito!",
+    "nextRound": "Próxima Rodada",
+    "gameOver": {
+      "title": "Fim de Jogo",
+      "playAgain": "Jogar Novamente",
+      "roundsCompleted": "Rodadas Completas",
+      "totalScore": "Pontuação Total"
+    }
+  },
+  "feedThePet": {
+    "home": {
+      "title": "Feed the Pet",
+      "subtitle": "Pegue a comida que cai para seu pet!",
+      "play": "Jogar",
+      "instructions": "Mova a tigela para pegar a comida que cai para seu pet faminto!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "score": "Pontuação",
+      "combo": "Combo",
+      "finalScore": "Pontuação Final",
+      "gameOver": "Fim de Jogo",
+      "newBest": "Novo Recorde!",
+      "coinsEarned": "Moedas Ganhas",
+      "playAgain": "Jogar Novamente",
+      "back": "Voltar"
+    }
+  },
+  "gardenGrow": {
+    "home": {
+      "title": "Garden Grow",
+      "subtitle": "Cultive um lindo jardim!",
+      "play": "Jogar",
+      "instructions": "Regue e cuide das plantas para cultivar um jardim incrível!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "title": "Garden Grow",
+      "complete": "Jardim Completo!",
+      "harvested": "Colhido",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "jigsawPets": {
+    "home": {
+      "title": "Jigsaw Pets",
+      "subtitle": "Complete o puzzle do pet!",
+      "play": "Jogar",
+      "instructions": "Arraste as peças do puzzle para completar a imagem do pet!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "title": "Jigsaw Pets",
+      "complete": "Puzzle Completo!",
+      "moves": "Movimentos",
+      "pieces": "Peças",
+      "placing": "Colocando...",
+      "tapCell": "Toque em uma célula",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "lightningTap": {
+    "home": {
+      "title": "Lightning Tap",
+      "subtitle": "Toque rápido como um relâmpago!",
+      "play": "Jogar",
+      "instructions": "Toque nos alvos brilhantes o mais rápido que puder!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "score": "Pontuação",
+      "misses": "Erros",
+      "gameOver": "Fim de Jogo",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "memoryMatch": {
+    "title": "Memory Match",
+    "subtitle": "Encontre todos os pares iguais!",
+    "play": "Jogar",
+    "instructions": "Vire as cartas para encontrar os pares. Lembre-se das posições!",
+    "bestScore": "Melhor Pontuação",
+    "moves": "Movimentos",
+    "matched": "Combinou!",
+    "cardFaceDown": "Carta virada",
+    "gameOver": {
+      "title": "Você Ganhou!",
+      "moves": "Movimentos",
+      "time": "Tempo",
+      "score": "Pontuação",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "mirrorMatch": {
+    "home": {
+      "title": "Mirror Match",
+      "subtitle": "Espelhe os padrões para vencer!",
+      "play": "Jogar",
+      "instructions": "Copie o padrão da esquerda para o lado direito!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "title": "Mirror Match",
+      "pattern": "Padrão",
+      "mirror": "Espelho",
+      "color": "Cor",
+      "check": "Verificar",
+      "perfect": "Perfeito!",
+      "score": "Pontuação"
+    }
+  },
+  "muito": {
+    "title": "Muito",
+    "subtitle": "Combine números para fazer pontos!",
+    "play": "Jogar",
+    "instructions": "Combine o número na tela com a resposta certa!",
+    "bestScore": "Melhor Pontuação",
+    "score": "Pontuação",
+    "answerLabel": "Resposta",
+    "correct": "Correto!",
+    "wrong": "Errado!",
+    "multiplayer": {
+      "title": "Multijogador",
+      "play": "Multijogador",
+      "host": "Criar",
+      "join": "Entrar",
+      "createRoom": "Criar Sala",
+      "joinRoom": "Entrar na Sala",
+      "hostDescription": "Crie uma sala e convide amigos",
+      "joinDescription": "Entre na sala de um amigo",
+      "roomCode": "Código da Sala",
+      "codePlaceholder": "Digite o código da sala...",
+      "lobby": "Saguão",
+      "players": "Jogadores",
+      "waitingForOpponent": "Aguardando oponente...",
+      "waitingForHost": "Aguardando o anfitrião...",
+      "waitingForRound": "Aguardando a próxima rodada...",
+      "start": "Iniciar Jogo",
+      "connecting": "Conectando...",
+      "opponent": "Oponente",
+      "you": "Você",
+      "youWonRound": "Você ganhou essa rodada!",
+      "opponentWonRound": "O oponente ganhou essa rodada!",
+      "tieRound": "Empate!",
+      "resultWin": "Você Ganhou!",
+      "resultLose": "Você Perdeu!",
+      "resultTie": "Empate!",
+      "playAgain": "Jogar Novamente",
+      "backToMenu": "Voltar ao Menu"
+    }
+  },
+  "musicMaker": {
+    "home": {
+      "title": "Music Maker",
+      "subtitle": "Crie músicas divertidas com seu pet!",
+      "play": "Jogar",
+      "instructions": "Toque nos instrumentos para criar sua própria música!",
+      "bestScore": "Músicas Criadas"
+    },
+    "game": {
+      "title": "Music Maker",
+      "save": "Salvar",
+      "clear": "Limpar"
+    }
+  },
+  "paintSplash": {
+    "home": {
+      "title": "Paint Splash",
+      "subtitle": "Crie respingos coloridos de tinta!",
+      "play": "Jogar",
+      "instructions": "Toque na tela para criar respingos coloridos de tinta!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "title": "Paint Splash",
+      "score": "Pontuação",
+      "selectColor": "Selecionar Cor",
+      "complete": "Completo!",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "pathFinder": {
+    "home": {
+      "title": "Path Finder",
+      "subtitle": "Encontre o caminho até o objetivo!",
+      "play": "Jogar",
+      "instructions": "Desenhe um caminho do início ao fim evitando obstáculos!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "title": "Path Finder",
+      "score": "Pontuação",
+      "steps": "Passos",
+      "hint": "Dica",
+      "reset": "Resetar",
+      "pathFound": "Caminho Encontrado!",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "petChef": {
+    "home": {
+      "title": "Pet Chef",
+      "subtitle": "Cozinhe refeições deliciosas para pets!",
+      "play": "Jogar",
+      "instructions": "Siga a receita para cozinhar a refeição perfeita!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "recipe": "Receita",
+      "ingredients": "Ingredientes",
+      "serve": "Servir!",
+      "next": "Próximo",
+      "complete": "Refeição Pronta!",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "petDanceParty": {
+    "home": {
+      "title": "Pet Dance Party",
+      "subtitle": "Dance junto com seu pet!",
+      "play": "Jogar",
+      "instructions": "Siga os passos de dança mostrados na tela!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "finalScore": "Pontuação Final",
+      "gameOver": "Fim de Jogo",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "petExplorer": {
+    "home": {
+      "title": "Pet Explorer",
+      "subtitle": "Explore o mundo com seu pet!",
+      "play": "Jogar",
+      "instructions": "Guie seu pet por locais emocionantes para descobrir tesouros!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "score": "Pontuação",
+      "exploring": "Explorando...",
+      "complete": "Exploração Completa!",
+      "finish": "Finalizar",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "petRunner": {
+    "title": "Pet Runner",
+    "subtitle": "Corra, pule e desvie dos obstáculos!",
+    "play": "Jogar",
+    "instructions": "Toque para pular sobre obstáculos e corra o mais longe que puder!",
+    "bestScore": "Melhor Pontuação",
+    "tapToStart": "Toque para Começar",
+    "gameOver": {
+      "title": "Fim de Jogo",
+      "score": "Pontuação",
+      "distance": "Distância",
+      "coins": "Moedas",
+      "newBest": "Novo Recorde!",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "petTaxi": {
+    "home": {
+      "title": "Pet Taxi",
+      "subtitle": "Dirija seu táxi de pets pela cidade!",
+      "play": "Jogar",
+      "instructions": "Pegue passageiros e leve-os aos seus destinos!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "deliver": "Entregar",
+      "delivered": "Entregue!",
+      "gameOver": "Fim de Jogo",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "photoStudio": {
+    "home": {
+      "title": "Photo Studio",
+      "subtitle": "Tire fotos fofas do seu pet!",
+      "play": "Jogar",
+      "instructions": "Escolha poses, acessórios e fundos para a foto perfeita do pet!",
+      "bestScore": "Fotos Tiradas"
+    },
+    "game": {
+      "title": "Photo Studio",
+      "background": "Fundo",
+      "pose": "Pose",
+      "props": "Acessórios",
+      "stickers": "Figurinhas",
+      "gallery": "Galeria",
+      "takePhoto": "Tirar Foto!"
+    }
+  },
+  "shapeSorter": {
+    "home": {
+      "title": "Shape Sorter",
+      "subtitle": "Encaixe as formas nos lugares certos!",
+      "play": "Jogar",
+      "instructions": "Arraste as formas para seus encaixes o mais rápido que puder!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "score": "Pontuação",
+      "round": "Rodada",
+      "shapes": "Formas",
+      "holes": "Encaixes",
+      "selected": "Selecionado",
+      "tapHole": "Toque em um encaixe",
+      "complete": "Rodada Completa!",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "simonSays": {
+    "title": "Simon Says",
+    "subtitle": "Repita a sequência de cores!",
+    "play": "Jogar",
+    "instructions": "Observe a sequência de cores e repita corretamente!",
+    "bestScore": "Melhor Pontuação",
+    "round": "Rodada",
+    "score": "Pontuação",
+    "watch": "Observe!",
+    "yourTurn": "Sua Vez!",
+    "correct": "Correto!",
+    "wrong": "Errado!",
+    "getReady": "Prepare-se!",
+    "gameOver": {
+      "title": "Fim de Jogo",
+      "playAgain": "Jogar Novamente",
+      "roundsCompleted": "Rodadas Completas",
+      "newRecord": "Novo Recorde!"
+    }
+  },
+  "slidingPuzzle": {
+    "home": {
+      "title": "Sliding Puzzle",
+      "subtitle": "Deslize as peças para completar a imagem!",
+      "chooseDifficulty": "Escolha a Dificuldade",
+      "easy": "Fácil",
+      "easyDesc": "Grade 3×3",
+      "hard": "Difícil",
+      "hardDesc": "Grade 4×4",
+      "instructions": "Deslize as peças para organizá-las na ordem correta!",
+      "best": "Melhor",
+      "moves": "Movimentos"
+    },
+    "game": {
+      "easy": "Fácil",
+      "hard": "Difícil",
+      "moves": "Movimentos",
+      "tile": "Peça",
+      "youWon": "Você Ganhou!",
+      "newBest": "Novo Recorde!",
+      "coinsEarned": "Moedas Ganhas",
+      "playAgain": "Jogar Novamente",
+      "newGame": "Novo Jogo",
+      "back": "Voltar"
+    }
+  },
+  "snackStack": {
+    "home": {
+      "title": "Snack Stack",
+      "subtitle": "Empilhe lanches sem deixar cair!",
+      "play": "Jogar",
+      "instructions": "Calcule o tempo dos toques para empilhar lanches o mais alto possível!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "score": "Pontuação",
+      "height": "Altura",
+      "perfect": "Perfeito!",
+      "tapToDrop": "Toque para Soltar",
+      "toppled": "Caiu!",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "treasureDig": {
+    "home": {
+      "title": "Treasure Dig",
+      "subtitle": "Cave fundo para encontrar tesouros!",
+      "play": "Jogar",
+      "instructions": "Toque no solo para cavar e encontrar tesouros escondidos!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "score": "Pontuação",
+      "found": "Encontrado!",
+      "allFound": "Todos Encontrados!",
+      "gameOver": "Fim de Jogo",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "weatherWizard": {
+    "home": {
+      "title": "Weather Wizard",
+      "subtitle": "Controle o clima com magia!",
+      "play": "Jogar",
+      "instructions": "Combine os feitiços do clima para controlar a natureza!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "scene": "Cena",
+      "need": "Necessário",
+      "choose": "Escolher",
+      "complete": "Cena Completa!",
+      "playAgain": "Jogar Novamente"
+    }
+  },
+  "whackAMole": {
+    "home": {
+      "title": "Whack a Mole",
+      "subtitle": "Toque nas toupeiras antes que se escondam!",
+      "play": "Jogar!",
+      "instructions": "Toque nas toupeiras quando aparecerem. Não erre!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "score": "Pontuação",
+      "round": "Rodada",
+      "time": "Tempo",
+      "combo": "Combo",
+      "accuracy": "Precisão",
+      "pestsBopped": "Toupeiras Acertadas",
+      "finalScore": "Pontuação Final",
+      "gameOver": "Fim de Jogo",
+      "newBest": "Novo Recorde!",
+      "coinsEarned": "Moedas Ganhas",
+      "playAgain": "Jogar Novamente",
+      "back": "Voltar"
+    }
+  },
+  "wordBubbles": {
+    "home": {
+      "title": "Word Bubbles",
+      "subtitle": "Estoure bolhas para formar palavras!",
+      "play": "Jogar",
+      "instructions": "Estoure as bolhas com letras na ordem certa para formar palavras!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "score": "Pontuação",
+      "correct": "Correto!",
+      "complete": "Todas as Palavras Encontradas!",
+      "clear": "Limpar"
+    }
   }
 }

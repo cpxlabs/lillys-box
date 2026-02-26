@@ -412,5 +412,564 @@
       "name": "Photo Studio",
       "description": "Take cute photos of your pet!"
     }
+  },
+  "balloonFloat": {
+    "home": {
+      "title": "Balloon Float",
+      "subtitle": "Float your balloon to the top!",
+      "play": "Play",
+      "instructions": "Tap to make your balloon rise. Avoid obstacles!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "score": "Score",
+      "gameOver": "Game Over",
+      "playAgain": "Play Again"
+    }
+  },
+  "bubblePop": {
+    "home": {
+      "title": "Bubble Pop",
+      "subtitle": "Pop all the colorful bubbles!",
+      "play": "Play",
+      "instructions": "Tap bubbles to pop them all!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "score": "Score",
+      "combo": "Combo",
+      "finalScore": "Final Score",
+      "gameOver": "Game Over",
+      "playAgain": "Play Again"
+    }
+  },
+  "catchTheBall": {
+    "home": {
+      "title": "Catch the Ball",
+      "subtitle": "Catch falling balls in your basket!",
+      "play": "Play",
+      "instructions": "Move your basket to catch falling balls!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "score": "Score",
+      "caught": "Caught",
+      "missed": "Missed",
+      "lane": "Lane",
+      "finalScore": "Final Score",
+      "gameOver": "Game Over",
+      "newBest": "New Best!",
+      "coinsEarned": "Coins Earned",
+      "ready": "Ready!",
+      "tapToStart": "Tap to Start",
+      "playAgain": "Play Again",
+      "back": "Back"
+    }
+  },
+  "colorMixer": {
+    "title": "Color Mixer",
+    "subtitle": "Mix colors to match the target!",
+    "play": "Play",
+    "instructions": "Drag color swatches into the bowl to match the target color!",
+    "levelsCompleted": "Levels Completed",
+    "totalStars": "Total Stars",
+    "level": "Level",
+    "levelComplete": "Level Complete!",
+    "accuracy": "Accuracy",
+    "backToLevels": "Back to Levels",
+    "nextLevel": "Next Level",
+    "tryAgain": "Try Again",
+    "check": "Check",
+    "reset": "Reset",
+    "target": "Target",
+    "yourMix": "Your Mix",
+    "dragHere": "Drag here",
+    "mixingBowl": "Mixing Bowl"
+  },
+  "colorTap": {
+    "title": "Color Tap",
+    "subtitle": "Tap the right colors fast!",
+    "play": "Play",
+    "instructions": "Tap the colored buttons in the correct order!",
+    "bestScore": "Best Score",
+    "gameOver": {
+      "title": "Game Over",
+      "playAgain": "Play Again"
+    }
+  },
+  "connectDots": {
+    "home": {
+      "title": "Connect Dots",
+      "subtitle": "Connect the dots to reveal the picture!",
+      "play": "Play",
+      "instructions": "Connect all dots in order to complete the image!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "complete": "Complete!",
+      "revealed": "Revealed",
+      "tapNext": "Tap next dot",
+      "playAgain": "Play Again"
+    }
+  },
+  "dressUpRelay": {
+    "title": "Dress Up Relay",
+    "subtitle": "Dress up your pet in style!",
+    "play": "Play",
+    "instructions": "Memorize the outfit and recreate it on your pet!",
+    "bestScore": "Best Score",
+    "round": "Round",
+    "timeLeft": "Time Left",
+    "memorize": "Memorize the outfit!",
+    "dressYourPet": "Dress your pet!",
+    "target": "Target",
+    "yourOutfit": "Your Outfit",
+    "correct": "Correct!",
+    "perfect": "Perfect!",
+    "nextRound": "Next Round",
+    "gameOver": {
+      "title": "Game Over",
+      "playAgain": "Play Again",
+      "roundsCompleted": "Rounds Completed",
+      "totalScore": "Total Score"
+    }
+  },
+  "feedThePet": {
+    "home": {
+      "title": "Feed the Pet",
+      "subtitle": "Catch falling food for your pet!",
+      "play": "Play",
+      "instructions": "Move the bowl to catch falling food for your hungry pet!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "score": "Score",
+      "combo": "Combo",
+      "finalScore": "Final Score",
+      "gameOver": "Game Over",
+      "newBest": "New Best!",
+      "coinsEarned": "Coins Earned",
+      "playAgain": "Play Again",
+      "back": "Back"
+    }
+  },
+  "gardenGrow": {
+    "home": {
+      "title": "Garden Grow",
+      "subtitle": "Grow a beautiful garden!",
+      "play": "Play",
+      "instructions": "Water and tend your plants to grow a stunning garden!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "title": "Garden Grow",
+      "complete": "Garden Complete!",
+      "harvested": "Harvested",
+      "playAgain": "Play Again"
+    }
+  },
+  "jigsawPets": {
+    "home": {
+      "title": "Jigsaw Pets",
+      "subtitle": "Complete the pet puzzle!",
+      "play": "Play",
+      "instructions": "Drag puzzle pieces to complete the adorable pet image!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "title": "Jigsaw Pets",
+      "complete": "Puzzle Complete!",
+      "moves": "Moves",
+      "pieces": "Pieces",
+      "placing": "Placing...",
+      "tapCell": "Tap a cell",
+      "playAgain": "Play Again"
+    }
+  },
+  "lightningTap": {
+    "home": {
+      "title": "Lightning Tap",
+      "subtitle": "Tap as fast as lightning!",
+      "play": "Play",
+      "instructions": "Tap the glowing targets as fast as you can!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "score": "Score",
+      "misses": "Misses",
+      "gameOver": "Game Over",
+      "playAgain": "Play Again"
+    }
+  },
+  "memoryMatch": {
+    "title": "Memory Match",
+    "subtitle": "Find all matching pairs!",
+    "play": "Play",
+    "instructions": "Flip cards to find matching pairs. Remember the locations!",
+    "bestScore": "Best Score",
+    "moves": "Moves",
+    "matched": "Matched!",
+    "cardFaceDown": "Card face down",
+    "gameOver": {
+      "title": "You Win!",
+      "moves": "Moves",
+      "time": "Time",
+      "score": "Score",
+      "playAgain": "Play Again"
+    }
+  },
+  "mirrorMatch": {
+    "home": {
+      "title": "Mirror Match",
+      "subtitle": "Mirror the patterns to win!",
+      "play": "Play",
+      "instructions": "Copy the pattern shown on the left side to the right!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "title": "Mirror Match",
+      "pattern": "Pattern",
+      "mirror": "Mirror",
+      "color": "Color",
+      "check": "Check",
+      "perfect": "Perfect!",
+      "score": "Score"
+    }
+  },
+  "muito": {
+    "title": "Muito",
+    "subtitle": "Match numbers to score big!",
+    "play": "Play",
+    "instructions": "Match the number on the screen with the right answer!",
+    "bestScore": "Best Score",
+    "score": "Score",
+    "answerLabel": "Answer",
+    "correct": "Correct!",
+    "wrong": "Wrong!",
+    "multiplayer": {
+      "title": "Multiplayer",
+      "play": "Multiplayer",
+      "host": "Host",
+      "join": "Join",
+      "createRoom": "Create Room",
+      "joinRoom": "Join Room",
+      "hostDescription": "Create a room and invite friends",
+      "joinDescription": "Join a friend's room",
+      "roomCode": "Room Code",
+      "codePlaceholder": "Enter room code...",
+      "lobby": "Lobby",
+      "players": "Players",
+      "waitingForOpponent": "Waiting for opponent...",
+      "waitingForHost": "Waiting for host...",
+      "waitingForRound": "Waiting for next round...",
+      "start": "Start Game",
+      "connecting": "Connecting...",
+      "opponent": "Opponent",
+      "you": "You",
+      "youWonRound": "You won this round!",
+      "opponentWonRound": "Opponent won this round!",
+      "tieRound": "It's a tie!",
+      "resultWin": "You Win!",
+      "resultLose": "You Lose!",
+      "resultTie": "It's a Tie!",
+      "playAgain": "Play Again",
+      "backToMenu": "Back to Menu"
+    }
+  },
+  "musicMaker": {
+    "home": {
+      "title": "Music Maker",
+      "subtitle": "Create fun music with your pet!",
+      "play": "Play",
+      "instructions": "Tap the instruments to create your own music!",
+      "bestScore": "Songs Made"
+    },
+    "game": {
+      "title": "Music Maker",
+      "save": "Save",
+      "clear": "Clear"
+    }
+  },
+  "paintSplash": {
+    "home": {
+      "title": "Paint Splash",
+      "subtitle": "Create colorful splashes of paint!",
+      "play": "Play",
+      "instructions": "Tap the canvas to create colorful paint splashes!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "title": "Paint Splash",
+      "score": "Score",
+      "selectColor": "Select Color",
+      "complete": "Complete!",
+      "playAgain": "Play Again"
+    }
+  },
+  "pathFinder": {
+    "home": {
+      "title": "Path Finder",
+      "subtitle": "Find the path to the goal!",
+      "play": "Play",
+      "instructions": "Draw a path from start to finish avoiding obstacles!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "title": "Path Finder",
+      "score": "Score",
+      "steps": "Steps",
+      "hint": "Hint",
+      "reset": "Reset",
+      "pathFound": "Path Found!",
+      "playAgain": "Play Again"
+    }
+  },
+  "petChef": {
+    "home": {
+      "title": "Pet Chef",
+      "subtitle": "Cook delicious meals for pets!",
+      "play": "Play",
+      "instructions": "Follow the recipe to cook the perfect meal!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "recipe": "Recipe",
+      "ingredients": "Ingredients",
+      "serve": "Serve!",
+      "next": "Next",
+      "complete": "Meal Complete!",
+      "playAgain": "Play Again"
+    }
+  },
+  "petDanceParty": {
+    "home": {
+      "title": "Pet Dance Party",
+      "subtitle": "Dance along with your pet!",
+      "play": "Play",
+      "instructions": "Follow the dance moves shown on screen!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "finalScore": "Final Score",
+      "gameOver": "Game Over",
+      "playAgain": "Play Again"
+    }
+  },
+  "petExplorer": {
+    "home": {
+      "title": "Pet Explorer",
+      "subtitle": "Explore the world with your pet!",
+      "play": "Play",
+      "instructions": "Guide your pet through exciting locations to discover treasures!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "score": "Score",
+      "exploring": "Exploring...",
+      "complete": "Exploration Complete!",
+      "finish": "Finish",
+      "playAgain": "Play Again"
+    }
+  },
+  "petRunner": {
+    "title": "Pet Runner",
+    "subtitle": "Run, jump, and dodge obstacles!",
+    "play": "Play",
+    "instructions": "Tap to jump over obstacles and run as far as you can!",
+    "bestScore": "Best Score",
+    "tapToStart": "Tap to Start",
+    "gameOver": {
+      "title": "Game Over",
+      "score": "Score",
+      "distance": "Distance",
+      "coins": "Coins",
+      "newBest": "New Best!",
+      "playAgain": "Play Again"
+    }
+  },
+  "petTaxi": {
+    "home": {
+      "title": "Pet Taxi",
+      "subtitle": "Drive your pet taxi around town!",
+      "play": "Play",
+      "instructions": "Pick up passengers and deliver them to their destinations!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "deliver": "Deliver",
+      "delivered": "Delivered!",
+      "gameOver": "Game Over",
+      "playAgain": "Play Again"
+    }
+  },
+  "photoStudio": {
+    "home": {
+      "title": "Photo Studio",
+      "subtitle": "Take cute photos of your pet!",
+      "play": "Play",
+      "instructions": "Choose poses, props, and backgrounds for the perfect pet photo!",
+      "bestScore": "Photos Taken"
+    },
+    "game": {
+      "title": "Photo Studio",
+      "background": "Background",
+      "pose": "Pose",
+      "props": "Props",
+      "stickers": "Stickers",
+      "gallery": "Gallery",
+      "takePhoto": "Take Photo!"
+    }
+  },
+  "shapeSorter": {
+    "home": {
+      "title": "Shape Sorter",
+      "subtitle": "Sort shapes into the right slots!",
+      "play": "Play",
+      "instructions": "Drag shapes to their matching slots as fast as you can!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "score": "Score",
+      "round": "Round",
+      "shapes": "Shapes",
+      "holes": "Holes",
+      "selected": "Selected",
+      "tapHole": "Tap a hole",
+      "complete": "Round Complete!",
+      "playAgain": "Play Again"
+    }
+  },
+  "simonSays": {
+    "title": "Simon Says",
+    "subtitle": "Repeat the color sequence!",
+    "play": "Play",
+    "instructions": "Watch the color sequence and repeat it correctly!",
+    "bestScore": "Best Score",
+    "round": "Round",
+    "score": "Score",
+    "watch": "Watch!",
+    "yourTurn": "Your Turn!",
+    "correct": "Correct!",
+    "wrong": "Wrong!",
+    "getReady": "Get Ready!",
+    "gameOver": {
+      "title": "Game Over",
+      "playAgain": "Play Again",
+      "roundsCompleted": "Rounds Completed",
+      "newRecord": "New Record!"
+    }
+  },
+  "slidingPuzzle": {
+    "home": {
+      "title": "Sliding Puzzle",
+      "subtitle": "Slide tiles to complete the picture!",
+      "chooseDifficulty": "Choose Difficulty",
+      "easy": "Easy",
+      "easyDesc": "3×3 grid",
+      "hard": "Hard",
+      "hardDesc": "4×4 grid",
+      "instructions": "Slide tiles to arrange them in the correct order!",
+      "best": "Best",
+      "moves": "Moves"
+    },
+    "game": {
+      "easy": "Easy",
+      "hard": "Hard",
+      "moves": "Moves",
+      "tile": "Tile",
+      "youWon": "You Won!",
+      "newBest": "New Best!",
+      "coinsEarned": "Coins Earned",
+      "playAgain": "Play Again",
+      "newGame": "New Game",
+      "back": "Back"
+    }
+  },
+  "snackStack": {
+    "home": {
+      "title": "Snack Stack",
+      "subtitle": "Stack snacks without dropping!",
+      "play": "Play",
+      "instructions": "Time your taps to stack snacks as high as possible!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "score": "Score",
+      "height": "Height",
+      "perfect": "Perfect!",
+      "tapToDrop": "Tap to Drop",
+      "toppled": "Toppled!",
+      "playAgain": "Play Again"
+    }
+  },
+  "treasureDig": {
+    "home": {
+      "title": "Treasure Dig",
+      "subtitle": "Dig deep to find hidden treasure!",
+      "play": "Play",
+      "instructions": "Tap the soil to dig and find hidden treasures!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "score": "Score",
+      "found": "Found!",
+      "allFound": "All Found!",
+      "gameOver": "Game Over",
+      "playAgain": "Play Again"
+    }
+  },
+  "weatherWizard": {
+    "home": {
+      "title": "Weather Wizard",
+      "subtitle": "Control the weather with magic!",
+      "play": "Play",
+      "instructions": "Match the weather spells to control nature!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "scene": "Scene",
+      "need": "Need",
+      "choose": "Choose",
+      "complete": "Scene Complete!",
+      "playAgain": "Play Again"
+    }
+  },
+  "whackAMole": {
+    "home": {
+      "title": "Whack a Mole",
+      "subtitle": "Tap the moles before they hide!",
+      "play": "Play!",
+      "instructions": "Tap the moles as they appear. Don't miss!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "score": "Score",
+      "round": "Round",
+      "time": "Time",
+      "combo": "Combo",
+      "accuracy": "Accuracy",
+      "pestsBopped": "Pests Bopped",
+      "finalScore": "Final Score",
+      "gameOver": "Game Over",
+      "newBest": "New Best!",
+      "coinsEarned": "Coins Earned",
+      "playAgain": "Play Again",
+      "back": "Back"
+    }
+  },
+  "wordBubbles": {
+    "home": {
+      "title": "Word Bubbles",
+      "subtitle": "Pop bubbles to spell words!",
+      "play": "Play",
+      "instructions": "Pop the letter bubbles in the right order to spell words!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "score": "Score",
+      "correct": "Correct!",
+      "complete": "All Words Found!",
+      "clear": "Clear"
+    }
   }
 }
