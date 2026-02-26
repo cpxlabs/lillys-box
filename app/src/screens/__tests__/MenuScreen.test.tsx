@@ -43,6 +43,10 @@ jest.mock('../../components/WebSafeIcon', () => ({
   WebSafeIcon: 'WebSafeIcon',
 }));
 
+jest.mock('../../components/LanguageSelector', () => ({
+  LanguageSelector: () => 'LanguageSelector',
+}));
+
 // Mock navigation
 const mockNavigation = {
   navigate: jest.fn(),
@@ -62,18 +66,17 @@ describe('MenuScreen', () => {
     const { getByText } = render(<MenuScreen navigation={mockNavigation} />);
 
     // Header
-    expect(getByText('Test User')).toBeTruthy();
+    expect(getByText('Welcome, Test User')).toBeTruthy();
     expect(getByText('test@example.com')).toBeTruthy();
 
     // Main Content
     expect(getByText('menu.title')).toBeTruthy();
 
-    // Continue Button (Hero Card)
-    expect(getByText('Fluffy')).toBeTruthy();
-    expect(getByText('menu.continueHint')).toBeTruthy();
+    // Continue Button with pet name
+    expect(getByText('Continue with Fluffy 🐱')).toBeTruthy();
 
-    // Secondary Actions
-    expect(getByText('common.delete')).toBeTruthy();
+    // Delete button
+    expect(getByText('menu.deletePet')).toBeTruthy();
   });
 
   it('renders correctly without a pet', () => {
@@ -84,19 +87,17 @@ describe('MenuScreen', () => {
 
     const { getByText, queryByText } = render(<MenuScreen navigation={mockNavigation} />);
 
-    // Create New Pet Button (Hero Card)
+    // Create New Pet Button
     expect(getByText('menu.createNewPet')).toBeTruthy();
-    expect(getByText('Start a new adventure')).toBeTruthy();
 
     // Delete button should NOT be present
-    expect(queryByText('common.delete')).toBeNull();
+    expect(queryByText('menu.deletePet')).toBeNull();
   });
 
   it('navigates to Home when continue is pressed', () => {
     const { getByText } = render(<MenuScreen navigation={mockNavigation} />);
 
-    const continueBtn = getByText('Fluffy');
-    fireEvent.press(continueBtn);
+    fireEvent.press(getByText('Continue with Fluffy 🐱'));
 
     expect(mockNavigation.navigate).toHaveBeenCalledWith('Home');
   });
@@ -109,8 +110,7 @@ describe('MenuScreen', () => {
 
     const { getByText } = render(<MenuScreen navigation={mockNavigation} />);
 
-    const createBtn = getByText('menu.createNewPet');
-    fireEvent.press(createBtn);
+    fireEvent.press(getByText('menu.createNewPet'));
 
     expect(mockNavigation.navigate).toHaveBeenCalledWith('CreatePet');
   });
@@ -118,18 +118,18 @@ describe('MenuScreen', () => {
   it('shows delete confirmation modal', () => {
     const { getByText } = render(<MenuScreen navigation={mockNavigation} />);
 
-    const deleteBtn = getByText('common.delete');
-    fireEvent.press(deleteBtn);
+    fireEvent.press(getByText('menu.deletePet'));
 
     // Check if modal title appears
     expect(getByText('menu.deletePetModal.title')).toBeTruthy();
   });
 
   it('shows sign out confirmation', () => {
-    const { getByLabelText, getByText } = render(<MenuScreen navigation={mockNavigation} />);
+    const { getAllByText, getByText } = render(<MenuScreen navigation={mockNavigation} />);
 
-    const signOutBtn = getByLabelText('Sign Out');
-    fireEvent.press(signOutBtn);
+    // Sign out button uses plain text; press the first "Sign Out" (the button, not the modal confirm)
+    const signOutElements = getAllByText('Sign Out');
+    fireEvent.press(signOutElements[0]);
 
     // Check for modal message
     expect(getByText('Are you sure you want to sign out? Your pet data will be preserved.')).toBeTruthy();

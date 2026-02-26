@@ -85,7 +85,11 @@ describe('WhackAMoleHomeScreen', () => {
   it('uses parent navigation when canGoBack returns false', () => {
     const mockParentGoBack = jest.fn();
     mockCanGoBack.mockReturnValue(false);
-    mockGetParent.mockReturnValue({ goBack: mockParentGoBack });
+    mockGetParent.mockReturnValue({
+      goBack: mockParentGoBack,
+      canGoBack: () => true,
+      getParent: () => undefined,
+    });
 
     const { getByText } = render(
       <WhackAMoleHomeScreen navigation={navigation as any} />

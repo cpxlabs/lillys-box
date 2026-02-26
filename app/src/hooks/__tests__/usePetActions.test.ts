@@ -374,7 +374,7 @@ describe('usePetActions', () => {
     it('should execute vet action', async () => {
       const { result } = renderHook(() => usePetActions());
       await performActionWithTimers(result, 'vet', { useMoney: true });
-      expect(mockVisitVet).toHaveBeenCalledWith(true);
+      expect(mockVisitVet).toHaveBeenCalledWith('antibiotic', true);
     });
   });
 
