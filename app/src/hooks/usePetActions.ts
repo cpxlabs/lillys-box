@@ -40,6 +40,7 @@ import {
 } from '../config/actionConfig';
 import { validateAction } from '../utils/petStats';
 import { logger } from '../utils/logger';
+import { audioService, SoundType } from '../services/AudioService';
 
 /**
  * Options that can be passed to performAction
@@ -108,6 +109,26 @@ export function usePetActions(): UsePetActionsReturn {
   // Timeout management - store all active timeouts
   const timeoutRefs = useRef<NodeJS.Timeout[]>([]);
   const currentActionRef = useRef<ActionType | null>(null);
+
+  /**
+   * Play sound based on action type
+   */
+  const playActionSound = useCallback((type: ActionType): void => {
+    const soundMap: Record<ActionType, SoundType> = {
+      feed: 'eating',
+      play: 'ball_bounce',
+      bathe: 'water_splash',
+      sleep: 'notification',
+      exercise: 'ball_bounce',
+      cuddle: 'pet_happy',
+      vet: 'notification',
+    };
+    
+    const sound = soundMap[type];
+    if (sound) {
+      audioService.playSound(sound);
+    }
+  }, []);
 
   /**
    * Cleanup all active timeouts
@@ -276,6 +297,9 @@ export function usePetActions(): UsePetActionsReturn {
         logger.error(`No animation config for action: ${type}`);
         return { success: false };
       }
+
+      // Play action sound
+      playActionSound(type);
 
       try {
         // 3. Clear existing timeouts

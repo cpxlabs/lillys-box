@@ -19,21 +19,25 @@ This document outlines the roadmap for future development, improvements, and fea
 - [x] Integrate `expo-av` for audio playback
 - [x] Create AudioService.ts with background music and sound effects management
 - [x] Create useAudio hook for easy usage in components
+- [x] Add button click sounds to IconButton component
+- [x] Add pet action sounds to usePetActions hook (feed, play, bathe, sleep, cuddle, exercise, vet)
+- [x] Add sound settings to SettingsModal (sound effects, music, volume toggles)
+- [ ] Add actual MP3 sound files to assets/sounds/
 - [ ] Add background music (with mute toggle)
-- [ ] Pet sounds (meow/bark, happy sounds, sad sounds)
-- [ ] UI sound effects (button clicks, coin collection, notifications)
 - [ ] Activity-specific sounds:
   - Eating/chewing sounds for feeding
   - Water/splash sounds for bathing
   - Play sounds (ball bounce, toy squeaks)
   - Clothing swap sounds for wardrobe
-- [ ] Volume controls in settings menu
 - [ ] Respect device silent mode
 
-**Files created:**
+**Files created/updated:**
 - `/assets/sounds/` directory structure
 - `/src/services/AudioService.ts`
 - `/src/hooks/useAudio.ts`
+- `/src/components/IconButton.tsx` (sound integration)
+- `/src/hooks/usePetActions.ts` (sound integration)
+- `/src/components/SettingsModal.tsx` (sound settings)
 
 ---
 
