@@ -11,8 +11,10 @@ import { AuthProvider, useAuth } from '../src/context/AuthContext';
 import { ToastProvider } from '../src/context/ToastContext';
 import { AdProvider, useAd } from '../src/context/AdContext';
 import AdService from '../src/services/AdService';
+import ErrorService from '../src/services/ErrorService';
 
 registerAllGames();
+ErrorService.init();
 
 function AuthRedirect() {
   const { user, isGuest, loading } = useAuth();

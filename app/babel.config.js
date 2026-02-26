@@ -5,6 +5,8 @@ module.exports = function (api) {
       ['babel-preset-expo', { flow: false }],
       '@babel/preset-flow',
     ],
-    plugins: ['react-native-reanimated/plugin'],
+    plugins: [
+      'react-native-reanimated/plugin',
+    ],
   };
 };
