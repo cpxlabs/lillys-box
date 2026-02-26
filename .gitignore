@@ -31,20 +31,6 @@ coverage/
 # OS
 Thumbs.db
 
-# Python / Ralph
-scripts/ralph/venv/
-scripts/ralph/__pycache__/
-scripts/ralph/*.pyc
-scripts/ralph/*.pyo
-scripts/ralph/*.pyd
-scripts/ralph/.Python
-scripts/ralph/data/
-scripts/ralph/output/
-scripts/ralph/*.log
-scripts/ralph/.pytest_cache/
-scripts/ralph/.coverage
-scripts/ralph/htmlcov/
-
 # Expo / React Native
 .expo/
 .expo-shared/
