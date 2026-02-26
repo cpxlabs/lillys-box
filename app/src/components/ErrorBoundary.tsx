@@ -1,5 +1,6 @@
 import React, { Component, ErrorInfo, ReactNode } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import ErrorService from '../services/ErrorService';
 
 interface Props {
   children: ReactNode;
@@ -27,8 +28,7 @@ export class ErrorBoundary extends Component<Props, State> {
   }
 
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Log to error reporting service (e.g., Sentry)
-    console.error('Error Boundary caught an error:', error, errorInfo);
+    ErrorService.reportJSError(error, errorInfo.componentStack);
 
     this.setState({
       error,

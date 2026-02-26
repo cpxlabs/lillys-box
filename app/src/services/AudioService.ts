@@ -1,11 +1,40 @@
+/**
+ * AudioService - Centralized audio management for the Pet Care Game
+ * 
+ * Handles sound effects, background music, and audio settings persistence.
+ * Uses expo-av for audio playback with platform-aware behavior (web skipped).
+ * 
+ * @example
+ * // Play a sound effect
+ * await audioService.playSound('coin_collect');
+ * 
+ * // Control background music
+ * await audioService.playBackgroundMusic();
+ * await audioService.pauseBackgroundMusic();
+ * 
+ * // Adjust volume
+ * await audioService.setVolume(0.5);
+ * 
+ * // Toggle sound/music
+ * await audioService.setSoundEnabled(false);
+ * await audioService.setMusicEnabled(false);
+ */
+
 import { Audio, AVPlaybackStatus, AVPlaybackStatusSuccess } from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform } from 'react-native';
 
+/** Key for storing sound enabled state in AsyncStorage */
 const SOUND_ENABLED_KEY = 'sound_enabled';
+/** Key for storing music enabled state in AsyncStorage */
 const MUSIC_ENABLED_KEY = 'music_enabled';
+/** Key for storing volume level in AsyncStorage */
 const VOLUME_KEY = 'volume_level';
 
+/**
+ * Available sound effect types
+ * @typedef {'button_click' | 'coin_collect' | 'notification' | 'pet_happy' | 'pet_sad' | 'pet_meow' | 'pet_bark' | 'eating' | 'water_splash' | 'ball_bounce' | 'toy_squeak' | 'clothes_swap' | 'success' | 'error'} SoundType
+ */
 export type SoundType =
   | 'button_click'
   | 'coin_collect'
@@ -22,9 +51,13 @@ export type SoundType =
   | 'success'
   | 'error';
 
+/** Check if running on web platform */
 const isWeb = Platform.OS === 'web';
 
-const SOUND_MAP: Record<SoundType, any> = isWeb ? {} : {
+/** Map of sound types to audio file assets */
+const SOUND_MAP: Record<SoundType, any> = isWeb 
+  ? {} as Record<SoundType, any> 
+  : {
   button_click: require('../../assets/sounds/ui/button_click.mp3'),
   coin_collect: require('../../assets/sounds/ui/coin_collect.mp3'),
   notification: require('../../assets/sounds/ui/notification.mp3'),
@@ -43,6 +76,10 @@ const SOUND_MAP: Record<SoundType, any> = isWeb ? {} : {
 
 const BACKGROUND_MUSIC = isWeb ? null : require('../../assets/sounds/music/background.mp3');
 
+/**
+ * Audio service for managing sound effects and background music
+ * @remarks Uses expo-av for audio playback with web platform detection
+ */
 class AudioService {
   private sounds: Map<SoundType, Audio.Sound> = new Map();
   private backgroundMusic: Audio.Sound | null = null;
@@ -51,6 +88,11 @@ class AudioService {
   private volume: number = 1.0;
   private isInitialized: boolean = false;
 
+  /**
+   * Initialize the audio service
+   * @remarks Sets up audio mode and loads saved settings from AsyncStorage
+   * @returns Promise that resolves when initialization is complete
+   */
   async initialize(): Promise<void> {
     if (this.isInitialized) return;
 
@@ -82,6 +124,10 @@ class AudioService {
     }
   }
 
+  /**
+   * Enable or disable sound effects
+   * @param enabled - Whether sound effects should be enabled
+   */
   async setSoundEnabled(enabled: boolean): Promise<void> {
     this.soundEnabled = enabled;
     await AsyncStorage.setItem(SOUND_ENABLED_KEY, String(enabled));

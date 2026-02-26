@@ -1,3 +1,37 @@
+/**
+ * ReviewService - Manages game reviews and ratings
+ * 
+ * Handles review submission, retrieval, and aggregation with Firebase Firestore.
+ * Falls back to local AsyncStorage when Firebase is not configured.
+ * 
+ * Features:
+ * - Review CRUD operations (create, read, update, delete)
+ * - Media upload to Firebase Storage
+ * - Rating aggregation and summaries
+ * - Real-time updates via Firestore snapshots
+ * - Local fallback storage
+ * 
+ * @example
+ * // Get reviews for a game
+ * const reviews = await ReviewService.getReviews('pet-care', 10);
+ * 
+ * // Submit a new review
+ * await ReviewService.saveReview({
+ *   id: 'unique-id',
+ *   gameId: 'pet-care',
+ *   userId: 'user-123',
+ *   rating: 5,
+ *   comment: 'Great game!',
+ *   media: [],
+ *   createdAt: Date.now(),
+ * });
+ * 
+ * // Subscribe to real-time updates
+ * const unsubscribe = ReviewService.subscribeToReviews('pet-care', (reviews) => {
+ *   console.log('Reviews updated:', reviews);
+ * });
+ */
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   collection,
@@ -36,6 +70,13 @@ const EMPTY_SUMMARY = (gameId: string): ReviewSummary => ({
 export class ReviewService {
   // ── Media upload ─────────────────────────────────────────────────────────
 
+  /**
+   * Upload review media (images) to Firebase Storage
+   * @param media - Array of media items to upload
+   * @param reviewId - Unique identifier for the review
+   * @param gameId - Game identifier
+   * @returns Array of media with updated URLs
+   */
   static async uploadMedia(
     media: ReviewMedia[],
     reviewId: string,
