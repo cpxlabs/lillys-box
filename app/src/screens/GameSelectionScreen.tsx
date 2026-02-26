@@ -110,7 +110,7 @@ const UI_VARIANTS: {
 export const GameSelectionScreen: React.FC = () => {
   const router = useRouter();
   const { t } = useTranslation();
-  const games = gameRegistry.getAllGames();
+  const games = useMemo(() => gameRegistry.getAllGames(), []);
   const { toggleFavorite, isFavorite } = useFavoriteGames();
   const [sortBy, setSortBy] = useState<SortOption>('default');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
