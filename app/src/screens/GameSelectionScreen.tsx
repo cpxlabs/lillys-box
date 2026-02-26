@@ -8,6 +8,7 @@ import {
   FlatList,
   ScrollView,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
 import { gameRegistry, GameDefinition } from '../registry/GameRegistry';
@@ -110,8 +111,37 @@ export const GameSelectionScreen: React.FC = () => {
   const [sortBy, setSortBy] = useState<SortOption>('default');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [uiIndex, setUiIndex] = useState(0);
+  const [uiIndexLoaded, setUiIndexLoaded] = useState(false);
   const [showPicker, setShowPicker] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
+
+  // Load uiIndex from AsyncStorage on mount
+  useEffect(() => {
+    const loadUiIndex = async () => {
+      try {
+        const stored = await AsyncStorage.getItem('ui_index');
+        if (stored !== null) {
+          const parsed = parseInt(stored, 10);
+          if (!isNaN(parsed) && parsed >= 0 && parsed < UI_VARIANTS.length) {
+            setUiIndex(parsed);
+          }
+        }
+      } catch (error) {
+        console.warn('Failed to load uiIndex:', error);
+      } finally {
+        setUiIndexLoaded(true);
+      }
+    };
+    loadUiIndex();
+  }, []);
+
+  // Save uiIndex to AsyncStorage when it changes
+  const handleUiIndexChange = useCallback((newIndex: number) => {
+    setUiIndex(newIndex);
+    AsyncStorage.setItem('ui_index', String(newIndex)).catch((error) => {
+      console.warn('Failed to save uiIndex:', error);
+    });
+  }, []);
 
   // Review state
   const [reviewGameId, setReviewGameId] = useState<string | null>(null);
@@ -227,7 +257,7 @@ export const GameSelectionScreen: React.FC = () => {
           visible={showSettings}
           onClose={() => setShowSettings(false)}
           uiIndex={uiIndex}
-          onUiIndexChange={setUiIndex}
+          onUiIndexChange={handleUiIndexChange}
         />
       </View>
     );
@@ -462,7 +492,7 @@ export const GameSelectionScreen: React.FC = () => {
         visible={showSettings}
         onClose={() => setShowSettings(false)}
         uiIndex={uiIndex}
-        onUiIndexChange={setUiIndex}
+        onUiIndexChange={handleUiIndexChange}
       />
     </SafeAreaView>
   );

@@ -27,10 +27,11 @@ The Settings Modal (`SettingsModal.tsx`) provides 3 configuration tabs accessibl
 
 ### 3. Interface Tab
 - **Options**: 26 UI variants (Default Grid, Compact List, Categories, etc.)
-- **Persistence**: ⚠️ NOT persisted (in-memory only, resets to "Default Grid" on restart)
+- **Persistence**: ✅ Now persisted (saved to AsyncStorage as `ui_index`)
 - **Expected Behavior**:
   - Selecting an option immediately changes game selection UI layout
   - Modal closes on selection
+  - Setting survives app restart
 
 ---
 
@@ -72,7 +73,7 @@ The Settings Modal (`SettingsModal.tsx`) provides 3 configuration tabs accessibl
 |------|--------|-----------------|
 | 1 | Open Settings → Tap "Interface" tab | 26 layout options displayed |
 | 2 | Select "2 Categories" | Modal closes, games grouped by category |
-| 3 | Close app → Reopen | UI resets to "Default Grid" (bug - not persisted) |
+| 3 | Close app → Reopen | UI persists to selected variant |
 
 ### TC-006: Modal Close Behavior
 | Step | Action | Expected Result |
@@ -80,16 +81,6 @@ The Settings Modal (`SettingsModal.tsx`) provides 3 configuration tabs accessibl
 | 1 | Open Settings modal | Modal is visible |
 | 2 | Tap backdrop (dark area) | Modal closes |
 | 3 | Tap X button | Modal closes |
-
----
-
-## Known Issues
-
-### KI-001: Interface Setting Not Persisted
-- **Severity**: Low
-- **Description**: UI variant selection is stored in component state only
-- **Impact**: Resets to "Default Grid" on every app restart
-- **Fix Required**: Add AsyncStorage persistence for `uiIndex`
 
 ---
 
@@ -102,7 +93,7 @@ The Settings Modal (`SettingsModal.tsx`) provides 3 configuration tabs accessibl
 - [ ] Sound: Set volume to 0%, verify sounds are muted
 - [ ] Sound: Set volume to 100%, verify full volume
 - [ ] Interface: Select different layouts, verify UI changes
-- [ ] Interface: Restart app, note that setting resets (known bug)
+- [ ] Interface: Restart app, verify setting persists
 - [ ] Modal: Verify closes on backdrop tap
 - [ ] Modal: Verify closes on X button tap
 
