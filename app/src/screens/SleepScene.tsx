@@ -125,7 +125,7 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
 
     // Return to home after a brief pause
     setTimeout(() => {
-      navigation.goBack();
+      handleBack();
     }, 500);
   };
 

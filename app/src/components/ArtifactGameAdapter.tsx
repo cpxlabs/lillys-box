@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import React, { useRef, useCallback, useEffect } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { WebView, WebViewMessageEvent } from 'react-native-webview';
 
@@ -95,6 +95,42 @@ export const ArtifactGameAdapter: React.FC<ArtifactGameAdapterProps> = ({
       true;
     `);
   }, []);
+
+  // On web, listen for postMessage events from the iframe so that the
+  // RNBridge in the artifact HTML can communicate back to React Native.
+  useEffect(() => {
+    if (Platform.OS !== 'web') return;
+
+    const handleIframeMessage = (event: MessageEvent) => {
+      try {
+        const message: ArtifactMessage =
+          typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+
+        if (!message || !message.type) return;
+
+        onMessage?.(message);
+
+        switch (message.type) {
+          case 'scoreUpdate':
+            if (typeof message.payload?.score === 'number') {
+              onScoreUpdate?.(message.payload.score as number);
+            }
+            break;
+          case 'gameOver':
+            onGameOver?.((message.payload?.finalScore as number) ?? 0);
+            break;
+          case 'navigate':
+            onNavigate?.((message.payload?.target as string) ?? 'back');
+            break;
+        }
+      } catch {
+        // Ignore malformed messages
+      }
+    };
+
+    window.addEventListener('message', handleIframeMessage);
+    return () => window.removeEventListener('message', handleIframeMessage);
+  }, [onMessage, onScoreUpdate, onGameOver, onNavigate]);
 
   // On web platform, render artifact in an iframe instead
   if (Platform.OS === 'web') {

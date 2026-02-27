@@ -256,16 +256,16 @@ export const ColorTapGameScreen: React.FC<Props> = ({ navigation }) => {
     [updateBestScore],
   );
 
+  const handleBack = useGameBack(navigation);
+
   const handleNavigate = useCallback(
     (target: string) => {
       if (target === 'back') {
-        navigation.goBack();
+        handleBack();
       }
     },
-    [navigation],
+    [handleBack],
   );
-
-  const handleBack = useGameBack(navigation);
 
   return (
     <SafeAreaView style={styles.container}>
