@@ -6,8 +6,9 @@ import { MuitoLobbyScreen } from './MuitoLobbyScreen';
 import { MuitoMultiGameScreen } from './MuitoMultiGameScreen';
 import { MuitoResultsScreen } from './MuitoResultsScreen';
 import { MultiPlayerMuitoProvider } from '../context/MultiPlayerMuitoContext';
+import { RootStackParamList } from '../types/navigation';
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 export const MuitoNavigator: React.FC = () => (
   <MultiPlayerMuitoProvider>

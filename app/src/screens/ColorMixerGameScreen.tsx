@@ -13,7 +13,8 @@ import { useTranslation } from 'react-i18next';
 import { LinearGradient } from 'expo-linear-gradient';
 import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
 import { useColorMixer } from '../context/ColorMixerContext';
-import { ScreenNavigationProp } from '../types/navigation';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
 import {
   LEVELS,
@@ -25,10 +26,7 @@ import {
   getAccuracyPercentage,
 } from '../data/colorMixerLevels';
 
-type Props = {
-  navigation: ScreenNavigationProp<'ColorMixerGame'>;
-  route: { params: { level: number } };
-};
+type Props = NativeStackScreenProps<RootStackParamList, 'ColorMixerGame'>;
 
 const { width, height } = Dimensions.get('window');
 const BOWL_SIZE = 180;
@@ -63,6 +61,7 @@ export const ColorMixerGameScreen: React.FC<Props> = ({ navigation, route }) => 
   };
 
   const handleCheck = () => {
+    if (!level) return;
     const distance = calculateColorDistance(currentMix, level.targetColor);
     const earnedStars = getStarsForAccuracy(distance);
     const accuracyPercent = getAccuracyPercentage(distance);

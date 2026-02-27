@@ -34,6 +34,76 @@ export type RootStackParamList = {
   Vet: undefined;
   /** Wardrobe customization scene */
   Wardrobe: undefined;
+  /** Game selection screen */
+  GameSelection: undefined;
+  /** Mini-game screens */
+  BalloonFloatHome: undefined;
+  BalloonFloatGame: undefined;
+  BubblePopHome: undefined;
+  BubblePopGame: undefined;
+  CatchTheBallHome: undefined;
+  CatchTheBallGame: undefined;
+  ColorMixerHome: undefined;
+  ColorMixerGame: { level: number };
+  ColorMixerLevels: undefined;
+  ColorTapHome: undefined;
+  ColorTapGame: undefined;
+  ConnectDotsHome: undefined;
+  ConnectDotsGame: undefined;
+  DressUpRelayHome: undefined;
+  DressUpRelayGame: undefined;
+  FeedThePetHome: undefined;
+  FeedThePetGame: undefined;
+  GardenGrowHome: undefined;
+  GardenGrowGame: undefined;
+  JigsawPetsHome: undefined;
+  JigsawPetsGame: undefined;
+  LightningTapHome: undefined;
+  LightningTapGame: undefined;
+  MemoryMatchHome: undefined;
+  MemoryMatchGame: { difficulty: 'easy' | 'medium' | 'hard' };
+  MirrorMatchHome: undefined;
+  MirrorMatchGame: undefined;
+  MusicMakerHome: undefined;
+  MusicMakerGame: undefined;
+  PaintSplashHome: undefined;
+  PaintSplashGame: undefined;
+  PathFinderHome: undefined;
+  PathFinderGame: undefined;
+  PetChefHome: undefined;
+  PetChefGame: undefined;
+  PetDancePartyHome: undefined;
+  PetDancePartyGame: undefined;
+  PetExplorerHome: undefined;
+  PetExplorerGame: undefined;
+  PetRunnerHome: undefined;
+  PetRunnerGame: undefined;
+  PetTaxiHome: undefined;
+  PetTaxiGame: undefined;
+  PhotoStudioHome: undefined;
+  PhotoStudioGame: undefined;
+  ShapeSorterHome: undefined;
+  ShapeSorterGame: undefined;
+  SimonSaysHome: undefined;
+  SimonSaysGame: undefined;
+  SlidingPuzzleHome: undefined;
+  SlidingPuzzleGame: { difficulty: 'easy' | 'hard' };
+  SnackStackHome: undefined;
+  SnackStackGame: undefined;
+  TreasureDigHome: undefined;
+  TreasureDigGame: undefined;
+  WeatherWizardHome: undefined;
+  WeatherWizardGame: undefined;
+  WhackAMoleHome: undefined;
+  WhackAMoleGame: undefined;
+  WordBubblesHome: undefined;
+  WordBubblesGame: undefined;
+  /** Multiplayer screens */
+  MuitoHome: undefined;
+  MuitoLobby: undefined;
+  MuitoGame: undefined;
+  MuitoMultiGame: undefined;
+  MuitoResults: undefined;
 };
 
 /**

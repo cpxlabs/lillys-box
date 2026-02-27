@@ -104,7 +104,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
             style={[
               styles.itemButton,
               {
-                width: wardrobeSizes.itemWidth,
+                width: wardrobeSizes.itemWidth as any,
                 padding: wardrobeSizes.itemPadding,
                 borderRadius: spacing(10),
                 marginBottom: spacing(10),
@@ -130,7 +130,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
               style={[
                 styles.itemButton,
                 {
-                  width: wardrobeSizes.itemWidth,
+                  width: wardrobeSizes.itemWidth as any,
                   padding: wardrobeSizes.itemPadding,
                   borderRadius: spacing(10),
                   marginBottom: spacing(10),

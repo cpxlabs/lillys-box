@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet, ImageRequireSource, View, Text } from 'react-native';
+import { Image, StyleSheet, ImageRequireSource, View, Text, DimensionValue } from 'react-native';
 import Animated, {
   useAnimatedStyle,
   withRepeat,
@@ -155,7 +155,7 @@ export const PetRenderer: React.FC<PetRendererProps> = ({
   const dirtMarksCount = getDirtMarksCount();
 
   // Dirt mark positions (relative to pet size)
-  const dirtMarkPositions = [
+  const dirtMarkPositions: Array<{ left: DimensionValue; top: DimensionValue }> = [
     { left: '25%', top: '40%' }, // Position 1
     { left: '65%', top: '35%' }, // Position 2
     { left: '45%', top: '60%' }, // Position 3

@@ -242,6 +242,26 @@ export const STAT_THRESHOLDS = {
  * Color scheme for consistent UI colors across the app
  */
 export const COLORS = {
+  /** Primary brand color */
+  primary: '#9b59b6',
+  /** Secondary brand color */
+  secondary: '#3498db',
+  /** Background color */
+  background: '#f5f5f5',
+  /** Surface/card background */
+  surface: '#ffffff',
+  /** Primary text color */
+  text: '#333333',
+  /** Secondary text color */
+  textSecondary: '#666666',
+  /** Border color */
+  border: '#e0e0e0',
+  /** Success color */
+  success: '#4CAF50',
+  /** Warning color */
+  warning: '#FFA726',
+  /** Error color */
+  error: '#EF5350',
   /** Stat level colors (matches STAT_THRESHOLDS.LEVELS) */
   STAT_LEVELS: {
     HIGH: '#4CAF50', // Green

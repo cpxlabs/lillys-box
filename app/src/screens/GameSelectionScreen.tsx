@@ -11,6 +11,7 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
+import { useNavigation } from '@react-navigation/native';
 import { gameRegistry, GameDefinition } from '../registry/GameRegistry';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { useFavoriteGames } from '../hooks/useFavoriteGames';
@@ -107,8 +108,9 @@ const UI_VARIANTS: {
   { key: 'alt25', label: '25 Pocket', component: Alt25Pocket },
 ];
 
-export const GameSelectionScreen: React.FC = () => {
+export const GameSelectionScreen: React.FC<Props> = () => {
   const router = useRouter();
+  const navigation = useNavigation<ScreenNavigationProp<'GameSelection'>>();
   const { t } = useTranslation();
   const games = useMemo(() => gameRegistry.getAllGames(), []);
   const { toggleFavorite, isFavorite } = useFavoriteGames();
@@ -165,6 +167,10 @@ export const GameSelectionScreen: React.FC = () => {
 
   const handleViewableItemsChanged = useCallback(({ viewableItems }: { viewableItems: Array<{ item: { id: string } }> }) => {
     viewableItems.forEach(({ item }) => loadSummaryRef.current(item.id));
+  }, []);
+
+  const handleCloseSettings = useCallback(() => {
+    setShowSettings(false);
   }, []);
 
   useEffect(() => {
@@ -239,17 +245,21 @@ export const GameSelectionScreen: React.FC = () => {
   const currentVariant = UI_VARIANTS[uiIndex];
   const AltComponent = currentVariant.component;
 
+  const handleOpenSettings = useCallback(() => {
+    setShowSettings(true);
+  }, []);
+
   // ── Settings button (shared across all variants) ──────────────────
-  const settingsButton = (
+  const settingsButton = useMemo(() => (
     <TouchableOpacity
       style={switcherStyles.fab}
-      onPress={() => setShowSettings(true)}
+      onPress={handleOpenSettings}
       activeOpacity={0.85}
     >
       <Text style={switcherStyles.fabIcon}>⚙️</Text>
       <Text style={switcherStyles.fabLabel}>{t('settings.title', 'Settings')}</Text>
     </TouchableOpacity>
-  );
+  ), [t, handleOpenSettings]);
 
   // ── Render alternative UI if selected ─────────────────────────
   if (AltComponent) {
@@ -259,7 +269,7 @@ export const GameSelectionScreen: React.FC = () => {
         {settingsButton}
         <SettingsModal
           visible={showSettings}
-          onClose={() => setShowSettings(false)}
+          onClose={handleCloseSettings}
           uiIndex={uiIndex}
           onUiIndexChange={handleUiIndexChange}
         />
@@ -492,7 +502,7 @@ export const GameSelectionScreen: React.FC = () => {
       {/* Settings Modal */}
       <SettingsModal
         visible={showSettings}
-        onClose={() => setShowSettings(false)}
+        onClose={handleCloseSettings}
         uiIndex={uiIndex}
         onUiIndexChange={handleUiIndexChange}
       />

@@ -73,7 +73,7 @@ export const JigsawPetsGameScreen: React.FC<Props> = ({ navigation }) => {
         {board.map((piece, i) => (
           <TouchableOpacity
             key={i}
-            style={[styles.cell, piece && styles.filledCell, piece === originalPieces[i] && styles.correctCell]}
+            style={[styles.cell, piece ? styles.filledCell : null, piece === originalPieces[i] ? styles.correctCell : null]}
             onPress={() => placePiece(i)}
           >
             {piece ? <Text style={styles.piece}>{piece}</Text> : <Text style={styles.emptyCell}>{i + 1}</Text>}

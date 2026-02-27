@@ -10,12 +10,10 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useMultiPlayerMuito, MultiGamePhase } from '../context/MultiPlayerMuitoContext';
-import { ScreenNavigationProp } from '../types/navigation';
-import { useGameBack } from '../hooks/useGameBack';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/navigation';
 
-type Props = {
-  navigation: ScreenNavigationProp<'MuitoLobby'>;
-};
+type Props = NativeStackScreenProps<RootStackParamList, 'MuitoLobby'>;
 
 export const MuitoLobbyScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
@@ -79,9 +77,9 @@ export const MuitoLobbyScreen: React.FC<Props> = ({ navigation }) => {
     joinRoom(joinCode.trim());
   };
 
-  const goBack = useGameBack(navigation, { cleanup: leaveRoom });
   const handleBack = () => {
-    goBack();
+    leaveRoom();
+    navigation.goBack();
   };
 
   // ── waiting room (we have a code) ─────────────────────────────────

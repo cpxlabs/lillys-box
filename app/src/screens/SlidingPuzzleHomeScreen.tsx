@@ -2,13 +2,12 @@ import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useSlidingPuzzle } from '../context/SlidingPuzzleContext';
-import { ScreenNavigationProp } from '../types/navigation';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { useGameBack } from '../hooks/useGameBack';
 
-type Props = {
-  navigation: ScreenNavigationProp<'SlidingPuzzleHome'>;
-};
+type Props = NativeStackScreenProps<RootStackParamList, 'SlidingPuzzleHome'>;
 
 export const SlidingPuzzleHomeScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();

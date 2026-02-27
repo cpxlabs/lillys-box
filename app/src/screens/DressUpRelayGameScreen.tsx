@@ -407,7 +407,7 @@ export const DressUpRelayGameScreen: React.FC<Props> = ({ navigation }) => {
                 <View
                   style={[
                     styles.slotDot,
-                    playerOutfit[slot] && styles.slotDotFilled,
+                    playerOutfit[slot] ? styles.slotDotFilled : null,
                   ]}
                 />
               </View>

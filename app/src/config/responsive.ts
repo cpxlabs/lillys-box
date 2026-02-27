@@ -1,3 +1,4 @@
+import { DimensionValue } from 'react-native';
 import { DeviceType } from '../hooks/useResponsive';
 
 export const BREAKPOINTS = {
@@ -123,7 +124,7 @@ export const WARDROBE_SIZES: Record<
     slotEmoji: number;
     slotLabel: number;
     slotPadding: number;
-    itemWidth: string;
+    itemWidth: DimensionValue;
     itemPadding: number;
     itemEmoji: number;
     itemName: number;

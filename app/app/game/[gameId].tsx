@@ -5,7 +5,7 @@ import { gameRegistry } from '../../src/registry/GameRegistry';
 
 export default function GameRoute() {
   const { gameId } = useLocalSearchParams<{ gameId: string }>();
-  const game = gameRegistry.getGame(gameId);
+  const game = gameId ? gameRegistry.getGame(gameId) : undefined;
 
   if (!game) {
     return (

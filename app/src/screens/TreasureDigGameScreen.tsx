@@ -144,7 +144,7 @@ const styles = StyleSheet.create({
   backText: { fontSize: 16, color: '#ffcc02', fontWeight: '600' },
   stats: { flexDirection: 'row', gap: 16 },
   statText: { fontSize: 16, fontWeight: '700', color: '#fff' },
-  heatBar: { marginHorizontal: 16, borderRadius: 12, paddingVertical: 8, alignItems: 'center', marginBottom: 8, transition: 'background-color 0.3s' },
+  heatBar: { marginHorizontal: 16, borderRadius: 12, paddingVertical: 8, alignItems: 'center', marginBottom: 8 },
   heatText: { fontSize: 16, fontWeight: '700', color: '#333' },
   grid: { flex: 1, flexDirection: 'row', flexWrap: 'wrap', paddingHorizontal: 16, paddingBottom: 16, justifyContent: 'center', alignContent: 'center', gap: 6 },
   tile: { width: '18%', aspectRatio: 1, backgroundColor: '#5d4037', borderRadius: 10, justifyContent: 'center', alignItems: 'center', borderWidth: 2, borderColor: '#795548' },

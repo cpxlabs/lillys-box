@@ -11,13 +11,12 @@ import {
 import { useTranslation } from 'react-i18next';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useColorMixer } from '../context/ColorMixerContext';
-import { ScreenNavigationProp } from '../types/navigation';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/navigation';
 import { LEVELS, rgbToString } from '../data/colorMixerLevels';
 import { useGameBack } from '../hooks/useGameBack';
 
-type Props = {
-  navigation: ScreenNavigationProp<'ColorMixerLevels'>;
-};
+type Props = NativeStackScreenProps<RootStackParamList, 'ColorMixerLevels'>;
 
 const { width } = Dimensions.get('window');
 const COLUMNS = 4;

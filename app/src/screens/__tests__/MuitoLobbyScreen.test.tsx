@@ -49,7 +49,11 @@ jest.mock('../../context/MultiPlayerMuitoContext', () => ({
 
 const mockNavigate = jest.fn();
 const mockGoBack = jest.fn();
-const navigation = { navigate: mockNavigate, goBack: mockGoBack };
+const navigation = { 
+  navigate: mockNavigate, 
+  goBack: mockGoBack, 
+  route: { params: undefined } 
+};
 
 // ── helpers ─────────────────────────────────────────────────────────────────
 
@@ -71,7 +75,7 @@ describe('MuitoLobbyScreen – create/join tabs', () => {
 
   it('renders Host and Join tabs', () => {
     const { getByText } = render(
-      <MuitoLobbyScreen navigation={navigation as any} />
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
     );
     expect(getByText('muito.multiplayer.host')).toBeTruthy();
     expect(getByText('muito.multiplayer.join')).toBeTruthy();
@@ -79,14 +83,14 @@ describe('MuitoLobbyScreen – create/join tabs', () => {
 
   it('shows "Create Room" button on Host tab by default', () => {
     const { getByText } = render(
-      <MuitoLobbyScreen navigation={navigation as any} />
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
     );
     expect(getByText('muito.multiplayer.createRoom')).toBeTruthy();
   });
 
   it('tapping Create Room calls createRoom()', () => {
     const { getByText } = render(
-      <MuitoLobbyScreen navigation={navigation as any} />
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
     );
     fireEvent.press(getByText('muito.multiplayer.createRoom'));
     expect(mockCreateRoom).toHaveBeenCalledTimes(1);
@@ -94,7 +98,7 @@ describe('MuitoLobbyScreen – create/join tabs', () => {
 
   it('switching to Join tab shows the code input and Join Room button', () => {
     const { getByText } = render(
-      <MuitoLobbyScreen navigation={navigation as any} />
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
     );
     fireEvent.press(getByText('muito.multiplayer.join'));
     expect(getByText('muito.multiplayer.joinRoom')).toBeTruthy();
@@ -102,7 +106,7 @@ describe('MuitoLobbyScreen – create/join tabs', () => {
 
   it('tapping Join Room with a code calls joinRoom(code)', () => {
     const { getByText, getByLabelText } = render(
-      <MuitoLobbyScreen navigation={navigation as any} />
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
     );
     // Switch to join tab
     fireEvent.press(getByText('muito.multiplayer.join'));
@@ -116,7 +120,7 @@ describe('MuitoLobbyScreen – create/join tabs', () => {
 
   it('back button calls leaveRoom and goBack', () => {
     const { getByText } = render(
-      <MuitoLobbyScreen navigation={navigation as any} />
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
     );
     fireEvent.press(getByText('common.back'));
     expect(mockLeaveRoom).toHaveBeenCalled();
@@ -126,7 +130,7 @@ describe('MuitoLobbyScreen – create/join tabs', () => {
   it('shows connecting text when not connected', () => {
     mockConnected = false;
     const { getByText } = render(
-      <MuitoLobbyScreen navigation={navigation as any} />
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
     );
     expect(getByText('muito.multiplayer.connecting')).toBeTruthy();
   });
@@ -142,14 +146,14 @@ describe('MuitoLobbyScreen – waiting room', () => {
 
   it('displays the room code', () => {
     const { getByText } = render(
-      <MuitoLobbyScreen navigation={navigation as any} />
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
     );
     expect(getByText('XYZ789')).toBeTruthy();
   });
 
   it('shows waiting indicator when only one player', () => {
     const { getByText } = render(
-      <MuitoLobbyScreen navigation={navigation as any} />
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
     );
     expect(getByText('muito.multiplayer.waitingForOpponent')).toBeTruthy();
   });
@@ -160,7 +164,7 @@ describe('MuitoLobbyScreen – waiting room', () => {
       { userId: 'user2', displayName: 'Bob' },
     ];
     const { getByText } = render(
-      <MuitoLobbyScreen navigation={navigation as any} />
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
     );
     expect(getByText('muito.multiplayer.start')).toBeTruthy();
   });
@@ -171,7 +175,7 @@ describe('MuitoLobbyScreen – waiting room', () => {
       { userId: 'user2', displayName: 'Bob' },
     ];
     const { getByText } = render(
-      <MuitoLobbyScreen navigation={navigation as any} />
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
     );
     fireEvent.press(getByText('muito.multiplayer.start'));
     expect(mockStartGame).toHaveBeenCalledTimes(1);
@@ -180,7 +184,7 @@ describe('MuitoLobbyScreen – waiting room', () => {
   it('non-host does not see the Start button with one player', () => {
     mockIsHost = false;
     const { queryByText } = render(
-      <MuitoLobbyScreen navigation={navigation as any} />
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
     );
     expect(queryByText('muito.multiplayer.start')).toBeNull();
   });
@@ -188,7 +192,7 @@ describe('MuitoLobbyScreen – waiting room', () => {
   it('displays server error when present', () => {
     mockError = 'Room not found';
     const { getByText } = render(
-      <MuitoLobbyScreen navigation={navigation as any} />
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
     );
     expect(getByText('Room not found')).toBeTruthy();
   });

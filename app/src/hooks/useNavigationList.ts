@@ -18,7 +18,7 @@ export interface UseNavigationListResult<T> {
  * @returns Navigation state and controls
  */
 export function useNavigationList<T>(
-  items: T[],
+  items: readonly T[],
   initialIndex: number = 0
 ): UseNavigationListResult<T> {
   if (items.length === 0) {

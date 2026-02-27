@@ -3,13 +3,12 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-na
 import { useTranslation } from 'react-i18next';
 import { useMultiPlayerMuito, MultiGamePhase } from '../context/MultiPlayerMuitoContext';
 import { useAuth } from '../context/AuthContext';
-import { ScreenNavigationProp } from '../types/navigation';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { useGameBack } from '../hooks/useGameBack';
 
-type Props = {
-  navigation: ScreenNavigationProp<'MuitoMultiGame'>;
-};
+type Props = NativeStackScreenProps<RootStackParamList, 'MuitoMultiGame'>;
 
 export const MuitoMultiGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();

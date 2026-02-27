@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useMemo, useCallback, memo } from 'react';
 import {
   View,
   Text,
@@ -7,11 +7,9 @@ import {
   StyleSheet,
   Platform,
   Pressable,
-  Switch,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../context/LanguageContext';
-import { audioService } from '../services/AudioService';
 
 type UIVariant = {
   key: string;
@@ -60,7 +58,7 @@ type SettingsModalProps = {
   onUiIndexChange: (index: number) => void;
 };
 
-export const SettingsModal: React.FC<SettingsModalProps> = ({
+export const SettingsModal = memo<SettingsModalProps>(({
   visible,
   onClose,
   uiIndex,
@@ -68,40 +66,19 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
 }) => {
   const { t } = useTranslation();
   const { language, setLanguage } = useLanguage();
-  const [activeTab, setActiveTab] = useState<'language' | 'ui' | 'sound'>('language');
-  const [soundEnabled, setSoundEnabled] = useState(true);
-  const [musicEnabled, setMusicEnabled] = useState(true);
-  const [volume, setVolume] = useState(1.0);
+  const [activeTab, setActiveTab] = useState<'language' | 'ui'>('language');
 
-  useEffect(() => {
-    setSoundEnabled(audioService.getSoundEnabled());
-    setMusicEnabled(audioService.getMusicEnabled());
-    setVolume(audioService.getVolume());
-  }, [visible]);
+  const uiVariantsMemo = useMemo(() => UI_VARIANTS, []);
+  const languagesMemo = useMemo(() => LANGUAGES, []);
 
   const handleLanguageSelect = async (langCode: 'en' | 'pt-BR') => {
     await setLanguage(langCode);
   };
 
-  const handleUiSelect = (index: number) => {
+  const handleUiSelect = useCallback((index: number) => {
     onUiIndexChange(index);
     onClose();
-  };
-
-  const handleSoundToggle = async (enabled: boolean) => {
-    setSoundEnabled(enabled);
-    await audioService.setSoundEnabled(enabled);
-  };
-
-  const handleMusicToggle = async (enabled: boolean) => {
-    setMusicEnabled(enabled);
-    await audioService.setMusicEnabled(enabled);
-  };
-
-  const handleVolumeChange = async (newVolume: number) => {
-    setVolume(newVolume);
-    await audioService.setVolume(newVolume);
-  };
+  }, [onUiIndexChange, onClose]);
 
   if (!visible) return null;
 
@@ -133,14 +110,6 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </Text>
           </TouchableOpacity>
           <TouchableOpacity
-            style={[styles.tab, activeTab === 'sound' && styles.tabActive]}
-            onPress={() => setActiveTab('sound')}
-          >
-            <Text style={[styles.tabText, activeTab === 'sound' && styles.tabTextActive]}>
-              {t('settings.sound', 'Sound')}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
             style={[styles.tab, activeTab === 'ui' && styles.tabActive]}
             onPress={() => setActiveTab('ui')}
           >
@@ -155,7 +124,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
           {activeTab === 'language' && (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>{t('settings.selectLanguage', 'Select Language')}</Text>
-              {LANGUAGES.map((lang) => (
+              {languagesMemo.map((lang) => (
                 <TouchableOpacity
                   key={lang.code}
                   style={[
@@ -179,69 +148,11 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
             </View>
           )}
 
-          {activeTab === 'sound' && (
-            <View style={styles.section}>
-              <Text style={styles.sectionTitle}>{t('settings.audioSettings', 'Audio Settings')}</Text>
-              
-              <View style={styles.option}>
-                <View style={styles.optionContent}>
-                  <Text style={styles.optionLabel}>{t('settings.soundEffects', 'Sound Effects')}</Text>
-                  <Text style={styles.optionHint}>Button clicks, notifications</Text>
-                </View>
-                <Switch
-                  value={soundEnabled}
-                  onValueChange={handleSoundToggle}
-                  trackColor={{ false: '#ddd', true: '#9b59b6' }}
-                  thumbColor="#fff"
-                />
-              </View>
-
-              <View style={styles.option}>
-                <View style={styles.optionContent}>
-                  <Text style={styles.optionLabel}>{t('settings.backgroundMusic', 'Background Music')}</Text>
-                  <Text style={styles.optionHint}>Ambient music while playing</Text>
-                </View>
-                <Switch
-                  value={musicEnabled}
-                  onValueChange={handleMusicToggle}
-                  trackColor={{ false: '#ddd', true: '#9b59b6' }}
-                  thumbColor="#fff"
-                />
-              </View>
-
-              <View style={styles.volumeSection}>
-                <View style={styles.volumeHeader}>
-                  <Text style={styles.optionLabel}>{t('settings.volume', 'Volume')}</Text>
-                  <Text style={styles.volumeValue}>{Math.round(volume * 100)}%</Text>
-                </View>
-                <View style={styles.volumeButtons}>
-                  {[0, 0.25, 0.5, 0.75, 1].map((v) => (
-                    <TouchableOpacity
-                      key={v}
-                      style={[
-                        styles.volumeButton,
-                        volume === v && styles.volumeButtonActive,
-                      ]}
-                      onPress={() => handleVolumeChange(v)}
-                    >
-                      <Text style={[
-                        styles.volumeButtonText,
-                        volume === v && styles.volumeButtonTextActive,
-                      ]}>
-                        {v === 0 ? '🔇' : v === 1 ? '🔊' : '🔉'}
-                      </Text>
-                    </TouchableOpacity>
-                  ))}
-                </View>
-              </View>
-            </View>
-          )}
-
           {activeTab === 'ui' && (
             <View style={styles.section}>
               <Text style={styles.sectionTitle}>{t('settings.selectInterface', 'Select Interface')}</Text>
               <Text style={styles.sectionHint}>{t('settings.interfaceHint', 'Choose how games are displayed')}</Text>
-              {UI_VARIANTS.map((variant, idx) => (
+              {uiVariantsMemo.map((variant, idx) => (
                 <TouchableOpacity
                   key={variant.key}
                   style={[
@@ -267,7 +178,7 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   overlay: {
@@ -408,51 +319,5 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#9b59b6',
     fontWeight: '700',
-  },
-  optionContent: {
-    flex: 1,
-  },
-  optionHint: {
-    fontSize: 13,
-    color: '#888',
-    marginTop: 2,
-  },
-  volumeSection: {
-    backgroundColor: '#fff',
-    padding: 16,
-    borderRadius: 12,
-    marginTop: 8,
-  },
-  volumeHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 12,
-  },
-  volumeValue: {
-    fontSize: 16,
-    fontWeight: '600',
-    color: '#9b59b6',
-  },
-  volumeButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  volumeButton: {
-    flex: 1,
-    paddingVertical: 10,
-    marginHorizontal: 4,
-    borderRadius: 8,
-    backgroundColor: '#f0f0f0',
-    alignItems: 'center',
-  },
-  volumeButtonActive: {
-    backgroundColor: '#9b59b6',
-  },
-  volumeButtonText: {
-    fontSize: 20,
-  },
-  volumeButtonTextActive: {
-    fontSize: 20,
   },
 });

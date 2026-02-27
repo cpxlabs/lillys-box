@@ -2,13 +2,12 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useMemoryMatch, Difficulty } from '../context/MemoryMatchContext';
-import { ScreenNavigationProp } from '../types/navigation';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { useGameBack } from '../hooks/useGameBack';
 
-type Props = {
-  navigation: ScreenNavigationProp<'MemoryMatchHome'>;
-};
+type Props = NativeStackScreenProps<RootStackParamList, 'MemoryMatchHome'>;
 
 const DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard'];
 

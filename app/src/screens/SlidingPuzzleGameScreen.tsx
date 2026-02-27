@@ -9,13 +9,11 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useSlidingPuzzle } from '../context/SlidingPuzzleContext';
-import { ScreenNavigationProp } from '../types/navigation';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
 
-type Props = {
-  navigation: ScreenNavigationProp<'SlidingPuzzleGame'>;
-  route: { params: { difficulty: 'easy' | 'hard' } };
-};
+type Props = NativeStackScreenProps<RootStackParamList, 'SlidingPuzzleGame'>;
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
 
