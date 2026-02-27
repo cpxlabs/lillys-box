@@ -19,6 +19,7 @@ import { logger } from '../utils/logger';
 import { ScreenNavigationProp } from '../types/navigation';
 import { calculatePetAge } from '../utils/age';
 import { useBackButton } from '../hooks/useBackButton';
+import { useGameBack } from '../hooks/useGameBack';
 import { useResponsive } from '../hooks/useResponsive';
 import { PET_SIZE_SMALL, SCENE_TEXT_SIZE } from '../config/responsive';
 
@@ -32,6 +33,7 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
   const { showRewardedAd, isAdReady } = useRewardedAd();
   const [isProcessing, setIsProcessing] = useState(false);
   const BackButtonIcon = useBackButton();
+  const handleBack = useGameBack(navigation);
   const { deviceType, spacing, fs } = useResponsive();
 
   const petSize = PET_SIZE_SMALL[deviceType];
@@ -120,7 +122,7 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
       [
         {
           text: 'Great!',
-          onPress: () => navigation.goBack(),
+          onPress: () => handleBack(),
         },
       ]
     );
@@ -141,8 +143,8 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScreenHeader
-        title="🏥 Veterinário"
-        onBackPress={() => navigation.goBack()}
+        title={t('vet.title')}
+        onBackPress={handleBack}
         BackButtonIcon={BackButtonIcon}
       />
 
@@ -389,10 +391,10 @@ export const VetScene: React.FC<Props> = ({ navigation }) => {
 
           <TouchableOpacity
             style={[styles.backButton, { padding: spacing(8) }]}
-            onPress={() => navigation.goBack()}
+            onPress={handleBack}
             disabled={isProcessing}
           >
-            <Text style={[styles.backButtonText, { fontSize: fs(14) }]}>Back</Text>
+            <Text style={[styles.backButtonText, { fontSize: fs(14) }]}>{t('common.back')}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

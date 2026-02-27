@@ -7,6 +7,7 @@ import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { useNavigationList } from '../hooks/useNavigationList';
 import { useBackButton } from '../hooks/useBackButton';
+import { useGameBack } from '../hooks/useGameBack';
 import { usePetActions } from '../hooks/usePetActions';
 import { ScreenNavigationProp } from '../types/navigation';
 import { calculatePetAge } from '../utils/age';
@@ -24,6 +25,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
   const { animationState, message, isAnimating, performAction, DoubleRewardModal } =
     usePetActions();
   const BackButtonIcon = useBackButton();
+  const handleBack = useGameBack(navigation);
   const { deviceType, spacing, fs } = useResponsive();
 
   const petSize = ACTION_PET_SIZE[deviceType];
@@ -57,7 +59,7 @@ export const PlayScene: React.FC<Props> = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScreenHeader
         title={t('play.title')}
-        onBackPress={() => navigation.goBack()}
+        onBackPress={handleBack}
         BackButtonIcon={BackButtonIcon}
       />
 

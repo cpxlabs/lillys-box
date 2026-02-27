@@ -34,9 +34,24 @@ jest.mock('../../hooks/useBackButton', () => ({
 
 jest.mock('../../components/ScreenHeader', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { View, Text } = require('react-native');
+  const { View, Text, TouchableOpacity } = require('react-native');
   return {
-    ScreenHeader: ({ title }: { title: string }) => <View><Text>{title}</Text></View>,
+    ScreenHeader: ({
+      title,
+      onBackPress,
+    }: {
+      title: string;
+      onBackPress?: () => void;
+    }) => (
+      <View>
+        <Text>{title}</Text>
+        {onBackPress && (
+          <TouchableOpacity onPress={onBackPress} testID="screen-header-back">
+            <Text>common.back</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    ),
   };
 });
 
@@ -81,11 +96,7 @@ jest.mock('../../config/responsive', () => ({
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string) => {
-      if (key === 'common.year') return 'year';
-      if (key === 'common.years') return 'years';
-      return key;
-    },
+    t: (key: string) => key,
   }),
 }));
 
@@ -105,34 +116,49 @@ jest.mock('../../data/clothingItems', () => ({
   },
 }));
 
-// Mock navigation
-const mockNavigation = {
+const mockGoBack = jest.fn();
+const mockCanGoBack = jest.fn(() => true);
+const mockGetParent = jest.fn(() => ({
   goBack: jest.fn(),
+  canGoBack: () => false,
+  getParent: () => undefined,
+}));
+
+// Mock navigation with full useGameBack support
+const mockNavigation = {
+  goBack: mockGoBack,
+  canGoBack: mockCanGoBack,
+  getParent: mockGetParent,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 } as unknown as any;
 
 describe('WardrobeScene', () => {
-  it('renders the title correctly', () => {
-    const { getByText } = render(<WardrobeScene navigation={mockNavigation} />);
-    // The hardcoded title passed to ScreenHeader
-    expect(getByText('👕 Armário')).toBeTruthy();
+  beforeEach(() => {
+    jest.clearAllMocks();
+    mockCanGoBack.mockReturnValue(true);
   });
 
-  it('renders slot labels', () => {
+  it('renders the title using i18n key', () => {
     const { getByText } = render(<WardrobeScene navigation={mockNavigation} />);
+    // Title uses t('wardrobe.title') - mock returns the key
+    expect(getByText('wardrobe.title')).toBeTruthy();
+  });
 
-    // Slots use hardcoded Portuguese labels
-    expect(getByText('Cabeça')).toBeTruthy();
+  it('renders slot labels using i18n keys', () => {
+    const { getByText } = render(<WardrobeScene navigation={mockNavigation} />);
+    // Slot labels use i18n keys via t('wardrobe.slots.head') etc.
+    expect(getByText('wardrobe.slots.head')).toBeTruthy();
     expect(getByText('🎩')).toBeTruthy();
+  });
+
+  it('renders "none" option using i18n key', () => {
+    const { getByText } = render(<WardrobeScene navigation={mockNavigation} />);
+    // "None" uses t('wardrobe.none') - mock returns the key
+    expect(getByText('wardrobe.none')).toBeTruthy();
   });
 
   it('renders items for the selected slot', () => {
     const { getByText } = render(<WardrobeScene navigation={mockNavigation} />);
-
-    // "None" option uses hardcoded Portuguese text
-    expect(getByText('Nenhum')).toBeTruthy();
-
-    // Check for the mocked item
     expect(getByText('Red Hat')).toBeTruthy();
   });
 
@@ -142,10 +168,31 @@ describe('WardrobeScene', () => {
     // Initially on head slot, Red Hat is visible
     expect(getByText('Red Hat')).toBeTruthy();
 
-    // Switch to eyes slot (no items mocked for eyes)
-    fireEvent.press(getByText('Olhos'));
+    // Switch to eyes slot (no items mocked for eyes) using i18n key
+    fireEvent.press(getByText('wardrobe.slots.eyes'));
 
     // Red Hat should no longer be visible since eyes slot has no items
     expect(queryByText('Red Hat')).toBeNull();
+  });
+
+  it('navigates back when back button is pressed', () => {
+    const { getByTestId } = render(<WardrobeScene navigation={mockNavigation} />);
+    fireEvent.press(getByTestId('screen-header-back'));
+    expect(mockGoBack).toHaveBeenCalledTimes(1);
+  });
+
+  it('uses parent navigation when canGoBack returns false', () => {
+    const mockParentGoBack = jest.fn();
+    mockCanGoBack.mockReturnValue(false);
+    mockGetParent.mockReturnValue({
+      goBack: mockParentGoBack,
+      canGoBack: () => true,
+      getParent: () => undefined,
+    });
+
+    const { getByTestId } = render(<WardrobeScene navigation={mockNavigation} />);
+    fireEvent.press(getByTestId('screen-header-back'));
+    expect(mockGoBack).not.toHaveBeenCalled();
+    expect(mockParentGoBack).toHaveBeenCalledTimes(1);
   });
 });
