@@ -15,6 +15,7 @@ import { needsVet, hasWarningStats } from '../utils/petStats';
 import { GAME_BALANCE } from '../config/gameBalance';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useResponsive } from '../hooks/useResponsive';
+import { useGameBack } from '../hooks/useGameBack';
 import { PET_SIZE } from '../config/responsive';
 
 type Props = {
@@ -27,6 +28,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const [showMenuConfirm, setShowMenuConfirm] = useState(false);
   const { deviceType, spacing, fs } = useResponsive();
+  const goBack = useGameBack(navigation);
 
   if (!pet) {
     return null;
@@ -49,7 +51,7 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
   const handleConfirmMenu = () => {
     setShowMenuConfirm(false);
-    navigation.goBack();
+    goBack();
   };
 
   const handleRewardedAdCompleted = () => {

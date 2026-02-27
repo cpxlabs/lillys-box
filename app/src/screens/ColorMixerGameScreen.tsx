@@ -47,12 +47,14 @@ export const ColorMixerGameScreen: React.FC<Props> = ({ navigation, route }) => 
   const [stars, setStars] = useState(0);
   const [accuracy, setAccuracy] = useState(0);
 
+  const handleBack = useGameBack(navigation);
+
   // Navigate back if level not found (avoid side effect during render)
   useEffect(() => {
     if (!level) {
-      navigation.goBack();
+      handleBack();
     }
-  }, [level, navigation]);
+  }, [level, handleBack]);
 
   const currentMix = mixedColors.length > 0 ? mixColors(mixedColors) : { r: 255, g: 255, b: 255 };
 
@@ -90,8 +92,6 @@ export const ColorMixerGameScreen: React.FC<Props> = ({ navigation, route }) => 
     setShowResultModal(false);
     navigation.navigate('ColorMixerLevels');
   };
-
-  const handleBack = useGameBack(navigation);
 
   if (!level) {
     return null;

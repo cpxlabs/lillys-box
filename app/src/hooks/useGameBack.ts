@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { BackHandler } from 'react-native';
+import { useRouter } from 'expo-router';
 
 type NavigationLike = {
   canGoBack: () => boolean;
@@ -15,6 +16,9 @@ type NavigationLike = {
  * because there is no previous screen in that navigator. This hook walks up the parent
  * chain until it finds a navigator that can go back.
  *
+ * On web builds the React Navigation parent chain may not reach the Expo Router
+ * root navigator, so we fall back to `router.back()` when the chain is exhausted.
+ *
  * @param navigation - The navigation object from the screen
  * @param options.cleanup - Optional cleanup function called before navigating (e.g. clear timers)
  * @param options.handleHardwareBack - Whether to intercept the Android hardware back button (default: true)
@@ -27,6 +31,7 @@ export function useGameBack(
   },
 ) {
   const { cleanup, handleHardwareBack = true } = options ?? {};
+  const router = useRouter();
 
   const goBack = useCallback(() => {
     cleanup?.();
@@ -40,7 +45,11 @@ export function useGameBack(
       }
       nav = nav.getParent();
     }
-  }, [navigation, cleanup]);
+
+    // Fallback: on web the nested native-stack parent chain may not reach the
+    // Expo Router root navigator. Use router.back() to handle this case.
+    router.back();
+  }, [navigation, cleanup, router]);
 
   useEffect(() => {
     if (!handleHardwareBack) return;

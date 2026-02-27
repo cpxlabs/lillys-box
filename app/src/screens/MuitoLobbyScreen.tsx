@@ -11,6 +11,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useMultiPlayerMuito, MultiGamePhase } from '../context/MultiPlayerMuitoContext';
 import { ScreenNavigationProp } from '../types/navigation';
+import { useGameBack } from '../hooks/useGameBack';
 
 type Props = {
   navigation: ScreenNavigationProp<'MuitoLobby'>;
@@ -78,9 +79,9 @@ export const MuitoLobbyScreen: React.FC<Props> = ({ navigation }) => {
     joinRoom(joinCode.trim());
   };
 
+  const goBack = useGameBack(navigation, { cleanup: leaveRoom });
   const handleBack = () => {
-    leaveRoom();
-    navigation.goBack();
+    goBack();
   };
 
   // ── waiting room (we have a code) ─────────────────────────────────
