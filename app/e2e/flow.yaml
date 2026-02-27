@@ -2,7 +2,22 @@ appId: com.az1nn.petcaregame
 ---
 - launchApp
 
-# Wait for Menu Screen
+# Handle Login Screen (if not already authenticated)
+- runFlow:
+    when:
+      visible: "Play as Guest"
+    commands:
+        - tapOn: "Play as Guest"
+
+# Wait for Game Selection Screen
+- extendedWaitUntil:
+    visible: "Pet Care"
+    timeout: 10000
+
+# Tap the Pet Care game card
+- tapOn: "Pet Care.*"
+
+# Wait for Pet Care Menu Screen
 - extendedWaitUntil:
     visible: "🐾 Pet Care"
     timeout: 10000
