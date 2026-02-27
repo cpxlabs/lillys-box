@@ -1,8 +1,9 @@
 # Pet Care Game - Tasks
 
 ## To Do
-- [ ] Ensure all screens compile without errors
-- [ ] Run build to verify everything works
+- [ ] Replace placeholder WAV files with real audio assets
+- [ ] Bundle size analysis with `npx expo-doctor`
+- [ ] Interface variant persistence (save uiIndex to AsyncStorage)
 
 ## Done
 - [x] Create project specification (SPEC.md)
@@ -14,3 +15,10 @@
 - [x] Add Firebase auth setup
 - [x] Set up server and backend
 - [x] Add tests for various screens
+- [x] Fix return button not working on web build across all games
+- [x] Add Sentry integration for error tracking and source maps
+- [x] Add placeholder WAV sound files to assets/sounds/ (activities, music, pet, ui)
+- [x] Fix @react-native-google-signin/google-signin web build compatibility
+- [x] Add global TypeScript type definitions (global.d.ts)
+- [x] Add navigation type definitions (navigation.ts)
+- [x] Ensure all screens compile without errors (web build verified)
