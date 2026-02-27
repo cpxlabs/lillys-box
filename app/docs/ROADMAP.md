@@ -12,7 +12,7 @@ This document outlines the roadmap for future development, improvements, and fea
 
 ## 📋 Immediate Tasks (From Checklist)
 
-### 🔴 Add Sounds and Audio Effects
+### 🟡 Add Sounds and Audio Effects
 **Status:** In Progress
 **Priority:** High
 
@@ -22,8 +22,9 @@ This document outlines the roadmap for future development, improvements, and fea
 - [x] Add button click sounds to IconButton component
 - [x] Add pet action sounds to usePetActions hook (feed, play, bathe, sleep, cuddle, exercise, vet)
 - [x] Add sound settings to SettingsModal (sound effects, music, volume toggles)
+- [x] Add placeholder WAV sound files to `assets/sounds/` (activities, music, pet, ui categories)
+- [ ] Replace placeholder WAVs with real/polished audio assets
 - [ ] Add interface variant persistence (save uiIndex to AsyncStorage)
-- [ ] Add actual MP3 sound files to assets/sounds/
 - [ ] Add background music (with mute toggle)
 - [ ] Activity-specific sounds:
   - Eating/chewing sounds for feeding
@@ -245,20 +246,19 @@ src/
 
 ---
 
-### 🟡 Error Handling and Logging
+### ✅ Error Handling and Logging
 **Priority:** Medium
+**Status:** PARTIALLY COMPLETED (Feb 2026)
 
 - [ ] Implement centralized error handling
 - [ ] Add error boundaries for crash prevention
-- [ ] Integrate crash reporting (Sentry or Bugsnag)
+- [x] Integrate crash reporting (Sentry) — wizard configured, source maps + debug symbols
 - [ ] Add analytics (Firebase Analytics or Amplitude)
 - [ ] Log user flows for debugging
 - [ ] Track ad performance metrics
 
-**Files to create:**
-- `/src/services/AnalyticsService.ts`
-- `/src/services/ErrorService.ts`
-- `/src/components/ErrorBoundary.tsx`
+**Files created:**
+- `/src/services/ErrorService.ts` ✅
 
 ---
 
@@ -586,7 +586,7 @@ src/
 
 ---
 
-**Last Updated:** 2026-02-26
+**Last Updated:** 2026-02-27
 **Current Version:** 1.2.0
 **Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System
 **Features Completed:** 90% (core game + OAuth + web deploy + review system)
