@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { useTranslation } from 'react-i18next';
 
 type ScreenHeaderProps = {
   title: string;
@@ -12,13 +13,14 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
   onBackPress,
   BackButtonIcon,
 }) => {
+  const { t } = useTranslation();
   return (
     <View style={styles.header}>
       <View style={styles.leftSection}>
         {onBackPress && BackButtonIcon && (
           <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
             <BackButtonIcon />
-            <Text style={styles.backButtonText}>Voltar</Text>
+            <Text style={styles.backButtonText}>{t('common.back')}</Text>
           </TouchableOpacity>
         )}
       </View>

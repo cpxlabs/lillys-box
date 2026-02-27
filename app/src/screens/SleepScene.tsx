@@ -16,6 +16,7 @@ import { ScreenHeader } from '../components/ScreenHeader';
 import { PetRenderer } from '../components/PetRenderer';
 import { calculatePetAge } from '../utils/age';
 import { useBackButton } from '../hooks/useBackButton';
+import { useGameBack } from '../hooks/useGameBack';
 import { useResponsive } from '../hooks/useResponsive';
 import { PET_SIZE_SMALL, SCENE_TEXT_SIZE } from '../config/responsive';
 
@@ -69,6 +70,7 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
   const [fadeAnim] = useState(new Animated.Value(1));
   const progressIntervalRef = React.useRef<NodeJS.Timeout | null>(null);
   const BackButtonIcon = useBackButton();
+  const handleBack = useGameBack(navigation);
   const { deviceType, spacing, fs } = useResponsive();
 
   const petSize = PET_SIZE_SMALL[deviceType];
@@ -144,15 +146,15 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
 
   const petAge = calculatePetAge(pet.createdAt);
   const petNameDisplay = `${pet.type === 'cat' ? '🐱' : '🐶'} ${pet.name}`;
-  const petAgeDisplay = `${petAge} ${petAge === 1 ? 'ano' : 'anos'}`;
+  const petAgeDisplay = `${petAge} ${petAge === 1 ? t('common.year') : t('common.years')}`;
 
   const canSleep = pet.energy < GAME_BALANCE.thresholds.energyForSleep;
 
   return (
     <SafeAreaView style={styles.container}>
       <ScreenHeader
-        title="💤 Dormir"
-        onBackPress={() => navigation.goBack()}
+        title={t('sleep.title')}
+        onBackPress={handleBack}
         BackButtonIcon={BackButtonIcon}
       />
 
@@ -292,7 +294,7 @@ export const SleepScene: React.FC<Props> = ({ navigation }) => {
 
             <TouchableOpacity
               style={[styles.backButton, { marginTop: spacing(16), padding: spacing(10) }]}
-              onPress={() => navigation.goBack()}
+              onPress={handleBack}
               accessibilityRole="button"
               accessibilityLabel={t('common.back')}
               accessibilityHint="Return to home screen"

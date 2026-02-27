@@ -1,5 +1,5 @@
 import React from 'react';
-import { render } from '@testing-library/react-native';
+import { render, fireEvent } from '@testing-library/react-native';
 import { SleepScene } from '../SleepScene';
 
 // Mock dependencies
@@ -34,11 +34,7 @@ jest.mock('../../context/PetContext', () => ({
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
-    t: (key: string) => {
-      if (key === 'sleep.energyHigh') return 'Energy is high';
-      if (key === 'sleep.notTired') return 'Not tired';
-      return key;
-    },
+    t: (key: string) => key,
   }),
 }));
 
@@ -56,9 +52,24 @@ jest.mock('../../hooks/useBackButton', () => ({
 
 jest.mock('../../components/ScreenHeader', () => {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
-  const { View, Text } = require('react-native');
+  const { View, Text, TouchableOpacity } = require('react-native');
   return {
-    ScreenHeader: ({ title }: { title: string }) => <View><Text>{title}</Text></View>,
+    ScreenHeader: ({
+      title,
+      onBackPress,
+    }: {
+      title: string;
+      onBackPress?: () => void;
+    }) => (
+      <View>
+        <Text>{title}</Text>
+        {onBackPress && (
+          <TouchableOpacity onPress={onBackPress} testID="screen-header-back">
+            <Text>common.back</Text>
+          </TouchableOpacity>
+        )}
+      </View>
+    ),
   };
 });
 
@@ -114,32 +125,71 @@ jest.mock('react-native-reanimated', () => {
   };
 });
 
+const mockGoBack = jest.fn();
+const mockCanGoBack = jest.fn(() => true);
+const mockGetParent = jest.fn(() => ({
+  goBack: jest.fn(),
+  canGoBack: () => false,
+  getParent: () => undefined,
+}));
+
 describe('SleepScene', () => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const mockNavigation: any = {
-    goBack: jest.fn(),
+    goBack: mockGoBack,
+    canGoBack: mockCanGoBack,
+    getParent: mockGetParent,
   };
 
   beforeEach(() => {
     jest.clearAllMocks();
+    mockCanGoBack.mockReturnValue(true);
   });
 
-  it('shows "Energy is high" on the sleep button when energy is above threshold', () => {
+  it('renders the screen title using i18n key', () => {
     const { getByText } = render(<SleepScene navigation={mockNavigation} />);
-
-    // With energy at 90 (above 80 threshold), button shows energy high text
-    expect(getByText('Energy is high')).toBeTruthy();
+    // Title uses t('sleep.title') - mock returns the key
+    expect(getByText('sleep.title')).toBeTruthy();
   });
 
-  it('shows "Not tired" message when energy is high', () => {
+  it('shows energy high i18n key on the sleep button when energy is above threshold', () => {
     const { getByText } = render(<SleepScene navigation={mockNavigation} />);
-
-    expect(getByText('Not tired')).toBeTruthy();
+    // With energy at 90 (above 80 threshold), button shows sleep.energyHigh key
+    expect(getByText('sleep.energyHigh')).toBeTruthy();
   });
 
-  it('renders the screen header', () => {
+  it('shows not tired i18n key as message when energy is high', () => {
     const { getByText } = render(<SleepScene navigation={mockNavigation} />);
+    expect(getByText('sleep.notTired')).toBeTruthy();
+  });
 
-    expect(getByText('💤 Dormir')).toBeTruthy();
+  it('navigates back when ScreenHeader back button is pressed', () => {
+    const { getByTestId } = render(<SleepScene navigation={mockNavigation} />);
+    fireEvent.press(getByTestId('screen-header-back'));
+    expect(mockGoBack).toHaveBeenCalledTimes(1);
+  });
+
+  it('navigates back when standalone back button is pressed', () => {
+    const { getAllByText } = render(<SleepScene navigation={mockNavigation} />);
+    // The standalone back button uses t('common.back'); there are two back buttons (header + standalone)
+    const backButtons = getAllByText('common.back');
+    expect(backButtons.length).toBeGreaterThanOrEqual(1);
+    fireEvent.press(backButtons[backButtons.length - 1]);
+    expect(mockGoBack).toHaveBeenCalledTimes(1);
+  });
+
+  it('uses parent navigation when canGoBack returns false', () => {
+    const mockParentGoBack = jest.fn();
+    mockCanGoBack.mockReturnValue(false);
+    mockGetParent.mockReturnValue({
+      goBack: mockParentGoBack,
+      canGoBack: () => true,
+      getParent: () => undefined,
+    });
+
+    const { getByTestId } = render(<SleepScene navigation={mockNavigation} />);
+    fireEvent.press(getByTestId('screen-header-back'));
+    expect(mockGoBack).not.toHaveBeenCalled();
+    expect(mockParentGoBack).toHaveBeenCalledTimes(1);
   });
 });

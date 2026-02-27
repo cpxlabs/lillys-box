@@ -8,6 +8,7 @@ import { ScreenHeader } from '../components/ScreenHeader';
 import { ClothingSlot } from '../types';
 import { getItemsBySlot } from '../data/clothingItems';
 import { useBackButton } from '../hooks/useBackButton';
+import { useGameBack } from '../hooks/useGameBack';
 import { ScreenNavigationProp } from '../types/navigation';
 import { calculatePetAge } from '../utils/age';
 import { useResponsive } from '../hooks/useResponsive';
@@ -17,11 +18,11 @@ type Props = {
   navigation: ScreenNavigationProp<'Wardrobe'>;
 };
 
-const SLOTS: { key: ClothingSlot; label: string; emoji: string }[] = [
-  { key: 'head', label: 'Cabeça', emoji: '🎩' },
-  { key: 'eyes', label: 'Olhos', emoji: '👀' },
-  { key: 'torso', label: 'Torso', emoji: '👕' },
-  { key: 'paws', label: 'Patas', emoji: '🧦' },
+const SLOTS: { key: ClothingSlot; labelKey: string; emoji: string }[] = [
+  { key: 'head', labelKey: 'wardrobe.slots.head', emoji: '🎩' },
+  { key: 'eyes', labelKey: 'wardrobe.slots.eyes', emoji: '👀' },
+  { key: 'torso', labelKey: 'wardrobe.slots.torso', emoji: '👕' },
+  { key: 'paws', labelKey: 'wardrobe.slots.paws', emoji: '🧦' },
 ];
 
 export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
@@ -29,6 +30,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
   const { pet, setClothing } = usePet();
   const [selectedSlot, setSelectedSlot] = useState<ClothingSlot>('head');
   const BackButtonIcon = useBackButton();
+  const handleBack = useGameBack(navigation);
   const { deviceType, spacing } = useResponsive();
 
   const petSize = PET_SIZE_SMALL[deviceType];
@@ -49,8 +51,8 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
       <ScreenHeader
-        title="👕 Armário"
-        onBackPress={() => navigation.goBack()}
+        title={t('wardrobe.title')}
+        onBackPress={handleBack}
         BackButtonIcon={BackButtonIcon}
       />
 
@@ -90,7 +92,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
                 { fontSize: wardrobeSizes.slotLabel, marginTop: spacing(2) },
               ]}
             >
-              {slot.label}
+              {t(slot.labelKey)}
             </Text>
           </TouchableOpacity>
         ))}
@@ -119,7 +121,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
             >
               ❌
             </Text>
-            <Text style={[styles.itemName, { fontSize: wardrobeSizes.itemName }]}>Nenhum</Text>
+            <Text style={[styles.itemName, { fontSize: wardrobeSizes.itemName }]}>{t('wardrobe.none')}</Text>
           </TouchableOpacity>
 
           {itemsForSlot.map((item) => (

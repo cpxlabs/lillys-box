@@ -16,6 +16,7 @@ import { StatusCard } from '../components/StatusCard';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { AnimationState } from '../types';
 import { useBackButton } from '../hooks/useBackButton';
+import { useGameBack } from '../hooks/useGameBack';
 import { useDoubleReward } from '../hooks/useDoubleReward';
 import { AdsConfig } from '../config/ads.config';
 import { ScreenNavigationProp } from '../types/navigation';
@@ -72,6 +73,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
   const [scrubCount, setScrubCount] = useState(0);
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const BackButtonIcon = useBackButton();
+  const handleBack = useGameBack(navigation);
   const { deviceType, spacing, fs } = useResponsive();
 
   const petSize = ACTION_PET_SIZE[deviceType];
@@ -214,7 +216,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScreenHeader
         title={t('bath.title')}
-        onBackPress={() => navigation.goBack()}
+        onBackPress={handleBack}
         BackButtonIcon={BackButtonIcon}
       />
 
