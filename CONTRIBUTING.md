@@ -1,5 +1,9 @@
 # Contributing to Pet Care Game
 
+## Repository
+
+**URL:** https://github.com/az1nn/pet-care-game
+
 ## Required Tools
 
 ### Git CLI (gh)

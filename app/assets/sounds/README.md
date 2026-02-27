@@ -7,27 +7,27 @@ This directory contains all audio assets for the Pet Care Game.
 ```
 sounds/
 ├── ui/                    # UI sound effects
-│   ├── button_click.mp3   # Button tap sound
-│   ├── coin_collect.mp3   # Coin/point collection
-│   ├── notification.mp3  # Notification alert
-│   ├── success.mp3       # Success feedback
-│   └── error.mp3         # Error feedback
+│   ├── button_click.wav   # Button tap sound
+│   ├── coin_collect.wav   # Coin/point collection
+│   ├── notification.wav  # Notification alert
+│   ├── success.wav       # Success feedback
+│   └── error.wav         # Error feedback
 │
 ├── pet/                   # Pet sounds
-│   ├── happy.mp3          # Pet is happy
-│   ├── sad.mp3           # Pet is sad
-│   ├── meow.mp3          # Cat meow
-│   └── bark.mp3          # Dog bark
+│   ├── happy.wav          # Pet is happy
+│   ├── sad.wav           # Pet is sad
+│   ├── meow.wav          # Cat meow
+│   └── bark.wav          # Dog bark
 │
 ├── activities/            # Activity-specific sounds
-│   ├── eating.mp3         # Eating/chewing
-│   ├── water_splash.mp3  # Bath time water
-│   ├── ball_bounce.mp3   # Ball bounce
-│   ├── toy_squeak.mp3    # Toy squeak
-│   └── clothes_swap.mp3  # Clothing change
+│   ├── eating.wav         # Eating/chewing
+│   ├── water_splash.wav  # Bath time water
+│   ├── ball_bounce.wav   # Ball bounce
+│   ├── toy_squeak.wav    # Toy squeak
+│   └── clothes_swap.wav  # Clothing change
 │
 └── music/
-    └── background.mp3     # Background music (looping)
+    └── background.wav     # Background music (looping)
 ```
 
 ## Requirements
