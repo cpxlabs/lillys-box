@@ -105,6 +105,16 @@ jest.mock('@sentry/react-native', () => ({
   },
 }));
 
+// Mock expo-av
+jest.mock('expo-av', () => ({
+  Audio: {
+    Sound: {
+      createAsync: jest.fn(() => Promise.resolve({ sound: { playAsync: jest.fn(), unloadAsync: jest.fn(), setVolumeAsync: jest.fn(), setIsLoopingAsync: jest.fn(), pauseAsync: jest.fn(), getStatusAsync: jest.fn(() => Promise.resolve({ isLoaded: true })) } })),
+    },
+    setAudioModeAsync: jest.fn(() => Promise.resolve()),
+  },
+}));
+
 // Mock expo-haptics
 jest.mock('expo-haptics', () => ({
   impactAsync: jest.fn(),

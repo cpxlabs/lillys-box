@@ -20,7 +20,7 @@ module.exports = {
   ],
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
-    '\\.(jpg|jpeg|png|gif|svg)$': '<rootDir>/__mocks__/fileMock.js',
+    '\\.(jpg|jpeg|png|gif|svg|mp3|wav|ogg)$': '<rootDir>/__mocks__/fileMock.js',
   },
   globals: {
     'ts-jest': {

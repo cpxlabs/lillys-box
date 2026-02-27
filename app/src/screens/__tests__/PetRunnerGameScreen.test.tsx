@@ -18,7 +18,11 @@ jest.mock('../../context/PetRunnerContext', () => ({
 }));
 
 const mockGoBack = jest.fn();
-const navigation = { goBack: mockGoBack };
+const navigation = {
+  goBack: mockGoBack,
+  canGoBack: jest.fn(() => true),
+  getParent: jest.fn(() => undefined),
+};
 
 describe('PetRunnerGameScreen', () => {
   beforeEach(() => {

@@ -17,7 +17,11 @@ jest.mock('../../context/MuitoContext', () => ({
 }));
 
 const mockGoBack = jest.fn();
-const navigation = { goBack: mockGoBack };
+const navigation = {
+  goBack: mockGoBack,
+  canGoBack: jest.fn(() => true),
+  getParent: jest.fn(() => undefined),
+};
 
 /*
  * Deterministic puzzle when Math.random always returns 0 and round = 1
