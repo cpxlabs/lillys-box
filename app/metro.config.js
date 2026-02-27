@@ -20,6 +20,12 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
         type: 'empty',
       };
     }
+
+    if (moduleName === '@react-native-google-signin/google-signin') {
+      return {
+        type: 'empty',
+      };
+    }
   }
 
   return originalResolveRequest(context, moduleName, platform);
