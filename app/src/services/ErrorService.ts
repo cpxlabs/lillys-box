@@ -36,6 +36,9 @@ class ErrorService {
         environment: __DEV__ ? 'development' : 'production',
         enabled: !__DEV__,
         tracesSampleRate: 1.0,
+        integrations: [
+          Sentry.reactNavigationIntegration,
+        ],
       });
       this.isSentryInitialized = true;
       logger.log('[ErrorService] Sentry initialized');

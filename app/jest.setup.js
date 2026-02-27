@@ -87,10 +87,22 @@ jest.mock('expo-router', () => ({
   useLocalSearchParams: jest.fn(() => ({})),
   useSegments: jest.fn(() => []),
   usePathname: jest.fn(() => '/'),
+  useNavigationContainerRef: jest.fn(() => ({ current: null })),
   Stack: {
     Screen: jest.fn(() => null),
   },
   Link: jest.fn(({ children }) => children),
+}));
+
+// Mock @sentry/react-native
+jest.mock('@sentry/react-native', () => ({
+  init: jest.fn(),
+  wrap: jest.fn((component) => component),
+  captureException: jest.fn(),
+  captureMessage: jest.fn(),
+  reactNavigationIntegration: {
+    registerNavigationContainer: jest.fn(),
+  },
 }));
 
 // Mock expo-haptics

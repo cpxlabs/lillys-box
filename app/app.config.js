@@ -42,7 +42,14 @@ module.exports = () => {
     "expo-router"
   ] : [
     "expo-router",
-    "@react-native-google-signin/google-signin"
+    "@react-native-google-signin/google-signin",
+    [
+      "@sentry/react-native/expo",
+      {
+        organization: "hitss-40",
+        project: "pet-care-game",
+      }
+    ]
   ];
 
   // NOTE: Native plugins are intentionally excluded for web builds to prevent
