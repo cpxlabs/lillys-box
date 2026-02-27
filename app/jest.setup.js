@@ -87,10 +87,32 @@ jest.mock('expo-router', () => ({
   useLocalSearchParams: jest.fn(() => ({})),
   useSegments: jest.fn(() => []),
   usePathname: jest.fn(() => '/'),
+  useNavigationContainerRef: jest.fn(() => ({ current: null })),
   Stack: {
     Screen: jest.fn(() => null),
   },
   Link: jest.fn(({ children }) => children),
+}));
+
+// Mock @sentry/react-native
+jest.mock('@sentry/react-native', () => ({
+  init: jest.fn(),
+  wrap: jest.fn((component) => component),
+  captureException: jest.fn(),
+  captureMessage: jest.fn(),
+  reactNavigationIntegration: {
+    registerNavigationContainer: jest.fn(),
+  },
+}));
+
+// Mock expo-av
+jest.mock('expo-av', () => ({
+  Audio: {
+    Sound: {
+      createAsync: jest.fn(() => Promise.resolve({ sound: { playAsync: jest.fn(), unloadAsync: jest.fn(), setVolumeAsync: jest.fn(), setIsLoopingAsync: jest.fn(), pauseAsync: jest.fn(), getStatusAsync: jest.fn(() => Promise.resolve({ isLoaded: true })) } })),
+    },
+    setAudioModeAsync: jest.fn(() => Promise.resolve()),
+  },
 }));
 
 // Mock expo-haptics

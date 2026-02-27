@@ -2,6 +2,8 @@ import React, { useEffect } from 'react';
 import { ActivityIndicator, View, StyleSheet } from 'react-native';
 import { Stack, useRouter, useSegments, usePathname } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
+import * as Sentry from '@sentry/react-native';
+import { useNavigationContainerRef } from 'expo-router';
 
 import '../src/i18n';
 import { registerAllGames } from '../src/gameRegistrations';
@@ -63,7 +65,15 @@ function AdTracker() {
   return null;
 }
 
-export default function RootLayout() {
+function RootLayout() {
+  const ref = useNavigationContainerRef();
+
+  useEffect(() => {
+    if (ref?.current) {
+      Sentry.reactNavigationIntegration.registerNavigationContainer(ref);
+    }
+  }, [ref]);
+
   useEffect(() => {
     AdService.initializeAds();
   }, []);
@@ -95,6 +105,8 @@ export default function RootLayout() {
     </ErrorBoundary>
   );
 }
+
+export default Sentry.wrap(RootLayout);
 
 const styles = StyleSheet.create({
   loading: {
