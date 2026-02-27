@@ -58,23 +58,23 @@ const isWeb = Platform.OS === 'web';
 const SOUND_MAP: Record<SoundType, any> = isWeb 
   ? {} as Record<SoundType, any> 
   : {
-  button_click: require('../../assets/sounds/ui/button_click.mp3'),
-  coin_collect: require('../../assets/sounds/ui/coin_collect.mp3'),
-  notification: require('../../assets/sounds/ui/notification.mp3'),
-  pet_happy: require('../../assets/sounds/pet/happy.mp3'),
-  pet_sad: require('../../assets/sounds/pet/sad.mp3'),
-  pet_meow: require('../../assets/sounds/pet/meow.mp3'),
-  pet_bark: require('../../assets/sounds/pet/bark.mp3'),
-  eating: require('../../assets/sounds/activities/eating.mp3'),
-  water_splash: require('../../assets/sounds/activities/water_splash.mp3'),
-  ball_bounce: require('../../assets/sounds/activities/ball_bounce.mp3'),
-  toy_squeak: require('../../assets/sounds/activities/toy_squeak.mp3'),
-  clothes_swap: require('../../assets/sounds/activities/clothes_swap.mp3'),
-  success: require('../../assets/sounds/ui/success.mp3'),
-  error: require('../../assets/sounds/ui/error.mp3'),
+  button_click: require('../../assets/sounds/ui/button_click.wav'),
+  coin_collect: require('../../assets/sounds/ui/coin_collect.wav'),
+  notification: require('../../assets/sounds/ui/notification.wav'),
+  pet_happy: require('../../assets/sounds/pet/happy.wav'),
+  pet_sad: require('../../assets/sounds/pet/sad.wav'),
+  pet_meow: require('../../assets/sounds/pet/meow.wav'),
+  pet_bark: require('../../assets/sounds/pet/bark.wav'),
+  eating: require('../../assets/sounds/activities/eating.wav'),
+  water_splash: require('../../assets/sounds/activities/water_splash.wav'),
+  ball_bounce: require('../../assets/sounds/activities/ball_bounce.wav'),
+  toy_squeak: require('../../assets/sounds/activities/toy_squeak.wav'),
+  clothes_swap: require('../../assets/sounds/activities/clothes_swap.wav'),
+  success: require('../../assets/sounds/ui/success.wav'),
+  error: require('../../assets/sounds/ui/error.wav'),
 };
 
-const BACKGROUND_MUSIC = isWeb ? null : require('../../assets/sounds/music/background.mp3');
+const BACKGROUND_MUSIC = isWeb ? null : require('../../assets/sounds/music/background.wav');
 
 /**
  * Audio service for managing sound effects and background music
