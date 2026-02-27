@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { ActivityIndicator, View, StyleSheet } from 'react-native';
+import { ActivityIndicator, Platform, View, StyleSheet } from 'react-native';
 import { Stack, useRouter, useSegments, usePathname } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as Sentry from '@sentry/react-native';
@@ -69,7 +69,7 @@ function RootLayout() {
   const ref = useNavigationContainerRef();
 
   useEffect(() => {
-    if (ref?.current) {
+    if (Platform.OS !== 'web' && ref?.current && Sentry.reactNavigationIntegration) {
       Sentry.reactNavigationIntegration.registerNavigationContainer(ref);
     }
   }, [ref]);
@@ -106,7 +106,7 @@ function RootLayout() {
   );
 }
 
-export default Sentry.wrap(RootLayout);
+export default Platform.OS === 'web' ? RootLayout : Sentry.wrap(RootLayout);
 
 const styles = StyleSheet.create({
   loading: {
