@@ -3,7 +3,7 @@
 ## To Do
 - [ ] Replace placeholder WAV files with real audio assets
 - [ ] Bundle size analysis with `npx expo-doctor`
-- [ ] Interface variant persistence (save uiIndex to AsyncStorage)
+- [x] Interface variant persistence (save uiIndex to AsyncStorage)
 
 ## Done
 - [x] Create project specification (SPEC.md)
