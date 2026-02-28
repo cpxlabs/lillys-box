@@ -206,7 +206,7 @@ npm run test:ci          # Executa testes em modo CI
 ```
 
 ### Cobertura de Testes
-✅ **Status**: 99% dos testes passando (71/72 testes)
+✅ **Status**: 503 testes, 496 passando (99%+)
 
 Áreas cobertas:
 - **Hooks**: `usePetActions` (29/30 testes - ações do pet e animações)
@@ -278,10 +278,11 @@ This directory contains all project documentation organized by purpose.
 
 ### Active Plans
 - **[IMPLEMENTATION_PLAN.md](./plans/IMPLEMENTATION_PLAN.md)** - Comprehensive implementation plan covering testing infrastructure, game features, and code quality (Status: Mixed - parts completed, parts pending)
-- **[OAUTH_PLAN.md](./plans/OAUTH_PLAN.md)** - Google OAuth implementation plan (Status: Not started)
 - **[SKIA_BATH_REIMPLEMENTATION_PLAN.md](./plans/SKIA_BATH_REIMPLEMENTATION_PLAN.md)** - Plan to reintegrate Skia 2.4.14 for bath screen bubbles, includes historical context from v0.1.221 (Status: Planning complete)
 
 ### Completed/Archived Plans
+- **[OAUTH_PLAN.md](./plans/OAUTH_PLAN.md)** - Google OAuth implementation plan (Status: ✅ COMPLETED Jan 2026)
+- **[REVIEW_SYSTEM_PLAN.md](./plans/REVIEW_SYSTEM_PLAN.md)** - Game review system plan (Status: ✅ COMPLETED Feb 2026)
 - **[CODE_REVIEW_REFACTORING.md](./plans/CODE_REVIEW_REFACTORING.md)** - Code review and refactoring summary (Status: Phase 1 complete, Phase 2 partially complete)
 
 ### Asset Plans
@@ -321,5 +322,5 @@ This directory contains all project documentation organized by purpose.
 ---
 
 **Versão**: 1.2.0
-**Última Atualização**: 2026-02-25
+**Última Atualização**: 2026-02-28
 **Status**: ✅ Funcional e testado — deploy web ativo no Vercel, review system implementado
