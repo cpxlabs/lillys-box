@@ -261,66 +261,7 @@ export const GameSelectionScreen: React.FC<Props> = () => {
     </TouchableOpacity>
   ), [t, handleOpenSettings]);
 
-  // ── Render alternative UI if selected ─────────────────────────
-  if (AltComponent) {
-    return (
-      <View style={{ flex: 1 }}>
-        <AltComponent {...altProps} />
-        {settingsButton}
-        <SettingsModal
-          visible={showSettings}
-          onClose={handleCloseSettings}
-          uiIndex={uiIndex}
-          onUiIndexChange={handleUiIndexChange}
-        />
-      </View>
-    );
-  }
-
-  // ── Original UI ───────────────────────────────────────────────
-  const renderSortChip = (option: SortOption, labelKey: string) => {
-    const active = sortBy === option;
-    return (
-      <TouchableOpacity
-        key={option}
-        style={[styles.sortChip, active && styles.sortChipActive]}
-        onPress={() => setSortBy(option)}
-        activeOpacity={0.7}
-      >
-        <Text style={[styles.sortChipText, active && styles.sortChipTextActive]}>
-          {t(labelKey)}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
-
-  const renderCategoryFilter = (category: string) => {
-    const active = selectedCategory === category;
-    const colors = CATEGORY_COLORS[category] || CATEGORY_COLORS.casual;
-    const emoji = CATEGORY_EMOJI[category] || '🎮';
-    return (
-      <TouchableOpacity
-        key={category}
-        style={[
-          styles.categoryChip,
-          { backgroundColor: active ? colors.text : colors.bg },
-        ]}
-        onPress={() => setSelectedCategory(active ? null : category)}
-        activeOpacity={0.7}
-      >
-        <Text style={styles.categoryChipEmoji}>{emoji}</Text>
-        <Text
-          style={[
-            styles.categoryChipText,
-            { color: active ? '#fff' : colors.text },
-          ]}
-        >
-          {t(`selectGame.categories.${category}`)}
-        </Text>
-      </TouchableOpacity>
-    );
-  };
-
+  // ── renderGameCard must be defined before any early return to satisfy rules of hooks ──
   const renderGameCard = useCallback(
     ({ item }: { item: GameDefinition }) => {
       const fav = isFavorite(item.id);
@@ -392,6 +333,66 @@ export const GameSelectionScreen: React.FC<Props> = () => {
     },
     [summaries, isFavorite, handleGameSelect, handleToggleFavorite, t],
   );
+
+  // ── Render alternative UI if selected ─────────────────────────
+  if (AltComponent) {
+    return (
+      <View style={{ flex: 1 }}>
+        <AltComponent {...altProps} />
+        {settingsButton}
+        <SettingsModal
+          visible={showSettings}
+          onClose={handleCloseSettings}
+          uiIndex={uiIndex}
+          onUiIndexChange={handleUiIndexChange}
+        />
+      </View>
+    );
+  }
+
+  // ── Original UI ───────────────────────────────────────────────
+  const renderSortChip = (option: SortOption, labelKey: string) => {
+    const active = sortBy === option;
+    return (
+      <TouchableOpacity
+        key={option}
+        style={[styles.sortChip, active && styles.sortChipActive]}
+        onPress={() => setSortBy(option)}
+        activeOpacity={0.7}
+      >
+        <Text style={[styles.sortChipText, active && styles.sortChipTextActive]}>
+          {t(labelKey)}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
+
+  const renderCategoryFilter = (category: string) => {
+    const active = selectedCategory === category;
+    const colors = CATEGORY_COLORS[category] || CATEGORY_COLORS.casual;
+    const emoji = CATEGORY_EMOJI[category] || '🎮';
+    return (
+      <TouchableOpacity
+        key={category}
+        style={[
+          styles.categoryChip,
+          { backgroundColor: active ? colors.text : colors.bg },
+        ]}
+        onPress={() => setSelectedCategory(active ? null : category)}
+        activeOpacity={0.7}
+      >
+        <Text style={styles.categoryChipEmoji}>{emoji}</Text>
+        <Text
+          style={[
+            styles.categoryChipText,
+            { color: active ? '#fff' : colors.text },
+          ]}
+        >
+          {t(`selectGame.categories.${category}`)}
+        </Text>
+      </TouchableOpacity>
+    );
+  };
 
   return (
     <SafeAreaView style={styles.container}>

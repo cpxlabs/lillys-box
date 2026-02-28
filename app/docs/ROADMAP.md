@@ -23,8 +23,8 @@ This document outlines the roadmap for future development, improvements, and fea
 - [x] Add pet action sounds to usePetActions hook (feed, play, bathe, sleep, cuddle, exercise, vet)
 - [x] Add sound settings to SettingsModal (sound effects, music, volume toggles)
 - [x] Add placeholder WAV sound files to `assets/sounds/` (activities, music, pet, ui categories)
+- [x] Add interface variant persistence (save uiIndex to AsyncStorage) ✅ (Feb 2026)
 - [ ] Replace placeholder WAVs with real/polished audio assets
-- [ ] Add interface variant persistence (save uiIndex to AsyncStorage)
 - [ ] Add background music (with mute toggle)
 - [ ] Activity-specific sounds:
   - Eating/chewing sounds for feeding
@@ -228,10 +228,12 @@ Allow players to leave reviews on individual games directly from the game screen
 - [x] Add test coverage for:
   - [x] Utility functions (`storage.ts`, `petStats.ts`, `validation.ts`)
   - [x] Context providers (PetContext)
-  - [x] Custom hooks (usePetActions - 29/30 tests passing)
+  - [x] Custom hooks (usePetActions)
   - [x] Critical components (IconButton, StatusBar)
+  - [x] All 25 mini-game home screens and contexts
+  - [x] `GameSelectionScreen` (uiIndex persistence — 7 tests)
 - [x] Test scripts configured (test, test:watch, test:coverage, test:ci)
-- [x] 99% test pass rate (71/72 tests passing)
+- [x] 503 tests total, 496 passing (99%+) — Feb 2026
 - [ ] Set up Detox for E2E testing (Future)
 - [ ] Add CI/CD pipeline (GitHub Actions) (Future)
 
@@ -262,12 +264,12 @@ src/
 
 ---
 
-### 🟡 UX Improvements
-**Priority:** Low
+### ✅ UX Improvements
+**Status:** COMPLETED (Feb 2026)
 
-- [ ] **Interface setting persistence** - Save uiIndex to AsyncStorage so UI variant selection survives app restart
-  - Files to update:
-    - `/src/screens/GameSelectionScreen.tsx` - Load/save uiIndex from AsyncStorage
+- [x] **Interface setting persistence** - uiIndex saved to AsyncStorage; selection survives app restart ✅
+  - Fixed rules-of-hooks violation (`renderGameCard` useCallback moved before early return)
+  - Added `GameSelectionScreen` test suite (7 tests covering load, save, validation)
   - See: `docs/SETTINGS_MODAL_TESTING.md` (KI-001)
 
 ---
@@ -586,10 +588,10 @@ src/
 
 ---
 
-**Last Updated:** 2026-02-27
+**Last Updated:** 2026-02-28
 **Current Version:** 1.2.0
-**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System
-**Features Completed:** 90% (core game + OAuth + web deploy + review system)
+**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System, UI persistence
+**Features Completed:** 90%+ (core game + OAuth + web deploy + review system + uiIndex persistence)
 **Next Version Target:** 1.3.0 (Sounds + Performance)
 
 ---

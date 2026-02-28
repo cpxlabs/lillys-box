@@ -3,7 +3,6 @@
 ## To Do
 - [ ] Replace placeholder WAV files with real audio assets
 - [ ] Bundle size analysis with `npx expo-doctor`
-- [ ] Interface variant persistence (save uiIndex to AsyncStorage)
 
 ## Done
 - [x] Create project specification (SPEC.md)
@@ -22,3 +21,6 @@
 - [x] Add global TypeScript type definitions (global.d.ts)
 - [x] Add navigation type definitions (navigation.ts)
 - [x] Ensure all screens compile without errors (web build verified)
+- [x] Interface variant persistence (save uiIndex to AsyncStorage)
+- [x] Fix rules-of-hooks violation in GameSelectionScreen (renderGameCard moved before early return)
+- [x] Add GameSelectionScreen test suite (7 tests for uiIndex persistence)
