@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useContext } from 'react';
 import { useAuth } from './AuthContext';
+import { useGameBestScore } from '../hooks/useGameBestScore';
 
 const STORAGE_KEY_BASE = '@catch_the_ball:bestScore';
 
@@ -13,39 +13,8 @@ const CatchTheBallContext = createContext<CatchTheBallContextType | undefined>(u
 
 export const CatchTheBallProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user } = useAuth();
-  const userId = user?.id || 'guest';
-  const storageKey = `${STORAGE_KEY_BASE}:${userId}`;
-
-  const [bestScore, setBestScore] = useState(0);
-  const bestScoreRef = useRef(0);
-  const loadedRef = useRef(false);
-
-  useEffect(() => {
-    AsyncStorage.getItem(storageKey)
-      .then((stored) => {
-        if (stored != null) {
-          const val = parseInt(stored, 10);
-          setBestScore(val);
-          bestScoreRef.current = val;
-        }
-        loadedRef.current = true;
-      })
-      .catch(() => {
-        loadedRef.current = true;
-      });
-  }, [storageKey]);
-
-  const updateBestScore = useCallback(
-    (score: number) => {
-      if (!loadedRef.current) return;
-      if (score > bestScoreRef.current) {
-        bestScoreRef.current = score;
-        setBestScore(score);
-        AsyncStorage.setItem(storageKey, score.toString()).catch(() => {});
-      }
-    },
-    [storageKey],
-  );
+  const userId = user?.id ?? 'guest';
+  const [bestScore, updateBestScore] = useGameBestScore(`${STORAGE_KEY_BASE}:${userId}`);
 
   return (
     <CatchTheBallContext.Provider value={{ bestScore, updateBestScore }}>

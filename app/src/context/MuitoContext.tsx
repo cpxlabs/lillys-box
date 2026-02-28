@@ -15,7 +15,7 @@ const MuitoContext = createContext<MuitoContextType | undefined>(undefined);
 
 export const MuitoProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isGuest } = useAuth();
-  const userId = user?.id || (isGuest ? 'guest' : 'guest');
+  const userId = user?.id ?? 'guest';
   const storageKey = `${STORAGE_KEY_BASE}:${userId}`;
 
   const [score, setScore] = useState(0);
@@ -42,7 +42,9 @@ export const MuitoProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     if (loadedRef.current && score > bestScoreRef.current) {
       bestScoreRef.current = score;
       setBestScore(score);
-      AsyncStorage.setItem(storageKey, score.toString()).catch(() => {});
+      AsyncStorage.setItem(storageKey, score.toString()).catch((err) => {
+        if (__DEV__) console.warn('[MuitoContext] Failed to save best score:', err);
+      });
     }
   }, [score, storageKey]);
 

@@ -16,7 +16,7 @@ import { gameRegistry, GameDefinition } from '../registry/GameRegistry';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { useFavoriteGames } from '../hooks/useFavoriteGames';
 import { ScreenNavigationProp } from '../types/navigation';
-import { GameSelectorAltProps } from './game-selector-alts/types';
+import { GameSelectorAltProps, SortOption } from './game-selector-alts/types';
 import { ReviewModal } from '../components/ReviewModal';
 import { GameReviewsScreen } from './GameReviewsScreen';
 import { ReviewService } from '../services/ReviewService';
@@ -54,7 +54,6 @@ type Props = {
   navigation: ScreenNavigationProp<'GameSelection'>;
 };
 
-type SortOption = 'default' | 'name' | 'category' | 'favorites';
 
 const CATEGORY_COLORS: Record<string, { bg: string; text: string }> = {
   pet: { bg: '#e8f5e9', text: '#2e7d32' },
@@ -228,7 +227,7 @@ export const GameSelectionScreen: React.FC<Props> = () => {
 
   // ── Shared props for all alternative UIs ──────────────────────
   const altProps: GameSelectorAltProps = {
-    navigation: null as any,
+    navigation,
     games,
     sortedGames,
     categories,

@@ -1,6 +1,8 @@
 import { GameDefinition } from '../../registry/GameRegistry';
 import { ScreenNavigationProp } from '../../types/navigation';
 
+export type SortOption = 'default' | 'name' | 'category' | 'favorites';
+
 export type GameSelectorAltProps = {
   navigation: ScreenNavigationProp<'GameSelection'>;
   games: GameDefinition[];
@@ -8,8 +10,8 @@ export type GameSelectorAltProps = {
   categories: string[];
   selectedCategory: string | null;
   setSelectedCategory: (cat: string | null) => void;
-  sortBy: string;
-  setSortBy: (s: any) => void;
+  sortBy: SortOption;
+  setSortBy: (s: SortOption) => void;
   isFavorite: (id: string) => boolean;
   toggleFavorite: (id: string) => void;
   handleGameSelect: (id: string) => void;

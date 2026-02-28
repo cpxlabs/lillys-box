@@ -1,6 +1,6 @@
-import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { createContext, useContext } from 'react';
 import { useAuth } from './AuthContext';
+import { useGameBestScore } from '../hooks/useGameBestScore';
 
 const STORAGE_KEY_BASE = '@dress_up_relay:bestScore';
 
@@ -13,40 +13,8 @@ const DressUpRelayContext = createContext<DressUpRelayContextType | undefined>(u
 
 export const DressUpRelayProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { user, isGuest } = useAuth();
-  const userId = user?.id || 'guest';
-
-  const [bestScore, setBestScore] = useState<number>(0);
-  const bestScoreRef = useRef<number>(0);
-  const loadedRef = useRef(false);
-
-  useEffect(() => {
-    const loadScore = async () => {
-      try {
-        const stored = await AsyncStorage.getItem(`${STORAGE_KEY_BASE}:${userId}`);
-        if (stored != null) {
-          const score = parseInt(stored, 10);
-          setBestScore(score);
-          bestScoreRef.current = score;
-        }
-      } catch {
-        // Ignore storage errors
-      }
-      loadedRef.current = true;
-    };
-    loadScore();
-  }, [userId]);
-
-  const updateBestScore = useCallback(
-    (score: number) => {
-      if (!loadedRef.current) return;
-      if (score > bestScoreRef.current) {
-        bestScoreRef.current = score;
-        setBestScore(score);
-        AsyncStorage.setItem(`${STORAGE_KEY_BASE}:${userId}`, score.toString()).catch(() => {});
-      }
-    },
-    [userId]
-  );
+  const userId = user?.id ?? 'guest';
+  const [bestScore, updateBestScore] = useGameBestScore(`${STORAGE_KEY_BASE}:${userId}`);
 
   return (
     <DressUpRelayContext.Provider value={{ bestScore, updateBestScore }}>
