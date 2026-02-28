@@ -29,6 +29,7 @@ export const PetTaxiGameScreen: React.FC<Props> = ({ navigation }) => {
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
   const [gameOver, setGameOver] = useState(false);
   const [coins, setCoins] = useState(0);
+  const [gameKey, setGameKey] = useState(0);
 
   const scoreRef = useRef(0);
   const gameActiveRef = useRef(true);
@@ -58,6 +59,7 @@ export const PetTaxiGameScreen: React.FC<Props> = ({ navigation }) => {
 
   const deliver = useCallback((destIndex: number) => {
     if (!currentPassRef.current) return;
+    if (DESTINATION_EMOJIS[destIndex] !== currentPassRef.current.destEmoji) return;
     const pts = 50;
     scoreRef.current += pts;
     setScore(scoreRef.current);
@@ -81,9 +83,9 @@ export const PetTaxiGameScreen: React.FC<Props> = ({ navigation }) => {
       });
     }, 1000);
     return () => { gameActiveRef.current = false; clearInterval(spawnI); clearInterval(timerI); };
-  }, [spawnPassenger, updateBestScore]);
+  }, [gameKey, spawnPassenger, updateBestScore]);
 
-  const restart = () => { setCarLane(1); carLaneRef.current = 1; setPassengers([]); setCurrentPassenger(null); currentPassRef.current = null; setScore(0); setDelivered(0); setTimeLeft(GAME_DURATION); setGameOver(false); setCoins(0); scoreRef.current = 0; gameActiveRef.current = true; };
+  const restart = () => { setCarLane(1); carLaneRef.current = 1; setPassengers([]); setCurrentPassenger(null); currentPassRef.current = null; setScore(0); setDelivered(0); setTimeLeft(GAME_DURATION); setGameOver(false); setCoins(0); scoreRef.current = 0; gameActiveRef.current = true; setGameKey(k => k + 1); };
   const handleBack = useGameBack(navigation, { 
     cleanup: () => { gameActiveRef.current = false; }
   });
