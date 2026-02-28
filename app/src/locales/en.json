@@ -81,6 +81,17 @@
       "message": "Are you sure you want to delete the pet \"{{name}}\"? This action cannot be undone.",
       "confirmText": "Delete",
       "cancelText": "Cancel"
+    },
+    "welcomeUser": "Welcome, {{name}}",
+    "guestUser": "Guest User",
+    "signOut": "Sign Out",
+    "guestBanner": "Login to save your progress online",
+    "signOutError": "Failed to sign out. Please try again.",
+    "signOutModal": {
+      "title": "Sign Out",
+      "message": "Are you sure you want to sign out? Your pet data will be preserved.",
+      "confirmText": "Sign Out",
+      "cancelText": "Cancel"
     }
   },
   "createPet": {

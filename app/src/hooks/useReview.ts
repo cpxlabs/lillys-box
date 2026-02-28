@@ -46,9 +46,14 @@ export const useReview = (gameId: string) => {
   const refreshReviews = useCallback(async () => {
     if (isFirebaseConfigured) return; // onSnapshot handles updates
     setLoading(true);
-    const r = await ReviewService.getReviews(gameId);
-    setReviews(r);
-    setLoading(false);
+    try {
+      const r = await ReviewService.getReviews(gameId);
+      setReviews(r);
+    } catch (err) {
+      if (__DEV__) console.warn('[useReview] Failed to load reviews:', err);
+    } finally {
+      setLoading(false);
+    }
   }, [gameId]);
 
   useEffect(() => {

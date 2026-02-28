@@ -9,6 +9,7 @@ import {
   ScrollView,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { logger } from '../utils/logger';
 import { useTranslation } from 'react-i18next';
 import { useRouter } from 'expo-router';
 import { useNavigation } from '@react-navigation/native';
@@ -132,7 +133,7 @@ export const GameSelectionScreen: React.FC<Props> = () => {
           }
         }
       } catch (error) {
-        console.warn('Failed to load uiIndex:', error);
+        logger.warn('Failed to load uiIndex:', error);
       } finally {
         setUiIndexLoaded(true);
       }
@@ -144,7 +145,7 @@ export const GameSelectionScreen: React.FC<Props> = () => {
   const handleUiIndexChange = useCallback((newIndex: number) => {
     setUiIndex(newIndex);
     AsyncStorage.setItem('ui_index', String(newIndex)).catch((error) => {
-      console.warn('Failed to save uiIndex:', error);
+      logger.warn('Failed to save uiIndex:', error);
     });
   }, []);
 

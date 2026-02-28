@@ -53,7 +53,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         // Initialize Google Sign-In (mobile only)
         if (Platform.OS !== 'web' && GoogleSignin) {
           await GoogleSignin.configure({
-            webClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com', // Replace with your web client ID
+            webClientId: process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID ?? '',
             offlineAccess: true,
             forceCodeForRefreshToken: true,
           });

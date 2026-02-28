@@ -70,7 +70,6 @@
     "createPetHint": "Começar um novo jogo com um novo pet",
     "deletePet": "Excluir Pet 🗑️",
     "deletePetHint": "Remover permanentemente seu pet atual",
-
     "createPetModal": {
       "title": "Criar Novo Pet",
       "message": "Tem certeza? Seu pet \"{{name}}\" será removido permanentemente.",
@@ -81,6 +80,17 @@
       "title": "Excluir Pet",
       "message": "Tem certeza que deseja excluir o pet \"{{name}}\"? Esta ação não pode ser desfeita.",
       "confirmText": "Excluir",
+      "cancelText": "Cancelar"
+    },
+    "welcomeUser": "Bem-vindo, {{name}}",
+    "guestUser": "Visitante",
+    "signOut": "Sair",
+    "guestBanner": "Faça login para salvar seu progresso online",
+    "signOutError": "Falha ao sair. Por favor, tente novamente.",
+    "signOutModal": {
+      "title": "Sair",
+      "message": "Tem certeza que deseja sair? Seus dados do pet serão preservados.",
+      "confirmText": "Sair",
       "cancelText": "Cancelar"
     }
   },
