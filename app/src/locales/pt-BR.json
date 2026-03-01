@@ -70,7 +70,6 @@
     "createPetHint": "Começar um novo jogo com um novo pet",
     "deletePet": "Excluir Pet 🗑️",
     "deletePetHint": "Remover permanentemente seu pet atual",
-
     "createPetModal": {
       "title": "Criar Novo Pet",
       "message": "Tem certeza? Seu pet \"{{name}}\" será removido permanentemente.",
@@ -533,6 +532,13 @@
       "playAgain": "Jogar Novamente",
       "roundsCompleted": "Rodadas Completas",
       "totalScore": "Pontuação Total"
+    },
+    "home": {
+      "title": "Dress Up Relay",
+      "subtitle": "Vista seu pet com estilo!",
+      "play": "Jogar",
+      "instructions": "Memorize a roupa e recrie-a no seu pet!",
+      "bestScore": "Melhor Pontuação"
     }
   },
   "feedThePet": {
@@ -858,6 +864,13 @@
       "playAgain": "Jogar Novamente",
       "roundsCompleted": "Rodadas Completas",
       "newRecord": "Novo Recorde!"
+    },
+    "home": {
+      "title": "Simon Says",
+      "subtitle": "Repita a sequência de cores!",
+      "play": "Jogar",
+      "instructions": "Observe a sequência de cores e repita corretamente!",
+      "bestScore": "Melhor Pontuação"
     }
   },
   "slidingPuzzle": {

@@ -532,6 +532,13 @@
       "playAgain": "Play Again",
       "roundsCompleted": "Rounds Completed",
       "totalScore": "Total Score"
+    },
+    "home": {
+      "title": "Dress Up Relay",
+      "subtitle": "Dress up your pet in style!",
+      "play": "Play",
+      "instructions": "Memorize the outfit and recreate it on your pet!",
+      "bestScore": "Best Score"
     }
   },
   "feedThePet": {
@@ -857,6 +864,13 @@
       "playAgain": "Play Again",
       "roundsCompleted": "Rounds Completed",
       "newRecord": "New Record!"
+    },
+    "home": {
+      "title": "Simon Says",
+      "subtitle": "Repeat the color sequence!",
+      "play": "Play",
+      "instructions": "Watch the color sequence and repeat it correctly!",
+      "bestScore": "Best Score"
     }
   },
   "slidingPuzzle": {

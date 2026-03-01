@@ -33,12 +33,12 @@ export const DressUpRelayHomeScreen: React.FC<Props> = ({ navigation }) => {
 
       <View style={styles.content}>
         <EmojiIcon emoji="👗" size={72} style={styles.emoji} />
-        <Text style={styles.title}>{t('dressUpRelay.title')}</Text>
-        <Text style={styles.subtitle}>{t('dressUpRelay.subtitle')}</Text>
+        <Text style={styles.title}>{t('dressUpRelay.home.title')}</Text>
+        <Text style={styles.subtitle}>{t('dressUpRelay.home.subtitle')}</Text>
 
         {bestScore > 0 && (
           <View style={styles.bestScoreCard}>
-            <Text style={styles.bestScoreLabel}>{t('dressUpRelay.bestScore')}</Text>
+            <Text style={styles.bestScoreLabel}>{t('dressUpRelay.home.bestScore')}</Text>
             <Text style={styles.bestScoreValue}>{bestScore}</Text>
           </View>
         )}
@@ -48,12 +48,12 @@ export const DressUpRelayHomeScreen: React.FC<Props> = ({ navigation }) => {
           onPress={handlePlay}
           activeOpacity={0.85}
           accessibilityRole="button"
-          accessibilityLabel={t('dressUpRelay.play')}
+          accessibilityLabel={t('dressUpRelay.home.play')}
         >
-          <Text style={styles.playButtonText}>{t('dressUpRelay.play')}</Text>
+          <Text style={styles.playButtonText}>{t('dressUpRelay.home.play')}</Text>
         </TouchableOpacity>
 
-        <Text style={styles.instructions}>{t('dressUpRelay.instructions')}</Text>
+        <Text style={styles.instructions}>{t('dressUpRelay.home.instructions')}</Text>
       </View>
     </SafeAreaView>
   );
