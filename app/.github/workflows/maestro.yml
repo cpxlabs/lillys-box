@@ -7,8 +7,37 @@ on:
     branches: [ main ]
 
 jobs:
+  quality:
+    name: Lint & Quality Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: Install Dependencies
+        run: cd app && pnpm install
+
+      - name: ESLint
+        run: cd app && pnpm lint
+
+      - name: Locale key parity
+        run: node app/scripts/check-locale-keys.js
+
   e2e-test:
     name: Run Maestro Tests
+    needs: quality
     runs-on: macos-latest # macOS is needed for hardware accelerated Android emulators (or iOS sims)
 
     steps:
