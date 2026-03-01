@@ -61,7 +61,7 @@ export type RootStackParamList = {
   LightningTapHome: undefined;
   LightningTapGame: undefined;
   MemoryMatchHome: undefined;
-  MemoryMatchGame: { difficulty: 'easy' | 'medium' | 'hard' };
+  MemoryMatchGame: { difficulty: 'easy' | 'medium' | 'hard' | 'expert'; mode: 'classic' | 'timeAttack' };
   MirrorMatchHome: undefined;
   MirrorMatchGame: undefined;
   MusicMakerHome: undefined;

@@ -7,8 +7,14 @@ jest.mock('react-i18next', () => ({
 }));
 
 const mockUpdateBestScore = jest.fn();
+
+const defaultBestScores = {
+  classic: { easy: 0, medium: 0, hard: 0, expert: 0 },
+  timeAttack: { easy: 0, medium: 0, hard: 0, expert: 0 },
+};
+
 const mockUseMemoryMatch = jest.fn(() => ({
-  bestScores: { easy: 0, medium: 0, hard: 0 },
+  bestScores: defaultBestScores,
   updateBestScore: mockUpdateBestScore,
 }));
 
@@ -32,7 +38,7 @@ describe('MemoryMatchHomeScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockUseMemoryMatch.mockReturnValue({
-      bestScores: { easy: 0, medium: 0, hard: 0 },
+      bestScores: defaultBestScores,
       updateBestScore: mockUpdateBestScore,
     });
   });
@@ -45,18 +51,30 @@ describe('MemoryMatchHomeScreen', () => {
     expect(getByText('memoryMatch.play')).toBeTruthy();
   });
 
-  it('renders difficulty selection buttons', () => {
+  it('renders all four difficulty buttons', () => {
     const { getByText } = render(
       <MemoryMatchHomeScreen navigation={navigation as any} />
     );
     expect(getByText('memoryMatch.difficulty.easy')).toBeTruthy();
     expect(getByText('memoryMatch.difficulty.medium')).toBeTruthy();
     expect(getByText('memoryMatch.difficulty.hard')).toBeTruthy();
+    expect(getByText('memoryMatch.difficulty.expert')).toBeTruthy();
   });
 
-  it('shows best score when selected difficulty has score > 0', () => {
+  it('renders both mode buttons', () => {
+    const { getByText } = render(
+      <MemoryMatchHomeScreen navigation={navigation as any} />
+    );
+    expect(getByText('memoryMatch.mode.classic')).toBeTruthy();
+    expect(getByText('memoryMatch.mode.timeAttack')).toBeTruthy();
+  });
+
+  it('shows best score when selected difficulty+mode has score > 0', () => {
     mockUseMemoryMatch.mockReturnValue({
-      bestScores: { easy: 300, medium: 0, hard: 0 },
+      bestScores: {
+        classic: { easy: 300, medium: 0, hard: 0, expert: 0 },
+        timeAttack: { easy: 0, medium: 0, hard: 0, expert: 0 },
+      },
       updateBestScore: mockUpdateBestScore,
     });
     const { getByText } = render(
@@ -73,12 +91,28 @@ describe('MemoryMatchHomeScreen', () => {
     expect(queryByText('memoryMatch.bestScore')).toBeNull();
   });
 
-  it('navigates to game with default easy difficulty', () => {
+  it('navigates to game with default easy+classic on play', () => {
     const { getByText } = render(
       <MemoryMatchHomeScreen navigation={navigation as any} />
     );
     fireEvent.press(getByText('memoryMatch.play'));
-    expect(mockNavigate).toHaveBeenCalledWith('MemoryMatchGame', { difficulty: 'easy' });
+    expect(mockNavigate).toHaveBeenCalledWith('MemoryMatchGame', {
+      difficulty: 'easy',
+      mode: 'classic',
+    });
+  });
+
+  it('navigates with selected difficulty and mode', () => {
+    const { getByText } = render(
+      <MemoryMatchHomeScreen navigation={navigation as any} />
+    );
+    fireEvent.press(getByText('memoryMatch.difficulty.expert'));
+    fireEvent.press(getByText('memoryMatch.mode.timeAttack'));
+    fireEvent.press(getByText('memoryMatch.play'));
+    expect(mockNavigate).toHaveBeenCalledWith('MemoryMatchGame', {
+      difficulty: 'expert',
+      mode: 'timeAttack',
+    });
   });
 
   it('navigates back on back press', () => {

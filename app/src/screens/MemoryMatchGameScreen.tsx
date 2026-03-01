@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { useMemoryMatch, Difficulty } from '../context/MemoryMatchContext';
+import { useMemoryMatch, Difficulty, Mode } from '../context/MemoryMatchContext';
 import { RootStackParamList } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { useGameBack } from '../hooks/useGameBack';
@@ -19,8 +19,11 @@ type Props = NativeStackScreenProps<RootStackParamList, 'MemoryMatchGame'>;
 
 const ALL_EMOJIS = [
   '🐱', '🐶', '🐰', '🐹', '🐦', '🐢', '🦋', '🐠',
+  '🦊', '🐸', '🦁', '🐨', '🐧', '🦄', '🐯', '🦉',
   '🍎', '🍊', '🍋', '🍇', '🍓', '🍦', '🥕', '🍪',
 ];
+
+const TIME_ATTACK_SECONDS = 60;
 
 interface GridConfig {
   cols: number;
@@ -29,9 +32,10 @@ interface GridConfig {
 }
 
 const GRID_CONFIG: Record<Difficulty, GridConfig> = {
-  easy: { cols: 3, rows: 2, pairs: 3 },
+  easy:   { cols: 3, rows: 2, pairs: 3 },
   medium: { cols: 4, rows: 3, pairs: 6 },
-  hard: { cols: 4, rows: 4, pairs: 8 },
+  hard:   { cols: 4, rows: 4, pairs: 8 },
+  expert: { cols: 5, rows: 4, pairs: 10 },
 };
 
 interface Card {
@@ -56,7 +60,6 @@ function createDeck(pairs: number): Card[] {
     cards.push({ id: index * 2 + 1, emoji, isFlipped: false, isMatched: false });
   });
 
-  // Shuffle cards
   for (let i = cards.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
     [cards[i], cards[j]] = [cards[j], cards[i]];
@@ -65,12 +68,16 @@ function createDeck(pairs: number): Card[] {
   return cards;
 }
 
-function calculateScore(moves: number, pairs: number, elapsedSeconds: number): number {
+function calculateClassicScore(moves: number, pairs: number, elapsedSeconds: number): number {
   const maxMoves = pairs * 3;
   const moveScore = Math.max(0, (maxMoves - moves) * 10);
   const timeLimit = pairs * 15;
   const timeBonus = Math.max(0, timeLimit - elapsedSeconds);
   return moveScore + timeBonus;
+}
+
+function calculateTimeAttackScore(matchedPairs: number, remainingSeconds: number): number {
+  return matchedPairs * 20 + remainingSeconds;
 }
 
 function calculateStars(moves: number, pairs: number): number {
@@ -79,12 +86,20 @@ function calculateStars(moves: number, pairs: number): number {
   return 1;
 }
 
+function calculateTimeAttackStars(matchedPairs: number, pairs: number): number {
+  if (matchedPairs === pairs) return 3;
+  if (matchedPairs >= Math.ceil(pairs * 0.6)) return 2;
+  return 1;
+}
+
 export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useMemoryMatch();
   const handleBack = useGameBack(navigation);
-  const difficulty = route.params.difficulty;
+  const difficulty = route.params.difficulty as Difficulty;
+  const mode = route.params.mode as Mode;
   const config = GRID_CONFIG[difficulty];
+  const isTimeAttack = mode === 'timeAttack';
 
   const [cards, setCards] = useState<Card[]>(() => createDeck(config.pairs));
   const [selectedIndices, setSelectedIndices] = useState<number[]>([]);
@@ -92,25 +107,33 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
   const [matchedPairs, setMatchedPairs] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
+  const [remainingTime, setRemainingTime] = useState(TIME_ATTACK_SECONDS);
   const lockRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const matchedPairsRef = useRef(0);
 
-  // Card flip animations - one per card
   const flipAnims = useRef<Animated.Value[]>(
     cards.map(() => new Animated.Value(0))
   ).current;
 
-  // Start timer
-  useEffect(() => {
+  const startTimer = useCallback(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
     timerRef.current = setInterval(() => {
-      setElapsedTime((prev) => prev + 1);
+      if (isTimeAttack) {
+        setRemainingTime((prev) => Math.max(0, prev - 1));
+      } else {
+        setElapsedTime((prev) => prev + 1);
+      }
     }, 1000);
+  }, [isTimeAttack]);
+
+  useEffect(() => {
+    startTimer();
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, []);
+  }, [startTimer]);
 
-  // Stop timer on game over
   useEffect(() => {
     if (gameOver && timerRef.current) {
       clearInterval(timerRef.current);
@@ -118,14 +141,37 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
     }
   }, [gameOver]);
 
-  // Check for game completion
   useEffect(() => {
-    if (matchedPairs === config.pairs && matchedPairs > 0) {
-      const score = calculateScore(moves, config.pairs, elapsedTime);
-      updateBestScore(difficulty, score);
+    matchedPairsRef.current = matchedPairs;
+  }, [matchedPairs]);
+
+  // Time attack: timer ran out
+  useEffect(() => {
+    if (isTimeAttack && remainingTime === 0 && !gameOver) {
+      if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null; }
+      const score = calculateTimeAttackScore(matchedPairsRef.current, 0);
+      updateBestScore(difficulty, mode, score);
       setGameOver(true);
     }
-  }, [matchedPairs, config.pairs, moves, elapsedTime, difficulty, updateBestScore]);
+  }, [remainingTime, isTimeAttack, gameOver, difficulty, mode, updateBestScore]);
+
+  // Classic mode completion
+  useEffect(() => {
+    if (!isTimeAttack && matchedPairs === config.pairs && matchedPairs > 0) {
+      const score = calculateClassicScore(moves, config.pairs, elapsedTime);
+      updateBestScore(difficulty, mode, score);
+      setGameOver(true);
+    }
+  }, [matchedPairs, config.pairs, moves, elapsedTime, difficulty, mode, isTimeAttack, updateBestScore]);
+
+  // Time attack all pairs matched
+  useEffect(() => {
+    if (isTimeAttack && matchedPairs === config.pairs && matchedPairs > 0 && !gameOver) {
+      const score = calculateTimeAttackScore(matchedPairs, remainingTime);
+      updateBestScore(difficulty, mode, score);
+      setGameOver(true);
+    }
+  }, [matchedPairs, config.pairs, remainingTime, isTimeAttack, difficulty, mode, gameOver, updateBestScore]);
 
   const flipCard = useCallback(
     (index: number, toFaceUp: boolean) => {
@@ -144,7 +190,6 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
       if (cards[index].isFlipped || cards[index].isMatched) return;
       if (selectedIndices.length >= 2) return;
 
-      // Flip the card
       const newCards = [...cards];
       newCards[index] = { ...newCards[index], isFlipped: true };
       setCards(newCards);
@@ -158,7 +203,6 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
         const [first, second] = newSelected;
 
         if (newCards[first].emoji === newCards[second].emoji) {
-          // Match found
           const matchedCards = [...newCards];
           matchedCards[first] = { ...matchedCards[first], isMatched: true };
           matchedCards[second] = { ...matchedCards[second], isMatched: true };
@@ -166,7 +210,6 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
           setMatchedPairs((prev) => prev + 1);
           setSelectedIndices([]);
         } else {
-          // No match - flip back after delay
           lockRef.current = true;
           setTimeout(() => {
             const resetCards = [...newCards];
@@ -186,19 +229,18 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
 
   const handlePlayAgain = useCallback(() => {
     const newCards = createDeck(config.pairs);
-    // Reset animations
     flipAnims.forEach((anim) => anim.setValue(0));
     setCards(newCards);
     setSelectedIndices([]);
     setMoves(0);
     setMatchedPairs(0);
+    matchedPairsRef.current = 0;
     setGameOver(false);
     setElapsedTime(0);
+    setRemainingTime(TIME_ATTACK_SECONDS);
     lockRef.current = false;
-    timerRef.current = setInterval(() => {
-      setElapsedTime((prev) => prev + 1);
-    }, 1000);
-  }, [config.pairs, flipAnims]);
+    startTimer();
+  }, [config.pairs, flipAnims, startTimer]);
 
   const formatTime = (seconds: number): string => {
     const mins = Math.floor(seconds / 60);
@@ -206,18 +248,13 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const score = useMemo(
-    () => calculateScore(moves, config.pairs, elapsedTime),
-    [moves, config.pairs, elapsedTime]
-  );
-
-  const stars = useMemo(() => calculateStars(moves, config.pairs), [moves, config.pairs]);
-
   const screenWidth = Dimensions.get('window').width;
-  const gridPadding = 20;
-  const cardGap = 8;
+  const gridPadding = 16;
+  const cardGap = 6;
   const availableWidth = screenWidth - gridPadding * 2 - cardGap * (config.cols - 1);
   const cardSize = Math.floor(availableWidth / config.cols);
+
+  const timerColor = isTimeAttack && remainingTime <= 10 ? '#e74c3c' : '#9b59b6';
 
   const renderCard = (card: Card, index: number) => {
     const frontInterpolate = flipAnims[index].interpolate({
@@ -232,10 +269,7 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
         key={card.id}
         style={[
           styles.card,
-          {
-            width: cardSize,
-            height: cardSize,
-          },
+          { width: cardSize, height: cardSize },
           card.isMatched && styles.cardMatched,
         ]}
         onPress={() => handleCardPress(index)}
@@ -264,11 +298,20 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
     );
   };
 
-  // Build rows from cards
   const rows: Card[][] = [];
   for (let r = 0; r < config.rows; r++) {
     rows.push(cards.slice(r * config.cols, (r + 1) * config.cols));
   }
+
+  const finalScore = useMemo(() => {
+    if (isTimeAttack) return calculateTimeAttackScore(matchedPairs, remainingTime);
+    return calculateClassicScore(moves, config.pairs, elapsedTime);
+  }, [isTimeAttack, matchedPairs, remainingTime, moves, config.pairs, elapsedTime]);
+
+  const finalStars = useMemo(() => {
+    if (isTimeAttack) return calculateTimeAttackStars(matchedPairs, config.pairs);
+    return calculateStars(moves, config.pairs);
+  }, [isTimeAttack, matchedPairs, config.pairs, moves]);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -281,21 +324,36 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
         >
           <Text style={styles.backText}>{t('common.back')}</Text>
         </TouchableOpacity>
-        <Text style={styles.headerStat}>
-          {t('memoryMatch.moves')}: {moves}
-        </Text>
-        <Text style={styles.headerStat}>{formatTime(elapsedTime)}</Text>
+        <View style={styles.headerStats}>
+          {isTimeAttack ? (
+            <>
+              <Text style={[styles.headerStat, { color: timerColor }]}>
+                ⏱ {formatTime(remainingTime)}
+              </Text>
+              <Text style={styles.headerStat}>
+                {matchedPairs}/{config.pairs}
+              </Text>
+            </>
+          ) : (
+            <>
+              <Text style={styles.headerStat}>
+                {t('memoryMatch.moves')}: {moves}
+              </Text>
+              <Text style={styles.headerStat}>{formatTime(elapsedTime)}</Text>
+            </>
+          )}
+        </View>
       </View>
 
-      {/* Difficulty label */}
+      {/* Mode + Difficulty label */}
       <Text style={styles.difficultyLabel}>
-        {t(`memoryMatch.difficulty.${difficulty}`)}
+        {t(`memoryMatch.difficulty.${difficulty}`)} · {t(`memoryMatch.mode.${mode}`)}
       </Text>
 
       {/* Card Grid */}
       <View style={styles.gridContainer}>
         {rows.map((row, rowIndex) => (
-          <View key={rowIndex} style={styles.gridRow}>
+          <View key={rowIndex} style={[styles.gridRow, { gap: cardGap }]}>
             {row.map((card, colIndex) => renderCard(card, rowIndex * config.cols + colIndex))}
           </View>
         ))}
@@ -305,22 +363,39 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
       {gameOver && (
         <View style={styles.overlay}>
           <View style={styles.overlayCard}>
-            <Text style={styles.overlayTitle}>{t('memoryMatch.gameOver.title')}</Text>
+            <Text style={styles.overlayTitle}>
+              {isTimeAttack && matchedPairs < config.pairs
+                ? t('memoryMatch.gameOver.timeUp')
+                : t('memoryMatch.gameOver.title')}
+            </Text>
 
             <Text style={styles.starsText}>
-              {'★'.repeat(stars)}
-              {'☆'.repeat(3 - stars)}
+              {'★'.repeat(finalStars)}
+              {'☆'.repeat(3 - finalStars)}
             </Text>
 
             <View style={styles.overlayStats}>
-              <Text style={styles.overlayStat}>
-                {t('memoryMatch.gameOver.moves')}: {moves}
-              </Text>
-              <Text style={styles.overlayStat}>
-                {t('memoryMatch.gameOver.time')}: {formatTime(elapsedTime)}
-              </Text>
+              {isTimeAttack ? (
+                <>
+                  <Text style={styles.overlayStat}>
+                    {t('memoryMatch.gameOver.pairs')}: {matchedPairs}/{config.pairs}
+                  </Text>
+                  <Text style={styles.overlayStat}>
+                    {t('memoryMatch.gameOver.moves')}: {moves}
+                  </Text>
+                </>
+              ) : (
+                <>
+                  <Text style={styles.overlayStat}>
+                    {t('memoryMatch.gameOver.moves')}: {moves}
+                  </Text>
+                  <Text style={styles.overlayStat}>
+                    {t('memoryMatch.gameOver.time')}: {formatTime(elapsedTime)}
+                  </Text>
+                </>
+              )}
               <Text style={styles.overlayScore}>
-                {t('memoryMatch.gameOver.score')}: {score}
+                {t('memoryMatch.gameOver.score')}: {finalScore}
               </Text>
             </View>
 
@@ -364,6 +439,11 @@ const styles = StyleSheet.create({
     paddingTop: 16,
     paddingBottom: 8,
   },
+  headerStats: {
+    flexDirection: 'row',
+    gap: 16,
+    alignItems: 'center',
+  },
   backText: {
     fontSize: 16,
     color: '#9b59b6',
@@ -375,11 +455,11 @@ const styles = StyleSheet.create({
     color: '#9b59b6',
   },
   difficultyLabel: {
-    fontSize: 14,
+    fontSize: 13,
     fontWeight: '600',
     color: '#888',
     textAlign: 'center',
-    marginBottom: 12,
+    marginBottom: 10,
     textTransform: 'uppercase',
     letterSpacing: 1,
   },
@@ -387,16 +467,15 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    paddingHorizontal: 20,
+    paddingHorizontal: 16,
   },
   gridRow: {
     flexDirection: 'row',
-    gap: 8,
-    marginBottom: 8,
+    marginBottom: 6,
   },
   card: {
     backgroundColor: '#9b59b6',
-    borderRadius: 12,
+    borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#000',
@@ -413,9 +492,6 @@ const styles = StyleSheet.create({
   cardInner: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  cardEmoji: {
-    textAlign: 'center',
   },
   cardBack: {
     color: '#fff',
@@ -447,6 +523,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
     color: '#9b59b6',
     marginBottom: 12,
+    textAlign: 'center',
   },
   starsText: {
     fontSize: 40,
