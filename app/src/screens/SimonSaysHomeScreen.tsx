@@ -33,12 +33,12 @@ export const SimonSaysHomeScreen: React.FC<Props> = ({ navigation }) => {
 
       <View style={styles.content}>
         <EmojiIcon emoji="🎮" size={72} style={styles.emoji} />
-        <Text style={styles.title}>{t('simonSays.title')}</Text>
-        <Text style={styles.subtitle}>{t('simonSays.subtitle')}</Text>
+        <Text style={styles.title}>{t('simonSays.home.title')}</Text>
+        <Text style={styles.subtitle}>{t('simonSays.home.subtitle')}</Text>
 
         {bestScore > 0 && (
           <View style={styles.bestScoreCard}>
-            <Text style={styles.bestScoreLabel}>{t('simonSays.bestScore')}</Text>
+            <Text style={styles.bestScoreLabel}>{t('simonSays.home.bestScore')}</Text>
             <Text style={styles.bestScoreValue}>{bestScore}</Text>
           </View>
         )}
@@ -48,12 +48,12 @@ export const SimonSaysHomeScreen: React.FC<Props> = ({ navigation }) => {
           onPress={handlePlay}
           activeOpacity={0.85}
           accessibilityRole="button"
-          accessibilityLabel={t('simonSays.play')}
+          accessibilityLabel={t('simonSays.home.play')}
         >
-          <Text style={styles.playButtonText}>{t('simonSays.play')}</Text>
+          <Text style={styles.playButtonText}>{t('simonSays.home.play')}</Text>
         </TouchableOpacity>
 
-        <Text style={styles.instructions}>{t('simonSays.instructions')}</Text>
+        <Text style={styles.instructions}>{t('simonSays.home.instructions')}</Text>
       </View>
     </SafeAreaView>
   );
