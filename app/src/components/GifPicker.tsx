@@ -39,24 +39,29 @@ export const GifPicker: React.FC<Props> = ({ visible, onSelect, onClose }) => {
   const [query, setQuery] = useState('');
   const [gifs, setGifs] = useState<TenorGif[]>([]);
   const [loading, setLoading] = useState(false);
+  const [fetchError, setFetchError] = useState<string | null>(null);
   const [debounceTimer, setDebounceTimer] = useState<ReturnType<typeof setTimeout> | null>(null);
 
   const fetchGifs = useCallback(async (searchQuery: string) => {
     if (!TENOR_API_KEY) return;
     setLoading(true);
+    setFetchError(null);
     try {
       const endpoint = searchQuery.trim()
         ? `${TENOR_BASE}/search?q=${encodeURIComponent(searchQuery)}&key=${TENOR_API_KEY}&limit=${GIF_LIMIT}&media_filter=tinygif,gif`
         : `${TENOR_BASE}/featured?key=${TENOR_API_KEY}&limit=${GIF_LIMIT}&media_filter=tinygif,gif`;
       const res = await fetch(endpoint);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       setGifs(data.results ?? []);
     } catch (error) {
       logger.error('GifPicker fetch error:', error);
+      setFetchError(t('review.gifFetchError', 'Failed to load GIFs. Tap to retry.'));
+      setGifs([]);
     } finally {
       setLoading(false);
     }
-  }, []);
+  }, [t]);
 
   // Load trending on open
   useEffect(() => {
@@ -118,6 +123,17 @@ export const GifPicker: React.FC<Props> = ({ visible, onSelect, onClose }) => {
 
               {loading ? (
                 <ActivityIndicator style={styles.loader} size="large" color="#9b59b6" />
+              ) : fetchError ? (
+                <View style={styles.errorContainer}>
+                  <Text style={styles.errorText}>{fetchError}</Text>
+                  <TouchableOpacity
+                    style={styles.retryButton}
+                    onPress={() => fetchGifs(query)}
+                    activeOpacity={0.8}
+                  >
+                    <Text style={styles.retryButtonText}>{t('common.retry', 'Retry')}</Text>
+                  </TouchableOpacity>
+                </View>
               ) : (
                 <FlatList
                   data={gifs}
@@ -238,6 +254,27 @@ const styles = StyleSheet.create({
     color: '#999',
     marginTop: 32,
     fontSize: 15,
+  },
+  errorContainer: {
+    padding: 24,
+    alignItems: 'center',
+  },
+  errorText: {
+    fontSize: 14,
+    color: '#c0392b',
+    textAlign: 'center',
+    marginBottom: 12,
+  },
+  retryButton: {
+    backgroundColor: '#9b59b6',
+    paddingHorizontal: 20,
+    paddingVertical: 8,
+    borderRadius: 10,
+  },
+  retryButtonText: {
+    color: '#fff',
+    fontSize: 14,
+    fontWeight: '700',
   },
   noKeyContainer: {
     padding: 24,

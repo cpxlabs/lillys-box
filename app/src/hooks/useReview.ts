@@ -5,6 +5,7 @@ import { Review, ReviewMedia, ReviewSummary } from '../types/review';
 import { ReviewService } from '../services/ReviewService';
 import { isFirebaseConfigured } from '../config/firebase.config';
 import { useAuth } from '../context/AuthContext';
+import { logger } from '../utils/logger';
 
 type SubmitData = {
   rating: number;
@@ -46,9 +47,14 @@ export const useReview = (gameId: string) => {
   const refreshReviews = useCallback(async () => {
     if (isFirebaseConfigured) return; // onSnapshot handles updates
     setLoading(true);
-    const r = await ReviewService.getReviews(gameId);
-    setReviews(r);
-    setLoading(false);
+    try {
+      const r = await ReviewService.getReviews(gameId);
+      setReviews(r);
+    } catch (error) {
+      logger.error('[useReview] Failed to refresh reviews:', error);
+    } finally {
+      setLoading(false);
+    }
   }, [gameId]);
 
   useEffect(() => {

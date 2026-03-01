@@ -58,16 +58,20 @@ export const useSpriteSheet = (
     // Preload the sprite sheet
     let isMounted = true;
 
-    spriteSheetManager.preload(petType, color, state).then((success) => {
-      if (!isMounted) return;
-
-      setIsLoaded(success);
-
-      if (!success) {
-        const loadError = spriteSheetManager.getError(petType, color, state);
-        setError(loadError);
-      }
-    });
+    spriteSheetManager
+      .preload(petType, color, state)
+      .then((success) => {
+        if (!isMounted) return;
+        setIsLoaded(success);
+        if (!success) {
+          const loadError = spriteSheetManager.getError(petType, color, state);
+          setError(loadError);
+        }
+      })
+      .catch((err: unknown) => {
+        if (!isMounted) return;
+        setError(err instanceof Error ? err : new Error(String(err)));
+      });
 
     return () => {
       isMounted = false;

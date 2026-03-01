@@ -1,4 +1,5 @@
 import React, { useMemo, useState, useCallback, useEffect, useRef } from 'react';
+import { logger } from '../utils/logger';
 import {
   View,
   Text,
@@ -153,13 +154,21 @@ export const GameSelectionScreen: React.FC<Props> = () => {
   const [reviewGameId, setReviewGameId] = useState<string | null>(null);
   const [reviewsGameId, setReviewsGameId] = useState<string | null>(null);
   const [summaries, setSummaries] = useState<Record<string, ReviewSummary>>({});
+  const summariesRef = useRef<Record<string, ReviewSummary>>({});
+  summariesRef.current = summaries;
   const loadedSummaries = useRef<Set<string>>(new Set());
 
   const loadSummaryForGame = useCallback(async (gameId: string) => {
     if (loadedSummaries.current.has(gameId)) return;
     loadedSummaries.current.add(gameId);
-    const summary = await ReviewService.getSummary(gameId);
-    setSummaries(prev => ({ ...prev, [gameId]: summary }));
+    try {
+      const summary = await ReviewService.getSummary(gameId);
+      setSummaries(prev => ({ ...prev, [gameId]: summary }));
+    } catch (error) {
+      logger.error('[GameSelection] Failed to load summary for', gameId, error);
+      // Remove from loaded set so it can be retried on next scroll
+      loadedSummaries.current.delete(gameId);
+    }
   }, []);
 
   const loadSummaryRef = useRef(loadSummaryForGame);
@@ -262,11 +271,12 @@ export const GameSelectionScreen: React.FC<Props> = () => {
   ), [t, handleOpenSettings]);
 
   // ── renderGameCard must be defined before any early return to satisfy rules of hooks ──
+  // Uses summariesRef so the callback is stable — FlatList re-renders via extraData={summaries}
   const renderGameCard = useCallback(
     ({ item }: { item: GameDefinition }) => {
       const fav = isFavorite(item.id);
       const colors = CATEGORY_COLORS[item.category] || CATEGORY_COLORS.casual;
-      const summary = summaries[item.id];
+      const summary = summariesRef.current[item.id];
       const hasRating = summary && summary.totalReviews > 0;
 
       return (
@@ -331,7 +341,7 @@ export const GameSelectionScreen: React.FC<Props> = () => {
         </TouchableOpacity>
       );
     },
-    [summaries, isFavorite, handleGameSelect, handleToggleFavorite, t],
+    [isFavorite, handleGameSelect, handleToggleFavorite, t],
   );
 
   // ── Render alternative UI if selected ─────────────────────────
@@ -461,6 +471,7 @@ export const GameSelectionScreen: React.FC<Props> = () => {
         removeClippedSubviews={true}
         onViewableItemsChanged={handleViewableItemsChanged}
         viewabilityConfig={VIEWABILITY_CONFIG}
+        extraData={summaries}
       />
 
       <View style={styles.footer}>

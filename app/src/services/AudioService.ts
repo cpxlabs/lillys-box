@@ -23,6 +23,7 @@
 import { Audio } from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Platform, AppState, AppStateStatus } from 'react-native';
+import { logger } from '../utils/logger';
 
 /** Key for storing sound enabled state in AsyncStorage */
 const SOUND_ENABLED_KEY = 'sound_enabled';
@@ -108,7 +109,7 @@ class AudioService {
       this.setupAppStateListener();
       this.isInitialized = true;
     } catch (error) {
-      console.warn('Failed to initialize audio:', error);
+      logger.warn('Failed to initialize audio:', error);
     }
   }
 
@@ -157,7 +158,7 @@ class AudioService {
       this.volume = volume ? parseFloat(volume) : 1.0;
       this.respectSilentMode = respectSilentMode !== 'false';
     } catch (error) {
-      console.warn('Failed to load audio settings:', error);
+      logger.warn('Failed to load audio settings:', error);
     }
   }
 
@@ -225,7 +226,7 @@ class AudioService {
       if (!sound) {
         const soundSource = SOUND_MAP[soundType];
         if (!soundSource) {
-          console.warn(`Sound type "${soundType}" not found`);
+          logger.warn(`Sound type "${soundType}" not found`);
           return;
         }
 
@@ -243,7 +244,7 @@ class AudioService {
         }
       }
     } catch (error) {
-      console.warn(`Failed to play sound "${soundType}":`, error);
+      logger.warn(`Failed to play sound "${soundType}":`, error);
     }
   }
 
@@ -265,7 +266,7 @@ class AudioService {
         }
       }
     } catch (error) {
-      console.warn('Failed to play background music:', error);
+      logger.warn('Failed to play background music:', error);
     }
   }
 
@@ -278,7 +279,7 @@ class AudioService {
         }
       }
     } catch (error) {
-      console.warn('Failed to stop background music:', error);
+      logger.warn('Failed to stop background music:', error);
     }
   }
 
@@ -291,7 +292,7 @@ class AudioService {
         }
       }
     } catch (error) {
-      console.warn('Failed to pause background music:', error);
+      logger.warn('Failed to pause background music:', error);
     }
   }
 
@@ -308,7 +309,7 @@ class AudioService {
         await this.playBackgroundMusic();
       }
     } catch (error) {
-      console.warn('Failed to resume background music:', error);
+      logger.warn('Failed to resume background music:', error);
     }
   }
 
@@ -326,7 +327,7 @@ class AudioService {
           });
           this.sounds.set(soundType, sound);
         } catch (error) {
-          console.warn(`Failed to preload sound "${soundType}":`, error);
+          logger.warn(`Failed to preload sound "${soundType}":`, error);
         }
       })
     );
@@ -350,7 +351,7 @@ class AudioService {
         this.backgroundMusic = null;
       }
     } catch (error) {
-      console.warn('Failed to cleanup audio:', error);
+      logger.warn('Failed to cleanup audio:', error);
     }
   }
 }

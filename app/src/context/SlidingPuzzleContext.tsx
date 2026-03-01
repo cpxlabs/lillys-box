@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from './AuthContext';
+import { logger } from '../utils/logger';
 
 const STORAGE_KEY_BASE = '@sliding_puzzle:bestMoves';
 
@@ -48,7 +49,9 @@ export const SlidingPuzzleProvider: React.FC<{ children: React.ReactNode }> = ({
         const updated = { ...bestMovesRef.current, [difficulty]: moves };
         bestMovesRef.current = updated;
         setBestMoves(updated);
-        AsyncStorage.setItem(storageKey, JSON.stringify(updated)).catch(() => {});
+        AsyncStorage.setItem(storageKey, JSON.stringify(updated)).catch((e) =>
+          logger.warn('[SlidingPuzzle] Failed to persist best moves:', e),
+        );
       }
     },
     [storageKey],
