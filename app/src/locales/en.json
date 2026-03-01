@@ -629,10 +629,26 @@
     "moves": "Moves",
     "matched": "Matched!",
     "cardFaceDown": "Card face down",
+    "selectMode": "Select Mode",
+    "selectDifficulty": "Select Difficulty",
+    "difficulty": {
+      "easy": "Easy",
+      "medium": "Medium",
+      "hard": "Hard",
+      "expert": "Expert"
+    },
+    "mode": {
+      "classic": "Classic",
+      "classicDesc": "Match all pairs",
+      "timeAttack": "Time Attack",
+      "timeAttackDesc": "60s to match as many as you can"
+    },
     "gameOver": {
       "title": "You Win!",
+      "timeUp": "Time's Up!",
       "moves": "Moves",
       "time": "Time",
+      "pairs": "Pairs",
       "score": "Score",
       "playAgain": "Play Again"
     }

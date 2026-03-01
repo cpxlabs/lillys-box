@@ -629,10 +629,26 @@
     "moves": "Movimentos",
     "matched": "Combinou!",
     "cardFaceDown": "Carta virada",
+    "selectMode": "Selecionar Modo",
+    "selectDifficulty": "Selecionar Dificuldade",
+    "difficulty": {
+      "easy": "Fácil",
+      "medium": "Médio",
+      "hard": "Difícil",
+      "expert": "Expert"
+    },
+    "mode": {
+      "classic": "Clássico",
+      "classicDesc": "Combine todos os pares",
+      "timeAttack": "Contra o Tempo",
+      "timeAttackDesc": "60s para combinar o máximo possível"
+    },
     "gameOver": {
       "title": "Você Ganhou!",
+      "timeUp": "Tempo Esgotado!",
       "moves": "Movimentos",
       "time": "Tempo",
+      "pairs": "Pares",
       "score": "Pontuação",
       "playAgain": "Jogar Novamente"
     }
