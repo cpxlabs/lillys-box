@@ -20,9 +20,9 @@
  * await audioService.setMusicEnabled(false);
  */
 
-import { Audio, AVPlaybackStatus, AVPlaybackStatusSuccess } from 'expo-av';
+import { Audio } from 'expo-av';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { Platform } from 'react-native';
+import { Platform, AppState, AppStateStatus } from 'react-native';
 
 /** Key for storing sound enabled state in AsyncStorage */
 const SOUND_ENABLED_KEY = 'sound_enabled';
@@ -30,6 +30,8 @@ const SOUND_ENABLED_KEY = 'sound_enabled';
 const MUSIC_ENABLED_KEY = 'music_enabled';
 /** Key for storing volume level in AsyncStorage */
 const VOLUME_KEY = 'volume_level';
+/** Key for storing respect silent mode preference in AsyncStorage */
+const RESPECT_SILENT_MODE_KEY = 'respect_silent_mode';
 
 /**
  * Available sound effect types
@@ -86,39 +88,74 @@ class AudioService {
   private soundEnabled: boolean = true;
   private musicEnabled: boolean = true;
   private volume: number = 1.0;
+  private respectSilentMode: boolean = true;
   private isInitialized: boolean = false;
+  private wasPlayingBeforeBackground: boolean = false;
+  private appStateSubscription: { remove: () => void } | null = null;
 
   /**
    * Initialize the audio service
-   * @remarks Sets up audio mode and loads saved settings from AsyncStorage
+   * @remarks Sets up audio mode, loads saved settings, and listens for AppState changes
+   * to pause/resume background music when the app goes to background/foreground.
    * @returns Promise that resolves when initialization is complete
    */
   async initialize(): Promise<void> {
     if (this.isInitialized) return;
 
     try {
-      await Audio.setAudioModeAsync({
-        playsInSilentModeIOS: true,
-        staysActiveInBackground: false,
-        shouldDuckAndroid: true,
-      });
-
       await this.loadSettings();
+      await this.applyAudioMode();
+      this.setupAppStateListener();
       this.isInitialized = true;
     } catch (error) {
       console.warn('Failed to initialize audio:', error);
     }
   }
 
+  private async applyAudioMode(): Promise<void> {
+    await Audio.setAudioModeAsync({
+      playsInSilentModeIOS: !this.respectSilentMode,
+      staysActiveInBackground: false,
+      shouldDuckAndroid: true,
+    });
+  }
+
+  private setupAppStateListener(): void {
+    if (isWeb || this.appStateSubscription) return;
+
+    this.appStateSubscription = AppState.addEventListener(
+      'change',
+      this.handleAppStateChange,
+    );
+  }
+
+  private handleAppStateChange = async (nextState: AppStateStatus): Promise<void> => {
+    if (nextState === 'active') {
+      if (this.wasPlayingBeforeBackground && this.musicEnabled) {
+        await this.resumeBackgroundMusic();
+      }
+    } else if (nextState === 'background' || nextState === 'inactive') {
+      if (this.backgroundMusic) {
+        const status = await this.backgroundMusic.getStatusAsync();
+        this.wasPlayingBeforeBackground = status.isLoaded && status.isPlaying;
+        if (this.wasPlayingBeforeBackground) {
+          await this.pauseBackgroundMusic();
+        }
+      }
+    }
+  };
+
   private async loadSettings(): Promise<void> {
     try {
       const soundEnabled = await AsyncStorage.getItem(SOUND_ENABLED_KEY);
       const musicEnabled = await AsyncStorage.getItem(MUSIC_ENABLED_KEY);
       const volume = await AsyncStorage.getItem(VOLUME_KEY);
+      const respectSilentMode = await AsyncStorage.getItem(RESPECT_SILENT_MODE_KEY);
 
       this.soundEnabled = soundEnabled !== 'false';
       this.musicEnabled = musicEnabled !== 'false';
       this.volume = volume ? parseFloat(volume) : 1.0;
+      this.respectSilentMode = respectSilentMode !== 'false';
     } catch (error) {
       console.warn('Failed to load audio settings:', error);
     }
@@ -160,6 +197,23 @@ class AudioService {
 
   getVolume(): number {
     return this.volume;
+  }
+
+  /**
+   * Enable or disable respecting the device's silent/ringer mode.
+   * When true (default), audio is muted when the device is in silent mode.
+   * When false, audio plays even in silent mode.
+   */
+  async setRespectSilentMode(respect: boolean): Promise<void> {
+    this.respectSilentMode = respect;
+    await AsyncStorage.setItem(RESPECT_SILENT_MODE_KEY, String(respect));
+    if (this.isInitialized) {
+      await this.applyAudioMode();
+    }
+  }
+
+  getRespectSilentMode(): boolean {
+    return this.respectSilentMode;
   }
 
   async playSound(soundType: SoundType): Promise<void> {
@@ -280,6 +334,11 @@ class AudioService {
 
   async cleanup(): Promise<void> {
     try {
+      if (this.appStateSubscription) {
+        this.appStateSubscription.remove();
+        this.appStateSubscription = null;
+      }
+
       for (const sound of this.sounds.values()) {
         await sound.unloadAsync();
       }

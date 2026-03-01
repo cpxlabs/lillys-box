@@ -24,14 +24,16 @@ This document outlines the roadmap for future development, improvements, and fea
 - [x] Add sound settings to SettingsModal (sound effects, music, volume toggles)
 - [x] Add placeholder WAV sound files to `assets/sounds/` (activities, music, pet, ui categories)
 - [x] Add interface variant persistence (save uiIndex to AsyncStorage) ✅ (Feb 2026)
+- [x] Add background music (with mute toggle) ✅ (Mar 2026)
+- [x] Respect device silent mode ✅ (Mar 2026)
+- [x] Audio tab in SettingsModal (sound effects, music, silent mode toggles) ✅ (Mar 2026)
+- [x] AppState-aware background music (auto-pause on background, resume on foreground) ✅ (Mar 2026)
 - [ ] Replace placeholder WAVs with real/polished audio assets
-- [ ] Add background music (with mute toggle)
 - [ ] Activity-specific sounds:
   - Eating/chewing sounds for feeding
   - Water/splash sounds for bathing
   - Play sounds (ball bounce, toy squeaks)
   - Clothing swap sounds for wardrobe
-- [ ] Respect device silent mode
 
 **Files created/updated:**
 - `/assets/sounds/` directory structure
@@ -233,7 +235,7 @@ Allow players to leave reviews on individual games directly from the game screen
   - [x] All 25 mini-game home screens and contexts
   - [x] `GameSelectionScreen` (uiIndex persistence — 7 tests)
 - [x] Test scripts configured (test, test:watch, test:coverage, test:ci)
-- [x] 503 tests total, 496 passing (99%+) — Feb 2026
+- [x] 508 tests total, 502 passing (99%+) — Mar 2026
 - [ ] Set up Detox for E2E testing (Future)
 - [ ] Add CI/CD pipeline (GitHub Actions) (Future)
 
@@ -250,17 +252,23 @@ src/
 
 ### ✅ Error Handling and Logging
 **Priority:** Medium
-**Status:** PARTIALLY COMPLETED (Feb 2026)
+**Status:** MOSTLY COMPLETED (Mar 2026)
 
-- [ ] Implement centralized error handling
-- [ ] Add error boundaries for crash prevention
+- [x] Implement centralized error handling ✅ (ErrorService with Sentry + global handlers)
+- [x] Add error boundaries for crash prevention ✅ (Mar 2026)
+  - Root-level ErrorBoundary wrapping entire app
+  - Per-game ErrorBoundary in `[gameId].tsx` with game-specific recovery UI ("Try Again" + "Go Back")
 - [x] Integrate crash reporting (Sentry) — wizard configured, source maps + debug symbols
+- [x] ErrorBoundary test suite (5 tests) ✅ (Mar 2026)
 - [ ] Add analytics (Firebase Analytics or Amplitude)
 - [ ] Log user flows for debugging
 - [ ] Track ad performance metrics
 
-**Files created:**
+**Files created/updated:**
 - `/src/services/ErrorService.ts` ✅
+- `/src/components/ErrorBoundary.tsx` ✅
+- `/src/components/__tests__/ErrorBoundary.test.tsx` ✅ (Mar 2026)
+- `/app/game/[gameId].tsx` ✅ (per-game error boundary, Mar 2026)
 
 ---
 
@@ -588,10 +596,10 @@ src/
 
 ---
 
-**Last Updated:** 2026-02-28
+**Last Updated:** 2026-03-01
 **Current Version:** 1.2.0
-**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System, UI persistence
-**Features Completed:** 90%+ (core game + OAuth + web deploy + review system + uiIndex persistence)
+**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System, UI persistence, error boundaries, audio improvements
+**Features Completed:** 92%+ (core game + OAuth + web deploy + review system + uiIndex persistence + error handling + audio)
 **Next Version Target:** 1.3.0 (Sounds + Performance)
 
 ---

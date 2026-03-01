@@ -43,6 +43,10 @@ export const useAudio = () => {
     await audioService.setVolume(volume);
   }, []);
 
+  const setRespectSilentMode = useCallback(async (respect: boolean) => {
+    await audioService.setRespectSilentMode(respect);
+  }, []);
+
   return {
     playSound,
     playBackgroundMusic,
@@ -52,8 +56,10 @@ export const useAudio = () => {
     setSoundEnabled,
     setMusicEnabled,
     setVolume,
+    setRespectSilentMode,
     soundEnabled: audioService.getSoundEnabled(),
     musicEnabled: audioService.getMusicEnabled(),
     volume: audioService.getVolume(),
+    respectSilentMode: audioService.getRespectSilentMode(),
   };
 };
