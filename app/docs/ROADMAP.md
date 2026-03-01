@@ -284,7 +284,7 @@ src/
 
 ### ✅ Code Quality
 **Priority:** Medium
-**Status:** MOSTLY COMPLETED (Jan 2026)
+**Status:** MOSTLY COMPLETED (Mar 2026)
 
 - [x] Add ESLint with React Native config
 - [x] Add Prettier for code formatting (with format scripts)
@@ -292,6 +292,9 @@ src/
 - [x] Centralized configuration (actionConfig, constants, gameBalance)
 - [x] Magic numbers eliminated (~90% reduction via constants)
 - [x] usePetActions hook created (~90% code duplication reduction)
+- [x] `useGameBestScore` hook extracted ✅ (Mar 2026) — all 29 game contexts migrated from ~60 lines of duplicated AsyncStorage logic to a single 3-line hook call each
+- [x] `SortOption` type exported and used in `GameSelectorAltProps` (no more `any`) ✅ (Mar 2026)
+- [x] Real `navigation` prop passed to alt UI screens (removed `null as any`) ✅ (Mar 2026)
 - [ ] Set up Husky for pre-commit hooks (Future)
 - [ ] Document complex functions with JSDoc (In Progress)
 - [ ] Create contribution guidelines (CONTRIBUTING.md) (Future)
@@ -300,7 +303,7 @@ src/
 
 ### ✅ Internationalization (i18n)
 **Priority:** Low
-**Status:** COMPLETED (Jan 2026)
+**Status:** COMPLETED (Jan 2026) / Extended (Mar 2026)
 
 - [x] Integrated `react-i18next`
 - [x] Extracted all strings to translation files
@@ -312,6 +315,8 @@ src/
 - [x] Language selector in menu screen
 - [x] Automatic device language detection
 - [x] Persistence of language preference
+- [x] Replaced hardcoded English strings in MenuScreen (welcome greeting, sign-out button, guest banner, sign-out modal, error alerts) with `t()` calls ✅ (Mar 2026)
+- [x] Added `common.error`, `menu.welcomeUser`, `menu.guestUser`, `menu.signOut`, `menu.loginBanner`, `menu.signOutError`, `menu.signOutModal.*` keys to both locales ✅ (Mar 2026)
 - [ ] Right-to-left (RTL) support (Future if needed)
 - [ ] Test with pseudo-localization (Future)
 
@@ -319,7 +324,7 @@ src/
 
 ### ✅ Authentication System (Google OAuth)
 **Priority:** High
-**Status:** COMPLETED (Jan 2026)
+**Status:** COMPLETED (Jan 2026) / Security fix (Mar 2026)
 
 - [x] Google Sign-In integration with @react-native-google-signin/google-signin
 - [x] Guest mode support for users who don't want to login
@@ -327,6 +332,7 @@ src/
 - [x] Multi-user data isolation (per-user pet storage)
 - [x] Auth state persistence across app restarts
 - [x] LoginScreen with professional UI
+- [x] Google OAuth client ID read from `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID` env var ✅ (Mar 2026) — removed hardcoded placeholder, added missing-config warning
 - [x] User info display in MenuScreen header
 - [x] Sign-out functionality with confirmation
 - [x] Guest login prompt banner
@@ -597,9 +603,9 @@ src/
 ---
 
 **Last Updated:** 2026-03-01
-**Current Version:** 1.2.0
-**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System, UI persistence, error boundaries, audio improvements
-**Features Completed:** 92%+ (core game + OAuth + web deploy + review system + uiIndex persistence + error handling + audio)
+**Current Version:** 1.2.1
+**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System, UI persistence, error boundaries, audio improvements, code quality fixes
+**Features Completed:** 93%+ (core game + OAuth + web deploy + review system + uiIndex persistence + error handling + audio + code quality)
 **Next Version Target:** 1.3.0 (Sounds + Performance)
 
 ---

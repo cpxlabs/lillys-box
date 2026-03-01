@@ -52,8 +52,12 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
       try {
         // Initialize Google Sign-In (mobile only)
         if (Platform.OS !== 'web' && GoogleSignin) {
+          const webClientId = process.env.EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID;
+          if (!webClientId || webClientId === 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com') {
+            logger.warn('AuthContext: EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID is not configured. Google Sign-In will not work.');
+          }
           await GoogleSignin.configure({
-            webClientId: 'YOUR_WEB_CLIENT_ID.apps.googleusercontent.com', // Replace with your web client ID
+            webClientId: webClientId ?? '',
             offlineAccess: true,
             forceCodeForRefreshToken: true,
           });
