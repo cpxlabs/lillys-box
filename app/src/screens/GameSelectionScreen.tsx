@@ -54,7 +54,7 @@ type Props = {
   navigation: ScreenNavigationProp<'GameSelection'>;
 };
 
-type SortOption = 'default' | 'name' | 'category' | 'favorites';
+export type SortOption = 'default' | 'name' | 'category' | 'favorites';
 
 const CATEGORY_COLORS: Record<string, { bg: string; text: string }> = {
   pet: { bg: '#e8f5e9', text: '#2e7d32' },
@@ -228,7 +228,7 @@ export const GameSelectionScreen: React.FC<Props> = () => {
 
   // ── Shared props for all alternative UIs ──────────────────────
   const altProps: GameSelectorAltProps = {
-    navigation: null as any,
+    navigation,
     games,
     sortedGames,
     categories,

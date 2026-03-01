@@ -67,7 +67,7 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
         try {
             await signOut();
         } catch (error) {
-            Alert.alert('Error', 'Failed to sign out. Please try again.');
+            Alert.alert(t('common.error'), t('menu.signOutError'));
         }
     };
 
@@ -84,7 +84,7 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
                     )}
                     <View style={styles.userTextContainer}>
                         <Text style={styles.userName}>
-                            {user ? `Welcome, ${user.name}` : 'Guest User'}
+                            {user ? t('menu.welcomeUser', { name: user.name }) : t('menu.guestUser')}
                         </Text>
                         {user?.email && (
                             <Text style={styles.userEmail}>{user.email}</Text>
@@ -97,7 +97,7 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
                         style={styles.signOutButton}
                         onPress={handleSignOut}
                     >
-                        <Text style={styles.signOutButtonText}>Sign Out</Text>
+                        <Text style={styles.signOutButtonText}>{t('menu.signOut')}</Text>
                     </TouchableOpacity>
                 )}
             </View>
@@ -106,7 +106,7 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
             {isGuest && (
                 <View style={styles.guestBannerContainer}>
                     <Text style={styles.guestBannerText}>
-                        Login to save your progress online
+                        {t('menu.loginBanner')}
                     </Text>
                 </View>
             )}
@@ -191,10 +191,10 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
 
             <ConfirmModal
                 visible={showSignOutConfirm}
-                title="Sign Out"
-                message="Are you sure you want to sign out? Your pet data will be preserved."
-                confirmText="Sign Out"
-                cancelText="Cancel"
+                title={t('menu.signOutModal.title')}
+                message={t('menu.signOutModal.message')}
+                confirmText={t('menu.signOutModal.confirmText')}
+                cancelText={t('menu.signOutModal.cancelText')}
                 confirmStyle="destructive"
                 onConfirm={handleConfirmSignOut}
                 onCancel={() => setShowSignOutConfirm(false)}

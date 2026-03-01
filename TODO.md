@@ -24,3 +24,7 @@
 - [x] Interface variant persistence (save uiIndex to AsyncStorage)
 - [x] Fix rules-of-hooks violation in GameSelectionScreen (renderGameCard moved before early return)
 - [x] Add GameSelectionScreen test suite (7 tests for uiIndex persistence)
+- [x] Extract useGameBestScore hook; migrate all 29 game contexts (eliminates ~60 lines of duplicated AsyncStorage logic per context)
+- [x] Fix Google OAuth client ID — now read from EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID env var (was hardcoded placeholder)
+- [x] Replace hardcoded English strings in MenuScreen with i18n t() calls; add missing keys to both locales
+- [x] Type setSortBy with SortOption (removed `any`) and pass real navigation to alt UI screens
