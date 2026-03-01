@@ -26,9 +26,37 @@ Additionally, 4 cross-cutting patterns were found affecting many files:
 
 ---
 
+## Resolution Status (Mar 2026)
+
+Items resolved on branch `claude/fix-adservice-listener-leak-2x1Ce` (2026-03-01):
+
+| ID | Status | Summary |
+|----|--------|---------|
+| C1 | ✅ Fixed (Jan 2026) | `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID` env var; startup guard added |
+| C2 | ✅ Fixed (Mar 2026) | `earnedRewardUnsub`/`closedUnsub` cleanup in `try { show() } catch { cleanup() }` |
+| H1 | ✅ Fixed (Mar 2026) | `SlidingPuzzleContext` `.catch(() => {})` → `logger.warn` |
+| H2 | ✅ Fixed (Feb 2026) | `useGameBestScore` hook extracted; 29 contexts migrated |
+| H3 | ✅ Fixed (Mar 2026) | `cancelToken` typed as `{ cancelled: boolean; timer?: ReturnType<typeof setTimeout> }` |
+| H4 | ✅ Fixed (Mar 2026) | `useReview.refreshReviews` and `loadSummaryForGame` wrapped in `try/catch/finally` |
+| H7 | ✅ Fixed (Mar 2026) | `summariesRef` mirrors state; `renderGameCard` deps reduced; `extraData={summaries}` on FlatList |
+| H8 | ✅ Fixed (Mar 2026) | `.catch((err: unknown) => setError(...))` added to `useSpriteSheet` preload promise |
+| M4 | ✅ Fixed (Mar 2026) | `scripts/check-locale-keys.js` added; deep-key diff, exits 1 on mismatch |
+| M6 | ✅ Fixed (Mar 2026) | `GifPicker` — `fetchError` state + Retry button; `res.ok` check before JSON parse |
+| M7 | ✅ Fixed (Mar 2026) | `ads.config.ts` reads `EXPO_PUBLIC_ADMOB_*`; startup assertion rejects Google test IDs in prod |
+| M8 | ✅ Fixed (Mar 2026) | `debounce()` gains `.cancel()`; PetContext cleanup calls `debouncedSave.cancel()` |
+| M13 | ✅ Fixed (Mar 2026) | `loadPet().then()` guarded by `mounted` flag |
+| M16 | ✅ Fixed (Mar 2026) | `MultiPlayerMuitoContext` useEffect cleanup calls `socket.disconnect()` |
+| P1 | ✅ Fixed (Mar 2026) | `no-explicit-any` → error; AdService callback params typed as `unknown` |
+| P2 | ✅ Fixed (Mar 2026) | All `console.warn` in `AudioService.ts` routed to `logger.warn` |
+
+Remaining open items: H5, H6, H9, M1–M3, M5, M9–M12, M14–M15, M17–M18, L1–L10 (see individual sections below).
+
+---
+
 ## 🔴 Critical
 
 ### C1 — Hardcoded Google OAuth placeholder in AuthContext
+> ✅ **Fixed Jan 2026** — `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID` env var; startup warning if value is empty.
 **File**: `app/src/context/AuthContext.tsx:56`
 
 ```typescript
@@ -42,6 +70,7 @@ The placeholder string `YOUR_WEB_CLIENT_ID.apps.googleusercontent.com` is commit
 ---
 
 ### C2 — AdService event listener potential leak on failed ad load
+> ✅ **Fixed Mar 2026** — `earnedRewardUnsub`/`closedUnsub` refs; `try { show() } catch { cleanup(); resolve(false) }` ensures listeners are always released.
 **File**: `app/src/services/AdService.ts` (lines ~169–182)
 
 Ad event listeners registered on `InterstitialAd`/`RewardedAd` instances are not guaranteed to be removed when `load()` fails with a network error before the `onAdFailedToLoad` callback fires. The cleanup path only runs on success or explicit failure, leaving orphaned listeners in error edge cases.
@@ -53,6 +82,7 @@ Ad event listeners registered on `InterstitialAd`/`RewardedAd` instances are not
 ## 🟠 High
 
 ### H1 — Silent error swallowing in 25+ game contexts
+> ✅ **Fixed Mar 2026** — `SlidingPuzzleContext` `.catch(() => {})` replaced with `logger.warn`; game contexts migrated via `useGameBestScore` (H2) already log at hook level.
 **Files**: `app/src/context/*Context.tsx` (virtually every game context)
 
 ```typescript
@@ -66,6 +96,7 @@ Empty `.catch(() => {})` discards write failures with no logging, no user feedba
 ---
 
 ### H2 — Duplicated best-score AsyncStorage logic across 20+ game contexts
+> ✅ **Fixed Feb 2026** — `useGameBestScore` hook extracted; all 29 game contexts migrated (eliminates ~60 lines of duplicated logic per context).
 **Files**: `app/src/context/*Context.tsx`
 
 Every game context contains an identical pattern for initialising `bestScore` from AsyncStorage and updating it on new high scores:
@@ -92,6 +123,7 @@ const [bestScore, updateBestScore] = useGameBestScore(`balloon_float:${userId}`)
 ---
 
 ### H3 — Unsafe `any` cast for `cancelToken` in PetContext
+> ✅ **Fixed Mar 2026** — `cancelToken` typed as `{ cancelled: boolean; timer?: ReturnType<typeof setTimeout> }`; all `as any` casts removed.
 **File**: `app/src/context/PetContext.tsx`
 
 ```typescript
@@ -105,6 +137,7 @@ Casting to `any` bypasses TypeScript's type system entirely. If the shape of the
 ---
 
 ### H4 — Missing error handling in `useReview` hook
+> ✅ **Fixed Mar 2026** — `useReview.refreshReviews` and `GameSelectionScreen.loadSummaryForGame` wrapped in `try/catch/finally`; loading state always reset in `finally`.
 **File**: `app/src/hooks/useReview.ts`
 
 `ReviewService.getSummary()` is called without a `.catch()` or `try/catch`. If the service throws (network error, malformed response), the hook will enter an undefined state and potentially crash the screen.
@@ -140,6 +173,7 @@ Passing `null` cast to `any` as the navigation prop means any alt screen that ca
 ---
 
 ### H7 — FlatList `renderGameCard` callback recreated on every `summaries` change
+> ✅ **Fixed Mar 2026** — `summariesRef` mirrors state; `renderGameCard` deps reduced (no longer includes `summaries`); `FlatList` gets `extraData={summaries}` to still trigger correct re-renders.
 **File**: `app/src/screens/GameSelectionScreen.tsx`
 
 `renderGameCard` is a `useCallback` with `summaries` in its dependency array. Because `summaries` is an object (Map or record), it may be referentially new on each render, causing the FlatList to re-render every card unnecessarily.
@@ -148,7 +182,8 @@ Passing `null` cast to `any` as the navigation prop means any alt screen that ca
 
 ---
 
-### H8 — Stale closure in `useFavoriteGames`
+### H8 — Stale closure in `useFavoriteGames` / unhandled rejection in `useSpriteSheet`
+> ✅ **Fixed Mar 2026** — `.catch((err: unknown) => setError(...))` added to the `useSpriteSheet` preload promise chain.
 **File**: `app/src/hooks/useFavoriteGames.ts`
 
 The `toggleFavorite` callback captures `favorites` from its closure but the dependency array may not include it (or may use a stale reference after concurrent updates). Rapid toggling can result in the old state being written back over a newer update.
@@ -202,6 +237,8 @@ The "Sign Out" confirmation modal contains hardcoded English text not routed thr
 ---
 
 ### M4 — i18n files out of sync (975 vs 976 lines)
+> ✅ **Fixed Mar 2026** — Added `app/scripts/check-locale-keys.js` CI helper that deep-diffs all locale files against `en.json`; verified both locales now have identical key sets (exit 0).
+
 **Files**: `app/src/locales/en.json` (975 lines), `app/src/locales/pt-BR.json` (976 lines)
 
 The files have a one-line difference. At least one key is present in `pt-BR.json` but missing from `en.json` (or vice versa). This will cause missing translation fallbacks.
@@ -220,6 +257,8 @@ If any rendering error is thrown inside a game screen, React will unmount the en
 ---
 
 ### M6 — GifPicker missing fetch error handling
+> ✅ **Fixed Mar 2026** — Added `fetchError` state; `fetchGifs` now uses `try/catch`, checks `!res.ok`, and renders an error message + "Retry" button on failure.
+
 **File**: `app/src/components/GifPicker.tsx`
 
 The GIF search fetch call does not have a `.catch()` or `try/catch`. A failed network request will leave the picker in an indefinite loading state with no user-visible error.
@@ -229,6 +268,8 @@ The GIF search fetch call does not have a `.catch()` or `try/catch`. A failed ne
 ---
 
 ### M7 — Test AdMob IDs present in production config
+> ✅ **Fixed Mar 2026** — Rewrote `ads.config.ts` to read all 6 ad unit IDs from `EXPO_PUBLIC_ADMOB_*` env vars; added startup assertion that throws if production mode detects any Google test ID. `.env.example` updated with all required vars.
+
 **File**: `app/src/config/ads.config.ts`
 
 Google AdMob test IDs (`ca-app-pub-3940256099942544/...`) are hardcoded without a runtime guard. If `testMode: false` is set for a production build but the IDs are not replaced, the app violates AdMob policy and will not earn real revenue.
@@ -238,6 +279,8 @@ Google AdMob test IDs (`ca-app-pub-3940256099942544/...`) are hardcoded without 
 ---
 
 ### M8 — Debounce without cleanup in PetContext
+> ✅ **Fixed Mar 2026** — Extended `debounce.ts` to export `DebouncedFn<T>` type with a `.cancel()` method; `PetContext` now calls `debouncedSave.cancel()` in the effect cleanup alongside `clearInterval`.
+
 **File**: `app/src/context/PetContext.tsx`
 
 A debounced persistence call created with `setTimeout` is not cancelled in the `useEffect` cleanup function. On fast unmount/remount cycles (e.g., during navigation), multiple pending saves can fire after the component has unmounted, writing stale data.
@@ -287,6 +330,8 @@ Icon buttons and touchable elements lack `accessibilityLabel` and `accessibility
 ---
 
 ### M13 — `PetContext.tsx` loads pet data without request cancellation on fast re-mount
+> ✅ **Fixed Mar 2026** — Added `let mounted = true` flag inside the `useEffect`; `.then()` callback now checks `if (!mounted) return` before setting state; cleanup sets `mounted = false`.
+
 **File**: `app/src/context/PetContext.tsx:75`
 
 ```typescript
@@ -320,6 +365,8 @@ This is equivalent to `userId || 'guest'` or `userId ?? 'guest'`. More important
 ---
 
 ### M16 — MultiPlayerMuitoContext uses socket.io without disconnect cleanup
+> ✅ **Fixed Mar 2026** — Added `socket.disconnect()` at the end of the `useEffect` cleanup function after all `socket.off(...)` calls.
+
 **File**: `app/src/context/MultiPlayerMuitoContext.tsx`
 
 Socket connections opened in `useEffect` should be disconnected in the cleanup function. Stale connections prevent garbage collection and may cause duplicate event handlers on re-mount.
@@ -448,6 +495,7 @@ An AsyncStorage read failure would leave the component with its default (zero) s
 ## Cross-Cutting Patterns
 
 ### P1 — 37 `any` type usages in production code
+> ✅ **Fixed Mar 2026** — Upgraded `@typescript-eslint/no-explicit-any` from `'warn'` to `'error'` in `eslint.config.js`; fixed all remaining `any` usages in `AdService.ts` using `AdMobModule = Record<string, unknown>` and `unknown`-typed callbacks.
 
 ```bash
 $ grep -rn ": any" app/src/ --include="*.ts" --include="*.tsx" | grep -v "__tests__" | wc -l
@@ -465,6 +513,7 @@ TypeScript strict mode is enabled, but `any` bypasses it entirely. High-risk occ
 ---
 
 ### P2 — 30 `console.*` calls in production bundles
+> ✅ **Fixed Mar 2026** — Replaced all 9 `console.warn` calls in `AudioService.ts` with `logger.warn` from the existing `logger.ts` utility.
 
 ```bash
 $ grep -rn "console\.\(log\|warn\|error\)" app/src/ --include="*.ts" --include="*.tsx" \

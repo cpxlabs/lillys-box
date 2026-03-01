@@ -242,6 +242,22 @@ Contains translation files for internationalization.
 
 ---
 
+### `/scripts` - Developer & CI Tooling
+
+Contains Node.js helper scripts used in local development and CI pipelines.
+
+```
+scripts/
+└── check-locale-keys.js   # CI helper: deep-diffs all locales/*.json against en.json
+```
+
+**Files:**
+- `check-locale-keys.js` - Recursively flattens all keys in each locale file and compares them against `en.json`. Exits with code `1` if any locale has missing or extra keys. Run via `pnpm check-locale` or `node scripts/check-locale-keys.js`.
+
+**Purpose:** Prevents i18n key drift between locale files from shipping undetected. Intended to be run in CI on every PR (see `.github/workflows/maestro.yml` quality job).
+
+---
+
 ## File Naming Conventions
 
 - **Components/Screens:** PascalCase (e.g., `PetRenderer.tsx`, `HomeScreen.tsx`)
