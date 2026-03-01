@@ -96,8 +96,10 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
   const { t } = useTranslation();
   const { updateBestScore } = useMemoryMatch();
   const handleBack = useGameBack(navigation);
-  const difficulty = route.params.difficulty as Difficulty;
-  const mode = route.params.mode as Mode;
+  const difficulty: Difficulty = GRID_CONFIG[route.params?.difficulty as Difficulty]
+    ? (route.params.difficulty as Difficulty)
+    : 'easy';
+  const mode: Mode = route.params?.mode === 'timeAttack' ? 'timeAttack' : 'classic';
   const config = GRID_CONFIG[difficulty];
   const isTimeAttack = mode === 'timeAttack';
 

@@ -29,6 +29,7 @@ export const MemoryMatchProvider: React.FC<{ children: React.ReactNode }> = ({ c
       classic: { easy: updateEasyClassic, medium: updateMediumClassic, hard: updateHardClassic, expert: updateExpertClassic },
       timeAttack: { easy: updateEasyTA, medium: updateMediumTA, hard: updateHardTA, expert: updateExpertTA },
     };
+    if (!updaters[mode]?.[difficulty]) return;
     updaters[mode][difficulty](score);
   };
 
