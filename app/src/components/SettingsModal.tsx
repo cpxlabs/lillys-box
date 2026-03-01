@@ -7,9 +7,11 @@ import {
   StyleSheet,
   Platform,
   Pressable,
+  Switch,
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useLanguage } from '../context/LanguageContext';
+import { useAudio } from '../hooks/useAudio';
 
 type UIVariant = {
   key: string;
@@ -66,7 +68,15 @@ export const SettingsModal = memo<SettingsModalProps>(({
 }) => {
   const { t } = useTranslation();
   const { language, setLanguage } = useLanguage();
-  const [activeTab, setActiveTab] = useState<'language' | 'ui'>('language');
+  const {
+    soundEnabled,
+    musicEnabled,
+    respectSilentMode,
+    setSoundEnabled,
+    setMusicEnabled,
+    setRespectSilentMode,
+  } = useAudio();
+  const [activeTab, setActiveTab] = useState<'language' | 'ui' | 'audio'>('language');
 
   const uiVariantsMemo = useMemo(() => UI_VARIANTS, []);
   const languagesMemo = useMemo(() => LANGUAGES, []);
@@ -115,6 +125,14 @@ export const SettingsModal = memo<SettingsModalProps>(({
           >
             <Text style={[styles.tabText, activeTab === 'ui' && styles.tabTextActive]}>
               {t('settings.interface', 'Interface')}
+            </Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[styles.tab, activeTab === 'audio' && styles.tabActive]}
+            onPress={() => setActiveTab('audio')}
+          >
+            <Text style={[styles.tabText, activeTab === 'audio' && styles.tabTextActive]}>
+              {t('settings.audio', 'Audio')}
             </Text>
           </TouchableOpacity>
         </View>
@@ -172,6 +190,63 @@ export const SettingsModal = memo<SettingsModalProps>(({
                   )}
                 </TouchableOpacity>
               ))}
+            </View>
+          )}
+
+          {activeTab === 'audio' && (
+            <View style={styles.section}>
+              <Text style={styles.sectionTitle}>{t('settings.audioSettings', 'Audio Settings')}</Text>
+
+              <View style={styles.toggleRow}>
+                <View style={styles.toggleInfo}>
+                  <Text style={styles.toggleLabel}>
+                    {t('settings.soundEffects', 'Sound Effects')}
+                  </Text>
+                  <Text style={styles.toggleHint}>
+                    {t('settings.soundEffectsHint', 'Button clicks, pet sounds, activity sounds')}
+                  </Text>
+                </View>
+                <Switch
+                  value={soundEnabled}
+                  onValueChange={setSoundEnabled}
+                  trackColor={{ false: '#ddd', true: '#d4b8e8' }}
+                  thumbColor={soundEnabled ? '#9b59b6' : '#999'}
+                />
+              </View>
+
+              <View style={styles.toggleRow}>
+                <View style={styles.toggleInfo}>
+                  <Text style={styles.toggleLabel}>
+                    {t('settings.backgroundMusic', 'Background Music')}
+                  </Text>
+                  <Text style={styles.toggleHint}>
+                    {t('settings.backgroundMusicHint', 'Play music while using the app')}
+                  </Text>
+                </View>
+                <Switch
+                  value={musicEnabled}
+                  onValueChange={setMusicEnabled}
+                  trackColor={{ false: '#ddd', true: '#d4b8e8' }}
+                  thumbColor={musicEnabled ? '#9b59b6' : '#999'}
+                />
+              </View>
+
+              <View style={styles.toggleRow}>
+                <View style={styles.toggleInfo}>
+                  <Text style={styles.toggleLabel}>
+                    {t('settings.respectSilentMode', 'Respect Silent Mode')}
+                  </Text>
+                  <Text style={styles.toggleHint}>
+                    {t('settings.respectSilentModeHint', 'Mute audio when device is in silent mode')}
+                  </Text>
+                </View>
+                <Switch
+                  value={respectSilentMode}
+                  onValueChange={setRespectSilentMode}
+                  trackColor={{ false: '#ddd', true: '#d4b8e8' }}
+                  thumbColor={respectSilentMode ? '#9b59b6' : '#999'}
+                />
+              </View>
             </View>
           )}
         </ScrollView>
@@ -319,5 +394,37 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: '#9b59b6',
     fontWeight: '700',
+  },
+  toggleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 8,
+    ...Platform.select({
+      web: { boxShadow: '0 1px 3px rgba(0,0,0,0.08)' },
+      default: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.08,
+        shadowRadius: 3,
+        elevation: 2,
+      },
+    }),
+  },
+  toggleInfo: {
+    flex: 1,
+    marginRight: 12,
+  },
+  toggleLabel: {
+    fontSize: 16,
+    color: '#333',
+    fontWeight: '500',
+  },
+  toggleHint: {
+    fontSize: 13,
+    color: '#999',
+    marginTop: 2,
   },
 });
