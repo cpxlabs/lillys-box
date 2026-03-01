@@ -69,13 +69,18 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
 
   );
 
-  // Load pet when user changes
+  // Load pet when user changes — mounted guard prevents stale state on fast unmount
   useEffect(() => {
+    let mounted = true;
     setIsLoading(true);
     loadPet(userId).then((loadedPet) => {
+      if (!mounted) return;
       setPet(loadedPet);
       setIsLoading(false);
     });
+    return () => {
+      mounted = false;
+    };
   }, [userId]);
 
   // Enhanced decay system with energy, happiness, and health
@@ -123,7 +128,10 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       });
     }, GAME_BALANCE.time.updateInterval);
 
-    return () => clearInterval(interval);
+    return () => {
+      clearInterval(interval);
+      debouncedSave.cancel(); // flush any pending write before unmount
+    };
   }, [debouncedSave]);
 
   const createPet = async (name: string, type: PetType, gender: Gender, color: PetColor) => {
@@ -226,8 +234,10 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       return { completed: false };
     }
 
-    // Create cancellation token
-    const cancelToken = { cancelled: false };
+    // Create cancellation token (typed — no more `as any`)
+    const cancelToken: { cancelled: boolean; timer?: ReturnType<typeof setTimeout> } = {
+      cancelled: false,
+    };
     sleepCancelRef.current = cancelToken;
 
     const startTime = Date.now();
@@ -250,16 +260,14 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       // Sleep timer
       new Promise<boolean>((resolve) => {
         const timer = setTimeout(() => resolve(true), duration);
-        // Store timer for cleanup
-        (cancelToken as any).timer = timer;
+        cancelToken.timer = timer;
       }),
       // Cancellation checker
       new Promise<boolean>((resolve) => {
         const checkCancellation = () => {
           if (cancelToken.cancelled) {
-            // Clear the sleep timer
-            if ((cancelToken as any).timer) {
-              clearTimeout((cancelToken as any).timer);
+            if (cancelToken.timer) {
+              clearTimeout(cancelToken.timer);
             }
             resolve(false);
           } else {

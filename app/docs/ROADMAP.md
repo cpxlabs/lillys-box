@@ -295,6 +295,20 @@ src/
 - [x] `useGameBestScore` hook extracted ✅ (Mar 2026) — all 29 game contexts migrated from ~60 lines of duplicated AsyncStorage logic to a single 3-line hook call each
 - [x] `SortOption` type exported and used in `GameSelectorAltProps` (no more `any`) ✅ (Mar 2026)
 - [x] Real `navigation` prop passed to alt UI screens (removed `null as any`) ✅ (Mar 2026)
+- [x] **C2** `AdService` rewarded-ad listener leak fixed — `try/finally` cleanup via `earnedRewardUnsub`/`closedUnsub` ✅ (Mar 2026)
+- [x] **M7** AdMob IDs moved to `EXPO_PUBLIC_ADMOB_*` env vars; startup assertion rejects Google test IDs in production ✅ (Mar 2026)
+- [x] **H1** Silent `catch(() => {})` in `SlidingPuzzleContext` replaced with `logger.warn` ✅ (Mar 2026)
+- [x] **H3** `cancelToken as any` removed from `PetContext` — typed as `{ cancelled: boolean; timer?: ReturnType<typeof setTimeout> }` ✅ (Mar 2026)
+- [x] **H4** `try/catch` added to `useReview.refreshReviews` and `GameSelectionScreen.loadSummaryForGame` ✅ (Mar 2026)
+- [x] **H7** `summariesRef` introduced in `GameSelectionScreen`; `renderGameCard` dependency on `summaries` state removed; `extraData={summaries}` on FlatList ✅ (Mar 2026)
+- [x] **H8** `.catch()` added to `useSpriteSheet` preload promise ✅ (Mar 2026)
+- [x] **P1** `@typescript-eslint/no-explicit-any` upgraded from `warn` → `error`; `any` occurrences in `AdService.ts` replaced with `unknown` ✅ (Mar 2026)
+- [x] **M4** Locale key parity CI script added (`scripts/check-locale-keys.js`) — diffs all `src/locales/*.json` against `en.json` ✅ (Mar 2026)
+- [x] **M8** `debounce` utility gains a `.cancel()` method; PetContext calls `debouncedSave.cancel()` in effect cleanup ✅ (Mar 2026)
+- [x] **M13** `loadPet().then()` guarded by mounted flag in PetContext ✅ (Mar 2026)
+- [x] **M16** `socket.disconnect()` added to `MultiPlayerMuitoContext` useEffect cleanup ✅ (Mar 2026)
+- [x] **M6** `GifPicker` now has error state + retry button on fetch failure ✅ (Mar 2026)
+- [x] **P2** All `console.warn` calls in `AudioService.ts` routed to `logger.warn` ✅ (Mar 2026)
 - [ ] Set up Husky for pre-commit hooks (Future)
 - [ ] Document complex functions with JSDoc (In Progress)
 - [ ] Create contribution guidelines (CONTRIBUTING.md) (Future)
@@ -365,7 +379,8 @@ src/
 ### 🔴 Production Preparation
 **Priority:** High
 
-- [ ] Replace AdMob test IDs with production IDs
+- [x] AdMob IDs moved to env vars; startup assertion guards against test IDs in production ✅ (Mar 2026 — M7)
+- [ ] Populate `EXPO_PUBLIC_ADMOB_*` env vars in Vercel/EAS production environment
 - [ ] Create production builds for testing
 - [ ] Test on multiple devices (various screen sizes, Android versions)
 - [ ] Optimize app size (remove unused dependencies, compress assets)
@@ -603,10 +618,10 @@ src/
 ---
 
 **Last Updated:** 2026-03-01
-**Current Version:** 1.2.1
-**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System, UI persistence, error boundaries, audio improvements, code quality fixes
-**Features Completed:** 93%+ (core game + OAuth + web deploy + review system + uiIndex persistence + error handling + audio + code quality)
-**Next Version Target:** 1.3.0 (Sounds + Performance)
+**Current Version:** 1.2.2
+**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System, UI persistence, error boundaries, audio improvements, Sprint 1–2 code review fixes (C2, M7, H1, H3, H4, H7, H8, P1, M4, M6, M8, M13, M16, P2)
+**Features Completed:** 94%+ (core game + OAuth + web deploy + review system + uiIndex persistence + error handling + audio + code quality + sprint 1-2 fixes)
+**Next Version Target:** 1.3.0 (Sounds + Performance + remaining Sprint 3-4 items)
 
 ---
 

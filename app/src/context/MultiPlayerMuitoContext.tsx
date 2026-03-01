@@ -213,6 +213,7 @@ export const MultiPlayerMuitoProvider: React.FC<{ children: React.ReactNode }> =
       socket.off(Events.GAME_OVER, onGameOver);
       socket.off(Events.OPPONENT_DISCONNECTED, onOpponentDisconnected);
       socket.off(Events.ERROR, onError);
+      socket.disconnect();
     };
     // Re-run when the underlying socket instance changes (after connect)
     // eslint-disable-next-line react-hooks/exhaustive-deps

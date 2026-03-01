@@ -2,21 +2,18 @@ import { Platform } from 'react-native';
 import { AdsConfig } from '../config/ads.config';
 import { logger } from '../utils/logger';
 
-// Type definitions for AdMob (for TypeScript)
-type MobileAdsType = any;
-type MaxAdContentRatingType = any;
-type RewardedAdType = any;
-type RewardedAdEventTypeType = any;
-type InterstitialAdType = any;
-type AdEventTypeType = any;
+// react-native-google-mobile-ads is a native-only module with no TS types bundled
+// in the environment; use `unknown` and narrow at call sites to stay any-free.
+// eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic native module
+type AdMobModule = Record<string, unknown>;
 
 // Lazy load AdMob module only on native platforms
-let MobileAds: MobileAdsType;
-let MaxAdContentRating: MaxAdContentRatingType;
-let RewardedAd: RewardedAdType;
-let RewardedAdEventType: RewardedAdEventTypeType;
-let InterstitialAd: InterstitialAdType;
-let AdEventType: AdEventTypeType;
+let MobileAds: AdMobModule[string];
+let MaxAdContentRating: AdMobModule[string];
+let RewardedAd: AdMobModule[string];
+let RewardedAdEventType: AdMobModule[string];
+let InterstitialAd: AdMobModule[string];
+let AdEventType: AdMobModule[string];
 
 // Only import on native platforms
 if (Platform.OS !== 'web') {
@@ -44,8 +41,10 @@ if (Platform.OS !== 'web') {
  * On web, all ad operations are no-ops.
  */
 class AdService {
-  private rewardedAd: any = null;
-  private interstitialAd: any = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- opaque native ad object
+  private rewardedAd: Record<string, unknown> | null = null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- opaque native ad object
+  private interstitialAd: Record<string, unknown> | null = null;
   private isRewardedAdLoaded = false;
   private isInterstitialAdLoaded = false;
   private isInitialized = false;
@@ -119,7 +118,7 @@ class AdService {
         logger.log('[AdService] Rewarded ad loaded');
       });
 
-      this.rewardedAd.addAdEventListener(RewardedAdEventType.EARNED_REWARD, (reward: any) => {
+      this.rewardedAd.addAdEventListener(RewardedAdEventType.EARNED_REWARD, (reward: unknown) => {
         logger.log('[AdService] User earned reward:', reward);
       });
 
@@ -130,7 +129,7 @@ class AdService {
         this.loadRewardedAd();
       });
 
-      this.rewardedAd.addAdEventListener(AdEventType.ERROR, (error: any) => {
+      this.rewardedAd.addAdEventListener(AdEventType.ERROR, (error: unknown) => {
         logger.error('[AdService] Rewarded ad error:', error);
         this.isRewardedAdLoaded = false;
       });
@@ -164,9 +163,18 @@ class AdService {
 
       return new Promise((resolve) => {
         let rewardEarned = false;
+        let earnedRewardUnsub: (() => void) | null = null;
+        let closedUnsub: (() => void) | null = null;
+
+        const cleanup = () => {
+          earnedRewardUnsub?.();
+          closedUnsub?.();
+          earnedRewardUnsub = null;
+          closedUnsub = null;
+        };
 
         // Set up one-time reward listener
-        const earnedRewardListener = this.rewardedAd!.addAdEventListener(
+        earnedRewardUnsub = this.rewardedAd!.addAdEventListener(
           RewardedAdEventType.EARNED_REWARD,
           () => {
             rewardEarned = true;
@@ -175,13 +183,18 @@ class AdService {
         );
 
         // Set up one-time close listener
-        const closedListener = this.rewardedAd!.addAdEventListener(AdEventType.CLOSED, () => {
-          earnedRewardListener();
-          closedListener();
+        closedUnsub = this.rewardedAd!.addAdEventListener(AdEventType.CLOSED, () => {
+          cleanup();
           resolve(rewardEarned);
         });
 
-        this.rewardedAd!.show();
+        try {
+          this.rewardedAd!.show();
+        } catch (showError) {
+          // show() failed synchronously — release listeners and reject
+          cleanup();
+          resolve(false);
+        }
       });
     } catch (error) {
       logger.error('[AdService] Error showing rewarded ad:', error);
@@ -225,7 +238,7 @@ class AdService {
         this.loadInterstitialAd();
       });
 
-      this.interstitialAd.addAdEventListener(AdEventType.ERROR, (error: any) => {
+      this.interstitialAd.addAdEventListener(AdEventType.ERROR, (error: unknown) => {
         logger.error('[AdService] Interstitial ad error:', error);
         this.isInterstitialAdLoaded = false;
       });
