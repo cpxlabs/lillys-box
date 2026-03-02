@@ -39,6 +39,7 @@ const ColorTapGame: React.FC = () => {
   const [score, setScore] = useState(0);
   const [lives, setLives] = useState(3);
   const [targetColor, setTargetColor] = useState<ColorOption>(COLORS[0]);
+  const [displayColor, setDisplayColor] = useState<ColorOption>(COLORS[1]);
   const [options, setOptions] = useState<ColorOption[]>([]);
   const [feedback, setFeedback] = useState<string | null>(null);
   const [gameStarted, setGameStarted] = useState(false);
@@ -54,7 +55,11 @@ const ColorTapGame: React.FC = () => {
     const others = COLORS.filter((c) => c.name !== target.name);
     const picked = shuffleArray(others).slice(0, 3);
     const allOptions = shuffleArray([target, ...picked]);
+    // Pick a distractor color so the word is shown in a different color (Stroop effect)
+    const distractors = COLORS.filter((c) => c.name !== target.name);
+    const display = distractors[Math.floor(Math.random() * distractors.length)];
     setTargetColor(target);
+    setDisplayColor(display);
     setOptions(allOptions);
     setTimeLeft(100);
   }, []);
@@ -168,7 +173,7 @@ const ColorTapGame: React.FC = () => {
 
       <div className="text-center mb-8">
         <p className="text-sm text-gray-400 mb-1">Tap the color:</p>
-        <p className="text-3xl font-bold" style={{ color: targetColor.hex }}>
+        <p className="text-3xl font-bold" style={{ color: displayColor.hex }}>
           {targetColor.name}
         </p>
       </div>
