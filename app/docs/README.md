@@ -206,13 +206,14 @@ npm run test:ci          # Executa testes em modo CI
 ```
 
 ### Cobertura de Testes
-✅ **Status**: 503 testes, 496 passando (99%+)
+✅ **Status**: 508+ testes, 502+ passando (99%+)
 
 Áreas cobertas:
 - **Hooks**: `usePetActions` (29/30 testes - ações do pet e animações)
 - **Utils**: `petStats`, `validation`, `storage`
-- **Context**: `PetContext`
-- **Componentes**: `IconButton`, `StatusBar`
+- **Context**: `PetContext`, todos os 29 contextos de mini-games
+- **Componentes**: `IconButton`, `StatusBar`, `ErrorBoundary`
+- **Telas**: `GameSelectionScreen` (7 testes - persistência de uiIndex)
 
 ## Checklist
 - [x] Criar pet
@@ -269,6 +270,9 @@ This directory contains all project documentation organized by purpose.
 
 - **[RESPONSIVE.md](./RESPONSIVE.md)** - Responsive design system guide and usage patterns
 - **[ROADMAP.md](./ROADMAP.md)** - Project roadmap with future features and milestones
+- **[API_REFERENCE.md](./API_REFERENCE.md)** - Authentication and storage API documentation
+- **[AUTHENTICATION_GUIDE.md](./AUTHENTICATION_GUIDE.md)** - Google OAuth setup, user types, navigation flow
+- **[CODE_REVIEW_2026_02_28.md](./CODE_REVIEW_2026_02_28.md)** - Code review with 39 issues and resolution status
 
 ---
 
@@ -277,7 +281,7 @@ This directory contains all project documentation organized by purpose.
 **Implementation plans and temporary planning documents** for features being developed or considered.
 
 ### Active Plans
-- **[IMPLEMENTATION_PLAN.md](./plans/IMPLEMENTATION_PLAN.md)** - Comprehensive implementation plan covering testing infrastructure, game features, and code quality (Status: Mixed - parts completed, parts pending)
+- **[IMPLEMENTATION_PLAN.md](./plans/IMPLEMENTATION_PLAN.md)** - Comprehensive implementation plan covering testing infrastructure, game features, and code quality (Status: Mostly completed)
 - **[SKIA_BATH_REIMPLEMENTATION_PLAN.md](./plans/SKIA_BATH_REIMPLEMENTATION_PLAN.md)** - Plan to reintegrate Skia 2.4.14 for bath screen bubbles, includes historical context from v0.1.221 (Status: Planning complete)
 
 ### Completed/Archived Plans
@@ -321,6 +325,6 @@ This directory contains all project documentation organized by purpose.
 
 ---
 
-**Versão**: 1.2.0
-**Última Atualização**: 2026-02-28
-**Status**: ✅ Funcional e testado — deploy web ativo no Vercel, review system implementado
+**Versão**: 1.2.2
+**Última Atualização**: 2026-03-02
+**Status**: ✅ Funcional e testado — deploy web ativo no Vercel, review system implementado, Sprint 1-2 code review fixes aplicados, sistema de áudio com background music
