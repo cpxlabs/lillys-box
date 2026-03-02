@@ -49,7 +49,7 @@ Items resolved on branch `claude/fix-adservice-listener-leak-2x1Ce` (2026-03-01)
 | P1 | ✅ Fixed (Mar 2026) | `no-explicit-any` → error; AdService callback params typed as `unknown` |
 | P2 | ✅ Fixed (Mar 2026) | All `console.warn` in `AudioService.ts` routed to `logger.warn` |
 
-Remaining open items: H5, H6, H9, M1–M3, M5, M9–M12, M14–M15, M17–M18, L1–L10 (see individual sections below).
+All items resolved as of Mar 2026 (see individual sections below for fix notes).
 
 ---
 

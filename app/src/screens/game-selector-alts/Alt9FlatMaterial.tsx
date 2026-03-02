@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const TONAL: Record<string, { surface: string; on: string }> = {
   pet: { surface: '#d7f0d4', on: '#1b5e20' },
@@ -84,7 +85,7 @@ export const Alt9FlatMaterial: React.FC<GameSelectorAltProps> = ({
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.segmentRow}
-        style={{ flexGrow: 0 }}
+          style={sharedStyles.noGrow}
         >
           <TouchableOpacity
             style={[styles.segment, !selectedCategory && styles.segmentActive]}
