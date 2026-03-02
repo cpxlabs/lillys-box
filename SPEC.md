@@ -9,16 +9,20 @@
 
 ## Technology Stack
 
-- **Framework:** React Native with Expo SDK 50
-- **Language:** TypeScript
-- **Navigation:** React Navigation (native-stack)
-- **Graphics:** React Native Skia for animations
+- **Framework:** React Native 0.73.2 with Expo SDK 50
+- **Language:** TypeScript 5.1.3 (strict mode)
+- **Navigation:** Expo Router 3.4.10 (file-based routing)
+- **Graphics:** React Native Skia, React Native SVG, React Native Reanimated 3.6.1
 - **State Management:** React Context API
-- **Authentication:** Firebase Auth (Google Sign-In)
-- **Storage:** AsyncStorage for local persistence
-- **Ads:** Google Mobile Ads
-- **Testing:** Jest, React Testing Library, Maestro (E2E)
-- **Build:** Expo Router for file-based routing
+- **Authentication:** @react-native-google-signin/google-signin (Google OAuth)
+- **Storage:** AsyncStorage (local), Firebase Firestore (cloud sync)
+- **Ads:** Google Mobile Ads (AdMob) — COPPA compliant
+- **Audio:** expo-av (background music + sound effects)
+- **Multiplayer:** socket.io-client 4.8.0
+- **i18n:** i18next + react-i18next (English + Portuguese Brazil)
+- **Testing:** Jest 30, React Native Testing Library, Maestro (E2E)
+- **Error Tracking:** Sentry (source maps + debug symbols)
+- **Code Quality:** ESLint, Prettier
 
 ## Core Features
 
@@ -52,7 +56,7 @@
 
 ### Mini-Games
 
-The game includes 20+ mini-games for earning money and entertainment:
+The game includes 30+ mini-games for earning money and entertainment:
 
 1. **Feed The Pet** - Feeding mechanics
 2. **Bubble Pop** - Pop bubbles
@@ -83,6 +87,10 @@ The game includes 20+ mini-games for earning money and entertainment:
 27. **Weather Wizard** - Weather magic
 28. **Whack A Mole** - Whack moles
 29. **Word Bubbles** - Word games
+30. **Pet Runner** - Running game
+31. **Snack Stack** - Stacking game
+
+Each mini-game has best score tracking (per-user via AsyncStorage), optional difficulty levels, and a coin reward system.
 
 ### Economy System
 
@@ -100,6 +108,21 @@ Customization slots:
 - Torso
 - Paws
 
+### Game Review System
+
+Players can leave reviews on individual games:
+- Star ratings (1-5)
+- Text comments (max 500 chars)
+- Image/GIF attachments (expo-image-picker + Tenor API)
+- Firebase Firestore sync
+- Helpful reactions, sort/filter options
+
+### Authentication System
+
+- Google OAuth sign-in with guest mode fallback
+- Multi-user support (per-user data isolation)
+- Auth state persistence across app restarts
+
 ## Project Structure
 
 ```
@@ -107,21 +130,26 @@ pet-care-game/
 ├── app/                    # Main React Native application
 │   ├── app/               # Expo Router entry points
 │   ├── src/
-│   │   ├── components/    # Reusable UI components
-│   │   ├── config/        # Game configuration
-│   │   ├── context/       # React Context providers
-│   │   ├── screens/      # Screen components
-│   │   ├── services/     # Business logic services
-│   │   ├── types/        # TypeScript type definitions
-│   │   ├── utils/        # Utility functions
-│   │   └── artifacts/    # Game artifact definitions
-│   ├── assets/           # Images, sprites, sounds
-│   ├── dist/             # Web build output
-│   ├── docs/             # Documentation
-│   └── e2e/              # E2E tests
-├── backend/              # Backend server (Express)
-├── server/               # Game server (Socket.io)
-└── scripts/              # Build/utility scripts
+│   │   ├── components/    # Reusable UI components (60+ files)
+│   │   ├── config/        # Game configuration (gameBalance, constants, ads)
+│   │   ├── context/       # React Context providers (Auth, Pet, Ad, Toast, etc.)
+│   │   ├── hooks/         # Custom hooks (usePetActions, useAudio, useGameBestScore)
+│   │   ├── screens/       # Screen components
+│   │   ├── services/      # Business logic (AdService, AudioService, ReviewService)
+│   │   ├── types/         # TypeScript type definitions
+│   │   ├── utils/         # Utility functions (storage, validation, logger)
+│   │   ├── data/          # Static data (foods, clothing, activities)
+│   │   ├── artifacts/     # Game artifact definitions
+│   │   └── locales/       # i18n translations (en.json, pt-BR.json)
+│   ├── assets/            # Images, sprites, sounds
+│   ├── scripts/           # CI/dev scripts (locale key checker)
+│   ├── dist/              # Web build output
+│   ├── docs/              # Documentation
+│   └── e2e/               # E2E tests (Maestro)
+├── backend/               # Backend server (Express)
+├── server/                # Game server (Socket.io)
+├── shared/                # Shared types and utilities
+└── docs/                  # Root documentation (design system)
 ```
 
 ## UI/UX Design
@@ -145,9 +173,9 @@ pet-care-game/
 
 ## Data Persistence
 
-- **Local Storage:** AsyncStorage for pet data and user preferences
-- **Cloud Storage:** Firebase Firestore for user data sync
-- **Authentication:** Firebase Auth with Google Sign-In
+- **Local Storage:** AsyncStorage for pet data, user preferences, and game best scores
+- **Cloud Storage:** Firebase Firestore for reviews and user data sync
+- **Authentication:** Google OAuth via @react-native-google-signin/google-signin (+ guest mode)
 
 ## Game Balance
 
@@ -172,14 +200,15 @@ Weighted average of all stats with multipliers:
 
 ## Testing
 
-- **Unit Tests:** Jest with React Testing Library
+- **Unit Tests:** Jest 30 with React Native Testing Library (500+ tests, 99%+ passing)
 - **E2E Tests:** Maestro
-- **Test Coverage:** CI/CD integration
+- **CI Scripts:** Locale key parity check (`scripts/check-locale-keys.js`)
 
 ## Build & Deployment
 
-- **Web Build:** `npm run build:web`
-- **Android Build:** Expo (eas build)
+- **Web Build:** `EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export --platform web`
+- **Web Deploy:** Vercel (production active)
+- **Android Build:** Expo EAS (`eas build`)
 - **Testing:** `npm test`, `npm run test:e2e`
 
 ## Development Commands

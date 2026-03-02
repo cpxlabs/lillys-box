@@ -13,8 +13,8 @@ This document outlines the roadmap for future development, improvements, and fea
 ## 📋 Immediate Tasks (From Checklist)
 
 ### 🟡 Add Sounds and Audio Effects
-**Status:** In Progress
-**Priority:** High
+**Status:** Mostly Complete
+**Priority:** Medium
 
 - [x] Integrate `expo-av` for audio playback
 - [x] Create AudioService.ts with background music and sound effects management
@@ -103,33 +103,28 @@ Reintegrate Skia 2.4.14 into the bath screen for high-performance bubble particl
 
 ## 🎮 Feature Enhancements
 
-### 🟡 Mini-Games and Activities
+### ✅ Mini-Games and Activities
+**Status:** COMPLETED
 **Priority:** Medium
 
-- [ ] Add "Play" scene with interactive mini-games:
-  - Catch the ball game
-  - Find the toy (memory game)
-  - Simple puzzle games
-- [ ] Each mini-game rewards coins and increases happiness
-- [ ] Difficulty scales with pet age
-- [ ] Daily mini-game challenges
-
-**Files to create:**
-- `/src/screens/PlayScene.tsx`
-- `/src/components/MiniGame/`
-- `/src/data/minigames.ts`
+- [x] 30+ mini-games implemented (Color Tap, Memory Match, Simon Says, Bubble Pop, Catch The Ball, Sliding Puzzle, and many more)
+- [x] Each mini-game rewards coins
+- [x] Best score tracking per user (useGameBestScore hook)
+- [ ] Difficulty scales with pet age (Future)
+- [ ] Daily mini-game challenges (Future)
 
 ---
 
-### 🟡 Pet Needs System Enhancement
+### ✅ Pet Needs System
+**Status:** COMPLETED
 **Priority:** Medium
 
-- [ ] Add "Energy" stat (decreases over time, increases with sleep)
-- [ ] Add "Health" stat (overall wellness indicator)
-- [ ] Implement sleep/rest activity
-- [ ] Add vet visits for when pet is sick
-- [ ] Visual indicators when stats are critical (shaking, sad animations)
-- [ ] Push notifications for critical needs (with user permission)
+- [x] Energy stat (decreases over time, increases with sleep)
+- [x] Health stat (weighted average of all stats)
+- [x] Sleep/rest activity implemented
+- [x] Vet visits for when pet is sick (health < 60)
+- [x] Visual indicators when stats are critical
+- [ ] Push notifications for critical needs (Future)
 
 ---
 
@@ -235,7 +230,7 @@ Allow players to leave reviews on individual games directly from the game screen
   - [x] All 25 mini-game home screens and contexts
   - [x] `GameSelectionScreen` (uiIndex persistence — 7 tests)
 - [x] Test scripts configured (test, test:watch, test:coverage, test:ci)
-- [x] 508 tests total, 502 passing (99%+) — Mar 2026
+- [x] 508+ tests total, 502+ passing (99%+) — Mar 2026
 - [ ] Set up Detox for E2E testing (Future)
 - [ ] Add CI/CD pipeline (GitHub Actions) (Future)
 
@@ -309,9 +304,9 @@ src/
 - [x] **M16** `socket.disconnect()` added to `MultiPlayerMuitoContext` useEffect cleanup ✅ (Mar 2026)
 - [x] **M6** `GifPicker` now has error state + retry button on fetch failure ✅ (Mar 2026)
 - [x] **P2** All `console.warn` calls in `AudioService.ts` routed to `logger.warn` ✅ (Mar 2026)
+- [x] Create contribution guidelines (CONTRIBUTING.md) ✅
 - [ ] Set up Husky for pre-commit hooks (Future)
 - [ ] Document complex functions with JSDoc (In Progress)
-- [ ] Create contribution guidelines (CONTRIBUTING.md) (Future)
 
 ---
 
@@ -550,7 +545,7 @@ src/
 ## 🎯 Milestones
 
 ### Milestone 1: MVP Enhancement (v1.2)
-**Status:** 90% COMPLETE
+**Status:** 95% COMPLETE
 - [x] Folder structure documentation ✅
 - [x] Testing infrastructure ✅ (99% tests passing)
 - [x] Code quality improvements ✅ (ESLint, Prettier, usePetActions hook)
@@ -568,8 +563,8 @@ src/
   - [x] Helpful reactions
   - [x] Sort and filter
 - [ ] Skia bath screen reimplementation (Planning Complete - [Plan](./SKIA_BATH_REIMPLEMENTATION_PLAN.md))
-- [ ] Sounds and audio (Next Priority)
-- [x] Advanced performance optimizations (In Progress - virtual lists, React.memo, useCallback)
+- [x] Audio system with background music, sound effects, and silent mode support ✅ (Mar 2026)
+- [x] Advanced performance optimizations (virtual lists, React.memo, useCallback)
 
 ### Milestone 2: Feature Complete (v1.5)
 **Target:** 4-6 weeks
@@ -617,11 +612,11 @@ src/
 
 ---
 
-**Last Updated:** 2026-03-01
+**Last Updated:** 2026-03-02
 **Current Version:** 1.2.2
-**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System, UI persistence, error boundaries, audio improvements, Sprint 1–2 code review fixes (C2, M7, H1, H3, H4, H7, H8, P1, M4, M6, M8, M13, M16, P2)
-**Features Completed:** 94%+ (core game + OAuth + web deploy + review system + uiIndex persistence + error handling + audio + code quality + sprint 1-2 fixes)
-**Next Version Target:** 1.3.0 (Sounds + Performance + remaining Sprint 3-4 items)
+**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System, UI persistence, error boundaries, audio system with background music, Sprint 1–2 code review fixes (C1, C2, H1–H4, H7–H8, P1–P2, M4, M6–M8, M13, M16)
+**Features Completed:** 95%+ (core game + OAuth + web deploy + review system + uiIndex persistence + error handling + audio + code quality + sprint 1-2 fixes)
+**Next Version Target:** 1.3.0 (Real audio assets + Skia bath + remaining Sprint 3-4 items)
 
 ---
 

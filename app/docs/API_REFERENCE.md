@@ -631,6 +631,70 @@ const handleSignIn = async () => {
 
 ---
 
+## Additional Hooks
+
+### `useGameBestScore(storageKey: string)`
+
+**Location:** `src/hooks/useGameBestScore.ts`
+
+Shared hook for per-user best score persistence across all 29 game contexts. Eliminates ~60 lines of duplicated AsyncStorage logic per context.
+
+**Returns:**
+```typescript
+[bestScore: number, updateBestScore: (newScore: number) => void]
+```
+
+**Example:**
+```typescript
+import { useGameBestScore } from '../hooks/useGameBestScore';
+
+const MyGameContext = () => {
+  const [bestScore, updateBestScore] = useGameBestScore(`my_game:${userId}`);
+
+  const onGameEnd = (score: number) => {
+    updateBestScore(score); // Only updates if score > bestScore
+  };
+};
+```
+
+---
+
+### `useAudio()`
+
+**Location:** `src/hooks/useAudio.ts`
+
+Hook for audio playback (sound effects and background music) using expo-av.
+
+**Returns:**
+```typescript
+{
+  playSound: (soundName: string) => Promise<void>;
+  playMusic: (musicName: string) => Promise<void>;
+  stopMusic: () => Promise<void>;
+  isMusicPlaying: boolean;
+}
+```
+
+---
+
+### `usePetActions()`
+
+**Location:** `src/hooks/usePetActions.ts`
+
+Unified hook for all pet actions (feed, play, bathe, sleep, cuddle, exercise, vet). Manages animation states, validation, rewards, and toast notifications.
+
+**Returns:**
+```typescript
+{
+  performAction: (action: PetAction) => void;
+  isAnimating: boolean;
+  currentAnimation: string | null;
+  canPerformAction: (action: PetAction) => boolean;
+}
+```
+
+---
+
 ## Performance Considerations
 
 1. **Auth State Persistence**: Read from AsyncStorage on app start (happens once)
@@ -648,6 +712,6 @@ const handleSignIn = async () => {
 
 ---
 
-**Last Updated**: 2026-01-22
-**Version**: 1.0
+**Last Updated**: 2026-03-02
+**Version**: 1.1
 **Status**: Complete
