@@ -85,7 +85,7 @@ export const PetChefGameScreen: React.FC<Props> = ({ navigation }) => {
         <View style={styles.pot}>
           <Text style={styles.potEmoji}>{cooked ? recipe.emoji : '🫕'}</Text>
           <View style={styles.potIngredients}>
-            {added.map((ing, i) => <Text key={i} style={styles.addedIng}>{ing}</Text>)}
+            {added.map((ing, i) => <Text key={`added-${ing}-${i}`} style={styles.addedIng}>{ing}</Text>)}
           </View>
         </View>
         <Text style={styles.petEmoji}>{petReaction}</Text>
@@ -95,7 +95,7 @@ export const PetChefGameScreen: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.recipeLabel}>{t('petChef.game.recipe')}:</Text>
         <View style={styles.recipeIngredients}>
           {recipe.ingredients.map((ing, i) => (
-            <View key={i} style={[styles.recipeSlot, i < added.length && styles.recipeSlotDone]}>
+            <View key={`recipe-${ing}-${i}`} style={[styles.recipeSlot, i < added.length && styles.recipeSlotDone]}>
               <Text style={styles.recipeIngEmoji}>{ing}</Text>
               {i < added.length && <Text style={styles.checkmark}>✓</Text>}
             </View>
@@ -108,7 +108,7 @@ export const PetChefGameScreen: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.shelfLabel}>{t('petChef.game.ingredients')}:</Text>
         <View style={styles.ingredientRow}>
           {[...new Set(recipe.ingredients)].map((ing, i) => (
-            <TouchableOpacity key={i} style={styles.ingredientBtn} onPress={() => addIngredient(ing)} disabled={cooked}>
+            <TouchableOpacity key={ing} style={styles.ingredientBtn} onPress={() => addIngredient(ing)} disabled={cooked}>
               <Text style={styles.ingredientEmoji}>{ing}</Text>
             </TouchableOpacity>
           ))}

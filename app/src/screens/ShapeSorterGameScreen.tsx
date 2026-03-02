@@ -86,7 +86,7 @@ export const ShapeSorterGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.holesRow}>
         {targets.map((target, i) => (
           <TouchableOpacity
-            key={i}
+            key={target.shape.id}
             style={[styles.hole, target.solved && styles.holeSolved]}
             onPress={() => dropInHole(target.shape)}
             disabled={target.solved}
@@ -100,7 +100,7 @@ export const ShapeSorterGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.shapesRow}>
         {fallingShapes.map((shape, i) => (
           <TouchableOpacity
-            key={i}
+            key={shape.id}
             style={[styles.shapeItem, selectedShape?.id === shape.id && styles.selectedShape]}
             onPress={() => selectShape(shape)}
           >

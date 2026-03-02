@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const PRIMARY = [
   { bg: '#EF4444', light: '#FEE2E2' },
@@ -70,7 +71,7 @@ export const Alt20Playground: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
-      style={{ flexGrow: 0 }}
+      style={sharedStyles.noGrow}
       >
         <TouchableOpacity
           style={[styles.filterBtn, !selectedCategory && styles.filterBtnActive]}

@@ -121,7 +121,7 @@ export const GardenGrowGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.garden}>
         {plots.map((plot, i) => (
           <TouchableOpacity
-            key={i}
+            key={`plot-${i}-${plot.plant}`}
             style={[styles.plot, plot.state !== 'empty' && styles.plotActive, plot.state === 'harvest' && styles.plotHarvest]}
             onPress={() => plot.state === 'harvest' ? harvest(i) : actOnPlot(i)}
           >
@@ -155,7 +155,7 @@ export const GardenGrowGameScreen: React.FC<Props> = ({ navigation }) => {
         {selectedTool === 'plant' && (
           <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.plantSelector}>
             {PLANTS.map((p, i) => (
-              <TouchableOpacity key={i} style={[styles.plantBtn, selectedPlant === i && styles.plantSelected]} onPress={() => setSelectedPlant(i)}>
+              <TouchableOpacity key={p.name} style={[styles.plantBtn, selectedPlant === i && styles.plantSelected]} onPress={() => setSelectedPlant(i)}>
                 <Text style={styles.plantBtnEmoji}>{p.harvest}</Text>
                 <Text style={styles.plantBtnName}>{p.name}</Text>
               </TouchableOpacity>

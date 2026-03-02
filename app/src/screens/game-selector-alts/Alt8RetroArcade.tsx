@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const RETRO_COLORS = ['#ff6b6b', '#4ecdc4', '#ffe66d', '#a29bfe', '#fd79a8', '#00b894'];
 
@@ -77,7 +78,7 @@ export const Alt8RetroArcade: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
-        style={{ flexGrow: 0 }}
+        style={sharedStyles.noGrow}
         >
         <TouchableOpacity
           style={[styles.filterBtn, !selectedCategory && styles.filterBtnActive]}

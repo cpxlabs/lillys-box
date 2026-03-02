@@ -113,7 +113,7 @@ export const Alt6Magazine: React.FC<GameSelectorAltProps> = ({
         <Text style={styles.subtitle}>{t('selectGame.subtitle')}</Text>
 
         {rows.map((row, idx) => (
-          <View key={idx}>
+          <View key={row.hero.id}>
             {renderHero(row.hero)}
             {row.smalls.length > 0 && (
               <View style={styles.smallRow}>

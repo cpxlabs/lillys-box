@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const CAT_ACCENT: Record<string, string> = {
   pet: '#66bb6a',
@@ -81,7 +82,7 @@ export const Alt3DarkMode: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
-        style={{ flexGrow: 0 }}
+        style={sharedStyles.noGrow}
         >
         <TouchableOpacity
           style={[styles.chip, !selectedCategory && styles.chipActive]}

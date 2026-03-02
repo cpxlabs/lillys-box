@@ -95,7 +95,7 @@ export const LightningTapGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.grid}>
         {Array.from({ length: TOTAL }, (_, i) => (
           <TouchableOpacity
-            key={i}
+            key={`tile-${i}`}
             style={[styles.tile, { backgroundColor: litTiles.has(i) ? TILE_COLORS[i] : '#1a1a2e' }, litTiles.has(i) && styles.litTile]}
             onPress={() => handleTap(i)}
             activeOpacity={0.7}

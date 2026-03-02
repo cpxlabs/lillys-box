@@ -109,7 +109,7 @@ class ErrorService {
       try {
         listener(fullReport);
       } catch (listenerError) {
-        console.error('[ErrorService] Listener error:', listenerError);
+        logger.error('[ErrorService] Listener error:', listenerError);
       }
     });
 

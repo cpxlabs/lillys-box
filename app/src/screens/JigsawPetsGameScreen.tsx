@@ -72,7 +72,7 @@ export const JigsawPetsGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.board}>
         {board.map((piece, i) => (
           <TouchableOpacity
-            key={i}
+            key={`cell-${i}-${piece ?? 'empty'}`}
             style={[styles.cell, piece ? styles.filledCell : null, piece === originalPieces[i] ? styles.correctCell : null]}
             onPress={() => placePiece(i)}
           >
@@ -90,7 +90,7 @@ export const JigsawPetsGameScreen: React.FC<Props> = ({ navigation }) => {
         <View style={styles.bankPieces}>
           {remaining.map((piece, i) => (
             <TouchableOpacity
-              key={i}
+              key={`piece-${piece}-${i}`}
               style={[styles.bankPiece, selectedPiece === piece && selectedPieceIndex === i && styles.selectedBankPiece]}
               onPress={() => selectFromBank(piece, i)}
             >

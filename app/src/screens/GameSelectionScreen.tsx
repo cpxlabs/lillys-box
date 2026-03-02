@@ -134,7 +134,7 @@ export const GameSelectionScreen: React.FC<Props> = () => {
           }
         }
       } catch (error) {
-        console.warn('Failed to load uiIndex:', error);
+        logger.warn('Failed to load uiIndex:', error);
       } finally {
         setUiIndexLoaded(true);
       }
@@ -146,7 +146,7 @@ export const GameSelectionScreen: React.FC<Props> = () => {
   const handleUiIndexChange = useCallback((newIndex: number) => {
     setUiIndex(newIndex);
     AsyncStorage.setItem('ui_index', String(newIndex)).catch((error) => {
-      console.warn('Failed to save uiIndex:', error);
+      logger.warn('Failed to save uiIndex:', error);
     });
   }, []);
 

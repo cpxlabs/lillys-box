@@ -11,7 +11,7 @@ type StatusCardProps = {
   petAge: string;
 };
 
-export const StatusCard: React.FC<StatusCardProps> = ({
+export const StatusCard: React.FC<StatusCardProps> = React.memo(({
   pet,
   compact = false,
   petName,
@@ -71,7 +71,7 @@ export const StatusCard: React.FC<StatusCardProps> = ({
       </View>
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   card: {

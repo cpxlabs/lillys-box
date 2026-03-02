@@ -143,7 +143,7 @@ export const PetDancePartyGameScreen: React.FC<Props> = ({ navigation }) => {
 
       <View style={styles.tapButtons}>
         {(['⬆️', '⬇️', '⬅️', '➡️'] as Direction[]).map((dir, i) => (
-          <TouchableOpacity key={i} style={styles.tapBtn} onPress={() => handleTap(dir)} activeOpacity={0.7}>
+          <TouchableOpacity key={dir} style={styles.tapBtn} onPress={() => handleTap(dir)} activeOpacity={0.7}>
             <Text style={styles.tapBtnText}>{dir}</Text>
           </TouchableOpacity>
         ))}

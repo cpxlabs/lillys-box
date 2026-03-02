@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const LEAF_COLORS = ['#D1FAE5', '#FEF3C7', '#FFE4E6', '#DBEAFE', '#E0E7FF', '#FCE7F3'];
 
@@ -70,7 +71,7 @@ export const Alt17Treehouse: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
-      style={{ flexGrow: 0 }}
+      style={sharedStyles.noGrow}
       >
         <TouchableOpacity
           style={[styles.leaf, !selectedCategory && styles.leafActive]}

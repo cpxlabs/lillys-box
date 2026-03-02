@@ -155,7 +155,7 @@ export const ColorMixerGameScreen: React.FC<Props> = ({ navigation, route }) => 
             <View style={styles.paintsSection}>
               {level.availableColors.map((paint, index) => (
                 <DraggablePaintBlob
-                  key={index}
+                  key={paint.name}
                   paint={paint}
                   onDrop={(color) => {
                     setMixedColors([...mixedColors, color]);

@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 export const Alt2MinimalGrid: React.FC<GameSelectorAltProps> = ({
   sortedGames,
@@ -47,7 +48,7 @@ export const Alt2MinimalGrid: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.tabs}
-        style={{ flexGrow: 0 }}
+        style={sharedStyles.noGrow}
         >
         <TouchableOpacity
           style={[styles.tab, !selectedCategory && styles.tabActive]}

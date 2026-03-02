@@ -3,6 +3,7 @@ import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 import { Pet } from '../types';
 import { spriteSheetManager } from '../utils/SpriteSheetManager';
 import { COLORS } from '../config/constants';
+import { logger } from '../utils/logger';
 
 interface SpriteSheetPreloaderProps {
   /** Current pet to preload animations for */
@@ -13,6 +14,8 @@ interface SpriteSheetPreloaderProps {
   showUI?: boolean;
   /** Callback when preloading completes */
   onComplete?: () => void;
+  /** Callback when a preload error occurs */
+  onError?: (error: unknown) => void;
   /** Callback for progress updates */
   onProgress?: (current: number, total: number, percentage: number) => void;
   /** Children to render when loading completes */
@@ -43,6 +46,7 @@ export const SpriteSheetPreloader: React.FC<SpriteSheetPreloaderProps> = ({
   allPets,
   showUI = true,
   onComplete,
+  onError,
   onProgress,
   children,
 }) => {
@@ -75,12 +79,13 @@ export const SpriteSheetPreloader: React.FC<SpriteSheetPreloaderProps> = ({
 
         // Log cache stats
         const stats = spriteSheetManager.getCacheStats();
-        console.log('📊 Sprite Sheet Cache Stats:', stats);
+        logger.log('📊 Sprite Sheet Cache Stats:', stats);
 
         setIsLoading(false);
         onComplete?.();
       } catch (error) {
-        console.error('Error preloading sprite sheets:', error);
+        logger.error('Error preloading sprite sheets:', error);
+        onError?.(error);
         // Don't block app - just proceed without sprite sheets
         setIsLoading(false);
         onComplete?.();

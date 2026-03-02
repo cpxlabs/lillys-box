@@ -18,6 +18,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const POCKET_COLORS = [
   '#F87171', '#FB923C', '#FBBF24', '#34D399',
@@ -66,7 +67,7 @@ export const Alt25Pocket: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
-      style={{ flexGrow: 0 }}
+      style={sharedStyles.noGrow}
       >
         <TouchableOpacity
           style={[styles.chip, !selectedCategory && styles.chipActive]}

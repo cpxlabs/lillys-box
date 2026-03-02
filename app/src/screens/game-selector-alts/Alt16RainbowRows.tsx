@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const RAINBOW = [
   { bg: '#FEE2E2', text: '#DC2626' },
@@ -66,7 +67,7 @@ export const Alt16RainbowRows: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.tabs}
-      style={{ flexGrow: 0 }}
+      style={sharedStyles.noGrow}
       >
         <TouchableOpacity
           style={[styles.tab, !selectedCategory && styles.tabActive]}

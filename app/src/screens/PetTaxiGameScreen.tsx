@@ -129,7 +129,7 @@ export const PetTaxiGameScreen: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.destLabel}>{t('petTaxi.game.deliver')}:</Text>
           <View style={styles.destRow}>
             {DESTINATION_EMOJIS.map((d, i) => (
-              <TouchableOpacity key={i} style={[styles.destBtn, currentPassenger.destEmoji === d && styles.destBtnTarget]} onPress={() => deliver(i)}>
+              <TouchableOpacity key={d} style={[styles.destBtn, currentPassenger.destEmoji === d && styles.destBtnTarget]} onPress={() => deliver(i)}>
                 <Text style={styles.destEmoji}>{d}</Text>
               </TouchableOpacity>
             ))}
