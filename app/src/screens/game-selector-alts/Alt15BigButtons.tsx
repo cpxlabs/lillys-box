@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const BTN_COLORS = ['#FF6B6B', '#4ECDC4', '#FFD93D', '#45B7D1', '#96CEB4', '#FF8A5C', '#A78BFA', '#F472B6'];
 
@@ -54,7 +55,7 @@ export const Alt15BigButtons: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
-        style={{ flexGrow: 0 }}
+        style={sharedStyles.noGrow}
       >
         <TouchableOpacity
           style={[styles.chip, !selectedCategory && styles.chipActive]}

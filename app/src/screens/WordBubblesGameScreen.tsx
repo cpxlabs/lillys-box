@@ -87,7 +87,7 @@ export const WordBubblesGameScreen: React.FC<Props> = ({ navigation }) => {
 
       <View style={[styles.answerSlots, shake && styles.shake]}>
         {currentWord.word.split('').map((_, i) => (
-          <View key={i} style={[styles.slot, tapped[i] !== undefined && styles.slotFilled, correct && styles.slotCorrect]}>
+          <View key={`slot-${i}`} style={[styles.slot, tapped[i] !== undefined && styles.slotFilled, correct && styles.slotCorrect]}>
             <Text style={styles.slotLetter}>{tapped[i] !== undefined ? letters[tapped[i]] : ''}</Text>
           </View>
         ))}
@@ -98,7 +98,7 @@ export const WordBubblesGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.bubbles}>
         {letters.map((letter, i) => (
           <TouchableOpacity
-            key={i}
+            key={`bubble-${letter}-${i}`}
             style={[styles.bubble, tapped.includes(i) && styles.bubbleTapped]}
             onPress={() => tapLetter(i)}
             disabled={tapped.includes(i)}

@@ -102,7 +102,7 @@ export const MediaAttachment: React.FC<Props> = ({ media, onAdd, onRemove }) => 
 
         {/* Media previews */}
         {media.map((item, index) => (
-          <View key={index} style={styles.preview}>
+          <View key={item.uri} style={styles.preview}>
             <Image source={{ uri: item.thumbnailUri ?? item.uri }} style={styles.previewImage} />
             <TouchableOpacity
               style={styles.removeButton}

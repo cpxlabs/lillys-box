@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const BLOCK_COLORS = ['#FF6B6B', '#4ECDC4', '#FFD93D', '#6BCB77', '#4D96FF', '#FF922B', '#C084FC', '#F472B6'];
 
@@ -54,7 +55,7 @@ export const Alt11ToyBox: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
-      style={{ flexGrow: 0 }}
+      style={sharedStyles.noGrow}
       >
         <TouchableOpacity
           style={[styles.filterBtn, !selectedCategory && styles.filterBtnActive]}

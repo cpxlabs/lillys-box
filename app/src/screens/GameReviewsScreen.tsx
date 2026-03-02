@@ -88,7 +88,7 @@ export const GameReviewsScreen: React.FC<Props> = ({ gameId, gameName, onBack })
         {item.media.length > 0 && (
           <View style={styles.mediaRow}>
             {item.media.map((m, i) => (
-              <Image key={i} source={{ uri: m.thumbnailUri ?? m.uri }} style={styles.mediaThumbnail} />
+              <Image key={m.uri} source={{ uri: m.thumbnailUri ?? m.uri }} style={styles.mediaThumbnail} />
             ))}
           </View>
         )}

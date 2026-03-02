@@ -75,7 +75,7 @@ export const MirrorMatchGameScreen: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.gridLabel}>{t('mirrorMatch.game.pattern')}</Text>
           <View style={styles.grid}>
             {pattern.map((color, i) => (
-              <View key={i} style={[styles.cell, { backgroundColor: color || '#eee' }]} />
+              <View key={`pattern-${i}-${color ?? 'empty'}`} style={[styles.cell, { backgroundColor: color || '#eee' }]} />
             ))}
           </View>
         </View>
@@ -86,7 +86,7 @@ export const MirrorMatchGameScreen: React.FC<Props> = ({ navigation }) => {
           <Text style={styles.gridLabel}>{t('mirrorMatch.game.mirror')}</Text>
           <View style={styles.grid}>
             {userGrid.map((color, i) => (
-              <TouchableOpacity key={i} style={[styles.cell, { backgroundColor: color || '#eee' }]} onPress={() => toggleCell(i)} />
+              <TouchableOpacity key={`cell-${i}-${color ?? 'empty'}`} style={[styles.cell, { backgroundColor: color || '#eee' }]} onPress={() => toggleCell(i)} />
             ))}
           </View>
         </View>

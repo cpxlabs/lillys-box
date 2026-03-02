@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const STICKER_BG = ['#FECACA', '#BBF7D0', '#BFDBFE', '#FDE68A', '#E9D5FF', '#FBCFE8', '#A7F3D0', '#FED7AA'];
 const STICKER_BORDER = ['#EF4444', '#22C55E', '#3B82F6', '#EAB308', '#A855F7', '#EC4899', '#10B981', '#F97316'];
@@ -63,7 +64,7 @@ export const Alt12StickerBook: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.tabs}
-      style={{ flexGrow: 0 }}
+      style={sharedStyles.noGrow}
       >
         <TouchableOpacity
           style={[styles.tab, !selectedCategory && styles.tabActive]}

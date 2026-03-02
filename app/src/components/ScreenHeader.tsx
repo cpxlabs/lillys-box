@@ -8,7 +8,7 @@ type ScreenHeaderProps = {
   BackButtonIcon?: React.ComponentType;
 };
 
-export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
+export const ScreenHeader: React.FC<ScreenHeaderProps> = React.memo(({
   title,
   onBackPress,
   BackButtonIcon,
@@ -18,7 +18,12 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
     <View style={styles.header}>
       <View style={styles.leftSection}>
         {onBackPress && BackButtonIcon && (
-          <TouchableOpacity onPress={onBackPress} style={styles.backButton}>
+          <TouchableOpacity
+            onPress={onBackPress}
+            style={styles.backButton}
+            accessibilityRole="button"
+            accessibilityLabel={t('common.back')}
+          >
             <BackButtonIcon />
             <Text style={styles.backButtonText}>{t('common.back')}</Text>
           </TouchableOpacity>
@@ -28,7 +33,7 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = ({
       <View style={styles.rightSection} />
     </View>
   );
-};
+});
 
 const styles = StyleSheet.create({
   header: {

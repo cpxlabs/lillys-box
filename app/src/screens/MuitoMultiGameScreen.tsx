@@ -146,7 +146,7 @@ export const MuitoMultiGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.objectsCard}>
         <View style={styles.objectsGrid}>
           {Array.from({ length: puzzle.count }, (_, i) => (
-            <EmojiIcon key={i} emoji={puzzle.emoji} size={36} style={styles.object} />
+            <EmojiIcon key={`emoji-${i}`} emoji={puzzle.emoji} size={36} style={styles.object} />
           ))}
         </View>
       </View>
@@ -200,7 +200,7 @@ export const MuitoMultiGameScreen: React.FC<Props> = ({ navigation }) => {
 
           return (
             <TouchableOpacity
-              key={idx}
+              key={option}
               style={buttonStyles}
               onPress={() => handleSelect(option)}
               activeOpacity={selectedAnswer !== null || roundResolved ? 1 : 0.85}

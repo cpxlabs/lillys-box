@@ -6,6 +6,7 @@ import {
   hasSpriteSheet,
   getAvailableAnimations,
 } from '../config/spriteSheets';
+import { logger } from './logger';
 
 /**
  * Cache entry for loaded sprite sheets
@@ -96,7 +97,7 @@ class SpriteSheetManager {
     const definition = this.get(petType, color, state);
 
     if (!definition) {
-      console.warn(`Sprite sheet not found: ${cacheKey}`);
+      logger.warn(`Sprite sheet not found: ${cacheKey}`);
       return false;
     }
 
@@ -124,10 +125,10 @@ class SpriteSheetManager {
         timestamp: Date.now(),
       });
 
-      console.log(`✅ Preloaded sprite sheet: ${cacheKey}`);
+      logger.log(`✅ Preloaded sprite sheet: ${cacheKey}`);
       return true;
     } catch (error) {
-      console.error(`❌ Failed to preload sprite sheet: ${cacheKey}`, error);
+      logger.error(`❌ Failed to preload sprite sheet: ${cacheKey}`, error);
 
       // Update cache with error
       this.cache.set(cacheKey, {
@@ -157,14 +158,14 @@ class SpriteSheetManager {
       ...availableStates.filter((state) => !priority.includes(state)),
     ];
 
-    console.log(`🎬 Preloading ${sortedStates.length} animations for ${petType} (${color})`);
+    logger.log(`🎬 Preloading ${sortedStates.length} animations for ${petType} (${color})`);
 
     // Preload in priority order
     for (const state of sortedStates) {
       await this.preload(petType, color, state);
     }
 
-    console.log(`✅ Finished preloading ${petType} (${color})`);
+    logger.log(`✅ Finished preloading ${petType} (${color})`);
   }
 
   /**
@@ -175,7 +176,7 @@ class SpriteSheetManager {
     onProgress?: (current: number, total: number) => void
   ): Promise<void> {
     if (this.isPreloading) {
-      console.warn('Preloading already in progress');
+      logger.warn('Preloading already in progress');
       return;
     }
 
@@ -199,7 +200,7 @@ class SpriteSheetManager {
    */
   public clearCache(): void {
     this.cache.clear();
-    console.log('🗑️  Sprite sheet cache cleared');
+    logger.log('🗑️  Sprite sheet cache cleared');
   }
 
   /**
@@ -217,7 +218,7 @@ class SpriteSheetManager {
     }
 
     if (cleared > 0) {
-      console.log(`🗑️  Cleared ${cleared} old cache entries`);
+      logger.log(`🗑️  Cleared ${cleared} old cache entries`);
     }
   }
 

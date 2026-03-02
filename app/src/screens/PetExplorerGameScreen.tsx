@@ -99,7 +99,7 @@ export const PetExplorerGameScreen: React.FC<Props> = ({ navigation }) => {
       <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.worldScroll}>
         {zoneObjects.map((obj, i) => (
           <TouchableOpacity
-            key={i}
+            key={obj.name}
             style={[styles.object, obj.collected && styles.objectCollected]}
             onPress={() => interact(i)}
           >

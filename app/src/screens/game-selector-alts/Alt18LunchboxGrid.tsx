@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const COMPARTMENT_BG = ['#FFF7ED', '#FDF2F8', '#EFF6FF', '#F0FDF4', '#FEF3C7', '#FAF5FF'];
 
@@ -52,7 +53,7 @@ export const Alt18LunchboxGrid: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
-      style={{ flexGrow: 0 }}
+      style={sharedStyles.noGrow}
       >
         <TouchableOpacity
           style={[styles.chip, !selectedCategory && styles.chipActive]}

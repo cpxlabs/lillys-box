@@ -260,7 +260,7 @@ export const FeedThePetGameScreen: React.FC<Props> = ({ navigation }) => {
 
         <View style={styles.livesContainer}>
           {Array.from({ length: INITIAL_LIVES }).map((_, i) => (
-            <Text key={i} style={styles.heartEmoji}>
+            <Text key={`life-${i}`} style={styles.heartEmoji}>
               {i < lives ? '❤️' : '🖤'}
             </Text>
           ))}

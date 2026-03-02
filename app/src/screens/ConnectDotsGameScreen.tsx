@@ -100,7 +100,7 @@ export const ConnectDotsGameScreen: React.FC<Props> = ({ navigation }) => {
           const isNext = i === nextDot;
           return (
             <TouchableOpacity
-              key={i}
+              key={`dot-${i}-${dot.x}-${dot.y}`}
               style={[styles.dot, { left: x, top: y }, isConnected && styles.dotConnected, isNext && styles.dotNext]}
               onPress={() => tapDot(i)}
             >

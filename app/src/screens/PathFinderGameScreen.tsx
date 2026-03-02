@@ -88,7 +88,7 @@ export const PathFinderGameScreen: React.FC<Props> = ({ navigation }) => {
           const inPath = path.includes(i);
           return (
             <TouchableOpacity
-              key={i}
+              key={`cell-${i}`}
               style={[styles.cell, isObs && styles.obstacle, isStart && styles.startCell, isEnd && styles.endCell, inPath && !isStart && !isEnd && styles.pathCell]}
               onPress={() => toggleTile(i)}
               disabled={isObs}

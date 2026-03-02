@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const FEATURED_BG = ['#4a148c', '#1a237e', '#004d40', '#b71c1c', '#e65100'];
 
@@ -115,7 +116,7 @@ export const Alt7AppStore: React.FC<GameSelectorAltProps> = ({
           horizontal
           showsHorizontalScrollIndicator={false}
           contentContainerStyle={styles.catRow}
-        style={{ flexGrow: 0 }}
+        style={sharedStyles.noGrow}
         >
           <TouchableOpacity
             style={[styles.catChip, !selectedCategory && styles.catChipActive]}

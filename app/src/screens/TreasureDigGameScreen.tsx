@@ -106,7 +106,7 @@ export const TreasureDigGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.grid}>
         {tiles.map((tile, i) => (
           <TouchableOpacity
-            key={i}
+            key={`tile-${i}-${tile.content}`}
             style={[styles.tile, tile.state !== 'hidden' && styles.tileRevealed, tile.state === 'treasure' && styles.tileTreasure]}
             onPress={() => dig(i)}
             activeOpacity={0.7}

@@ -276,7 +276,7 @@ export const CatchTheBallGameScreen: React.FC<Props> = ({ navigation }) => {
         {/* Lane dividers */}
         {Array.from({ length: NUM_LANES - 1 }, (_, i) => (
           <View
-            key={i}
+            key={`divider-${i}`}
             style={[styles.laneDivider, { left: 16 + (i + 1) * LANE_WIDTH }]}
           />
         ))}
@@ -318,7 +318,7 @@ export const CatchTheBallGameScreen: React.FC<Props> = ({ navigation }) => {
         <View style={styles.laneButtons}>
           {Array.from({ length: NUM_LANES }, (_, i) => (
             <TouchableOpacity
-              key={i}
+              key={`lane-${i}`}
               style={[
                 styles.laneButton,
                 catcherLane === i && styles.laneButtonActive,

@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const PASTEL: string[] = [
   '#fce4ec', '#e8f5e9', '#e3f2fd', '#fff3e0',
@@ -58,7 +59,7 @@ export const Alt5BubbleLayout: React.FC<GameSelectorAltProps> = ({
         horizontal
         showsHorizontalScrollIndicator={false}
         contentContainerStyle={styles.filterRow}
-        style={{ flexGrow: 0 }}
+        style={sharedStyles.noGrow}
         >
         <TouchableOpacity
           style={[styles.pill, !selectedCategory && styles.pillActive]}

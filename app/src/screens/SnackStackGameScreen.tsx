@@ -122,7 +122,7 @@ export const SnackStackGameScreen: React.FC<Props> = ({ navigation }) => {
         <TouchableOpacity style={styles.dropZone} onPress={drop} activeOpacity={1}>
           <View style={styles.stackArea}>
             {stack.map((item, i) => (
-              <View key={i} style={[styles.stackItem, { marginLeft: item.offset + (SW / 2 - ITEM_SIZE / 2) }]}>
+              <View key={`${item.emoji}-${i}`} style={[styles.stackItem, { marginLeft: item.offset + (SW / 2 - ITEM_SIZE / 2) }]}>
                 <Text style={styles.stackEmoji}>{item.emoji}</Text>
               </View>
             ))}

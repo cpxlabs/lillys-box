@@ -197,7 +197,7 @@ export const SlidingPuzzleGameScreen: React.FC<Props> = ({ navigation, route }) 
 
             return (
               <TouchableOpacity
-                key={index}
+                key={tileValue}
                 style={[
                   styles.tile,
                   {

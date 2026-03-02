@@ -95,7 +95,7 @@ export const PhotoStudioGameScreen: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.sectionLabel}>{t('photoStudio.game.background')}:</Text>
         <ScrollView horizontal showsHorizontalScrollIndicator={false} contentContainerStyle={styles.optionRow}>
           {BACKGROUNDS.map((bg, i) => (
-            <TouchableOpacity key={i} style={[styles.bgOption, bgIndex === i && styles.bgSelected, { backgroundColor: BG_COLORS[i] }]} onPress={() => setBgIndex(i)}>
+            <TouchableOpacity key={bg} style={[styles.bgOption, bgIndex === i && styles.bgSelected, { backgroundColor: BG_COLORS[i] }]} onPress={() => setBgIndex(i)}>
               <Text style={styles.bgEmojiBtn}>{bg}</Text>
               <Text style={styles.bgName}>{BG_NAMES[i]}</Text>
             </TouchableOpacity>
@@ -106,7 +106,7 @@ export const PhotoStudioGameScreen: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.sectionLabel}>{t('photoStudio.game.pose')}:</Text>
         <View style={styles.optionRow}>
           {POSES.map((pose, i) => (
-            <TouchableOpacity key={i} style={[styles.poseBtn, poseIndex === i && styles.poseSelected]} onPress={() => setPoseIndex(i)}>
+            <TouchableOpacity key={pose.name} style={[styles.poseBtn, poseIndex === i && styles.poseSelected]} onPress={() => setPoseIndex(i)}>
               <Text style={styles.poseFace}>{pose.face}</Text>
               <Text style={styles.poseName}>{pose.name}</Text>
             </TouchableOpacity>
@@ -117,7 +117,7 @@ export const PhotoStudioGameScreen: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.sectionLabel}>{t('photoStudio.game.props')}:</Text>
         <View style={styles.propsGrid}>
           {PROPS.map((prop, i) => (
-            <TouchableOpacity key={i} style={[styles.propBtn, activeProps.includes(prop) && styles.propSelected]} onPress={() => toggleProp(prop)}>
+            <TouchableOpacity key={prop} style={[styles.propBtn, activeProps.includes(prop) && styles.propSelected]} onPress={() => toggleProp(prop)}>
               <Text style={styles.propEmoji}>{prop}</Text>
             </TouchableOpacity>
           ))}
@@ -127,7 +127,7 @@ export const PhotoStudioGameScreen: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.sectionLabel}>{t('photoStudio.game.stickers')}:</Text>
         <View style={styles.propsGrid}>
           {STICKERS.map((sticker, i) => (
-            <TouchableOpacity key={i} style={[styles.propBtn, activeStickers.includes(sticker) && styles.propSelected]} onPress={() => toggleSticker(sticker)}>
+            <TouchableOpacity key={sticker} style={[styles.propBtn, activeStickers.includes(sticker) && styles.propSelected]} onPress={() => toggleSticker(sticker)}>
               <Text style={styles.propEmoji}>{sticker}</Text>
             </TouchableOpacity>
           ))}

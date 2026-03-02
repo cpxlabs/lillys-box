@@ -17,6 +17,7 @@ import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';
 import { GameDefinition } from '../../registry/GameRegistry';
 import { GameSelectorAltProps } from './types';
+import { sharedStyles } from './sharedStyles';
 
 const CAT_BG: Record<string, string> = {
   pet: '#e8f5e9',
@@ -93,7 +94,7 @@ export const Alt4Carousel: React.FC<GameSelectorAltProps> = ({
               horizontal
               showsHorizontalScrollIndicator={false}
               contentContainerStyle={styles.carousel}
-            style={{ flexGrow: 0 }}
+            style={sharedStyles.noGrow}
             >
               {data.map(renderGameCard)}
             </ScrollView>
