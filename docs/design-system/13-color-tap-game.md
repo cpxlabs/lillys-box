@@ -84,7 +84,72 @@
 ## ColorTapGameScreen
 
 The game screen uses an **HTML artifact** loaded via `ArtifactGameAdapter` component.
-The actual game UI is rendered in a WebView and is not described in this design system.
+The game UI is rendered in a WebView (dark gradient background) and communicates with
+React Native via `window.RNBridge`.
+
+### Game Mechanic — Stroop Effect
+
+Each round displays a **color name** (e.g. "Red") rendered in a **different, randomly
+chosen ink color** (e.g. blue text). Four solid-colored circles appear below. The player
+must tap the circle whose color matches the **word**, ignoring the misleading ink color.
+This creates a Stroop-style cognitive challenge.
+
+```
+┌──────────────────────────────────┐
+│  Score: 30              ❤️❤️❤️   │
+│  ▓▓▓▓▓▓▓▓▓▓▓▓░░░░░░░░░ (timer) │
+│                                  │
+│       Tap the color:             │  gray, 14px
+│                                  │
+│           Green                  │  32px bold, shown in a DIFFERENT
+│         (in blue)                │  color (Stroop distractor)
+│                                  │
+│   ┌──────┐      ┌──────┐         │
+│   │  🔴  │      │  🟢  │         │  Solid color circles
+│   └──────┘      └──────┘         │  aspect-square, rounded-full
+│   ┌──────┐      ┌──────┐         │  border: white/20, 4px
+│   │  🟡  │      │  🔵  │         │
+│   └──────┘      └──────┘         │
+└──────────────────────────────────┘
+```
+
+### Game State
+
+| State | Description |
+|-------|-------------|
+| Start screen | "Start Game" button; instructions shown |
+| In game | Timer bar, score, lives, color name + 4 circles |
+| Game over | `RNBridge.gameOver(score)` fired; native overlay shown |
+
+### Colors
+
+| Name | Hex |
+|------|-----|
+| Red | `#ef4444` |
+| Blue | `#3b82f6` |
+| Green | `#22c55e` |
+| Yellow | `#eab308` |
+| Purple | `#a855f7` |
+| Orange | `#f97316` |
+
+Each round shows 4 of the 6 colors as options (target always included).
+The target name is displayed in one of the remaining 5 colors as distractor.
+
+### Scoring & Difficulty
+
+- **+10 points** per correct tap
+- **−1 life** per wrong tap or time expiry (3 lives total)
+- Timer starts at 100, decrements every 100 ms
+- Decrement = `min(10, 2 + floor(score / 50))` — speeds up every 50 points
+
+### Native Overlay (game over)
+
+Rendered by `ColorTapGameScreen` on top of the WebView when `gameOver` message received:
+
+- **Card**: white, border-radius `24`, padding `32`, min-width `260`
+- **Title**: `24px`, weight bold, color `#333`
+- **Score**: `40px`, weight `800`, color `#9b59b6`
+- **Play Again button**: bg `#9b59b6`, border-radius `16`, text white `16px` bold
 
 The adapter provides:
 - Score communication between WebView and React Native

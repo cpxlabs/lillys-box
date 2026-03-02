@@ -502,7 +502,7 @@
     "title": "Color Tap",
     "subtitle": "Toque nas cores certas rapidamente!",
     "play": "Jogar",
-    "instructions": "Toque nos botões coloridos na ordem correta!",
+    "instructions": "Leia o nome da cor e toque no círculo correspondente — ignore a cor da tinta!",
     "bestScore": "Melhor Pontuação",
     "gameOver": {
       "title": "Fim de Jogo",
