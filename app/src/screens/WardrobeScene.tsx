@@ -141,7 +141,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
             >
               <View style={[styles.itemPreview, { width: spacing(40), height: spacing(40) }]}>
                 <Text style={[styles.itemPlaceholder, { fontSize: wardrobeSizes.itemEmoji }]}>
-                  👔
+                  {item.emoji}
                 </Text>
               </View>
               <Text style={[styles.itemName, { fontSize: wardrobeSizes.itemName }]}>
