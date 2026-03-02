@@ -502,7 +502,7 @@
     "title": "Color Tap",
     "subtitle": "Tap the right colors fast!",
     "play": "Play",
-    "instructions": "Tap the colored buttons in the correct order!",
+    "instructions": "Read the color name and tap the matching circle — ignore the ink color!",
     "bestScore": "Best Score",
     "gameOver": {
       "title": "Game Over",
