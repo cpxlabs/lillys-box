@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 
 /**
  * Color Tap - Example Claude AI Artifact
@@ -45,6 +45,10 @@ const ColorTapGame: React.FC = () => {
   const [gameOver, setGameOver] = useState(false);
   const [timeLeft, setTimeLeft] = useState(100);
 
+  const scoreRef = useRef(0);
+  const livesRef = useRef(3);
+  const gameOverRef = useRef(false);
+
   const pickNewRound = useCallback(() => {
     const target = COLORS[Math.floor(Math.random() * COLORS.length)];
     const others = COLORS.filter((c) => c.name !== target.name);
@@ -55,7 +59,17 @@ const ColorTapGame: React.FC = () => {
     setTimeLeft(100);
   }, []);
 
+  const endGame = useCallback(() => {
+    if (gameOverRef.current) return;
+    gameOverRef.current = true;
+    setGameOver(true);
+    if (window.RNBridge) window.RNBridge.gameOver(scoreRef.current);
+  }, []);
+
   const startGame = () => {
+    scoreRef.current = 0;
+    livesRef.current = 3;
+    gameOverRef.current = false;
     setScore(0);
     setLives(3);
     setGameOver(false);
@@ -70,39 +84,41 @@ const ColorTapGame: React.FC = () => {
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
         if (prev <= 0) {
-          setLives((l) => {
-            const newLives = l - 1;
-            if (newLives <= 0) {
-              setGameOver(true);
-              if (window.RNBridge) window.RNBridge.gameOver(score);
-            }
-            return newLives;
-          });
-          pickNewRound();
+          const newLives = livesRef.current - 1;
+          livesRef.current = newLives;
+          setLives(newLives);
+          if (newLives <= 0) {
+            endGame();
+          } else {
+            pickNewRound();
+          }
           return 100;
         }
-        return prev - 2;
+        // Speed increases every 50 points (max 5x faster)
+        const decrement = Math.min(10, 2 + Math.floor(scoreRef.current / 50));
+        return Math.max(0, prev - decrement);
       });
     }, 100);
 
     return () => clearInterval(timer);
-  }, [gameStarted, gameOver, pickNewRound, score]);
+  }, [gameStarted, gameOver, pickNewRound, endGame]);
 
   const handleTap = (color: ColorOption) => {
-    if (gameOver) return;
+    if (gameOverRef.current) return;
 
     if (color.name === targetColor.name) {
-      const newScore = score + 10;
+      const newScore = scoreRef.current + 10;
+      scoreRef.current = newScore;
       setScore(newScore);
       setFeedback('Correct!');
       if (window.RNBridge) window.RNBridge.sendScore(newScore);
     } else {
-      setFeedback('Wrong!');
-      const newLives = lives - 1;
+      const newLives = livesRef.current - 1;
+      livesRef.current = newLives;
       setLives(newLives);
+      setFeedback('Wrong!');
       if (newLives <= 0) {
-        setGameOver(true);
-        if (window.RNBridge) window.RNBridge.gameOver(score);
+        endGame();
         return;
       }
     }
