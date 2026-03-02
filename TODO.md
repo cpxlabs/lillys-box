@@ -5,9 +5,19 @@
 - [ ] Bundle size analysis with `npx expo-doctor`
 - [ ] Profile with React DevTools and Flipper
 - [ ] Test on low-end Android devices (4GB RAM or less)
-- [ ] Remaining code review items: H5, H6, H9, M1–M3, M5, M9–M12, M14–M15, M17–M18, L1–L10
 
 ## Done
+
+### Mar 2026 — Code Review Fixes (Sprint 3-4)
+- [x] Fix M10: inline `style={{ flexGrow: 0 }}` in Alt9FlatMaterial → use shared `sharedStyles.noGrow`
+- [x] Add tests for GifPicker (4 tests)
+- [x] Add tests for MediaAttachment (5 tests)
+- [x] Add tests for BannerAd (2 tests)
+- [x] Add tests for ReviewModal (7 tests)
+- [x] Add tests for SettingsModal (7 tests)
+- [x] Add tests for HomeScreen (9 tests)
+- [x] Add tests for GameReviewsScreen (10 tests)
+- [x] All remaining code review items resolved: H5–H9, M1–M18, L1–L10
 
 ### Mar 2026 — Code Review Fixes (Sprint 1-2)
 - [x] Fix AdService rewarded-ad listener leak (C2) — replaced self-referential listener pattern with named `earnedRewardUnsub`/`closedUnsub` refs and a `cleanup()` helper
