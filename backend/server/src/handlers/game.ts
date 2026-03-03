@@ -23,7 +23,6 @@ export function registerGameHandlers(
       socket.emit(Events.ERROR, { message: 'Game already started' });
       return;
     }
-    // Only the host (first player) may start
     if (room.players[0].userId !== userId) {
       socket.emit(Events.ERROR, { message: 'Only the host can start the game' });
       return;

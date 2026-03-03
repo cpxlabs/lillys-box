@@ -21,27 +21,18 @@ const io = new Server(httpServer, {
   cors: { origin: '*' },
 });
 
-/**
- * Auth middleware.
- *
- * Production path  – client sends a Google ID token; we verify it.
- * Dev / guest path – client sends { userId, displayName } directly
- *                    (no token verification).
- */
 io.use(async (socket, next) => {
   const auth = (socket.handshake.auth || {}) as Record<string, unknown>;
   const token = auth.token as string | undefined;
   const userId = auth.userId as string | undefined;
   const displayName = auth.displayName as string | undefined;
 
-  // ── dev / guest shortcut ────────────────────────────────────────
   if (userId && displayName) {
     (socket as any).userId = userId;
     (socket as any).displayName = displayName;
     return next();
   }
 
-  // ── production: verify Google ID token ──────────────────────────
   if (token) {
     try {
       const userData = await verifyGoogleToken(token);

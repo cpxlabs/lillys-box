@@ -3,7 +3,6 @@ import { Events } from '../../shared/src/events';
 import { GameLoop } from './gameLoop';
 
 function generateRoomCode(): string {
-  // Omit O, 0, I, 1 to avoid visual confusion
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   let code = '';
   for (let i = 0; i < 6; i++) {
@@ -27,7 +26,6 @@ export interface RoomState {
 
 class RoomManager {
   private rooms = new Map<string, RoomState>();
-  /** Reverse index: socketId → roomCode */
   private socketToRoom = new Map<string, string>();
 
   createRoom(socket: Socket, userId: string, displayName: string): string {
@@ -72,10 +70,6 @@ class RoomManager {
     return this.rooms.get(code);
   }
 
-  /**
-   * Remove a player from their current room.
-   * Deletes the room entirely if it becomes empty.
-   */
   removePlayerFromRoom(socketId: string): {
     room?: RoomState;
     removedPlayer?: RoomPlayer;
@@ -97,10 +91,6 @@ class RoomManager {
     return { room, removedPlayer: removed };
   }
 
-  /**
-   * Called when a socket disconnects.
-   * Stops any active game loop and notifies the remaining player.
-   */
   handleDisconnect(io: Server, socketId: string): void {
     const code = this.socketToRoom.get(socketId);
     if (!code) return;
@@ -108,7 +98,6 @@ class RoomManager {
     const room = this.rooms.get(code);
     if (!room) return;
 
-    // Stop any running game
     if (room.gameLoop) {
       room.gameLoop.destroy();
       room.gameLoop = null;
@@ -116,7 +105,6 @@ class RoomManager {
 
     const { removedPlayer } = this.removePlayerFromRoom(socketId);
 
-    // Notify the remaining player (if any)
     if (room.players.length > 0) {
       io.to(code).emit(Events.OPPONENT_DISCONNECTED, {
         message: removedPlayer?.displayName || 'Opponent',

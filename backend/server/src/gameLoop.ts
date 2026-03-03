@@ -24,7 +24,6 @@ interface GameState {
   answers: PlayerAnswer[];
   roundTimer: ReturnType<typeof setTimeout> | null;
   roundStartedAt: number;
-  /** False between resolveRound and the next advanceRound. Drops stale answers. */
   roundActive: boolean;
 }
 
@@ -54,12 +53,10 @@ export class GameLoop {
     };
   }
 
-  /** Kick off the first round. */
   start(): void {
     this.advanceRound();
   }
 
-  /** Tear down timers (e.g. on disconnect). */
   destroy(): void {
     this.destroyed = true;
     if (this.state.roundTimer) {
@@ -68,11 +65,9 @@ export class GameLoop {
     }
   }
 
-  /** Record a player's answer. Resolves the round immediately when both answers are in. */
   handleAnswer(userId: string, option: number): void {
     if (this.destroyed || !this.state.roundActive) return;
     if (!this.state.playerIds.includes(userId)) return;
-    // Ignore duplicate answers from the same player
     if (this.state.answers.some((a) => a.userId === userId)) return;
 
     this.state.answers.push({ userId, option, timestamp: Date.now() });
@@ -81,8 +76,6 @@ export class GameLoop {
       this.resolveRound();
     }
   }
-
-  // ── private ─────────────────────────────────────────────────────
 
   private advanceRound(): void {
     if (this.destroyed) return;
@@ -109,7 +102,6 @@ export class GameLoop {
 
     this.io.to(this.state.roomCode).emit(Events.ROUND, payload);
 
-    // Safety net: auto-resolve after the wall-clock timeout
     this.state.roundTimer = setTimeout(() => {
       if (!this.destroyed) this.resolveRound();
     }, ROUND_TIMEOUT_MS);
@@ -118,7 +110,6 @@ export class GameLoop {
   private resolveRound(): void {
     if (this.destroyed) return;
 
-    // Mark round as inactive first — any late answers are dropped
     this.state.roundActive = false;
 
     if (this.state.roundTimer) {
@@ -133,12 +124,10 @@ export class GameLoop {
     let isTie = false;
 
     if (correctAnswers.length === 0) {
-      // No correct answers — no points awarded
     } else if (correctAnswers.length === 1) {
       winnerId = correctAnswers[0].userId;
       this.state.scores[winnerId] += POINTS_PER_CORRECT;
     } else {
-      // Both correct — compare arrival timestamps
       const sorted = [...correctAnswers].sort((a, b) => a.timestamp - b.timestamp);
       if (sorted[1].timestamp - sorted[0].timestamp < TIE_THRESHOLD_MS) {
         isTie = true;
@@ -160,7 +149,6 @@ export class GameLoop {
 
     this.io.to(this.state.roomCode).emit(Events.ROUND_RESULT, payload);
 
-    // Brief pause before the next round so clients can display the result
     setTimeout(() => {
       if (!this.destroyed) this.advanceRound();
     }, 2000);

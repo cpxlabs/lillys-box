@@ -9,15 +9,12 @@ export function registerLobbyHandlers(
   displayName: string
 ): void {
   socket.on(Events.CREATE_ROOM, () => {
-    // Leave any previously joined room first
     roomManager.removePlayerFromRoom(socket.id);
 
     const code = roomManager.createRoom(socket, userId, displayName);
 
-    // Tell the creator their room code
     socket.emit(Events.ROOM_CREATED, { code });
 
-    // Broadcast current player list to the room
     const room = roomManager.getRoomByCode(code)!;
     io.to(code).emit(Events.PLAYER_JOINED, {
       players: room.players.map((p) => ({ userId: p.userId, displayName: p.displayName })),
@@ -32,7 +29,6 @@ export function registerLobbyHandlers(
       return;
     }
 
-    // Leave any previously joined room first
     roomManager.removePlayerFromRoom(socket.id);
 
     const result = roomManager.joinRoom(socket, code, userId, displayName);
@@ -56,7 +52,6 @@ export function registerLobbyHandlers(
     roomManager.removePlayerFromRoom(socket.id);
     socket.leave(code);
 
-    // Notify remaining players
     if (room.players.length > 0) {
       io.to(code).emit(Events.PLAYER_LEFT, {
         players: room.players.map((p) => ({ userId: p.userId, displayName: p.displayName })),
