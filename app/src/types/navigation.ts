@@ -34,6 +34,8 @@ export type RootStackParamList = {
   Vet: undefined;
   /** Wardrobe customization scene */
   Wardrobe: undefined;
+  /** Help and FAQ screen */
+  Help: undefined;
   /** Game selection screen */
   GameSelection: undefined;
   /** Mini-game screens */
@@ -61,7 +63,10 @@ export type RootStackParamList = {
   LightningTapHome: undefined;
   LightningTapGame: undefined;
   MemoryMatchHome: undefined;
-  MemoryMatchGame: { difficulty: 'easy' | 'medium' | 'hard' | 'expert'; mode: 'classic' | 'timeAttack' };
+  MemoryMatchGame: {
+    difficulty: 'easy' | 'medium' | 'hard' | 'expert';
+    mode: 'classic' | 'timeAttack';
+  };
   MirrorMatchHome: undefined;
   MirrorMatchGame: undefined;
   MusicMakerHome: undefined;

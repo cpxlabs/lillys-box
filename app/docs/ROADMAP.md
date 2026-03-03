@@ -29,11 +29,11 @@ This document outlines the roadmap for future development, improvements, and fea
 - [x] Audio tab in SettingsModal (sound effects, music, silent mode toggles)
 - [x] AppState-aware background music (auto-pause on background, resume on foreground)
 - [ ] Replace placeholder WAVs with real/polished audio assets
-- [ ] Activity-specific sounds:
-  - Eating/chewing sounds for feeding
-  - Water/splash sounds for bathing
-  - Play sounds (ball bounce, toy squeaks)
-  - Clothing swap sounds for wardrobe
+- [x] Activity-specific sounds:
+  - [x] Eating/chewing sounds for feeding (via usePetActions → 'eating')
+  - [x] Water/splash sounds for bathing (BathScene → 'water_splash' on each scrub)
+  - [x] Play sounds (ball bounce — via usePetActions → 'ball_bounce')
+  - [x] Clothing swap sounds for wardrobe (WardrobeScene → 'clothes_swap' on item select)
 
 **Files created/updated:**
 - `/assets/sounds/` directory structure
@@ -303,7 +303,7 @@ src/
 - [x] `GifPicker` now has error state + retry button on fetch failure
 - [x] All `console.warn` calls in `AudioService.ts` routed to `logger.warn`
 - [x] Create contribution guidelines (CONTRIBUTING.md)
-- [ ] Set up Husky for pre-commit hooks (Future)
+- [x] Set up Husky for pre-commit hooks (`.husky/pre-commit` runs lint-staged + locale check)
 - [ ] Document complex functions with JSDoc (In Progress)
 
 ---
@@ -423,10 +423,10 @@ src/
 **Priority:** Medium
 
 - [ ] In-app tutorial for first-time users
-- [ ] Help/FAQ screen
-- [ ] Tips and tricks section
+- [x] Help/FAQ screen (HelpScreen with 12 FAQ items, tips, and GitHub support link)
+- [x] Tips and tricks section (included in HelpScreen)
 - [ ] Parental controls documentation
-- [ ] Contact/support information
+- [ ] Contact/support information (GitHub link included in HelpScreen)
 
 ---
 

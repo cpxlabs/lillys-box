@@ -13,6 +13,7 @@ import { ScreenNavigationProp } from '../types/navigation';
 import { calculatePetAge } from '../utils/age';
 import { useResponsive } from '../hooks/useResponsive';
 import { PET_SIZE_SMALL, WARDROBE_SIZES } from '../config/responsive';
+import { audioService } from '../services/AudioService';
 
 type Props = {
   navigation: ScreenNavigationProp<'Wardrobe'>;
@@ -45,6 +46,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
   const itemsForSlot = getItemsBySlot(selectedSlot);
 
   const handleSelectItem = (itemId: string | null) => {
+    audioService.playSound('clothes_swap');
     setClothing(selectedSlot, itemId);
   };
 
@@ -104,7 +106,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
             style={[
               styles.itemButton,
               {
-                width: wardrobeSizes.itemWidth as any,
+                width: wardrobeSizes.itemWidth,
                 padding: wardrobeSizes.itemPadding,
                 borderRadius: spacing(10),
                 marginBottom: spacing(10),
@@ -121,7 +123,9 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
             >
               ❌
             </Text>
-            <Text style={[styles.itemName, { fontSize: wardrobeSizes.itemName }]}>{t('wardrobe.none')}</Text>
+            <Text style={[styles.itemName, { fontSize: wardrobeSizes.itemName }]}>
+              {t('wardrobe.none')}
+            </Text>
           </TouchableOpacity>
 
           {itemsForSlot.map((item) => (
@@ -130,7 +134,7 @@ export const WardrobeScene: React.FC<Props> = ({ navigation }) => {
               style={[
                 styles.itemButton,
                 {
-                  width: wardrobeSizes.itemWidth as any,
+                  width: wardrobeSizes.itemWidth,
                   padding: wardrobeSizes.itemPadding,
                   borderRadius: spacing(10),
                   marginBottom: spacing(10),
