@@ -39,7 +39,7 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 
 ## 📂 Estrutura do Projeto
 
-A estrutura de pastas e arquivos está documentada detalhadamente em [FOLDER_STRUCTURE.md](../FOLDER_STRUCTURE.md).
+A estrutura de pastas e arquivos está documentada detalhadamente em [FOLDER_STRUCTURE.md](./FOLDER_STRUCTURE.md).
 
 ## 🚀 Como executar
 1) Instale dependências:
@@ -272,25 +272,12 @@ This directory contains all project documentation organized by purpose.
 - **[ROADMAP.md](./ROADMAP.md)** - Project roadmap with future features and milestones
 - **[API_REFERENCE.md](./API_REFERENCE.md)** - Authentication and storage API documentation
 - **[AUTHENTICATION_GUIDE.md](./AUTHENTICATION_GUIDE.md)** - Google OAuth setup, user types, navigation flow
-- **[CODE_REVIEW_2026_02_28.md](./CODE_REVIEW_2026_02_28.md)** - Code review with 39 issues and resolution status
 
 ---
 
 ## 📋 Plans (docs/plans/)
 
-**Implementation plans and temporary planning documents** for features being developed or considered.
-
-### Active Plans
-- **[IMPLEMENTATION_PLAN.md](./plans/IMPLEMENTATION_PLAN.md)** - Comprehensive implementation plan covering testing infrastructure, game features, and code quality (Status: Mostly completed)
-- **[SKIA_BATH_REIMPLEMENTATION_PLAN.md](./plans/SKIA_BATH_REIMPLEMENTATION_PLAN.md)** - Plan to reintegrate Skia 2.4.14 for bath screen bubbles, includes historical context from v0.1.221 (Status: Planning complete)
-
-### Completed/Archived Plans
-- **[OAUTH_PLAN.md](./plans/OAUTH_PLAN.md)** - Google OAuth implementation plan (Status: ✅ COMPLETED Jan 2026)
-- **[REVIEW_SYSTEM_PLAN.md](./plans/REVIEW_SYSTEM_PLAN.md)** - Game review system plan (Status: ✅ COMPLETED Feb 2026)
-- **[CODE_REVIEW_REFACTORING.md](./plans/CODE_REVIEW_REFACTORING.md)** - Code review and refactoring summary (Status: Phase 1 complete, Phase 2 partially complete)
-
-### Asset Plans
-- **[SPRITES_NEEDED.md](./plans/SPRITES_NEEDED.md)** - List of sprites needed for clothing, food, and play items
+- **[SKIA_BATH_REIMPLEMENTATION_PLAN.md](./plans/SKIA_BATH_REIMPLEMENTATION_PLAN.md)** - Plan to reintegrate Skia 2.4.14 for bath screen bubbles (Status: Planning complete)
 
 ---
 
@@ -326,5 +313,4 @@ This directory contains all project documentation organized by purpose.
 ---
 
 **Versão**: 1.2.2
-**Última Atualização**: 2026-03-02
-**Status**: ✅ Funcional e testado — deploy web ativo no Vercel, review system implementado, Sprint 1-2 code review fixes aplicados, sistema de áudio com background music
+**Status**: ✅ Funcional e testado — deploy web ativo no Vercel, review system implementado, sistema de áudio com background music

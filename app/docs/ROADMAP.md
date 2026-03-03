@@ -23,11 +23,11 @@ This document outlines the roadmap for future development, improvements, and fea
 - [x] Add pet action sounds to usePetActions hook (feed, play, bathe, sleep, cuddle, exercise, vet)
 - [x] Add sound settings to SettingsModal (sound effects, music, volume toggles)
 - [x] Add placeholder WAV sound files to `assets/sounds/` (activities, music, pet, ui categories)
-- [x] Add interface variant persistence (save uiIndex to AsyncStorage) ✅ (Feb 2026)
-- [x] Add background music (with mute toggle) ✅ (Mar 2026)
-- [x] Respect device silent mode ✅ (Mar 2026)
-- [x] Audio tab in SettingsModal (sound effects, music, silent mode toggles) ✅ (Mar 2026)
-- [x] AppState-aware background music (auto-pause on background, resume on foreground) ✅ (Mar 2026)
+- [x] Add interface variant persistence (save uiIndex to AsyncStorage)
+- [x] Add background music (with mute toggle)
+- [x] Respect device silent mode
+- [x] Audio tab in SettingsModal (sound effects, music, silent mode toggles)
+- [x] AppState-aware background music (auto-pause on background, resume on foreground)
 - [ ] Replace placeholder WAVs with real/polished audio assets
 - [ ] Activity-specific sounds:
   - Eating/chewing sounds for feeding
@@ -71,7 +71,7 @@ This document outlines the roadmap for future development, improvements, and fea
 ### 🟡 Skia Bath Screen Reimplementation
 **Status:** Planning Complete
 **Priority:** Medium
-**Documentation:** [docs/SKIA_BATH_REIMPLEMENTATION_PLAN.md](./SKIA_BATH_REIMPLEMENTATION_PLAN.md)
+**Documentation:** [plans/SKIA_BATH_REIMPLEMENTATION_PLAN.md](./plans/SKIA_BATH_REIMPLEMENTATION_PLAN.md)
 
 Reintegrate Skia 2.4.14 into the bath screen for high-performance bubble particle system.
 
@@ -129,10 +129,8 @@ Reintegrate Skia 2.4.14 into the bath screen for high-performance bubble particl
 ---
 
 ### ✅ Game Review System
-**Status:** COMPLETED (Feb 2026)
+**Status:** COMPLETED
 **Priority:** Medium
-**Documentation:** [docs/plans/REVIEW_SYSTEM_PLAN.md](./plans/REVIEW_SYSTEM_PLAN.md)
-
 Allow players to leave reviews on individual games directly from the game screen. Reviews include text comments, star ratings, and optional image/GIF attachments.
 
 - [x] `ReviewModal` component (bottom sheet, opens from any game screen)
@@ -207,7 +205,7 @@ Allow players to leave reviews on individual games directly from the game screen
 
 ### ✅ Vercel Web Deployment
 **Priority:** High
-**Status:** COMPLETED (Feb 2026)
+**Status:** COMPLETED
 
 - [x] `vercel.json` configured with `installCommand: npm install --legacy-peer-deps`
 - [x] `buildCommand: EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export --platform web`
@@ -219,7 +217,7 @@ Allow players to leave reviews on individual games directly from the game screen
 
 ### ✅ Testing Infrastructure
 **Priority:** Medium
-**Status:** COMPLETED (Jan 2026)
+**Status:** COMPLETED
 
 - [x] Set up Jest for unit testing
 - [x] Add test coverage for:
@@ -230,7 +228,7 @@ Allow players to leave reviews on individual games directly from the game screen
   - [x] All 25 mini-game home screens and contexts
   - [x] `GameSelectionScreen` (uiIndex persistence — 7 tests)
 - [x] Test scripts configured (test, test:watch, test:coverage, test:ci)
-- [x] 508+ tests total, 502+ passing (99%+) — Mar 2026
+- [x] 508+ tests total, 502+ passing (99%+)
 - [ ] Set up Detox for E2E testing (Future)
 - [ ] Add CI/CD pipeline (GitHub Actions) (Future)
 
@@ -247,39 +245,39 @@ src/
 
 ### ✅ Error Handling and Logging
 **Priority:** Medium
-**Status:** MOSTLY COMPLETED (Mar 2026)
+**Status:** MOSTLY COMPLETED
 
-- [x] Implement centralized error handling ✅ (ErrorService with Sentry + global handlers)
-- [x] Add error boundaries for crash prevention ✅ (Mar 2026)
+- [x] Implement centralized error handling (ErrorService with Sentry + global handlers)
+- [x] Add error boundaries for crash prevention
   - Root-level ErrorBoundary wrapping entire app
   - Per-game ErrorBoundary in `[gameId].tsx` with game-specific recovery UI ("Try Again" + "Go Back")
 - [x] Integrate crash reporting (Sentry) — wizard configured, source maps + debug symbols
-- [x] ErrorBoundary test suite (5 tests) ✅ (Mar 2026)
+- [x] ErrorBoundary test suite (5 tests)
 - [ ] Add analytics (Firebase Analytics or Amplitude)
 - [ ] Log user flows for debugging
 - [ ] Track ad performance metrics
 
 **Files created/updated:**
-- `/src/services/ErrorService.ts` ✅
-- `/src/components/ErrorBoundary.tsx` ✅
-- `/src/components/__tests__/ErrorBoundary.test.tsx` ✅ (Mar 2026)
-- `/app/game/[gameId].tsx` ✅ (per-game error boundary, Mar 2026)
+- `/src/services/ErrorService.ts`
+- `/src/components/ErrorBoundary.tsx`
+- `/src/components/__tests__/ErrorBoundary.test.tsx`
+- `/app/game/[gameId].tsx` (per-game error boundary)
 
 ---
 
 ### ✅ UX Improvements
-**Status:** COMPLETED (Feb 2026)
+**Status:** COMPLETED
 
-- [x] **Interface setting persistence** - uiIndex saved to AsyncStorage; selection survives app restart ✅
+- [x] **Interface setting persistence** - uiIndex saved to AsyncStorage; selection survives app restart
   - Fixed rules-of-hooks violation (`renderGameCard` useCallback moved before early return)
   - Added `GameSelectionScreen` test suite (7 tests covering load, save, validation)
-  - See: `docs/SETTINGS_MODAL_TESTING.md` (KI-001)
+  - uiIndex saved to AsyncStorage; selection survives app restart
 
 ---
 
 ### ✅ Code Quality
 **Priority:** Medium
-**Status:** MOSTLY COMPLETED (Mar 2026)
+**Status:** MOSTLY COMPLETED
 
 - [x] Add ESLint with React Native config
 - [x] Add Prettier for code formatting (with format scripts)
@@ -287,24 +285,24 @@ src/
 - [x] Centralized configuration (actionConfig, constants, gameBalance)
 - [x] Magic numbers eliminated (~90% reduction via constants)
 - [x] usePetActions hook created (~90% code duplication reduction)
-- [x] `useGameBestScore` hook extracted ✅ (Mar 2026) — all 29 game contexts migrated from ~60 lines of duplicated AsyncStorage logic to a single 3-line hook call each
-- [x] `SortOption` type exported and used in `GameSelectorAltProps` (no more `any`) ✅ (Mar 2026)
-- [x] Real `navigation` prop passed to alt UI screens (removed `null as any`) ✅ (Mar 2026)
-- [x] **C2** `AdService` rewarded-ad listener leak fixed — `try/finally` cleanup via `earnedRewardUnsub`/`closedUnsub` ✅ (Mar 2026)
-- [x] **M7** AdMob IDs moved to `EXPO_PUBLIC_ADMOB_*` env vars; startup assertion rejects Google test IDs in production ✅ (Mar 2026)
-- [x] **H1** Silent `catch(() => {})` in `SlidingPuzzleContext` replaced with `logger.warn` ✅ (Mar 2026)
-- [x] **H3** `cancelToken as any` removed from `PetContext` — typed as `{ cancelled: boolean; timer?: ReturnType<typeof setTimeout> }` ✅ (Mar 2026)
-- [x] **H4** `try/catch` added to `useReview.refreshReviews` and `GameSelectionScreen.loadSummaryForGame` ✅ (Mar 2026)
-- [x] **H7** `summariesRef` introduced in `GameSelectionScreen`; `renderGameCard` dependency on `summaries` state removed; `extraData={summaries}` on FlatList ✅ (Mar 2026)
-- [x] **H8** `.catch()` added to `useSpriteSheet` preload promise ✅ (Mar 2026)
-- [x] **P1** `@typescript-eslint/no-explicit-any` upgraded from `warn` → `error`; `any` occurrences in `AdService.ts` replaced with `unknown` ✅ (Mar 2026)
-- [x] **M4** Locale key parity CI script added (`scripts/check-locale-keys.js`) — diffs all `src/locales/*.json` against `en.json` ✅ (Mar 2026)
-- [x] **M8** `debounce` utility gains a `.cancel()` method; PetContext calls `debouncedSave.cancel()` in effect cleanup ✅ (Mar 2026)
-- [x] **M13** `loadPet().then()` guarded by mounted flag in PetContext ✅ (Mar 2026)
-- [x] **M16** `socket.disconnect()` added to `MultiPlayerMuitoContext` useEffect cleanup ✅ (Mar 2026)
-- [x] **M6** `GifPicker` now has error state + retry button on fetch failure ✅ (Mar 2026)
-- [x] **P2** All `console.warn` calls in `AudioService.ts` routed to `logger.warn` ✅ (Mar 2026)
-- [x] Create contribution guidelines (CONTRIBUTING.md) ✅
+- [x] `useGameBestScore` hook extracted — all 29 game contexts migrated from ~60 lines of duplicated AsyncStorage logic to a single 3-line hook call each
+- [x] `SortOption` type exported and used in `GameSelectorAltProps` (no more `any`)
+- [x] Real `navigation` prop passed to alt UI screens (removed `null as any`)
+- [x] `AdService` rewarded-ad listener leak fixed — `try/finally` cleanup via `earnedRewardUnsub`/`closedUnsub`
+- [x] AdMob IDs moved to `EXPO_PUBLIC_ADMOB_*` env vars; startup assertion rejects Google test IDs in production
+- [x] Silent `catch(() => {})` in `SlidingPuzzleContext` replaced with `logger.warn`
+- [x] `cancelToken as any` removed from `PetContext` — typed as `{ cancelled: boolean; timer?: ReturnType<typeof setTimeout> }`
+- [x] `try/catch` added to `useReview.refreshReviews` and `GameSelectionScreen.loadSummaryForGame`
+- [x] `summariesRef` introduced in `GameSelectionScreen`; `renderGameCard` dependency on `summaries` state removed; `extraData={summaries}` on FlatList
+- [x] `.catch()` added to `useSpriteSheet` preload promise
+- [x] `@typescript-eslint/no-explicit-any` upgraded from `warn` → `error`; `any` occurrences in `AdService.ts` replaced with `unknown`
+- [x] Locale key parity CI script added (`scripts/check-locale-keys.js`) — diffs all `src/locales/*.json` against `en.json`
+- [x] `debounce` utility gains a `.cancel()` method; PetContext calls `debouncedSave.cancel()` in effect cleanup
+- [x] `loadPet().then()` guarded by mounted flag in PetContext
+- [x] `socket.disconnect()` added to `MultiPlayerMuitoContext` useEffect cleanup
+- [x] `GifPicker` now has error state + retry button on fetch failure
+- [x] All `console.warn` calls in `AudioService.ts` routed to `logger.warn`
+- [x] Create contribution guidelines (CONTRIBUTING.md)
 - [ ] Set up Husky for pre-commit hooks (Future)
 - [ ] Document complex functions with JSDoc (In Progress)
 
@@ -312,7 +310,7 @@ src/
 
 ### ✅ Internationalization (i18n)
 **Priority:** Low
-**Status:** COMPLETED (Jan 2026) / Extended (Mar 2026)
+**Status:** COMPLETED
 
 - [x] Integrated `react-i18next`
 - [x] Extracted all strings to translation files
@@ -324,8 +322,8 @@ src/
 - [x] Language selector in menu screen
 - [x] Automatic device language detection
 - [x] Persistence of language preference
-- [x] Replaced hardcoded English strings in MenuScreen (welcome greeting, sign-out button, guest banner, sign-out modal, error alerts) with `t()` calls ✅ (Mar 2026)
-- [x] Added `common.error`, `menu.welcomeUser`, `menu.guestUser`, `menu.signOut`, `menu.loginBanner`, `menu.signOutError`, `menu.signOutModal.*` keys to both locales ✅ (Mar 2026)
+- [x] Replaced hardcoded English strings in MenuScreen with `t()` calls
+- [x] Added all missing i18n keys to both locales
 - [ ] Right-to-left (RTL) support (Future if needed)
 - [ ] Test with pseudo-localization (Future)
 
@@ -333,7 +331,7 @@ src/
 
 ### ✅ Authentication System (Google OAuth)
 **Priority:** High
-**Status:** COMPLETED (Jan 2026) / Security fix (Mar 2026)
+**Status:** COMPLETED
 
 - [x] Google Sign-In integration with @react-native-google-signin/google-signin
 - [x] Guest mode support for users who don't want to login
@@ -341,7 +339,7 @@ src/
 - [x] Multi-user data isolation (per-user pet storage)
 - [x] Auth state persistence across app restarts
 - [x] LoginScreen with professional UI
-- [x] Google OAuth client ID read from `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID` env var ✅ (Mar 2026) — removed hardcoded placeholder, added missing-config warning
+- [x] Google OAuth client ID read from `EXPO_PUBLIC_GOOGLE_WEB_CLIENT_ID` env var
 - [x] User info display in MenuScreen header
 - [x] Sign-out functionality with confirmation
 - [x] Guest login prompt banner
@@ -374,7 +372,7 @@ src/
 ### 🔴 Production Preparation
 **Priority:** High
 
-- [x] AdMob IDs moved to env vars; startup assertion guards against test IDs in production ✅ (Mar 2026 — M7)
+- [x] AdMob IDs moved to env vars; startup assertion guards against test IDs in production
 - [ ] Populate `EXPO_PUBLIC_ADMOB_*` env vars in Vercel/EAS production environment
 - [ ] Create production builds for testing
 - [ ] Test on multiple devices (various screen sizes, Android versions)
@@ -435,7 +433,7 @@ src/
 ### 🟡 Developer Documentation
 **Priority:** Medium
 
-- [x] Folder structure guide ✅
+- [x] Folder structure guide
 - [ ] API documentation (if adding backend)
 - [ ] Component documentation with Storybook
 - [ ] Architecture decision records (ADR)
@@ -546,24 +544,24 @@ src/
 
 ### Milestone 1: MVP Enhancement (v1.2)
 **Status:** 95% COMPLETE
-- [x] Folder structure documentation ✅
-- [x] Testing infrastructure ✅ (99% tests passing)
-- [x] Code quality improvements ✅ (ESLint, Prettier, usePetActions hook)
-- [x] i18n support ✅ (English + Portuguese)
-- [x] Accessibility improvements ✅ (partial - haptics, labels)
-- [x] Authentication system with Google OAuth ✅ (Jan 2026)
+- [x] Folder structure documentation
+- [x] Testing infrastructure (99% tests passing)
+- [x] Code quality improvements (ESLint, Prettier, usePetActions hook)
+- [x] i18n support (English + Portuguese)
+- [x] Accessibility improvements (partial - haptics, labels)
+- [x] Authentication system with Google OAuth
   - [x] Google Sign-In integration
   - [x] Guest mode support
   - [x] Multi-user data isolation
   - [x] Comprehensive setup documentation
-- [x] Game Review System ✅ (Feb 2026)
+- [x] Game Review System
   - [x] Review modal with stars, comments, media
   - [x] Image/GIF attachments
   - [x] Firebase Firestore sync
   - [x] Helpful reactions
   - [x] Sort and filter
-- [ ] Skia bath screen reimplementation (Planning Complete - [Plan](./SKIA_BATH_REIMPLEMENTATION_PLAN.md))
-- [x] Audio system with background music, sound effects, and silent mode support ✅ (Mar 2026)
+- [ ] Skia bath screen reimplementation (Planning Complete - [Plan](./plans/SKIA_BATH_REIMPLEMENTATION_PLAN.md))
+- [x] Audio system with background music, sound effects, and silent mode support
 - [x] Advanced performance optimizations (virtual lists, React.memo, useCallback)
 
 ### Milestone 2: Feature Complete (v1.5)
@@ -612,11 +610,9 @@ src/
 
 ---
 
-**Last Updated:** 2026-03-02
 **Current Version:** 1.2.2
-**Status:** ✅ Core features complete — OAuth, 30+ mini-games, web deploy on Vercel, Game Review System, UI persistence, error boundaries, audio system with background music, Sprint 1–2 code review fixes (C1, C2, H1–H4, H7–H8, P1–P2, M4, M6–M8, M13, M16)
-**Features Completed:** 95%+ (core game + OAuth + web deploy + review system + uiIndex persistence + error handling + audio + code quality + sprint 1-2 fixes)
-**Next Version Target:** 1.3.0 (Real audio assets + Skia bath + remaining Sprint 3-4 items)
+**Status:** 95%+ features complete — OAuth, 30+ mini-games, web deploy on Vercel, game reviews, error boundaries, audio system, code quality improvements
+**Next Version Target:** 1.3.0 (Real audio assets + Skia bath)
 
 ---
 
