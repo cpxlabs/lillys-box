@@ -58,7 +58,12 @@ export type SoundType =
 const isWeb = Platform.OS === 'web';
 
 /** Map of sound types to audio file assets */
-const SOUND_MAP: Record<SoundType, any> = isWeb 
+// NOTE: the current files under `assets/sounds` are placeholder WAVs used during
+// development. When v1.3 is prepared, these should be swapped out with the
+// final mastered audio assets. The keys here must match the file basenames.
+// A helper script (`scripts/check-sounds.js`) and the accompanying unit test
+// verify consistency between SOUND_MAP and the directory contents.
+export const SOUND_MAP: Record<SoundType, any> = isWeb 
   ? {} as Record<SoundType, any> 
   : {
   button_click: require('../../assets/sounds/ui/button_click.wav'),
