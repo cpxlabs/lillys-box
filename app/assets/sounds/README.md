@@ -40,11 +40,13 @@ sounds/
   - Pet sounds: 1-3 seconds
   - Music: 30-60 seconds (will loop)
 
+> 🎧 **v1.3 roadmap:** the files currently checked in are placeholders. When ready to ship v1.3, replace these with polished/mastered audio assets using the same filenames (or update `SOUND_MAP` accordingly).
+
 ## Adding New Sounds
 
-1. Add the audio file to the appropriate subdirectory
+1. Add the audio file to the appropriate subdirectory (overwrite placeholder if replacing)
 2. Update `SoundType` in `AudioService.ts` to include the new sound
-3. Add the sound to the `SOUND_MAP` object
+3. Add the sound to the `SOUND_MAP` object (or run `scripts/check-sounds.js` to regenerate mapping)
 4. Update this README with the new file
 
 ## Usage

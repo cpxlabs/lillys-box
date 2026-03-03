@@ -20,6 +20,7 @@
     "lint": "eslint \"src/**/*.{ts,tsx}\"",
     "lint:fix": "eslint \"src/**/*.{ts,tsx}\" --fix",
     "check-locale": "node scripts/check-locale-keys.js",
+    "check-sounds": "node ../scripts/check-sounds.js",
     "prepare": "husky"
   },
   "dependencies": {
