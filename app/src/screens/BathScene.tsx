@@ -24,6 +24,10 @@ import { ANIMATION_DURATION } from '../config/constants';
 import { calculatePetAge } from '../utils/age';
 import { useResponsive } from '../hooks/useResponsive';
 import { ACTION_PET_SIZE, SPONGE_SIZE, SCENE_TEXT_SIZE } from '../config/responsive';
+import { audioService } from '../services/AudioService';
+
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const spongeImage = require('../../assets/sprites/sponge.png') as number;
 
 type Props = {
   navigation: ScreenNavigationProp<'Bath'>;
@@ -88,6 +92,27 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
   const timeoutRefs = React.useRef<Set<NodeJS.Timeout>>(new Set());
   const lastBubbleTime = React.useRef(0);
 
+  // Cleanup timeouts on unmount — must be before early return
+  React.useEffect(() => {
+    const refs = timeoutRefs.current;
+    return () => {
+      refs.forEach((timeout) => clearTimeout(timeout));
+      refs.clear();
+    };
+  }, []);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: translateX.value }],
+  }));
+
+  const spongeAnimatedStyle = useAnimatedStyle(() => ({
+    transform: [
+      { translateX: spongeX.value },
+      { translateY: spongeY.value },
+      { scale: isMoving.value ? withSpring(1.1) : withSpring(1) },
+    ],
+  }));
+
   if (!pet) return null;
 
   const petAge = calculatePetAge(pet.createdAt);
@@ -127,17 +152,12 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
     timeoutRefs.current.add(timeoutId);
   };
 
-  // Cleanup timeouts on unmount
-  React.useEffect(() => {
-    return () => {
-      timeoutRefs.current.forEach((timeout) => clearTimeout(timeout));
-      timeoutRefs.current.clear();
-    };
-  }, []);
-
   const handleScrub = () => {
     const newCount = scrubCount + 1;
     setScrubCount(newCount);
+
+    // Play water splash sound on each scrub
+    audioService.playSound('water_splash');
 
     // Give 5% hygiene per scrub
     bathe(5);
@@ -200,18 +220,6 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
       handleScrub();
     });
 
-  const animatedStyle = useAnimatedStyle(() => ({
-    transform: [{ translateX: translateX.value }],
-  }));
-
-  const spongeAnimatedStyle = useAnimatedStyle(() => ({
-    transform: [
-      { translateX: spongeX.value },
-      { translateY: spongeY.value },
-      { scale: isMoving.value ? withSpring(1.1) : withSpring(1) },
-    ],
-  }));
-
   return (
     <SafeAreaView style={styles.container}>
       <ScreenHeader
@@ -244,7 +252,7 @@ export const BathScene: React.FC<Props> = ({ navigation }) => {
           accessibilityHint="Drag the sponge to bathe your pet"
         >
           <Image
-            source={require('../../assets/sprites/sponge.png')}
+            source={spongeImage}
             style={[styles.spongeImage, { width: spongeSizes.width, height: spongeSizes.height }]}
           />
         </Animated.View>

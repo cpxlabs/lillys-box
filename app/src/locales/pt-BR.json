@@ -93,7 +93,8 @@
       "message": "Tem certeza que deseja sair? Os dados do seu pet serão preservados.",
       "confirmText": "Sair",
       "cancelText": "Cancelar"
-    }
+    },
+    "help": "❓ Ajuda & FAQ"
   },
   "createPet": {
     "title": "🐾 Criar Novo Pet",
@@ -1012,6 +1013,80 @@
       "correct": "Correto!",
       "complete": "Todas as Palavras Encontradas!",
       "clear": "Limpar"
+    }
+  },
+  "help": {
+    "title": "❓ Ajuda & FAQ",
+    "sections": {
+      "gettingStarted": "Primeiros Passos",
+      "petCare": "Cuidados com o Pet",
+      "games": "Mini-Jogos",
+      "coins": "Moedas & Recompensas",
+      "tips": "Dicas",
+      "support": "Suporte"
+    },
+    "faq": {
+      "howToCreate": {
+        "question": "Como crio um pet?",
+        "answer": "No menu principal, toque em \"Criar Novo Pet\". Escolha entre gato ou cachorro, coloque um nome, gênero e cor do pelo, depois toque em \"Criar Pet\"!"
+      },
+      "petDies": {
+        "question": "Meu pet pode morrer?",
+        "answer": "Não! Seu pet nunca vai morrer. Se os indicadores ficarem muito baixos, ele ficará triste e pode precisar de uma visita ao veterinário, mas sempre se recupera com cuidado."
+      },
+      "statsDecrease": {
+        "question": "Por que os indicadores do meu pet diminuem?",
+        "answer": "Os indicadores diminuem naturalmente com o tempo para simular cuidados reais. Alimente, banhie e brinque com seu pet regularmente para mantê-lo feliz e saudável."
+      },
+      "howToFeed": {
+        "question": "Como alimento meu pet?",
+        "answer": "Toque no botão \"Alimentar\" na tela inicial. Escolha entre ração, peixe, petisco ou leite. Cada alimento afeta seu pet de forma diferente!"
+      },
+      "howToBathe": {
+        "question": "Como dou banho no meu pet?",
+        "answer": "Toque em \"Banho\" e arraste a esponja pelo pet. Esfregue 5 vezes para completar o banho e ganhar moedas!"
+      },
+      "vetVisit": {
+        "question": "Quando devo visitar o veterinário?",
+        "answer": "Visite o veterinário quando a saúde do seu pet cair abaixo de 60%. Você pode pagar com moedas ou assistir a um anúncio gratuitamente."
+      },
+      "earnCoins": {
+        "question": "Como ganho moedas?",
+        "answer": "Ganhe moedas cuidando do seu pet (alimentar, banhar, brincar, dormir) e jogando mini-jogos. Assista a anúncios para dobrar suas recompensas!"
+      },
+      "miniGames": {
+        "question": "O que são mini-jogos?",
+        "answer": "Mini-jogos são atividades divertidas que você pode jogar para ganhar moedas. Acesse-os pela tela de seleção de jogos. Há mais de 30 jogos para explorar!"
+      },
+      "bestScore": {
+        "question": "Como funcionam as melhores pontuações?",
+        "answer": "Cada mini-jogo registra sua melhor pontuação individualmente. Tente superar seu recorde pessoal a cada vez que jogar!"
+      },
+      "doubleReward": {
+        "question": "O que é a recompensa dupla?",
+        "answer": "Após completar atividades de cuidado com o pet, você pode assistir a um anúncio curto para dobrar sua recompensa de moedas. É sempre opcional!"
+      },
+      "language": {
+        "question": "Como mudo o idioma?",
+        "answer": "Vá até a tela do Menu e use o seletor de idioma para alternar entre Inglês e Português (Brasil)."
+      },
+      "dataLoss": {
+        "question": "Vou perder meus dados?",
+        "answer": "Os dados do seu pet são salvos localmente no seu dispositivo. Se você entrar com o Google, seus dados também são salvos na nuvem."
+      }
+    },
+    "tips": {
+      "title": "Dicas Profissionais",
+      "tip1": "Verifique a energia do seu pet antes de fazer atividades — um pet cansado não vai aproveitar!",
+      "tip2": "Assista a anúncios para dobrar as recompensas de moedas das atividades de cuidado.",
+      "tip3": "Visite o veterinário cedo — é mais barato prevenir do que tratar doenças.",
+      "tip4": "Jogue mini-jogos para ganhar moedas extras para visitas ao veterinário e itens de guarda-roupa.",
+      "tip5": "Entre com o Google para fazer backup dos dados do seu pet em vários dispositivos."
+    },
+    "support": {
+      "title": "Precisa de Mais Ajuda?",
+      "message": "Se você tiver dúvidas não cobertas aqui, visite nossa página no GitHub ou crie um problema.",
+      "github": "Visitar GitHub"
     }
   }
 }

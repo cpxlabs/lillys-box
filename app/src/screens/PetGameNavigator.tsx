@@ -11,6 +11,7 @@ import { WardrobeScene } from './WardrobeScene';
 import { PlayScene } from './PlayScene';
 import { SleepScene } from './SleepScene';
 import { VetScene } from './VetScene';
+import { HelpScreen } from './HelpScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +43,7 @@ export const PetGameNavigator: React.FC = () => {
       <Stack.Screen name="Play" component={PlayScene} />
       <Stack.Screen name="Sleep" component={SleepScene} />
       <Stack.Screen name="Vet" component={VetScene} />
+      <Stack.Screen name="Help" component={HelpScreen} />
     </Stack.Navigator>
   );
 };

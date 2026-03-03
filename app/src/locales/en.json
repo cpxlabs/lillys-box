@@ -93,7 +93,8 @@
       "message": "Are you sure you want to sign out? Your pet data will be preserved.",
       "confirmText": "Sign Out",
       "cancelText": "Cancel"
-    }
+    },
+    "help": "❓ Help & FAQ"
   },
   "createPet": {
     "title": "🐾 Create New Pet",
@@ -1012,6 +1013,80 @@
       "correct": "Correct!",
       "complete": "All Words Found!",
       "clear": "Clear"
+    }
+  },
+  "help": {
+    "title": "❓ Help & FAQ",
+    "sections": {
+      "gettingStarted": "Getting Started",
+      "petCare": "Pet Care",
+      "games": "Mini-Games",
+      "coins": "Coins & Rewards",
+      "tips": "Tips & Tricks",
+      "support": "Support"
+    },
+    "faq": {
+      "howToCreate": {
+        "question": "How do I create a pet?",
+        "answer": "From the main menu, tap \"Create New Pet\". Choose between a cat or dog, pick a name, gender, and coat color, then tap \"Create Pet\"!"
+      },
+      "petDies": {
+        "question": "Can my pet die?",
+        "answer": "No! Your pet will never die. If stats drop too low, your pet becomes unhappy and may need a vet visit, but they always recover with care."
+      },
+      "statsDecrease": {
+        "question": "Why do my pet's stats decrease?",
+        "answer": "Pet stats decrease naturally over time to simulate real pet care. Feed, bathe, and play with your pet regularly to keep them happy and healthy."
+      },
+      "howToFeed": {
+        "question": "How do I feed my pet?",
+        "answer": "Tap the \"Feed\" button on the home screen. Choose from kibble, fish, treats, or milk. Each food affects your pet differently!"
+      },
+      "howToBathe": {
+        "question": "How do I bathe my pet?",
+        "answer": "Tap \"Bath\" and drag the sponge across your pet. Scrub 5 times to complete the bath and earn coins!"
+      },
+      "vetVisit": {
+        "question": "When should I visit the vet?",
+        "answer": "Visit the vet when your pet's health drops below 60%. You can pay with coins or watch an ad for a free visit."
+      },
+      "earnCoins": {
+        "question": "How do I earn coins?",
+        "answer": "Earn coins by caring for your pet (feeding, bathing, playing, sleeping) and by playing mini-games. Watch ads to double your rewards!"
+      },
+      "miniGames": {
+        "question": "What are mini-games?",
+        "answer": "Mini-games are fun activities you can play to earn coins. Access them from the game selection screen. There are 30+ games to explore!"
+      },
+      "bestScore": {
+        "question": "How do best scores work?",
+        "answer": "Each mini-game tracks your best score separately. Try to beat your personal best each time you play!"
+      },
+      "doubleReward": {
+        "question": "What is the double reward?",
+        "answer": "After completing pet care activities, you may be offered the chance to watch a short ad to double your coin reward. It's always optional!"
+      },
+      "language": {
+        "question": "How do I change the language?",
+        "answer": "Go to the Menu screen and use the language selector to switch between English and Portuguese (Brazil)."
+      },
+      "dataLoss": {
+        "question": "Will I lose my data?",
+        "answer": "Your pet data is saved locally on your device. If you sign in with Google, your data is also backed up to the cloud."
+      }
+    },
+    "tips": {
+      "title": "Pro Tips",
+      "tip1": "Check your pet's energy before doing activities — a tired pet won't enjoy them!",
+      "tip2": "Watch ads to double coin rewards from pet care activities.",
+      "tip3": "Visit the vet early — it's cheaper to prevent illness than treat it.",
+      "tip4": "Play mini-games to earn extra coins for vet visits and wardrobe items.",
+      "tip5": "Sign in with Google to back up your pet data across devices."
+    },
+    "support": {
+      "title": "Need More Help?",
+      "message": "If you have questions not covered here, please visit our GitHub page or create an issue.",
+      "github": "Visit GitHub"
     }
   }
 }

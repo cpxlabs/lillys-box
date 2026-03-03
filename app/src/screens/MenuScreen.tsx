@@ -1,13 +1,5 @@
 import React, { useState } from 'react';
-import {
-    View,
-    Text,
-    TouchableOpacity,
-    StyleSheet,
-    SafeAreaView,
-    Image,
-    Alert,
-} from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Image, Alert } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
 import { useAuth } from '../context/AuthContext';
@@ -20,12 +12,12 @@ type Props = {
 };
 
 export const MenuScreen: React.FC<Props> = ({ navigation }) => {
-    const { pet, removePet } = usePet();
-    const { user, isGuest, signOut } = useAuth();
-    const { t } = useTranslation();
-    const [showNewPetConfirm, setShowNewPetConfirm] = useState(false);
-    const [showDeletePetConfirm, setShowDeletePetConfirm] = useState(false);
-    const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
+  const { pet, removePet } = usePet();
+  const { user, isGuest, signOut } = useAuth();
+  const { t } = useTranslation();
+  const [showNewPetConfirm, setShowNewPetConfirm] = useState(false);
+  const [showDeletePetConfirm, setShowDeletePetConfirm] = useState(false);
+  const [showSignOutConfirm, setShowSignOutConfirm] = useState(false);
 
   const handleContinue = () => {
     if (pet) {
@@ -58,62 +50,54 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
     await removePet();
   };
 
-    const handleSignOut = () => {
-        setShowSignOutConfirm(true);
-    };
+  const handleHelp = () => {
+    navigation.navigate('Help');
+  };
 
-    const handleConfirmSignOut = async () => {
-        setShowSignOutConfirm(false);
-        try {
-            await signOut();
-        } catch (error) {
-            Alert.alert(t('common.error'), t('menu.signOutError'));
-        }
-    };
+  const handleSignOut = () => {
+    setShowSignOutConfirm(true);
+  };
 
-    return (
-        <SafeAreaView style={styles.container}>
-            {/* User Info Header */}
-            <View style={styles.header}>
-                <View style={styles.userInfoContainer}>
-                    {user?.photo && (
-                        <Image
-                            source={{ uri: user.photo }}
-                            style={styles.userPhoto}
-                        />
-                    )}
-                    <View style={styles.userTextContainer}>
-                        <Text style={styles.userName}>
-                            {user ? t('menu.welcomeUser', { name: user.name }) : t('menu.guestUser')}
-                        </Text>
-                        {user?.email && (
-                            <Text style={styles.userEmail}>{user.email}</Text>
-                        )}
-                    </View>
-                </View>
+  const handleConfirmSignOut = async () => {
+    setShowSignOutConfirm(false);
+    try {
+      await signOut();
+    } catch {
+      Alert.alert(t('common.error'), t('menu.signOutError'));
+    }
+  };
 
-                {!isGuest && (
-                    <TouchableOpacity
-                        style={styles.signOutButton}
-                        onPress={handleSignOut}
-                    >
-                        <Text style={styles.signOutButtonText}>{t('menu.signOut')}</Text>
-                    </TouchableOpacity>
-                )}
-            </View>
+  return (
+    <SafeAreaView style={styles.container}>
+      {/* User Info Header */}
+      <View style={styles.header}>
+        <View style={styles.userInfoContainer}>
+          {user?.photo && <Image source={{ uri: user.photo }} style={styles.userPhoto} />}
+          <View style={styles.userTextContainer}>
+            <Text style={styles.userName}>
+              {user ? t('menu.welcomeUser', { name: user.name }) : t('menu.guestUser')}
+            </Text>
+            {user?.email && <Text style={styles.userEmail}>{user.email}</Text>}
+          </View>
+        </View>
 
-            {/* Guest Login Prompt */}
-            {isGuest && (
-                <View style={styles.guestBannerContainer}>
-                    <Text style={styles.guestBannerText}>
-                        {t('menu.loginBanner')}
-                    </Text>
-                </View>
-            )}
+        {!isGuest && (
+          <TouchableOpacity style={styles.signOutButton} onPress={handleSignOut}>
+            <Text style={styles.signOutButtonText}>{t('menu.signOut')}</Text>
+          </TouchableOpacity>
+        )}
+      </View>
 
-            <View style={styles.content}>
-                <Text style={styles.title}>{t('menu.title')}</Text>
-                <Text style={styles.subtitle}>{t('menu.subtitle')}</Text>
+      {/* Guest Login Prompt */}
+      {isGuest && (
+        <View style={styles.guestBannerContainer}>
+          <Text style={styles.guestBannerText}>{t('menu.loginBanner')}</Text>
+        </View>
+      )}
+
+      <View style={styles.content}>
+        <Text style={styles.title}>{t('menu.title')}</Text>
+        <Text style={styles.subtitle}>{t('menu.subtitle')}</Text>
 
         {/* Language Selector */}
         <View style={styles.languageContainer}>
@@ -164,6 +148,15 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
               <Text style={styles.deletePetButtonText}>{t('menu.deletePet')}</Text>
             </TouchableOpacity>
           )}
+
+          <TouchableOpacity
+            style={styles.helpButton}
+            onPress={handleHelp}
+            accessibilityRole="button"
+            accessibilityLabel={t('menu.help')}
+          >
+            <Text style={styles.helpButtonText}>{t('menu.help')}</Text>
+          </TouchableOpacity>
         </View>
       </View>
 
@@ -178,167 +171,179 @@ export const MenuScreen: React.FC<Props> = ({ navigation }) => {
         onCancel={() => setShowNewPetConfirm(false)}
       />
 
-            <ConfirmModal
-                visible={showDeletePetConfirm}
-                title={t('menu.deletePetModal.title')}
-                message={pet ? t('menu.deletePetModal.message', { name: pet.name }) : ''}
-                confirmText={t('menu.deletePetModal.confirmText')}
-                cancelText={t('menu.deletePetModal.cancelText')}
-                confirmStyle="destructive"
-                onConfirm={handleConfirmDeletePet}
-                onCancel={() => setShowDeletePetConfirm(false)}
-            />
+      <ConfirmModal
+        visible={showDeletePetConfirm}
+        title={t('menu.deletePetModal.title')}
+        message={pet ? t('menu.deletePetModal.message', { name: pet.name }) : ''}
+        confirmText={t('menu.deletePetModal.confirmText')}
+        cancelText={t('menu.deletePetModal.cancelText')}
+        confirmStyle="destructive"
+        onConfirm={handleConfirmDeletePet}
+        onCancel={() => setShowDeletePetConfirm(false)}
+      />
 
-            <ConfirmModal
-                visible={showSignOutConfirm}
-                title={t('menu.signOutModal.title')}
-                message={t('menu.signOutModal.message')}
-                confirmText={t('menu.signOutModal.confirmText')}
-                cancelText={t('menu.signOutModal.cancelText')}
-                confirmStyle="destructive"
-                onConfirm={handleConfirmSignOut}
-                onCancel={() => setShowSignOutConfirm(false)}
-            />
-        </SafeAreaView>
-    );
+      <ConfirmModal
+        visible={showSignOutConfirm}
+        title={t('menu.signOutModal.title')}
+        message={t('menu.signOutModal.message')}
+        confirmText={t('menu.signOutModal.confirmText')}
+        cancelText={t('menu.signOutModal.cancelText')}
+        confirmStyle="destructive"
+        onConfirm={handleConfirmSignOut}
+        onCancel={() => setShowSignOutConfirm(false)}
+      />
+    </SafeAreaView>
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#f5f0ff',
-    },
-    header: {
-        backgroundColor: '#ffffff',
-        paddingHorizontal: 16,
-        paddingVertical: 12,
-        borderBottomWidth: 1,
-        borderBottomColor: '#e0e0e0',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    userInfoContainer: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        flex: 1,
-    },
-    userPhoto: {
-        width: 40,
-        height: 40,
-        borderRadius: 20,
-        marginRight: 12,
-    },
-    userTextContainer: {
-        flex: 1,
-    },
-    userName: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#333333',
-    },
-    userEmail: {
-        fontSize: 12,
-        color: '#999999',
-        marginTop: 2,
-    },
-    signOutButton: {
-        paddingHorizontal: 12,
-        paddingVertical: 6,
-        borderRadius: 4,
-        backgroundColor: '#f5f0ff',
-        borderWidth: 1,
-        borderColor: '#9b59b6',
-    },
-    signOutButtonText: {
-        color: '#9b59b6',
-        fontSize: 12,
-        fontWeight: '500',
-    },
-    guestBannerContainer: {
-        backgroundColor: '#fff3cd',
-        padding: 12,
-        borderBottomWidth: 1,
-        borderBottomColor: '#ffc107',
-    },
-    guestBannerText: {
-        color: '#856404',
-        fontSize: 13,
-        fontWeight: '500',
-        textAlign: 'center',
-    },
-    content: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 24,
-    },
-    title: {
-        fontSize: 42,
-        fontWeight: 'bold',
-        color: '#9b59b6',
-        marginBottom: 8,
-    },
-    subtitle: {
-        fontSize: 18,
-        color: '#666',
-        marginBottom: 24,
-    },
-    languageContainer: {
-        marginBottom: 24,
-    },
-    buttonContainer: {
-        width: '100%',
-    },
-    continueButton: {
-        backgroundColor: '#9b59b6',
-        paddingVertical: 18,
-        paddingHorizontal: 32,
-        borderRadius: 16,
-        alignItems: 'center',
-        shadowColor: '#9b59b6',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 8,
-        elevation: 5,
-        marginBottom: 16,
-    },
-    continueButtonText: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    newPetButton: {
-        backgroundColor: '#9b59b6',
-        paddingVertical: 18,
-        paddingHorizontal: 32,
-        borderRadius: 16,
-        alignItems: 'center',
-        shadowColor: '#9b59b6',
-        shadowOffset: { width: 0, height: 4 },
-        shadowOpacity: 0.3,
-        shadowRadius: 8,
-        elevation: 5,
-        marginBottom: 16,
-    },
-    newPetButtonText: {
-        color: '#fff',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
-    deletePetButton: {
-        backgroundColor: '#fff',
-        paddingVertical: 18,
-        paddingHorizontal: 32,
-        borderRadius: 16,
-        alignItems: 'center',
-        borderWidth: 2,
-        borderColor: '#F44336',
-        shadowOpacity: 0.1,
-    },
-    deletePetButtonText: {
-        color: '#F44336',
-        fontSize: 18,
-        fontWeight: 'bold',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#f5f0ff',
+  },
+  header: {
+    backgroundColor: '#ffffff',
+    paddingHorizontal: 16,
+    paddingVertical: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#e0e0e0',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  userInfoContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    flex: 1,
+  },
+  userPhoto: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
+    marginRight: 12,
+  },
+  userTextContainer: {
+    flex: 1,
+  },
+  userName: {
+    fontSize: 14,
+    fontWeight: '600',
+    color: '#333333',
+  },
+  userEmail: {
+    fontSize: 12,
+    color: '#999999',
+    marginTop: 2,
+  },
+  signOutButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 4,
+    backgroundColor: '#f5f0ff',
+    borderWidth: 1,
+    borderColor: '#9b59b6',
+  },
+  signOutButtonText: {
+    color: '#9b59b6',
+    fontSize: 12,
+    fontWeight: '500',
+  },
+  guestBannerContainer: {
+    backgroundColor: '#fff3cd',
+    padding: 12,
+    borderBottomWidth: 1,
+    borderBottomColor: '#ffc107',
+  },
+  guestBannerText: {
+    color: '#856404',
+    fontSize: 13,
+    fontWeight: '500',
+    textAlign: 'center',
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  title: {
+    fontSize: 42,
+    fontWeight: 'bold',
+    color: '#9b59b6',
+    marginBottom: 8,
+  },
+  subtitle: {
+    fontSize: 18,
+    color: '#666',
+    marginBottom: 24,
+  },
+  languageContainer: {
+    marginBottom: 24,
+  },
+  buttonContainer: {
+    width: '100%',
+  },
+  continueButton: {
+    backgroundColor: '#9b59b6',
+    paddingVertical: 18,
+    paddingHorizontal: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    shadowColor: '#9b59b6',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+    marginBottom: 16,
+  },
+  continueButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  newPetButton: {
+    backgroundColor: '#9b59b6',
+    paddingVertical: 18,
+    paddingHorizontal: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    shadowColor: '#9b59b6',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
+    marginBottom: 16,
+  },
+  newPetButtonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  deletePetButton: {
+    backgroundColor: '#fff',
+    paddingVertical: 18,
+    paddingHorizontal: 32,
+    borderRadius: 16,
+    alignItems: 'center',
+    borderWidth: 2,
+    borderColor: '#F44336',
+    shadowOpacity: 0.1,
+  },
+  deletePetButtonText: {
+    color: '#F44336',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  helpButton: {
+    backgroundColor: 'transparent',
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginTop: 8,
+  },
+  helpButtonText: {
+    color: '#9b59b6',
+    fontSize: 15,
+    fontWeight: '500',
+    textDecorationLine: 'underline',
+  },
 });
