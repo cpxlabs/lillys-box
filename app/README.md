@@ -13,13 +13,18 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - 🏥 Levar o pet ao veterinário
 - 👕 Trocar roupas e acessórios (cabeça, olhos, torso, patas)
 - 💾 Persistência local dos dados
-- 🔐 **Autenticação com Google OAuth** (novo!)
+- 🔐 **Autenticação com Google OAuth**
 - 👤 Modo convidado para jogar sem criar conta
 - 📱 Dados isolados por usuário (múltiplos usuários no mesmo dispositivo)
 - ⚠️ Confirmação ao sair para o menu (funciona em web, iOS e Android)
 - 🗑️ Botão para apagar pet no menu com confirmação
 - 💰 Sistema de moedas com anúncios opcionais para bônus
 - 🌐 **Suporte a múltiplos idiomas (Inglês e Português do Brasil)**
+- 🎮 **30+ mini-games** com sistema de pontuação máxima por usuário
+- 🔊 **Sistema de áudio** — música de fundo, efeitos sonoros por atividade, modo silencioso
+- ⭐ **Sistema de reviews** — avaliações de mini-games com estrelas, comentários, imagens e GIFs
+- 🛡️ **Relatórios de erros** com Sentry (bordas de erro + source maps)
+- ❓ **Tela de Ajuda/FAQ** com dicas e suporte
 
 ## 🚀 Quick Start (Início Rápido)
 
@@ -197,15 +202,15 @@ npm run test:ci          # Executa testes em modo CI
 ```
 
 ### Cobertura de Testes
-✅ **Status**: 99% dos testes passando (71/72 testes)
+✅ **Status**: 99%+ dos testes passando (508+ testes)
 
 Áreas cobertas:
-- **Hooks**: `usePetActions` (29/30 testes - ações do pet e animações)
+- **Hooks**: `usePetActions` (ações do pet e animações)
 - **Utils**: `petStats`, `validation`, `storage`
 - **Context**: `PetContext`
-- **Componentes**: `IconButton`, `StatusBar`
-
-Para detalhes sobre a implementação e correção dos testes, consulte [docs/TEST_IMPLEMENTATION_PLAN.md](docs/TEST_IMPLEMENTATION_PLAN.md).
+- **Componentes**: `IconButton`, `StatusBar`, `ErrorBoundary`
+- **Mini-games**: todos os 25+ contextos e telas home
+- **GameSelectionScreen**: persistência de uiIndex (7 testes)
 
 ## Checklist
 - [x] Criar pet
@@ -216,9 +221,17 @@ Para detalhes sobre a implementação e correção dos testes, consulte [docs/TE
 - [x] Persistência local
 - [x] Sistema de monetização com AdMob
 - [x] Suporte a múltiplos idiomas (i18n)
-- [x] **Suíte de testes automatizados (CI-Ready)**
-- [ ] Sons e efeitos visuais
-- [ ] Otimizações de performance
+- [x] **Suíte de testes automatizados (508+ testes, 99%+)**
+- [x] **Sons e efeitos visuais** (áudio completo — música, efeitos por atividade, modo silencioso)
+- [x] **Otimizações de performance** (React.memo, useMemo, listas virtuais, sprite sheets)
+- [x] **30+ mini-games** com sistema de moedas e pontuação máxima
+- [x] **Autenticação Google OAuth** + modo convidado
+- [x] **Game Review System** (estrelas, comentários, mídia, Firebase sync)
+- [x] **Error boundaries** + Sentry crash reporting
+- [x] **Help/FAQ screen**
+- [ ] Substituir WAVs placeholder por áudio real/polido
+- [ ] Reimplementação da tela de banho com Skia (planejado)
+- [ ] Build de produção + submissão na Google Play Store
 
 ## 📐 Arquitetura e Código
 
@@ -268,20 +281,23 @@ bmad dev-story --quick-flow --title "Minha primeira feature BMAD"
 
 ## Documentação Adicional
 Consulte a pasta `docs/` para mais detalhes:
-- `docs/ROADMAP.md`: Planos futuros e melhorias
+- `docs/ROADMAP.md`: Planos futuros e melhorias (atualizado)
 - `docs/RESPONSIVE.md`: Guia de responsividade
-- `docs/IMPLEMENTATION_PLAN.md`: Plano de implementação detalhado
-- `docs/TEST_IMPLEMENTATION_PLAN.md`: Detalhes técnicos e correção da suíte de testes
-- `docs/SKIA_BATH_REIMPLEMENTATION_PLAN.md`: Plano de reimplementação Skia para tela de banho
-- `docs/BMAD_IMPLEMENTATION_PLAN.md`: Plano completo de implementação do BMAD Method
-- `docs/BMAD_QUICKSTART.md`: Guia rápido para começar com BMAD
+- `docs/AUTHENTICATION_GUIDE.md`: Guia de autenticação OAuth
+- `docs/GOOGLE_OAUTH_SETUP.md`: Configuração do Google OAuth
 - `docs/FEED_ACTIONS_DOCUMENTATION.md`: Sistema de alimentação
 - `docs/PLAY_ACTIONS_DOCUMENTATION.md`: Sistema de brincadeiras
 - `docs/VET_ACTIONS_DOCUMENTATION.md`: Sistema veterinário
+- `docs/SPRITE_SHEET_GUIDE.md`: Guia de sprite sheets
 - `docs/FOLDER_STRUCTURE.md`: Estrutura completa de pastas e arquivos
+- `docs/WEB_BUILD_GUIDE.md`: Guia de build para web
+- `docs/E2E_TESTING.md`: Guia de testes E2E
+- `docs/plans/SKIA_BATH_REIMPLEMENTATION_PLAN.md`: Plano de reimplementação Skia para tela de banho
 
 ---
 
-**Versão**: 1.0.0  
-**Status**: ✅ Funcional e testado  
+**Versão**: 1.3.0-dev
+**Status**: ✅ Milestone 1 completo — 30+ mini-games, OAuth, web deploy, game reviews, áudio, error handling
+**Próxima versão**: 1.5.0 (Skia bath + áudio real + preparação para produção)
 **Documentação**: [docs/README.md](./docs/README.md)
+**Atualizado em**: 2026-03-03

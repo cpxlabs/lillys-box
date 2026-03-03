@@ -12,8 +12,8 @@ This document outlines the roadmap for future development, improvements, and fea
 
 ## 📋 Immediate Tasks (From Checklist)
 
-### 🟡 Add Sounds and Audio Effects
-**Status:** Mostly Complete
+### ✅ Add Sounds and Audio Effects
+**Status:** COMPLETED
 **Priority:** Medium
 
 - [x] Integrate `expo-av` for audio playback
@@ -28,12 +28,12 @@ This document outlines the roadmap for future development, improvements, and fea
 - [x] Respect device silent mode
 - [x] Audio tab in SettingsModal (sound effects, music, silent mode toggles)
 - [x] AppState-aware background music (auto-pause on background, resume on foreground)
-- [ ] Replace placeholder WAVs with real/polished audio assets
 - [x] Activity-specific sounds:
   - [x] Eating/chewing sounds for feeding (via usePetActions → 'eating')
   - [x] Water/splash sounds for bathing (BathScene → 'water_splash' on each scrub)
   - [x] Play sounds (ball bounce — via usePetActions → 'ball_bounce')
   - [x] Clothing swap sounds for wardrobe (WardrobeScene → 'clothes_swap' on item select)
+- [ ] Replace placeholder WAVs with real/polished audio assets (v1.3 target)
 
 **Files created/updated:**
 - `/assets/sounds/` directory structure
@@ -45,9 +45,9 @@ This document outlines the roadmap for future development, improvements, and fea
 
 ---
 
-### 🔴 Performance Optimizations
-**Status:** In Progress
-**Priority:** High
+### 🟡 Performance Optimizations
+**Status:** Mostly Complete
+**Priority:** Medium
 
 - [x] Implement image caching and lazy loading
 - [x] Optimize sprite sheet rendering
@@ -419,14 +419,15 @@ src/
 
 ## 📚 Documentation
 
-### 🟡 User Documentation
+### ✅ User Documentation
 **Priority:** Medium
+**Status:** MOSTLY COMPLETE
 
-- [ ] In-app tutorial for first-time users
+- [ ] In-app tutorial for first-time users (Future)
 - [x] Help/FAQ screen (HelpScreen with 12 FAQ items, tips, and GitHub support link)
 - [x] Tips and tricks section (included in HelpScreen)
-- [ ] Parental controls documentation
-- [ ] Contact/support information (GitHub link included in HelpScreen)
+- [ ] Parental controls documentation (Future)
+- [x] Contact/support information (GitHub link included in HelpScreen)
 
 ---
 
@@ -543,10 +544,10 @@ src/
 ## 🎯 Milestones
 
 ### Milestone 1: MVP Enhancement (v1.2)
-**Status:** 95% COMPLETE
+**Status:** ✅ COMPLETE
 - [x] Folder structure documentation
-- [x] Testing infrastructure (99% tests passing)
-- [x] Code quality improvements (ESLint, Prettier, usePetActions hook)
+- [x] Testing infrastructure (99%+ tests passing, 508+ tests)
+- [x] Code quality improvements (ESLint, Prettier, usePetActions hook, Husky pre-commit hooks)
 - [x] i18n support (English + Portuguese)
 - [x] Accessibility improvements (partial - haptics, labels)
 - [x] Authentication system with Google OAuth
@@ -560,27 +561,34 @@ src/
   - [x] Firebase Firestore sync
   - [x] Helpful reactions
   - [x] Sort and filter
-- [ ] Skia bath screen reimplementation (Planning Complete - [Plan](./plans/SKIA_BATH_REIMPLEMENTATION_PLAN.md))
-- [x] Audio system with background music, sound effects, and silent mode support
+- [x] Audio system with background music, sound effects, activity-specific sounds, and silent mode support
 - [x] Advanced performance optimizations (virtual lists, React.memo, useCallback)
+- [x] Error boundaries (root-level + per-game with recovery UI)
+- [x] Help/FAQ screen (12 FAQ items, tips, support link)
+- [x] Sentry crash reporting with source maps
 
-### Milestone 2: Feature Complete (v1.5)
-**Target:** 4-6 weeks
-- [ ] All core features polished
-- [ ] Mini-games implemented
-- [ ] Shop system
-- [ ] Enhanced pet needs
+### Milestone 2: Polish & Production Prep (v1.5)
+**Target:** March–April 2026
+**Status:** 🔄 In Progress
+- [ ] Skia bath screen reimplementation ([Plan](./plans/SKIA_BATH_REIMPLEMENTATION_PLAN.md))
+- [ ] Replace placeholder WAV files with real/polished audio assets
+- [ ] Bundle size analysis (`npx expo-doctor`) and profiling
+- [ ] JSDoc documentation for complex functions
+- [ ] Populate `EXPO_PUBLIC_ADMOB_*` env vars in production environments
+- [ ] Test on low-end Android devices (4GB RAM or less)
+- [ ] Color contrast ratios and larger text size support
 
 ### Milestone 3: Production Ready (v2.0)
-**Target:** 8-10 weeks
-- [ ] All testing completed
-- [ ] Store assets prepared
-- [ ] Privacy policy and legal docs
-- [ ] Production AdMob setup
-- [ ] Beta testing completed
+**Target:** May–June 2026
+- [ ] All testing completed (E2E with Detox or Maestro)
+- [ ] Store assets prepared (icon 512x512, feature graphic, screenshots)
+- [ ] Privacy policy and terms of service (COPPA compliant)
+- [ ] Production AdMob setup and mediation
+- [ ] Beta testing completed (Google Play Beta)
+- [ ] Analytics integration (Firebase Analytics or Amplitude)
 
 ### Milestone 4: Public Launch (v2.0)
-**Target:** 10-12 weeks
+**Target:** June–July 2026
 - [ ] Google Play Store submission
 - [ ] Marketing materials ready
 - [ ] Support channels established
@@ -610,9 +618,10 @@ src/
 
 ---
 
-**Current Version:** 1.2.2
-**Status:** 95%+ features complete — OAuth, 30+ mini-games, web deploy on Vercel, game reviews, error boundaries, audio system, code quality improvements
-**Next Version Target:** 1.3.0 (Real audio assets + Skia bath)
+**Current Version:** 1.3.0-dev
+**Status:** Milestone 1 ✅ COMPLETE — OAuth, 30+ mini-games, web deploy on Vercel, game reviews, error boundaries, audio system, Help/FAQ, Husky hooks, code quality improvements
+**Next Version Target:** 1.5.0 (Skia bath + real audio assets + production prep)
+**Last Updated:** 2026-03-03
 
 ---
 
