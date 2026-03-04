@@ -1,17 +1,25 @@
 # 🐾 Lilly's Box
 
-Um jogo 2D infantil para Android usando React Native, onde crianças podem cuidar de animais domésticos (gatos ou cachorros).
+Uma plataforma de experiências interativas para famílias e crianças! Cuide de seus animais de estimação virtuais e desfrute de 30+ mini-games educativos e divertidos, tudo em um aplicativo multiplataforma com React Native.
 
-## ✨ Funcionalidades
-- 🐱🐶 Criar pets (gato ou cachorro)
-- 📝 Escolher nome e gênero do pet
-- 🎂 Sistema de idade (1 ano inicial, +1 por semana, máximo 19 anos)
-- 🍖 Alimentar o pet
-- 🛁 Dar banho no pet (Minigame interativo com bolhas!)
-- 🎾 Brincar com o pet
-- 😴 Colocar o pet para dormir
-- 🏥 Levar o pet ao veterinário
-- 👕 Trocar roupas e acessórios (cabeça, olhos, torso, patas)
+## ✨ Core Experiences
+
+### 🎮 **30+ Mini-Games** - O Coração da Plataforma
+Desfrute de uma variedade diversa de experiências interativas, desde jogos educativos até desafios emocionantes:
+- Jogos de reflexo (Whack-a-Mole, Color Tap, Catch the Ball)
+- Jogos de memória e raciocínio (Memory Match, Sliding Puzzle, Simon Says)
+- Jogos criativos (Color Mixer, Dress-Up Relay)
+- E muito mais, tudo com sistema de pontuação e recompensas!
+
+### 🐱🐶 **Cuidado do Pet Virtual** - Base da Personalização
+- Criar e customizar pets (gato ou cachorro)
+- Escolher nome e gênero do pet
+- Sistema de idade dinâmico (1 ano inicial, +1 por semana, máximo 19 anos)
+- Alimentar, dar banho, brincar e colocar para dormir
+- Levar ao veterinário para manutenção da saúde
+- Trocar roupas e acessórios (cabeça, olhos, torso, patas)
+
+## ⭐ Funcionalidades Principais
 - 💾 Persistência local dos dados
 - 🔐 **Autenticação com Google OAuth**
 - 👤 Modo convidado para jogar sem criar conta
@@ -20,8 +28,7 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - 🗑️ Botão para apagar pet no menu com confirmação
 - 💰 Sistema de moedas com anúncios opcionais para bônus
 - 🌐 **Suporte a múltiplos idiomas (Inglês e Português do Brasil)**
-- 🎮 **30+ mini-games** com sistema de pontuação máxima por usuário
-- � **Sistema de áudio** — música de fundo, efeitos sonoros por atividade, modo silencioso
+- 🔊 **Sistema de áudio** — música de fundo, efeitos sonoros por atividade, modo silencioso
 - ⭐ **Sistema de reviews** — avaliações de mini-games com estrelas, comentários, imagens e GIFs
 - 🛡️ **Relatórios de erros** com Sentry (bordas de erro + source maps)
 - ❓ **Tela de Ajuda/FAQ** com dicas e suporte

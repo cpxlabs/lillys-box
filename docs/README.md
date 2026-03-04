@@ -24,16 +24,21 @@ Complete documentation for the Lilly's Box pet care game project.
 
 ## Project Overview
 
-**Lilly's Box** is a 2D pet care game for Android, iOS, and web built with React Native/Expo.
+**Lilly's Box** is a comprehensive platform of interactive experiences for families and children, available on Android, iOS, and web. Built with React Native/Expo, it combines pet care gameplay with 30+ engaging mini-games.
 
 ### Key Features
 
-- Create and care for cats or dogs
-- 30+ mini-games
-- Google OAuth + guest mode
-- Multi-language support (EN, PT-BR)
-- Per-user data isolation
-- Responsive design (mobile, tablet, web)
+**Platform Core:**
+- 🎮 **30+ diverse mini-games** - Reflexo, memory, puzzle, creative, and more
+- 🐱🐶 **Pet care system** - Create, customize, and nurture virtual pets
+- 👨‍👩‍👧‍👦 **Family-friendly experiences** - Design for all ages
+
+**Technical Excellence:**
+- 🔐 Google OAuth + guest mode with multi-user support
+- 🌐 Multi-language support (EN, PT-BR)
+- 📱 Per-user data isolation
+- 🎨 Responsive design (mobile, tablet, web)
+- ⭐ Review system with ratings, comments, images, and GIFs
 
 ### Tech Stack
 
