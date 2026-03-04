@@ -40,10 +40,13 @@ npx expo start
 
 Para informações detalhadas sobre o projeto, veja **[docs/README.md](./docs/README.md)**:
 
-- **Setup e Configuração** - Como rodar, monetização, i18n
-- **Documentação de Features** - Feed, Play, Vet systems
-- **System Docs** - Responsive design, Roadmap
-- **Plans** - Implementation plans e planos futuros
+- **[BUILD.md](./docs/guides/BUILD.md)** - Building para web, Android, iOS
+- **[AUTHENTICATION.md](./docs/technical/AUTHENTICATION.md)** - OAuth setup e sistema de autenticação
+- **[ACTIONS.md](./docs/technical/ACTIONS.md)** - Sistema de ações do pet (feed, play, bathe)
+- **[RESPONSIVE.md](./docs/guides/RESPONSIVE.md)** - Design responsivo
+- **[FOLDER_STRUCTURE.md](./docs/guides/FOLDER_STRUCTURE.md)** - Estrutura do projeto
+- **[API_REFERENCE.md](./docs/technical/API_REFERENCE.md)** - Documentação completa da API
+- **[TESTING.md](./docs/testing/TESTING.md)** - E2E tests, game tests, unit tests
 
 ## 🛠️ Stack Tecnológica
 - React Native (Expo)
@@ -97,7 +100,7 @@ Para usar a autenticação com Google, você precisa:
 3. Fazer download dos arquivos de configuração (`google-services.json` e `GoogleService-Info.plist`)
 4. Colocar os arquivos na raiz do projeto (mesmo nível que `app.config.js`)
 
-**Para instruções detalhadas, veja [GOOGLE_OAUTH_SETUP.md](docs/GOOGLE_OAUTH_SETUP.md)**
+**Para instruções detalhadas, veja [AUTHENTICATION.md](docs/technical/AUTHENTICATION.md)**
 
 ### Fluxo de Autenticação
 1. **Tela de Login**: Usuários veem duas opções na inicialização:

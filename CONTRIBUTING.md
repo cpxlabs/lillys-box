@@ -76,4 +76,4 @@ gh auth setup-git
 
 ## Development
 
-See [docs/WEB_BUILD_QUICK_START.md](./docs/WEB_BUILD_QUICK_START.md) for web build instructions.
+See [docs/guides/BUILD.md](./docs/guides/BUILD.md) for detailed build and development instructions:

@@ -1,205 +1,380 @@
-````markdown
-# 🐾 Lilly's Box - Documentation
+# Lilly's Box - Documentation
 
-Um jogo 2D infantil para Android usando React Native, onde crianças podem cuidar de animais domésticos (gatos ou cachorros).
+Complete documentation for the Lilly's Box pet care game project.
 
-## ✨ Funcionalidades
-- 🐱🐶 Criar pets (gato ou cachorro)
-- 📝 Escolher nome e gênero do pet
-- 🎂 Sistema de idade (1 ano inicial, +1 por semana, máximo 19 anos)
-- 🍖 Alimentar o pet
-- 🛁 Dar banho no pet (Minigame interativo com bolhas!)
-- 🎾 Brincar com o pet
-- 😴 Colocar o pet para dormir
-- 🏥 Levar o pet ao veterinário
-- 👕 Trocar roupas e acessórios (cabeça, olhos, torso, patas)
-- 💾 Persistência local dos dados
-- ⚠️ Confirmação ao sair para o menu (funciona em web, iOS e Android)
-- 🗑️ Botão para apagar pet no menu com confirmação
-- 💰 Sistema de moedas com anúncios opcionais para bônus
-- 🌐 **Suporte a múltiplos idiomas (Inglês e Português do Brasil)**
-- 🎮 **30+ mini-games** (Color Tap, Memory Match, Simon Says, Pet Runner, Whack-A-Mole, Sliding Puzzle, e muito mais)
-- 🔐 **Autenticação Google OAuth + modo convidado** com isolamento de dados por usuário
-- 🌍 **Deploy web via Vercel** (Expo web export)
+## Quick Navigation
 
-## 🛠️ Stack Tecnológica
-- React Native 0.73.2 (Expo 50)
-- TypeScript 5.1.3
-- Expo Router 3.4.10 (file-based navigation)
-- AsyncStorage (persistência local)
-- react-native-reanimated 3.6.1 (animações e efeitos visuais)
-- react-native-gesture-handler
-- react-native-svg / @shopify/react-native-skia (gráficos)
-- @react-native-google-signin/google-signin (autenticação)
-- react-native-google-mobile-ads (AdMob)
-- socket.io-client 4.8.0 (multiplayer)
-- i18next & react-i18next (internacionalização EN + PT-BR)
-- Jest 30 & React Native Testing Library (testes)
-- ESLint & Prettier (qualidade de código)
-- Vercel (deploy web)
+### Getting Started
+- [BUILD.md](guides/BUILD.md) - Building for web, Android, iOS
+- [RESPONSIVE.md](guides/RESPONSIVE.md) - Responsive design system
+- [FOLDER_STRUCTURE.md](guides/FOLDER_STRUCTURE.md) - Project structure
 
-## 📂 Estrutura do Projeto
+### Authentication & Development
+- [AUTHENTICATION.md](technical/AUTHENTICATION.md) - OAuth setup and auth system
+- [API_REFERENCE.md](technical/API_REFERENCE.md) - Complete API documentation
+- [ACTIONS.md](technical/ACTIONS.md) - Pet actions system (feed, play, bathe, etc.)
 
-A estrutura de pastas e arquivos está documentada detalhadamente em [FOLDER_STRUCTURE.md](./FOLDER_STRUCTURE.md).
+### Testing
+- [TESTING.md](testing/TESTING.md) - E2E tests (Maestro), game tests, unit tests
 
-## 🚀 Como executar
-1) Instale dependências:
-```bash
-npm install --legacy-peer-deps
+### Design System
+- [design-system/](design-system/) - UI screens, components, games documentation
+
+---
+
+## Project Overview
+
+**Lilly's Box** is a 2D pet care game for Android, iOS, and web built with React Native/Expo.
+
+### Key Features
+
+- Create and care for cats or dogs
+- 30+ mini-games
+- Google OAuth + guest mode
+- Multi-language support (EN, PT-BR)
+- Per-user data isolation
+- Responsive design (mobile, tablet, web)
+
+### Tech Stack
+
+- React Native 0.73 (Expo 50)
+- TypeScript 5.1
+- Expo Router 3.4 (file-based routing)
+- AsyncStorage (local persistence)
+- react-native-reanimated 3.6 (animations)
+- Google Sign-In OAuth
+- Socket.io (multiplayer)
+- i18next (translation)
+- Jest + React Testing Library (testing)
+
+---
+
+## Directory Structure
+
+```
+docs/
+├── README.md                    # This file
+├── guides/
+│   ├── BUILD.md                # Building for all platforms
+│   ├── RESPONSIVE.md           # Responsive design guide
+│   └── FOLDER_STRUCTURE.md     # Project folder layout
+├── technical/
+│   ├── AUTHENTICATION.md       # OAuth & auth system
+│   ├── API_REFERENCE.md        # Complete API docs
+│   └── ACTIONS.md              # Pet actions system
+├── testing/
+│   └── TESTING.md              # E2E, game, unit tests
+├── design-system/
+│   └── (23 UI & game docs)
+├── plans/
+│   └── SKIA_BATH_REIMPLEMENTATION_PLAN.md
+└── archive/
+    └── MIGRATION_LOG.md
 ```
 
-> O projeto usa `packageManager: pnpm@10.30.2` localmente, mas o Vercel e ambientes CI usam `npm install --legacy-peer-deps` para evitar incompatibilidades de versão do pnpm com Node 20+.
+---
 
-> **Nota sobre dependências**: O projeto usa `expo-dev-client` que é necessário para módulos nativos como `react-native-google-mobile-ads`. Este pacote permite construir uma versão de desenvolvimento personalizada do Expo que inclui módulos nativos.
+## Common Tasks
 
-2) Rode:
-```bash
-npx expo start
+### I want to...
+
+**...set up Google OAuth**
+→ [AUTHENTICATION.md](technical/AUTHENTICATION.md#setup-for-users)
+
+**...understand the codebase**
+→ [FOLDER_STRUCTURE.md](guides/FOLDER_STRUCTURE.md)
+
+**...build the app for web/Android/iOS**
+→ [BUILD.md](guides/BUILD.md)
+
+**...make the app responsive**
+→ [RESPONSIVE.md](guides/RESPONSIVE.md)
+
+**...implement a pet action**
+→ [ACTIONS.md](technical/ACTIONS.md)
+
+**...write tests**
+→ [TESTING.md](testing/TESTING.md)
+
+**...understand the API**
+→ [API_REFERENCE.md](technical/API_REFERENCE.md)
+
+---
+
+## Key Concepts
+
+### Authentication Flow
+
+```
+User Opens App
+    ↓
+LoginScreen (Sign in with Google or Guest)
+    ↓
+AuthProvider manages state globally
+    ↓
+[Authenticated User] OR [Guest User]
+    ↓
+MenuScreen → Game Screens
+    ↓
+Data isolated per userId
 ```
 
-3) Para o build web (deploy Vercel):
-```bash
-EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export --platform web
-```
+### Pet Actions System
 
-**Nota**: Para testar anúncios, você precisará usar um dispositivo físico ou emulador Android/iOS.
+All pet interactions (feed, play, bathe, etc.) unified through `usePetActions` hook:
+- Validates pet state
+- Manages animations
+- Calculates rewards
+- Updates stats
+- Persists data
 
-## 🎨 Assets necessários
-Coloque os PNGs/SVGs em `assets/sprites/`:
-- `cats/cat_base.png`
-- `dogs/dog_base.png`
-- `clothes/`
-- `food/`
-- `toys/`
+See [ACTIONS.md](technical/ACTIONS.md) for details.
 
-## 💰 Monetização
+### Responsive Design
 
-Este aplicativo usa Google AdMob para monetização com as seguintes funcionalidades:
+Single source of truth for sizing:
 
-### Tipos de Anúncios
-- **Anúncios em Banner**: Exibidos na parte inferior da tela inicial
-- **Anúncios de Vídeo com Recompensa**: Anúncios opcionais que dão moedas de bônus
-- **Anúncios Intersticiais**: Anúncios de tela cheia mostrados entre atividades (frequência limitada)
-
-### Segurança Infantil (Conformidade COPPA)
-- Todos os anúncios são marcados como direcionados a crianças
-- Apenas conteúdo classificado como G (Geral) é exibido
-- Sem anúncios personalizados ou coleta de dados
-- Os anúncios são opcionais e claramente marcados
-
-### Configuração
-As configurações de anúncios podem ser definidas em `src/config/ads.config.ts`:
-- Ativar/desativar anúncios
-- Alternar modo de teste
-- IDs de unidades de anúncios
-- Controles de frequência
-- Valores de recompensa
-
-### Configuração do AdMob
-1. Crie uma conta no AdMob em https://admob.google.com
-2. Crie unidades de anúncios para seu aplicativo
-3. Substitua os IDs de unidades de anúncios de teste em `src/config/ads.config.ts` pelos seus IDs de produção
-4. Defina `testMode: false` em produção
-5. Certifique-se de que as configurações de conformidade COPPA estejam ativadas
-
-**IDs de Teste do AdMob (atualmente em uso)**:
 ```typescript
-// Anúncios com recompensa
-android: 'ca-app-pub-3940256099942544/5224354917'
-ios: 'ca-app-pub-3940256099942544/1712485313'
+const { fs, spacing, wp, hp } = useResponsive();
 
-// Anúncios intersticiais
-android: 'ca-app-pub-3940256099942544/1033173712'
-ios: 'ca-app-pub-3940256099942544/4411468910'
+// Font size (auto-scales)
+fontSize: fs(16)
 
-// Anúncios em banner
-android: 'ca-app-pub-3940256099942544/6300978111'
-ios: 'ca-app-pub-3940256099942544/2934735716'
+// Padding (auto-scales)
+padding: spacing(16)
+
+// Width/height percentages
+width: wp(90)
+height: hp(50)
 ```
 
-**⚠️ IMPORTANTE**: Estes são IDs de teste. Para produção, você DEVE substituí-los pelos seus próprios IDs de unidades de anúncios do AdMob.
+See [RESPONSIVE.md](guides/RESPONSIVE.md) for details.
 
-### Funcionalidades dos Anúncios
-- Assista anúncios de vídeo na tela inicial para ganhar +50 moedas
-- Após completar atividades (alimentar, banho, brincar), opção de assistir anúncio para dobrar as moedas ganhas
-- Anúncios intersticiais aparecem a cada 4 transições de tela (com mínimo de 5 minutos entre eles)
-- Todos os anúncios são opcionais - nunca bloqueiam funcionalidades do jogo
+---
 
-## 🌐 Internacionalização (i18n)
+## Development Workflows
 
-Este aplicativo suporta múltiplos idiomas usando i18next e react-i18next.
+### Local Development
 
-### Idiomas Suportados
-- 🇺🇸 **Inglês (English)** - `en`
-- 🇧🇷 **Português do Brasil (Portuguese Brazil)** - `pt-BR`
+```bash
+# Web development
+pnpm web
 
-### Funcionalidades de i18n
-- **Detecção Automática**: O aplicativo detecta automaticamente o idioma do dispositivo ao iniciar
-- **Seletor de Idioma**: Os usuários podem alternar entre idiomas na tela do menu principal
-- **Persistência**: A preferência de idioma é salva localmente e mantida entre sessões
-- **Fallback**: Se uma tradução não estiver disponível, o aplicativo usa inglês como fallback
-- **Interpolação**: Suporte para strings dinâmicas (nomes de pets, números, etc.)
+# Android development
+pnpm android
 
-### Arquivos de Tradução
-As traduções estão localizadas em:
-- `src/locales/en.json` - Traduções em inglês
-- `src/locales/pt-BR.json` - Traduções em português
+# iOS development
+pnpm ios
+```
 
-### Como Adicionar um Novo Idioma
-1. Crie um novo arquivo JSON em `src/locales/` (ex: `src/locales/es.json`)
-2. Copie a estrutura de `en.json` e traduza todas as strings
-3. Adicione o novo idioma em `src/i18n.ts`:
+### Building for Deployment
+
+```bash
+# Web production
+EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export -p web
+
+# Android production
+eas build --platform android
+
+# iOS production
+eas build --platform ios
+```
+
+### Testing
+
+```bash
+# Unit & game tests
+npm test
+
+# E2E tests
+maestro test e2e/flow.yaml
+
+# With coverage
+npm test -- --coverage
+```
+
+---
+
+## Code Examples
+
+### Using Authentication
+
 ```typescript
-resources: {
-  en: { translation: en },
-  'pt-BR': { translation: ptBR },
-  'es': { translation: es }, // Novo idioma
-}
-```
-4. Atualize o `LanguageSelector.tsx` para incluir o botão do novo idioma
-5. Adicione lógica de normalização no `getDeviceLanguage()` se necessário
-
-### Estrutura das Traduções
-```json
-{
-  "common": { /* Strings comuns como "back", "confirm", "cancel" */ },
-  "menu": { /* Strings da tela do menu */ },
-  "createPet": { /* Strings da criação de pet */ },
-  "home": { /* Strings da tela principal */ },
-  "feed": { /* Strings da alimentação */ },
-  "bath": { /* Strings do banho */ },
-  "play": { /* Strings da brincadeira */ },
-  "sleep": { /* Strings do sono */ },
-  "vet": { /* Strings do veterinário */ },
-  "wardrobe": { /* Strings do armário */ },
-  "background": { /* Strings do cenário */ },
-  "rewards": { /* Strings de recompensas */ },
-  "ads": { /* Strings de anúncios */ }
-}
-```
-
-### Uso no Código
-```typescript
-import { useTranslation } from 'react-i18next';
+import { useAuth } from '../context/AuthContext';
 
 const MyComponent = () => {
-  const { t } = useTranslation();
-  
-  // String simples
-  return <Text>{t('common.back')}</Text>;
-  
-  // String com interpolação
-  return <Text>{t('home.money', { amount: 100 })}</Text>;
-  // Resultado: "💰 100 moedas" (pt-BR) ou "💰 100 coins" (en)
+  const { user, isAuthenticated, signIn, signOut } = useAuth();
+
+  return (
+    <>
+      {isAuthenticated ? (
+        <Text>Welcome, {user?.name}</Text>
+      ) : (
+        <Text>Guest Mode</Text>
+      )}
+    </>
+  );
 };
 ```
 
-## 🧪 Testes
+### Performing Pet Actions
 
-O projeto possui uma suíte de testes automatizados usando **Jest** e **React Native Testing Library**.
+```typescript
+import { usePetActions } from '../hooks/usePetActions';
 
-### Executando Testes
-``` 
-``` 
+const FeedScene = () => {
+  const { performAction, isAnimating } = usePetActions();
 
-````
+  return (
+    <Button
+      onPress={() => performAction('feed')}
+      disabled={isAnimating}
+    >
+      Feed Pet
+    </Button>
+  );
+};
+```
+
+### Responsive Design
+
+```typescript
+import { useResponsive } from '../hooks/useResponsive';
+
+const MyScreen = () => {
+  const { fs, spacing, wp, deviceType } = useResponsive();
+
+  const petSize = {
+    mobile: 280,
+    mobileLarge: 320,
+    tablet: 380,
+    desktop: 450,
+  }[deviceType];
+
+  return (
+    <View style={{ padding: spacing(16) }}>
+      <Text style={{ fontSize: fs(20) }}>Title</Text>
+      <PetRenderer size={petSize} />
+    </View>
+  );
+};
+```
+
+---
+
+## Architecture
+
+### State Management
+
+- **AuthContext** - Global auth state
+- **PetContext** - Global pet state (with debounced saves)
+- **LanguageContext** - i18n state
+- **ToastContext** - Toast notifications
+- **GameContexts** - Per-game best scores
+
+### Data Storage
+
+```
+AsyncStorage Keys:
+├── @pet_care_game:auth_state           (auth info)
+├── @pet_care_game:pet:{userId}         (pet data)
+├── @color_tap:bestScore:{userId}       (game scores)
+└── ... (one per game)
+```
+
+### File Organization
+
+```
+src/
+├── components/        # Reusable UI components
+├── screens/          # Full-screen components
+├── context/          # State management (Context API)
+├── hooks/            # Custom React hooks
+├── services/         # Business logic & APIs
+├── utils/            # Helper functions
+├── config/           # App configuration
+├── data/             # Static data
+├── types/            # TypeScript definitions
+└── locales/          # Translations (EN, PT-BR)
+```
+
+---
+
+## Testing Strategy
+
+| Level | Tool | Purpose |
+|-------|------|---------|
+| E2E | Maestro | Full user flows |
+| Integration | Jest + RTL | Screen logic |
+| Unit | Jest | Utils, hooks |
+
+See [TESTING.md](testing/TESTING.md) for complete guide.
+
+---
+
+## Contributing
+
+See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
+- Code style guide
+- PR process
+- Branch naming
+- Commit message format
+
+---
+
+## Troubleshooting
+
+### Common Issues
+
+**Build error: "Cannot find module '@react-native-google-signin'"**
+- For web: Set `EXPO_PUBLIC_BUILD_PLATFORM=web`
+- See [BUILD.md](guides/BUILD.md#troubleshooting-web)
+
+**Auth not working**
+- Check OAuth credentials in `app.config.js`
+- Verify `google-services.json` / `GoogleService-Info.plist` placement
+- See [AUTHENTICATION.md](technical/AUTHENTICATION.md#troubleshooting)
+
+**Responsive design not working**
+- Ensure using `fs()`, `spacing()`, etc. functions
+- Not using hardcoded pixels
+- See [RESPONSIVE.md](guides/RESPONSIVE.md#troubleshooting)
+
+**Tests failing**
+- Clear Jest cache: `jest --clearCache`
+- Check AsyncStorage mocks
+- See [TESTING.md](testing/TESTING.md)
+
+---
+
+## Resources
+
+- **Expo Docs**: https://docs.expo.dev/
+- **React Native Docs**: https://reactnative.dev/
+- **TypeScript Docs**: https://www.typescriptlang.org/docs/
+- **Jest Docs**: https://jestjs.io/
+- **Maestro Docs**: https://maestro.mobile.dev/
+
+---
+
+## Status
+
+✅ **Production Ready**
+
+- Multi-platform support (Android, iOS, Web)
+- OAuth authentication with fallback
+- 30+ mini-games
+- Responsive design
+- Comprehensive testing
+- Multi-language support
+- Performance optimized
+
+---
+
+**Last Updated**: 2026-03-04
+
+**Maintained By**: Lilly's Box Development Team
+
+---
+
+**Need help?** Check the relevant doc or open an issue on GitHub.
