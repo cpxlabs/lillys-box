@@ -399,7 +399,7 @@
     },
     "petExplorer": {
       "name": "Pet Explorer",
-      "description": "Explore the world with your pet!"
+      "description": "Explore zones, encounter wild pets, and build a 6-pet party!"
     },
     "weatherWizard": {
       "name": "Weather Wizard",
@@ -794,17 +794,41 @@
   "petExplorer": {
     "home": {
       "title": "Pet Explorer",
-      "subtitle": "Explore the world with your pet!",
-      "play": "Play",
-      "instructions": "Guide your pet through exciting locations to discover treasures!",
-      "bestScore": "Best Score"
+      "subtitle": "A creature-collection adventure with wild encounters and party building.",
+      "play": "Explore",
+      "instructions": "Move through zones to trigger encounters, use snacks to boost catch odds, and form a full 6-pet party.",
+      "bestScore": "Pets Caught"
     },
     "game": {
-      "score": "Score",
+      "score": "Pets Caught",
       "exploring": "Exploring...",
-      "complete": "Exploration Complete!",
+      "complete": "Party Complete!",
       "finish": "Finish",
-      "playAgain": "Play Again"
+      "playAgain": "Explore Again",
+      "encounter": "Wild {{pet}} appeared!",
+      "catchAttempt": "Trying to catch...",
+      "caught": "Gotcha! {{pet}} was caught!",
+      "alreadyOwned": "{{pet}} joined for training, but is already in your party log.",
+      "escaped": "{{pet}} escaped!",
+      "fullTeam": "Your team is full! Can't catch more pets.",
+      "levelUp": "Level Up! You reached Trainer Lv. {{level}}.",
+      "noSnacks": "No snacks left. Explore more or throw a catch orb now.",
+      "snackUsed": "Snack used! Catch odds increased.",
+      "team": "Team",
+      "level": "Lv",
+      "xp": "XP",
+      "zone": "Zone",
+      "odds": "Catch Odds",
+      "snack": "Snack",
+      "walk": "Walk",
+      "catch": "Catch",
+      "run": "Run",
+      "zones": {
+        "meadow": "Meadow",
+        "forest": "Forest",
+        "cave": "Cave",
+        "lake": "Lake"
+      }
     }
   },
   "petRunner": {

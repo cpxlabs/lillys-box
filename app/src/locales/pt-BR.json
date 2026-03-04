@@ -399,7 +399,7 @@
     },
     "petExplorer": {
       "name": "Pet Explorer",
-      "description": "Explore o mundo com seu pet!"
+      "description": "Explore zonas, encontre pets selvagens e monte um time de 6 pets!"
     },
     "weatherWizard": {
       "name": "Weather Wizard",
@@ -794,17 +794,41 @@
   "petExplorer": {
     "home": {
       "title": "Pet Explorer",
-      "subtitle": "Explore o mundo com seu pet!",
-      "play": "Jogar",
-      "instructions": "Guie seu pet por locais emocionantes para descobrir tesouros!",
-      "bestScore": "Melhor Pontuação"
+      "subtitle": "Uma aventura de colecao com encontros selvagens e formacao de time.",
+      "play": "Explorar",
+      "instructions": "Movimente-se pelas zonas para gerar encontros, use snacks para aumentar a chance de captura e feche um time de 6 pets.",
+      "bestScore": "Pets Capturados"
     },
     "game": {
-      "score": "Pontuação",
+      "score": "Pets Capturados",
       "exploring": "Explorando...",
-      "complete": "Exploração Completa!",
+      "complete": "Time Completo!",
       "finish": "Finalizar",
-      "playAgain": "Jogar Novamente"
+      "playAgain": "Explorar Novamente",
+      "encounter": "{{pet}} selvagem apareceu!",
+      "catchAttempt": "Tentando capturar...",
+      "caught": "Pegou! {{pet}} foi capturado!",
+      "alreadyOwned": "{{pet}} entrou para treino, mas ja esta no registro do seu time.",
+      "escaped": "{{pet}} escapou!",
+      "fullTeam": "Seu time está cheio! Não pode capturar mais pets.",
+      "levelUp": "Subiu de nivel! Voce chegou ao Nivel de Treinador {{level}}.",
+      "noSnacks": "Sem snacks. Explore mais ou tente capturar agora.",
+      "snackUsed": "Snack usado! Chance de captura aumentou.",
+      "team": "Time",
+      "level": "Nv",
+      "xp": "XP",
+      "zone": "Zona",
+      "odds": "Chance",
+      "snack": "Snack",
+      "walk": "Caminhar",
+      "catch": "Capturar",
+      "run": "Fugir",
+      "zones": {
+        "meadow": "Prado",
+        "forest": "Floresta",
+        "cave": "Caverna",
+        "lake": "Lago"
+      }
     }
   },
   "petRunner": {
