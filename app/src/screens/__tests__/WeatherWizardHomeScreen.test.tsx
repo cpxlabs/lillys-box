@@ -7,9 +7,12 @@ jest.mock('react-i18next', () => ({
 }));
 
 const mockUpdateBestScore = jest.fn();
+const mockSetDifficulty = jest.fn();
 const mockUseHook = jest.fn(() => ({
   bestScore: 0,
   updateBestScore: mockUpdateBestScore,
+  difficulty: 'normal',
+  setDifficulty: mockSetDifficulty,
 }));
 
 jest.mock('../../context/WeatherWizardContext', () => ({
@@ -34,21 +37,29 @@ describe('WeatherWizardHomeScreen', () => {
     mockUseHook.mockReturnValue({
       bestScore: 0,
       updateBestScore: mockUpdateBestScore,
+      difficulty: 'normal',
+      setDifficulty: mockSetDifficulty,
     });
   });
 
-  it('renders title and play button', () => {
+  it('renders title, play button and difficulty controls', () => {
     const { getByText } = render(
       <WeatherWizardHomeScreen navigation={navigation as any} />
     );
     expect(getByText('weatherWizard.home.title')).toBeTruthy();
     expect(getByText('weatherWizard.home.play')).toBeTruthy();
+    // difficulty buttons should show labels
+    expect(getByText('weatherWizard.home.easy')).toBeTruthy();
+    expect(getByText('weatherWizard.home.normal')).toBeTruthy();
+    expect(getByText('weatherWizard.home.hard')).toBeTruthy();
   });
 
   it('shows best score when greater than 0', () => {
     mockUseHook.mockReturnValue({
       bestScore: 500,
       updateBestScore: mockUpdateBestScore,
+      difficulty: 'normal',
+      setDifficulty: mockSetDifficulty,
     });
     const { getByText } = render(
       <WeatherWizardHomeScreen navigation={navigation as any} />
@@ -70,6 +81,14 @@ describe('WeatherWizardHomeScreen', () => {
     );
     fireEvent.press(getByText('weatherWizard.home.play'));
     expect(mockNavigate).toHaveBeenCalledWith('WeatherWizardGame');
+  });
+
+  it('changes difficulty when a button is pressed', () => {
+    const { getByText } = render(
+      <WeatherWizardHomeScreen navigation={navigation as any} />
+    );
+    fireEvent.press(getByText('weatherWizard.home.hard'));
+    expect(mockSetDifficulty).toHaveBeenCalledWith('hard');
   });
 
   it('navigates back on back press', () => {

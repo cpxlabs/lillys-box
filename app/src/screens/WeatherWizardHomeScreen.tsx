@@ -10,8 +10,11 @@ type Props = { navigation: ScreenNavigationProp<'WeatherWizardHome'> };
 
 export const WeatherWizardHomeScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
-  const { bestScore } = useWeatherWizard();
+  const { bestScore, difficulty, setDifficulty } = useWeatherWizard();
   const handleBack = useGameBack(navigation);
+
+  const difficulties: Difficulty[] = ['easy', 'normal', 'hard'];
+
   return (
     <SafeAreaView style={styles.container}>
       <TouchableOpacity style={styles.backButton} onPress={handleBack}><Text style={styles.backText}>← {t('common.back')}</Text></TouchableOpacity>
@@ -19,7 +22,31 @@ export const WeatherWizardHomeScreen: React.FC<Props> = ({ navigation }) => {
         <EmojiIcon emoji="🌈" size={72} style={styles.emoji} />
         <Text style={styles.title}>{t('weatherWizard.home.title')}</Text>
         <Text style={styles.subtitle}>{t('weatherWizard.home.subtitle')}</Text>
-        {bestScore > 0 && (<View style={styles.bestScoreCard}><Text style={styles.bestScoreLabel}>{t('weatherWizard.home.bestScore')}</Text><Text style={styles.bestScoreValue}>{bestScore}</Text></View>)}
+
+        <View style={styles.difficultyContainer}>
+          <Text style={styles.difficultyLabel}>{t('weatherWizard.home.chooseDifficulty')}</Text>
+          <View style={styles.difficultyButtons}>
+            {difficulties.map(d => (
+              <TouchableOpacity
+                key={d}
+                style={[
+                  styles.difficultyButton,
+                  difficulty === d && styles.difficultyButtonSelected,
+                ]}
+                onPress={() => setDifficulty(d)}
+              >
+                <Text style={styles.difficultyText}>{t(`weatherWizard.home.${d}`)}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </View>
+
+        {bestScore > 0 && (
+          <View style={styles.bestScoreCard}>
+            <Text style={styles.bestScoreLabel}>{t('weatherWizard.home.bestScore')}</Text>
+            <Text style={styles.bestScoreValue}>{bestScore}</Text>
+          </View>
+        )}
         <TouchableOpacity style={styles.playButton} onPress={() => navigation.navigate('WeatherWizardGame')} activeOpacity={0.85}><Text style={styles.playButtonText}>{t('weatherWizard.home.play')}</Text></TouchableOpacity>
         <Text style={styles.instructions}>{t('weatherWizard.home.instructions')}</Text>
       </View>
@@ -41,4 +68,10 @@ const styles = StyleSheet.create({
   playButton: { backgroundColor: '#ff7043', paddingVertical: 18, paddingHorizontal: 52, borderRadius: 32, shadowColor: '#ff7043', shadowOffset: { width: 0, height: 4 }, shadowOpacity: 0.3, shadowRadius: 8, elevation: 5 },
   playButtonText: { fontSize: 22, fontWeight: '700', color: '#fff' },
   instructions: { fontSize: 14, color: '#888', textAlign: 'center', marginTop: 28, maxWidth: 300, lineHeight: 20 },
+  difficultyContainer: { width: '100%', marginBottom: 20 },
+  difficultyLabel: { fontSize: 14, color: '#666', fontWeight: '600', marginBottom: 8, textAlign: 'center' },
+  difficultyButtons: { flexDirection: 'row', justifyContent: 'center', gap: 12 },
+  difficultyButton: { paddingVertical: 8, paddingHorizontal: 16, borderRadius: 20, backgroundColor: '#fff', borderWidth: 1, borderColor: '#ccc' },
+  difficultyButtonSelected: { backgroundColor: '#ff7043', borderColor: '#ff7043' },
+  difficultyText: { fontSize: 14, color: '#333' },
 });
