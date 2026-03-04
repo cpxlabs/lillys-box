@@ -1,4 +1,4 @@
-# 🐾 Pet Care Game
+# 🐾 Lilly's Box
 
 Um jogo 2D infantil para Android usando React Native, onde crianças podem cuidar de animais domésticos (gatos ou cachorros).
 

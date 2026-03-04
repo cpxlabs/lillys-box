@@ -1,6 +1,6 @@
 # Sounds Directory
 
-This directory contains all audio assets for the Pet Care Game.
+This directory contains all audio assets for Lilly's Box.
 
 ## Directory Structure
 

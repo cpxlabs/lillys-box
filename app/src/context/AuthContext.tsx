@@ -32,7 +32,7 @@ export interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-const AUTH_STORAGE_KEY = '@pet_care_game:auth_state';
+const AUTH_STORAGE_KEY = '@lillys_box:auth_state';
 
 /**
  * AuthProvider component that manages authentication state globally

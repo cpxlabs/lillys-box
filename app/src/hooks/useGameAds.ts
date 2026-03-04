@@ -15,7 +15,7 @@ import {
 import { getAdPlacementForEvent } from '../config/gameAdStrategies';
 import { logger } from '../utils/logger';
 
-const GAME_METRICS_KEY = (gameId: string) => `@pet-care-game/game-ads-metrics/${gameId}`;
+const GAME_METRICS_KEY = (gameId: string) => `@lillys-box/game-ads-metrics/${gameId}`;
 
 interface UseGameAdsOptions {
   gameId: string;

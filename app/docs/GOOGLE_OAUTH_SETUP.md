@@ -1,6 +1,6 @@
 # Google OAuth Setup Guide
 
-This guide walks you through setting up Google OAuth 2.0 for the Pet Care Game on both Android and iOS platforms.
+This guide walks you through setting up Google OAuth 2.0 for Lilly's Box on both Android and iOS platforms.
 
 ## Prerequisites
 
@@ -14,7 +14,7 @@ This guide walks you through setting up Google OAuth 2.0 for the Pet Care Game o
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Click on the project dropdown at the top
 3. Click "NEW PROJECT"
-4. Enter a name (e.g., "Pet Care Game")
+4. Enter a name (e.g., "Lilly's Box")
 5. Click "CREATE"
 6. Wait for the project to be created
 

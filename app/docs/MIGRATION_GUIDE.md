@@ -4,7 +4,7 @@ This guide helps developers understand the changes made for OAuth authentication
 
 ## Overview
 
-The Pet Care Game now includes Google OAuth authentication with multi-user support. This guide explains what changed and how to update your code if necessary.
+The Lilly's Box now includes Google OAuth authentication with multi-user support. This guide explains what changed and how to update your code if necessary.
 
 ## What Changed
 

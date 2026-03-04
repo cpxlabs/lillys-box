@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useAuth } from '../context/AuthContext';
 
-const FAVORITES_STORAGE_KEY = '@pet_care_game:favorite_games';
+const FAVORITES_STORAGE_KEY = '@lillys_box:favorite_games';
 
 const getStorageKey = (userId?: string): string => {
   const id = userId || 'guest';

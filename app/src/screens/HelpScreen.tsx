@@ -48,7 +48,7 @@ const FAQ_KEYS: FaqKey[] = [
 
 const TIPS_KEYS = ['tip1', 'tip2', 'tip3', 'tip4', 'tip5'] as const;
 
-const GITHUB_URL = 'https://github.com/az1nn/pet-care-game/issues';
+const GITHUB_URL = 'https://github.com/cpxlabs/lillys-box/issues';
 
 type FaqItemProps = {
   question: string;

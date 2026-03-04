@@ -1,7 +1,7 @@
 {
-  "name": "pet-care-game-backend",
+  "name": "lillys-box-backend",
   "version": "0.1.0",
-  "description": "Fastify API backend for Pet Care Game (merged servers)",
+  "description": "Fastify API backend for Lilly's Box (merged servers)",
   "type": "module",
   "private": true,
   "scripts": {

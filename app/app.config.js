@@ -1,8 +1,8 @@
 module.exports = () => {
   // Base configuration
   const baseConfig = {
-    name: "Pet Care Game",
-    slug: "pet-care-game",
+    name: "Lilly's Box",
+    slug: "lillys-box",
     version: "1.0.0",
     orientation: "portrait",
     icon: "./assets/icon.png",
@@ -26,7 +26,7 @@ module.exports = () => {
       package: "com.az1nn.petcaregame",
       googleServicesFile: "./google-services.json"
     },
-    scheme: "pet-care-game",
+    scheme: "lillys-box",
     web: {
       favicon: "./assets/favicon.png",
       bundler: "metro"
@@ -47,7 +47,7 @@ module.exports = () => {
       "@sentry/react-native/expo",
       {
         organization: "hitss-40",
-        project: "pet-care-game",
+        project: "lillys-box",
       }
     ]
   ];

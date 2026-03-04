@@ -53,8 +53,8 @@ import { isFirebaseConfigured, getFirestoreDB, getFirebaseStorage } from '../con
 import { logger } from '../utils/logger';
 
 // ── AsyncStorage keys (local fallback) ───────────────────────────────────────
-const reviewsKey = (gameId: string) => `@pet_care_game:reviews:${gameId}`;
-const summaryKey = (gameId: string) => `@pet_care_game:review_summary:${gameId}`;
+const reviewsKey = (gameId: string) => `@lillys_box:reviews:${gameId}`;
+const summaryKey = (gameId: string) => `@lillys_box:review_summary:${gameId}`;
 
 // ── Firestore collection names ────────────────────────────────────────────────
 const REVIEWS_COLLECTION = 'reviews';

@@ -5,7 +5,7 @@ import { AdsConfig } from '../config/ads.config';
 import { AdState } from '../types/ads';
 import { logger } from '../utils/logger';
 
-const LAST_INTERSTITIAL_KEY = '@pet-care-game/last-interstitial';
+const LAST_INTERSTITIAL_KEY = '@lillys-box/last-interstitial';
 
 type AdContextType = {
   isRewardedAdReady: boolean;

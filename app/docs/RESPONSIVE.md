@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Pet Care Game uses a responsive design system that automatically adjusts layouts, text sizes, and component dimensions based on device screen width. This ensures the game looks great on phones, tablets, and web browsers.
+The Lilly's Box uses a responsive design system that automatically adjusts layouts, text sizes, and component dimensions based on device screen width. This ensures the game looks great on phones, tablets, and web browsers.
 
 **Key Principle**: Instead of hardcoding pixel values, we use scaling functions that adapt to each device.
 

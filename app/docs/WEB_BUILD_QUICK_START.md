@@ -1,6 +1,6 @@
 # Web Build Quick Start
 
-Get the Pet Care Game running on web in 30 seconds.
+Get Lilly's Box running on web in 30 seconds.
 
 ## TL;DR
 
@@ -132,5 +132,5 @@ docs/WEB_BUILD_GUIDE.md
 
 ---
 
-**That's it!** You now have a fully functional Pet Care Game running on web. 🎉
+**That's it!** You now have a fully functional Lilly's Box running on web. 🎉
 

@@ -3,7 +3,7 @@ import { Pet } from '../types';
 import { migratePetData, validatePetData, repairPetData } from './migration';
 import { logger } from './logger';
 
-const BASE_PET_STORAGE_KEY = '@pet_care_game:pet';
+const BASE_PET_STORAGE_KEY = '@lillys_box:pet';
 
 /**
  * Generate storage key for a specific user

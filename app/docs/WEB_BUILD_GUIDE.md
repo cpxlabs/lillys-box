@@ -1,6 +1,6 @@
-# Web Build Guide - Pet Care Game
+# Web Build Guide - Lilly's Box
 
-This guide explains how to run and build the Pet Care Game for web platforms, including the fallback authentication system.
+This guide explains how to run and build Lilly's Box for web platforms, including the fallback authentication system.
 
 ## Overview
 

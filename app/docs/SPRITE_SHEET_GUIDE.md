@@ -2,7 +2,7 @@
 
 ## Overview
 
-The pet care game now has a comprehensive sprite sheet animation system with intelligent caching, preloading, and fallback support.
+Lilly's Box now has a comprehensive sprite sheet animation system with intelligent caching, preloading, and fallback support.
 
 ## Architecture
 

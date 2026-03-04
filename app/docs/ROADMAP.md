@@ -1,6 +1,6 @@
-# Pet Care Game - Next Steps
+# Lilly's Box - Next Steps
 
-This document outlines the roadmap for future development, improvements, and features for the Pet Care Game project.
+This document outlines the roadmap for future development, improvements, and features for the Lilly's Box project.
 
 ## 🎯 Priority Levels
 

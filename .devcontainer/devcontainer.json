@@ -1,5 +1,5 @@
 {
-  "name": "Pet Care Game",
+  "name": "Lilly's Box",
   "build": {
     "dockerfile": "Dockerfile"
   },

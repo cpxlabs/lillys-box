@@ -1,5 +1,5 @@
 /**
- * AudioService - Centralized audio management for the Pet Care Game
+ * AudioService - Centralized audio management for Lilly's Box
  * 
  * Handles sound effects, background music, and audio settings persistence.
  * Uses expo-av for audio playback with platform-aware behavior (web skipped).

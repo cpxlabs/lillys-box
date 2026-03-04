@@ -1,6 +1,6 @@
-# API Reference - Pet Care Game
+# API Reference - Lilly's Box
 
-This document provides detailed API documentation for the Pet Care Game authentication and storage systems.
+This document provides detailed API documentation for the Lilly's Box authentication and storage systems.
 
 ## Table of Contents
 
