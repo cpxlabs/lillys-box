@@ -18,6 +18,7 @@ import { Pet, ClothingSlot } from '../types';
 import { CLOTHING_ITEMS, getItemsBySlot } from '../data/clothingItems';
 import * as Haptics from 'expo-haptics';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DressUpRelayGame'>;
 

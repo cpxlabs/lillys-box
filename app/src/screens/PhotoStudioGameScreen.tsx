@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { usePhotoStudio } from '../context/PhotoStudioContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'PhotoStudioGame'> };
 
@@ -36,6 +37,8 @@ let photoId = 0;
 export const PhotoStudioGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = usePhotoStudio();
+  const { triggerAd } = useGameAdTrigger('photo-studio');
+  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const [bgIndex, setBgIndex] = useState(0);
   const [poseIndex, setPoseIndex] = useState(0);

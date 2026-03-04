@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { usePetExplorer } from '../context/PetExplorerContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'PetExplorerGame'> };
 
@@ -46,6 +47,8 @@ const ZONES = [
 export const PetExplorerGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = usePetExplorer();
+  const { triggerAd } = useGameAdTrigger('pet-explorer');
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const [zoneIndex, setZoneIndex] = useState(0);
   const [objects, setObjects] = useState(ZONES.map(z => [...z.objects]));
   const [score, setScore] = useState(0);
@@ -123,7 +126,29 @@ export const PetExplorerGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>🧭</Text>
             <Text style={styles.modalTitle}>{t('petExplorer.game.complete')}</Text>
             <Text style={styles.modalScore}>{t('petExplorer.game.score')}: {score}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('petExplorer.game.playAgain')}</Text></TouchableOpacity>
+            
+            {!adRewardPending && (
+              <>
+                <TouchableOpacity 
+                  style={styles.modalButton} 
+                  onPress={async () => {
+                    setAdRewardPending(true);
+                    const reward = await triggerAd('game_ended', score);
+                    if (reward > 0) {
+                      const newScore = score + reward;
+                      updateBestScore(newScore);
+                    }
+                    setAdRewardPending(false);
+                  }}
+                  disabled={adRewardPending}
+                >
+                  <Text style={styles.modalButtonText}>🎬 Watch Ad to Double!</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('petExplorer.game.playAgain')}</Text></TouchableOpacity>
+              </>
+            )}
+            
             <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
           </View>
         </View>

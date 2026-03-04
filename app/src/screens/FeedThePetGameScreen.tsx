@@ -14,6 +14,7 @@ import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { getRandomItem, FeedThePetItem } from '../data/feedThePetItems';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = {
   navigation: ScreenNavigationProp<'FeedThePetGame'>;
@@ -95,6 +96,8 @@ function checkCollision(itemX: number, itemY: number, bowlX: number, bowlY: numb
 export const FeedThePetGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { bestScore, updateBestScore } = useFeedThePet();
+  const { triggerAd } = useGameAdTrigger('feed-the-pet');
+  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const [renderState, setRenderState] = useState<GameState>(createInitialState);
   const stateRef = useRef<GameState>(createInitialState());
@@ -336,16 +339,32 @@ export const FeedThePetGameScreen: React.FC<Props> = ({ navigation }) => {
               <Text style={styles.newBestText}>{t('feedThePet.game.newBest')}</Text>
             )}
 
+            {!adRewardPending && (
+              <TouchableOpacity
+                style={styles.playAgainButton}
+                onPress={async () => {
+                  setAdRewardPending(true);
+                  const reward = await triggerAd('game_ended', score);
+                  setAdRewardPending(false);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel={t('feedThePet.game.playAgain')}
+              >
+                <Text style={styles.playAgainText}>🎬 {t('feedThePet.game.playAgain')}</Text>
+              </TouchableOpacity>
+            )}
+
             <TouchableOpacity
               style={styles.playAgainButton}
               onPress={handlePlayAgain}
+              disabled={adRewardPending}
               accessibilityRole="button"
               accessibilityLabel={t('feedThePet.game.playAgain')}
             >
               <Text style={styles.playAgainText}>{t('feedThePet.game.playAgain')}</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={handleBack} style={styles.backButtonOverlay}>
+            <TouchableOpacity onPress={handleBack} style={styles.backButtonOverlay} disabled={adRewardPending}>
               <Text style={styles.backTextOverlay}>{t('feedThePet.game.back')}</Text>
             </TouchableOpacity>
           </View>

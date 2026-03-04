@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useMirrorMatchGame } from '../context/MirrorMatchContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'MirrorMatchGame'> };
 
@@ -29,6 +30,8 @@ function mirrorOf(pattern: (string | null)[]): (string | null)[] {
 export const MirrorMatchGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useMirrorMatchGame();
+  const { triggerAd } = useGameAdTrigger('mirror-match');
+  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const [pattern] = useState(generatePattern);
   const target = mirrorOf(pattern);
@@ -114,7 +117,14 @@ export const MirrorMatchGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>🪞</Text>
             <Text style={styles.modalTitle}>{t('mirrorMatch.game.perfect')}</Text>
             <Text style={styles.modalScore}>{t('mirrorMatch.game.score')}: {score}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={handleBack}><Text style={styles.modalButtonText}>{t('common.back')}</Text></TouchableOpacity>
+            {!adRewardPending && (
+              <TouchableOpacity style={styles.modalButton} onPress={async () => {
+                setAdRewardPending(true);
+                const reward = await triggerAd('game_ended', score);
+                setAdRewardPending(false);
+              }}><Text style={styles.modalButtonText}>🎬 {t('common.watchAdForReward')}</Text></TouchableOpacity>
+            )}
+            <TouchableOpacity style={styles.modalButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalButtonText}>{t('common.back')}</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>

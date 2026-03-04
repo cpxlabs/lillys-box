@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useTreasureDig } from '../context/TreasureDigContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'TreasureDigGame'> };
 
@@ -48,6 +49,7 @@ const HEAT_LABELS = ['❄️ Cold', '🌡️ Warm', '🔥 Hot', '🔥🔥 Burnin
 export const TreasureDigGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useTreasureDig();
+  const { triggerAd } = useGameAdTrigger('treasure-dig');
 
   const [tiles, setTiles] = useState<Tile[]>(initGrid);
   const [digsLeft, setDigsLeft] = useState(MAX_DIGS);
@@ -55,6 +57,7 @@ export const TreasureDigGameScreen: React.FC<Props> = ({ navigation }) => {
   const [found, setFound] = useState(0);
   const [gameOver, setGameOver] = useState(false);
   const [lastHeat, setLastHeat] = useState(0);
+  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const dig = useCallback((index: number) => {
     if (digsLeft <= 0 || gameOver) return;
@@ -125,9 +128,26 @@ export const TreasureDigGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>{found >= 6 ? '🏆' : '💎'}</Text>
             <Text style={styles.modalTitle}>{found >= 6 ? t('treasureDig.game.allFound') : t('treasureDig.game.gameOver')}</Text>
             <Text style={styles.modalScore}>{t('treasureDig.game.found')}: {found}/6 | {t('treasureDig.game.score')}: {score}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={restart}>
-              <Text style={styles.modalButtonText}>{t('treasureDig.game.playAgain')}</Text>
-            </TouchableOpacity>
+            {!adRewardPending && (
+              <>
+                <TouchableOpacity 
+                  style={styles.modalButton} 
+                  onPress={async () => {
+                    setAdRewardPending(true);
+                    const reward = await triggerAd('game_ended', score);
+                    if (reward > 0) {
+                      // Ad successful
+                    }
+                    setAdRewardPending(false);
+                  }}
+                >
+                  <Text style={styles.modalButtonText}>🎬 {t('common.watchAdToDouble', { defaultValue: 'Watch Ad to Double!' })}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton} onPress={restart}>
+                  <Text style={styles.modalButtonText}>{t('treasureDig.game.playAgain')}</Text>
+                </TouchableOpacity>
+              </>
+            )}
             <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}>
               <Text style={styles.modalSecondaryText}>{t('common.back')}</Text>
             </TouchableOpacity>

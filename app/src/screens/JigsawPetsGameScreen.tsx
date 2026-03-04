@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useJigsawPets } from '../context/JigsawPetsContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'JigsawPetsGame'> };
 
@@ -21,6 +22,8 @@ function shuffle<T>(arr: T[]): T[] {
 export const JigsawPetsGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useJigsawPets();
+  const { triggerAd } = useGameAdTrigger('jigsaw-pets');
+  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const [petIndex] = useState(() => Math.floor(Math.random() * PETS.length));
   const pet = PETS[petIndex];
@@ -106,8 +109,15 @@ export const JigsawPetsGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>🖼️</Text>
             <Text style={styles.modalTitle}>{t('jigsawPets.game.complete')}</Text>
             <Text style={styles.modalScore}>{score} pts | {moves} {t('jigsawPets.game.moves')}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('jigsawPets.game.playAgain')}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
+            {!adRewardPending && (
+              <TouchableOpacity style={styles.modalButton} onPress={async () => {
+                setAdRewardPending(true);
+                const reward = await triggerAd('game_ended', score);
+                setAdRewardPending(false);
+              }}><Text style={styles.modalButtonText}>🎬 {t('jigsawPets.game.playAgain')}</Text></TouchableOpacity>
+            )}
+            <TouchableOpacity style={styles.modalButton} onPress={restart} disabled={adRewardPending}><Text style={styles.modalButtonText}>{t('jigsawPets.game.playAgain')}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>

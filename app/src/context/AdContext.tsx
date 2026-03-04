@@ -15,6 +15,8 @@ type AdContextType = {
   shouldShowInterstitial: () => boolean;
   incrementScreenCount: () => void;
   showInterstitialAd: () => Promise<void>;
+  preloadAdsForGameSession: () => void;
+  resetAdsAfterGameSession: () => void;
 };
 
 const AdContext = createContext<AdContextType | undefined>(undefined);
@@ -150,6 +152,29 @@ export const AdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     }
   };
 
+  /**
+   * Preload ads for a game session
+   */
+  const preloadAdsForGameSession = () => {
+    logger.log('[AdContext] Preloading ads for game session');
+    AdService.preloadRewardedAdForGame();
+    AdService.preloadInterstitialAdForGame();
+  };
+
+  /**
+   * Reset ads after a game session ends
+   */
+  const resetAdsAfterGameSession = () => {
+    logger.log('[AdContext] Resetting ads after game session');
+    AdService.resetAdsAfterGameSession();
+    
+    // Also reset screen count for interstitial frequency
+    setAdState((prev) => ({
+      ...prev,
+      sessionScreenCount: 0,
+    }));
+  };
+
   return (
     <AdContext.Provider
       value={{
@@ -160,6 +185,8 @@ export const AdProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
         shouldShowInterstitial,
         incrementScreenCount,
         showInterstitialAd,
+        preloadAdsForGameSession,
+        resetAdsAfterGameSession,
       }}
     >
       {children}

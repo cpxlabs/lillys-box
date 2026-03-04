@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { usePaintSplash } from '../context/PaintSplashContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'PaintSplashGame'> };
 
@@ -21,11 +22,13 @@ const SECTION_EMOJIS: Record<string, string> = {
 export const PaintSplashGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = usePaintSplash();
+  const { triggerAd } = useGameAdTrigger('paint-splash');
 
   const [selectedColor, setSelectedColor] = useState(COLORS[0]);
   const [painted, setPainted] = useState<Record<string, string>>({});
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const paint = useCallback((section: string) => {
     const correct = TARGET_COLORS[section] === selectedColor;
@@ -100,9 +103,29 @@ export const PaintSplashGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>🎨</Text>
             <Text style={styles.modalTitle}>{t('paintSplash.game.complete')}</Text>
             <Text style={styles.modalScore}>{t('paintSplash.game.score')}: {score}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={restart}>
-              <Text style={styles.modalButtonText}>{t('paintSplash.game.playAgain')}</Text>
-            </TouchableOpacity>
+            {!adRewardPending && (
+              <>
+                <TouchableOpacity 
+                  style={styles.modalButton} 
+                  onPress={async () => {
+                    setAdRewardPending(true);
+                    const reward = await triggerAd('game_ended', score);
+                    if (reward > 0) {
+                      // Ad was successful - coins doubled
+                    }
+                    setAdRewardPending(false);
+                  }}
+                  disabled={adRewardPending}
+                >
+                  <Text style={styles.modalButtonText}>
+                    {adRewardPending ? t('common.loading', { defaultValue: 'Loading...' }) : '🎬 Watch Ad to Double!'}
+                  </Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton} onPress={restart}>
+                  <Text style={styles.modalButtonText}>{t('paintSplash.game.playAgain')}</Text>
+                </TouchableOpacity>
+              </>
+            )}
             <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}>
               <Text style={styles.modalSecondaryText}>{t('common.back')}</Text>
             </TouchableOpacity>

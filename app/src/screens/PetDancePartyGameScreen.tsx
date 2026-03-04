@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { usePetDanceParty } from '../context/PetDancePartyContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'PetDancePartyGame'> };
 
@@ -28,6 +29,8 @@ let arrowId = 0;
 export const PetDancePartyGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = usePetDanceParty();
+  const { triggerAd } = useGameAdTrigger('pet-dance-party');
+  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const [score, setScore] = useState(0);
   const [streak, setStreak] = useState(0);
@@ -155,10 +158,19 @@ export const PetDancePartyGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>🪩</Text>
             <Text style={styles.modalTitle}>{t('petDanceParty.game.gameOver')}</Text>
             <Text style={styles.modalScore}>{t('petDanceParty.game.finalScore')}: {score}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={() => { setScore(0); setStreak(0); setTimeLeft(GAME_DURATION); setGameOver(false); setArrows([]); arrowsRef.current = []; scoreRef.current = 0; streakRef.current = 0; gameActiveRef.current = true; }}>
+            {!adRewardPending && (
+              <TouchableOpacity style={styles.modalButton} onPress={async () => {
+                setAdRewardPending(true);
+                const reward = await triggerAd('game_ended', score);
+                setAdRewardPending(false);
+              }}>
+                <Text style={styles.modalButtonText}>🎬 {t('petDanceParty.game.playAgain')}</Text>
+              </TouchableOpacity>
+            )}
+            <TouchableOpacity style={styles.modalButton} onPress={() => { setScore(0); setStreak(0); setTimeLeft(GAME_DURATION); setGameOver(false); setArrows([]); arrowsRef.current = []; scoreRef.current = 0; streakRef.current = 0; gameActiveRef.current = true; }} disabled={adRewardPending}>
               <Text style={styles.modalButtonText}>{t('petDanceParty.game.playAgain')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}>
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack} disabled={adRewardPending}>
               <Text style={styles.modalSecondaryText}>{t('common.back')}</Text>
             </TouchableOpacity>
           </View>

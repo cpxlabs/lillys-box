@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { useCatchTheBall } from '../context/CatchTheBallContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = {
   navigation: ScreenNavigationProp<'CatchTheBallGame'>;
@@ -93,8 +94,10 @@ function createInitialState(): GameState {
 export const CatchTheBallGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { bestScore, updateBestScore } = useCatchTheBall();
+  const { triggerAd } = useGameAdTrigger('catch-the-ball');
 
   const [renderState, setRenderState] = useState<GameState>(createInitialState);
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const stateRef = useRef<GameState>(createInitialState());
   const animFrameRef = useRef<number | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -363,14 +366,33 @@ export const CatchTheBallGameScreen: React.FC<Props> = ({ navigation }) => {
             {isNewBestRef.current && (
               <Text style={styles.newBestText}>{t('catchTheBall.game.newBest')}</Text>
             )}
-            <TouchableOpacity
-              style={styles.playAgainButton}
-              onPress={handleStart}
-              accessibilityRole="button"
-              accessibilityLabel={t('catchTheBall.game.playAgain')}
-            >
-              <Text style={styles.playAgainText}>{t('catchTheBall.game.playAgain')}</Text>
-            </TouchableOpacity>
+            {!adRewardPending && (
+              <>
+                <TouchableOpacity
+                  style={styles.playAgainButton}
+                  onPress={async () => {
+                    setAdRewardPending(true);
+                    const reward = await triggerAd('game_ended', coinsEarned);
+                    if (reward > 0) {
+                      // Ad completed successfully
+                    }
+                    setAdRewardPending(false);
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Watch ad to double coins"
+                >
+                  <Text style={styles.playAgainText}>🎬 {t('common.watchAdToDouble', { defaultValue: 'Watch Ad to Double!' })}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={styles.playAgainButton}
+                  onPress={handleStart}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('catchTheBall.game.playAgain')}
+                >
+                  <Text style={styles.playAgainText}>{t('catchTheBall.game.playAgain')}</Text>
+                </TouchableOpacity>
+              </>
+            )}
             <TouchableOpacity onPress={handleBack} style={styles.backButtonOverlay}>
               <Text style={styles.backTextOverlay}>{t('catchTheBall.game.back')}</Text>
             </TouchableOpacity>

@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useWeatherWizard } from '../context/WeatherWizardContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'WeatherWizardGame'> };
 
@@ -56,6 +57,8 @@ const WEATHER_ICONS: Record<Weather, string> = { rain: '🌧️', sun: '☀️',
 export const WeatherWizardGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useWeatherWizard();
+  const { triggerAd } = useGameAdTrigger('weather-wizard');
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const [sceneIndex, setSceneIndex] = useState(0);
   const [stepIndex, setStepIndex] = useState(0);
   const [stepResult, setStepResult] = useState('');
@@ -144,7 +147,29 @@ export const WeatherWizardGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>🌈</Text>
             <Text style={styles.modalTitle}>{t('weatherWizard.game.complete')}</Text>
             <Text style={styles.modalScore}>{score} pts</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('weatherWizard.game.playAgain')}</Text></TouchableOpacity>
+            
+            {!adRewardPending && (
+              <>
+                <TouchableOpacity 
+                  style={styles.modalButton} 
+                  onPress={async () => {
+                    setAdRewardPending(true);
+                    const reward = await triggerAd('game_ended', score);
+                    if (reward > 0) {
+                      const newScore = score + reward;
+                      updateBestScore(newScore);
+                    }
+                    setAdRewardPending(false);
+                  }}
+                  disabled={adRewardPending}
+                >
+                  <Text style={styles.modalButtonText}>🎬 Watch Ad to Double!</Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('weatherWizard.game.playAgain')}</Text></TouchableOpacity>
+              </>
+            )}
+            
             <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
           </View>
         </View>

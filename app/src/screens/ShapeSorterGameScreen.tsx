@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useShapeSorter } from '../context/ShapeSorterContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'ShapeSorterGame'> };
 
@@ -26,6 +27,8 @@ function generateRound(): Array<{ shape: typeof SHAPES[0]; solved: boolean }> {
 export const ShapeSorterGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useShapeSorter();
+  const { triggerAd } = useGameAdTrigger('shape-sorter');
+  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const [targets, setTargets] = useState(() => generateRound());
   const [fallingShapes, setFallingShapes] = useState(() => generateRound().map(t => t.shape));
@@ -122,8 +125,15 @@ export const ShapeSorterGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>🧩</Text>
             <Text style={styles.modalTitle}>{t('shapeSorter.game.complete')}</Text>
             <Text style={styles.modalScore}>{t('shapeSorter.game.score')}: {score}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('shapeSorter.game.playAgain')}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
+            {!adRewardPending && (
+              <TouchableOpacity style={styles.modalButton} onPress={async () => {
+                setAdRewardPending(true);
+                const reward = await triggerAd('game_ended', score);
+                setAdRewardPending(false);
+              }}><Text style={styles.modalButtonText}>🎬 {t('shapeSorter.game.playAgain')}</Text></TouchableOpacity>
+            )}
+            <TouchableOpacity style={styles.modalButton} onPress={restart} disabled={adRewardPending}><Text style={styles.modalButtonText}>{t('shapeSorter.game.playAgain')}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>

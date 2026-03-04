@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useWordBubbles } from '../context/WordBubblesContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'WordBubblesGame'> };
 
@@ -27,6 +28,8 @@ function shuffle<T>(arr: T[]): T[] {
 export const WordBubblesGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useWordBubbles();
+  const { triggerAd } = useGameAdTrigger('word-bubbles');
+  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const [wordIndex, setWordIndex] = useState(0);
   const [letters, setLetters] = useState(() => shuffle(WORDS[0].word.split('')));
@@ -118,7 +121,14 @@ export const WordBubblesGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>🔤</Text>
             <Text style={styles.modalTitle}>{t('wordBubbles.game.complete')}</Text>
             <Text style={styles.modalScore}>{t('wordBubbles.game.score')}: {score}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={handleBack}><Text style={styles.modalButtonText}>{t('common.back')}</Text></TouchableOpacity>
+            {!adRewardPending && (
+              <TouchableOpacity style={styles.modalButton} onPress={async () => {
+                setAdRewardPending(true);
+                const reward = await triggerAd('game_ended', score);
+                setAdRewardPending(false);
+              }}><Text style={styles.modalButtonText}>🎬 {t('common.watchAdForReward')}</Text></TouchableOpacity>
+            )}
+            <TouchableOpacity style={styles.modalButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalButtonText}>{t('common.back')}</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>

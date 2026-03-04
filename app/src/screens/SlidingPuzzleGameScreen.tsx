@@ -12,6 +12,7 @@ import { useSlidingPuzzle } from '../context/SlidingPuzzleContext';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'SlidingPuzzleGame'>;
 
@@ -105,6 +106,8 @@ export const SlidingPuzzleGameScreen: React.FC<Props> = ({ navigation, route }) 
   const { difficulty } = route.params;
   const { t } = useTranslation();
   const { bestMoves, updateBestMoves } = useSlidingPuzzle();
+  const { triggerAd } = useGameAdTrigger('sliding-puzzle');
+  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const gridSize = getGridSize(difficulty);
   const cellSize = Math.floor((SCREEN_WIDTH - GRID_PADDING * 2) / gridSize);
@@ -264,15 +267,30 @@ export const SlidingPuzzleGameScreen: React.FC<Props> = ({ navigation, route }) 
             {isNewBest && (
               <Text style={styles.newBestText}>{t('slidingPuzzle.game.newBest')}</Text>
             )}
+            {!adRewardPending && (
+              <TouchableOpacity
+                style={styles.playAgainButton}
+                onPress={async () => {
+                  setAdRewardPending(true);
+                  const reward = await triggerAd('game_ended', coinsEarned);
+                  setAdRewardPending(false);
+                }}
+                accessibilityRole="button"
+                accessibilityLabel={t('slidingPuzzle.game.playAgain')}
+              >
+                <Text style={styles.playAgainText}>🎬 {t('slidingPuzzle.game.playAgain')}</Text>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               style={styles.playAgainButton}
               onPress={handleRestart}
+              disabled={adRewardPending}
               accessibilityRole="button"
               accessibilityLabel={t('slidingPuzzle.game.playAgain')}
             >
               <Text style={styles.playAgainText}>{t('slidingPuzzle.game.playAgain')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={handleBack} style={styles.backButtonOverlay}>
+            <TouchableOpacity onPress={handleBack} style={styles.backButtonOverlay} disabled={adRewardPending}>
               <Text style={styles.backTextOverlay}>{t('slidingPuzzle.game.back')}</Text>
             </TouchableOpacity>
           </View>

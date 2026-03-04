@@ -9,7 +9,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ConfirmModal } from '../components/ConfirmModal';
-import { useRewardedAd } from './useRewardedAd';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 import { AdsConfig } from '../config/ads.config';
 import { REWARD_MULTIPLIER } from '../config/constants';
 
@@ -52,7 +52,7 @@ export const useDoubleReward = ({
   earnMoney,
   showToast,
 }: UseDoubleRewardParams): UseDoubleRewardReturn => {
-  const { showRewardedAd, isAdReady } = useRewardedAd();
+  const { triggerAd } = useGameAdTrigger('pet-care-activity');
   const { t } = useTranslation();
   const [showDoubleRewardModal, setShowDoubleRewardModal] = useState(false);
   const [pendingReward, setPendingReward] = useState(0);
@@ -63,7 +63,7 @@ export const useDoubleReward = ({
    * - Otherwise, give the reward immediately
    */
   const triggerReward = (amount: number) => {
-    if (AdsConfig.enabled && AdsConfig.rewards.activityDoubleReward && isAdReady) {
+    if (AdsConfig.enabled && AdsConfig.rewards.activityDoubleReward) {
       setPendingReward(amount);
       setShowDoubleRewardModal(true);
     } else {
@@ -79,13 +79,18 @@ export const useDoubleReward = ({
   const handleWatchAd = async () => {
     setShowDoubleRewardModal(false);
 
-    await showRewardedAd(() => {
+    const reward = await triggerAd('activity_reward', pendingReward);
+    if (reward > 0) {
       // Double the reward
       const doubleReward = pendingReward * REWARD_MULTIPLIER.DOUBLE;
       earnMoney(doubleReward);
       showToast(t('rewards.doubleEarned', { amount: doubleReward }), 'success');
-      setPendingReward(0);
-    });
+    } else {
+      // Ad was not watched or failed, give normal reward
+      earnMoney(pendingReward);
+      showToast(t('rewards.earned', { amount: pendingReward }), 'success');
+    }
+    setPendingReward(0);
   };
 
   /**

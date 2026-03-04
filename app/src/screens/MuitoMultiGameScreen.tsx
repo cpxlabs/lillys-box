@@ -7,6 +7,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MuitoMultiGame'>;
 
@@ -40,9 +41,16 @@ export const MuitoMultiGameScreen: React.FC<Props> = ({ navigation }) => {
   // ── navigate on phase change ─────────────────────────────────────
   useEffect(() => {
     if (phase === MultiGamePhase.RESULTS) {
-      navigation.navigate('MuitoResults');
+      // Trigger ad before navigating to results
+      (async () => {
+        const reward = await triggerAd('game_ended', myScore);
+        if (reward > 0) {
+          // Reward will be processed on results screen
+        }
+        navigation.navigate('MuitoResults');
+      })();
     }
-  }, [phase, navigation]);
+  }, [phase, navigation, triggerAd, myScore]);
 
   useEffect(() => {
     if (opponentDisconnected) {

@@ -13,6 +13,7 @@ import { useSimonSays } from '../context/SimonSaysContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import * as Haptics from 'expo-haptics';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = {
   navigation: ScreenNavigationProp<'SimonSaysGame'>;
@@ -32,6 +33,8 @@ type GamePhase = 'ready' | 'showing' | 'playing' | 'correct' | 'wrong' | 'gameOv
 export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { bestScore, updateBestScore } = useSimonSays();
+  const { triggerAd } = useGameAdTrigger('simon-says');
+  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const [sequence, setSequence] = useState<ColorId[]>([]);
   const [playerSequence, setPlayerSequence] = useState<ColorId[]>([]);
@@ -268,17 +271,34 @@ export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
               <Text style={styles.newRecord}>🎉 {t('simonSays.gameOver.newRecord')}</Text>
             )}
 
+            {!adRewardPending && (
+              <TouchableOpacity
+                style={styles.playAgainButton}
+                onPress={async () => {
+                  setAdRewardPending(true);
+                  const reward = await triggerAd('game_ended', score);
+                  setAdRewardPending(false);
+                }}
+                activeOpacity={0.85}
+              >
+                <Text style={styles.playAgainButtonText}>
+                  🎬 {t('simonSays.gameOver.playAgain')}
+                </Text>
+              </TouchableOpacity>
+            )}
+
             <TouchableOpacity
               style={styles.playAgainButton}
               onPress={handlePlayAgain}
               activeOpacity={0.85}
+              disabled={adRewardPending}
             >
               <Text style={styles.playAgainButtonText}>
                 {t('simonSays.gameOver.playAgain')}
               </Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={handleBack} style={styles.backButtonModal}>
+            <TouchableOpacity onPress={handleBack} style={styles.backButtonModal} disabled={adRewardPending}>
               <Text style={styles.backButtonModalText}>{t('common.back')}</Text>
             </TouchableOpacity>
           </View>

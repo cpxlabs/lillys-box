@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { usePathFinder } from '../context/PathFinderContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'PathFinderGame'> };
 
@@ -40,6 +41,8 @@ const SHORTEST = getShortestPath();
 export const PathFinderGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = usePathFinder();
+  const { triggerAd } = useGameAdTrigger('path-finder');
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const [path, setPath] = useState<number[]>([START]);
   const [gameOver, setGameOver] = useState(false);
   const [stars, setStars] = useState(0);
@@ -116,8 +119,15 @@ export const PathFinderGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalTitle}>{t('pathFinder.game.pathFound')}</Text>
             <Text style={styles.modalScore}>{t('pathFinder.game.score')}: {score}</Text>
             <Text style={styles.modalSteps}>{t('pathFinder.game.steps')}: {path.length - 1} (best: {SHORTEST})</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('pathFinder.game.playAgain')}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
+            {!adRewardPending && (
+              <TouchableOpacity style={styles.modalButton} onPress={async () => {
+                setAdRewardPending(true);
+                const reward = await triggerAd('game_ended', score);
+                setAdRewardPending(false);
+              }}><Text style={styles.modalButtonText}>🎬 {t('pathFinder.game.playAgain')}</Text></TouchableOpacity>
+            )}
+            <TouchableOpacity style={styles.modalButton} onPress={restart} disabled={adRewardPending}><Text style={styles.modalButtonText}>{t('pathFinder.game.playAgain')}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>

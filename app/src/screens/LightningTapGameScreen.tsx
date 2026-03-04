@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useLightningTap } from '../context/LightningTapContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'LightningTapGame'> };
 
@@ -15,6 +16,7 @@ const GAME_DURATION = 30;
 export const LightningTapGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useLightningTap();
+  const { triggerAd } = useGameAdTrigger('lightning-tap');
 
   const [litTiles, setLitTiles] = useState<Set<number>>(new Set());
   const [score, setScore] = useState(0);
@@ -23,6 +25,7 @@ export const LightningTapGameScreen: React.FC<Props> = ({ navigation }) => {
   const [gameOver, setGameOver] = useState(false);
   const [reactionTime, setReactionTime] = useState(0);
   const [lastLit, setLastLit] = useState(0);
+  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const scoreRef = useRef(0);
   const gameActiveRef = useRef(true);
@@ -116,8 +119,38 @@ export const LightningTapGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalTitle}>{t('lightningTap.game.gameOver')}</Text>
             <Text style={styles.modalScore}>{t('lightningTap.game.score')}: {score}</Text>
             <Text style={styles.modalMisses}>{t('lightningTap.game.misses')}: {misses}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('lightningTap.game.playAgain')}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
+            
+            {!adRewardPending && (
+              <>
+                <TouchableOpacity 
+                  style={styles.modalButton} 
+                  onPress={async () => {
+                    setAdRewardPending(true);
+                    const reward = await triggerAd('game_ended', score);
+                    if (reward > 0) {
+                      // Show ad was successful - update score
+                      const newScore = score + reward;
+                      setScore(newScore);
+                      updateBestScore(newScore);
+                    }
+                    setAdRewardPending(false);
+                  }}
+                  disabled={adRewardPending}
+                >
+                  <Text style={styles.modalButtonText}>
+                    {adRewardPending ? t('common.loading', { defaultValue: 'Loading...' }) : '🎬 Watch Ad to Double!'}
+                  </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.modalButton} onPress={restart}>
+                  <Text style={styles.modalButtonText}>{t('lightningTap.game.playAgain')}</Text>
+                </TouchableOpacity>
+              </>
+            )}
+            
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}>
+              <Text style={styles.modalSecondaryText}>{t('common.back')}</Text>
+            </TouchableOpacity>
           </View>
         </View>
       </Modal>

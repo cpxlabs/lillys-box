@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useSnackStack } from '../context/SnackStackContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'SnackStackGame'> };
 const { width: SW } = Dimensions.get('window');
@@ -16,6 +17,7 @@ interface StackItem { emoji: string; offset: number; }
 export const SnackStackGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useSnackStack();
+  const { triggerAd } = useGameAdTrigger('snack-stack');
 
   const [stack, setStack] = useState<StackItem[]>([]);
   const [score, setScore] = useState(0);
@@ -23,6 +25,7 @@ export const SnackStackGameScreen: React.FC<Props> = ({ navigation }) => {
   const [fallingX] = useState(new Animated.Value(0));
   const [currentFood, setCurrentFood] = useState(FOODS[0]);
   const [fallAnim] = useState(new Animated.Value(0));
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const swingAnim = useRef(new Animated.Value(0)).current;
   const swingDirection = useRef(1);
   const gameActiveRef = useRef(true);
@@ -138,7 +141,24 @@ export const SnackStackGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>{stack.length >= 10 ? '🏆' : '💥'}</Text>
             <Text style={styles.modalTitle}>{stack.length >= 10 ? t('snackStack.game.perfect') : t('snackStack.game.toppled')}</Text>
             <Text style={styles.modalScore}>{t('snackStack.game.height')}: {stack.length} | {score} pts</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('snackStack.game.playAgain')}</Text></TouchableOpacity>
+            {!adRewardPending && (
+              <>
+                <TouchableOpacity 
+                  style={styles.modalButton} 
+                  onPress={async () => {
+                    setAdRewardPending(true);
+                    const reward = await triggerAd('game_ended', score);
+                    if (reward > 0) {
+                      // Ad successful
+                    }
+                    setAdRewardPending(false);
+                  }}
+                >
+                  <Text style={styles.modalButtonText}>🎬 {t('common.watchAdToDouble', { defaultValue: 'Watch Ad to Double!' })}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('snackStack.game.playAgain')}</Text></TouchableOpacity>
+              </>
+            )}
             <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
           </View>
         </View>

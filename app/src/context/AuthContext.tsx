@@ -155,7 +155,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       }
     } catch (err: unknown) {
-      const error = err as Record<string, unknown>;
+      const error = err as Record<string, any>;
 
       // Handle specific error cases (mobile only)
       if (Platform.OS !== 'web') {

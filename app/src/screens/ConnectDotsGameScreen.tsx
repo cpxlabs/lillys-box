@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useConnectDots } from '../context/ConnectDotsContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'ConnectDotsGame'> };
 const { width: SW } = Dimensions.get('window');
@@ -32,6 +33,8 @@ const PICTURES = [
 export const ConnectDotsGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useConnectDots();
+  const { triggerAd } = useGameAdTrigger('connect-dots');
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const [picIndex, setPicIndex] = useState(0);
   const [nextDot, setNextDot] = useState(0);
   const [connected, setConnected] = useState<number[]>([]);
@@ -123,8 +126,15 @@ export const ConnectDotsGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>✨</Text>
             <Text style={styles.modalTitle}>{t('connectDots.game.complete')}</Text>
             <Text style={styles.modalScore}>{score} pts</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('connectDots.game.playAgain')}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
+            {!adRewardPending && (
+              <TouchableOpacity style={styles.modalButton} onPress={async () => {
+                setAdRewardPending(true);
+                const reward = await triggerAd('game_ended', score);
+                setAdRewardPending(false);
+              }}><Text style={styles.modalButtonText}>🎬 {t('connectDots.game.playAgain')}</Text></TouchableOpacity>
+            )}
+            <TouchableOpacity style={styles.modalButton} onPress={restart} disabled={adRewardPending}><Text style={styles.modalButtonText}>{t('connectDots.game.playAgain')}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>

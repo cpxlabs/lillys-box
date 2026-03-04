@@ -7,6 +7,7 @@ import { useTranslation } from 'react-i18next';
 import { useBubblePop } from '../context/BubblePopContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'BubblePopGame'> };
 
@@ -43,6 +44,7 @@ function createBubble(level: number): Bubble {
 export const BubblePopGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useBubblePop();
+  const { triggerAd } = useGameAdTrigger('bubble-pop');
 
   const [score, setScore] = useState(0);
   const [combo, setCombo] = useState(0);
@@ -50,6 +52,7 @@ export const BubblePopGameScreen: React.FC<Props> = ({ navigation }) => {
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const [gameOver, setGameOver] = useState(false);
   const [lastColorIndex, setLastColorIndex] = useState<number | null>(null);
+  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const scoreRef = useRef(0);
   const comboRef = useRef(0);
@@ -169,9 +172,34 @@ export const BubblePopGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>🫧</Text>
             <Text style={styles.modalTitle}>{t('bubblePop.game.gameOver')}</Text>
             <Text style={styles.modalScore}>{t('bubblePop.game.finalScore')}: {score}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={() => { setScore(0); setCombo(0); setTimeLeft(GAME_DURATION); setGameOver(false); setBubbles([]); bubblesRef.current = []; scoreRef.current = 0; comboRef.current = 0; levelRef.current = 0; lastColorRef.current = null; gameActiveRef.current = true; }}>
-              <Text style={styles.modalButtonText}>{t('bubblePop.game.playAgain')}</Text>
-            </TouchableOpacity>
+            
+            {!adRewardPending && (
+              <>
+                <TouchableOpacity 
+                  style={styles.modalButton} 
+                  onPress={async () => {
+                    setAdRewardPending(true);
+                    const reward = await triggerAd('game_ended', score);
+                    if (reward > 0) {
+                      const newScore = score + reward;
+                      setScore(newScore);
+                      updateBestScore(newScore);
+                    }
+                    setAdRewardPending(false);
+                  }}
+                  disabled={adRewardPending}
+                >
+                  <Text style={styles.modalButtonText}>
+                    {adRewardPending ? t('common.loading', { defaultValue: 'Loading...' }) : '🎬 Watch Ad to Double!'}
+                  </Text>
+                </TouchableOpacity>
+                
+                <TouchableOpacity style={styles.modalButton} onPress={() => { setScore(0); setCombo(0); setTimeLeft(GAME_DURATION); setGameOver(false); setBubbles([]); bubblesRef.current = []; scoreRef.current = 0; comboRef.current = 0; levelRef.current = 0; lastColorRef.current = null; gameActiveRef.current = true; }}>
+                  <Text style={styles.modalButtonText}>{t('bubblePop.game.playAgain')}</Text>
+                </TouchableOpacity>
+              </>
+            )}
+            
             <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}>
               <Text style={styles.modalSecondaryText}>{t('common.back')}</Text>
             </TouchableOpacity>

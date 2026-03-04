@@ -13,6 +13,7 @@ import { useWhackAMole } from '../context/WhackAMoleContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { getRandomPest, getRandomFriendly, getRandomPowerUp, PowerUpItem } from '../data/whackAMoleItems';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = {
   navigation: ScreenNavigationProp<'WhackAMoleGame'>;
@@ -96,8 +97,10 @@ function createInitialState(): GameState {
 export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { bestScore, updateBestScore } = useWhackAMole();
+  const { triggerAd } = useGameAdTrigger('whack-a-mole');
 
   const [renderState, setRenderState] = useState<GameState>(createInitialState);
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const stateRef = useRef<GameState>(createInitialState());
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const spawnRef = useRef<NodeJS.Timeout | null>(null);
@@ -434,14 +437,34 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
 
             {isNewBestRef.current && <Text style={styles.newBestText}>{t('whackAMole.game.newBest')}</Text>}
 
-            <TouchableOpacity
-              style={styles.playAgainButton}
-              onPress={handlePlayAgain}
-              accessibilityRole="button"
-              accessibilityLabel={t('whackAMole.game.playAgain')}
-            >
-              <Text style={styles.playAgainText}>{t('whackAMole.game.playAgain')}</Text>
-            </TouchableOpacity>
+            {!adRewardPending && (
+              <>
+                <TouchableOpacity
+                  style={styles.playAgainButton}
+                  onPress={async () => {
+                    setAdRewardPending(true);
+                    const reward = await triggerAd('game_ended', coinsEarned);
+                    if (reward > 0) {
+                      // Ad was successful - coins doubled in ad event
+                    }
+                    setAdRewardPending(false);
+                  }}
+                  accessibilityRole="button"
+                  accessibilityLabel="Watch ad to double coins"
+                >
+                  <Text style={styles.playAgainText}>🎬 {t('common.watchAdToDouble', { defaultValue: 'Watch Ad to Double!' })}</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.playAgainButton}
+                  onPress={handlePlayAgain}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('whackAMole.game.playAgain')}
+                >
+                  <Text style={styles.playAgainText}>{t('whackAMole.game.playAgain')}</Text>
+                </TouchableOpacity>
+              </>
+            )}
 
             <TouchableOpacity onPress={handleBack} style={styles.backButtonOverlay}>
               <Text style={styles.backTextOverlay}>{t('whackAMole.game.back')}</Text>

@@ -6,6 +6,7 @@ import { RootStackParamList } from '../types/navigation';
 import { ArtifactGameAdapter, ArtifactMessage } from '../components/ArtifactGameAdapter';
 import { useColorTap } from '../context/ColorTapContext';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'ColorTapGame'>;
 
@@ -259,6 +260,8 @@ const ColorTapGame = () => {
 export const ColorTapGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useColorTap();
+  const { triggerAd } = useGameAdTrigger('color-tap');
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
@@ -310,14 +313,29 @@ export const ColorTapGameScreen: React.FC<Props> = ({ navigation }) => {
       {gameOver && (
         <View style={styles.overlay}>
           <View style={styles.overlayCard}>
-            <Text style={styles.overlayTitle}>{t('colorTap.gameOver.title')}</Text>
-            <Text style={styles.overlayScore}>{score}</Text>
+            {!adRewardPending && (
+              <TouchableOpacity
+                style={styles.playAgainButton}
+                onPress={async () => {
+                  setAdRewardPending(true);
+                  const reward = await triggerAd('game_ended', score);
+                  setAdRewardPending(false);
+                }}
+                accessibilityRole="button"
+              >
+                <Text style={styles.playAgainText}>🎬 {t('colorTap.gameOver.playAgain')}</Text>
+              </TouchableOpacity>
+            )}
             <TouchableOpacity
               style={styles.playAgainButton}
               onPress={() => {
                 setGameOver(false);
                 setScore(0);
+                setAdRewardPending(false);
                 // Force re-mount the WebView by navigating away and back
+                navigation.replace('ColorTapGame');
+              }}
+              disabled={adRewardPending // Force re-mount the WebView by navigating away and back
                 navigation.replace('ColorTapGame');
               }}
               accessibilityRole="button"

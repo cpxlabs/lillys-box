@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { usePetChef } from '../context/PetChefContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'PetChefGame'> };
 
@@ -31,6 +32,8 @@ const RECIPES = [
 export const PetChefGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = usePetChef();
+  const { triggerAd } = useGameAdTrigger('pet-chef');
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const [recipeIndex, setRecipeIndex] = useState(0);
   const [added, setAdded] = useState<string[]>([]);
   const [cooked, setCooked] = useState(false);
@@ -127,8 +130,15 @@ export const PetChefGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>👨‍🍳</Text>
             <Text style={styles.modalTitle}>{t('petChef.game.complete')}</Text>
             <Text style={styles.modalScore}>{score} pts</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('petChef.game.playAgain')}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
+            {!adRewardPending && (
+              <TouchableOpacity style={styles.modalButton} onPress={async () => {
+                setAdRewardPending(true);
+                const reward = await triggerAd('game_ended', score);
+                setAdRewardPending(false);
+              }}><Text style={styles.modalButtonText}>🎬 {t('petChef.game.playAgain')}</Text></TouchableOpacity>
+            )}
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={restart} disabled={adRewardPending}><Text style={styles.modalSecondaryText}>{t('petChef.game.playAgain')}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>

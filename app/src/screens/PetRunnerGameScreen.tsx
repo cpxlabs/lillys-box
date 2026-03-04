@@ -13,6 +13,7 @@ import { usePetRunner } from '../context/PetRunnerContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = {
   navigation: ScreenNavigationProp<'PetRunnerGame'>;
@@ -131,6 +132,8 @@ function checkCoinCollision(
 export const PetRunnerGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { bestScore, updateBestScore } = usePetRunner();
+  const { triggerAd } = useGameAdTrigger('pet-runner');
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const handleBack = useGameBack(navigation, {
     cleanup: () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
@@ -374,19 +377,41 @@ export const PetRunnerGameScreen: React.FC<Props> = ({ navigation }) => {
               )}
             </View>
 
-            <TouchableOpacity
-              style={styles.playAgainButton}
-              onPress={handlePlayAgain}
-              activeOpacity={0.85}
-              accessibilityRole="button"
-              accessibilityLabel={t('petRunner.gameOver.playAgain')}
-            >
-              <Text style={styles.playAgainText}>{t('petRunner.gameOver.playAgain')}</Text>
-            </TouchableOpacity>
+            {!adRewardPending && (
+              <>
+                <TouchableOpacity
+                  style={styles.playAgainButton}
+                  onPress={async () => {
+                    setAdRewardPending(true);
+                    const reward = await triggerAd('game_ended', finalScore);
+                    if (reward > 0) {
+                      const newScore = finalScore + reward;
+                      updateBestScore(newScore);
+                    }
+                    setAdRewardPending(false);
+                  }}
+                  activeOpacity={0.85}
+                  accessibilityRole="button"
+                >
+                  <Text style={styles.playAgainText}>🎬 Watch Ad to Double!</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.playAgainButton}
+                  onPress={handlePlayAgain}
+                  activeOpacity={0.85}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('petRunner.gameOver.playAgain')}
+                >
+                  <Text style={styles.playAgainText}>{t('petRunner.gameOver.playAgain')}</Text>
+                </TouchableOpacity>
+              </>
+            )}
 
             <TouchableOpacity
               style={styles.backToHomeButton}
               onPress={() => handleBack()}
+              disabled={adRewardPending}
               accessibilityRole="button"
               accessibilityLabel={t('common.back')}
             >

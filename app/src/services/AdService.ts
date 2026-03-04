@@ -287,6 +287,44 @@ class AdService {
   getBannerAdUnitId(): string {
     return this.getAdUnitId('banner');
   }
+
+  /**
+   * Force load a rewarded ad (useful when entering a game)
+   */
+  preloadRewardedAdForGame(): void {
+    if (!AdsConfig.enabled || !this.isInitialized) {
+      return;
+    }
+    
+    // Only preload if not already loaded
+    if (!this.isRewardedAdLoaded) {
+      this.loadRewardedAd();
+    }
+  }
+
+  /**
+   * Force load an interstitial ad (useful when entering a game)
+   */
+  preloadInterstitialAdForGame(): void {
+    if (!AdsConfig.enabled || !this.isInitialized) {
+      return;
+    }
+    
+    // Only preload if not already loaded
+    if (!this.isInterstitialAdLoaded) {
+      this.loadInterstitialAd();
+    }
+  }
+
+  /**
+   * Reset ad availability after a game session
+   * Useful to load fresh ads after a game ends
+   */
+  resetAdsAfterGameSession(): void {
+    logger.log('[AdService] Resetting ads after game session');
+    this.loadRewardedAd();
+    this.loadInterstitialAd();
+  }
 }
 
 // Export a singleton instance

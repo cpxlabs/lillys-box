@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useBalloonFloat } from '../context/BalloonFloatContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'BalloonFloatGame'> };
 
@@ -26,6 +27,7 @@ let obsId = 0, starId = 0;
 export const BalloonFloatGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useBalloonFloat();
+  const { triggerAd } = useGameAdTrigger('balloon-float');
 
   const [score, setScore] = useState(0);
   const [balloons, setBalloons] = useState(5);
@@ -33,6 +35,7 @@ export const BalloonFloatGameScreen: React.FC<Props> = ({ navigation }) => {
   const [gameOver, setGameOver] = useState(false);
   const [obstacles, setObstacles] = useState<Obstacle[]>([]);
   const [stars, setStars] = useState<Star[]>([]);
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const petX = useRef(new Animated.Value(SW / 2 - PET_SIZE / 2)).current;
   const petXVal = useRef(SW / 2 - PET_SIZE / 2);
 
@@ -134,9 +137,26 @@ export const BalloonFloatGameScreen: React.FC<Props> = ({ navigation }) => {
             <Text style={styles.modalEmoji}>🎈</Text>
             <Text style={styles.modalTitle}>{t('balloonFloat.game.gameOver')}</Text>
             <Text style={styles.modalScore}>{t('balloonFloat.game.score')}: {score}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={() => { setScore(0); setBalloons(5); balloonsRef.current = 5; setTimeLeft(GAME_DURATION); setGameOver(false); setObstacles([]); setStars([]); scoreRef.current = 0; gameActiveRef.current = true; petXVal.current = SW/2-PET_SIZE/2; petX.setValue(SW/2-PET_SIZE/2); }}>
-              <Text style={styles.modalButtonText}>{t('balloonFloat.game.playAgain')}</Text>
-            </TouchableOpacity>
+            {!adRewardPending && (
+              <>
+                <TouchableOpacity 
+                  style={styles.modalButton} 
+                  onPress={async () => {
+                    setAdRewardPending(true);
+                    const reward = await triggerAd('game_ended', score);
+                    if (reward > 0) {
+                      // Ad successful
+                    }
+                    setAdRewardPending(false);
+                  }}
+                >
+                  <Text style={styles.modalButtonText}>🎬 {t('common.watchAdToDouble', { defaultValue: 'Watch Ad to Double!' })}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.modalButton} onPress={() => { setScore(0); setBalloons(5); balloonsRef.current = 5; setTimeLeft(GAME_DURATION); setGameOver(false); setObstacles([]); setStars([]); scoreRef.current = 0; gameActiveRef.current = true; petXVal.current = SW/2-PET_SIZE/2; petX.setValue(SW/2-PET_SIZE/2); }}>
+                  <Text style={styles.modalButtonText}>{t('balloonFloat.game.playAgain')}</Text>
+                </TouchableOpacity>
+              </>
+            )}
             <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
           </View>
         </View>

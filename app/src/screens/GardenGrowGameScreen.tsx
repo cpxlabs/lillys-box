@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useGardenGrow } from '../context/GardenGrowContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'GardenGrowGame'> };
 
@@ -34,6 +35,8 @@ function emptyPlot(): Plot {
 export const GardenGrowGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useGardenGrow();
+  const { triggerAd } = useGameAdTrigger('garden-grow');
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const [plots, setPlots] = useState<Plot[]>(Array(GRID_SIZE * GRID_SIZE).fill(null).map(emptyPlot));
   const [selectedPlant, setSelectedPlant] = useState(0);
   const [selectedTool, setSelectedTool] = useState<'plant' | 'water' | 'sun' | 'weed'>('plant');
@@ -168,8 +171,15 @@ export const GardenGrowGameScreen: React.FC<Props> = ({ navigation }) => {
         <View style={styles.modalOverlay}>
           <View style={styles.modalContent}>
             <Text style={styles.modalEmoji}>🌻</Text>
-            <Text style={styles.modalTitle}>{t('gardenGrow.game.complete')}</Text>
-            <Text style={styles.modalScore}>{harvested} {t('gardenGrow.game.harvested')} | {score} pts</Text>
+            {!adRewardPending && (
+              <TouchableOpacity style={styles.modalButton} onPress={async () => {
+                setAdRewardPending(true);
+                const reward = await triggerAd('game_ended', score);
+                setAdRewardPending(false);
+              }}><Text style={styles.modalButtonText}>🎬 {t('gardenGrow.game.playAgain')}</Text></TouchableOpacity>
+            )}
+            <TouchableOpacity style={styles.modalButton} onPress={restart} disabled={adRewardPending}><Text style={styles.modalButtonText}>{t('gardenGrow.game.playAgain')}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack} disabled={adRewardPending')} | {score} pts</Text>
             <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('gardenGrow.game.playAgain')}</Text></TouchableOpacity>
             <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
           </View>

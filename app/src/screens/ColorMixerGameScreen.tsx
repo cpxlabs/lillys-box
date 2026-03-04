@@ -16,6 +16,7 @@ import { useColorMixer } from '../context/ColorMixerContext';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 import {
   LEVELS,
   RGB,
@@ -37,6 +38,8 @@ const DROP_ZONE_Y_END = height * 0.55;
 export const ColorMixerGameScreen: React.FC<Props> = ({ navigation, route }) => {
   const { t } = useTranslation();
   const { updateLevelProgress } = useColorMixer();
+  const { triggerAd } = useGameAdTrigger('color-mixer');
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const levelId = route.params.level;
   const level = LEVELS.find((l) => l.id === levelId);
 

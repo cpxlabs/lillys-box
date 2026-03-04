@@ -14,6 +14,7 @@ import { useMemoryMatch, Difficulty, Mode } from '../context/MemoryMatchContext'
 import { RootStackParamList } from '../types/navigation';
 import { EmojiIcon } from '../components/EmojiIcon';
 import { useGameBack } from '../hooks/useGameBack';
+import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'MemoryMatchGame'>;
 
@@ -96,6 +97,7 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
   const { t } = useTranslation();
   const { updateBestScore } = useMemoryMatch();
   const handleBack = useGameBack(navigation);
+  const { triggerAd } = useGameAdTrigger('memory-match');
   const difficulty = route.params.difficulty as Difficulty;
   const mode = route.params.mode as Mode;
   const config = GRID_CONFIG[difficulty];
@@ -108,6 +110,7 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
   const [gameOver, setGameOver] = useState(false);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [remainingTime, setRemainingTime] = useState(TIME_ATTACK_SECONDS);
+  const [adRewardPending, setAdRewardPending] = useState(false);
   const lockRef = useRef(false);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const matchedPairsRef = useRef(0);
@@ -399,17 +402,40 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
               </Text>
             </View>
 
-            <TouchableOpacity
-              style={styles.playAgainButton}
-              onPress={handlePlayAgain}
-              activeOpacity={0.85}
-              accessibilityRole="button"
-              accessibilityLabel={t('memoryMatch.gameOver.playAgain')}
-            >
-              <Text style={styles.playAgainText}>
-                {t('memoryMatch.gameOver.playAgain')}
-              </Text>
-            </TouchableOpacity>
+            {!adRewardPending && (
+              <>
+                <TouchableOpacity
+                  style={styles.playAgainButton}
+                  onPress={async () => {
+                    setAdRewardPending(true);
+                    const reward = await triggerAd('game_ended', finalScore);
+                    if (reward > 0) {
+                      // Ad was successful
+                    }
+                    setAdRewardPending(false);
+                  }}
+                  activeOpacity={0.85}
+                  accessibilityRole="button"
+                  accessibilityLabel="Watch ad for bonus score"
+                >
+                  <Text style={styles.playAgainText}>
+                    🎬 {t('common.watchAdToDouble', { defaultValue: 'Watch Ad to Double!' })}
+                  </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                  style={styles.playAgainButton}
+                  onPress={handlePlayAgain}
+                  activeOpacity={0.85}
+                  accessibilityRole="button"
+                  accessibilityLabel={t('memoryMatch.gameOver.playAgain')}
+                >
+                  <Text style={styles.playAgainText}>
+                    {t('memoryMatch.gameOver.playAgain')}
+                  </Text>
+                </TouchableOpacity>
+              </>
+            )}
 
             <TouchableOpacity
               style={styles.backToHomeButton}
