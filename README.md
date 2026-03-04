@@ -21,12 +21,12 @@ Um jogo 2D infantil para Android usando React Native, onde crianças podem cuida
 - 💰 Sistema de moedas com anúncios opcionais para bônus
 - 🌐 **Suporte a múltiplos idiomas (Inglês e Português do Brasil)**
 - 🎮 **30+ mini-games** com sistema de pontuação máxima por usuário
-- 🔊 **Sistema de áudio** — música de fundo, efeitos sonoros por atividade, modo silencioso
+- � **Sistema de áudio** — música de fundo, efeitos sonoros por atividade, modo silencioso
 - ⭐ **Sistema de reviews** — avaliações de mini-games com estrelas, comentários, imagens e GIFs
 - 🛡️ **Relatórios de erros** com Sentry (bordas de erro + source maps)
 - ❓ **Tela de Ajuda/FAQ** com dicas e suporte
 
-## 🚀 Quick Start (Início Rápido)
+## �🚀 Quick Start (Início Rápido)
 
 ```bash
 # Instalar dependências
@@ -78,7 +78,7 @@ src/
 - Anúncios intersticiais aparecem a cada 4 transições de tela (com mínimo de 5 minutos entre eles)
 - Todos os anúncios são opcionais - nunca bloqueiam funcionalidades do jogo
 
-## 🔐 Autenticação com Google OAuth
+## � Autenticação com Google OAuth
 
 Este aplicativo integra autenticação com Google, permitindo que os usuários façam login seguro com suas contas do Google ou joguem como convidado.
 

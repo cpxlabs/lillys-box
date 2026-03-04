@@ -1,3 +1,4 @@
+````markdown
 # 🐾 Lilly's Box - Documentation
 
 Um jogo 2D infantil para Android usando React Native, onde crianças podem cuidar de animais domésticos (gatos ou cachorros).
@@ -198,119 +199,7 @@ const MyComponent = () => {
 O projeto possui uma suíte de testes automatizados usando **Jest** e **React Native Testing Library**.
 
 ### Executando Testes
-```bash
-npm test                 # Executa todos os testes
-npm run test:watch       # Executa em modo watch
-npm run test:coverage    # Gera relatório de cobertura
-npm run test:ci          # Executa testes em modo CI
-```
+``` 
+``` 
 
-### Cobertura de Testes
-✅ **Status**: 508+ testes, 502+ passando (99%+)
-
-Áreas cobertas:
-- **Hooks**: `usePetActions` (29/30 testes - ações do pet e animações)
-- **Utils**: `petStats`, `validation`, `storage`
-- **Context**: `PetContext`, todos os 29 contextos de mini-games
-- **Componentes**: `IconButton`, `StatusBar`, `ErrorBoundary`
-- **Telas**: `GameSelectionScreen` (7 testes - persistência de uiIndex)
-
-## Checklist
-- [x] Criar pet
-- [x] Renderizar pet com camadas
-- [x] Alimentar (animação + lógica)
-- [x] Dar banho (gesto ou botão)
-- [x] Armário de roupas
-- [x] Persistência local
-- [x] Sistema de monetização com AdMob
-- [x] Suporte a múltiplos idiomas (i18n)
-- [x] **Suíte de testes automatizados (CI-Ready)**
-- [x] **30+ mini-games implementados**
-- [x] **Autenticação Google OAuth + modo convidado**
-- [x] **Deploy web via Vercel**
-- [x] **Sistema de reviews de jogos** (modal com comentários, estrelas, mídia e reactions)
-- [x] **Otimizações de performance** (lazy loading de reviews, FlatList virtualizado)
-- [ ] Sons e efeitos visuais
-
-## 📐 Arquitetura e Código
-
-### usePetActions Hook
-O projeto utiliza um hook centralizado (`usePetActions`) que unifica a lógica de ações do pet:
-- Gerenciamento de estados de animação
-- Validação de ações
-- Notificações via toast
-- Sistema de recompensas
-- Limpeza automática de timeouts
-
-Este hook reduziu em ~90% a duplicação de código nas cenas de ação.
-
-### Qualidade de Código
-- ✅ TypeScript strict mode
-- ✅ ESLint configurado
-- ✅ Prettier para formatação
-- ✅ Testes automatizados (99% passing)
-- ✅ Hooks customizados reutilizáveis
-- ✅ Configuração centralizada (gameBalance, constants, actionConfig)
-
----
-
-# 📚 Documentation Index
-
-This directory contains all project documentation organized by purpose.
-
-## 📚 Feature Documentation
-
-**Permanent reference documentation** for understanding how systems work and architectural decisions.
-
-- **[FEED_ACTIONS_DOCUMENTATION.md](./FEED_ACTIONS_DOCUMENTATION.md)** - Feed system documentation including migration to usePetActions hook
-- **[PLAY_ACTIONS_DOCUMENTATION.md](./PLAY_ACTIONS_DOCUMENTATION.md)** - Play system documentation including migration to usePetActions hook
-- **[VET_ACTIONS_DOCUMENTATION.md](./VET_ACTIONS_DOCUMENTATION.md)** - Vet system documentation and why it wasn't migrated to usePetActions
-
-## 🔧 System Documentation
-
-- **[RESPONSIVE.md](./RESPONSIVE.md)** - Responsive design system guide and usage patterns
-- **[ROADMAP.md](./ROADMAP.md)** - Project roadmap with future features and milestones
-- **[API_REFERENCE.md](./API_REFERENCE.md)** - Authentication and storage API documentation
-- **[AUTHENTICATION_GUIDE.md](./AUTHENTICATION_GUIDE.md)** - Google OAuth setup, user types, navigation flow
-
----
-
-## 📋 Plans (docs/plans/)
-
-- **[SKIA_BATH_REIMPLEMENTATION_PLAN.md](./plans/SKIA_BATH_REIMPLEMENTATION_PLAN.md)** - Plan to reintegrate Skia 2.4.14 for bath screen bubbles (Status: Planning complete)
-
----
-
-## 🗂️ Organization Guide
-
-### When to add a document to `docs/`:
-- ✅ Feature documentation explaining how something works
-- ✅ Architectural decision records (why we built it this way)
-- ✅ User guides and API references
-- ✅ Permanent system documentation
-
-### When to add a document to `docs/plans/`:
-- ✅ Implementation plans for upcoming features
-- ✅ Refactoring plans with checklists
-- ✅ Technical specifications for planned work
-- ✅ Temporary planning documents
-
-### When to delete a plan:
-- ✅ When the work is 100% complete and documented elsewhere
-- ✅ When the plan is abandoned or superseded
-- ⚠️ Keep deprecated plans with status markers for historical reference
-
----
-
-## 📝 Document Status Legend
-
-- ✅ **Complete** - Implementation finished
-- 🔄 **In Progress** - Currently being worked on
-- 📋 **Planning** - Plan created, implementation not started
-- ⏸️ **Deferred** - Intentionally postponed or not pursued
-- ⚠️ **Deprecated** - No longer relevant, kept for historical reference
-
----
-
-**Versão**: 1.2.2
-**Status**: ✅ Funcional e testado — deploy web ativo no Vercel, review system implementado, sistema de áudio com background music
+````
