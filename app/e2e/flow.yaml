@@ -1,4 +1,4 @@
-appId: com.az1nn.petcaregame
+appId: com.cpxlabs.lillysbox
 ---
 - launchApp
 
@@ -14,7 +14,7 @@ appId: com.az1nn.petcaregame
     visible: "Pet Care"
     timeout: 10000
 
-# Tap the Pet Care game card
+# Tap the Lilly's Box game card
 - tapOn: "Pet Care.*"
 
 # Wait for Pet Care Menu Screen

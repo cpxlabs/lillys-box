@@ -4,7 +4,7 @@ This guide explains how to run and build Lilly's Box for web platforms, includin
 
 ## Overview
 
-The Pet Care Game supports three platforms:
+Lilly's Box supports three platforms:
 - **Mobile (Android/iOS)** - Full OAuth with Google Sign-In
 - **Web** - Fallback authentication with local demo user
 
@@ -62,7 +62,7 @@ When running on web, the authentication system provides a **demo user** for test
 // Auto-created demo user for web
 {
   id: 'web-demo-user-1234567890',
-  email: 'demo@petcaregame.local',
+  email: 'demo@lillysbox.local',
   name: 'Demo User (Web)',
   photo: undefined
 }

@@ -1,8 +1,8 @@
-# Contributing to Pet Care Game
+# Contributing to Lilly's Box
 
 ## Repository
 
-**URL:** https://github.com/az1nn/pet-care-game
+**URL:** https://github.com/cpxlabs/lillys-box
 
 ## Required Tools
 

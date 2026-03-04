@@ -1,15 +1,15 @@
-# Pet Care Game - Folder Structure Documentation
+# Lilly's Box - Folder Structure Documentation
 
 This document provides a comprehensive overview of the project's folder structure, explaining the purpose of each directory and the types of files they contain.
 
 ## Project Overview
 
-The Pet Care Game is a React Native/Expo application built with TypeScript. The project follows a standard React Native architecture with clear separation of concerns.
+The Lilly's Box is a React Native/Expo application built with TypeScript. The project follows a standard React Native architecture with clear separation of concerns.
 
 ## Root Directory Structure
 
 ```
-pet-care-game/
+lillys-box/
 ├── assets/              # Static assets (images, sprites, backgrounds)
 ├── src/                 # Source code
 ├── docs/                # Project documentation

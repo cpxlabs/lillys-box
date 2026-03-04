@@ -1,6 +1,6 @@
 # Design Tokens
 
-> Foundation tokens for the Pet Care Game design system.
+> Foundation tokens for the Lilly's Box design system.
 > Source of truth: `src/config/constants.ts` and `src/config/responsive.ts`
 
 ---

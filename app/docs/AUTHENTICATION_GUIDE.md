@@ -1,8 +1,8 @@
-# Authentication Guide for Pet Care Game
+# Authentication Guide for Lilly's Box
 
 ## Overview
 
-The Pet Care Game now includes a complete authentication system with Google OAuth integration and guest mode support. This guide explains how the authentication system works and how to use it in your code.
+The Lilly's Box now includes a complete authentication system with Google OAuth integration and guest mode support. This guide explains how the authentication system works and how to use it in your code.
 
 ## Table of Contents
 

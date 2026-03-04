@@ -6,7 +6,7 @@
 2. [The Methodology](#the-methodology)
 3. [Ralph Loops with Claude Code](#ralph-loops-with-claude-code)
 4. [Ralph Loops with Opencode](#ralph-loops-with-opencode)
-5. [Ralph in Pet Care Game](#ralph-in-pet-care-game)
+5. [Ralph in Lilly's Box](#ralph-in-lillys-box)
 6. [Comparison: Claude Code vs Opencode for Ralph](#comparison-claude-code-vs-opencode-for-ralph)
 7. [Best Practices](#best-practices)
 8. [References](#references)
@@ -172,7 +172,7 @@ Or use the community quickstart:
 ```bash
 #!/bin/bash
 # Run multiple projects overnight
-cd /path/to/pet-care-game
+cd /path/to/lillys-box
 claude -p "/ralph-loop:ralph-loop 'Implement analytics feature' --max-iterations 40"
 
 cd /path/to/other-project
@@ -301,7 +301,7 @@ opencode --model claude-sonnet-4-6 "$(cat PROMPT.md)"
 
 ---
 
-## Ralph in Pet Care Game
+## Ralph in Lilly's Box
 
 This project uses Ralph in two ways:
 
@@ -385,12 +385,12 @@ e446f0c1  feat: add Ralph loop with limit-break to GameEventProcessor
 
 This demonstrates the Ralph pattern being used to iteratively develop and refine the `GameEventProcessor` class — the agent attempted a feature, it was reverted, and another iteration approached it differently.
 
-### PROMPT.md Template for Pet Care Game
+### PROMPT.md Template for Lilly's Box
 
 To run a Ralph loop for game development tasks, create a `PROMPT.md`:
 
 ```markdown
-# Pet Care Game Development Task
+# Lilly's Box Development Task
 
 ## Goal
 [Describe the specific feature or fix]

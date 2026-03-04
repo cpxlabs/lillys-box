@@ -1,6 +1,6 @@
 # Game Testing Guide
 
-This document describes how to write tests for every mini-game in the pet care game project. All games follow consistent patterns making tests predictable and systematic.
+This document describes how to write tests for every mini-game in the Lilly's Box project. All games follow consistent patterns making tests predictable and systematic.
 
 ## Test Coverage Overview
 

@@ -1,4 +1,4 @@
-# Pet Care Game - Design System
+# Lilly's Box - Design System
 
 > Complete visual reference for every screen and component.
 > Use these docs with Nano Banana or Claude to implement UI upgrades.
@@ -48,7 +48,7 @@
 ```
 LoginScreen
   └─ GameSelectionScreen
-       ├─ Pet Care Game
+       ├─ Lilly's Box
        │    ├─ MenuScreen
        │    │    ├─ CreatePetScreen → HomeScreen
        │    │    └─ HomeScreen

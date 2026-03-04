@@ -33,7 +33,7 @@ This guide walks you through setting up Google OAuth 2.0 for Lilly's Box on both
 2. Click "Create Credentials" > "OAuth 2.0 Client ID"
 3. Select "Android" as the application type
 4. Enter your app information:
-   - **Package name**: `com.az1nn.petcaregame`
+   - **Package name**: `com.cpxlabs.lillysbox`
    - **SHA-1 certificate fingerprint**: (see below)
 5. Click "Create"
 6. Download the JSON file (if available) or note the Client ID
@@ -56,7 +56,7 @@ Copy the SHA-1 fingerprint value and use it when creating credentials.
 2. Click "Create Credentials" > "OAuth 2.0 Client ID"
 3. Select "iOS" as the application type
 4. Enter your app information:
-   - **Bundle ID**: `com.az1nn.petcaregame`
+   - **Bundle ID**: `com.cpxlabs.lillysbox`
    - **Team ID**: (optional, but recommended - find in Apple Developer Account)
 5. Click "Create"
 6. Download the file or note the Client ID
@@ -164,7 +164,7 @@ pnpm ios
 **Solution**:
 - Double-check the Web Client ID in `AuthContext.tsx`
 - Verify SHA-1 fingerprint matches what's in Google Cloud Console
-- Ensure package name is exactly `com.az1nn.petcaregame`
+- Ensure package name is exactly `com.cpxlabs.lillysbox`
 
 ### "Invalid iOS Bundle ID"
 

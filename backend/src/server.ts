@@ -28,5 +28,5 @@ server.get('/health', async () => {
 const PORT = Number(process.env.PORT ?? 3000);
 
 server.listen({ port: PORT, host: '0.0.0.0' }).then((address) => {
-  server.log.info(`Pet Care Game backend listening at ${address}`);
+  server.log.info(`Lilly's Box backend listening at ${address}`);
 });

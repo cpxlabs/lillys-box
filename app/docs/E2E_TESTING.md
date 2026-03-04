@@ -18,7 +18,7 @@ This project uses [Maestro](https://maestro.mobile.dev/) for End-to-End (E2E) te
 3.  **App Build**:
     The app must be installed on the emulator/simulator.
     - **Expo Go**: Maestro works with Expo Go, but you need to ensure the app is already open or deep link into it.
-    - **Development Build (Recommended)**: Build the android/ios app using `npx expo run:android` or `npx expo run:ios`. This installs the app with the correct package name (`com.az1nn.petcaregame`).
+    - **Development Build (Recommended)**: Build the android/ios app using `npx expo run:android` or `npx expo run:ios`. This installs the app with the correct package name (`com.cpxlabs.lillysbox`).
 
 ## Running Tests
 
@@ -44,7 +44,7 @@ Create new `.yaml` files in the `e2e/` folder. Refer to the [Maestro Documentati
 
 Example:
 ```yaml
-appId: com.az1nn.petcaregame
+appId: com.cpxlabs.lillysbox
 ---
 - launchApp
 - tapOn: "Feed"

@@ -657,4 +657,4 @@ const tabletStyles = StyleSheet.create({
 
 **Last Updated**: 2026-01-17
 **Status**: ✅ Production Ready
-**Maintained by**: Pet Care Game Development Team
+**Maintained by**: Lilly's Box Development Team

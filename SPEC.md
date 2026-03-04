@@ -1,8 +1,8 @@
-# Pet Care Game - Project Specification
+# Lilly's Box - Project Specification
 
 ## Overview
 
-**Project Name:** Pet Care Game (Jogo do Pet)  
+**Project Name:** Lilly's Box (Jogo do Pet)  
 **Type:** 2D Mobile Game (React Native/Expo)  
 **Platform:** Android (primary), Web (secondary)  
 **Description:** A children's pet care game where players care for virtual pets by feeding, bathing, playing, and maintaining their health and happiness.
@@ -126,7 +126,7 @@ Players can leave reviews on individual games:
 ## Project Structure
 
 ```
-pet-care-game/
+lillys-box/
 ├── app/                    # Main React Native application
 │   ├── app/               # Expo Router entry points
 │   ├── src/

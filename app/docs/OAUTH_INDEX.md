@@ -1,6 +1,6 @@
 # Google OAuth Implementation - Complete Documentation Index
 
-Welcome! This index helps you navigate all documentation related to the Google OAuth authentication implementation in the Pet Care Game.
+Welcome! This index helps you navigate all documentation related to the Google OAuth authentication implementation in Lilly's Box.
 
 ## 📚 Documentation Map
 
@@ -269,7 +269,7 @@ const isAuthenticated = user !== null || isGuest;
 - [AsyncStorage Documentation](https://react-native-async-storage.github.io/async-storage/)
 
 ### Project Resources
-- Repository: [Pet Care Game GitHub](https://github.com/az1nn/pet-care-game)
+- Repository: [Lilly's Box GitHub](https://github.com/cpxlabs/lillys-box)
 - Main Project: [README.md](../README.md)
 - Code Quality: [IMPLEMENTATION_PLAN.md](./IMPLEMENTATION_PLAN.md)
 

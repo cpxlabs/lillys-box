@@ -15,7 +15,7 @@ module.exports = () => {
     assetBundlePatterns: ["**/*"],
     ios: {
       supportsTablet: true,
-      bundleIdentifier: "com.az1nn.petcaregame",
+      bundleIdentifier: "com.cpxlabs.lillysbox",
       googleServicesFile: "./GoogleService-Info.plist"
     },
     android: {
@@ -23,7 +23,7 @@ module.exports = () => {
         foregroundImage: "./assets/adaptive-icon.png",
         backgroundColor: "#ffffff"
       },
-      package: "com.az1nn.petcaregame",
+      package: "com.cpxlabs.lillysbox",
       googleServicesFile: "./google-services.json"
     },
     scheme: "lillys-box",

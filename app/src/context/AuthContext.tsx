@@ -104,7 +104,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         // Web fallback: Create a demo user for testing
         const demoUser: UserInfo = {
           id: 'web-demo-user-' + Date.now(),
-          email: 'demo@petcaregame.local',
+          email: 'demo@lillysbox.local',
           name: 'Demo User (Web)',
           photo: undefined,
         };

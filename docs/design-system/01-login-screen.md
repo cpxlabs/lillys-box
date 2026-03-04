@@ -17,7 +17,7 @@
 │   ┌─────────────────────┐   │
 │   │    Logo Section     │   │
 │   │    🐾 (80px)       │   │
-│   │  "Pet Care Game"    │   │
+│   │  "Lilly's Box"    │   │
 │   │  "Care for your..." │   │
 │   └─────────────────────┘   │
 │                             │
@@ -52,7 +52,7 @@
 - **Margin top**: `40px`
 - **Alignment**: center
 - **Logo emoji**: `🐾`, fontSize `80px`, marginBottom `20px`
-- **Title**: "Pet Care Game"
+- **Title**: "Lilly's Box"
   - Font: `36px`, weight `bold`, color `#333333`
   - marginBottom: `8px`
 - **Subtitle**: "Care for your virtual pet"
