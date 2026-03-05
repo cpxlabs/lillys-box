@@ -17,6 +17,11 @@ Complete documentation for the Lilly's Box pet care game project.
 ### Testing
 - [TESTING.md](testing/TESTING.md) - E2E tests (Maestro), game tests, unit tests
 
+### Games System
+- [GAMES_SYSTEM_UPGRADE.md](GAMES_SYSTEM_UPGRADE.md) - Complete game architecture and tooling
+- [GAMES_QUICK_REFERENCE.md](GAMES_QUICK_REFERENCE.md) - Game development cheatsheet
+- [GAMES_ARCHITECTURE.md](GAMES_ARCHITECTURE.md) - Visual architecture diagrams
+
 ### Design System
 - [design-system/](design-system/) - UI screens, components, games documentation
 
@@ -59,6 +64,9 @@ Complete documentation for the Lilly's Box pet care game project.
 ```
 docs/
 ├── README.md                    # This file
+├── GAMES_SYSTEM_UPGRADE.md      # Full game system reference
+├── GAMES_QUICK_REFERENCE.md     # One-page game cheat sheet
+├── GAMES_ARCHITECTURE.md        # Games architecture diagrams
 ├── guides/
 │   ├── BUILD.md                # Building for all platforms
 │   ├── RESPONSIVE.md           # Responsive design guide
@@ -71,10 +79,8 @@ docs/
 │   └── TESTING.md              # E2E, game, unit tests
 ├── design-system/
 │   └── (23 UI & game docs)
-├── plans/
-│   └── SKIA_BATH_REIMPLEMENTATION_PLAN.md
-└── archive/
-    └── MIGRATION_LOG.md
+└── plans/
+    └── SKIA_BATH_REIMPLEMENTATION_PLAN.md
 ```
 
 ---
@@ -176,7 +182,7 @@ pnpm ios
 
 ```bash
 # Web production
-EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export -p web
+EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export --platform web
 
 # Android production
 eas build --platform android
@@ -376,7 +382,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
 
 ---
 
-**Last Updated**: 2026-03-04
+**Last Updated**: 2026-03-05
 
 **Maintained By**: Lilly's Box Development Team
 
