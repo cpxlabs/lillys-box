@@ -24,7 +24,11 @@ function collectFiles(dir) {
 }
 
 const files = collectFiles(soundsRoot).filter((f) => !f.includes(path.join('music', 'background')));
-const keys = files.map((f) => path.basename(f, path.extname(f)));
+const keys = files.map((f) => {
+  const folder = path.basename(path.dirname(f));
+  const base = path.basename(f, path.extname(f));
+  return folder === 'pet' ? `pet_${base}` : base;
+});
 
 console.log('Audio files found (excluding background music):');
 keys.forEach((k) => console.log(' -', k));

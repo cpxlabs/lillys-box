@@ -23,8 +23,9 @@ describe('AudioService asset mapping', () => {
       .filter((f) => !f.includes(path.join('music', 'background')));
 
     const expectedKeys = files.map((file) => {
-      // basename without extension
-      return path.basename(file, path.extname(file));
+      const parentFolder = path.basename(path.dirname(file));
+      const baseName = path.basename(file, path.extname(file));
+      return parentFolder === 'pet' ? `pet_${baseName}` : baseName;
     });
 
     expectedKeys.sort();
