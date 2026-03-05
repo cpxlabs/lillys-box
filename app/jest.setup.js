@@ -94,6 +94,15 @@ jest.mock('expo-router', () => ({
   Link: jest.fn(({ children }) => children),
 }));
 
+// Mock Expo's injected virtual env module used by babel-preset-expo
+jest.mock('expo/virtual/env', () => ({ env: {} }), { virtual: true });
+if (!global.process) {
+  global.process = { env: {} };
+}
+if (!global.process.env) {
+  global.process.env = {};
+}
+
 // Mock @sentry/react-native
 jest.mock('@sentry/react-native', () => ({
   init: jest.fn(),
