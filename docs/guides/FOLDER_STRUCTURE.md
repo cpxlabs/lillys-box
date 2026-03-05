@@ -259,8 +259,7 @@ Documentation files in root and /docs:
     │   ├── 00-design-tokens.md
     │   ├── 01-login-screen.md
     │   └── ... (23 more)
-    ├── plans/               # Implementation plans
-    └── archive/             # Deprecated docs
+    └── plans/               # Implementation plans
 ```
 
 ## File Naming Conventions
@@ -362,8 +361,6 @@ Documentation files in root and /docs:
 - `pet/` - Pet sounds (meow, bark)
 - `ui/` - Button clicks
 - `activities/` - Action sounds (feed, play)
-
-See [SPRITE_SHEET_GUIDE.md](../technical/SPRITES.md) for sprite sheet requirements.
 
 ## Build Output
 
