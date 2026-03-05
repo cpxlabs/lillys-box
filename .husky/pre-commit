@@ -1,4 +1,5 @@
 #!/usr/bin/env sh
-cd app
+set -e
+cd app || exit 1
 npx lint-staged
 node scripts/check-locale-keys.js
