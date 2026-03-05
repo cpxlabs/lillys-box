@@ -95,12 +95,9 @@ jest.mock('expo-router', () => ({
 }));
 
 // Mock Expo's injected virtual env module used by babel-preset-expo
-jest.mock('expo/virtual/env', () => ({ env: {} }), { virtual: true });
-if (!global.process) {
-  global.process = { env: {} };
-}
-if (!global.process.env) {
-  global.process.env = {};
+jest.mock('expo/virtual/env', () => ({ env: process.env ?? {} }), { virtual: true });
+if (!global.process || !global.process.env) {
+  global.process = { ...(global.process || {}), env: {} };
 }
 
 // Mock @sentry/react-native
