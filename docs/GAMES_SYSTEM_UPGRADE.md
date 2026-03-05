@@ -485,7 +485,7 @@ const checkStorage = async () => {
 ## Support & Questions
 
 For issues or questions:
-1. Check [GAME_CREATION.md](./GAME_CREATION.md)
+1. Check [GAME_CREATION.md](./guides/GAME_CREATION.md)
 2. Review existing games as examples
 3. Check TypeScript types in `src/types/gameState.ts`
 4. Look at hook implementation in `src/hooks/useGameState.ts`
@@ -494,8 +494,8 @@ For issues or questions:
 
 ## Related Documentation
 
-- [Game Creation Guide](./GAME_CREATION.md)
+- [Game Creation Guide](./guides/GAME_CREATION.md)
 - [Folder Structure](./guides/FOLDER_STRUCTURE.md)
-- [Design System](../design-system/)
-- [Technical API Reference](../technical/API_REFERENCE.md)
-- [Testing Guide](../testing/TESTING.md)
+- [Design System](./design-system/)
+- [Technical API Reference](./technical/API_REFERENCE.md)
+- [Testing Guide](./testing/TESTING.md)
