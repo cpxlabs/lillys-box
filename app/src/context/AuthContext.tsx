@@ -4,10 +4,11 @@ import { Platform } from 'react-native';
 import { logger } from '../utils/logger';
 
 // Import Google Sign-In only for mobile (not web)
-let GoogleSignin: any = null;
-let statusCodes: any = null;
+let GoogleSignin: Record<string, unknown> | null = null;
+let statusCodes: Record<string, unknown> | null = null;
 
 if (Platform.OS !== 'web') {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   const googleSignInModule = require('@react-native-google-signin/google-signin');
   GoogleSignin = googleSignInModule.GoogleSignin;
   statusCodes = googleSignInModule.statusCodes;
@@ -155,7 +156,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
         }
       }
     } catch (err: unknown) {
-      const error = err as Record<string, any>;
+      const error = err as Record<string, unknown>;
 
       // Handle specific error cases (mobile only)
       if (Platform.OS !== 'web') {

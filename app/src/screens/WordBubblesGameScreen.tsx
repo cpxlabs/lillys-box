@@ -128,7 +128,7 @@ export const WordBubblesGameScreen: React.FC<Props> = ({ navigation }) => {
                 setAdRewardPending(false);
               }}><Text style={styles.modalButtonText}>🎬 {t('common.watchAdForReward')}</Text></TouchableOpacity>
             )}
-            <TouchableOpacity style={styles.modalButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalButtonText}>{t('common.back')}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.modalButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalButtonText}>{t('common.menu')}</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>

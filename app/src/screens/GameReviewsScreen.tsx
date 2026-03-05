@@ -193,7 +193,7 @@ export const GameReviewsScreen: React.FC<Props> = ({ gameId, gameName, onBack })
         onPress={() => setWriteVisible(true)}
         activeOpacity={0.85}
       >
-        <Text style={styles.fabText}>⭐ {t('review.writeReview')}</Text>
+        <Text style={styles.fabText}>{t('review.writeReview')}</Text>
       </TouchableOpacity>
 
       <ReviewModal

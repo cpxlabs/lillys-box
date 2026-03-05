@@ -11,6 +11,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { ScreenHeader } from '../components/ScreenHeader';
 import { useBackButton } from '../hooks/useBackButton';
+import { useGameBack } from '../hooks/useGameBack';
 import { ScreenNavigationProp } from '../types/navigation';
 
 type Props = {
@@ -79,6 +80,7 @@ function FaqItem({ question, answer, isOpen, onToggle }: FaqItemProps) {
 export const HelpScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const BackButtonIcon = useBackButton();
+  const handleBack = useGameBack(navigation);
   const [openFaq, setOpenFaq] = useState<FaqKey | null>(null);
 
   const handleToggleFaq = (key: FaqKey) => {
@@ -93,7 +95,7 @@ export const HelpScreen: React.FC<Props> = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       <ScreenHeader
         title={t('help.title')}
-        onBackPress={() => navigation.goBack()}
+        onBackPress={handleBack}
         BackButtonIcon={BackButtonIcon}
       />
 

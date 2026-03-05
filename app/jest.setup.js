@@ -35,7 +35,32 @@ jest.mock('react-native', () => {
     TouchableOpacity: mockComponent('TouchableOpacity'),
     Image: mockComponent('Image'),
     ScrollView: mockComponent('ScrollView'),
-    FlatList: mockComponent('FlatList'),
+    FlatList: ({ data, renderItem, ListEmptyComponent, ListHeaderComponent, ListFooterComponent, keyExtractor, ...rest }) => {
+      const items = data || [];
+      const header = ListHeaderComponent
+        ? (typeof ListHeaderComponent === 'function'
+          ? React.createElement(ListHeaderComponent)
+          : ListHeaderComponent)
+        : null;
+      const footer = ListFooterComponent
+        ? (typeof ListFooterComponent === 'function'
+          ? React.createElement(ListFooterComponent)
+          : ListFooterComponent)
+        : null;
+      const content = items.length === 0
+        ? (ListEmptyComponent
+          ? (typeof ListEmptyComponent === 'function'
+            ? React.createElement(ListEmptyComponent)
+            : ListEmptyComponent)
+          : null)
+        : items.map((item, index) => {
+            const key = keyExtractor ? keyExtractor(item, index) : String(index);
+            return React.createElement(React.Fragment, { key },
+              renderItem({ item, index, separators: {} })
+            );
+          });
+      return React.createElement('FlatList', rest, header, content, footer);
+    },
     TextInput: mockComponent('TextInput'),
     SafeAreaView: mockComponent('SafeAreaView'),
     KeyboardAvoidingView: mockComponent('KeyboardAvoidingView'),
@@ -64,14 +89,22 @@ jest.mock('react-native', () => {
     Animated: {
       Value: jest.fn(() => ({
         setValue: jest.fn(),
-        interpolate: jest.fn(() => ({ setValue: jest.fn() })),
+        interpolate: jest.fn(() => ({ setValue: jest.fn(), addListener: jest.fn(() => ''), removeListener: jest.fn() })),
+        addListener: jest.fn(() => ''),
+        removeListener: jest.fn(),
+        removeAllListeners: jest.fn(),
       })),
       View: mockComponent('Animated.View'),
       Text: mockComponent('Animated.Text'),
-      timing: jest.fn(() => ({ start: jest.fn((cb) => cb && cb()) })),
+      timing: jest.fn(() => ({ start: jest.fn() })),
       spring: jest.fn(() => ({ start: jest.fn() })),
-      sequence: jest.fn(),
-      parallel: jest.fn(),
+      sequence: jest.fn(() => ({ start: jest.fn() })),
+      parallel: jest.fn(() => ({ start: jest.fn() })),
+      loop: jest.fn(() => ({ start: jest.fn(), stop: jest.fn() })),
+      event: jest.fn(() => jest.fn()),
+    },
+    PanResponder: {
+      create: jest.fn(() => ({ panHandlers: {} })),
     },
     findNodeHandle: jest.fn(),
   };
@@ -175,3 +208,84 @@ global.console = {
 
 // Define React Native __DEV__ global
 global.__DEV__ = true;
+
+// Mock AdContext so game screens using useGameAdTrigger don't throw
+jest.mock('./src/context/AdContext', () => ({
+  AdProvider: ({ children }) => children,
+  useAd: () => ({
+    isRewardedAdReady: false,
+    isInterstitialAdReady: false,
+    loadRewardedAd: jest.fn(),
+    showRewardedAd: jest.fn(() => Promise.resolve(false)),
+    shouldShowInterstitial: jest.fn(() => false),
+    incrementScreenCount: jest.fn(),
+    showInterstitialAd: jest.fn(() => Promise.resolve()),
+    preloadAdsForGameSession: jest.fn(),
+    resetAdsAfterGameSession: jest.fn(),
+  }),
+}));
+
+// Mock @expo/vector-icons
+jest.mock('@expo/vector-icons', () => {
+  const React = require('react');
+  const iconFactory = (name) => {
+    const Icon = (props) => React.createElement('Text', props, props.name || name);
+    Icon.displayName = name;
+    return Icon;
+  };
+  return {
+    Ionicons: iconFactory('Ionicons'),
+    Feather: iconFactory('Feather'),
+    MaterialIcons: iconFactory('MaterialIcons'),
+    FontAwesome: iconFactory('FontAwesome'),
+    AntDesign: iconFactory('AntDesign'),
+    Entypo: iconFactory('Entypo'),
+  };
+});
+
+// Mock react-native-gesture-handler
+jest.mock('react-native-gesture-handler', () => {
+  const React = require('react');
+  const mockComponent = (name) => {
+    const Comp = ({ children, ...props }) => React.createElement(name, props, children);
+    Comp.displayName = name;
+    return Comp;
+  };
+  return {
+    GestureHandlerRootView: mockComponent('GestureHandlerRootView'),
+    GestureDetector: mockComponent('GestureDetector'),
+    PanGestureHandler: mockComponent('PanGestureHandler'),
+    TapGestureHandler: mockComponent('TapGestureHandler'),
+    LongPressGestureHandler: mockComponent('LongPressGestureHandler'),
+    PinchGestureHandler: mockComponent('PinchGestureHandler'),
+    Gesture: {
+      Pan: jest.fn(() => ({
+        onStart: jest.fn().mockReturnThis(),
+        onUpdate: jest.fn().mockReturnThis(),
+        onEnd: jest.fn().mockReturnThis(),
+        minDistance: jest.fn().mockReturnThis(),
+      })),
+      Tap: jest.fn(() => ({
+        onStart: jest.fn().mockReturnThis(),
+        onEnd: jest.fn().mockReturnThis(),
+      })),
+      Simultaneous: jest.fn(() => ({})),
+      Race: jest.fn(() => ({})),
+      Exclusive: jest.fn(() => ({})),
+    },
+    State: { ENDED: 5, BEGAN: 2, ACTIVE: 4, CANCELLED: 3, FAILED: 1, UNDETERMINED: 0 },
+    Directions: { RIGHT: 1, LEFT: 2, UP: 4, DOWN: 8 },
+  };
+});
+
+// Provide browser globals needed by some modules (e.g. ArtifactGameAdapter)
+if (typeof global.window === 'undefined') {
+  global.window = global;
+}
+if (typeof global.window.addEventListener !== 'function') {
+  global.window.addEventListener = jest.fn();
+  global.window.removeEventListener = jest.fn();
+}
+if (typeof global.window.postMessage !== 'function') {
+  global.window.postMessage = jest.fn();
+}

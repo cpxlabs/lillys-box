@@ -2,6 +2,10 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { BubblePopGameScreen } from '../BubblePopGameScreen';
 
+jest.mock('../../context/BubblePopContext', () => ({
+  useBubblePop: () => ({ bestScore: 0, updateBestScore: jest.fn() }),
+}));
+
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));

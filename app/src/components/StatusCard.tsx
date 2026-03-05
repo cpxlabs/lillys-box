@@ -72,6 +72,7 @@ export const StatusCard: React.FC<StatusCardProps> = React.memo(({
     </View>
   );
 });
+StatusCard.displayName = 'StatusCard';
 
 const styles = StyleSheet.create({
   card: {

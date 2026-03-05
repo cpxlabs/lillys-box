@@ -2,6 +2,10 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { PaintSplashGameScreen } from '../PaintSplashGameScreen';
 
+jest.mock('../../context/PaintSplashContext', () => ({
+  usePaintSplash: () => ({ bestScore: 0, updateBestScore: jest.fn() }),
+}));
+
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));

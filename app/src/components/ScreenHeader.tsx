@@ -34,6 +34,7 @@ export const ScreenHeader: React.FC<ScreenHeaderProps> = React.memo(({
     </View>
   );
 });
+ScreenHeader.displayName = 'ScreenHeader';
 
 const styles = StyleSheet.create({
   header: {

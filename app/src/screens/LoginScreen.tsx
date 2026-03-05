@@ -45,7 +45,7 @@ export const LoginScreen: React.FC = () => {
         {/* Logo/Title Section */}
         <View style={styles.logoSection}>
           <Text style={styles.logoEmoji}>🐾</Text>
-          <Text style={styles.title}>Lilly's Box</Text>
+          <Text style={styles.title}>Lilly&apos;s Box</Text>
           <Text style={styles.subtitle}>Care for your virtual pet</Text>
         </View>
 

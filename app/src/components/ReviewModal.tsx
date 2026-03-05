@@ -105,7 +105,7 @@ export const ReviewModal: React.FC<Props> = ({
             {/* Header */}
             <View style={styles.header}>
               <Text style={styles.title} numberOfLines={1}>
-                {t('review.modalTitle', { name: gameName })}
+                {gameName}
               </Text>
               <TouchableOpacity
                 onPress={handleClose}
@@ -123,7 +123,7 @@ export const ReviewModal: React.FC<Props> = ({
               {/* Star rating */}
               <Text style={styles.sectionLabel}>{t('review.ratingLabel')}</Text>
               <View style={styles.starsRow}>
-                <StarRating value={rating} onChange={setRating} size={40} />
+                <StarRating value={rating} onRatingChange={setRating} size={40} />
                 {rating > 0 && (
                   <Text style={styles.ratingHint}>{t(`review.ratingHint.${rating}`)}</Text>
                 )}
@@ -173,7 +173,7 @@ export const ReviewModal: React.FC<Props> = ({
                 {submitting ? (
                   <ActivityIndicator color="#fff" size="small" />
                 ) : (
-                  <Text style={styles.submitText}>{t('review.submitButton')}</Text>
+                  <Text style={styles.submitText}>{t('review.submit')}</Text>
                 )}
               </TouchableOpacity>
             </View>

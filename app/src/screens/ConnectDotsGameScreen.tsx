@@ -134,7 +134,7 @@ export const ConnectDotsGameScreen: React.FC<Props> = ({ navigation }) => {
               }}><Text style={styles.modalButtonText}>🎬 {t('connectDots.game.playAgain')}</Text></TouchableOpacity>
             )}
             <TouchableOpacity style={styles.modalButton} onPress={restart} disabled={adRewardPending}><Text style={styles.modalButtonText}>{t('connectDots.game.playAgain')}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalSecondaryText}>{t('common.menu')}</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>

@@ -63,25 +63,40 @@ const isWeb = Platform.OS === 'web';
 // final mastered audio assets. The keys here must match the file basenames.
 // A helper script (`scripts/check-sounds.js`) and the accompanying unit test
 // verify consistency between SOUND_MAP and the directory contents.
-export const SOUND_MAP: Record<SoundType, any> = isWeb 
-  ? {} as Record<SoundType, any> 
+export const SOUND_MAP: Record<SoundType, ReturnType<typeof require>> = isWeb 
+  ? {} as Record<SoundType, ReturnType<typeof require>> 
   : {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   button_click: require('../../assets/sounds/ui/button_click.wav'),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   coin_collect: require('../../assets/sounds/ui/coin_collect.wav'),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   notification: require('../../assets/sounds/ui/notification.wav'),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   pet_happy: require('../../assets/sounds/pet/happy.wav'),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   pet_sad: require('../../assets/sounds/pet/sad.wav'),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   pet_meow: require('../../assets/sounds/pet/meow.wav'),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   pet_bark: require('../../assets/sounds/pet/bark.wav'),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   eating: require('../../assets/sounds/activities/eating.wav'),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   water_splash: require('../../assets/sounds/activities/water_splash.wav'),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   ball_bounce: require('../../assets/sounds/activities/ball_bounce.wav'),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   toy_squeak: require('../../assets/sounds/activities/toy_squeak.wav'),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   clothes_swap: require('../../assets/sounds/activities/clothes_swap.wav'),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   success: require('../../assets/sounds/ui/success.wav'),
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   error: require('../../assets/sounds/ui/error.wav'),
 };
 
+// eslint-disable-next-line @typescript-eslint/no-require-imports
 const BACKGROUND_MUSIC = isWeb ? null : require('../../assets/sounds/music/background.wav');
 
 /**

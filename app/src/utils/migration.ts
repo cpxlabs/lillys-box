@@ -7,7 +7,7 @@ import { logger } from './logger';
  * Migrate old pet data to new schema
  * Ensures backwards compatibility with existing saves
  */
-export const migratePetData = (oldPet: any): Pet => {
+export const migratePetData = (oldPet: Record<string, unknown>): Pet => {
   // Check if pet already has new fields
   const hasNewFields = 'energy' in oldPet && 'happiness' in oldPet && 'health' in oldPet;
 
@@ -50,7 +50,7 @@ export const migratePetData = (oldPet: any): Pet => {
  * Validate pet data structure
  * Returns true if valid, false otherwise
  */
-export const validatePetData = (pet: any): pet is Pet => {
+export const validatePetData = (pet: Record<string, unknown>): pet is Pet => {
   if (!pet || typeof pet !== 'object') return false;
 
   const requiredFields = [
@@ -95,7 +95,7 @@ export const validatePetData = (pet: any): pet is Pet => {
  * Repair corrupted pet data
  * Attempts to fix common data issues
  */
-export const repairPetData = (pet: any): Pet | null => {
+export const repairPetData = (pet: Record<string, unknown>): Pet | null => {
   if (!pet || typeof pet !== 'object') {
     logger.error('Cannot repair: pet data is null or not an object');
     return null;

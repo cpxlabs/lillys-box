@@ -29,6 +29,19 @@ export default [
         clearInterval: 'readonly',
         setTimeout: 'readonly',
         clearTimeout: 'readonly',
+        // Browser / Web API globals (used in platform-aware code and services)
+        window: 'readonly',
+        global: 'readonly',
+        fetch: 'readonly',
+        Event: 'readonly',
+        MessageEvent: 'readonly',
+        PromiseRejectionEvent: 'readonly',
+        requestAnimationFrame: 'readonly',
+        cancelAnimationFrame: 'readonly',
+        URL: 'readonly',
+        Blob: 'readonly',
+        FormData: 'readonly',
+        XMLHttpRequest: 'readonly',
         // React Native globals
         __DEV__: 'readonly',
         navigator: 'readonly',
@@ -62,6 +75,10 @@ export default [
       '@typescript-eslint/explicit-module-boundary-types': 'off',
       'react-hooks/rules-of-hooks': 'error',
       'react-hooks/exhaustive-deps': 'warn',
+      // Downgrade to warn: useRef().current is standard in React Native Animated patterns
+      'react-hooks/refs': 'warn',
+      // Downgrade to warn: setIsLoading at effect start is a common async-loading pattern
+      'react-hooks/set-state-in-effect': 'warn',
       'no-unused-vars': 'off',
       '@typescript-eslint/no-unused-vars': [
         'warn',
@@ -75,6 +92,18 @@ export default [
       react: {
         version: 'detect',
       },
+    },
+  },
+  // Relaxed rules for test files
+  {
+    files: ['src/**/__tests__/**/*.{ts,tsx}', 'src/**/*.test.{ts,tsx}', 'src/**/*.spec.{ts,tsx}'],
+    rules: {
+      // `any` is commonly needed in mocks and test assertions
+      '@typescript-eslint/no-explicit-any': 'warn',
+      // require() is often used in Jest mocks (jest.mock(...), require(...))
+      '@typescript-eslint/no-require-imports': 'warn',
+      // Test Consumer components intentionally assign to outer-scope variables
+      'react-hooks/globals': 'warn',
     },
   },
 ];
