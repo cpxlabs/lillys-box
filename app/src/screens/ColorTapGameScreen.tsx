@@ -335,9 +335,7 @@ export const ColorTapGameScreen: React.FC<Props> = ({ navigation }) => {
                 // Force re-mount the WebView by navigating away and back
                 navigation.replace('ColorTapGame');
               }}
-              disabled={adRewardPending // Force re-mount the WebView by navigating away and back
-                navigation.replace('ColorTapGame');
-              }}
+              disabled={adRewardPending}
               accessibilityRole="button"
             >
               <Text style={styles.playAgainText}>{t('colorTap.gameOver.playAgain')}</Text>
