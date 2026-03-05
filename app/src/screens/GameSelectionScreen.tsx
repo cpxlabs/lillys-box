@@ -301,7 +301,7 @@ export const GameSelectionScreen: React.FC<Props> = () => {
           </TouchableOpacity>
 
           <View style={styles.emojiContainer}>
-            <EmojiIcon emoji={item.emoji} size={44} style={styles.gameEmoji} />
+            <EmojiIcon emoji={item.emoji} size={56} style={styles.gameEmoji} />
           </View>
 
           <Text style={styles.gameName} numberOfLines={1}>
@@ -788,10 +788,11 @@ const styles = StyleSheet.create({
   gameCard: {
     backgroundColor: '#fff',
     borderRadius: 20,
-    padding: 16,
-    paddingTop: 20,
+    padding: 20,
+    paddingTop: 24,
     width: '48%',
     marginBottom: 14,
+    minHeight: 220,
     alignItems: 'center',
     shadowColor: '#9b59b6',
     shadowOffset: { width: 0, height: 3 },
@@ -824,30 +825,30 @@ const styles = StyleSheet.create({
     color: '#f0c040',
   },
   emojiContainer: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: 84,
+    height: 84,
+    borderRadius: 42,
     backgroundColor: '#f5f0ff',
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 10,
+    marginBottom: 12,
   },
   gameEmoji: {
     textAlign: 'center',
   },
   gameName: {
-    fontSize: 16,
+    fontSize: 18,
     fontWeight: '700',
     color: '#333',
-    marginBottom: 4,
+    marginBottom: 6,
     textAlign: 'center',
   },
   gameDescription: {
-    fontSize: 11,
+    fontSize: 12,
     color: '#888',
     textAlign: 'center',
-    lineHeight: 15,
-    marginBottom: 8,
+    lineHeight: 17,
+    marginBottom: 10,
   },
   categoryBadge: {
     paddingHorizontal: 10,
