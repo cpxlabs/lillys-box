@@ -14,16 +14,16 @@ Complete guide for building Lilly's Box for web, Android, and iOS platforms.
 
 ```bash
 # Web development (30 seconds)
-pnpm web
+npm --prefix app run web
 
 # Web production build
 EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export -p web
 
 # Android development
-pnpm android
+npm --prefix app run android
 
 # iOS development
-pnpm ios
+npm --prefix app run ios
 ```
 
 ## Web Builds
@@ -31,7 +31,7 @@ pnpm ios
 ### Development Server
 
 ```bash
-pnpm web
+npm --prefix app run web
 ```
 
 Starts local dev server (usually http://localhost:19006) with:
@@ -159,7 +159,7 @@ python3 -m http.server --directory build
 ### Development
 
 ```bash
-pnpm android
+npm --prefix app run android
 ```
 
 ### Prerequisites
@@ -206,7 +206,7 @@ eas build --platform android --non-interactive
 ### Development
 
 ```bash
-pnpm ios
+npm --prefix app run ios
 ```
 
 ### Prerequisites
@@ -309,19 +309,18 @@ Check `.env.example` for:
 
 ```bash
 # Development
-pnpm web                  # Web dev server
-pnpm android             # Android dev server
-pnpm ios                 # iOS dev server
+npm --prefix app run web      # Web dev server
+npm --prefix app run android  # Android dev server
+npm --prefix app run ios      # iOS dev server
 
 # Building
-pnpm build:web           # Web production build
-pnpm build:android       # Android production
-pnpm build:ios          # iOS production
+npm --prefix app run build:web # Web production build
+eas build --platform android   # Android production
+eas build --platform ios       # iOS production
 
 # Cleaning
-pnpm clean:web          # Clear web build cache
-rm -rf node_modules      # Full clean rebuild
-pnpm install            # Reinstall dependencies
+rm -rf app/node_modules      # Full clean rebuild
+npm --prefix app install --legacy-peer-deps
 ```
 
 ## Useful Links

@@ -478,7 +478,7 @@ test('feed action reduces hunger', async () => {
 
 - [API Reference](API_REFERENCE.md) - `usePetActions` hook API
 - [Testing Guide](../testing/TESTING.md) - Action testing patterns
-- [Folder Structure](FOLDER_STRUCTURE.md) - Screen locations
+- [Folder Structure](../guides/FOLDER_STRUCTURE.md) - Screen locations
 
 ---
 

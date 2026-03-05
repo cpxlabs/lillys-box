@@ -71,10 +71,7 @@ docs/
 │   └── TESTING.md              # E2E, game, unit tests
 ├── design-system/
 │   └── (23 UI & game docs)
-├── plans/
-│   └── SKIA_BATH_REIMPLEMENTATION_PLAN.md
-└── archive/
-    └── MIGRATION_LOG.md
+└── (additional docs at root as needed)
 ```
 
 ---
@@ -163,13 +160,13 @@ See [RESPONSIVE.md](guides/RESPONSIVE.md) for details.
 
 ```bash
 # Web development
-pnpm web
+npm --prefix app run web
 
 # Android development
-pnpm android
+npm --prefix app run android
 
 # iOS development
-pnpm ios
+npm --prefix app run ios
 ```
 
 ### Building for Deployment

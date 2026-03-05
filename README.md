@@ -33,14 +33,15 @@ Desfrute de uma variedade diversa de experiências interativas, desde jogos educ
 - 🛡️ **Relatórios de erros** com Sentry (bordas de erro + source maps)
 - ❓ **Tela de Ajuda/FAQ** com dicas e suporte
 
-## �🚀 Quick Start (Início Rápido)
+## 🚀 Quick Start (Início Rápido)
 
 ```bash
 # Instalar dependências
-pnpm install
+cd app
+npm install --legacy-peer-deps
 
 # Executar
-npx expo start
+npm run start
 ```
 
 ## 📚 Documentação Completa
@@ -71,7 +72,7 @@ Para informações detalhadas sobre o projeto, veja **[docs/README.md](./docs/RE
 
 ## 📂 Projeto
 ```
-src/
+app/src/
 ├── components/    # Componentes reutilizáveis
 ├── screens/       # Telas do app
 ├── context/       # Context API
@@ -88,7 +89,7 @@ src/
 - Anúncios intersticiais aparecem a cada 4 transições de tela (com mínimo de 5 minutos entre eles)
 - Todos os anúncios são opcionais - nunca bloqueiam funcionalidades do jogo
 
-## � Autenticação com Google OAuth
+## 🔐 Autenticação com Google OAuth
 
 Este aplicativo integra autenticação com Google, permitindo que os usuários façam login seguro com suas contas do Google ou joguem como convidado.
 

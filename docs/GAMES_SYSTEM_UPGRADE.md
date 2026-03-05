@@ -495,7 +495,7 @@ For issues or questions:
 ## Related Documentation
 
 - [Game Creation Guide](./GAME_CREATION.md)
-- [Folder Structure](./FOLDER_STRUCTURE.md)
+- [Folder Structure](./guides/FOLDER_STRUCTURE.md)
 - [Design System](../design-system/)
 - [Technical API Reference](../technical/API_REFERENCE.md)
 - [Testing Guide](../testing/TESTING.md)
