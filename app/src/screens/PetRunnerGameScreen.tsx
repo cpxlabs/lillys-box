@@ -242,6 +242,7 @@ export const PetRunnerGameScreen: React.FC<Props> = ({ navigation }) => {
       });
     }
 
+    // eslint-disable-next-line react-hooks/immutability -- recursive RAF loop is intentional
     rafRef.current = requestAnimationFrame(gameLoop);
   }, [bestScore, updateBestScore]);
 
@@ -251,6 +252,7 @@ export const PetRunnerGameScreen: React.FC<Props> = ({ navigation }) => {
     stateRef.current = fresh;
     isNewBestRef.current = false;
     setRenderState({ ...fresh });
+    // eslint-disable-next-line react-hooks/immutability -- rafRef stores the RAF ID; mutating it is intentional
     rafRef.current = requestAnimationFrame(gameLoop);
   }, [gameLoop]);
 

@@ -30,6 +30,10 @@ jest.mock('react-i18next', () => ({
   useTranslation: () => ({
     t: (key: string, params: any) => {
       if (key === 'menu.continueWith') return `Continue with ${params.name} ${params.emoji}`;
+      if (key === 'menu.welcomeUser') return `Welcome, ${params.name}`;
+      if (key === 'menu.signOut') return 'Sign Out';
+      if (key === 'menu.signOutModal.confirmText') return 'Sign Out';
+      if (key === 'menu.signOutModal.message') return 'Are you sure you want to sign out? Your pet data will be preserved.';
       return key;
     },
   }),

@@ -30,6 +30,7 @@ export const LightningTapGameScreen: React.FC<Props> = ({ navigation }) => {
   const scoreRef = useRef(0);
   const gameActiveRef = useRef(true);
   const litRef = useRef<Set<number>>(new Set());
+  // eslint-disable-next-line react-hooks/purity -- Date.now() used for game timing, not rendering
   const lastLitRef = useRef(Date.now());
 
   const lightUp = useCallback(() => {

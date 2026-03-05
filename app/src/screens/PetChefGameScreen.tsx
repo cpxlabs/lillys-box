@@ -138,7 +138,7 @@ export const PetChefGameScreen: React.FC<Props> = ({ navigation }) => {
               }}><Text style={styles.modalButtonText}>🎬 {t('petChef.game.playAgain')}</Text></TouchableOpacity>
             )}
             <TouchableOpacity style={styles.modalSecondaryButton} onPress={restart} disabled={adRewardPending}><Text style={styles.modalSecondaryText}>{t('petChef.game.playAgain')}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalSecondaryText}>{t('common.menu')}</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>

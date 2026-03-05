@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { LinearGradient } from 'expo-linear-gradient';
-import { PanGestureHandler, GestureHandlerRootView } from 'react-native-gesture-handler';
+import { PanGestureHandler, GestureHandlerRootView, PanGestureHandlerStateChangeEvent } from 'react-native-gesture-handler';
 import { useColorMixer } from '../context/ColorMixerContext';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/navigation';
@@ -277,9 +277,12 @@ interface DraggablePaintBlobProps {
 }
 
 const DraggablePaintBlob: React.FC<DraggablePaintBlobProps> = ({ paint, onDrop }) => {
-  const translateX = useRef(new Animated.Value(0)).current;
-  const translateY = useRef(new Animated.Value(0)).current;
-  const scale = useRef(new Animated.Value(1)).current;
+  // eslint-disable-next-line react-hooks/refs
+  const translateX = useRef(new Animated.Value(0)).current; // Animated.Value ref – safe React Native pattern
+  // eslint-disable-next-line react-hooks/refs
+  const translateY = useRef(new Animated.Value(0)).current; // Animated.Value ref – safe React Native pattern
+  // eslint-disable-next-line react-hooks/refs
+  const scale = useRef(new Animated.Value(1)).current; // Animated.Value ref – safe React Native pattern
 
   const onGestureEvent = Animated.event(
     [
@@ -293,7 +296,7 @@ const DraggablePaintBlob: React.FC<DraggablePaintBlobProps> = ({ paint, onDrop }
     { useNativeDriver: true }
   );
 
-  const onHandlerStateChange = (event: any) => {
+  const onHandlerStateChange = (event: PanGestureHandlerStateChangeEvent) => {
     if (event.nativeEvent.state === 5) {
       // ENDED
       const { absoluteY } = event.nativeEvent;

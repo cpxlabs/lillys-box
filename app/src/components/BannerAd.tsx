@@ -5,8 +5,8 @@ import { AdsConfig } from '../config/ads.config';
 import { logger } from '../utils/logger';
 
 // Type definitions for AdMob components (for TypeScript)
-let GoogleBannerAd: any;
-let BannerAdSize: any;
+let GoogleBannerAd: React.ComponentType<Record<string, unknown>> | undefined;
+let BannerAdSize: Record<string, unknown> | undefined;
 
 // Only import on native platforms
 if (Platform.OS !== 'web') {
@@ -55,7 +55,7 @@ export const BannerAd: React.FC = () => {
           setIsAdLoaded(true);
           setHasError(false);
         }}
-        onAdFailedToLoad={(error: any) => {
+        onAdFailedToLoad={(error: unknown) => {
           logger.error('[BannerAd] Ad failed to load:', error);
           setHasError(true);
           setIsAdLoaded(false);

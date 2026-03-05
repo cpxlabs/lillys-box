@@ -36,7 +36,7 @@ export const MirrorMatchGameScreen: React.FC<Props> = ({ navigation }) => {
   const [pattern] = useState(generatePattern);
   const target = mirrorOf(pattern);
   const [userGrid, setUserGrid] = useState<(string | null)[]>(Array(GRID * GRID).fill(null));
-  const [selectedColor, setSelectedColor] = useState(COLORS[0]);
+  const [selectedColor, setSelectedColor] = useState<string | null>(COLORS[0]);
   const [level, setLevel] = useState(1);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
@@ -101,7 +101,7 @@ export const MirrorMatchGameScreen: React.FC<Props> = ({ navigation }) => {
           {COLORS.map(c => (
             <TouchableOpacity key={c} style={[styles.swatch, { backgroundColor: c }, selectedColor === c && styles.selectedSwatch]} onPress={() => setSelectedColor(c)} />
           ))}
-          <TouchableOpacity style={[styles.swatch, { backgroundColor: '#eee' }, selectedColor === 'erase' as any && styles.selectedSwatch]} onPress={() => setSelectedColor(null as any)}>
+          <TouchableOpacity style={[styles.swatch, { backgroundColor: '#eee' }, selectedColor === null && styles.selectedSwatch]} onPress={() => setSelectedColor(null)}>
             <Text style={{ fontSize: 12 }}>✕</Text>
           </TouchableOpacity>
         </View>
