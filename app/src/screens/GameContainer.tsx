@@ -10,20 +10,22 @@ export const GameContainer: React.FC<Props> = ({ route }) => {
   const { gameId } = route.params;
   const game = gameRegistry.getGame(gameId);
 
-  if (!game) {
+  if (!game || !game.navigator) {
     return (
       <View style={styles.errorContainer}>
-        <Text style={styles.errorText}>Game not found</Text>
+        <Text style={styles.errorText}>Game not available</Text>
       </View>
     );
   }
 
   const GameNavigator = game.navigator;
+  const providers = Array.isArray(game.providers) ? game.providers : [];
 
   // Wrap navigator with game-specific providers (outermost first)
   let content: React.ReactElement = <GameNavigator />;
-  for (let i = game.providers.length - 1; i >= 0; i--) {
-    const Provider = game.providers[i];
+  for (let i = providers.length - 1; i >= 0; i--) {
+    const Provider = providers[i];
+    if (!Provider) continue;
     content = <Provider>{content}</Provider>;
   }
 
