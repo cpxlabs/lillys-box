@@ -39,7 +39,13 @@ jest.mock('../../registry/GameRegistry', () => ({
 }));
 
 jest.mock('../../components/EmojiIcon', () => ({
-  EmojiIcon: 'EmojiIcon',
+  EmojiIcon: ({ size }: { size?: number }) => {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const React = require('react');
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const { Text } = require('react-native');
+    return React.createElement(Text, null, `emoji-size-${size ?? 0}`);
+  },
 }));
 
 jest.mock('../../hooks/useFavoriteGames', () => ({
@@ -192,6 +198,16 @@ describe('GameSelectionScreen — uiIndex persistence', () => {
 
     await waitFor(() => {
       expect(getByText('selectGame.title')).toBeTruthy();
+    });
+  });
+
+  it('uses larger emoji size for game cards', async () => {
+    (AsyncStorage.getItem as jest.Mock).mockResolvedValue('0');
+
+    const { getAllByText } = render(<GameSelectionScreen navigation={mockNavigation} />);
+
+    await waitFor(() => {
+      expect(getAllByText('emoji-size-56').length).toBeGreaterThan(0);
     });
   });
 });
