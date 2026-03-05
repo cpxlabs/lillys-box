@@ -104,7 +104,7 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
   const stateRef = useRef<GameState>(createInitialState());
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const spawnRef = useRef<NodeJS.Timeout | null>(null);
-  const isNewBestRef = useRef(false);
+  const [isNewBest, setIsNewBest] = useState(false);
 
   // Calculate difficulty-based values
   const getVisibilityDuration = useCallback((round: number) => {
@@ -284,7 +284,7 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
     newState.gameStatus = 'playing';
     stateRef.current = newState;
     setRenderState(newState);
-    isNewBestRef.current = false;
+    setIsNewBest(false);
 
     // Start timer (1 second intervals)
     timerRef.current = setInterval(() => {
@@ -297,9 +297,9 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
         // Round/game over
         s.gameStatus = 'gameOver';
         const finalScore = s.score;
-        const isNewBest = finalScore > bestScore;
-        isNewBestRef.current = isNewBest;
-        if (isNewBest) {
+        const isNewBestScore = finalScore > bestScore;
+        setIsNewBest(isNewBestScore);
+        if (isNewBestScore) {
           updateBestScore(finalScore);
         }
 
@@ -435,7 +435,7 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
               {t('whackAMole.game.coinsEarned')}: {coinsEarned} 🪙
             </Text>
 
-            {isNewBestRef.current && <Text style={styles.newBestText}>{t('whackAMole.game.newBest')}</Text>}
+            {isNewBest && <Text style={styles.newBestText}>{t('whackAMole.game.newBest')}</Text>}
 
             {!adRewardPending && (
               <>

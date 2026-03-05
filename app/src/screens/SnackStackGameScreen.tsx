@@ -26,12 +26,13 @@ export const SnackStackGameScreen: React.FC<Props> = ({ navigation }) => {
   const [currentFood, setCurrentFood] = useState(FOODS[0]);
   const [fallAnim] = useState(new Animated.Value(0));
   const [adRewardPending, setAdRewardPending] = useState(false);
-  const swingAnim = useRef(new Animated.Value(0)).current;
+  // eslint-disable-next-line react-hooks/refs
+  const swingAnim = useRef(new Animated.Value(0)).current; // Animated.Value ref – safe React Native pattern
   const swingDirection = useRef(1);
   const gameActiveRef = useRef(true);
   const stackRef = useRef<StackItem[]>([]);
   const fallingXRef = useRef(0);
-  const swingLoop = useRef<any>(null);
+  const swingLoop = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const startSwing = useCallback(() => {
     if (!gameActiveRef.current) return;

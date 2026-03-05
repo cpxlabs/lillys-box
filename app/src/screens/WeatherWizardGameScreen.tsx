@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal, DimensionValue } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useWeatherWizard } from '../context/WeatherWizardContext';
 import { ScreenNavigationProp } from '../types/navigation';
@@ -137,7 +137,7 @@ export const WeatherWizardGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.progress}>
         <Text style={styles.progressText}>{t('weatherWizard.game.scene')} {sceneIndex + 1}/{SCENES.length}</Text>
         <View style={styles.progressBar}>
-          <View style={[styles.progressFill, { width: `${((sceneIndex + stepIndex / scene.steps.length) / SCENES.length) * 100}%` as any }]} />
+          <View style={[styles.progressFill, { width: `${((sceneIndex + stepIndex / scene.steps.length) / SCENES.length) * 100}%` as DimensionValue }]} />
         </View>
       </View>
 

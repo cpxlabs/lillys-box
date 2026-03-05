@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal, ScrollView, DimensionValue } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePaintSplash } from '../context/PaintSplashContext';
 import { ScreenNavigationProp } from '../types/navigation';
@@ -59,7 +59,7 @@ export const PaintSplashGameScreen: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={styles.progressBar}>
-        <View style={[styles.progressFill, { width: `${progress}%` as any }]} />
+        <View style={[styles.progressFill, { width: `${progress}%` as DimensionValue }]} />
       </View>
 
       <ScrollView contentContainerStyle={styles.canvas}>

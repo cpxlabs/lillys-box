@@ -16,7 +16,7 @@ import { useAudio } from '../hooks/useAudio';
 type UIVariant = {
   key: string;
   label: string;
-  component?: React.ComponentType<any>;
+  component?: React.ComponentType<Record<string, unknown>>;
 };
 
 const UI_VARIANTS: UIVariant[] = [
@@ -254,6 +254,7 @@ export const SettingsModal = memo<SettingsModalProps>(({
     </View>
   );
 });
+SettingsModal.displayName = 'SettingsModal';
 
 const styles = StyleSheet.create({
   overlay: {

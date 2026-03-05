@@ -40,13 +40,9 @@ export function useGameAds(options: UseGameAdsOptions) {
   // Session reference for current game session
   const sessionRef = useRef({
     adsShownInSession: 0,
+    // eslint-disable-next-line react-hooks/purity -- Date.now() is intentional for session start time
     gameStart:  Date.now(),
   });
-
-  // Load metrics on mount
-  useEffect(() => {
-    loadMetrics();
-  }, [gameId]);
 
   /**
    * Load metrics from storage
@@ -61,6 +57,11 @@ export function useGameAds(options: UseGameAdsOptions) {
       logger.error(`[useGameAds] Failed to load metrics for ${gameId}:`, error);
     }
   }, [gameId]);
+
+  // Load metrics on mount
+  useEffect(() => {
+    loadMetrics();
+  }, [gameId, loadMetrics]);
 
   /**
    * Save metrics to storage
