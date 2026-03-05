@@ -160,7 +160,7 @@ export const SnackStackGameScreen: React.FC<Props> = ({ navigation }) => {
                 <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('snackStack.game.playAgain')}</Text></TouchableOpacity>
               </>
             )}
-            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.menu')}</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>

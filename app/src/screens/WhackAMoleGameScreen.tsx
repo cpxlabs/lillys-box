@@ -354,8 +354,8 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
     <SafeAreaView style={styles.container}>
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleBack} accessibilityRole="button" accessibilityLabel={t('whackAMole.game.back')}>
-          <Text style={styles.backText}>← {t('whackAMole.game.back')}</Text>
+        <TouchableOpacity onPress={handleBack} accessibilityRole="button" accessibilityLabel={t('common.back')}>
+          <Text style={styles.backText}>← {t('common.back')}</Text>
         </TouchableOpacity>
 
         <Text style={styles.roundText}>
@@ -467,7 +467,7 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
             )}
 
             <TouchableOpacity onPress={handleBack} style={styles.backButtonOverlay}>
-              <Text style={styles.backTextOverlay}>{t('whackAMole.game.back')}</Text>
+              <Text style={styles.backTextOverlay}>{t('common.menu')}</Text>
             </TouchableOpacity>
           </View>
         </View>

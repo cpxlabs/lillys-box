@@ -95,7 +95,7 @@ export const MediaAttachment: React.FC<Props> = ({ media, onAdd, onRemove }) => 
               activeOpacity={0.7}
               accessibilityLabel={t('review.addGif')}
             >
-              <Text style={styles.addButtonIcon}>GIF</Text>
+              <Text style={styles.addButtonIcon}>🎞️</Text>
               <Text style={styles.addButtonLabel}>{t('review.addGif')}</Text>
             </TouchableOpacity>
           </>

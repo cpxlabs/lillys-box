@@ -157,7 +157,7 @@ export const BalloonFloatGameScreen: React.FC<Props> = ({ navigation }) => {
                 </TouchableOpacity>
               </>
             )}
-            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.menu')}</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>

@@ -2,6 +2,10 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { ConnectDotsGameScreen } from '../ConnectDotsGameScreen';
 
+jest.mock('../../context/ConnectDotsContext', () => ({
+  useConnectDots: () => ({ bestScore: 0, updateBestScore: jest.fn() }),
+}));
+
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
 }));

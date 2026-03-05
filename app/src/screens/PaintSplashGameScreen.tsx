@@ -127,7 +127,7 @@ export const PaintSplashGameScreen: React.FC<Props> = ({ navigation }) => {
               </>
             )}
             <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}>
-              <Text style={styles.modalSecondaryText}>{t('common.back')}</Text>
+              <Text style={styles.modalSecondaryText}>{t('common.menu')}</Text>
             </TouchableOpacity>
           </View>
         </View>
