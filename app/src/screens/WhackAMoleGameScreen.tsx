@@ -29,6 +29,7 @@ const BASE_SPAWN_INTERVAL = 800; // ms
 const MIN_SPAWN_INTERVAL = 400; // ms
 const FRIENDLY_CHANCE = 0.2; // 20% chance in bonus rounds
 const POWER_UP_CHANCE = 0.1; // 10% chance
+const HAMMER_DISPLAY_DURATION = 300; // ms
 
 // --- Types ---
 interface HoleContent {
@@ -104,6 +105,7 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
   const stateRef = useRef<GameState>(createInitialState());
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const spawnRef = useRef<NodeJS.Timeout | null>(null);
+  const hammerTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [isNewBest, setIsNewBest] = useState(false);
   const [hammerHoleId, setHammerHoleId] = useState<number | null>(null);
 
@@ -334,6 +336,10 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
       clearInterval(spawnRef.current);
       spawnRef.current = null;
     }
+    if (hammerTimeoutRef.current) {
+      clearTimeout(hammerTimeoutRef.current);
+      hammerTimeoutRef.current = null;
+    }
   }, []);
 
   const handleBack = useGameBack(navigation, { cleanup: cleanupTimers });
@@ -400,6 +406,13 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
               testID={`hole-${hole.id}`}
               onPress={() => {
                 setHammerHoleId(hole.id);
+                if (hammerTimeoutRef.current) {
+                  clearTimeout(hammerTimeoutRef.current);
+                }
+                hammerTimeoutRef.current = setTimeout(() => {
+                  setHammerHoleId(null);
+                  hammerTimeoutRef.current = null;
+                }, HAMMER_DISPLAY_DURATION);
                 handleHoleTap(hole);
               }}
             >

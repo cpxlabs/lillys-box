@@ -1,5 +1,5 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+import { render, fireEvent, act } from '@testing-library/react-native';
 import { WhackAMoleGameScreen } from '../WhackAMoleGameScreen';
 
 jest.mock('../../context/WhackAMoleContext', () => ({
@@ -47,12 +47,26 @@ describe('WhackAMoleGameScreen back navigation', () => {
 });
 
 describe('WhackAMoleGameScreen hammer feedback', () => {
-  it('shows a hammer when a hole is tapped', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+  });
+
+  afterEach(() => {
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
+  });
+
+  it('shows a hammer briefly when a hole is tapped', () => {
     const { getByTestId, queryByText } = render(<WhackAMoleGameScreen navigation={mockNavigation} />);
 
     expect(queryByText('🔨')).toBeNull();
 
     fireEvent.press(getByTestId('hole-0'));
     expect(queryByText('🔨')).not.toBeNull();
+
+    act(() => {
+      jest.advanceTimersByTime(300);
+    });
+    expect(queryByText('🔨')).toBeNull();
   });
 });
