@@ -45,3 +45,14 @@ describe('WhackAMoleGameScreen back navigation', () => {
     expect(parentGoBack).toHaveBeenCalledTimes(1);
   });
 });
+
+describe('WhackAMoleGameScreen hammer feedback', () => {
+  it('shows a hammer when a hole is tapped', () => {
+    const { getByTestId, queryByText } = render(<WhackAMoleGameScreen navigation={mockNavigation} />);
+
+    expect(queryByText('🔨')).toBeNull();
+
+    fireEvent.press(getByTestId('hole-0'));
+    expect(queryByText('🔨')).not.toBeNull();
+  });
+});

@@ -105,6 +105,7 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const spawnRef = useRef<NodeJS.Timeout | null>(null);
   const [isNewBest, setIsNewBest] = useState(false);
+  const [hammerHoleId, setHammerHoleId] = useState<number | null>(null);
 
   // Calculate difficulty-based values
   const getVisibilityDuration = useCallback((round: number) => {
@@ -396,10 +397,15 @@ export const WhackAMoleGameScreen: React.FC<Props> = ({ navigation }) => {
             <Pressable
               key={hole.id}
               style={[styles.hole, { width: holeSize, height: holeSize }]}
-              onPress={() => handleHoleTap(hole)}
+              testID={`hole-${hole.id}`}
+              onPress={() => {
+                setHammerHoleId(hole.id);
+                handleHoleTap(hole);
+              }}
             >
               <View style={styles.holeInner}>
                 {hole.content && <Text style={styles.emoji}>{hole.content.emoji}</Text>}
+                {hammerHoleId === hole.id && <Text style={styles.hammer}>🔨</Text>}
               </View>
             </Pressable>
           ))}
@@ -585,6 +591,12 @@ const styles = StyleSheet.create({
   },
   emoji: {
     fontSize: 40,
+  },
+  hammer: {
+    position: 'absolute',
+    top: 4,
+    right: 4,
+    fontSize: 22,
   },
   powerUpIndicator: {
     position: 'absolute',
