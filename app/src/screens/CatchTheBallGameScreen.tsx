@@ -248,9 +248,9 @@ export const CatchTheBallGameScreen: React.FC<Props> = ({ navigation }) => {
         <TouchableOpacity
           onPress={handleBack}
           accessibilityRole="button"
-          accessibilityLabel={t('catchTheBall.game.back')}
+          accessibilityLabel={t('common.back')}
         >
-          <Text style={styles.backText}>← {t('catchTheBall.game.back')}</Text>
+          <Text style={styles.backText}>← {t('common.back')}</Text>
         </TouchableOpacity>
 
         <View style={styles.headerCenter}>
@@ -394,7 +394,7 @@ export const CatchTheBallGameScreen: React.FC<Props> = ({ navigation }) => {
               </>
             )}
             <TouchableOpacity onPress={handleBack} style={styles.backButtonOverlay}>
-              <Text style={styles.backTextOverlay}>{t('catchTheBall.game.back')}</Text>
+              <Text style={styles.backTextOverlay}>{t('common.menu')}</Text>
             </TouchableOpacity>
           </View>
         </View>

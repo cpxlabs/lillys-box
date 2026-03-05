@@ -28,6 +28,7 @@ export const MuitoMultiGameScreen: React.FC<Props> = ({ navigation }) => {
     leaveRoom,
   } = useMultiPlayerMuito();
   const goBack = useGameBack(navigation);
+  const { triggerAd } = useGameAdTrigger('muito-multi');
   const handleBack = () => {
     leaveRoom();
     goBack();

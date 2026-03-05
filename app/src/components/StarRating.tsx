@@ -3,14 +3,14 @@ import { View, TouchableOpacity, Text, StyleSheet } from 'react-native';
 
 type Props = {
   value: number;
-  onChange?: (rating: number) => void;
+  onRatingChange?: (rating: number) => void;
   readonly?: boolean;
   size?: number;
 };
 
 export const StarRating: React.FC<Props> = ({
   value,
-  onChange,
+  onRatingChange,
   readonly = false,
   size = 32,
 }) => {
@@ -32,7 +32,7 @@ export const StarRating: React.FC<Props> = ({
         return (
           <TouchableOpacity
             key={star}
-            onPress={() => onChange?.(star)}
+            onPress={() => onRatingChange?.(star)}
             hitSlop={{ top: 8, bottom: 8, left: 4, right: 4 }}
             accessibilityRole="button"
             accessibilityLabel={`${star} star${star !== 1 ? 's' : ''}`}

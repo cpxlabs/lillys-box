@@ -17,6 +17,7 @@ import { logger } from '../utils/logger';
 // Lazy import to avoid crash when expo-image-picker is not installed
 let ImagePicker: typeof import('expo-image-picker') | null = null;
 try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   ImagePicker = require('expo-image-picker');
 } catch {
   logger.warn('expo-image-picker not installed — image picking disabled');
@@ -94,7 +95,7 @@ export const MediaAttachment: React.FC<Props> = ({ media, onAdd, onRemove }) => 
               activeOpacity={0.7}
               accessibilityLabel={t('review.addGif')}
             >
-              <Text style={styles.addButtonIcon}>GIF</Text>
+              <Text style={styles.addButtonIcon}>🎞️</Text>
               <Text style={styles.addButtonLabel}>{t('review.addGif')}</Text>
             </TouchableOpacity>
           </>

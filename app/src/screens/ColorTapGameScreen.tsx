@@ -25,10 +25,10 @@ const ARTIFACT_HTML = `<!DOCTYPE html>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>ColorTap</title>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"><\/script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"><\/script>
-  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"><\/script>
-  <script src="https://cdn.tailwindcss.com"><\/script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
   <script>
     window.RNBridge = {
       send: function(message) {
@@ -42,7 +42,7 @@ const ARTIFACT_HTML = `<!DOCTYPE html>
       gameOver: function(finalScore) { this.send({ type: 'gameOver', payload: { finalScore: finalScore } }); },
       navigate: function(target) { this.send({ type: 'navigate', payload: { target: target || 'back' } }); }
     };
-  <\/script>
+  </script>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html, body, #root { width: 100%; height: 100%; overflow: hidden; }
@@ -253,7 +253,7 @@ const ColorTapGame = () => {
 
     const root = ReactDOM.createRoot(document.getElementById('root'));
     root.render(React.createElement(ColorTapGame));
-  <\/script>
+  </script>
 </body>
 </html>`;
 
@@ -335,9 +335,7 @@ export const ColorTapGameScreen: React.FC<Props> = ({ navigation }) => {
                 // Force re-mount the WebView by navigating away and back
                 navigation.replace('ColorTapGame');
               }}
-              disabled={adRewardPending // Force re-mount the WebView by navigating away and back
-                navigation.replace('ColorTapGame');
-              }}
+              disabled={adRewardPending}
               accessibilityRole="button"
             >
               <Text style={styles.playAgainText}>{t('colorTap.gameOver.playAgain')}</Text>

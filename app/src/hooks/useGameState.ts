@@ -84,7 +84,9 @@ export const useGameState = (storageKey: string): UseGameStateReturn<BaseGameSta
     sessionRef.current.isRunning = true;
   }, []);
 
+  // eslint-disable-next-line react-hooks/refs -- game loop intentionally uses ref to avoid re-renders
   return {
+    // eslint-disable-next-line react-hooks/refs -- game loop intentionally uses ref to avoid re-renders
     state: sessionRef.current,
     startGame,
     endGame,
@@ -93,6 +95,7 @@ export const useGameState = (storageKey: string): UseGameStateReturn<BaseGameSta
     reset,
     pause,
     resume,
+    // eslint-disable-next-line react-hooks/refs -- game loop intentionally uses ref to avoid re-renders
     isNewBest: sessionRef.current.currentScore > bestScore,
   };
 };

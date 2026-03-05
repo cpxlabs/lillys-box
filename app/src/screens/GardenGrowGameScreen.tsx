@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal, ScrollView, DimensionValue } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { useGardenGrow } from '../context/GardenGrowContext';
 import { ScreenNavigationProp } from '../types/navigation';
@@ -134,7 +134,7 @@ export const GardenGrowGameScreen: React.FC<Props> = ({ navigation }) => {
               <>
                 <Text style={styles.plantEmoji}>{plot.plant}</Text>
                 <View style={styles.growthBar}>
-                  <View style={[styles.growthFill, { width: `${plot.growth}%` as any }]} />
+                  <View style={[styles.growthFill, { width: `${plot.growth}%` as DimensionValue }]} />
                 </View>
                 <Text style={styles.indicators}>
                   {plot.watered ? '💧' : ''}{plot.sunned ? '☀️' : ''}{plot.weeded ? '✂️' : ''}
@@ -179,9 +179,7 @@ export const GardenGrowGameScreen: React.FC<Props> = ({ navigation }) => {
               }}><Text style={styles.modalButtonText}>🎬 {t('gardenGrow.game.playAgain')}</Text></TouchableOpacity>
             )}
             <TouchableOpacity style={styles.modalButton} onPress={restart} disabled={adRewardPending}><Text style={styles.modalButtonText}>{t('gardenGrow.game.playAgain')}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack} disabled={adRewardPending')} | {score} pts</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('gardenGrow.game.playAgain')}</Text></TouchableOpacity>
-            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
+            <TouchableOpacity style={styles.modalSecondaryButton} onPress={handleBack} disabled={adRewardPending}><Text style={styles.modalSecondaryText}>{t('common.back')}</Text></TouchableOpacity>
           </View>
         </View>
       </Modal>

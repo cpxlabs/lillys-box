@@ -1,26 +1,6 @@
-import Fastify from 'fastify';
-import cors from '@fastify/cors';
+import { buildServer } from './buildServer.js';
 
-const server = Fastify({
-  logger: true,
-});
-
-// ---------------------------------------------------------------------------
-// Plugins
-// ---------------------------------------------------------------------------
-// CORS – origin is reflected in development; tighten to an explicit list before
-// deploying to production.
-server.register(cors, {
-  origin: true,
-  methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
-});
-
-// ---------------------------------------------------------------------------
-// Health check
-// ---------------------------------------------------------------------------
-server.get('/health', async () => {
-  return { status: 'ok' };
-});
+const server = buildServer();
 
 // ---------------------------------------------------------------------------
 // Bootstrap
