@@ -41,6 +41,7 @@ jest.mock('react-native', () => {
     KeyboardAvoidingView: mockComponent('KeyboardAvoidingView'),
     Modal: mockComponent('Modal'),
     ActivityIndicator: mockComponent('ActivityIndicator'),
+    Switch: mockComponent('Switch'),
     useWindowDimensions: jest.fn(() => ({ width: 375, height: 812, scale: 2, fontScale: 2 })),
     Dimensions: {
       get: jest.fn(() => ({ width: 375, height: 812, scale: 2, fontScale: 1 })),
