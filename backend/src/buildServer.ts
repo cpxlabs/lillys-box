@@ -4,7 +4,7 @@ import rateLimit from '@fastify/rate-limit';
 
 export function buildServer() {
   const server = Fastify({
-    logger: false,
+    logger: process.env.NODE_ENV !== 'test',
   });
 
   // ---------------------------------------------------------------------------
