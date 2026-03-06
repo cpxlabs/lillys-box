@@ -40,6 +40,12 @@ describe('Backend – CORS policy', () => {
       process.env.ALLOWED_ORIGINS = originalAllowedOrigins;
     }
     await server.close();
+    process.env.NODE_ENV = originalNodeEnv;
+    if (originalAllowedOrigins === undefined) {
+      delete process.env.ALLOWED_ORIGINS;
+    } else {
+      process.env.ALLOWED_ORIGINS = originalAllowedOrigins;
+    }
   });
 
   it('allows requests with no origin (mobile apps)', async () => {
@@ -55,6 +61,7 @@ describe('Backend – CORS policy', () => {
     delete process.env.ALLOWED_ORIGINS;
     await server.close();
     server = buildServer();
+    process.env.NODE_ENV = 'test';
     const response = await server.inject({
       method: 'GET',
       url: '/health',
@@ -78,6 +85,7 @@ describe('Backend – CORS policy', () => {
   });
 
   it('blocks disallowed origins when ALLOWED_ORIGINS is set', async () => {
+    process.env.NODE_ENV = 'production';
     process.env.ALLOWED_ORIGINS = 'https://example.com';
     await server.close();
     server = buildServer(); // rebuild with new env var
@@ -88,10 +96,26 @@ describe('Backend – CORS policy', () => {
     });
     delete process.env.ALLOWED_ORIGINS;
     // CORS plugin rejects unlisted origins; the origin header must NOT be echoed back
+    expect(response.statusCode).toBe(500);
+    expect(response.headers['access-control-allow-origin']).toBeUndefined();
+  });
+
+  it('blocks origins in production when ALLOWED_ORIGINS is not set', async () => {
+    process.env.NODE_ENV = 'production';
+    delete process.env.ALLOWED_ORIGINS;
+    await server.close();
+    server = buildServer();
+    const response = await server.inject({
+      method: 'GET',
+      url: '/health',
+      headers: { origin: 'https://example.com' },
+    });
+    expect(response.statusCode).toBe(500);
     expect(response.headers['access-control-allow-origin']).toBeUndefined();
   });
 
   it('allows listed origins when ALLOWED_ORIGINS is set', async () => {
+    process.env.NODE_ENV = 'production';
     process.env.ALLOWED_ORIGINS = 'https://example.com';
     await server.close();
     server = buildServer(); // rebuild with new env var
