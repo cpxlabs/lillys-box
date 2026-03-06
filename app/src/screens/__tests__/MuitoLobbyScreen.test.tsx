@@ -118,6 +118,28 @@ describe('MuitoLobbyScreen – create/join tabs', () => {
     expect(mockJoinRoom).toHaveBeenCalledWith('ABC123');
   });
 
+  it('normalizes join code before calling joinRoom()', () => {
+    const { getByText, getByLabelText } = render(
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
+    );
+    fireEvent.press(getByText('muito.multiplayer.join'));
+    const input = getByLabelText('muito.multiplayer.codePlaceholder');
+    fireEvent.changeText(input, ' ab-12c ');
+    fireEvent.press(getByText('muito.multiplayer.joinRoom'));
+    expect(mockJoinRoom).toHaveBeenCalledWith('AB12C');
+  });
+
+  it('does not call joinRoom() for whitespace-only code', () => {
+    const { getByText, getByLabelText } = render(
+      <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
+    );
+    fireEvent.press(getByText('muito.multiplayer.join'));
+    const input = getByLabelText('muito.multiplayer.codePlaceholder');
+    fireEvent.changeText(input, '   ');
+    fireEvent.press(getByText('muito.multiplayer.joinRoom'));
+    expect(mockJoinRoom).not.toHaveBeenCalled();
+  });
+
   it('back button calls leaveRoom and goBack', () => {
     const { getByText } = render(
       <MuitoLobbyScreen navigation={navigation as any} route={navigation.route as any} />
