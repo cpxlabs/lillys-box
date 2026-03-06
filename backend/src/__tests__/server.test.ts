@@ -74,6 +74,7 @@ describe('Backend – CORS policy', () => {
     });
     delete process.env.ALLOWED_ORIGINS;
     // CORS plugin rejects unlisted origins; the origin header must NOT be echoed back
+    expect(response.statusCode).toBe(500);
     expect(response.headers['access-control-allow-origin']).toBeUndefined();
   });
 
@@ -87,6 +88,7 @@ describe('Backend – CORS policy', () => {
       url: '/health',
       headers: { origin: 'https://example.com' },
     });
+    expect(response.statusCode).toBe(500);
     expect(response.headers['access-control-allow-origin']).toBeUndefined();
   });
 
