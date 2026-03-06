@@ -56,6 +56,10 @@ The most important next milestone is restoring a stable, green CI baseline for t
 
 ### H1 — Frontend lint baseline is heavily failing
 
+**Status update (2026-03-06)**
+- `npm run lint` now completes with `0 errors` and `421 warnings` (mostly `@typescript-eslint/no-explicit-any` in test files).
+- Runtime-blocking lint classes from the original baseline (for example `no-undef`) are no longer failing the gate.
+
 **Evidence**
 - `npm run lint` output ended with:
   - `✖ 538 problems (451 errors, 87 warnings)`
@@ -78,6 +82,10 @@ The most important next milestone is restoring a stable, green CI baseline for t
 
 ### H2 — Frontend tests are not in a stable state
 
+**Status update (2026-03-06)**
+- `npm test -- --runInBand` now passes: `Test Suites: 109 passed, 109 total`.
+- React renderer compatibility and the deterministic AudioService key expectation mismatch are now green in the current baseline.
+
 **Evidence**
 - `npm test -- --runInBand` ended with:
   - `Test Suites: 105 failed, 3 passed, 108 total`
@@ -99,6 +107,10 @@ The most important next milestone is restoring a stable, green CI baseline for t
 ## 5) Medium-Priority Findings
 
 ### M1 — Backend CORS policy is permissive by default
+
+**Status update (2026-03-06)**
+- CORS handling now lives in `backend/src/buildServer.ts` and has been hardened to require an explicit allowlist for cross-origin browser requests in production.
+- Backend tests cover both allowed/disallowed origins and now include the production-without-allowlist behavior.
 
 **Evidence**
 - `backend/src/server.ts` registers CORS with `origin: true`.
