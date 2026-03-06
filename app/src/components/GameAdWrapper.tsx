@@ -30,7 +30,7 @@ export const GameAdWrapper: React.FC<GameAdWrapperProps> = ({
   onGameStart,
   onGameEnd,
   maxAdsPerSession = 3,
-  showLoadingOnAdStart = false,
+  showLoadingOnAdStart: _showLoadingOnAdStart = false,
 }) => {
   const { resetSession } = useGameAds({ gameId, maxAdsPerSession });
 

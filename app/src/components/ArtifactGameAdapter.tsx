@@ -1,4 +1,4 @@
-import React, { useRef, useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { View, StyleSheet, Platform } from 'react-native';
 import { WebView, WebViewMessageEvent } from 'react-native-webview';
 
@@ -54,8 +54,6 @@ export const ArtifactGameAdapter: React.FC<ArtifactGameAdapterProps> = ({
   onGameOver,
   onNavigate,
 }) => {
-  const webViewRef = useRef<WebView>(null);
-
   const handleMessage = useCallback(
     (event: WebViewMessageEvent) => {
       try {
@@ -82,19 +80,6 @@ export const ArtifactGameAdapter: React.FC<ArtifactGameAdapterProps> = ({
     },
     [onMessage, onScoreUpdate, onGameOver, onNavigate],
   );
-
-  /**
-   * Send a message from React Native into the artifact WebView.
-   * The artifact can listen with: window.addEventListener('message', handler)
-   */
-  const sendToArtifact = useCallback((message: Record<string, unknown>) => {
-    webViewRef.current?.injectJavaScript(`
-      window.dispatchEvent(new MessageEvent('message', {
-        data: ${JSON.stringify(JSON.stringify(message))}
-      }));
-      true;
-    `);
-  }, []);
 
   // On web, listen for postMessage events from the iframe so that the
   // RNBridge in the artifact HTML can communicate back to React Native.
@@ -148,7 +133,6 @@ export const ArtifactGameAdapter: React.FC<ArtifactGameAdapterProps> = ({
   return (
     <View style={styles.container}>
       <WebView
-        ref={webViewRef}
         source={{ html: htmlContent }}
         style={styles.webView}
         onMessage={handleMessage}
