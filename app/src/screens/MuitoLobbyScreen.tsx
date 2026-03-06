@@ -36,6 +36,8 @@ export const MuitoLobbyScreen: React.FC<Props> = ({ navigation }) => {
   const [joinCode, setJoinCode] = useState('');
   const [activeTab, setActiveTab] = useState<'host' | 'join'>('host');
 
+  const normalizeRoomCode = (value: string) => value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
+
   // Connect on mount; reset any leftover room state from a previous game
   useEffect(() => {
     leaveRoom(); // no-op if not in a room
@@ -69,12 +71,13 @@ export const MuitoLobbyScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const handleJoinRoom = () => {
-    if (!joinCode.trim()) {
+    const normalizedCode = normalizeRoomCode(joinCode);
+    if (!normalizedCode) {
       // inline validation — no server round-trip needed
       return;
     }
     clearError();
-    joinRoom(joinCode.trim());
+    joinRoom(normalizedCode);
   };
 
   const handleBack = () => {
@@ -207,7 +210,7 @@ export const MuitoLobbyScreen: React.FC<Props> = ({ navigation }) => {
             <TextInput
               style={styles.codeInput}
               value={joinCode}
-              onChangeText={setJoinCode}
+              onChangeText={(value) => setJoinCode(normalizeRoomCode(value))}
               placeholder={t('muito.multiplayer.codePlaceholder')}
               autoCapitalize="characters"
               maxLength={6}
