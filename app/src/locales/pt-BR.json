@@ -424,6 +424,10 @@
     "photoStudio": {
       "name": "Photo Studio",
       "description": "Tire fotos fofas do seu pet!"
+    },
+    "hideAndSeek": {
+      "name": "Esconde-Esconde",
+      "description": "Encontre os pets escondidos!"
     }
   },
   "balloonFloat": {
@@ -878,6 +882,23 @@
       "stickers": "Figurinhas",
       "gallery": "Galeria",
       "takePhoto": "Tirar Foto!"
+    }
+  },
+  "hideAndSeek": {
+    "home": {
+      "title": "Esconde-Esconde",
+      "subtitle": "Encontre os pets escondidos!",
+      "play": "Jogar",
+      "instructions": "Toque nos esconderijos para encontrar os pets fofos antes que o tempo acabe!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "found": "Encontrados",
+      "totalFound": "Pets Encontrados",
+      "score": "Pontuação",
+      "petsFound": "Pets Encontrados",
+      "gameOver": "Fim de Jogo",
+      "playAgain": "Jogar Novamente"
     }
   },
   "shapeSorter": {
