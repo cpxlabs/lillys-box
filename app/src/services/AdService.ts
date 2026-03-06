@@ -4,7 +4,6 @@ import { logger } from '../utils/logger';
 
 // react-native-google-mobile-ads is a native-only module with no TS types bundled
 // in the environment; use `unknown` and narrow at call sites to stay any-free.
-// eslint-disable-next-line @typescript-eslint/no-explicit-any -- dynamic native module
 type AdMobModule = Record<string, unknown>;
 
 // Lazy load AdMob module only on native platforms
@@ -41,9 +40,7 @@ if (Platform.OS !== 'web') {
  * On web, all ad operations are no-ops.
  */
 class AdService {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- opaque native ad object
   private rewardedAd: Record<string, unknown> | null = null;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- opaque native ad object
   private interstitialAd: Record<string, unknown> | null = null;
   private isRewardedAdLoaded = false;
   private isInterstitialAdLoaded = false;
@@ -190,7 +187,7 @@ class AdService {
 
         try {
           this.rewardedAd!.show();
-        } catch (showError) {
+        } catch {
           // show() failed synchronously — release listeners and reject
           cleanup();
           resolve(false);
