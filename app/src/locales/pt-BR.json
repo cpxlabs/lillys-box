@@ -428,6 +428,10 @@
     "hideAndSeek": {
       "name": "Esconde-Esconde",
       "description": "Encontre os pets escondidos!"
+    },
+    "starCatcher": {
+      "name": "Caça-Estrelas",
+      "description": "Pegue as estrelas cadentes!"
     }
   },
   "balloonFloat": {
@@ -899,6 +903,23 @@
       "petsFound": "Pets Encontrados",
       "gameOver": "Fim de Jogo",
       "playAgain": "Jogar Novamente"
+    }
+  },
+  "starCatcher": {
+    "home": {
+      "title": "Caça-Estrelas",
+      "subtitle": "Pegue as estrelas cadentes!",
+      "play": "Jogar",
+      "instructions": "Toque nas estrelas enquanto elas caem do céu! Pegue estrelas cadentes para pontos bônus!",
+      "bestScore": "Melhor Pontuação"
+    },
+    "game": {
+      "score": "Pontuação",
+      "streak": "Sequência",
+      "finalScore": "Pontuação Final",
+      "gameOver": "Fim de Jogo",
+      "playAgain": "Jogar Novamente",
+      "watchAd": "🎬 Assista ao Anúncio para Dobrar!"
     }
   },
   "shapeSorter": {

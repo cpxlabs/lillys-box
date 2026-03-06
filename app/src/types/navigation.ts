@@ -97,6 +97,8 @@ export type RootStackParamList = {
   SlidingPuzzleGame: { difficulty: 'easy' | 'hard' };
   SnackStackHome: undefined;
   SnackStackGame: undefined;
+  StarCatcherHome: undefined;
+  StarCatcherGame: undefined;
   TreasureDigHome: undefined;
   TreasureDigGame: undefined;
   WeatherWizardHome: undefined;
