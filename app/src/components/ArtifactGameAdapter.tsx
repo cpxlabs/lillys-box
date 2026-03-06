@@ -87,7 +87,7 @@ export const ArtifactGameAdapter: React.FC<ArtifactGameAdapterProps> = ({
    * Send a message from React Native into the artifact WebView.
    * The artifact can listen with: window.addEventListener('message', handler)
    */
-  const sendToArtifact = useCallback((message: Record<string, unknown>) => {
+  const _sendToArtifact = useCallback((message: Record<string, unknown>) => {
     webViewRef.current?.injectJavaScript(`
       window.dispatchEvent(new MessageEvent('message', {
         data: ${JSON.stringify(JSON.stringify(message))}
