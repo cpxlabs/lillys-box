@@ -5540,8 +5540,8 @@ packages:
     peerDependencies:
       react-native: '>=0.56'
 
-  react-native-google-mobile-ads@16.0.1:
-    resolution: {integrity: sha512-fBbJ34LAHb9Z2agVocqYMgj45UGGh7epMdaT5E3tbZEWTMN+nNxXnK9BVH9RQXD51D9AgEOcxvIIf4um5gIaYA==}
+  react-native-google-mobile-ads@16.1.0:
+    resolution: {integrity: sha512-4JMppb8js+Z/tZGkDocpmoeaCC5uiRLCWZ1/qGROrqllu6vwp89vDKwhHdAuCvwr74ANK3+hXF5RKyYV438Esg==}
     peerDependencies:
       expo: '>=47.0.0'
     peerDependenciesMeta:
