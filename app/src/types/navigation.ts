@@ -58,6 +58,8 @@ export type RootStackParamList = {
   FeedThePetGame: undefined;
   GardenGrowHome: undefined;
   GardenGrowGame: undefined;
+  HideAndSeekHome: undefined;
+  HideAndSeekGame: undefined;
   JigsawPetsHome: undefined;
   JigsawPetsGame: undefined;
   LightningTapHome: undefined;
@@ -95,6 +97,8 @@ export type RootStackParamList = {
   SlidingPuzzleGame: { difficulty: 'easy' | 'hard' };
   SnackStackHome: undefined;
   SnackStackGame: undefined;
+  StarCatcherHome: undefined;
+  StarCatcherGame: undefined;
   TreasureDigHome: undefined;
   TreasureDigGame: undefined;
   WeatherWizardHome: undefined;
