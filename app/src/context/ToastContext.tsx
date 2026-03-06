@@ -122,7 +122,6 @@ export const useToast = (): ToastContextType => {
     // Graceful degradation: return no-op function to prevent crashes
     logger.warn('useToast called outside ToastProvider - toast notifications will not appear');
     return {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
       showToast: (_message: string, _type?: ToastType) => {
         logger.warn('Toast notification ignored - ToastProvider not found in component tree');
       },
