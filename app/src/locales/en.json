@@ -170,7 +170,8 @@
     "chooseActivity": "Choose the activity:",
     "activities": {
       "yarnBall": "Yarn Ball",
-      "smallBall": "Small Ball"
+      "smallBall": "Small Ball",
+      "gamesBrainstormSession": "Games Brainstorm Session"
     },
     "playing": "{{name}} is playing with {{activity}}! 🎉",
     "loved": "{{name}} loved playing! 💕",

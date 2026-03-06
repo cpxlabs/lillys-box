@@ -170,7 +170,8 @@
     "chooseActivity": "Escolha a atividade:",
     "activities": {
       "yarnBall": "Novelo de Lã",
-      "smallBall": "Bolinha"
+      "smallBall": "Bolinha",
+      "gamesBrainstormSession": "Sessão de Ideias de Jogos"
     },
     "playing": "{{name}} está brincando com {{activity}}! 🎉",
     "loved": "{{name}} adorou brincar! 💕",

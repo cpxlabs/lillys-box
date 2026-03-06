@@ -28,6 +28,11 @@ export const PLAY_ACTIVITIES: readonly PlayActivity[] = [
     emoji: '⚽',
     nameKey: 'play.activities.smallBall',
   },
+  {
+    id: 'games_brainstorm_session',
+    emoji: '🧠',
+    nameKey: 'play.activities.gamesBrainstormSession',
+  },
 ] as const;
 
 /**
