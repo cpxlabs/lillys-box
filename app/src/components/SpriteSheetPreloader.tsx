@@ -93,7 +93,7 @@ export const SpriteSheetPreloader: React.FC<SpriteSheetPreloaderProps> = ({
     };
 
     preloadAssets();
-  }, [pet, allPets, onComplete, onProgress]);
+  }, [pet, allPets, onComplete, onError, onProgress]);
 
   if (!showUI || !isLoading) {
     return <>{children}</>;
