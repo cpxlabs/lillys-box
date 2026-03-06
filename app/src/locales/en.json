@@ -424,6 +424,14 @@
     "photoStudio": {
       "name": "Photo Studio",
       "description": "Take cute photos of your pet!"
+    },
+    "hideAndSeek": {
+      "name": "Hide and Seek",
+      "description": "Find the hidden pets!"
+    },
+    "starCatcher": {
+      "name": "Star Catcher",
+      "description": "Catch the falling stars!"
     }
   },
   "balloonFloat": {
@@ -878,6 +886,41 @@
       "stickers": "Stickers",
       "gallery": "Gallery",
       "takePhoto": "Take Photo!"
+    }
+  },
+  "hideAndSeek": {
+    "home": {
+      "title": "Hide and Seek",
+      "subtitle": "Find the hidden pets!",
+      "play": "Play",
+      "instructions": "Tap on the hiding spots to find cute pets before time runs out!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "found": "Found",
+      "totalFound": "Total Pets Found",
+      "score": "Score",
+      "petsFound": "Pets Found",
+      "gameOver": "Game Over",
+      "playAgain": "Play Again",
+      "watchAd": "🎬 Watch Ad to Double!"
+    }
+  },
+  "starCatcher": {
+    "home": {
+      "title": "Star Catcher",
+      "subtitle": "Catch the falling stars!",
+      "play": "Play",
+      "instructions": "Tap the stars as they fall from the sky! Catch shooting stars for bonus points!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "score": "Score",
+      "streak": "Streak",
+      "finalScore": "Final Score",
+      "gameOver": "Game Over",
+      "playAgain": "Play Again",
+      "watchAd": "🎬 Watch Ad to Double!"
     }
   },
   "shapeSorter": {
