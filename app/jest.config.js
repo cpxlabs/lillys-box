@@ -21,7 +21,12 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(jpg|jpeg|png|gif|svg|mp3|wav|ogg)$': '<rootDir>/__mocks__/fileMock.js',
+    '^expo/src/async-require/messageSocket$': '<rootDir>/__mocks__/emptyMock.js',
     '^react-native/Libraries/BatchedBridge/NativeModules$': '<rootDir>/__mocks__/NativeModulesMock.js',
+    '^expo-modules-core/src/polyfill/dangerous-internal$': '<rootDir>/__mocks__/expoPolyfillMock.js',
+    '^expo/src/winter/FormData$': '<rootDir>/__mocks__/emptyMock.js',
+    '^expo/src/winter$': '<rootDir>/__mocks__/emptyMock.js',
+    '^expo/virtual/streams$': '<rootDir>/__mocks__/emptyMock.js',
   },
   globals: {
     'ts-jest': {
