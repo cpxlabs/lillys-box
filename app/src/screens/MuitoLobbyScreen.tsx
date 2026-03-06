@@ -36,7 +36,7 @@ export const MuitoLobbyScreen: React.FC<Props> = ({ navigation }) => {
   const [joinCode, setJoinCode] = useState('');
   const [activeTab, setActiveTab] = useState<'host' | 'join'>('host');
 
-  const normalizeRoomCode = (value: string) => value.toUpperCase().replace(/[^A-Z0-9]/g, '');
+  const normalizeRoomCode = (value: string) => value.replace(/[^A-Za-z0-9]/g, '').toUpperCase();
 
   // Connect on mount; reset any leftover room state from a previous game
   useEffect(() => {
@@ -71,7 +71,7 @@ export const MuitoLobbyScreen: React.FC<Props> = ({ navigation }) => {
   };
 
   const handleJoinRoom = () => {
-    const normalizedCode = normalizeRoomCode(joinCode.trim());
+    const normalizedCode = normalizeRoomCode(joinCode);
     if (!normalizedCode) {
       // inline validation — no server round-trip needed
       return;
