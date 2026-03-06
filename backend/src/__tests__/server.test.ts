@@ -25,12 +25,20 @@ describe('Backend – health endpoint', () => {
 
 describe('Backend – CORS policy', () => {
   let server: FastifyInstance;
+  const originalNodeEnv = process.env.NODE_ENV;
+  const originalAllowedOrigins = process.env.ALLOWED_ORIGINS;
 
   beforeEach(() => {
     server = buildServer();
   });
 
   afterEach(async () => {
+    process.env.NODE_ENV = originalNodeEnv;
+    if (originalAllowedOrigins === undefined) {
+      delete process.env.ALLOWED_ORIGINS;
+    } else {
+      process.env.ALLOWED_ORIGINS = originalAllowedOrigins;
+    }
     await server.close();
   });
 
@@ -43,7 +51,10 @@ describe('Backend – CORS policy', () => {
   });
 
   it('reflects origin when ALLOWED_ORIGINS is not set', async () => {
+    process.env.NODE_ENV = 'development';
     delete process.env.ALLOWED_ORIGINS;
+    await server.close();
+    server = buildServer();
     const response = await server.inject({
       method: 'GET',
       url: '/health',
@@ -51,6 +62,19 @@ describe('Backend – CORS policy', () => {
     });
     expect(response.statusCode).toBe(200);
     expect(response.headers['access-control-allow-origin']).toBe('http://localhost:3000');
+  });
+
+  it('blocks cross-origin requests in production when ALLOWED_ORIGINS is not set', async () => {
+    process.env.NODE_ENV = 'production';
+    delete process.env.ALLOWED_ORIGINS;
+    await server.close();
+    server = buildServer();
+    const response = await server.inject({
+      method: 'GET',
+      url: '/health',
+      headers: { origin: 'https://attacker.com' },
+    });
+    expect(response.headers['access-control-allow-origin']).toBeUndefined();
   });
 
   it('blocks disallowed origins when ALLOWED_ORIGINS is set', async () => {

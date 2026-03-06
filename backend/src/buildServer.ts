@@ -11,19 +11,23 @@ export function buildServer() {
   // Plugins
   // ---------------------------------------------------------------------------
   // CORS – use an explicit allowlist in production; reflect origin in development only.
+  const isProduction = process.env.NODE_ENV === 'production';
   const allowedOrigins = process.env.ALLOWED_ORIGINS
-    ? process.env.ALLOWED_ORIGINS.split(',').map((o) => o.trim())
-    : null;
+    ? process.env.ALLOWED_ORIGINS.split(',').map((o) => o.trim()).filter(Boolean)
+    : [];
+  const hasAllowlist = allowedOrigins.length > 0;
 
   server.register(cors, {
     origin: (origin, cb) => {
       // Always allow requests with no origin (e.g., mobile apps, curl)
       if (!origin) return cb(null, true);
-      // In development (no explicit allowlist configured) reflect the origin
-      if (!allowedOrigins) return cb(null, true);
-      // In production, only allow listed origins
-      if (allowedOrigins.includes(origin)) return cb(null, true);
-      cb(new Error('Not allowed by CORS'), false);
+      // Always enforce allowlist when configured
+      if (hasAllowlist && allowedOrigins.includes(origin)) return cb(null, true);
+      if (hasAllowlist) return cb(new Error('Not allowed by CORS'), false);
+      // In production with no allowlist, block cross-origin browser requests by default
+      if (isProduction) return cb(new Error('Not allowed by CORS'), false);
+      // In non-production with no explicit allowlist configured, reflect the origin
+      return cb(null, true);
     },
     methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
   });
