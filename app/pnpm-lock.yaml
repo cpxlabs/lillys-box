@@ -1,5 +1,8 @@
 lockfileVersion: '9.0'
 
+overrides:
+  minimatch: ^3.1.5
+
 settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
@@ -4892,9 +4895,6 @@ packages:
     resolution: {integrity: sha512-oRjTw/97aTBN0RHbYCdtF1MQfvusSIBQM0IZEgzl6426+8jSC0nF1a/GmnVLpfB9yyr6g6FTqWqiZVbxrtaCIg==}
     engines: {node: 18 || 20 || >=22}
 
-  minimatch@3.1.2:
-    resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
-
   minimatch@3.1.5:
     resolution: {integrity: sha512-VgjWUsnnT6n+NUk6eZq77zeFdpW2LWDzP6zFGrCbHXiYNul5Dzqk2HHQ5uFH2DNW5Xbp8+jVzaeNt94ssEEl4w==}
 
@@ -7686,7 +7686,7 @@ snapshots:
     dependencies:
       '@eslint/object-schema': 2.1.7
       debug: 4.4.3
-      minimatch: 3.1.2
+      minimatch: 3.1.5
     transitivePeerDependencies:
       - supports-color
 
@@ -7707,7 +7707,7 @@ snapshots:
       ignore: 5.3.2
       import-fresh: 3.3.1
       js-yaml: 4.1.1
-      minimatch: 3.1.2
+      minimatch: 3.1.5
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
@@ -7772,7 +7772,7 @@ snapshots:
       json-schema-deref-sync: 0.13.0
       lodash.debounce: 4.0.8
       md5hex: 1.0.0
-      minimatch: 3.1.2
+      minimatch: 3.1.5
       minipass: 3.3.6
       node-fetch: 2.7.0
       node-forge: 1.3.3
@@ -11092,7 +11092,7 @@ snapshots:
       estraverse: 5.3.0
       hasown: 2.0.2
       jsx-ast-utils: 3.3.5
-      minimatch: 3.1.2
+      minimatch: 3.1.5
       object.entries: 1.1.9
       object.fromentries: 2.0.8
       object.values: 1.2.1
@@ -11146,7 +11146,7 @@ snapshots:
       is-glob: 4.0.3
       json-stable-stringify-without-jsonify: 1.0.1
       lodash.merge: 4.6.2
-      minimatch: 3.1.2
+      minimatch: 3.1.5
       natural-compare: 1.4.0
       optionator: 0.9.4
     transitivePeerDependencies:
@@ -13202,10 +13202,6 @@ snapshots:
   minimatch@10.2.4:
     dependencies:
       brace-expansion: 5.0.4
-
-  minimatch@3.1.2:
-    dependencies:
-      brace-expansion: 1.1.12
 
   minimatch@3.1.5:
     dependencies:
