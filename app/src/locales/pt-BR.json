@@ -894,7 +894,7 @@
     },
     "game": {
       "found": "Encontrados",
-      "totalFound": "Pets Encontrados",
+      "totalFound": "Total de Pets Encontrados",
       "score": "Pontuação",
       "petsFound": "Pets Encontrados",
       "gameOver": "Fim de Jogo",

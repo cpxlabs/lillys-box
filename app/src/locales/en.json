@@ -894,7 +894,7 @@
     },
     "game": {
       "found": "Found",
-      "totalFound": "Pets Found",
+      "totalFound": "Total Pets Found",
       "score": "Score",
       "petsFound": "Pets Found",
       "gameOver": "Game Over",
