@@ -99,11 +99,11 @@ export default [
     files: ['src/**/__tests__/**/*.{ts,tsx}', 'src/**/*.test.{ts,tsx}', 'src/**/*.spec.{ts,tsx}'],
     rules: {
       // `any` is commonly needed in mocks and test assertions
-      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-explicit-any': 'off',
       // require() is often used in Jest mocks (jest.mock(...), require(...))
-      '@typescript-eslint/no-require-imports': 'warn',
+      '@typescript-eslint/no-require-imports': 'off',
       // Test Consumer components intentionally assign to outer-scope variables
-      'react-hooks/globals': 'warn',
+      'react-hooks/globals': 'off',
     },
   },
 ];
