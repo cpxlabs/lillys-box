@@ -53,7 +53,7 @@ const nativeModules = {
   PlatformConstants: {
     getConstants() {
       return {
-        reactNativeVersion: { major: 1000, minor: 0, patch: 0 },
+        reactNativeVersion: { major: 0, minor: 77, patch: 3 },
       };
     },
   },
