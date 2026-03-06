@@ -424,6 +424,10 @@
     "photoStudio": {
       "name": "Photo Studio",
       "description": "Take cute photos of your pet!"
+    },
+    "hideAndSeek": {
+      "name": "Hide and Seek",
+      "description": "Find the hidden pets!"
     }
   },
   "balloonFloat": {
@@ -878,6 +882,23 @@
       "stickers": "Stickers",
       "gallery": "Gallery",
       "takePhoto": "Take Photo!"
+    }
+  },
+  "hideAndSeek": {
+    "home": {
+      "title": "Hide and Seek",
+      "subtitle": "Find the hidden pets!",
+      "play": "Play",
+      "instructions": "Tap on the hiding spots to find cute pets before time runs out!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "found": "Found",
+      "totalFound": "Total Pets Found",
+      "score": "Score",
+      "petsFound": "Pets Found",
+      "gameOver": "Game Over",
+      "playAgain": "Play Again"
     }
   },
   "shapeSorter": {

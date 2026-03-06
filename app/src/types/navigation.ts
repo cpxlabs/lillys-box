@@ -58,6 +58,8 @@ export type RootStackParamList = {
   FeedThePetGame: undefined;
   GardenGrowHome: undefined;
   GardenGrowGame: undefined;
+  HideAndSeekHome: undefined;
+  HideAndSeekGame: undefined;
   JigsawPetsHome: undefined;
   JigsawPetsGame: undefined;
   LightningTapHome: undefined;
