@@ -24,8 +24,8 @@ importers:
         specifier: ^16.1.1
         version: 16.1.1(expo@50.0.21(@babel/core@7.28.6)(@react-native/babel-preset@0.83.2(@babel/core@7.28.6))(react-native@0.73.2(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6))(react@18.2.0))(react@18.2.0))(react-native@0.73.2(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6))(react@18.2.0))(react@18.2.0)
       '@react-native/assets-registry':
-        specifier: ^0.83.1
-        version: 0.83.1
+        specifier: ^0.84.1
+        version: 0.84.1
       '@react-navigation/native':
         specifier: ^6.1.9
         version: 6.1.18(react-native@0.73.2(@babel/core@7.28.6)(@babel/preset-env@7.28.6(@babel/core@7.28.6))(react@18.2.0))(react@18.2.0)
@@ -1659,8 +1659,8 @@ packages:
     resolution: {integrity: sha512-2FgAbU7uKM5SbbW9QptPPZx8N9Ke2L7bsHb+EhAanZjFZunA9PaYtyjUQ1s7HD+zDVqOQIvjkpXSv7Kejd2tqg==}
     engines: {node: '>=18'}
 
-  '@react-native/assets-registry@0.83.1':
-    resolution: {integrity: sha512-AT7/T6UwQqO39bt/4UL5EXvidmrddXrt0yJa7ENXndAv+8yBzMsZn6fyiax6+ERMt9GLzAECikv3lj22cn2wJA==}
+  '@react-native/assets-registry@0.84.1':
+    resolution: {integrity: sha512-lAJ6PDZv95FdT9s9uhc9ivhikW1Zwh4j9XdXM7J2l4oUA3t37qfoBmTSDLuPyE3Bi+Xtwa11hJm0BUTT2sc/gg==}
     engines: {node: '>= 20.19.4'}
 
   '@react-native/babel-plugin-codegen@0.73.2':
@@ -8825,7 +8825,7 @@ snapshots:
 
   '@react-native/assets-registry@0.73.1': {}
 
-  '@react-native/assets-registry@0.83.1': {}
+  '@react-native/assets-registry@0.84.1': {}
 
   '@react-native/babel-plugin-codegen@0.73.2(@babel/preset-env@7.28.6(@babel/core@7.28.6))':
     dependencies:
