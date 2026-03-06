@@ -1,0 +1,9 @@
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/app"
+    schedule:
+      interval: "weekly"
+    ignore:
+      - dependency-name: "tar"
+      - dependency-name: "@tootallnate/once"
