@@ -11,7 +11,6 @@ import {
   StyleSheet,
   SafeAreaView,
   ScrollView,
-  FlatList,
 } from 'react-native';
 import { EmojiIcon } from '../../components/EmojiIcon';
 import { LanguageSelector } from '../../components/LanguageSelector';

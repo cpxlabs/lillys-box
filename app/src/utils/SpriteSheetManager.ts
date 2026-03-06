@@ -1,4 +1,4 @@
-import { Image, ImageRequireSource } from 'react-native';
+import { Image } from 'react-native';
 import { AnimationState, PetType, PetColor } from '../types';
 import {
   SpriteSheetDefinition,
