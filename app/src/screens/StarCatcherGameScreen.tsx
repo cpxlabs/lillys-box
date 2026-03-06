@@ -62,6 +62,19 @@ export const StarCatcherGameScreen: React.FC<Props> = ({ navigation }) => {
   const starsRef = useRef<Star[]>([]);
   const levelRef = useRef(0);
 
+  const resetGame = useCallback(() => {
+    setScore(0);
+    setStreak(0);
+    setTimeLeft(GAME_DURATION);
+    setGameOver(false);
+    setStars([]);
+    starsRef.current = [];
+    scoreRef.current = 0;
+    streakRef.current = 0;
+    levelRef.current = 0;
+    gameActiveRef.current = true;
+  }, []);
+
   const removeStar = useCallback((id: number) => {
     setStars(prev => {
       const next = prev.filter(s => s.id !== id);
@@ -191,11 +204,11 @@ export const StarCatcherGameScreen: React.FC<Props> = ({ navigation }) => {
                   disabled={adRewardPending}
                 >
                   <Text style={styles.modalButtonText}>
-                    {adRewardPending ? t('common.loading', { defaultValue: 'Loading...' }) : '🎬 Watch Ad to Double!'}
+                    {adRewardPending ? t('common.loading', { defaultValue: 'Loading...' }) : t('starCatcher.game.watchAd')}
                   </Text>
                 </TouchableOpacity>
 
-                <TouchableOpacity style={styles.modalButton} onPress={() => { setScore(0); setStreak(0); setTimeLeft(GAME_DURATION); setGameOver(false); setStars([]); starsRef.current = []; scoreRef.current = 0; streakRef.current = 0; levelRef.current = 0; gameActiveRef.current = true; }}>
+                <TouchableOpacity style={styles.modalButton} onPress={resetGame}>
                   <Text style={styles.modalButtonText}>{t('starCatcher.game.playAgain')}</Text>
                 </TouchableOpacity>
               </>
