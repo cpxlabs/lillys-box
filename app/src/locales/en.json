@@ -428,6 +428,10 @@
     "hideAndSeek": {
       "name": "Hide and Seek",
       "description": "Find the hidden pets!"
+    },
+    "starCatcher": {
+      "name": "Star Catcher",
+      "description": "Catch the falling stars!"
     }
   },
   "balloonFloat": {
@@ -897,6 +901,22 @@
       "totalFound": "Total Pets Found",
       "score": "Score",
       "petsFound": "Pets Found",
+      "gameOver": "Game Over",
+      "playAgain": "Play Again"
+    }
+  },
+  "starCatcher": {
+    "home": {
+      "title": "Star Catcher",
+      "subtitle": "Catch the falling stars!",
+      "play": "Play",
+      "instructions": "Tap the stars as they fall from the sky! Catch shooting stars for bonus points!",
+      "bestScore": "Best Score"
+    },
+    "game": {
+      "score": "Score",
+      "streak": "Streak",
+      "finalScore": "Final Score",
       "gameOver": "Game Over",
       "playAgain": "Play Again"
     }

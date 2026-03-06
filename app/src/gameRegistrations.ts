@@ -65,6 +65,8 @@ import { PhotoStudioProvider } from './context/PhotoStudioContext';
 import { PhotoStudioNavigator } from './screens/PhotoStudioNavigator';
 import { HideAndSeekProvider } from './context/HideAndSeekContext';
 import { HideAndSeekNavigator } from './screens/HideAndSeekNavigator';
+import { StarCatcherProvider } from './context/StarCatcherContext';
+import { StarCatcherNavigator } from './screens/StarCatcherNavigator';
 
 export function registerAllGames() {
   if (gameRegistry.getAllGames().length > 0) return;
@@ -242,4 +244,6 @@ export function registerAllGames() {
   gameRegistry.register({ id: 'photo-studio', nameKey: 'selectGame.photoStudio.name', descriptionKey: 'selectGame.photoStudio.description', emoji: '\uD83D\uDCF8', category: 'casual', navigator: PhotoStudioNavigator, providers: [PhotoStudioProvider], isEnabled: true });
 
   gameRegistry.register({ id: 'hide-and-seek', nameKey: 'selectGame.hideAndSeek.name', descriptionKey: 'selectGame.hideAndSeek.description', emoji: '\uD83E\uDEE3', category: 'casual', navigator: HideAndSeekNavigator, providers: [HideAndSeekProvider], isEnabled: true });
+
+  gameRegistry.register({ id: 'star-catcher', nameKey: 'selectGame.starCatcher.name', descriptionKey: 'selectGame.starCatcher.description', emoji: '\u2B50', category: 'casual', navigator: StarCatcherNavigator, providers: [StarCatcherProvider], isEnabled: true });
 }
