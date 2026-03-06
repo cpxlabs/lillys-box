@@ -21,6 +21,9 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(jpg|jpeg|png|gif|svg|mp3|wav|ogg)$': '<rootDir>/__mocks__/fileMock.js',
+    '^react-native/Libraries/BatchedBridge/NativeModules$': '<rootDir>/__mocks__/NativeModulesMock.js',
+    '^expo/src/winter/runtime(\\.native)?$': '<rootDir>/__mocks__/expoWinterRuntime.js',
+    '^expo/src/winter/ImportMetaRegistry$': '<rootDir>/__mocks__/expoImportMetaRegistry.js',
   },
   globals: {
     'ts-jest': {
