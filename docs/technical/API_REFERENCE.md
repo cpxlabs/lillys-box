@@ -637,7 +637,7 @@ const handleSignIn = async () => {
 
 **Location:** `src/hooks/useGameBestScore.ts`
 
-Shared hook for per-user best score persistence across all 29 game contexts. Eliminates ~60 lines of duplicated AsyncStorage logic per context.
+Shared hook for per-user best score persistence across all 34 game contexts. Eliminates ~60 lines of duplicated AsyncStorage logic per context.
 
 **Returns:**
 ```typescript

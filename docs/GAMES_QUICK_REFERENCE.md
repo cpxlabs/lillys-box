@@ -209,4 +209,24 @@ In `src/locales/pt-br.json`:
 
 ## 🐛 Common Issues
 
-| Issue | Solution |\n|-------|----------|\n| Best score not saving | Check AsyncStorage key format: `@game_xxx` |\n| Timer not starting | Call `start()` in useEffect |\n| Context value undefined | Ensure provider wraps screens |\n| Memory leak warning | Cleanup timers: `return () => clearInterval()` |\n| Component re-renders too much | Use `React.memo()` or refs for game loops |\n\n---\n\n## 📊 Games by Category\n\n**32 games total**\n- Casual: 11\n- Puzzle: 8  \n- Adventure: 4\n- Pet Care: 1\n- Multiplayer: 1\n\n---\n\n**Happy game developing! 🎮✨**\n
+| Issue | Solution |
+|-------|----------|
+| Best score not saving | Check AsyncStorage key format: `@game_xxx` |
+| Timer not starting | Call `start()` in useEffect |
+| Context value undefined | Ensure provider wraps screens |
+| Memory leak warning | Cleanup timers: `return () => clearInterval()` |
+| Component re-renders too much | Use `React.memo()` or refs for game loops |
+
+---
+
+## 📊 Games by Category
+
+**34 games total**
+- Pet Care: 1
+- Casual: 19
+- Puzzle: 10
+- Adventure: 4
+
+---
+
+**Happy game developing! 🎮✨**

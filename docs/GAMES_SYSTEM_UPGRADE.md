@@ -239,29 +239,27 @@ Game Screen
 
 ---
 
-## Current Games (32 Total)
+## Current Games (34 Total)
 
 ### Categories
 
 **Pet Care** (1)
 - pet-care
 
-**Casual** (11)
-- color-tap, dress-up-relay, feed-the-pet, whack-a-mole
+**Casual** (19)
+- muito, color-tap, dress-up-relay, feed-the-pet, whack-a-mole
 - catch-the-ball, bubble-pop, pet-dance-party, treasure-dig
 - balloon-float, paint-splash, snack-stack, lightning-tap
 - pet-chef, music-maker, garden-grow, photo-studio
+- hide-and-seek, star-catcher
 
-**Puzzle** (8)
+**Puzzle** (10)
 - memory-match, simon-says, color-mixer, sliding-puzzle
-- shape-sorter, mirror-match-new, word-bubbles, jigsaw-pets
-- connect-dots, path-finder
+- path-finder, shape-sorter, mirror-match-new, word-bubbles
+- jigsaw-pets, connect-dots
 
 **Adventure** (4)
 - pet-runner, pet-explorer, weather-wizard, pet-taxi
-
-**Other** (2)
-- muito (multiplayer grid)
 
 ---
 
@@ -297,7 +295,7 @@ Game Screen
 Each game is independently lazy-loaded. Total bundle estimated:
 - Core app: ~500KB
 - Per game: ~50-150KB
-- Total with all 32 games: ~4-5MB (not all loaded at once)
+- Total with all 34 games: ~4-5MB (not all loaded at once)
 
 ### Optimization Strategies
 
