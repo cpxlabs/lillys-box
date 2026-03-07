@@ -1,22 +1,22 @@
 # Complete Code Review — Pet Care Game
 
 **Date:** 2026-03-05  
-**Repository:** `cpxlabs/pet-care-game`
+**Repository:** `cpxlabs/lillys-box`
 
 ---
 
 ## 1) Scope and Method
 
 This review covered:
-- Frontend application (`/home/runner/work/pet-care-game/pet-care-game/app`)
-- Backend service (`/home/runner/work/pet-care-game/pet-care-game/backend`)
+- Frontend application (`/home/runner/work/lillys-box/lillys-box/app`)
+- Backend service (`/home/runner/work/lillys-box/lillys-box/backend`)
 - Quality/tooling readiness (lint, tests, build)
 - Security-sensitive runtime configuration and dependency posture
 
 Baseline commands executed before drafting this report:
-1. `cd /home/runner/work/pet-care-game/pet-care-game/app && npm run lint` → **failed**
-2. `cd /home/runner/work/pet-care-game/pet-care-game/app && npm test -- --runInBand` → **failed**
-3. `cd /home/runner/work/pet-care-game/pet-care-game/backend && npm run build` → **passed**
+1. `cd /home/runner/work/lillys-box/lillys-box/app && npm run lint` → **failed**
+2. `cd /home/runner/work/lillys-box/lillys-box/app && npm test -- --runInBand` → **failed**
+3. `cd /home/runner/work/lillys-box/lillys-box/backend && npm run build` → **passed**
 
 Environment note: app dependencies required `npm install --legacy-peer-deps` in this sandbox to install.
 

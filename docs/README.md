@@ -21,6 +21,7 @@ Complete documentation for the Lilly's Box pet care game project.
 - [GAMES_SYSTEM_UPGRADE.md](GAMES_SYSTEM_UPGRADE.md) - Complete game architecture and tooling
 - [GAMES_QUICK_REFERENCE.md](GAMES_QUICK_REFERENCE.md) - Game development cheatsheet
 - [GAMES_ARCHITECTURE.md](GAMES_ARCHITECTURE.md) - Visual architecture diagrams
+- [GAME_CREATION.md](guides/GAME_CREATION.md) - Step-by-step game creation guide
 
 ### Design System
 - [design-system/](design-system/) - UI screens, components, games documentation
@@ -29,12 +30,12 @@ Complete documentation for the Lilly's Box pet care game project.
 
 ## Project Overview
 
-**Lilly's Box** is a comprehensive platform of interactive experiences for families and children, available on Android, iOS, and web. Built with React Native/Expo, it combines pet care gameplay with 30+ engaging mini-games.
+**Lilly's Box** is a comprehensive platform of interactive experiences for families and children, available on Android, iOS, and web. Built with React Native/Expo, it combines pet care gameplay with 34 mini-games.
 
 ### Key Features
 
 **Platform Core:**
-- 🎮 **30+ diverse mini-games** - Reflexo, memory, puzzle, creative, and more
+- 🎮 **34 diverse mini-games** - Reflexo, memory, puzzle, creative, and more
 - 🐱🐶 **Pet care system** - Create, customize, and nurture virtual pets
 - 👨‍👩‍👧‍👦 **Family-friendly experiences** - Design for all ages
 
@@ -70,17 +71,17 @@ docs/
 ├── guides/
 │   ├── BUILD.md                # Building for all platforms
 │   ├── RESPONSIVE.md           # Responsive design guide
+│   ├── GAME_CREATION.md        # Step-by-step game creation
 │   └── FOLDER_STRUCTURE.md     # Project folder layout
 ├── technical/
 │   ├── AUTHENTICATION.md       # OAuth & auth system
 │   ├── API_REFERENCE.md        # Complete API docs
-│   └── ACTIONS.md              # Pet actions system
+│   ├── ACTIONS.md              # Pet actions system
+│   └── CODE_REVIEW.md          # Engineering review & roadmap
 ├── testing/
 │   └── TESTING.md              # E2E, game, unit tests
 ├── design-system/
 │   └── (23 UI & game docs)
-└── plans/
-    └── SKIA_BATH_REIMPLEMENTATION_PLAN.md
 ```
 
 ---
@@ -109,6 +110,9 @@ docs/
 
 **...understand the API**
 → [API_REFERENCE.md](technical/API_REFERENCE.md)
+
+**...create a new game**
+→ [GAME_CREATION.md](guides/GAME_CREATION.md)
 
 ---
 
@@ -277,11 +281,12 @@ const MyScreen = () => {
 
 ### State Management
 
+- **AdContext** - Advertisement state
 - **AuthContext** - Global auth state
 - **PetContext** - Global pet state (with debounced saves)
 - **LanguageContext** - i18n state
 - **ToastContext** - Toast notifications
-- **GameContexts** - Per-game best scores
+- **GameContexts** - Per-game state and best scores (34 game contexts)
 
 ### Data Storage
 
@@ -374,7 +379,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
 
 - Multi-platform support (Android, iOS, Web)
 - OAuth authentication with fallback
-- 30+ mini-games
+- 34 mini-games
 - Responsive design
 - Comprehensive testing
 - Multi-language support
@@ -382,7 +387,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
 
 ---
 
-**Last Updated**: 2026-03-05
+**Last Updated**: 2026-03-07
 
 **Maintained By**: Lilly's Box Development Team
 
