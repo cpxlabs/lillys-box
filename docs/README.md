@@ -13,6 +13,7 @@ Complete documentation for the Lilly's Box pet care game project.
 - [AUTHENTICATION.md](technical/AUTHENTICATION.md) - OAuth setup and auth system
 - [API_REFERENCE.md](technical/API_REFERENCE.md) - Complete API documentation
 - [ACTIONS.md](technical/ACTIONS.md) - Pet actions system (feed, play, bathe, etc.)
+- [EMULATOR.md](technical/EMULATOR.md) - Phased plan for a GBA-style emulator experience
 
 ### Testing
 - [TESTING.md](testing/TESTING.md) - E2E tests (Maestro), game tests, unit tests
@@ -110,6 +111,9 @@ docs/
 
 **...understand the API**
 → [API_REFERENCE.md](technical/API_REFERENCE.md)
+
+**...evaluate the GBA emulator proposal**
+→ [EMULATOR.md](technical/EMULATOR.md)
 
 **...create a new game**
 → [GAME_CREATION.md](guides/GAME_CREATION.md)
