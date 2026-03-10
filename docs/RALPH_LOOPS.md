@@ -305,11 +305,14 @@ opencode --model claude-sonnet-4-6 "$(cat PROMPT.md)"
 
 This project uses Ralph in two ways:
 
-### 1. Data Analytics Pipelines (`scripts/ralph/`)
+### 1. Data Analytics Pipelines (Planned)
 
-The `scripts/ralph/` directory uses the **ralph Python tool** for processing game event data. This is separate from the AI coding loop methodology but shares the same name and concept of iterative, scheduled automation.
+> **Note:** The `scripts/ralph/` pipeline described below is a planned future addition.
+> It has not yet been implemented in the codebase.
 
-**Directory structure:**
+The `scripts/ralph/` directory will use the **ralph Python tool** for processing game event data. This is separate from the AI coding loop methodology but shares the same name and concept of iterative, scheduled automation.
+
+**Planned directory structure:**
 
 ```
 scripts/ralph/
