@@ -53,6 +53,7 @@ Para informações detalhadas sobre o projeto, veja **[docs/README.md](./docs/RE
 - **[RESPONSIVE.md](./docs/guides/RESPONSIVE.md)** - Design responsivo
 - **[FOLDER_STRUCTURE.md](./docs/guides/FOLDER_STRUCTURE.md)** - Estrutura do projeto
 - **[API_REFERENCE.md](./docs/technical/API_REFERENCE.md)** - Documentação completa da API
+- **[EMULATOR.md](./docs/technical/EMULATOR.md)** - Plano técnico para uma experiência de emulador GBA-like
 - **[TESTING.md](./docs/testing/TESTING.md)** - E2E tests, game tests, unit tests
 
 ## 🛠️ Stack Tecnológica
