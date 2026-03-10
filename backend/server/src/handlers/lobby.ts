@@ -22,8 +22,11 @@ export function registerLobbyHandlers(
     });
   });
 
-  socket.on(Events.JOIN_ROOM, (payload: { code?: string }) => {
-    const code = (payload?.code || '').toUpperCase();
+  socket.on(Events.JOIN_ROOM, (payload: unknown) => {
+    const code = (typeof payload === 'object' && payload !== null && 'code' in payload
+      ? String((payload as Record<string, unknown>).code)
+      : ''
+    ).toUpperCase().replace(/[^A-Z0-9]/g, '');
     if (!code) {
       socket.emit(Events.ERROR, { message: 'Room code is required' });
       return;

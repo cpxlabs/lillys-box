@@ -36,16 +36,20 @@ export function registerGameHandlers(
     gameLoop.start();
   });
 
-  socket.on(Events.ANSWER, (payload: { option?: number }) => {
+  socket.on(Events.ANSWER, (payload: unknown) => {
     const room = roomManager.getRoomBySocket(socket.id);
     if (!room || !room.gameLoop) {
       socket.emit(Events.ERROR, { message: 'No active game' });
       return;
     }
-    if (typeof payload?.option !== 'number') {
+    const option =
+      typeof payload === 'object' && payload !== null && 'option' in payload
+        ? (payload as Record<string, unknown>).option
+        : undefined;
+    if (typeof option !== 'number' || !Number.isInteger(option)) {
       socket.emit(Events.ERROR, { message: 'Invalid answer format' });
       return;
     }
-    room.gameLoop.handleAnswer(userId, payload.option);
+    room.gameLoop.handleAnswer(userId, option);
   });
 }
