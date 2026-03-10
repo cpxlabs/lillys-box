@@ -1,5 +1,31 @@
 // Minimal mocks for testing utilities
 
+// expo@55 + jest-expo@55 installs lazy property getters for several globals via
+// expo/src/winter/runtime.native (installGlobal). Those getters capture the
+// setup-file require(), which jest@30 refuses to call after leaveTestCode().
+// Re-define each affected global with a static value here (after jest-expo's
+// setup file has run) so the deferred require never fires during tests.
+const _winterGlobals = {
+  __ExpoImportMetaRegistry: { url: '' },
+  // The rest are already available in Node.js; restore the built-in values so
+  // tests see real implementations rather than broken lazy getters.
+  structuredClone: typeof structuredClone !== 'undefined' ? structuredClone : undefined,
+  TextDecoder: typeof TextDecoder !== 'undefined' ? TextDecoder : undefined,
+  TextDecoderStream: typeof TextDecoderStream !== 'undefined' ? TextDecoderStream : undefined,
+  URL: typeof URL !== 'undefined' ? URL : undefined,
+  URLSearchParams: typeof URLSearchParams !== 'undefined' ? URLSearchParams : undefined,
+};
+for (const [key, value] of Object.entries(_winterGlobals)) {
+  if (value !== undefined) {
+    Object.defineProperty(global, key, {
+      value,
+      configurable: true,
+      writable: true,
+      enumerable: false,
+    });
+  }
+}
+
 // Mock @react-native/js-polyfills to avoid Flow syntax errors
 jest.mock('@react-native/js-polyfills/error-guard', () => ({}));
 

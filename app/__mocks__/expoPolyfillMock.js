@@ -2,9 +2,9 @@
  * Mock for expo-modules-core/src/polyfill/dangerous-internal.
  *
  * In expo@55 this polyfill installs JSI-based globals (EventEmitter,
- * NativeModule, SharedObject, etc.) on globalThis.expo.  When running tests
- * against expo@50 we only need to make the object exist; individual tests mock
- * whichever expo-modules they actually need.
+ * NativeModule, SharedObject, etc.) on globalThis.expo.  This mock satisfies
+ * the import so individual tests can mock whichever expo-modules they actually
+ * need.
  */
 module.exports = {
   installExpoGlobalPolyfill: function () {
