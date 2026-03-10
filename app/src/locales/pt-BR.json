@@ -421,6 +421,10 @@
       "name": "Garden Grow",
       "description": "Cultive um lindo jardim!"
     },
+    "gbaEmulator": {
+      "name": "Console Retrô",
+      "description": "Um shell seguro para jogos de GBA do próprio usuário."
+    },
     "photoStudio": {
       "name": "Photo Studio",
       "description": "Tire fotos fofas do seu pet!"
@@ -432,6 +436,35 @@
     "starCatcher": {
       "name": "Caça-Estrelas",
       "description": "Pegue as estrelas cadentes!"
+    }
+  },
+  "gbaEmulator": {
+    "home": {
+      "subtitle": "Comece com um shell de biblioteca amigável antes de qualquer emulação real.",
+      "recentGamesTitle": "Jogos recentes",
+      "emptyStateTitle": "Nenhuma ROM importada ainda",
+      "emptyStateDescription": "Esta primeira etapa foca no shell do emulador: importação, jogos recentes, ajuda de controles e mensagens seguras para famílias.",
+      "libraryReadyTitle": "Biblioteca pronta",
+      "libraryReadyDescription": "{{count}} jogos recentes estão prontos para abrir na sua biblioteca.",
+      "importButton": "Importar ROM (em breve)",
+      "playerPreview": "Abrir prévia do player",
+      "controlsTitle": "Ajuda de controles",
+      "controlsDescription": "A experiência completa terá controles touch grandes com ações simples de pausar, salvar e sair.",
+      "legalTitle": "Aviso aos responsáveis",
+      "legalDescription": "Use apenas backups compatíveis de ROMs que pertencem ao usuário. Lilly's Box não inclui jogos comerciais nem arquivos de BIOS.",
+      "featureFlagNote": "Este shell permanece oculto no seletor de jogos até que desempenho, UX e detalhes legais sejam validados."
+    },
+    "game": {
+      "title": "Shell do player",
+      "viewportLabel": "Área de visualização",
+      "emptyStateTitle": "Nenhuma ROM carregada ainda",
+      "emptyStateDescription": "A área do player está pronta para uma futura ponte do emulador, mas esta primeira etapa permanece intencionalmente no shell de estado vazio.",
+      "readyTitle": "Prévia de abertura da biblioteca",
+      "readyDescription": "Uma atualização futura iniciará a ROM selecionada aqui quando a ponte estiver pronta.",
+      "controlsTitle": "Prévia do layout touch",
+      "controlsDescription": "Lado esquerdo para o direcional, lado direito para A/B, além de Start e Select em uma sobreposição fácil de alcançar.",
+      "saveStateHint": "Os botões de save state aparecerão aqui depois que o carregamento de ROM e a persistência forem implementados.",
+      "returnToLibrary": "Voltar para a biblioteca"
     }
   },
   "balloonFloat": {
