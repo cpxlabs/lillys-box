@@ -292,10 +292,14 @@
       "favorites": "Favoritos"
     },
     "categories": {
-      "pet": "Pet",
-      "puzzle": "Puzzle",
+      "pet": "Cuidado de Pets",
+      "petDescription": "Cuide dos seus pets virtuais!",
+      "puzzle": "Raciocínio",
+      "puzzleDescription": "Resolva puzzles e treine o raciocínio!",
       "adventure": "Aventura",
-      "casual": "Casual"
+      "adventureDescription": "Explore mundos emocionantes!",
+      "casual": "Diversão",
+      "casualDescription": "Diversão para qualquer momento!"
     },
     "petCare": {
       "name": "Pet Care",

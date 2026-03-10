@@ -292,10 +292,14 @@
       "favorites": "Favorites"
     },
     "categories": {
-      "pet": "Pet",
-      "puzzle": "Puzzle",
+      "pet": "Pet Care",
+      "petDescription": "Take care of your virtual pets!",
+      "puzzle": "Brain Games",
+      "puzzleDescription": "Solve puzzles and train your brain!",
       "adventure": "Adventure",
-      "casual": "Casual"
+      "adventureDescription": "Explore exciting worlds!",
+      "casual": "Quick Play",
+      "casualDescription": "Fun games for any moment!"
     },
     "petCare": {
       "name": "Pet Care",
