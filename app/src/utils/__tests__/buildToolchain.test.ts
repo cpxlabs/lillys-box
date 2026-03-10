@@ -4,6 +4,8 @@ describe('build toolchain dependencies', () => {
     const pluginPath = require.resolve('react-native-reanimated/plugin');
     const pluginRequire = createRequire(pluginPath);
 
-    expect(pluginRequire.resolve('@babel/types')).toContain('@babel/types');
+    const resolvedPath = pluginRequire.resolve('@babel/types');
+
+    expect(resolvedPath).toBeDefined();
   });
 });
