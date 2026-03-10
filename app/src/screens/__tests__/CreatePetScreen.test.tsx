@@ -10,19 +10,23 @@ jest.mock('../../context/PetContext', () => ({
 }));
 
 jest.mock('react-native-reanimated', () => {
-  const Reanimated = require('react-native-reanimated/mock');
-
-  // The mock for `call` immediately calls the callback which is incorrect
-  // So we override it with a no-op
-  Reanimated.default.call = () => {};
-
+  const { View } = require('react-native');
+  const Animated = {
+    View,
+    createAnimatedComponent: (component: React.ComponentType) => component,
+  };
   return {
-    ...Reanimated,
+    __esModule: true,
+    default: Animated,
     useSharedValue: jest.fn((val) => ({ value: val })),
     useAnimatedStyle: jest.fn((cb) => cb()),
     withSpring: jest.fn((val) => val),
     withTiming: jest.fn((val) => val),
     withSequence: jest.fn((...args) => args[args.length - 1]),
+    withRepeat: jest.fn((val) => val),
+    cancelAnimation: jest.fn(),
+    Easing: { out: jest.fn((fn) => fn), linear: jest.fn() },
+    runOnJS: jest.fn((fn) => fn),
   };
 });
 
@@ -62,7 +66,6 @@ const mockNavigation = {
   canGoBack: jest.fn(),
   getParent: jest.fn(),
   getState: jest.fn(),
-   
 } as unknown as any;
 
 describe('CreatePetScreen', () => {
@@ -73,7 +76,9 @@ describe('CreatePetScreen', () => {
   });
 
   it('has accessible character count', () => {
-    const { getByLabelText, getByPlaceholderText } = render(<CreatePetScreen navigation={mockNavigation} />);
+    const { getByLabelText, getByPlaceholderText } = render(
+      <CreatePetScreen navigation={mockNavigation} />
+    );
 
     // Initially empty name
     const input = getByPlaceholderText('createPet.namePlaceholder');
