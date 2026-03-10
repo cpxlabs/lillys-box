@@ -70,7 +70,7 @@ importers:
         version: 55.0.7(expo@55.0.5)(react-native@0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.0(@babel/core@7.29.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)(typescript@5.9.3)
       expo-router:
         specifier: ~3.4.10
-        version: 3.4.10(2roit3njgoscz7biw6zxdyepii)
+        version: 3.4.10(9f615a59d4650fef4fb95c186874f6a7)
       expo-status-bar:
         specifier: ~1.11.1
         version: 1.11.1
@@ -132,6 +132,9 @@ importers:
       '@babel/preset-flow':
         specifier: ^7.27.1
         version: 7.27.1(@babel/core@7.29.0)
+      '@babel/types':
+        specifier: ^7.29.0
+        version: 7.29.0
       '@eslint/js':
         specifier: ^9.39.2
         version: 9.39.3
@@ -7156,7 +7159,7 @@ snapshots:
       ws: 8.19.0
       zod: 3.25.76
     optionalDependencies:
-      expo-router: 3.4.10(2roit3njgoscz7biw6zxdyepii)
+      expo-router: 3.4.10(9f615a59d4650fef4fb95c186874f6a7)
       react-native: 0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.0(@babel/core@7.29.0))(@types/react@18.2.79)(react@18.2.0)
     transitivePeerDependencies:
       - '@expo/dom-webview'
@@ -7570,7 +7573,7 @@ snapshots:
       react: 18.2.0
     optionalDependencies:
       '@expo/metro-runtime': 55.0.6(@expo/dom-webview@55.0.3)(expo@55.0.5)(react-dom@18.2.0(react@18.2.0))(react-native@0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.0(@babel/core@7.29.0))(@types/react@18.2.79)(react@18.2.0))(react@18.2.0)
-      expo-router: 3.4.10(2roit3njgoscz7biw6zxdyepii)
+      expo-router: 3.4.10(9f615a59d4650fef4fb95c186874f6a7)
       react-dom: 18.2.0(react@18.2.0)
     transitivePeerDependencies:
       - supports-color
@@ -10336,7 +10339,7 @@ snapshots:
       react: 18.2.0
       react-native: 0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.0(@babel/core@7.29.0))(@types/react@18.2.79)(react@18.2.0)
 
-  expo-router@3.4.10(2roit3njgoscz7biw6zxdyepii):
+  expo-router@3.4.10(9f615a59d4650fef4fb95c186874f6a7):
     dependencies:
       '@expo/metro-runtime': 3.1.3(react-native@0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.0(@babel/core@7.29.0))(@types/react@18.2.79)(react@18.2.0))
       '@expo/server': 0.3.1
