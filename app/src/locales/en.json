@@ -440,6 +440,10 @@
     "starCatcher": {
       "name": "Star Catcher",
       "description": "Catch the falling stars!"
+    },
+    "kidsChess": {
+      "name": "Kids Chess",
+      "description": "Learn chess with hints & friendly pets!"
     }
   },
   "gbaEmulator": {
@@ -956,6 +960,30 @@
       "streak": "Streak",
       "finalScore": "Final Score",
       "gameOver": "Game Over",
+      "playAgain": "Play Again",
+      "watchAd": "🎬 Watch Ad to Double!"
+    }
+  },
+  "kidsChess": {
+    "title": "♟️ Kids Chess",
+    "subtitle": "Play chess with friendly pets!",
+    "instructions": "Tap a piece to see where it can move. Use hints anytime — no penalties!",
+    "bestScore": "Best Score",
+    "chooseDifficulty": "Choose your opponent:",
+    "play": "Play Chess",
+    "difficulty": {
+      "puppy": "🐶 Puppy — Biscuit",
+      "puppyDesc": "Easiest — great for first-timers!",
+      "kitten": "🐱 Kitten — Mochi",
+      "kittenDesc": "Easy — a little trickier!",
+      "bunny": "🐰 Bunny — Clover",
+      "bunnyDesc": "Medium — thinks one move ahead.",
+      "fox": "🦊 Fox — Finn",
+      "foxDesc": "Hard — plans two moves ahead!",
+      "owl": "🦉 Owl — Luna",
+      "owlDesc": "Expert — plays like a chess player!"
+    },
+    "gameOver": {
       "playAgain": "Play Again",
       "watchAd": "🎬 Watch Ad to Double!"
     }

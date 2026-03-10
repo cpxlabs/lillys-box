@@ -440,6 +440,10 @@
     "starCatcher": {
       "name": "Caça-Estrelas",
       "description": "Pegue as estrelas cadentes!"
+    },
+    "kidsChess": {
+      "name": "Xadrez Infantil",
+      "description": "Aprenda xadrez com dicas e pets amigáveis!"
     }
   },
   "gbaEmulator": {
@@ -956,6 +960,30 @@
       "streak": "Sequência",
       "finalScore": "Pontuação Final",
       "gameOver": "Fim de Jogo",
+      "playAgain": "Jogar Novamente",
+      "watchAd": "🎬 Assista ao Anúncio para Dobrar!"
+    }
+  },
+  "kidsChess": {
+    "title": "♟️ Xadrez Infantil",
+    "subtitle": "Jogue xadrez com pets amigáveis!",
+    "instructions": "Toque numa peça para ver onde ela pode mover. Use dicas a qualquer momento — sem penalidades!",
+    "bestScore": "Melhor Pontuação",
+    "chooseDifficulty": "Escolha seu adversário:",
+    "play": "Jogar Xadrez",
+    "difficulty": {
+      "puppy": "🐶 Filhote — Biscuit",
+      "puppyDesc": "Mais fácil — ótimo para iniciantes!",
+      "kitten": "🐱 Gatinho — Mochi",
+      "kittenDesc": "Fácil — um pouquinho mais difícil!",
+      "bunny": "🐰 Coelhinho — Clover",
+      "bunnyDesc": "Médio — pensa um movimento à frente.",
+      "fox": "🦊 Raposa — Finn",
+      "foxDesc": "Difícil — planeja dois movimentos!",
+      "owl": "🦉 Coruja — Luna",
+      "owlDesc": "Expert — joga como um xadrezista!"
+    },
+    "gameOver": {
       "playAgain": "Jogar Novamente",
       "watchAd": "🎬 Assista ao Anúncio para Dobrar!"
     }
