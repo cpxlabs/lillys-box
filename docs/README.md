@@ -8,6 +8,7 @@ Complete documentation for the Lilly's Box pet care game project.
 - [BUILD.md](guides/BUILD.md) - Building for web, Android, iOS
 - [RESPONSIVE.md](guides/RESPONSIVE.md) - Responsive design system
 - [FOLDER_STRUCTURE.md](guides/FOLDER_STRUCTURE.md) - Project structure
+- [LOAD_ROMS.md](guides/LOAD_ROMS.md) - Loading games in GBA Emulator
 
 ### Authentication & Development
 - [AUTHENTICATION.md](technical/AUTHENTICATION.md) - OAuth setup and auth system
@@ -114,6 +115,9 @@ docs/
 
 **...evaluate the GBA emulator proposal**
 → [EMULATOR.md](technical/EMULATOR.md)
+
+**...load ROMs into the GBA emulator**
+→ [LOAD_ROMS.md](guides/LOAD_ROMS.md)
 
 **...create a new game**
 → [GAME_CREATION.md](guides/GAME_CREATION.md)
