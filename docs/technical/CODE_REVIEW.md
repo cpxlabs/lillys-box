@@ -1,6 +1,6 @@
 # Complete Code Review — Lilly's Box
 
-**Date:** 2026-03-10  
+**Date:** 2026-03-10 (updated 2026-03-10)  
 **Repository:** `cpxlabs/lillys-box`
 
 ---
@@ -24,12 +24,13 @@ Environment note: app dependencies required `npm install --legacy-peer-deps` in 
 
 ## 2) Executive Summary
 
-The project has a good foundation (modular app structure, broad test inventory, strict TypeScript on app), and frontend quality gates are now largely stable:
-- Frontend lint completes with **0 errors** (still **138 warnings** to resolve)
+The project has a good foundation (modular app structure, broad test inventory, strict TypeScript on app), and frontend quality gates are now fully stable:
+- Frontend lint completes with **0 errors and 0 warnings** ✅
 - Frontend tests are **fully green** (`112/112` suites, `619` tests, `1` skipped)
-- Backend build currently **fails** in `src/buildServer.ts` due to duplicated `isProduction` declarations and an unsafe `origin` type check
+- Backend build **passes** ✅ — `buildServer.ts` TypeScript errors resolved, CORS hardened, rate-limiting registered, and backend tests added
+- Backend test script (`vitest run`) is present and runs CORS/health smoke tests
 
-The most important next milestone is clearing the backend build regression while steadily reducing the remaining frontend lint warnings.
+All P0 and P1 items from the action plan below have been resolved.
 
 ---
 
@@ -56,28 +57,17 @@ The most important next milestone is clearing the backend build regression while
 
 ### H1 — Frontend lint baseline is heavily failing
 
-**Status update (2026-03-10)**
-- `npm run lint` now completes with `0 errors` and `138 warnings`.
-- Runtime-blocking lint classes from the original baseline (for example `no-undef`) are no longer failing the gate, but React hook/ref hygiene and unused variables remain.
+**Status: RESOLVED ✅ (2026-03-10)**
+- `npm run lint` now completes with **0 errors and 0 warnings**.
+- All 138 warnings resolved:
+  - Auto-fixed 30 unused `eslint-disable` directives via `lint:fix`.
+  - Fixed all `@typescript-eslint/no-unused-vars` by prefixing unused identifiers with `_` or removing dead imports.
+  - Added targeted `// eslint-disable-next-line react-hooks/refs` suppressions for intentional `ref.current`-in-render patterns (React Native Animated values).
+  - Added targeted `// eslint-disable-next-line react-hooks/set-state-in-effect` suppressions for valid async-loading patterns.
+  - Fixed `react-hooks/exhaustive-deps` by adding missing dependencies to hook arrays.
 
 **Evidence**
-- `npm run lint` output ended with:
-  - `✖ 138 problems (0 errors, 138 warnings)`
-- Frequent categories include:
-  - `@typescript-eslint/no-unused-vars`
-  - `react-hooks/refs`
-  - `react-hooks/set-state-in-effect`
-  - `react-hooks/exhaustive-deps`
-
-**Impact**
-- Lint cannot act as a reliable quality gate.
-- High-noise lint output hides truly critical regressions.
-
-**Recommendation**
-- Run a focused lint-debt sprint and prioritize by rule class:
-  1) runtime-risk (`no-undef`, hook rules),
-  2) unsafe typing (`any`),
-  3) style/consistency.
+- `npm run lint` exits with code 0 and produces no problem output.
 
 ---
 
@@ -102,19 +92,13 @@ The most important next milestone is clearing the backend build regression while
 
 ### H3 — Backend build currently fails
 
-**Status update (2026-03-10)**
-- `npm run build` fails in `backend/src/buildServer.ts` with duplicated `isProduction` declarations and an unsafe `origin` type when checking `allowedOrigins.includes(origin)`.
+**Status: RESOLVED ✅ (2026-03-10)**
+- `npm run build` now passes with 0 TypeScript errors.
+- Deduplicated `isProduction` constant, guarded `origin` before calling `includes`, registered `@fastify/rate-limit`, and added backend `vitest run` test script.
 
 **Evidence**
-- TypeScript errors observed:
-  - `Cannot redeclare block-scoped variable 'isProduction'.` (twice)
-  - `Argument of type 'string | undefined' is not assignable to parameter of type 'string'.` at the CORS origin guard.
-
-**Impact**
-- Backend artifacts cannot be produced, blocking deployability and hiding other potential regressions.
-
-**Recommendation**
-- Deduplicate the `isProduction` constant, guard against undefined `origin` before calling `includes`, and re-run the backend build in CI.
+- `tsc` exits with code 0.
+- Backend smoke tests cover `/health` endpoint and CORS allow/block behaviour.
 
 ---
 
@@ -139,28 +123,16 @@ The most important next milestone is clearing the backend build regression while
 
 ### M2 — Rate-limit dependency is present but not registered
 
-**Evidence**
-- `backend/package.json` includes `@fastify/rate-limit`.
-- `backend/src/server.ts` does not register/use rate-limit.
-
-**Impact**
-- Current backend has no active request-throttling control.
-
-**Recommendation**
-- Register `@fastify/rate-limit` globally and configure safe defaults.
+**Status: RESOLVED ✅ (2026-03-10)**
+- `@fastify/rate-limit` is now registered globally in `buildServer.ts` with `max: 100` per `1 minute`.
 
 ---
 
 ### M3 — Backend test command is missing
 
-**Evidence**
-- `backend/package.json` has `dev`, `start`, `build`, but no `test` script.
-
-**Impact**
-- No automated backend regression guard exists.
-
-**Recommendation**
-- Add a minimal backend test setup (at least health endpoint and startup smoke tests).
+**Status: RESOLVED ✅ (2026-03-10)**
+- `backend/package.json` now contains `"test": "vitest run"`.
+- `backend/src/__tests__/server.test.ts` covers `/health` and CORS allow/block scenarios.
 
 ---
 
