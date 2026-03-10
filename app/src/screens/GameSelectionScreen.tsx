@@ -442,6 +442,26 @@ export const GameSelectionScreen: React.FC<Props> = () => {
         </ScrollView>
       </View>
 
+      {/* Category description banner */}
+      {selectedCategory !== null && (() => {
+        const bannerColors = CATEGORY_COLORS[selectedCategory] || CATEGORY_COLORS.casual;
+        return (
+          <View style={[styles.categoryBanner, { backgroundColor: bannerColors.bg }]}>
+            <Text style={styles.categoryBannerEmoji}>
+              {CATEGORY_EMOJI[selectedCategory] || '🎮'}
+            </Text>
+            <View style={styles.categoryBannerText}>
+              <Text style={[styles.categoryBannerName, { color: bannerColors.text }]}>
+                {t(`selectGame.categories.${selectedCategory}`)}
+              </Text>
+              <Text style={styles.categoryBannerDescription}>
+                {t(`selectGame.categories.${selectedCategory}Description`)}
+              </Text>
+            </View>
+          </View>
+        );
+      })()}
+
       {/* Sort controls */}
       <View style={styles.sortSection}>
         <Text style={styles.sortLabel}>{t('selectGame.sortBy')}</Text>
@@ -744,6 +764,31 @@ const styles = StyleSheet.create({
   categoryChipText: {
     fontSize: 13,
     fontWeight: '600',
+  },
+  categoryBanner: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 16,
+    marginBottom: 8,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+    borderRadius: 14,
+  },
+  categoryBannerEmoji: {
+    fontSize: 24,
+    marginRight: 10,
+  },
+  categoryBannerText: {
+    flex: 1,
+  },
+  categoryBannerName: {
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  categoryBannerDescription: {
+    fontSize: 12,
+    color: '#666',
+    marginTop: 1,
   },
   sortSection: {
     flexDirection: 'row',
