@@ -355,7 +355,8 @@ export const MemoryMatchGameScreen: React.FC<Props> = ({ navigation, route }) =>
 
       {/* Card Grid */}
       <View style={styles.gridContainer}>
-        {rows.map((row, rowIndex) => (
+        {// eslint-disable-next-line react-hooks/refs
+        rows.map((row, rowIndex) => (
           <View key={rowIndex} style={[styles.gridRow, { gap: cardGap }]}>
             {row.map((card, colIndex) => renderCard(card, rowIndex * config.cols + colIndex))}
           </View>

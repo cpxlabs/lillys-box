@@ -11,7 +11,7 @@ type Props = { navigation: ScreenNavigationProp<'PetDancePartyGame'> };
 const { height: SH } = Dimensions.get('window');
 const DIRECTIONS = ['⬆️', '⬇️', '⬅️', '➡️'] as const;
 type Direction = typeof DIRECTIONS[number];
-const HIT_ZONE_Y = SH * 0.75;
+const _HIT_ZONE_Y = SH * 0.75;
 const ARROW_TRAVEL = SH * 0.8;
 const ARROW_SPEED = 2000;
 const GAME_DURATION = 60;
@@ -145,7 +145,7 @@ export const PetDancePartyGameScreen: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={styles.tapButtons}>
-        {(['⬆️', '⬇️', '⬅️', '➡️'] as Direction[]).map((dir, i) => (
+        {(['⬆️', '⬇️', '⬅️', '➡️'] as Direction[]).map((dir, _i) => (
           <TouchableOpacity key={dir} style={styles.tapBtn} onPress={() => handleTap(dir)} activeOpacity={0.7}>
             <Text style={styles.tapBtnText}>{dir}</Text>
           </TouchableOpacity>
@@ -161,7 +161,7 @@ export const PetDancePartyGameScreen: React.FC<Props> = ({ navigation }) => {
             {!adRewardPending && (
               <TouchableOpacity style={styles.modalButton} onPress={async () => {
                 setAdRewardPending(true);
-                const reward = await triggerAd('game_ended', score);
+                const _reward = await triggerAd('game_ended', score);
                 setAdRewardPending(false);
               }}>
                 <Text style={styles.modalButtonText}>🎬 {t('petDanceParty.game.playAgain')}</Text>

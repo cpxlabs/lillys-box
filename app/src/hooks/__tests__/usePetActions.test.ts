@@ -3,7 +3,7 @@
  */
 
 import React from 'react';
-import { renderHook, act, waitFor } from '@testing-library/react-native';
+import { renderHook, act, waitFor as _waitFor } from '@testing-library/react-native';
 import { ActionType } from '../../config/actionConfig';
 import { usePetActions } from '../usePetActions';
 import { Pet } from '../../types';
@@ -403,9 +403,9 @@ describe('usePetActions', () => {
       const { result } = renderHook(() => usePetActions());
       
       // Start first action (fire and forget for this test pattern, but we need to advance time)
-      let feedPromise: any;
+      let _feedPromise: any;
       await act(async () => {
-        feedPromise = result.current.performAction('feed');
+        _feedPromise = result.current.performAction('feed');
         jest.advanceTimersByTime(10);
       });
       
@@ -456,7 +456,7 @@ describe('usePetActions', () => {
       
       // After cancellation, we expect state to potentially return to idle or be handled by context
       // The promise might resolve with completed: false (or whatever the mock does if cancelled, but here we just check the call)
-      const res = await sleepPromise; 
+      const _res = await sleepPromise; 
       expect(result.current.animationState).toBe('idle');
     });
   });

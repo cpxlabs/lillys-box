@@ -122,7 +122,7 @@ export const CreatePetScreen: React.FC<Props> = ({ navigation }) => {
       const sanitizedName = sanitizePetName(name);
       await createPet(sanitizedName, petType, gender, color);
       navigation.replace('Home');
-    } catch (error) {
+    } catch {
       showToast(t('common.error') || 'Failed to create pet. Please try again.', 'error');
     }
   };

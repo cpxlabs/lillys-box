@@ -40,7 +40,7 @@ export const WordBubblesGameScreen: React.FC<Props> = ({ navigation }) => {
   const [shake, setShake] = useState(false);
 
   const currentWord = WORDS[wordIndex];
-  const answer = tapped.map(i => letters[i]).join('');
+  const _answer = tapped.map(i => letters[i]).join('');
 
   const tapLetter = useCallback((index: number) => {
     if (tapped.includes(index)) return;
@@ -124,7 +124,7 @@ export const WordBubblesGameScreen: React.FC<Props> = ({ navigation }) => {
             {!adRewardPending && (
               <TouchableOpacity style={styles.modalButton} onPress={async () => {
                 setAdRewardPending(true);
-                const reward = await triggerAd('game_ended', score);
+                const _reward = await triggerAd('game_ended', score);
                 setAdRewardPending(false);
               }}><Text style={styles.modalButtonText}>🎬 {t('common.watchAdForReward')}</Text></TouchableOpacity>
             )}

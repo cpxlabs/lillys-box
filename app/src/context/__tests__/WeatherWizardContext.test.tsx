@@ -2,7 +2,7 @@ import React from 'react';
 import { Text } from 'react-native';
 import { render, act } from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { WeatherWizardProvider, useWeatherWizard, Difficulty } from '../WeatherWizardContext';
+import { WeatherWizardProvider, useWeatherWizard } from '../WeatherWizardContext';
 
 jest.mock('../AuthContext', () => ({
   useAuth: () => ({ user: { id: 'test-user-117' }, isGuest: false }),

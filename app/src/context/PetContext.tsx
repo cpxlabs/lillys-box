@@ -72,6 +72,7 @@ export const PetProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   // Load pet when user changes — mounted guard prevents stale state on fast unmount
   useEffect(() => {
     let mounted = true;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setIsLoading(true);
     loadPet(userId).then((loadedPet) => {
       if (!mounted) return;

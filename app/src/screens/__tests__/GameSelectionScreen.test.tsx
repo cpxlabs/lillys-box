@@ -40,9 +40,9 @@ jest.mock('../../registry/GameRegistry', () => ({
 
 jest.mock('../../components/EmojiIcon', () => ({
   EmojiIcon: ({ size }: { size?: number }) => {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
+     
     const React = require('react');
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
+     
     const { Text } = require('react-native');
     return React.createElement(Text, null, `emoji-size-${size ?? 0}`);
   },

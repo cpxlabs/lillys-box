@@ -11,7 +11,7 @@ import {
 import { useTranslation } from 'react-i18next';
 import { useWhackAMole } from '../context/WhackAMoleContext';
 import { ScreenNavigationProp } from '../types/navigation';
-import { getRandomPest, getRandomFriendly, getRandomPowerUp, PowerUpItem } from '../data/whackAMoleItems';
+import { getRandomPest, getRandomFriendly, getRandomPowerUp } from '../data/whackAMoleItems';
 import { useGameBack } from '../hooks/useGameBack';
 import { useGameAdTrigger } from '../components/GameAdWrapper';
 

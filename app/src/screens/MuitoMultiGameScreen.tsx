@@ -184,7 +184,7 @@ export const MuitoMultiGameScreen: React.FC<Props> = ({ navigation }) => {
 
       {/* answer options */}
       <View style={styles.optionsContainer}>
-        {puzzle.options.map((option, idx) => {
+        {puzzle.options.map((option, _idx) => {
           const buttonStyles: object[] = [styles.optionButton];
           const textStyles: object[] = [styles.optionText];
 

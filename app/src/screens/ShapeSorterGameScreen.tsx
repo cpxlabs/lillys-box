@@ -87,7 +87,7 @@ export const ShapeSorterGameScreen: React.FC<Props> = ({ navigation }) => {
 
       <Text style={styles.sectionTitle}>{t('shapeSorter.game.holes')}</Text>
       <View style={styles.holesRow}>
-        {targets.map((target, i) => (
+        {targets.map((target, _i) => (
           <TouchableOpacity
             key={target.shape.id}
             style={[styles.hole, target.solved && styles.holeSolved]}
@@ -101,7 +101,7 @@ export const ShapeSorterGameScreen: React.FC<Props> = ({ navigation }) => {
 
       <Text style={styles.sectionTitle}>{t('shapeSorter.game.shapes')}</Text>
       <View style={styles.shapesRow}>
-        {fallingShapes.map((shape, i) => (
+        {fallingShapes.map((shape, _i) => (
           <TouchableOpacity
             key={shape.id}
             style={[styles.shapeItem, selectedShape?.id === shape.id && styles.selectedShape]}
@@ -128,7 +128,7 @@ export const ShapeSorterGameScreen: React.FC<Props> = ({ navigation }) => {
             {!adRewardPending && (
               <TouchableOpacity style={styles.modalButton} onPress={async () => {
                 setAdRewardPending(true);
-                const reward = await triggerAd('game_ended', score);
+                const _reward = await triggerAd('game_ended', score);
                 setAdRewardPending(false);
               }}><Text style={styles.modalButtonText}>🎬 {t('shapeSorter.game.playAgain')}</Text></TouchableOpacity>
             )}

@@ -62,7 +62,7 @@ const mockNavigation = {
   canGoBack: jest.fn(),
   getParent: jest.fn(),
   getState: jest.fn(),
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
 } as unknown as any;
 
 describe('CreatePetScreen', () => {

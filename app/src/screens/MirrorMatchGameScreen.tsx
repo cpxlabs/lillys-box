@@ -37,7 +37,7 @@ export const MirrorMatchGameScreen: React.FC<Props> = ({ navigation }) => {
   const target = mirrorOf(pattern);
   const [userGrid, setUserGrid] = useState<(string | null)[]>(Array(GRID * GRID).fill(null));
   const [selectedColor, setSelectedColor] = useState<string | null>(COLORS[0]);
-  const [level, setLevel] = useState(1);
+  const [_level, _setLevel] = useState(1);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
@@ -120,7 +120,7 @@ export const MirrorMatchGameScreen: React.FC<Props> = ({ navigation }) => {
             {!adRewardPending && (
               <TouchableOpacity style={styles.modalButton} onPress={async () => {
                 setAdRewardPending(true);
-                const reward = await triggerAd('game_ended', score);
+                const _reward = await triggerAd('game_ended', score);
                 setAdRewardPending(false);
               }}><Text style={styles.modalButtonText}>🎬 {t('common.watchAdForReward')}</Text></TouchableOpacity>
             )}

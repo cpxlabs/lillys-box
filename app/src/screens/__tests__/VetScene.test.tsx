@@ -76,7 +76,7 @@ jest.mock('../../utils/logger', () => ({
 }));
 
 jest.mock('../../components/ScreenHeader', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+   
   const { View, Text, TouchableOpacity } = require('react-native');
   return {
     ScreenHeader: ({
@@ -99,7 +99,7 @@ jest.mock('../../components/ScreenHeader', () => {
 });
 
 jest.mock('../../components/PetRenderer', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+   
   const { View } = require('react-native');
   return { PetRenderer: () => <View testID="pet-renderer" /> };
 });
@@ -116,7 +116,7 @@ const mockNavigation = {
   goBack: mockGoBack,
   canGoBack: mockCanGoBack,
   getParent: mockGetParent,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
 } as unknown as any;
 
 describe('VetScene', () => {

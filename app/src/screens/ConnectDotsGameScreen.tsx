@@ -90,8 +90,6 @@ export const ConnectDotsGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={[styles.canvas, { width: CANVAS_W, height: CANVAS_H }]}>
         {connected.length > 0 && connected.map((ci, lineIdx) => {
           if (lineIdx + 1 >= connected.length) return null;
-          const a = pic.dots[connected[lineIdx]];
-          const b = pic.dots[connected[lineIdx + 1]];
           // Just show dots connected - simplified line rendering
           return null;
         })}
@@ -129,7 +127,7 @@ export const ConnectDotsGameScreen: React.FC<Props> = ({ navigation }) => {
             {!adRewardPending && (
               <TouchableOpacity style={styles.modalButton} onPress={async () => {
                 setAdRewardPending(true);
-                const reward = await triggerAd('game_ended', score);
+                const _reward = await triggerAd('game_ended', score);
                 setAdRewardPending(false);
               }}><Text style={styles.modalButtonText}>🎬 {t('connectDots.game.playAgain')}</Text></TouchableOpacity>
             )}

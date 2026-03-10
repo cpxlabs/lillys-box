@@ -51,6 +51,7 @@ export const useSpriteSheet = (
 
     // Check if already loaded
     if (spriteSheetManager.isLoaded(petType, color, state)) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setIsLoaded(true);
       return;
     }

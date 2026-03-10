@@ -118,8 +118,8 @@ export const GameSelectionScreen: React.FC<Props> = () => {
   const [sortBy, setSortBy] = useState<SortOption>('default');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [uiIndex, setUiIndex] = useState(0);
-  const [uiIndexLoaded, setUiIndexLoaded] = useState(false);
-  const [showPicker, setShowPicker] = useState(false);
+  const [_uiIndexLoaded, setUiIndexLoaded] = useState(false);
+  const [_showPicker, _setShowPicker] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
 
   // Load uiIndex from AsyncStorage on mount
@@ -551,7 +551,7 @@ type UISwitcherProps = {
   currentLabel: string;
 };
 
-const UISwitcher: React.FC<UISwitcherProps> = ({
+const _UISwitcher: React.FC<UISwitcherProps> = ({
   uiIndex,
   setUiIndex,
   showPicker,

@@ -51,7 +51,7 @@ export const BubblePopGameScreen: React.FC<Props> = ({ navigation }) => {
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
   const [bubbles, setBubbles] = useState<Bubble[]>([]);
   const [gameOver, setGameOver] = useState(false);
-  const [lastColorIndex, setLastColorIndex] = useState<number | null>(null);
+  const [_lastColorIndex, setLastColorIndex] = useState<number | null>(null);
   const [adRewardPending, setAdRewardPending] = useState(false);
 
   const scoreRef = useRef(0);

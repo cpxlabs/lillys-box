@@ -36,7 +36,7 @@ export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
   const { triggerAd } = useGameAdTrigger('simon-says');
   const [adRewardPending, setAdRewardPending] = useState(false);
 
-  const [sequence, setSequence] = useState<ColorId[]>([]);
+  const [_sequence, setSequence] = useState<ColorId[]>([]);
   const [playerSequence, setPlayerSequence] = useState<ColorId[]>([]);
   const [currentRound, setCurrentRound] = useState<number>(0);
   const [score, setScore] = useState<number>(0);
@@ -163,7 +163,7 @@ export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     startNewRound();
-  }, []);
+  }, [startNewRound]);
 
   const handlePlayAgain = useCallback(() => {
     sequenceRef.current = [];
@@ -221,7 +221,8 @@ export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={styles.buttonGrid}>
-        {COLORS.map((colorData) => (
+        {// eslint-disable-next-line react-hooks/refs
+        COLORS.map((colorData) => (
           <Animated.View
             key={colorData.id}
             style={[
@@ -276,7 +277,7 @@ export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
                 style={styles.playAgainButton}
                 onPress={async () => {
                   setAdRewardPending(true);
-                  const reward = await triggerAd('game_ended', score);
+                  const _reward = await triggerAd('game_ended', score);
                   setAdRewardPending(false);
                 }}
                 activeOpacity={0.85}

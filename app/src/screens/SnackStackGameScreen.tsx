@@ -9,7 +9,7 @@ import { useGameAdTrigger } from '../components/GameAdWrapper';
 type Props = { navigation: ScreenNavigationProp<'SnackStackGame'> };
 const { width: SW } = Dimensions.get('window');
 const FOODS = ['🍔', '🍕', '🥪', '🥞', '🍩', '🍣', '🌮', '🧁', '🍎', '🥕'];
-const PLATE_WIDTH = 80;
+const _PLATE_WIDTH = 80;
 const ITEM_SIZE = 50;
 
 interface StackItem { emoji: string; offset: number; }
@@ -22,9 +22,9 @@ export const SnackStackGameScreen: React.FC<Props> = ({ navigation }) => {
   const [stack, setStack] = useState<StackItem[]>([]);
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
-  const [fallingX] = useState(new Animated.Value(0));
+  const [_fallingX] = useState(new Animated.Value(0));
   const [currentFood, setCurrentFood] = useState(FOODS[0]);
-  const [fallAnim] = useState(new Animated.Value(0));
+  const [_fallAnim] = useState(new Animated.Value(0));
   const [adRewardPending, setAdRewardPending] = useState(false);
   // eslint-disable-next-line react-hooks/refs
   const swingAnim = useRef(new Animated.Value(0)).current; // Animated.Value ref – safe React Native pattern
@@ -32,7 +32,7 @@ export const SnackStackGameScreen: React.FC<Props> = ({ navigation }) => {
   const gameActiveRef = useRef(true);
   const stackRef = useRef<StackItem[]>([]);
   const fallingXRef = useRef(0);
-  const swingLoop = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const _swingLoop = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const startSwing = useCallback(() => {
     if (!gameActiveRef.current) return;

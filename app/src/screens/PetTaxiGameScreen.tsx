@@ -28,7 +28,7 @@ export const PetTaxiGameScreen: React.FC<Props> = ({ navigation }) => {
   const [delivered, setDelivered] = useState(0);
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
   const [gameOver, setGameOver] = useState(false);
-  const [coins, setCoins] = useState(0);
+  const [_coins, setCoins] = useState(0);
   const [gameKey, setGameKey] = useState(0);
 
   const scoreRef = useRef(0);

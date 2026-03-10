@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { usePhotoStudio } from '../context/PhotoStudioContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
-import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'PhotoStudioGame'> };
 
@@ -37,8 +36,6 @@ let photoId = 0;
 export const PhotoStudioGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = usePhotoStudio();
-  const { triggerAd } = useGameAdTrigger('photo-studio');
-  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const [bgIndex, setBgIndex] = useState(0);
   const [poseIndex, setPoseIndex] = useState(0);
@@ -119,7 +116,7 @@ export const PhotoStudioGameScreen: React.FC<Props> = ({ navigation }) => {
         {/* Props */}
         <Text style={styles.sectionLabel}>{t('photoStudio.game.props')}:</Text>
         <View style={styles.propsGrid}>
-          {PROPS.map((prop, i) => (
+          {PROPS.map((prop, _i) => (
             <TouchableOpacity key={prop} style={[styles.propBtn, activeProps.includes(prop) && styles.propSelected]} onPress={() => toggleProp(prop)}>
               <Text style={styles.propEmoji}>{prop}</Text>
             </TouchableOpacity>
@@ -129,7 +126,7 @@ export const PhotoStudioGameScreen: React.FC<Props> = ({ navigation }) => {
         {/* Stickers */}
         <Text style={styles.sectionLabel}>{t('photoStudio.game.stickers')}:</Text>
         <View style={styles.propsGrid}>
-          {STICKERS.map((sticker, i) => (
+          {STICKERS.map((sticker, _i) => (
             <TouchableOpacity key={sticker} style={[styles.propBtn, activeStickers.includes(sticker) && styles.propSelected]} onPress={() => toggleSticker(sticker)}>
               <Text style={styles.propEmoji}>{sticker}</Text>
             </TouchableOpacity>
