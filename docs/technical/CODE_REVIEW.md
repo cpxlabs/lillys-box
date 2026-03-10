@@ -1,22 +1,22 @@
-# Complete Code Review — Pet Care Game
+# Complete Code Review — Lilly's Box
 
-**Date:** 2026-03-05  
-**Repository:** `cpxlabs/pet-care-game`
+**Date:** 2026-03-10  
+**Repository:** `cpxlabs/lillys-box`
 
 ---
 
 ## 1) Scope and Method
 
 This review covered:
-- Frontend application (`/home/runner/work/pet-care-game/pet-care-game/app`)
-- Backend service (`/home/runner/work/pet-care-game/pet-care-game/backend`)
+- Frontend application (`/home/runner/work/lillys-box/lillys-box/app`)
+- Backend service (`/home/runner/work/lillys-box/lillys-box/backend`)
 - Quality/tooling readiness (lint, tests, build)
 - Security-sensitive runtime configuration and dependency posture
 
-Baseline commands executed before drafting this report:
-1. `cd /home/runner/work/pet-care-game/pet-care-game/app && npm run lint` → **failed**
-2. `cd /home/runner/work/pet-care-game/pet-care-game/app && npm test -- --runInBand` → **failed**
-3. `cd /home/runner/work/pet-care-game/pet-care-game/backend && npm run build` → **passed**
+Baseline commands executed before drafting this update:
+1. `cd /home/runner/work/lillys-box/lillys-box/app && npm run lint` → **passed with 138 warnings (0 errors)**
+2. `cd /home/runner/work/lillys-box/lillys-box/app && npm test -- --runInBand` → **passed** (`112/112` suites, `619` tests, `1` skipped)
+3. `cd /home/runner/work/lillys-box/lillys-box/backend && npm run build` → **failed** (TypeScript errors in `src/buildServer.ts`: duplicated `isProduction` declaration and unsafe `origin` typing when checking `allowedOrigins`)
 
 Environment note: app dependencies required `npm install --legacy-peer-deps` in this sandbox to install.
 
@@ -24,12 +24,12 @@ Environment note: app dependencies required `npm install --legacy-peer-deps` in 
 
 ## 2) Executive Summary
 
-The project has a good foundation (modular app structure, broad test inventory, strict TypeScript on app, successful backend compile), but engineering quality gates are currently not green:
-- Frontend lint has **538 findings** (`451 errors`, `87 warnings`)
-- Frontend tests currently report **105 failed suites** and only **3 passing suites**
-- Backend currently compiles, but production hardening defaults should be improved
+The project has a good foundation (modular app structure, broad test inventory, strict TypeScript on app), and frontend quality gates are now largely stable:
+- Frontend lint completes with **0 errors** (still **138 warnings** to resolve)
+- Frontend tests are **fully green** (`112/112` suites, `619` tests, `1` skipped)
+- Backend build currently **fails** in `src/buildServer.ts` due to duplicated `isProduction` declarations and an unsafe `origin` type check
 
-The most important next milestone is restoring a stable, green CI baseline for the app.
+The most important next milestone is clearing the backend build regression while steadily reducing the remaining frontend lint warnings.
 
 ---
 
@@ -44,8 +44,8 @@ The most important next milestone is restoring a stable, green CI baseline for t
 3. **Substantial test surface area exists**
    - `108` test files are present under `app/src`.
 
-4. **Backend build is currently healthy**
-   - `npm run build` in backend succeeded in this run.
+4. **Backend build issues are localized**
+   - Current TypeScript failures are confined to `backend/src/buildServer.ts`, indicating a targeted fix can restore the build.
 
 5. **Config hygiene in gitignore**
    - root `.gitignore` excludes `.env`, `.env.local`, and local variants.
@@ -56,17 +56,18 @@ The most important next milestone is restoring a stable, green CI baseline for t
 
 ### H1 — Frontend lint baseline is heavily failing
 
-**Status update (2026-03-06)**
-- `npm run lint` now completes with `0 errors` and `421 warnings` (mostly `@typescript-eslint/no-explicit-any` in test files).
-- Runtime-blocking lint classes from the original baseline (for example `no-undef`) are no longer failing the gate.
+**Status update (2026-03-10)**
+- `npm run lint` now completes with `0 errors` and `138 warnings`.
+- Runtime-blocking lint classes from the original baseline (for example `no-undef`) are no longer failing the gate, but React hook/ref hygiene and unused variables remain.
 
 **Evidence**
 - `npm run lint` output ended with:
-  - `✖ 538 problems (451 errors, 87 warnings)`
+  - `✖ 138 problems (0 errors, 138 warnings)`
 - Frequent categories include:
-  - `@typescript-eslint/no-explicit-any`
-  - `@typescript-eslint/no-require-imports`
-  - `no-undef` for browser globals (`window`, `Event`, `PromiseRejectionEvent`, `fetch`)
+  - `@typescript-eslint/no-unused-vars`
+  - `react-hooks/refs`
+  - `react-hooks/set-state-in-effect`
+  - `react-hooks/exhaustive-deps`
 
 **Impact**
 - Lint cannot act as a reliable quality gate.
@@ -82,25 +83,38 @@ The most important next milestone is restoring a stable, green CI baseline for t
 
 ### H2 — Frontend tests are not in a stable state
 
-**Status update (2026-03-06)**
-- `npm test -- --runInBand` now passes: `Test Suites: 109 passed, 109 total`.
-- React renderer compatibility and the deterministic AudioService key expectation mismatch are now green in the current baseline.
+**Status update (2026-03-10)**
+- `npm test -- --runInBand` is fully green: `Test Suites: 112 passed, 112 total`, `Tests: 1 skipped, 618 passed`.
+- Renderer compatibility and AudioService key expectations are aligned in the current baseline.
 
 **Evidence**
 - `npm test -- --runInBand` ended with:
-  - `Test Suites: 105 failed, 3 passed, 108 total`
-- Repeated systemic failure:
-  - `Incorrect version of "react-test-renderer" detected. Expected "18.2.0", but found "18.3.1"`
-- Also observed deterministic domain mismatch:
-  - `AudioService.test.ts` expects `bark/happy/meow/sad` but implementation returns `pet_bark/pet_happy/pet_meow/pet_sad`
+  - `Test Suites: 112 passed, 112 total`
+  - `Tests:       1 skipped, 618 passed, 619 total`
 
 **Impact**
-- Test pipeline cannot provide trustworthy regression detection.
-- New feature/test work will be expensive until the baseline is fixed.
+- Test pipeline is currently trustworthy for regression detection; keep it pinned to the validated toolchain.
 
 **Recommendation**
-- First, normalize dependency/toolchain versions (React + renderer + testing-library compatibility).
-- Then fix deterministic product-level test mismatches (e.g., audio key naming) with agreed canonical terminology.
+- Maintain the validated React/test-renderer/jest versions and rerun the suite after any dependency bump.
+
+---
+
+### H3 — Backend build currently fails
+
+**Status update (2026-03-10)**
+- `npm run build` fails in `backend/src/buildServer.ts` with duplicated `isProduction` declarations and an unsafe `origin` type when checking `allowedOrigins.includes(origin)`.
+
+**Evidence**
+- TypeScript errors observed:
+  - `Cannot redeclare block-scoped variable 'isProduction'.` (twice)
+  - `Argument of type 'string | undefined' is not assignable to parameter of type 'string'.` at the CORS origin guard.
+
+**Impact**
+- Backend artifacts cannot be produced, blocking deployability and hiding other potential regressions.
+
+**Recommendation**
+- Deduplicate the `isProduction` constant, guard against undefined `origin` before calling `includes`, and re-run the backend build in CI.
 
 ---
 
@@ -168,25 +182,27 @@ The most important next milestone is restoring a stable, green CI baseline for t
 
 ## 7) Recommended Action Plan (Ordered)
 
-1. **Stabilize app toolchain and tests (P0)**
-   - Resolve renderer/version mismatch first.
-   - Bring tests to a reliable baseline.
+1. **Restore backend build (P0)**
+   - Deduplicate `isProduction` and guard `origin` in `backend/src/buildServer.ts`, then re-run `npm run build`.
 
-2. **Reduce lint debt to green baseline (P0/P1)**
+2. **Maintain app toolchain and tests (P0/P1)**
+   - Keep React/jest/test-renderer versions pinned and rerun the suite after dependency bumps to preserve the green baseline.
+
+3. **Reduce lint debt to green baseline (P1)**
    - Tackle runtime/hook issues first, then type strictness cleanup.
 
-3. **Harden backend defaults (P1)**
+4. **Harden backend defaults (P1)**
    - Restrictive CORS configuration for non-dev.
    - Activate request rate limiting.
 
-4. **Establish backend automated tests (P1)**
+5. **Establish backend automated tests (P1)**
    - Add smoke-level tests and `npm test` script.
 
-5. **Unify package manager/lockfile policy (P2)**
+6. **Unify package manager/lockfile policy (P2)**
    - Remove ambiguity and update contributor docs.
 
 ---
 
 ## 8) Final Assessment
 
-This repository is structurally promising and already has many of the right building blocks. However, the current app quality baseline (lint/tests) is significantly unstable, which is the main blocker to confident iteration. Addressing test/toolchain stability and lint debt first will unlock safer feature development; backend hardening should follow immediately after baseline stabilization.
+This repository is structurally promising and already has many of the right building blocks. Frontend tests are green and lint is error-free but still noisy, while the backend build is currently blocked by localized TypeScript errors. Restoring the backend build and reducing lint warnings will unlock safer feature development; backend hardening should follow immediately after baseline stabilization.
