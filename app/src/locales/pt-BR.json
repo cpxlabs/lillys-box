@@ -458,7 +458,7 @@
       "title": "Shell do player",
       "viewportLabel": "Área de visualização",
       "emptyStateTitle": "Nenhuma ROM carregada ainda",
-      "emptyStateDescription": "A área do player está pronta para uma futura ponte do emulador, mas esta primeira etapa para intencionalmente no shell de estado vazio.",
+      "emptyStateDescription": "A área do player está pronta para uma futura ponte do emulador, mas esta primeira etapa permanece intencionalmente no shell de estado vazio.",
       "readyTitle": "Prévia de abertura da biblioteca",
       "readyDescription": "Uma atualização futura iniciará a ROM selecionada aqui quando a ponte estiver pronta.",
       "controlsTitle": "Prévia do layout touch",
