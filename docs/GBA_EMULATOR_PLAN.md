@@ -69,10 +69,12 @@ This approach:
 ## 2. Technology Stack
 
 ### Core Emulator
-- **mGBA** (MPL-2.0 license) — compiled to WebAssembly via Emscripten
-- **Emscripten SDK** — C/C++ to WASM compiler toolchain
+- **`@thenick775/mgba-wasm`** (npm package, v2.4.1) — Pre-built mGBA WASM binary, actively maintained
+- **GBAjs3** ([github.com/thenick775/gbajs3](https://github.com/thenick775/gbajs3)) — React wrapper around the WASM core, reference implementation
 - **HTML5 Canvas** — rendering target for video output
 - **Web Audio API** — audio output
+
+> **Key discovery:** A pre-built npm package (`@thenick775/mgba-wasm`) already exists, eliminating the need to compile mGBA from source with Emscripten. This dramatically reduces Phase 1 complexity.
 
 ### Integration Layer
 - **react-native-webview** (v13.6.4, already installed)
@@ -80,55 +82,71 @@ This approach:
 - **expo-file-system** or **expo-asset** for ROM file management
 - **AsyncStorage** for save states and emulator settings
 
+### Platform-Specific Considerations
+| Platform | WebAssembly | SharedArrayBuffer | Notes |
+|----------|-------------|-------------------|-------|
+| **Web (Expo export)** | Full support | Requires COOP/COEP headers | Best experience; can use `@thenick775/mgba-wasm` directly as React component |
+| **Android (WebView)** | Full support | Supported (Chromium-based) | Good performance via WebView |
+| **iOS (WKWebView)** | Supported | Historically inconsistent | May need single-threaded WASM build or pure-JS fallback |
+
+> **Important:** The mGBA WASM build uses pthreads (SharedArrayBuffer). The hosting environment must send these headers:
+> - `Cross-Origin-Opener-Policy: same-origin`
+> - `Cross-Origin-Embedder-Policy: require-corp`
+
 ### New Dependencies
 | Package | Purpose | Required? |
 |---------|---------|-----------|
+| `@thenick775/mgba-wasm` | Pre-built mGBA WASM core | Yes |
 | `expo-file-system` | ROM file picking & storage | Yes |
 | `expo-document-picker` | User ROM file selection | Yes |
-| None (build-time only) | Emscripten SDK for WASM compilation | Build-time |
 
 ---
 
 ## 3. Implementation Phases
 
-### Phase 1: WASM Build Pipeline (Foundation)
-**Goal:** Get mGBA compiled to WASM and running in a standalone HTML page.
+### Phase 1: Emulator Core Setup (Foundation)
+**Goal:** Get mGBA WASM running in a standalone HTML page using the pre-built npm package.
 
 #### Tasks:
-1. **Set up Emscripten build environment**
-   - Create `emulator/` directory at project root
-   - Add Dockerfile for reproducible WASM builds
-   - Script to clone mGBA source and compile with Emscripten
+1. **Install `@thenick775/mgba-wasm` from npm**
+   - `pnpm add @thenick775/mgba-wasm` (in the app workspace)
+   - This provides the pre-compiled `mgba.wasm` binary + JS glue code
+   - No Emscripten toolchain needed
 
-2. **Configure mGBA for WASM compilation**
-   - CMake configuration with Emscripten toolchain
-   - Disable unnecessary features (Qt, SDL frontend, debugger, scripting)
-   - Enable: core emulation, software rendering, audio via Web Audio
-   - Target flags: `-s WASM=1 -s USE_SDL=2 -s ALLOW_MEMORY_GROWTH=1`
-
-3. **Create minimal HTML5 shell**
-   - `emulator/shell.html` — Canvas + Audio context + input handling
-   - ROM loading via JavaScript (`Module.FS` / Emscripten virtual filesystem)
-   - Frame rendering to `<canvas>` element
+2. **Create the emulator HTML shell**
+   - `emulator/shell/index.html` — Canvas + Audio context + input handling + bridge JS
+   - Initialize the mGBA Module, pass it an `HTMLCanvasElement`
+   - Call `Module.FSInit()` to set up the virtual filesystem
+   - ROM loading via `Module.FS` (Emscripten virtual filesystem)
    - Keyboard/touch input mapping
+   - `postMessage` bridge for communication with React Native
 
-4. **Deliverable:** `emulator/dist/` with `mgba.wasm`, `mgba.js`, and `shell.html` that can load and run a GBA ROM in a browser.
+3. **Bundle the shell as a self-contained page**
+   - Inline the WASM loader JS into the HTML shell
+   - Copy `mgba.wasm` binary to `app/assets/emulator/`
+   - The HTML page must be self-contained for loading in WebView
 
-#### Key mGBA Emscripten build flags:
-```cmake
-# emulator/CMakeLists.emscripten.txt
-set(BUILD_QT OFF)
-set(BUILD_SDL OFF)
-set(BUILD_LIBRETRO OFF)
-set(BUILD_OPENGL OFF)
-set(USE_SQLITE3 OFF)
-set(USE_LIBZIP OFF)
-set(USE_FFMPEG OFF)
-set(USE_DISCORD_RPC OFF)
-set(USE_EDITLINE OFF)
-set(USE_GDB_STUB OFF)
-set(M_CORE_GBA ON)
-set(M_CORE_GB ON)
+4. **Deliverable:** A standalone HTML page in `app/assets/emulator/` that can load and run a GBA ROM in a browser.
+
+#### Reference: GBAjs3 initialization pattern
+```typescript
+// From @thenick775/mgba-wasm
+import mGBA from '@thenick775/mgba-wasm';
+
+const canvas = document.getElementById('canvas') as HTMLCanvasElement;
+const Module = await mGBA({ canvas });
+await Module.FSInit();
+// Load ROM into virtual FS, then start emulation
+Module.FS.writeFile('/rom.gba', romData);
+Module.loadGame('/rom.gba');
+```
+
+#### Custom build option (if npm package is insufficient):
+If the pre-built package doesn't meet requirements, a custom WASM build can be created from the `thenick775/mgba` fork (`feature/wasm` branch):
+```bash
+# Uses Docker with emscripten/emsdk:4.0.4
+cd src/platform/wasm
+npm run build:image && npm run build
 ```
 
 ---
@@ -296,25 +314,11 @@ set(M_CORE_GB ON)
 
 ```
 lillys-box/
-├── emulator/                          # WASM build pipeline (git-tracked)
-│   ├── Dockerfile                     # Emscripten build environment
-│   ├── build.sh                       # Build script
-│   ├── patches/                       # Any mGBA patches needed
-│   ├── shell/                         # HTML shell template
-│   │   ├── index.html                 # Main shell page
-│   │   ├── emulator.js                # JS bridge (WebView ↔ WASM)
-│   │   └── styles.css                 # Canvas styling
-│   └── dist/                          # Built artifacts (gitignored)
-│       ├── mgba.wasm
-│       ├── mgba.js
-│       └── index.html
-│
 ├── app/
 │   ├── assets/
-│   │   └── emulator/                  # Bundled WASM emulator files
-│   │       ├── mgba.wasm
-│   │       ├── mgba.js
-│   │       └── index.html
+│   │   └── emulator/                  # Self-contained emulator HTML bundle
+│   │       ├── index.html             # Shell page (canvas + bridge + WASM loader)
+│   │       └── mgba.wasm             # Copied from node_modules/@thenick775/mgba-wasm
 │   │
 │   └── src/
 │       ├── screens/
@@ -374,8 +378,9 @@ lillys-box/
 | Large ROM files (up to 32MB) | Medium | Stream ROM data in chunks; use SharedArrayBuffer if available |
 | WebView memory limits | Medium | Monitor memory usage; implement graceful degradation |
 | Save state size | Low | Compress save states (GBA states are ~300KB); limit slots |
-| iOS WebView restrictions | Medium | iOS WKWebView supports WASM; test thoroughly on Safari/WebKit |
-| Build pipeline complexity | Medium | Docker-based builds; pre-built WASM artifacts checked into repo |
+| iOS WebView (SharedArrayBuffer) | High | WKWebView has inconsistent SharedArrayBuffer support; use pure-JS fallback (react-gbajs) on iOS; runtime detection |
+| COOP/COEP headers (web export) | Low | Configure Vercel/hosting to send required headers for SharedArrayBuffer |
+| Build pipeline complexity | Low | Pre-built npm package eliminates Emscripten build step |
 
 ---
 
@@ -396,35 +401,51 @@ Phase 2 (WebView Bridge)  ──────────────────
 ```
 
 ### Estimated Complexity per Phase:
-- **Phase 1:** High (Emscripten setup, mGBA build configuration)
+- **Phase 1:** Low-Medium (npm package available, just need HTML shell)
 - **Phase 2:** Medium (WebView bridge, message protocol)
 - **Phase 3:** Medium (touch controls, responsive layout)
 - **Phase 4:** Low (follows existing game registration pattern)
-- **Phase 5:** Medium-High (performance tuning, edge cases)
+- **Phase 5:** Medium-High (performance tuning, iOS compatibility, edge cases)
 
 ---
 
-## 8. Alternative: Pure JavaScript Emulator (Fallback Plan)
+## 8. Alternative Emulator Cores (Fallback Options)
 
-If the mGBA WASM approach proves too complex for the build pipeline, a fallback option exists:
+If `@thenick775/mgba-wasm` doesn't work on a specific platform (e.g., iOS SharedArrayBuffer issues), several fallbacks exist:
 
-### gba.js / IodineGBA
-- Pure JavaScript GBA emulators
-- Easier to bundle (just JS files, no WASM compilation needed)
-- Less accurate and slower than mGBA
-- Could be embedded directly in the WebView HTML
+### Tier 1: React-Ready Alternatives
+| Project | Type | npm Package | Status |
+|---------|------|-------------|--------|
+| **react-gbajs** | React component (pure JS core) | `react-gbajs` | Maintained, simpler API |
+| **GBAjs2** | Pure JS, Canvas + Web Audio | N/A (standalone) | Working, less accurate |
+
+### Tier 2: Usable but Less Maintained
+| Project | Type | Repo |
+|---------|------|------|
+| **IodineGBA** | Pure JS | `taisel/IodineGBA` |
+| **IodineGBA Enhanced** | Pure JS (improved fork) | `KittyPBoxx/IodineGBAEnhanced` |
+
+### Tier 3: Experimental
+| Project | Type | Notes |
+|---------|------|-------|
+| **wasm-gba** (Rust→WASM) | Rust compiled to WASM | Incomplete, demonstrates alternative compilation path |
 
 ### Trade-offs:
-| Aspect | mGBA WASM | Pure JS (IodineGBA) |
-|--------|-----------|---------------------|
-| Accuracy | Excellent | Good |
-| Performance | Very fast | Moderate |
-| Build complexity | High (Emscripten) | Low (just JS) |
-| Game compatibility | ~99% | ~90% |
-| Audio quality | Excellent | Acceptable |
-| Maintenance | Active project | Mostly abandoned |
+| Aspect | mGBA WASM (npm) | react-gbajs (Pure JS) | IodineGBA |
+|--------|-----------------|----------------------|-----------|
+| Accuracy | Excellent | Good | Good |
+| Performance | Very fast | Moderate | Moderate |
+| Setup complexity | Low (npm install) | Very low (npm install) | Medium (manual bundle) |
+| Game compatibility | ~99% | ~90% | ~90% |
+| Audio quality | Excellent | Acceptable | Acceptable |
+| SharedArrayBuffer needed | Yes | No | No |
+| Maintenance | Active | Maintained | Mostly abandoned |
+| iOS WebView support | May need fallback | Works everywhere | Works everywhere |
 
-**Recommendation:** Start with mGBA WASM. Fall back to a JS emulator only if the WASM build pipeline becomes unmanageable.
+### Recommended Strategy:
+1. **Primary:** `@thenick775/mgba-wasm` for web export and Android WebView
+2. **iOS fallback:** `react-gbajs` (pure JS) if SharedArrayBuffer is unavailable in WKWebView
+3. **Runtime detection:** Check `typeof SharedArrayBuffer !== 'undefined'` and choose core accordingly
 
 ---
 
@@ -438,11 +459,25 @@ If the mGBA WASM approach proves too complex for the build pipeline, a fallback 
 
 ---
 
-## 10. References
+## 10. App Store Considerations
+
+Apple relaxed its emulator policy in 2024, now allowing emulator apps on the App Store (Delta, RetroArch, Provenance, etc.). Google Play has long permitted emulator apps. Key rules for both stores:
+- **No bundled ROMs** — users must supply their own
+- **No BIOS downloads** — use built-in HLE BIOS
+- **Clear disclaimers** about ROM legality
+
+---
+
+## 11. References
 
 - [mGBA Source Code](https://github.com/mgba-emu/mgba) — MPL-2.0
-- [Emscripten Documentation](https://emscripten.org/docs/)
-- [mGBA WASM builds discussion](https://github.com/nickoala/nickoala.github.io) — Community WASM port reference
-- [WebAssembly in WebView](https://chromium.googlesource.com/chromium/src/+/master/docs/webassembly.md)
+- [GBAjs3](https://github.com/thenick775/gbajs3) — React wrapper around mGBA WASM
+- [@thenick775/mgba-wasm](https://www.npmjs.com/package/@thenick775/mgba-wasm) — Pre-built npm package (v2.4.1)
+- [thenick775/mgba feature/wasm branch](https://github.com/thenick775/mgba) — mGBA fork with Emscripten build
+- [react-gbajs](https://github.com/macabeus/react-gbajs) — React component for pure-JS GBA emulation
+- [IodineGBA](https://github.com/taisel/IodineGBA) — Pure JavaScript GBA emulator
+- [Cult-of-GBA/BIOS](https://github.com/Cult-of-GBA/BIOS) — Open-source GBA BIOS replacement
 - [GBA Technical Reference (GBATEK)](https://problemkaputt.de/gbatek.htm)
 - [react-native-webview docs](https://github.com/nickoala/nickoala.github.io)
+- [Sony v. Connectix](https://en.wikipedia.org/wiki/Sony_Computer_Entertainment,_Inc._v._Connectix_Corp.) — Legal precedent for emulation
+- [Emscripten Documentation](https://emscripten.org/docs/)
