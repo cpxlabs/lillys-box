@@ -9,7 +9,7 @@ Guide to creating a new game in the Lilly's Box system with best practices and p
 Use the game generator script to create boilerplate:
 
 ```bash
-cd /workspaces/pet-care-game
+cd app
 node scripts/generate-game.js \
   --name="My Game Name" \
   --id="my-game-id" \

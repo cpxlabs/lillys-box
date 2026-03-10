@@ -5,7 +5,7 @@ Project directory organization and file locations.
 ## Root Directory
 
 ```
-pet-care-game/
+lillys-box/
 ├── app/                    # Expo app (see app/README.md for details)
 ├── backend/                # Backend services (optional)
 ├── docs/                   # Documentation (this folder)
@@ -132,7 +132,7 @@ context/
 ├── ToastContext.tsx          # Toast notifications
 ├── ColorTapContext.tsx       # Color Tap game state
 ├── MemoryMatchContext.tsx    # Memory Match game state
-└── ... (27+ game contexts)
+└── ... (34 game contexts + 5 app contexts)
 ```
 
 ### hooks/
@@ -144,12 +144,17 @@ hooks/
 ├── useAudio.ts               # Audio playback
 ├── useBackButton.tsx         # Android back button
 ├── useDoubleReward.tsx       # Reward multiplier
+├── useFavoriteGames.ts       # Favorite games
+├── useGameAds.ts             # Game ad integration
+├── useGameBack.ts            # Game back navigation
 ├── useGameBestScore.ts       # Best score management
+├── useGameState.ts           # Unified game state hooks
 ├── useNavigationList.ts      # List navigation
 ├── usePetActions.ts          # Unified pet actions
 ├── useResponsive.ts          # Responsive design
 ├── useReview.ts              # Review state
 ├── useRewardedAd.ts          # Ad management
+├── useSocket.ts              # Socket.io multiplayer
 ├── useSpriteSheet.ts         # Sprite animation
 ├── __tests__/                # Hook tests
 └── ...
@@ -219,6 +224,9 @@ TypeScript type definitions:
 ```
 types/
 ├── ads.ts                    # Ad types
+├── gameAds.ts                # Game ad types
+├── gameState.ts              # Unified game state types
+├── global.d.ts               # Global type declarations
 ├── navigation.ts             # Navigation types
 ├── review.ts                 # Review types
 └── types.ts                  # General types
@@ -248,18 +256,19 @@ Documentation files in root and /docs:
     ├── guides/
     │   ├── BUILD.md         # Building for platforms
     │   ├── RESPONSIVE.md    # Responsive design
+    │   ├── GAME_CREATION.md # Game creation guide
     │   └── FOLDER_STRUCTURE.md  # This file
     ├── technical/
     │   ├── AUTHENTICATION.md
     │   ├── API_REFERENCE.md
-    │   └── ACTIONS.md
+    │   ├── ACTIONS.md
+    │   └── CODE_REVIEW.md
     ├── testing/
     │   └── TESTING.md
-    ├── design-system/       # UI design documentation
-    │   ├── 00-design-tokens.md
-    │   ├── 01-login-screen.md
-    │   └── ... (23 more)
-    └── plans/               # Implementation plans
+    └── design-system/       # UI design documentation
+        ├── 00-design-tokens.md
+        ├── 01-login-screen.md
+        └── ... (23 more)
 ```
 
 ## File Naming Conventions
@@ -291,7 +300,7 @@ Documentation files in root and /docs:
 
 ### Game System
 - Game selection: `src/screens/GameSelectionScreen.tsx`
-- Game contexts: `src/context/*Context.tsx` (30+ files)
+- Game contexts: `src/context/*Context.tsx` (39 files)
 - Game registry: `src/gameRegistrations.ts`
 - Game balance: `src/config/gameBalance.ts`
 
@@ -401,5 +410,5 @@ See [BUILD.md](BUILD.md) for:
 
 ---
 
-**Last Updated**: 2026-03-04  
+**Last Updated**: 2026-03-07  
 **Status**: Complete

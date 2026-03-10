@@ -210,9 +210,7 @@ export const HideAndSeekGameScreen: React.FC<Props> = ({ navigation }) => {
                   disabled={adRewardPending}
                 >
                   <Text style={styles.modalButtonText}>
-                    {adRewardPending
-                      ? t('common.loading', { defaultValue: 'Loading...' })
-                      : '🎬 Watch Ad to Double!'}
+                    {adRewardPending ? t('common.loading', { defaultValue: 'Loading...' }) : t('hideAndSeek.game.watchAd')}
                   </Text>
                 </TouchableOpacity>
 
