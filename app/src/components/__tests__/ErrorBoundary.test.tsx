@@ -78,7 +78,7 @@ describe('ErrorBoundary', () => {
   });
 
   it('renders custom fallback when provided', () => {
-    const fallback = (error: Error, _errorInfo: any, retry: () => void) => (
+    const fallback = (error: Error, _errorInfo: any, _retry: () => void) => (
       <Text testID="custom-fallback">{`Custom: ${error.message}`}</Text>
     );
 

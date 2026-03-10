@@ -26,6 +26,7 @@ export function useGameBestScore(storageKeyBase: string): {
   useEffect(() => {
     loadedRef.current = false;
     bestScoreRef.current = 0;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setBestScore(0);
 
     AsyncStorage.getItem(storageKey)

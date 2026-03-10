@@ -18,7 +18,7 @@ jest.mock('../../utils/logger', () => ({
 
 // Stub out GifPicker to avoid deep rendering
 jest.mock('../GifPicker', () => ({
-  GifPicker: ({ onClose }: { onClose: () => void }) => null,
+  GifPicker: ({ onClose: _onClose }: { onClose: () => void }) => null,
 }));
 
 const baseProps = {

@@ -24,7 +24,7 @@ export const LightningTapGameScreen: React.FC<Props> = ({ navigation }) => {
   const [timeLeft, setTimeLeft] = useState(GAME_DURATION);
   const [gameOver, setGameOver] = useState(false);
   const [reactionTime, setReactionTime] = useState(0);
-  const [lastLit, setLastLit] = useState(0);
+  const [_lastLit, _setLastLit] = useState(0);
   const [adRewardPending, setAdRewardPending] = useState(false);
 
   const scoreRef = useRef(0);

@@ -8,7 +8,7 @@ jest.mock('react-i18next', () => ({
 
 // minimal mocks for components used inside HelpScreen
 jest.mock('../../components/ScreenHeader', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+   
   const { View, Text, TouchableOpacity } = require('react-native');
   return {
     ScreenHeader: ({ title, onBackPress }: { title: string; onBackPress?: () => void }) => (

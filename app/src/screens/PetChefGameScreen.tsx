@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, ScrollView, Modal } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Modal } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePetChef } from '../context/PetChefContext';
 import { ScreenNavigationProp } from '../types/navigation';
@@ -110,7 +110,7 @@ export const PetChefGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.shelf}>
         <Text style={styles.shelfLabel}>{t('petChef.game.ingredients')}:</Text>
         <View style={styles.ingredientRow}>
-          {[...new Set(recipe.ingredients)].map((ing, i) => (
+          {[...new Set(recipe.ingredients)].map((ing, _i) => (
             <TouchableOpacity key={ing} style={styles.ingredientBtn} onPress={() => addIngredient(ing)} disabled={cooked}>
               <Text style={styles.ingredientEmoji}>{ing}</Text>
             </TouchableOpacity>
@@ -133,7 +133,7 @@ export const PetChefGameScreen: React.FC<Props> = ({ navigation }) => {
             {!adRewardPending && (
               <TouchableOpacity style={styles.modalButton} onPress={async () => {
                 setAdRewardPending(true);
-                const reward = await triggerAd('game_ended', score);
+                const _reward = await triggerAd('game_ended', score);
                 setAdRewardPending(false);
               }}><Text style={styles.modalButtonText}>🎬 {t('petChef.game.playAgain')}</Text></TouchableOpacity>
             )}

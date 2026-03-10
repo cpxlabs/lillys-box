@@ -18,7 +18,6 @@ import { Pet, ClothingSlot } from '../types';
 import { CLOTHING_ITEMS, getItemsBySlot } from '../data/clothingItems';
 import * as Haptics from 'expo-haptics';
 import { useGameBack } from '../hooks/useGameBack';
-import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'DressUpRelayGame'>;
 
@@ -39,7 +38,7 @@ interface ClothingItemDisplay {
 
 const TOTAL_ROUNDS = 5;
 const PREVIEW_DURATION = 3000; // 3 seconds
-const COUNTDOWN_DURATION = 3000; // 3 seconds (3, 2, 1)
+const _COUNTDOWN_DURATION = 3000; // 3 seconds (3, 2, 1)
 const PLAY_DURATION = 20000; // 20 seconds for round 1
 
 // Dummy pet for rendering outfits
@@ -61,7 +60,7 @@ const createDummyPet = (outfit: TargetOutfit): Pet => ({
 });
 
 // Generate a random target outfit
-const generateTargetOutfit = (round: number): TargetOutfit => {
+const generateTargetOutfit = (_round: number): TargetOutfit => {
   const slots: ClothingSlot[] = ['head', 'eyes', 'torso', 'paws'];
   const outfit: TargetOutfit = { head: null, eyes: null, torso: null, paws: null };
 
@@ -164,6 +163,7 @@ export const DressUpRelayGameScreen: React.FC<Props> = ({ navigation }) => {
   const previewTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const handleSubmitRef = useRef<() => void>(() => {});
 
+  // eslint-disable-next-line react-hooks/refs
   const countdownAnim = useRef(new Animated.Value(1)).current;
 
   // Start preview phase
@@ -276,6 +276,7 @@ export const DressUpRelayGameScreen: React.FC<Props> = ({ navigation }) => {
   }, [playerOutfit, targetOutfit, timeRemaining]);
 
   // Keep ref in sync so the timer interval always calls the latest handleSubmit
+  // eslint-disable-next-line react-hooks/refs
   handleSubmitRef.current = handleSubmit;
 
   const handleNextRound = useCallback(() => {

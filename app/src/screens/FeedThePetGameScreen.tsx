@@ -344,7 +344,7 @@ export const FeedThePetGameScreen: React.FC<Props> = ({ navigation }) => {
                 style={styles.playAgainButton}
                 onPress={async () => {
                   setAdRewardPending(true);
-                  const reward = await triggerAd('game_ended', score);
+                  const _reward = await triggerAd('game_ended', score);
                   setAdRewardPending(false);
                 }}
                 accessibilityRole="button"

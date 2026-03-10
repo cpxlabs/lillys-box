@@ -39,7 +39,7 @@ describe('PetRunnerGameScreen', () => {
       fontScale: 1,
     });
 
-    global.requestAnimationFrame = jest.fn((cb) => 1) as any;
+    global.requestAnimationFrame = jest.fn((_cb) => 1) as any;
     global.cancelAnimationFrame = jest.fn() as any;
   });
 

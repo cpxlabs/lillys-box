@@ -51,7 +51,7 @@ jest.mock('../../hooks/useBackButton', () => ({
 }));
 
 jest.mock('../../components/ScreenHeader', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+   
   const { View, Text, TouchableOpacity } = require('react-native');
   return {
     ScreenHeader: ({
@@ -74,7 +74,7 @@ jest.mock('../../components/ScreenHeader', () => {
 });
 
 jest.mock('../../components/StatusCard', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+   
   const { View } = require('react-native');
   return {
     StatusCard: () => <View testID="status-card" />,
@@ -82,7 +82,7 @@ jest.mock('../../components/StatusCard', () => {
 });
 
 jest.mock('../../components/PetRenderer', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+   
   const { View } = require('react-native');
   return {
     PetRenderer: () => <View testID="pet-renderer" />,
@@ -112,7 +112,7 @@ jest.mock('../../config/gameBalance', () => ({
 }));
 
 jest.mock('react-native-reanimated', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+   
   const { View } = require('react-native');
   return {
     __esModule: true,
@@ -134,7 +134,7 @@ const mockGetParent = jest.fn(() => ({
 }));
 
 describe('SleepScene', () => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
   const mockNavigation: any = {
     goBack: mockGoBack,
     canGoBack: mockCanGoBack,

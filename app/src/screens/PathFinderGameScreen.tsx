@@ -122,7 +122,7 @@ export const PathFinderGameScreen: React.FC<Props> = ({ navigation }) => {
             {!adRewardPending && (
               <TouchableOpacity style={styles.modalButton} onPress={async () => {
                 setAdRewardPending(true);
-                const reward = await triggerAd('game_ended', score);
+                const _reward = await triggerAd('game_ended', score);
                 setAdRewardPending(false);
               }}><Text style={styles.modalButtonText}>🎬 {t('pathFinder.game.playAgain')}</Text></TouchableOpacity>
             )}

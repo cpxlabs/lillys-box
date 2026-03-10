@@ -25,10 +25,10 @@ jest.mock('../../context/ToastContext', () => ({
 }));
 
 // Mock StarRating so we can trigger rating changes from tests
-let capturedOnRatingChange: ((r: number) => void) | null = null;
+let _capturedOnRatingChange: ((r: number) => void) | null = null;
 jest.mock('../StarRating', () => ({
   StarRating: ({ onRatingChange }: { onRatingChange: (r: number) => void }) => {
-    capturedOnRatingChange = onRatingChange;
+    _capturedOnRatingChange = onRatingChange;
     const { TouchableOpacity, Text } = require('react-native');
     return (
       <TouchableOpacity testID="star-rating" onPress={() => onRatingChange && onRatingChange(4)}>
@@ -52,7 +52,7 @@ const baseProps = {
 describe('ReviewModal', () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    capturedOnRatingChange = null;
+    _capturedOnRatingChange = null;
     mockSubmitReview.mockResolvedValue(undefined);
   });
 

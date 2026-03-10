@@ -112,7 +112,7 @@ export const JigsawPetsGameScreen: React.FC<Props> = ({ navigation }) => {
             {!adRewardPending && (
               <TouchableOpacity style={styles.modalButton} onPress={async () => {
                 setAdRewardPending(true);
-                const reward = await triggerAd('game_ended', score);
+                const _reward = await triggerAd('game_ended', score);
                 setAdRewardPending(false);
               }}><Text style={styles.modalButtonText}>🎬 {t('jigsawPets.game.playAgain')}</Text></TouchableOpacity>
             )}

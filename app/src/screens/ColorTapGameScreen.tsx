@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-na
 import { useTranslation } from 'react-i18next';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/navigation';
-import { ArtifactGameAdapter, ArtifactMessage } from '../components/ArtifactGameAdapter';
+import { ArtifactGameAdapter } from '../components/ArtifactGameAdapter';
 import { useColorTap } from '../context/ColorTapContext';
 import { useGameBack } from '../hooks/useGameBack';
 import { useGameAdTrigger } from '../components/GameAdWrapper';
@@ -318,7 +318,7 @@ export const ColorTapGameScreen: React.FC<Props> = ({ navigation }) => {
                 style={styles.playAgainButton}
                 onPress={async () => {
                   setAdRewardPending(true);
-                  const reward = await triggerAd('game_ended', score);
+                  const _reward = await triggerAd('game_ended', score);
                   setAdRewardPending(false);
                 }}
                 accessibilityRole="button"

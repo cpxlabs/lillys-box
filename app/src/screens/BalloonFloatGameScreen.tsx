@@ -23,6 +23,7 @@ interface Obstacle {
 interface Star { id: number; x: number; y: number; collected: boolean; }
 
 let obsId = 0, starId = 0;
+const OBSTACLE_EMOJIS = ['🐦', '☁️', '✈️', '🦅', '🌪️'];
 
 export const BalloonFloatGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
@@ -42,8 +43,6 @@ export const BalloonFloatGameScreen: React.FC<Props> = ({ navigation }) => {
   const scoreRef = useRef(0);
   const balloonsRef = useRef(5);
   const gameActiveRef = useRef(true);
-
-  const OBSTACLE_EMOJIS = ['🐦', '☁️', '✈️', '🦅', '🌪️'];
 
   const spawnObstacle = useCallback(() => {
     if (!gameActiveRef.current) return;

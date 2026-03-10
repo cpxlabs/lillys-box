@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { useMusicMaker } from '../context/MusicMakerContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
-import { useGameAdTrigger } from '../components/GameAdWrapper';
 
 type Props = { navigation: ScreenNavigationProp<'MusicMakerGame'> };
 
@@ -20,8 +19,6 @@ const ROW_COLORS = ['#f44336', '#ff9800', '#4caf50', '#2196f3', '#9c27b0'];
 export const MusicMakerGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = useMusicMaker();
-  const { triggerAd } = useGameAdTrigger('music-maker');
-  const [adRewardPending, setAdRewardPending] = useState(false);
 
   const [grid, setGrid] = useState<boolean[][]>(Array.from({ length: ROWS }, () => Array(COLS).fill(false)));
   const [playing, setPlaying] = useState(false);
@@ -54,12 +51,12 @@ export const MusicMakerGameScreen: React.FC<Props> = ({ navigation }) => {
     if (hasActive) setPetBobbing(b => !b);
   }, []);
 
-  const startPlay = () => {
+  const startPlay = useCallback(() => {
     playingRef.current = true;
     setPlaying(true);
     const interval = Math.round(60000 / bpmRef.current / 2);
     timerRef.current = setInterval(tick, interval);
-  };
+  }, [tick]);
 
   const stopPlay = () => {
     playingRef.current = false;
@@ -85,8 +82,9 @@ export const MusicMakerGameScreen: React.FC<Props> = ({ navigation }) => {
 
   useEffect(() => {
     bpmRef.current = BPM_OPTIONS[bpmIndex];
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (playing) { stopPlay(); setTimeout(startPlay, 50); }
-  }, [bpmIndex]);
+  }, [bpmIndex, playing, startPlay]);
 
   useEffect(() => { return () => { if (timerRef.current) clearInterval(timerRef.current); }; }, []);
 

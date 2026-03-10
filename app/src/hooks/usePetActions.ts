@@ -354,6 +354,7 @@ export function usePetActions(): UsePetActionsReturn {
       handleReward,
       sleep,
       buildMessage,
+      playActionSound,
     ]
   );
 

@@ -116,7 +116,7 @@ export const MuitoGameScreen: React.FC<Props> = ({ navigation }) => {
       </View>
 
       <View style={styles.optionsContainer}>
-        {puzzle.options.map((option, idx) => (
+        {puzzle.options.map((option, _idx) => (
           <TouchableOpacity
             key={option}
             style={[

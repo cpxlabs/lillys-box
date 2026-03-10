@@ -75,7 +75,7 @@ jest.mock('../../utils/age', () => ({
 }));
 
 jest.mock('react-native-gesture-handler', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+   
   const { View } = require('react-native');
   const createGesture = () => {
     const gesture: Record<string, jest.Mock> = {};
@@ -96,7 +96,7 @@ jest.mock('react-native-gesture-handler', () => {
 });
 
 jest.mock('react-native-reanimated', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+   
   const { View } = require('react-native');
   // Animated.View must be a valid component (not undefined)
   const Animated = { View };
@@ -112,7 +112,7 @@ jest.mock('react-native-reanimated', () => {
 });
 
 jest.mock('../../components/ScreenHeader', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+   
   const { View, Text, TouchableOpacity } = require('react-native');
   return {
     ScreenHeader: ({
@@ -135,13 +135,13 @@ jest.mock('../../components/ScreenHeader', () => {
 });
 
 jest.mock('../../components/StatusCard', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+   
   const { View } = require('react-native');
   return { StatusCard: () => <View testID="status-card" /> };
 });
 
 jest.mock('../../components/PetRenderer', () => {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
+   
   const { View } = require('react-native');
   return { PetRenderer: () => <View testID="pet-renderer" /> };
 });
@@ -158,7 +158,7 @@ const mockNavigation = {
   goBack: mockGoBack,
   canGoBack: mockCanGoBack,
   getParent: mockGetParent,
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+   
 } as unknown as any;
 
 describe('BathScene', () => {

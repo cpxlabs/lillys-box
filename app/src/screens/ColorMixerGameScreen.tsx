@@ -16,7 +16,6 @@ import { useColorMixer } from '../context/ColorMixerContext';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
-import { useGameAdTrigger } from '../components/GameAdWrapper';
 import {
   LEVELS,
   RGB,
@@ -38,8 +37,6 @@ const DROP_ZONE_Y_END = height * 0.55;
 export const ColorMixerGameScreen: React.FC<Props> = ({ navigation, route }) => {
   const { t } = useTranslation();
   const { updateLevelProgress } = useColorMixer();
-  const { triggerAd } = useGameAdTrigger('color-mixer');
-  const [adRewardPending, setAdRewardPending] = useState(false);
   const levelId = route.params.level;
   const level = LEVELS.find((l) => l.id === levelId);
 
@@ -156,7 +153,7 @@ export const ColorMixerGameScreen: React.FC<Props> = ({ navigation, route }) => 
 
             {/* Paint Colors Section */}
             <View style={styles.paintsSection}>
-              {level.availableColors.map((paint, index) => (
+              {level.availableColors.map((paint, _index) => (
                 <DraggablePaintBlob
                   key={paint.name}
                   paint={paint}
@@ -284,6 +281,7 @@ const DraggablePaintBlob: React.FC<DraggablePaintBlobProps> = ({ paint, onDrop }
   // eslint-disable-next-line react-hooks/refs
   const scale = useRef(new Animated.Value(1)).current; // Animated.Value ref – safe React Native pattern
 
+  /* eslint-disable react-hooks/refs */
   const onGestureEvent = Animated.event(
     [
       {
@@ -295,6 +293,7 @@ const DraggablePaintBlob: React.FC<DraggablePaintBlobProps> = ({ paint, onDrop }
     ],
     { useNativeDriver: true }
   );
+  /* eslint-enable react-hooks/refs */
 
   const onHandlerStateChange = (event: PanGestureHandlerStateChangeEvent) => {
     if (event.nativeEvent.state === 5) {
@@ -330,20 +329,23 @@ const DraggablePaintBlob: React.FC<DraggablePaintBlobProps> = ({ paint, onDrop }
     }
   };
 
+  /* eslint-disable react-hooks/refs */
+  const blobAnimStyle = [
+    styles.paintBlob,
+    {
+      backgroundColor: rgbToString(paint.color),
+      transform: [{ translateX }, { translateY }, { scale }],
+    },
+  ];
+  /* eslint-enable react-hooks/refs */
+
   return (
     <PanGestureHandler
       onGestureEvent={onGestureEvent}
       onHandlerStateChange={onHandlerStateChange}
     >
-      <Animated.View
-        style={[
-          styles.paintBlob,
-          {
-            backgroundColor: rgbToString(paint.color),
-            transform: [{ translateX }, { translateY }, { scale }],
-          },
-        ]}
-      >
+      {/* eslint-disable-next-line react-hooks/refs */}
+      <Animated.View style={blobAnimStyle}>
         <Text style={styles.paintName}>{paint.name}</Text>
       </Animated.View>
     </PanGestureHandler>

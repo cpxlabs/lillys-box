@@ -51,7 +51,7 @@ describe('SlidingPuzzleHomeScreen', () => {
       bestMoves: { easy: 15, hard: null },
       updateBestMoves: mockUpdateBestMoves,
     });
-    const { getByText, queryAllByText } = render(
+    const { getByText, queryAllByText: _queryAllByText } = render(
       <SlidingPuzzleHomeScreen navigation={navigation as any} />
     );
     expect(getByText(/15/)).toBeTruthy();

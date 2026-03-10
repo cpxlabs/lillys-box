@@ -272,7 +272,7 @@ export const SlidingPuzzleGameScreen: React.FC<Props> = ({ navigation, route }) 
                 style={styles.playAgainButton}
                 onPress={async () => {
                   setAdRewardPending(true);
-                  const reward = await triggerAd('game_ended', coinsEarned);
+                  const _reward = await triggerAd('game_ended', coinsEarned);
                   setAdRewardPending(false);
                 }}
                 accessibilityRole="button"
