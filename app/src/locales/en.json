@@ -421,6 +421,10 @@
       "name": "Garden Grow",
       "description": "Grow a beautiful garden!"
     },
+    "gbaEmulator": {
+      "name": "Retro Console",
+      "description": "A safe shell for user-owned GBA games."
+    },
     "photoStudio": {
       "name": "Photo Studio",
       "description": "Take cute photos of your pet!"
@@ -432,6 +436,35 @@
     "starCatcher": {
       "name": "Star Catcher",
       "description": "Catch the falling stars!"
+    }
+  },
+  "gbaEmulator": {
+    "home": {
+      "subtitle": "Start with a friendly library shell before any real emulation.",
+      "recentGamesTitle": "Recent games",
+      "emptyStateTitle": "No ROMs imported yet",
+      "emptyStateDescription": "This first pass focuses on the emulator shell: import, recent games, controls help, and family-safe messaging.",
+      "libraryReadyTitle": "Library ready",
+      "libraryReadyDescription": "{{count}} recent games are ready to launch from your library.",
+      "importButton": "Import ROM (coming soon)",
+      "playerPreview": "Open player shell preview",
+      "controlsTitle": "Controls help",
+      "controlsDescription": "The full experience will use large touch controls with simple pause, save, and exit actions.",
+      "legalTitle": "Parent notice",
+      "legalDescription": "Only user-owned compatible ROM backups should be used here. Lilly's Box does not bundle commercial games or BIOS files.",
+      "featureFlagNote": "This shell stays hidden in the game picker until performance, UX, and legal details are validated."
+    },
+    "game": {
+      "title": "Player shell",
+      "viewportLabel": "Preview viewport",
+      "emptyStateTitle": "No ROM loaded yet",
+      "emptyStateDescription": "The player area is ready for a future emulator bridge, but this first step intentionally stops at the empty-state shell.",
+      "readyTitle": "Library launch preview",
+      "readyDescription": "A future update will boot the selected ROM here once the bridge is in place.",
+      "controlsTitle": "Touch layout preview",
+      "controlsDescription": "Left side for the D-pad, right side for A/B, plus Start and Select in an easy-to-reach overlay.",
+      "saveStateHint": "Save-state buttons will appear here after ROM loading and persistence are implemented.",
+      "returnToLibrary": "Return to library"
     }
   },
   "balloonFloat": {
