@@ -40,12 +40,6 @@ describe('Backend – CORS policy', () => {
       process.env.ALLOWED_ORIGINS = originalAllowedOrigins;
     }
     await server.close();
-    process.env.NODE_ENV = originalNodeEnv;
-    if (originalAllowedOrigins === undefined) {
-      delete process.env.ALLOWED_ORIGINS;
-    } else {
-      process.env.ALLOWED_ORIGINS = originalAllowedOrigins;
-    }
   });
 
   it('allows requests with no origin (mobile apps)', async () => {
