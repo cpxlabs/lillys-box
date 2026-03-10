@@ -1,14 +1,7 @@
 import { google } from 'google-auth-library';
 import jwt from 'jsonwebtoken';
 
-const isProduction = process.env.NODE_ENV === 'production';
-const JWT_SECRET = process.env.JWT_SECRET;
-
-if (!JWT_SECRET && isProduction) {
-  throw new Error('JWT_SECRET environment variable must be set in production');
-}
-
-const jwtSecret = JWT_SECRET ?? 'dev-secret-change-in-production';
+const JWT_SECRET = process.env.JWT_SECRET || 'dev-secret-change-in-production';
 
 const googleClient = new google.auth.OAuth2();
 
@@ -27,12 +20,12 @@ export async function verifyGoogleToken(
 }
 
 export function createJwt(userId: string, displayName: string): string {
-  return jwt.sign({ userId, displayName }, jwtSecret, { expiresIn: '1h' });
+  return jwt.sign({ userId, displayName }, JWT_SECRET, { expiresIn: '1h' });
 }
 
 export function verifyJwt(token: string): { userId: string; displayName: string } | null {
   try {
-    return jwt.verify(token, jwtSecret) as { userId: string; displayName: string };
+    return jwt.verify(token, JWT_SECRET) as { userId: string; displayName: string };
   } catch {
     return null;
   }

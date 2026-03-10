@@ -23,7 +23,6 @@ interface GameState {
   currentPuzzle: { emoji: string; count: number; options: number[] } | null;
   answers: PlayerAnswer[];
   roundTimer: ReturnType<typeof setTimeout> | null;
-  interRoundTimer: ReturnType<typeof setTimeout> | null;
   roundStartedAt: number;
   roundActive: boolean;
 }
@@ -49,7 +48,6 @@ export class GameLoop {
       currentPuzzle: null,
       answers: [],
       roundTimer: null,
-      interRoundTimer: null,
       roundStartedAt: 0,
       roundActive: false,
     };
@@ -64,10 +62,6 @@ export class GameLoop {
     if (this.state.roundTimer) {
       clearTimeout(this.state.roundTimer);
       this.state.roundTimer = null;
-    }
-    if (this.state.interRoundTimer) {
-      clearTimeout(this.state.interRoundTimer);
-      this.state.interRoundTimer = null;
     }
   }
 
@@ -155,8 +149,7 @@ export class GameLoop {
 
     this.io.to(this.state.roomCode).emit(Events.ROUND_RESULT, payload);
 
-    this.state.interRoundTimer = setTimeout(() => {
-      this.state.interRoundTimer = null;
+    setTimeout(() => {
       if (!this.destroyed) this.advanceRound();
     }, 2000);
   }

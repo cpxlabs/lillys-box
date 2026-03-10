@@ -11,14 +11,6 @@ function generateRoomCode(): string {
   return code;
 }
 
-function generateUniqueRoomCode(existing: Set<string>): string {
-  let code: string;
-  do {
-    code = generateRoomCode();
-  } while (existing.has(code));
-  return code;
-}
-
 export interface RoomPlayer {
   socketId: string;
   userId: string;
@@ -37,7 +29,7 @@ class RoomManager {
   private socketToRoom = new Map<string, string>();
 
   createRoom(socket: Socket, userId: string, displayName: string): string {
-    const code = generateUniqueRoomCode(new Set(this.rooms.keys()));
+    const code = generateRoomCode();
     const room: RoomState = {
       code,
       players: [{ socketId: socket.id, userId, displayName }],
