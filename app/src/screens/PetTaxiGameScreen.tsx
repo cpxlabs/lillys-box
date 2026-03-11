@@ -13,6 +13,13 @@ const GAME_DURATION = 60;
 const PASSENGER_TRAVEL_DURATION = 3000;
 const ROAD_SIDE_PADDING = 18;
 const PICKUP_ZONE_OFFSET = 104;
+const LANE_DIVIDER_TOP = 12;
+const LANE_DIVIDER_BOTTOM = 84;
+const PICKUP_ZONE_INSET = 12;
+const CROSSWALK_BOTTOM = 86;
+const CROSSWALK_STRIPE_WIDTH = 28;
+const CROSSWALK_STRIPE_HEIGHT = 16;
+const CROSSWALK_STRIPE_RADIUS = 4;
 
 interface Passenger { emoji: string; destEmoji: string; destName: string; lane: number; y: Animated.Value; id: number; }
 
@@ -130,7 +137,7 @@ export const PetTaxiGameScreen: React.FC<Props> = ({ navigation }) => {
           <View style={[styles.pickupZone, { top: pickupZoneY + 38 }]} />
           <View testID="pet-taxi-crosswalk" style={styles.crosswalk}>
             {Array.from({ length: 5 }).map((_, index) => (
-              <View key={index} style={styles.crosswalkStripe} />
+              <View key={index} testID="pet-taxi-crosswalk-stripe" style={styles.crosswalkStripe} />
             ))}
           </View>
         </View>
@@ -200,10 +207,10 @@ const styles = StyleSheet.create({
   laneLines: { flex: 1 },
   sidewalkLeft: { position: 'absolute', top: 0, bottom: 0, left: 0, width: ROAD_SIDE_PADDING, backgroundColor: '#90a4ae' },
   sidewalkRight: { position: 'absolute', top: 0, bottom: 0, right: 0, width: ROAD_SIDE_PADDING, backgroundColor: '#90a4ae' },
-  laneDivider: { position: 'absolute', top: 12, bottom: 84, width: 4, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.7)' },
-  pickupZone: { position: 'absolute', left: ROAD_SIDE_PADDING + 12, right: ROAD_SIDE_PADDING + 12, height: 4, borderRadius: 999, backgroundColor: '#ffca28' },
-  crosswalk: { position: 'absolute', left: ROAD_SIDE_PADDING, right: ROAD_SIDE_PADDING, bottom: 86, height: 24, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' },
-  crosswalkStripe: { width: 28, height: 16, borderRadius: 4, backgroundColor: 'rgba(255,255,255,0.9)' },
+  laneDivider: { position: 'absolute', top: LANE_DIVIDER_TOP, bottom: LANE_DIVIDER_BOTTOM, width: 4, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.7)' },
+  pickupZone: { position: 'absolute', left: ROAD_SIDE_PADDING + PICKUP_ZONE_INSET, right: ROAD_SIDE_PADDING + PICKUP_ZONE_INSET, height: 4, borderRadius: 999, backgroundColor: '#ffca28' },
+  crosswalk: { position: 'absolute', left: ROAD_SIDE_PADDING, right: ROAD_SIDE_PADDING, bottom: CROSSWALK_BOTTOM, height: 24, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' },
+  crosswalkStripe: { width: CROSSWALK_STRIPE_WIDTH, height: CROSSWALK_STRIPE_HEIGHT, borderRadius: CROSSWALK_STRIPE_RADIUS, backgroundColor: 'rgba(255,255,255,0.9)' },
   passengerOnRoad: { position: 'absolute', top: 0, alignItems: 'center' },
   passEmoji: { fontSize: 28 },
   passDestEmoji: { fontSize: 16 },

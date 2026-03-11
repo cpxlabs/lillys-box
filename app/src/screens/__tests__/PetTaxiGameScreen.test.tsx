@@ -170,7 +170,7 @@ describe('PetTaxiGameScreen', () => {
   });
 
   it('renders street-style road details', () => {
-    const { getByTestId } = render(
+    const { getByTestId, getAllByTestId } = render(
       <PetTaxiGameScreen navigation={navigation as any} />
     );
 
@@ -178,6 +178,7 @@ describe('PetTaxiGameScreen', () => {
     expect(getByTestId('pet-taxi-sidewalk-left')).toBeTruthy();
     expect(getByTestId('pet-taxi-sidewalk-right')).toBeTruthy();
     expect(getByTestId('pet-taxi-crosswalk')).toBeTruthy();
+    expect(getAllByTestId('pet-taxi-crosswalk-stripe')).toHaveLength(5);
   });
 
   it('decrements timer every second', () => {
