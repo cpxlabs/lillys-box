@@ -14,9 +14,10 @@ This review covered:
 - Security-sensitive runtime configuration and dependency posture
 
 Baseline commands executed before drafting this update:
-1. `cd /home/runner/work/lillys-box/lillys-box/app && npm run lint` → **passed with 138 warnings (0 errors)**
-2. `cd /home/runner/work/lillys-box/lillys-box/app && npm test -- --runInBand` → **passed** (`112/112` suites, `619` tests, `1` skipped)
-3. `cd /home/runner/work/lillys-box/lillys-box/backend && npm run build` → **failed** (TypeScript errors in `src/buildServer.ts`: duplicated `isProduction` declaration and unsafe `origin` typing when checking `allowedOrigins`)
+1. `cd /home/runner/work/lillys-box/lillys-box/app && npm run lint` → **passed with 0 errors and 0 warnings** ✅
+2. `cd /home/runner/work/lillys-box/lillys-box/app && npm test -- --runInBand` → **passed** (`112/112` suites, `619` tests, `1` skipped) ✅
+3. `cd /home/runner/work/lillys-box/lillys-box/backend && npm run build` → **passed** (0 TypeScript errors) ✅
+4. `cd /home/runner/work/lillys-box/lillys-box/backend && npm test` → **passed** (7 tests, 1 file) ✅
 
 Environment note: app dependencies required `npm install --legacy-peer-deps` in this sandbox to install.
 
@@ -24,11 +25,12 @@ Environment note: app dependencies required `npm install --legacy-peer-deps` in 
 
 ## 2) Executive Summary
 
-The project has a good foundation (modular app structure, broad test inventory, strict TypeScript on app), and frontend quality gates are now fully stable:
+The project is in a solid, stable state. All frontend quality gates are green and the backend is clean:
 - Frontend lint completes with **0 errors and 0 warnings** ✅
-- Frontend tests are **fully green** (`112/112` suites, `619` tests, `1` skipped)
-- Backend build **passes** ✅ — `buildServer.ts` TypeScript errors resolved, CORS hardened, rate-limiting registered, and backend tests added
-- Backend test script (`vitest run`) is present and runs CORS/health smoke tests
+- Frontend tests are **fully green** (`112/112` suites, `619` tests, `1` skipped) ✅
+- Backend build **passes** ✅ — CORS hardened, rate-limiting registered
+- Backend tests run **7 tests in 1 file** ✅ — `dist/` no longer double-counted
+- Backend has **no unused dependencies** ✅ — dead packages removed
 
 All P0 and P1 items from the action plan below have been resolved.
 
@@ -45,8 +47,8 @@ All P0 and P1 items from the action plan below have been resolved.
 3. **Substantial test surface area exists**
    - `108` test files are present under `app/src`.
 
-4. **Backend build issues are localized**
-   - Current TypeScript failures are confined to `backend/src/buildServer.ts`, indicating a targeted fix can restore the build.
+4. **Backend build issues are resolved**
+   - TypeScript errors previously in `backend/src/buildServer.ts` are fully fixed.
 
 5. **Config hygiene in gitignore**
    - root `.gitignore` excludes `.env`, `.env.local`, and local variants.
@@ -106,15 +108,9 @@ All P0 and P1 items from the action plan below have been resolved.
 
 ### M1 — Backend CORS policy is permissive by default
 
-**Status update (2026-03-06)**
+**Status update (2026-03-10)**
 - CORS handling now lives in `backend/src/buildServer.ts` and has been hardened to require an explicit allowlist for cross-origin browser requests in production.
 - Backend tests cover both allowed/disallowed origins and now include the production-without-allowlist behavior.
-
-**Evidence**
-- `backend/src/server.ts` registers CORS with `origin: true`.
-
-**Impact**
-- If deployed as-is, this allows broad cross-origin access and increases attack surface.
 
 **Recommendation**
 - Apply explicit allowlists via environment-specific config for production.
@@ -140,41 +136,86 @@ All P0 and P1 items from the action plan below have been resolved.
 
 ### L1 — Lockfile strategy appears inconsistent in app workspace
 
-**Evidence**
-- `/app` contains both `pnpm-lock.yaml` and `package-lock.json`.
-- `app/package.json` declares `packageManager: pnpm@10.30.2`.
+**Status: RESOLVED ✅ (2026-03-10)**
+- `/app` now contains only `pnpm-lock.yaml`. The stale `package-lock.json` has been removed.
+- `app/package.json` declares `packageManager: pnpm@10.30.2` and a single lockfile is in use.
 
-**Impact**
-- Higher risk of environment-specific dependency drift.
+---
 
-**Recommendation**
-- Standardize on one package manager and one lockfile policy for the app package.
+### L2 — Vitest discovers compiled `dist/` tests (double-run)
+
+**Status: RESOLVED ✅ (2026-03-10)**
+- Without explicit configuration, vitest ran both `src/__tests__/server.test.ts` and its compiled counterpart `dist/__tests__/server.test.js`, reporting 14 tests instead of 7.
+- Added `backend/vitest.config.ts` with `include: ['src/**/*.test.ts']` to scope discovery to source files only.
+- Backend tests now correctly report **7 tests in 1 file**.
+
+---
+
+### L3 — Unused production dependencies in backend
+
+**Status: RESOLVED ✅ (2026-03-10)**
+- `better-sqlite3`, `fastify-plugin`, and `@fastify/auth` were listed as production dependencies but were never imported anywhere in the codebase.
+- The orphaned `@types/better-sqlite3` devDependency was also removed.
+- All four packages have been uninstalled. `npm install` and `npm run build` both pass cleanly after removal.
+
+---
+
+### L4 — Backend missing `.gitignore`
+
+**Status: RESOLVED ✅ (2026-03-10)**
+- Added `backend/.gitignore` excluding `node_modules/`, `dist/`, and `.env*` files.
+
+---
+
+### L5 — Duplicate env-var cleanup in backend test `afterEach`
+
+**Status: RESOLVED ✅ (2026-03-10)**
+- The `afterEach` block in `backend/src/__tests__/server.test.ts` restored `NODE_ENV` and `ALLOWED_ORIGINS` twice (lines 36–49 in the original).
+- The duplicate block has been removed; cleanup now runs exactly once per test.
+
+---
+
+### L6 — Backend startup lacks error handling and PORT validation
+
+**Status: RESOLVED ✅ (2026-03-10)**
+- `src/server.ts` now validates `PORT` (rejects non-integer, out-of-range, or non-numeric values) and exits with an explanatory message on failure.
+- `.catch()` is chained on `server.listen()` so EADDRINUSE and other bind errors produce a logged message and a clean exit instead of an unhandled rejection.
 
 ---
 
 ## 7) Recommended Action Plan (Ordered)
 
-1. **Restore backend build (P0)**
+1. **Restore backend build (P0)** ✅ DONE
    - Deduplicate `isProduction` and guard `origin` in `backend/src/buildServer.ts`, then re-run `npm run build`.
 
-2. **Maintain app toolchain and tests (P0/P1)**
+2. **Maintain app toolchain and tests (P0/P1)** ✅ DONE
    - Keep React/jest/test-renderer versions pinned and rerun the suite after dependency bumps to preserve the green baseline.
 
-3. **Reduce lint debt to green baseline (P1)**
+3. **Reduce lint debt to green baseline (P1)** ✅ DONE
    - Tackle runtime/hook issues first, then type strictness cleanup.
 
-4. **Harden backend defaults (P1)**
+4. **Harden backend defaults (P1)** ✅ DONE
    - Restrictive CORS configuration for non-dev.
    - Activate request rate limiting.
 
-5. **Establish backend automated tests (P1)**
+5. **Establish backend automated tests (P1)** ✅ DONE
    - Add smoke-level tests and `npm test` script.
 
-6. **Unify package manager/lockfile policy (P2)**
-   - Remove ambiguity and update contributor docs.
+6. **Unify package manager/lockfile policy (P2)** ✅ DONE
+   - Single `pnpm-lock.yaml` in `/app`; stale `package-lock.json` removed.
+
+7. **Backend basic clean (P2)** ✅ DONE
+   - Remove unused dependencies (`better-sqlite3`, `fastify-plugin`, `@fastify/auth`, `@types/better-sqlite3`).
+   - Add `backend/.gitignore` to exclude `dist/` and `.env*`.
+   - Add `vitest.config.ts` to scope test discovery to `src/` only.
+   - Fix duplicate cleanup in test `afterEach`.
+   - Validate `PORT` and handle startup errors in `src/server.ts`.
 
 ---
 
 ## 8) Final Assessment
 
-This repository is structurally promising and already has many of the right building blocks. Frontend tests are green and lint is error-free but still noisy, while the backend build is currently blocked by localized TypeScript errors. Restoring the backend build and reducing lint warnings will unlock safer feature development; backend hardening should follow immediately after baseline stabilization.
+The repository is in a healthy and stable state. All quality gates are green: frontend lint produces zero warnings, the full test suite (619 tests across 112 suites) passes, the backend TypeScript build is error-free, and backend smoke tests cover the CORS and health-check behaviour. Dependency hygiene has been improved by removing packages that were declared but never used. The codebase is ready for continued feature development.
+
+The `server/` sub-package (Socket.IO / Muito multiplayer game server) contains known areas for future improvement (wildcard CORS, hardcoded JWT fallback, no room-code deduplication), but these are deferred until that subsystem is actively deployed.
+

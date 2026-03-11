@@ -1099,14 +1099,27 @@
       "subtitle": "Control the weather with magic!",
       "play": "Play",
       "instructions": "Match the weather spells to control nature!",
-      "bestScore": "Best Score"
+      "bestScore": "Best Score",
+      "chooseDifficulty": "Choose Difficulty",
+      "easy": "Easy",
+      "normal": "Normal",
+      "hard": "Hard"
     },
     "game": {
       "scene": "Scene",
       "need": "Need",
       "choose": "Choose",
       "complete": "Scene Complete!",
-      "playAgain": "Play Again"
+      "playAgain": "Play Again",
+      "watchAd": "🎬 Watch Ad to Double!",
+      "magic": "✨ Magic!",
+      "tryDifferentWeather": "❌ Try different weather!",
+      "weather": {
+        "rain": "Rain",
+        "sun": "Sun",
+        "snow": "Snow",
+        "wind": "Wind"
+      }
     }
   },
   "whackAMole": {

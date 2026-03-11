@@ -407,7 +407,7 @@
     },
     "weatherWizard": {
       "name": "Weather Wizard",
-      "description": "Controle o clima com magia!"
+      "description": "Control the weather with magic!"
     },
     "petTaxi": {
       "name": "Pet Taxi",
@@ -1096,17 +1096,30 @@
   "weatherWizard": {
     "home": {
       "title": "Weather Wizard",
-      "subtitle": "Controle o clima com magia!",
-      "play": "Jogar",
-      "instructions": "Combine os feitiços do clima para controlar a natureza!",
-      "bestScore": "Melhor Pontuação"
+      "subtitle": "Control the weather with magic!",
+      "play": "Play",
+      "instructions": "Match the weather spells to control nature!",
+      "bestScore": "Best Score",
+      "chooseDifficulty": "Choose Difficulty",
+      "easy": "Easy",
+      "normal": "Normal",
+      "hard": "Hard"
     },
     "game": {
-      "scene": "Cena",
-      "need": "Necessário",
-      "choose": "Escolher",
-      "complete": "Cena Completa!",
-      "playAgain": "Jogar Novamente"
+      "scene": "Scene",
+      "need": "Need",
+      "choose": "Choose",
+      "complete": "Scene Complete!",
+      "playAgain": "Play Again",
+      "watchAd": "🎬 Watch Ad to Double!",
+      "magic": "✨ Magic!",
+      "tryDifferentWeather": "❌ Try different weather!",
+      "weather": {
+        "rain": "Rain",
+        "sun": "Sun",
+        "snow": "Snow",
+        "wind": "Wind"
+      }
     }
   },
   "whackAMole": {
