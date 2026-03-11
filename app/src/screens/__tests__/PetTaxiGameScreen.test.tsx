@@ -1,5 +1,5 @@
 import React from 'react';
-import { Dimensions, Animated } from 'react-native';
+import { Animated } from 'react-native';
 import { render, fireEvent, act } from '@testing-library/react-native';
 import { PetTaxiGameScreen } from '../PetTaxiGameScreen';
 
@@ -33,13 +33,6 @@ describe('PetTaxiGameScreen', () => {
       updateBestScore: mockUpdateBestScore,
     });
 
-    jest.spyOn(Dimensions, 'get').mockReturnValue({
-      width: 390,
-      height: 844,
-      scale: 2,
-      fontScale: 1,
-    });
-
     jest.spyOn(Animated, 'timing').mockReturnValue({
       start: jest.fn(),
       stop: jest.fn(),
@@ -49,6 +42,7 @@ describe('PetTaxiGameScreen', () => {
 
   afterEach(() => {
     jest.useRealTimers();
+    jest.restoreAllMocks();
   });
 
   it('renders initial game state with score, timer, and controls', () => {
@@ -146,6 +140,44 @@ describe('PetTaxiGameScreen', () => {
       0
     );
     expect(afterSpawnCount).toBeGreaterThan(initialCount);
+  });
+
+  it('automatically picks up a passenger that reaches the taxi lane and scores after delivery', () => {
+    jest.spyOn(Math, 'random')
+      .mockReturnValueOnce(0.5)
+      .mockReturnValueOnce(0)
+      .mockReturnValueOnce(0);
+
+    jest.spyOn(Animated, 'timing').mockReturnValueOnce({
+      start: (callback?: (result: { finished: boolean }) => void) => callback?.({ finished: true }),
+      stop: jest.fn(),
+      reset: jest.fn(),
+    } as any);
+
+    const { getByText, getByTestId } = render(
+      <PetTaxiGameScreen navigation={navigation as any} />
+    );
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    expect(getByText('petTaxi.game.deliver:')).toBeTruthy();
+
+    fireEvent.press(getByTestId('pet-taxi-destination-0'));
+
+    expect(getByText('🚕 50')).toBeTruthy();
+  });
+
+  it('renders street-style road details', () => {
+    const { getByTestId } = render(
+      <PetTaxiGameScreen navigation={navigation as any} />
+    );
+
+    expect(getByTestId('pet-taxi-road')).toBeTruthy();
+    expect(getByTestId('pet-taxi-sidewalk-left')).toBeTruthy();
+    expect(getByTestId('pet-taxi-sidewalk-right')).toBeTruthy();
+    expect(getByTestId('pet-taxi-crosswalk')).toBeTruthy();
   });
 
   it('decrements timer every second', () => {
