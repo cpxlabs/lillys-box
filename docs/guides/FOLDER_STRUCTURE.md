@@ -132,7 +132,7 @@ context/
 ├── ToastContext.tsx          # Toast notifications
 ├── ColorTapContext.tsx       # Color Tap game state
 ├── MemoryMatchContext.tsx    # Memory Match game state
-└── ... (34 game contexts + 5 app contexts)
+└── ... (36 game contexts + 5 app contexts)
 ```
 
 ### hooks/

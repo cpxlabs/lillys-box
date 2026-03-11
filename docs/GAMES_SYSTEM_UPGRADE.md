@@ -295,7 +295,7 @@ Game Screen
 Each game is independently lazy-loaded. Total bundle estimated:
 - Core app: ~500KB
 - Per game: ~50-150KB
-- Total with all 34 games: ~4-5MB (not all loaded at once)
+- Total with all 36 games: ~4-5MB (not all loaded at once)
 
 ### Optimization Strategies
 

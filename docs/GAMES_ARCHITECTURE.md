@@ -149,7 +149,7 @@ app/src/
 ├── context/
 │   ├── MyGameContext.tsx (created by generator)
 │   ├── ColorTapContext.tsx
-│   └── ... (34 game contexts + 5 app contexts)
+│   └── ... (36 game contexts + 5 app contexts)
 │
 ├── screens/
 │   ├── MyGameNavigator.tsx (created by generator)

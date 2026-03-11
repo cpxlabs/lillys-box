@@ -5,7 +5,7 @@
 **Project Name:** Lilly's Box (Jogo do Pet)  
 **Type:** 2D Mobile Game (React Native/Expo)  
 **Platform:** Android (primary), Web (secondary)  
-**Description:** A children's pet care game where players care for virtual pets by feeding, bathing, playing, and maintaining their health and happiness.
+**Description:** A children's interactive platform where players care for virtual pets by feeding, bathing, playing, and maintaining their health and happiness — plus 36 mini-games.
 
 ## Technology Stack
 
@@ -56,7 +56,7 @@
 
 ### Mini-Games
 
-The game includes 30+ mini-games for earning money and entertainment:
+The game includes 36 mini-games for earning money and entertainment:
 
 1. **Feed The Pet** - Feeding mechanics
 2. **Bubble Pop** - Pop bubbles
@@ -88,7 +88,12 @@ The game includes 30+ mini-games for earning money and entertainment:
 28. **Whack A Mole** - Whack moles
 29. **Word Bubbles** - Word games
 30. **Pet Runner** - Running game
-31. **Snack Stack** - Stacking game
+31. **Hide and Seek** - Hide and seek game
+32. **Star Catcher** - Catch falling stars
+33. **Muito** - Multiplayer card game
+34. **Color Tap** - Tap colored items
+35. **Kids Chess** - Chess for children
+36. **GBA Emulator** - Retro game emulator
 
 Each mini-game has best score tracking (per-user via AsyncStorage), optional difficulty levels, and a coin reward system.
 
@@ -146,7 +151,7 @@ lillys-box/
 │   ├── dist/              # Web build output
 │   ├── docs/              # Documentation
 │   └── e2e/               # E2E tests (Maestro)
-├── backend/               # Backend server (Express)
+├── backend/               # Backend server (Fastify)
 ├── server/                # Game server (Socket.io)
 ├── shared/                # Shared types and utilities
 └── docs/                  # Root documentation (design system)
@@ -200,7 +205,7 @@ Weighted average of all stats with multipliers:
 
 ## Testing
 
-- **Unit Tests:** Jest 30 with React Native Testing Library (500+ tests, 99%+ passing)
+- **Unit Tests:** Jest 30 with React Native Testing Library (619 tests across 112 suites, all passing)
 - **E2E Tests:** Maestro
 - **CI Scripts:** Locale key parity check (`scripts/check-locale-keys.js`)
 
