@@ -53,6 +53,7 @@ const SCENES: Scene[] = [
 ];
 
 const WEATHER_ICONS: Record<Weather, string> = { rain: '🌧️', sun: '☀️', snow: '❄️', wind: '💨' };
+const WEATHER_OPTIONS: Weather[] = ['rain', 'sun', 'snow', 'wind'];
 
 export const WeatherWizardGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
@@ -72,7 +73,7 @@ export const WeatherWizardGameScreen: React.FC<Props> = ({ navigation }) => {
   const applyWeather = useCallback((weather: Weather) => {
     if (weather === currentStep.need) {
       setStepResult(currentStep.result);
-      setFeedback('✨ Magic!');
+      setFeedback(t('weatherWizard.game.magic'));
       const pts = 50;
       const newScore = score + pts;
       setScore(newScore);
@@ -94,10 +95,10 @@ export const WeatherWizardGameScreen: React.FC<Props> = ({ navigation }) => {
         }
       }, 1000);
     } else {
-      setFeedback('❌ Try different weather!');
+      setFeedback(t('weatherWizard.game.tryDifferentWeather'));
       setTimeout(() => setFeedback(''), 800);
     }
-  }, [currentStep, stepIndex, scene, sceneIndex, score, updateBestScore]);
+  }, [currentStep, stepIndex, scene, sceneIndex, score, t, updateBestScore]);
 
   const restart = () => { setSceneIndex(0); setStepIndex(0); setStepResult(''); setScore(0); setGameOver(false); setFeedback(''); };
   const handleBack = useGameBack(navigation);
@@ -113,7 +114,9 @@ export const WeatherWizardGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.sceneArea}>
         <Text style={styles.sceneEmoji}>{stepResult ? currentStep.emoji : scene.emoji}</Text>
         <Text style={styles.sceneDescription}>{scene.description}</Text>
-        <Text style={styles.stepHint}>{t('weatherWizard.game.need')}: {WEATHER_ICONS[currentStep.need]} {currentStep.need}</Text>
+        <Text style={styles.stepHint}>
+          {t('weatherWizard.game.need')}: {WEATHER_ICONS[currentStep.need]} {t(`weatherWizard.game.weather.${currentStep.need}`)}
+        </Text>
         {stepResult ? <Text style={styles.stepResult}>{stepResult}</Text> : null}
         {feedback ? <Text style={styles.feedback}>{feedback}</Text> : null}
       </View>
@@ -125,10 +128,10 @@ export const WeatherWizardGameScreen: React.FC<Props> = ({ navigation }) => {
       <View style={styles.weatherToolbar}>
         <Text style={styles.toolbarLabel}>{t('weatherWizard.game.choose')}:</Text>
         <View style={styles.weatherButtons}>
-          {(['rain', 'sun', 'snow', 'wind'] as Weather[]).map(w => (
+          {WEATHER_OPTIONS.map(w => (
             <TouchableOpacity key={w} style={styles.weatherBtn} onPress={() => applyWeather(w)}>
               <Text style={styles.weatherEmoji}>{WEATHER_ICONS[w]}</Text>
-              <Text style={styles.weatherName}>{w}</Text>
+              <Text style={styles.weatherName}>{t(`weatherWizard.game.weather.${w}`)}</Text>
             </TouchableOpacity>
           ))}
         </View>
@@ -163,7 +166,7 @@ export const WeatherWizardGameScreen: React.FC<Props> = ({ navigation }) => {
                   }}
                   disabled={adRewardPending}
                 >
-                  <Text style={styles.modalButtonText}>🎬 Watch Ad to Double!</Text>
+                  <Text style={styles.modalButtonText}>{t('weatherWizard.game.watchAd')}</Text>
                 </TouchableOpacity>
                 
                 <TouchableOpacity style={styles.modalButton} onPress={restart}><Text style={styles.modalButtonText}>{t('weatherWizard.game.playAgain')}</Text></TouchableOpacity>
