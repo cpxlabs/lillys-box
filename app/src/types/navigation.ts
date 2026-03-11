@@ -62,6 +62,8 @@ export type RootStackParamList = {
   GbaEmulatorGame: undefined;
   HideAndSeekHome: undefined;
   HideAndSeekGame: undefined;
+  KidsChessHome: undefined;
+  KidsChessGame: { difficulty: 'puppy' | 'kitten' | 'bunny' | 'fox' | 'owl' };
   JigsawPetsHome: undefined;
   JigsawPetsGame: undefined;
   LightningTapHome: undefined;

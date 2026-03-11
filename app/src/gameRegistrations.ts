@@ -69,6 +69,8 @@ import { StarCatcherProvider } from './context/StarCatcherContext';
 import { StarCatcherNavigator } from './screens/StarCatcherNavigator';
 import { GbaEmulatorProvider } from './context/GbaEmulatorContext';
 import { GbaEmulatorNavigator } from './screens/GbaEmulatorNavigator';
+import { KidsChessProvider } from './context/KidsChessContext';
+import { KidsChessNavigator } from './screens/KidsChessNavigator';
 
 export function registerAllGames() {
   if (gameRegistry.getAllGames().length > 0) return;
@@ -250,4 +252,6 @@ export function registerAllGames() {
   gameRegistry.register({ id: 'star-catcher', nameKey: 'selectGame.starCatcher.name', descriptionKey: 'selectGame.starCatcher.description', emoji: '\u2B50', category: 'casual', navigator: StarCatcherNavigator, providers: [StarCatcherProvider], isEnabled: true });
 
   gameRegistry.register({ id: 'gba-emulator', nameKey: 'selectGame.gbaEmulator.name', descriptionKey: 'selectGame.gbaEmulator.description', emoji: '\uD83D\uDD79\uFE0F', category: 'casual', navigator: GbaEmulatorNavigator, providers: [GbaEmulatorProvider], isEnabled: false });
+
+  gameRegistry.register({ id: 'kids-chess', nameKey: 'selectGame.kidsChess.name', descriptionKey: 'selectGame.kidsChess.description', emoji: '♟️', category: 'puzzle', navigator: KidsChessNavigator, providers: [KidsChessProvider], isEnabled: true });
 }
