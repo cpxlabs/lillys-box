@@ -1,17 +1,25 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Animated, Modal, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Animated, useWindowDimensions, Modal } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePetTaxi } from '../context/PetTaxiContext';
 import { ScreenNavigationProp } from '../types/navigation';
 import { useGameBack } from '../hooks/useGameBack';
 
 type Props = { navigation: ScreenNavigationProp<'PetTaxiGame'> };
-const { width: SW } = Dimensions.get('window');
 const LANES = 3;
-const LANE_WIDTH = SW / LANES;
 const PASSENGER_EMOJIS = ['🐱', '🐶', '🐰', '🦊', '🐻'];
 const DESTINATION_EMOJIS = ['🏫', '🏥', '🏡', '🌳', '🛒'];
 const GAME_DURATION = 60;
+const PASSENGER_TRAVEL_DURATION = 3000;
+const ROAD_SIDE_PADDING = 18;
+const PICKUP_ZONE_OFFSET = 104;
+const LANE_DIVIDER_TOP = 12;
+const LANE_DIVIDER_BOTTOM = 84;
+const PICKUP_ZONE_INSET = 12;
+const CROSSWALK_BOTTOM = 86;
+const CROSSWALK_STRIPE_WIDTH = 28;
+const CROSSWALK_STRIPE_HEIGHT = 16;
+const CROSSWALK_STRIPE_RADIUS = 4;
 
 interface Passenger { emoji: string; destEmoji: string; destName: string; lane: number; y: Animated.Value; id: number; }
 
@@ -20,6 +28,7 @@ let passId = 0;
 export const PetTaxiGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
   const { updateBestScore } = usePetTaxi();
+  const { width: screenWidth } = useWindowDimensions();
 
   const [carLane, setCarLane] = useState(1);
   const [passengers, setPassengers] = useState<Passenger[]>([]);
@@ -30,11 +39,25 @@ export const PetTaxiGameScreen: React.FC<Props> = ({ navigation }) => {
   const [gameOver, setGameOver] = useState(false);
   const [_coins, setCoins] = useState(0);
   const [gameKey, setGameKey] = useState(0);
+  const [roadHeight, setRoadHeight] = useState(420);
 
   const scoreRef = useRef(0);
   const gameActiveRef = useRef(true);
   const carLaneRef = useRef(1);
   const currentPassRef = useRef<Passenger | null>(null);
+  const laneWidth = screenWidth / LANES;
+  const pickupZoneY = Math.max(220, roadHeight - PICKUP_ZONE_OFFSET);
+
+  const tryPickupPassenger = useCallback((p: Passenger) => {
+    if (!gameActiveRef.current || carLaneRef.current !== p.lane || currentPassRef.current) {
+      return false;
+    }
+
+    currentPassRef.current = p;
+    setCurrentPassenger(p);
+    setPassengers(prev => prev.filter(pp => pp.id !== p.id));
+    return true;
+  }, []);
 
   const spawnPassenger = useCallback(() => {
     if (!gameActiveRef.current) return;
@@ -45,17 +68,17 @@ export const PetTaxiGameScreen: React.FC<Props> = ({ navigation }) => {
     const p: Passenger = { emoji: PASSENGER_EMOJIS[emojiIdx], destEmoji: DESTINATION_EMOJIS[destIdx], destName: ['School', 'Hospital', 'Home', 'Park', 'Shop'][destIdx], lane, y, id: passId++ };
     setPassengers(prev => [...prev, p]);
 
-    Animated.timing(y, { toValue: 300, duration: 3000, useNativeDriver: true }).start(() => {
-      setPassengers(prev => prev.filter(pp => pp.id !== p.id));
+    Animated.timing(y, { toValue: pickupZoneY, duration: PASSENGER_TRAVEL_DURATION, useNativeDriver: true }).start(({ finished }) => {
+      if (!finished) return;
+      if (!tryPickupPassenger(p)) {
+        setPassengers(prev => prev.filter(pp => pp.id !== p.id));
+      }
     });
-  }, []);
+  }, [pickupZoneY, tryPickupPassenger]);
 
   const pickupPassenger = useCallback((p: Passenger) => {
-    if (carLaneRef.current !== p.lane || currentPassRef.current) return;
-    currentPassRef.current = p;
-    setCurrentPassenger(p);
-    setPassengers(prev => prev.filter(pp => pp.id !== p.id));
-  }, []);
+    tryPickupPassenger(p);
+  }, [tryPickupPassenger]);
 
   const deliver = useCallback((destIndex: number) => {
     if (!currentPassRef.current) return;
@@ -104,21 +127,34 @@ export const PetTaxiGameScreen: React.FC<Props> = ({ navigation }) => {
         </View>
       )}
 
-      <View style={styles.road}>
+      <View style={styles.road} onLayout={(event) => setRoadHeight(event.nativeEvent.layout.height)} testID="pet-taxi-road">
+        <View pointerEvents="none" style={StyleSheet.absoluteFill}>
+          <View testID="pet-taxi-sidewalk-left" style={styles.sidewalkLeft} />
+          <View testID="pet-taxi-sidewalk-right" style={styles.sidewalkRight} />
+          {[1, 2].map(divider => (
+            <View key={divider} style={[styles.laneDivider, { left: divider * laneWidth - 6 }]} />
+          ))}
+          <View style={[styles.pickupZone, { top: pickupZoneY + 38 }]} />
+          <View testID="pet-taxi-crosswalk" style={styles.crosswalk}>
+            {Array.from({ length: 5 }).map((_, index) => (
+              <View key={index} testID="pet-taxi-crosswalk-stripe" style={styles.crosswalkStripe} />
+            ))}
+          </View>
+        </View>
         {[0, 1, 2].map(lane => (
           <View key={lane} style={styles.lane}>
             <View style={styles.laneLines} />
           </View>
         ))}
         {passengers.map(p => (
-          <Animated.View key={p.id} style={[styles.passengerOnRoad, { left: p.lane * LANE_WIDTH + LANE_WIDTH / 2 - 20, transform: [{ translateY: p.y }] }]}>
+          <Animated.View key={p.id} style={[styles.passengerOnRoad, { left: p.lane * laneWidth + laneWidth / 2 - 20, transform: [{ translateY: p.y }] }]}>
             <TouchableOpacity onPress={() => pickupPassenger(p)}>
               <Text style={styles.passEmoji}>{p.emoji}</Text>
               <Text style={styles.passDestEmoji}>{p.destEmoji}</Text>
             </TouchableOpacity>
           </Animated.View>
         ))}
-        <View style={[styles.car, { left: carLane * LANE_WIDTH + LANE_WIDTH / 2 - 30 }]}>
+        <View style={[styles.car, { left: carLane * laneWidth + laneWidth / 2 - 30 }]}>
           <Text style={styles.carEmoji}>🚕</Text>
           {currentPassenger && <Text style={styles.inCarEmoji}>{currentPassenger.emoji}</Text>}
         </View>
@@ -126,14 +162,14 @@ export const PetTaxiGameScreen: React.FC<Props> = ({ navigation }) => {
 
       {currentPassenger && (
         <View style={styles.destinations}>
-          <Text style={styles.destLabel}>{t('petTaxi.game.deliver')}:</Text>
-          <View style={styles.destRow}>
-            {DESTINATION_EMOJIS.map((d, i) => (
-              <TouchableOpacity key={d} style={[styles.destBtn, currentPassenger.destEmoji === d && styles.destBtnTarget]} onPress={() => deliver(i)}>
-                <Text style={styles.destEmoji}>{d}</Text>
-              </TouchableOpacity>
-            ))}
-          </View>
+            <Text style={styles.destLabel}>{t('petTaxi.game.deliver')}:</Text>
+            <View style={styles.destRow}>
+              {DESTINATION_EMOJIS.map((d, i) => (
+                <TouchableOpacity key={d} testID={`pet-taxi-destination-${i}`} style={[styles.destBtn, currentPassenger.destEmoji === d && styles.destBtnTarget]} onPress={() => deliver(i)}>
+                  <Text style={styles.destEmoji}>{d}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
         </View>
       )}
 
@@ -166,9 +202,15 @@ const styles = StyleSheet.create({
   timerText: { fontSize: 16, fontWeight: '700', color: '#ffca28' },
   passengerBar: { backgroundColor: '#ffca28', paddingVertical: 8, paddingHorizontal: 16 },
   passengerText: { fontSize: 16, fontWeight: '700', color: '#333', textAlign: 'center' },
-  road: { flex: 1, flexDirection: 'row', position: 'relative', overflow: 'hidden' },
-  lane: { flex: 1, borderRightWidth: 2, borderRightColor: 'rgba(255,255,255,0.3)', position: 'relative' },
+  road: { flex: 1, flexDirection: 'row', position: 'relative', overflow: 'hidden', backgroundColor: '#263238' },
+  lane: { flex: 1, borderRightWidth: 2, borderRightColor: 'rgba(255,255,255,0.18)', position: 'relative' },
   laneLines: { flex: 1 },
+  sidewalkLeft: { position: 'absolute', top: 0, bottom: 0, left: 0, width: ROAD_SIDE_PADDING, backgroundColor: '#90a4ae' },
+  sidewalkRight: { position: 'absolute', top: 0, bottom: 0, right: 0, width: ROAD_SIDE_PADDING, backgroundColor: '#90a4ae' },
+  laneDivider: { position: 'absolute', top: LANE_DIVIDER_TOP, bottom: LANE_DIVIDER_BOTTOM, width: 4, borderRadius: 999, backgroundColor: 'rgba(255,255,255,0.7)' },
+  pickupZone: { position: 'absolute', left: ROAD_SIDE_PADDING + PICKUP_ZONE_INSET, right: ROAD_SIDE_PADDING + PICKUP_ZONE_INSET, height: 4, borderRadius: 999, backgroundColor: '#ffca28' },
+  crosswalk: { position: 'absolute', left: ROAD_SIDE_PADDING, right: ROAD_SIDE_PADDING, bottom: CROSSWALK_BOTTOM, height: 24, flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' },
+  crosswalkStripe: { width: CROSSWALK_STRIPE_WIDTH, height: CROSSWALK_STRIPE_HEIGHT, borderRadius: CROSSWALK_STRIPE_RADIUS, backgroundColor: 'rgba(255,255,255,0.9)' },
   passengerOnRoad: { position: 'absolute', top: 0, alignItems: 'center' },
   passEmoji: { fontSize: 28 },
   passDestEmoji: { fontSize: 16 },
