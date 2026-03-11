@@ -5,7 +5,7 @@
 **Project Name:** Lilly's Box (Jogo do Pet)  
 **Type:** 2D Mobile Game (React Native/Expo)  
 **Platform:** Android (primary), Web (secondary)  
-**Description:** A children's pet care game where players care for virtual pets by feeding, bathing, playing, and maintaining their health and happiness.
+**Description:** A children's interactive platform where players care for virtual pets by feeding, bathing, playing, and maintaining their health and happiness — plus 36 mini-games.
 
 ## Technology Stack
 

@@ -1,6 +1,6 @@
 # Lilly's Box - Documentation
 
-Complete documentation for the Lilly's Box pet care game project.
+Complete documentation for the Lilly's Box project.
 
 ## Quick Navigation
 
@@ -32,7 +32,7 @@ Complete documentation for the Lilly's Box pet care game project.
 
 ## Project Overview
 
-**Lilly's Box** is a comprehensive platform of interactive experiences for families and children, available on Android, iOS, and web. Built with React Native/Expo, it combines pet care gameplay with 36 mini-games.
+**Lilly's Box** is a comprehensive platform of interactive experiences for families and children, available on Android, iOS, and web. Built with React Native/Expo, it features 36 mini-games alongside virtual pet interactions.
 
 ### Key Features
 
