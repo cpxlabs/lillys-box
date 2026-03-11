@@ -32,12 +32,12 @@ Complete documentation for the Lilly's Box pet care game project.
 
 ## Project Overview
 
-**Lilly's Box** is a comprehensive platform of interactive experiences for families and children, available on Android, iOS, and web. Built with React Native/Expo, it combines pet care gameplay with 34 mini-games.
+**Lilly's Box** is a comprehensive platform of interactive experiences for families and children, available on Android, iOS, and web. Built with React Native/Expo, it combines pet care gameplay with 36 mini-games.
 
 ### Key Features
 
 **Platform Core:**
-- 🎮 **34 diverse mini-games** - Reflexo, memory, puzzle, creative, and more
+- 🎮 **36 diverse mini-games** - Reflexo, memory, puzzle, creative, and more
 - 🐱🐶 **Pet care system** - Create, customize, and nurture virtual pets
 - 👨‍👩‍👧‍👦 **Family-friendly experiences** - Design for all ages
 
@@ -70,15 +70,18 @@ docs/
 ├── GAMES_SYSTEM_UPGRADE.md      # Full game system reference
 ├── GAMES_QUICK_REFERENCE.md     # One-page game cheat sheet
 ├── GAMES_ARCHITECTURE.md        # Games architecture diagrams
+├── RALPH_LOOPS.md               # AI coding loops guide
 ├── guides/
 │   ├── BUILD.md                # Building for all platforms
 │   ├── RESPONSIVE.md           # Responsive design guide
 │   ├── GAME_CREATION.md        # Step-by-step game creation
+│   ├── LOAD_ROMS.md            # Loading games in GBA emulator
 │   └── FOLDER_STRUCTURE.md     # Project folder layout
 ├── technical/
 │   ├── AUTHENTICATION.md       # OAuth & auth system
 │   ├── API_REFERENCE.md        # Complete API docs
 │   ├── ACTIONS.md              # Pet actions system
+│   ├── EMULATOR.md             # GBA emulator proposal
 │   └── CODE_REVIEW.md          # Engineering review & roadmap
 ├── testing/
 │   └── TESTING.md              # E2E, game, unit tests
@@ -294,14 +297,14 @@ const MyScreen = () => {
 - **PetContext** - Global pet state (with debounced saves)
 - **LanguageContext** - i18n state
 - **ToastContext** - Toast notifications
-- **GameContexts** - Per-game state and best scores (34 game contexts)
+- **GameContexts** - Per-game state and best scores (36 game contexts)
 
 ### Data Storage
 
 ```
 AsyncStorage Keys:
-├── @pet_care_game:auth_state           (auth info)
-├── @pet_care_game:pet:{userId}         (pet data)
+├── @lillys_box:auth_state              (auth info)
+├── @lillys_box:pet:{userId}            (pet data)
 ├── @color_tap:bestScore:{userId}       (game scores)
 └── ... (one per game)
 ```
@@ -387,7 +390,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
 
 - Multi-platform support (Android, iOS, Web)
 - OAuth authentication with fallback
-- 34 mini-games
+- 36 mini-games
 - Responsive design
 - Comprehensive testing
 - Multi-language support
@@ -395,7 +398,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
 
 ---
 
-**Last Updated**: 2026-03-07
+**Last Updated**: 2026-03-11
 
 **Maintained By**: Lilly's Box Development Team
 

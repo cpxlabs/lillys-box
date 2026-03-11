@@ -1,6 +1,6 @@
 # Complete Code Review — Lilly's Box
 
-**Date:** 2026-03-10 (updated 2026-03-10)  
+**Date:** 2026-03-10 (updated 2026-03-11)  
 **Repository:** `cpxlabs/lillys-box`
 
 ---
@@ -218,4 +218,55 @@ All P0 and P1 items from the action plan below have been resolved.
 The repository is in a healthy and stable state. All quality gates are green: frontend lint produces zero warnings, the full test suite (619 tests across 112 suites) passes, the backend TypeScript build is error-free, and backend smoke tests cover the CORS and health-check behaviour. Dependency hygiene has been improved by removing packages that were declared but never used. The codebase is ready for continued feature development.
 
 The `server/` sub-package (Socket.IO / Muito multiplayer game server) contains known areas for future improvement (wildcard CORS, hardcoded JWT fallback, no room-code deduplication), but these are deferred until that subsystem is actively deployed.
+
+---
+
+## 9) Documentation Fixes (2026-03-11)
+
+The following documentation issues were identified and resolved:
+
+### D1 — Old project name in storage key references
+
+**Status: RESOLVED ✅**
+- Multiple docs referenced `@pet_care_game:*` AsyncStorage keys. The actual codebase uses `@lillys_box:*` for core app keys.
+- Fixed in: `docs/README.md`, `docs/technical/AUTHENTICATION.md`, `docs/technical/API_REFERENCE.md`.
+- Also fixed old project name in `app/.env.example` Sentry comment.
+
+### D2 — Game count inconsistency across docs
+
+**Status: RESOLVED ✅**
+- Root `README.md` said "30+", `docs/README.md` said "34", `SPEC.md` said "30+".
+- Actual count: **36 registered games** in `gameRegistrations.ts`.
+- Updated all docs to reflect the correct count of 36.
+
+### D3 — Backend framework mismatch in SPEC.md
+
+**Status: RESOLVED ✅**
+- `SPEC.md` listed the backend as "Express" but the actual implementation uses **Fastify**.
+- Corrected the project structure comment.
+
+### D4 — Duplicate game entry in SPEC.md
+
+**Status: RESOLVED ✅**
+- "Snack Stack" was listed twice (items 25 and 31).
+- Replaced the duplicate with the missing games: Hide and Seek, Star Catcher, Muito, Color Tap, Kids Chess, GBA Emulator.
+
+### D5 — CONTRIBUTING.md incomplete
+
+**Status: RESOLVED ✅**
+- File ended abruptly after a partial "Development" section heading.
+- Added missing sections: Code Style, Branch Naming, Commit Messages, PR Process, Adding a New Game, and Resources.
+- These sections were referenced by `docs/README.md` but did not exist.
+
+### D6 — docs/README.md directory listing incomplete
+
+**Status: RESOLVED ✅**
+- `RALPH_LOOPS.md`, `LOAD_ROMS.md`, and `EMULATOR.md` were missing from the directory tree.
+- Added all three to the listing.
+
+### D7 — Outdated test count in SPEC.md
+
+**Status: RESOLVED ✅**
+- SPEC.md referenced "500+ tests, 99%+ passing".
+- Updated to reflect the actual count: 619 tests across 112 suites, all passing.
 

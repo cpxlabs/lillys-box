@@ -49,7 +49,7 @@ The authentication system consists of:
 - User ID from Google
 - Email and profile available
 - Auth state persists across restarts
-- Data key: `@pet_care_game:pet:{userId}`
+- Data key: `@lillys_box:pet:{userId}`
 
 ### Guest User
 
@@ -57,7 +57,7 @@ The authentication system consists of:
 - Anonymous session
 - Can be upgraded later
 - Local data only (not synced)
-- Data key: `@pet_care_game:pet:guest`
+- Data key: `@lillys_box:pet:guest`
 
 ## Setup for Users
 
@@ -180,10 +180,10 @@ Each user (authenticated or guest) has isolated data:
 
 ```
 AsyncStorage Keys:
-├── @pet_care_game:auth_state      (auth status)
-├── @pet_care_game:pet:userId1     (user 1's pet)
-├── @pet_care_game:pet:userId2     (user 2's pet)
-└── @pet_care_game:pet:guest       (guest's pet)
+├── @lillys_box:auth_state         (auth status)
+├── @lillys_box:pet:userId1        (user 1's pet)
+├── @lillys_box:pet:userId2        (user 2's pet)
+└── @lillys_box:pet:guest          (guest's pet)
 ```
 
 Switching users or logging out doesn't affect other users' data.

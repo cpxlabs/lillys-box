@@ -1,10 +1,10 @@
 # 🐾 Lilly's Box
 
-Uma plataforma de experiências interativas para famílias e crianças! Cuide de seus animais de estimação virtuais e desfrute de 30+ mini-games educativos e divertidos, tudo em um aplicativo multiplataforma com React Native.
+Uma plataforma de experiências interativas para famílias e crianças! Cuide de seus animais de estimação virtuais e desfrute de 36 mini-games educativos e divertidos, tudo em um aplicativo multiplataforma com React Native.
 
 ## ✨ Core Experiences
 
-### 🎮 **30+ Mini-Games** - O Coração da Plataforma
+### 🎮 **36 Mini-Games** - O Coração da Plataforma
 Desfrute de uma variedade diversa de experiências interativas, desde jogos educativos até desafios emocionantes:
 - Jogos de reflexo (Whack-a-Mole, Color Tap, Catch the Ball)
 - Jogos de memória e raciocínio (Memory Match, Sliding Puzzle, Simon Says)

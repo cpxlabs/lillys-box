@@ -221,10 +221,10 @@ In `src/locales/pt-br.json`:
 
 ## 📊 Games by Category
 
-**34 games total**
+**36 games total**
 - Pet Care: 1
-- Casual: 19
-- Puzzle: 10
+- Casual: 20
+- Puzzle: 11
 - Adventure: 4
 
 ---

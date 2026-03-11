@@ -197,7 +197,7 @@ user: UserInfo | null      // User object or null
 isGuest: boolean           // Whether in guest mode
 ```
 
-**Storage Key:** `@pet_care_game:auth_state`
+**Storage Key:** `@lillys_box:auth_state`
 
 **Stored Data:**
 ```typescript
@@ -301,7 +301,7 @@ pet: Pet          // Pet object to save
 userId?: string   // User ID for namespacing (default: 'guest')
 ```
 
-**Storage Key:** `@pet_care_game:pet:{userId}`
+**Storage Key:** `@lillys_box:pet:{userId}`
 
 **Behavior:**
 - Updates lastUpdated timestamp
@@ -637,7 +637,7 @@ const handleSignIn = async () => {
 
 **Location:** `src/hooks/useGameBestScore.ts`
 
-Shared hook for per-user best score persistence across all 34 game contexts. Eliminates ~60 lines of duplicated AsyncStorage logic per context.
+Shared hook for per-user best score persistence across all 36 game contexts. Eliminates ~60 lines of duplicated AsyncStorage logic per context.
 
 **Returns:**
 ```typescript
@@ -706,12 +706,12 @@ Unified hook for all pet actions (feed, play, bathe, sleep, cuddle, exercise, ve
 
 ## Backward Compatibility
 
-- Existing guest data stored as `@pet_care_game:pet:guest` (compatible)
-- Old format `@pet_care_game:pet` can be migrated if needed
+- Existing guest data stored as `@lillys_box:pet:guest` (compatible)
+- Old format `@lillys_box:pet` can be migrated if needed
 - Auth state is new, no backward compat issues
 
 ---
 
-**Last Updated**: 2026-03-04
-**Version**: 1.1
+**Last Updated**: 2026-03-11
+**Version**: 1.2
 **Status**: Complete
