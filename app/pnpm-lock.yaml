@@ -135,6 +135,9 @@ importers:
       '@babel/preset-flow':
         specifier: ^7.27.1
         version: 7.27.1(@babel/core@7.29.0)
+      '@babel/traverse':
+        specifier: ^7.29.0
+        version: 7.29.0
       '@babel/types':
         specifier: ^7.29.0
         version: 7.29.0
