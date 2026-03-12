@@ -65,6 +65,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
+    "@babel/generator": "^7.29.1",
     "@babel/preset-flow": "^7.27.1",
     "@babel/types": "^7.29.0",
     "@eslint/js": "^9.39.2",
