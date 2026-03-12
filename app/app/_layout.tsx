@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { ActivityIndicator, Platform, View, StyleSheet } from 'react-native';
-import { Stack, useRouter, useSegments, usePathname } from 'expo-router';
+import { Stack, useRouter, usePathname } from 'expo-router';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 import * as Sentry from '@sentry/react-native';
 import { useNavigationContainerRef } from 'expo-router';
@@ -14,6 +14,7 @@ import { ToastProvider } from '../src/context/ToastContext';
 import { AdProvider, useAd } from '../src/context/AdContext';
 import AdService from '../src/services/AdService';
 import ErrorService from '../src/services/ErrorService';
+import { getAuthRedirectPath } from '../src/utils/authRedirect';
 
 registerAllGames();
 ErrorService.init();
@@ -21,22 +22,19 @@ ErrorService.init();
 function AuthRedirect() {
   const { user, isGuest, loading } = useAuth();
   const router = useRouter();
-  const segments = useSegments();
+  const pathname = usePathname();
+  const isAuthenticated = user !== null || isGuest;
+  const redirectPath = getAuthRedirectPath({ isAuthenticated, pathname });
 
   useEffect(() => {
     if (loading) return;
 
-    const isAuthenticated = user !== null || isGuest;
-    const onLoginPage = segments[0] === 'login';
-
-    if (!isAuthenticated && !onLoginPage) {
-      router.replace('/login');
-    } else if (isAuthenticated && onLoginPage) {
-      router.replace('/');
+    if (redirectPath) {
+      router.replace(redirectPath);
     }
-  }, [user, isGuest, loading, segments, router]);
+  }, [loading, redirectPath, router]);
 
-  if (loading) {
+  if (loading || redirectPath) {
     return (
       <View style={styles.loading}>
         <ActivityIndicator size="large" color="#9b59b6" />
