@@ -5,6 +5,7 @@ import { GbaEmulatorGameScreen } from '../GbaEmulatorGameScreen';
 
 const mockHandleBack = jest.fn();
 const mockUseGbaEmulator = jest.fn();
+const mockImportRom = jest.fn();
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
@@ -37,6 +38,7 @@ describe('GbaEmulator shell screens', () => {
       recentRoms: [],
       hasImportedRoms: false,
       isImportAvailable: false,
+      importRom: mockImportRom,
     });
   });
 
@@ -61,6 +63,7 @@ describe('GbaEmulator shell screens', () => {
       ],
       hasImportedRoms: true,
       isImportAvailable: true,
+      importRom: mockImportRom,
     });
 
     const navigation = { navigate: jest.fn() } as any;
@@ -69,6 +72,23 @@ describe('GbaEmulator shell screens', () => {
     expect(getByText('gbaEmulator.home.libraryReadyTitle')).toBeTruthy();
     expect(getByText('gbaEmulator.home.libraryReadyDescription:2')).toBeTruthy();
     expect(getByTestId('gba-emulator-import-button').props.disabled).toBe(false);
+    expect(getByText('gbaEmulator.home.importButton')).toBeTruthy();
+  });
+
+  it('triggers ROM import when the import button is available', () => {
+    mockUseGbaEmulator.mockReturnValue({
+      recentRoms: [],
+      hasImportedRoms: false,
+      isImportAvailable: true,
+      importRom: mockImportRom,
+    });
+
+    const navigation = { navigate: jest.fn() } as any;
+    const { getByTestId } = render(<GbaEmulatorHomeScreen navigation={navigation} />);
+
+    fireEvent.press(getByTestId('gba-emulator-import-button'));
+
+    expect(mockImportRom).toHaveBeenCalledTimes(1);
   });
 
   it('uses the shared back handler on the home screen', () => {
