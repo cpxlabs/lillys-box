@@ -11,6 +11,16 @@ describe('build toolchain dependencies', () => {
     expect(packageJson.devDependencies?.['@babel/generator']).toBeUndefined();
   });
 
+  it('keeps react-native-worklets in runtime dependencies for the reanimated babel plugin', () => {
+    const packageJson = require('../../../package.json') as {
+      dependencies?: Record<string, string>;
+      devDependencies?: Record<string, string>;
+    };
+
+    expect(packageJson.dependencies?.['react-native-worklets']).toBeDefined();
+    expect(packageJson.devDependencies?.['react-native-worklets']).toBeUndefined();
+  });
+
   it('resolves @babel/types from the reanimated Babel plugin location', () => {
     const pluginPath = require.resolve('react-native-reanimated/plugin');
     const pluginRequire = createRequire(pluginPath);
