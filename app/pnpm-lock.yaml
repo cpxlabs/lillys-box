@@ -129,6 +129,9 @@ importers:
       '@babel/core':
         specifier: ^7.20.0
         version: 7.29.0
+      '@babel/generator':
+        specifier: ^7.29.1
+        version: 7.29.1
       '@babel/preset-flow':
         specifier: ^7.27.1
         version: 7.27.1(@babel/core@7.29.0)
