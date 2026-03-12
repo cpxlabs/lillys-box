@@ -39,7 +39,7 @@ export const GbaEmulatorHomeScreen: React.FC<Props> = ({ navigation }) => {
         <TouchableOpacity
           style={[styles.secondaryButton, !isImportAvailable && styles.disabledButton]}
           disabled={!isImportAvailable}
-          onPress={() => { void importRom(); }}
+          onPress={importRom}
           activeOpacity={0.85}
           testID="gba-emulator-import-button"
         >

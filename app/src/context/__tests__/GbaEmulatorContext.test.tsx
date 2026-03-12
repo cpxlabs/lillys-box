@@ -9,6 +9,13 @@ type TestDocument = {
   body: { appendChild: jest.Mock };
 };
 
+type TestWindow = {
+  addEventListener: jest.Mock;
+  removeEventListener: jest.Mock;
+  setTimeout: typeof setTimeout;
+  clearTimeout: typeof clearTimeout;
+};
+
 let hook: ReturnType<typeof useGbaEmulator>;
 
 const Consumer = () => {
@@ -25,14 +32,16 @@ const renderProvider = () =>
 
 describe('GbaEmulatorContext', () => {
   let originalOS: typeof Platform.OS;
-  const globalWithDocument = global as typeof globalThis & { document?: TestDocument };
+  const globalWithDom = global as typeof globalThis & { document?: TestDocument; window?: TestWindow };
   let originalDocument: TestDocument | undefined;
+  let originalWindow: TestWindow | undefined;
 
   beforeEach(() => {
     jest.clearAllMocks();
     (AsyncStorage.getItem as jest.Mock).mockResolvedValue(null);
     originalOS = Platform.OS;
-    originalDocument = globalWithDocument.document;
+    originalDocument = globalWithDom.document;
+    originalWindow = globalWithDom.window;
     (Platform as { OS: string }).OS = 'web';
   });
 
@@ -40,11 +49,16 @@ describe('GbaEmulatorContext', () => {
     (Platform as { OS: string }).OS = originalOS;
 
     if (originalDocument) {
-      globalWithDocument.document = originalDocument;
-      return;
+      globalWithDom.document = originalDocument;
+    } else {
+      delete globalWithDom.document;
     }
 
-    delete globalWithDocument.document;
+    if (originalWindow) {
+      globalWithDom.window = originalWindow;
+    } else {
+      delete globalWithDom.window;
+    }
   });
 
   it('loads recent ROMs from storage on mount', async () => {
@@ -52,9 +66,15 @@ describe('GbaEmulatorContext', () => {
       JSON.stringify([{ id: 'emerald.gba:1:2', title: 'Pokémon Emerald' }])
     );
 
-    globalWithDocument.document = {
+    globalWithDom.document = {
       createElement: jest.fn(),
       body: { appendChild: jest.fn() },
+    };
+    globalWithDom.window = {
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      setTimeout,
+      clearTimeout,
     };
 
     renderProvider();
@@ -78,9 +98,15 @@ describe('GbaEmulatorContext', () => {
       }),
     };
 
-    globalWithDocument.document = {
+    globalWithDom.document = {
       createElement: jest.fn(() => input),
       body: { appendChild: jest.fn() },
+    };
+    globalWithDom.window = {
+      addEventListener: jest.fn(),
+      removeEventListener: jest.fn(),
+      setTimeout,
+      clearTimeout,
     };
 
     renderProvider();

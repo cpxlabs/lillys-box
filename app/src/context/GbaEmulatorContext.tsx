@@ -28,6 +28,13 @@ type WebDocumentLike = {
   body?: { appendChild: (node: WebRomInput) => void };
 };
 
+type WebWindowLike = {
+  addEventListener: (event: string, listener: () => void, options?: { once?: boolean }) => void;
+  removeEventListener: (event: string, listener: () => void) => void;
+  setTimeout: typeof setTimeout;
+  clearTimeout: typeof clearTimeout;
+};
+
 type GbaEmulatorContextType = {
   recentRoms: GbaRomSummary[];
   hasImportedRoms: boolean;
@@ -56,6 +63,14 @@ const getDocument = (): WebDocumentLike | null => {
   return (globalThis as typeof globalThis & { document?: WebDocumentLike }).document ?? null;
 };
 
+const getWindow = (): WebWindowLike | null => {
+  if (typeof globalThis !== 'object' || !('window' in globalThis)) {
+    return null;
+  }
+
+  return (globalThis as typeof globalThis & { window?: WebWindowLike }).window ?? null;
+};
+
 const createRomSummaryFromFile = (file: SelectedRomFile): GbaRomSummary | null => {
   const trimmedName = file.name.trim();
   if (!/\.gba$/i.test(trimmedName)) {
@@ -81,30 +96,62 @@ const pickWebRom = async (): Promise<GbaRomSummary | null> => {
 
   return new Promise((resolve) => {
     const currentDocument = getDocument();
-    if (!currentDocument) {
+    if (!currentDocument?.body) {
       resolve(null);
       return;
     }
 
+    const currentWindow = getWindow();
     const input = currentDocument.createElement('input');
     input.type = 'file';
     input.accept = '.gba';
+    let hasResolved = false;
+    let cancelTimeout: ReturnType<typeof setTimeout> | null = null;
 
     const finalize = (rom: GbaRomSummary | null) => {
+      if (hasResolved) {
+        return;
+      }
+
+      hasResolved = true;
+      if (currentWindow) {
+        currentWindow.removeEventListener('focus', handleWindowFocus);
+      }
+      if (cancelTimeout) {
+        (currentWindow?.clearTimeout ?? clearTimeout)(cancelTimeout);
+      }
       input.remove();
       resolve(rom);
     };
 
+    const handleWindowFocus = () => {
+      if (hasResolved) {
+        return;
+      }
+      if (cancelTimeout) {
+        (currentWindow?.clearTimeout ?? clearTimeout)(cancelTimeout);
+      }
+      cancelTimeout = (currentWindow?.setTimeout ?? setTimeout)(() => {
+        if (!input.files?.length) {
+          finalize(null);
+        }
+      }, 0);
+    };
+
     input.addEventListener('change', () => {
+      if (cancelTimeout) {
+        (currentWindow?.clearTimeout ?? clearTimeout)(cancelTimeout);
+        cancelTimeout = null;
+      }
       const nextRom = input.files?.[0] ? createRomSummaryFromFile(input.files[0]) : null;
       finalize(nextRom);
     }, { once: true });
 
-    input.addEventListener('cancel', () => {
-      finalize(null);
-    }, { once: true });
+    if (currentWindow) {
+      currentWindow.addEventListener('focus', handleWindowFocus, { once: true });
+    }
 
-    currentDocument.body?.appendChild(input);
+    currentDocument.body.appendChild(input);
     input.click();
   });
 };
