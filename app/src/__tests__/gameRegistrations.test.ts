@@ -9,7 +9,7 @@ describe('game registrations', () => {
     );
 
     expect(registrationsSource).toMatch(
-      /id:\s*'gba-emulator'[\s\S]*isEnabled:\s*true/,
+      /register\(\{\s*id:\s*'gba-emulator',[^\n]*navigator:\s*GbaEmulatorNavigator,[^\n]*isEnabled:\s*true\s*\}\);/,
     );
   });
 });
