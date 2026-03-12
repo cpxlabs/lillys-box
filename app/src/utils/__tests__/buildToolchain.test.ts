@@ -21,6 +21,14 @@ describe('build toolchain dependencies', () => {
     expect(packageJson.devDependencies?.['react-native-worklets']).toBeUndefined();
   });
 
+  it('exposes React.use for Expo Router runtime hooks', () => {
+    const react = require('react') as {
+      use?: unknown;
+    };
+
+    expect(react.use).toEqual(expect.any(Function));
+  });
+
   it('resolves @babel/types from the reanimated Babel plugin location', () => {
     const pluginPath = require.resolve('react-native-reanimated/plugin');
     const pluginRequire = createRequire(pluginPath);
