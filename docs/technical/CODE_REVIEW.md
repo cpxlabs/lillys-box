@@ -1,6 +1,6 @@
 # Complete Code Review — Lilly's Box
 
-**Date:** 2026-03-10 (updated 2026-03-11)  
+**Date:** 2026-03-10 (updated 2026-03-12)  
 **Repository:** `cpxlabs/lillys-box`
 
 ---
@@ -15,7 +15,7 @@ This review covered:
 
 Baseline commands executed before drafting this update:
 1. `cd /home/runner/work/lillys-box/lillys-box/app && npm run lint` → **passed with 0 errors and 0 warnings** ✅
-2. `cd /home/runner/work/lillys-box/lillys-box/app && npm test -- --runInBand` → **passed** (`112/112` suites, `619` tests, `1` skipped) ✅
+2. `cd /home/runner/work/lillys-box/lillys-box/app && npm test -- --runInBand` → **passed** (`118/118` suites, `645` tests, `1` skipped) ✅
 3. `cd /home/runner/work/lillys-box/lillys-box/backend && npm run build` → **passed** (0 TypeScript errors) ✅
 4. `cd /home/runner/work/lillys-box/lillys-box/backend && npm test` → **passed** (7 tests, 1 file) ✅
 
@@ -27,7 +27,7 @@ Environment note: app dependencies required `npm install --legacy-peer-deps` in 
 
 The project is in a solid, stable state. All frontend quality gates are green and the backend is clean:
 - Frontend lint completes with **0 errors and 0 warnings** ✅
-- Frontend tests are **fully green** (`112/112` suites, `619` tests, `1` skipped) ✅
+- Frontend tests are **fully green** (`118/118` suites, `645` tests, `1` skipped) ✅
 - Backend build **passes** ✅ — CORS hardened, rate-limiting registered
 - Backend tests run **7 tests in 1 file** ✅ — `dist/` no longer double-counted
 - Backend has **no unused dependencies** ✅ — dead packages removed
@@ -45,7 +45,7 @@ All P0 and P1 items from the action plan below have been resolved.
    - app/backend/docs separation is clean and easy to navigate.
 
 3. **Substantial test surface area exists**
-   - `108` test files are present under `app/src`.
+   - `117` test files are present under `app/src`.
 
 4. **Backend build issues are resolved**
    - TypeScript errors previously in `backend/src/buildServer.ts` are fully fixed.
@@ -76,13 +76,13 @@ All P0 and P1 items from the action plan below have been resolved.
 ### H2 — Frontend tests are not in a stable state
 
 **Status update (2026-03-10)**
-- `npm test -- --runInBand` is fully green: `Test Suites: 112 passed, 112 total`, `Tests: 1 skipped, 618 passed`.
+- `npm test -- --runInBand` is fully green: `Test Suites: 118 passed, 118 total`, `Tests: 1 skipped, 644 passed`.
 - Renderer compatibility and AudioService key expectations are aligned in the current baseline.
 
 **Evidence**
 - `npm test -- --runInBand` ended with:
-  - `Test Suites: 112 passed, 112 total`
-  - `Tests:       1 skipped, 618 passed, 619 total`
+  - `Test Suites: 118 passed, 118 total`
+  - `Tests:       1 skipped, 644 passed, 645 total`
 
 **Impact**
 - Test pipeline is currently trustworthy for regression detection; keep it pinned to the validated toolchain.
@@ -215,7 +215,7 @@ All P0 and P1 items from the action plan below have been resolved.
 
 ## 8) Final Assessment
 
-The repository is in a healthy and stable state. All quality gates are green: frontend lint produces zero warnings, the full test suite (619 tests across 112 suites) passes, the backend TypeScript build is error-free, and backend smoke tests cover the CORS and health-check behaviour. Dependency hygiene has been improved by removing packages that were declared but never used. The codebase is ready for continued feature development.
+The repository is in a healthy and stable state. All quality gates are green: frontend lint produces zero warnings, the full test suite (645 tests across 118 suites) passes, the backend TypeScript build is error-free, and backend smoke tests cover the CORS and health-check behaviour. Dependency hygiene has been improved by removing packages that were declared but never used. The codebase is ready for continued feature development.
 
 The `server/` sub-package (Socket.IO / Muito multiplayer game server) contains known areas for future improvement (wildcard CORS, hardcoded JWT fallback, no room-code deduplication), but these are deferred until that subsystem is actively deployed.
 
@@ -268,5 +268,37 @@ The following documentation issues were identified and resolved:
 
 **Status: RESOLVED ✅**
 - SPEC.md referenced "500+ tests, 99%+ passing".
-- Updated to reflect the actual count: 619 tests across 112 suites, all passing.
+- Updated to reflect the actual count: 645 tests across 118 suites, all passing.
+
+---
+
+## 10) Documentation Consolidation (2026-03-12)
+
+The following documentation cleanup was performed to reduce file count and eliminate redundancy. Git history preserves the original content.
+
+### D8 — Redundant game docs consolidated
+
+**Status: RESOLVED ✅**
+- Deleted `docs/GAMES_QUICK_REFERENCE.md` — content was an 80% duplicate of `GAMES_SYSTEM_UPGRADE.md`.
+- Deleted `docs/guides/GAME_CREATION.md` — content was a 60-70% duplicate of `GAMES_SYSTEM_UPGRADE.md`.
+- `GAMES_SYSTEM_UPGRADE.md` is now the single source of truth for game creation and system reference.
+- Updated all cross-references in `docs/README.md`, `CONTRIBUTING.md`, `GAMES_ARCHITECTURE.md`, and `FOLDER_STRUCTURE.md`.
+
+### D9 — FOLDER_STRUCTURE.md docs listing incomplete
+
+**Status: RESOLVED ✅**
+- The root-level documentation tree was missing `GAMES_SYSTEM_UPGRADE.md`, `GAMES_ARCHITECTURE.md`, `RALPH_LOOPS.md`, `EMULATOR.md`, and `LOAD_ROMS.md`.
+- Updated the listing to reflect the actual file set.
+
+### D10 — GAMES_SYSTEM_UPGRADE.md game count outdated
+
+**Status: RESOLVED ✅**
+- Listed "34 Total" games with incomplete category counts.
+- Updated to 36 games with correct category breakdown (1 pet care, 20 casual, 11 puzzle, 4 adventure).
+
+### D11 — GAMES_SYSTEM_UPGRADE.md broken relative links
+
+**Status: RESOLVED ✅**
+- Related Documentation section used incorrect relative paths (e.g., `../design-system/` instead of `./design-system/`).
+- Fixed all paths to resolve correctly from the `docs/` directory.
 

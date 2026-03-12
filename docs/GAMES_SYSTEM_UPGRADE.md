@@ -129,9 +129,7 @@ analytics.trackEvent('level_complete', { level: 5, time: 125 });
 
 ### 4. Games System Documentation
 
-**File**: `docs/guides/GAME_CREATION.md`
-
-Comprehensive guide covering:
+This document is the comprehensive guide covering:
 - Quick start with code generator
 - Game architecture patterns
 - Context patterns (simple & complex)
@@ -239,24 +237,24 @@ Game Screen
 
 ---
 
-## Current Games (34 Total)
+## Current Games (36 Total)
 
 ### Categories
 
 **Pet Care** (1)
 - pet-care
 
-**Casual** (19)
+**Casual** (20)
 - muito, color-tap, dress-up-relay, feed-the-pet, whack-a-mole
 - catch-the-ball, bubble-pop, pet-dance-party, treasure-dig
 - balloon-float, paint-splash, snack-stack, lightning-tap
 - pet-chef, music-maker, garden-grow, photo-studio
-- hide-and-seek, star-catcher
+- hide-and-seek, star-catcher, kids-chess
 
-**Puzzle** (10)
+**Puzzle** (11)
 - memory-match, simon-says, color-mixer, sliding-puzzle
 - path-finder, shape-sorter, mirror-match-new, word-bubbles
-- jigsaw-pets, connect-dots
+- jigsaw-pets, connect-dots, gba-emulator
 
 **Adventure** (4)
 - pet-runner, pet-explorer, weather-wizard, pet-taxi
@@ -483,17 +481,16 @@ const checkStorage = async () => {
 ## Support & Questions
 
 For issues or questions:
-1. Check [GAME_CREATION.md](./GAME_CREATION.md)
-2. Review existing games as examples
-3. Check TypeScript types in `src/types/gameState.ts`
-4. Look at hook implementation in `src/hooks/useGameState.ts`
+1. Review existing games as examples
+2. Check TypeScript types in `src/types/gameState.ts`
+3. Look at hook implementation in `src/hooks/useGameState.ts`
 
 ---
 
 ## Related Documentation
 
-- [Game Creation Guide](./GAME_CREATION.md)
-- [Folder Structure](./FOLDER_STRUCTURE.md)
-- [Design System](../design-system/)
-- [Technical API Reference](../technical/API_REFERENCE.md)
-- [Testing Guide](../testing/TESTING.md)
+- [Games Architecture Diagrams](./GAMES_ARCHITECTURE.md)
+- [Folder Structure](./guides/FOLDER_STRUCTURE.md)
+- [Design System](./design-system/)
+- [Technical API Reference](./technical/API_REFERENCE.md)
+- [Testing Guide](./testing/TESTING.md)

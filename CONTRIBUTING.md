@@ -147,7 +147,7 @@ refactor: extract useGameBestScore hook
 
 ## Adding a New Game
 
-See [docs/guides/GAME_CREATION.md](./docs/guides/GAME_CREATION.md) for the full guide. In summary, each new game requires:
+See [docs/GAMES_SYSTEM_UPGRADE.md](./docs/GAMES_SYSTEM_UPGRADE.md) for the full guide. In summary, each new game requires:
 
 1. Four source files: Context, Navigator, HomeScreen, GameScreen
 2. Registration in `gameRegistrations.ts`
@@ -159,6 +159,6 @@ See [docs/guides/GAME_CREATION.md](./docs/guides/GAME_CREATION.md) for the full 
 
 - [Full Documentation](./docs/README.md)
 - [Build Guide](./docs/guides/BUILD.md)
-- [Game Creation Guide](./docs/guides/GAME_CREATION.md)
+- [Game System & Creation Guide](./docs/GAMES_SYSTEM_UPGRADE.md)
 - [Testing Guide](./docs/testing/TESTING.md)
 - [Code Review & Roadmap](./docs/technical/CODE_REVIEW.md)

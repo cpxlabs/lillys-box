@@ -20,10 +20,8 @@ Complete documentation for the Lilly's Box project.
 - [TESTING.md](testing/TESTING.md) - E2E tests (Maestro), game tests, unit tests
 
 ### Games System
-- [GAMES_SYSTEM_UPGRADE.md](GAMES_SYSTEM_UPGRADE.md) - Complete game architecture and tooling
-- [GAMES_QUICK_REFERENCE.md](GAMES_QUICK_REFERENCE.md) - Game development cheatsheet
+- [GAMES_SYSTEM_UPGRADE.md](GAMES_SYSTEM_UPGRADE.md) - Complete game architecture, creation guide, and tooling
 - [GAMES_ARCHITECTURE.md](GAMES_ARCHITECTURE.md) - Visual architecture diagrams
-- [GAME_CREATION.md](guides/GAME_CREATION.md) - Step-by-step game creation guide
 
 ### Design System
 - [design-system/](design-system/) - UI screens, components, games documentation
@@ -68,13 +66,11 @@ Complete documentation for the Lilly's Box project.
 docs/
 ├── README.md                    # This file
 ├── GAMES_SYSTEM_UPGRADE.md      # Full game system reference
-├── GAMES_QUICK_REFERENCE.md     # One-page game cheat sheet
 ├── GAMES_ARCHITECTURE.md        # Games architecture diagrams
 ├── RALPH_LOOPS.md               # AI coding loops guide
 ├── guides/
 │   ├── BUILD.md                # Building for all platforms
 │   ├── RESPONSIVE.md           # Responsive design guide
-│   ├── GAME_CREATION.md        # Step-by-step game creation
 │   ├── LOAD_ROMS.md            # Loading games in GBA emulator
 │   └── FOLDER_STRUCTURE.md     # Project folder layout
 ├── technical/
@@ -123,7 +119,7 @@ docs/
 → [LOAD_ROMS.md](guides/LOAD_ROMS.md)
 
 **...create a new game**
-→ [GAME_CREATION.md](guides/GAME_CREATION.md)
+→ [GAMES_SYSTEM_UPGRADE.md](GAMES_SYSTEM_UPGRADE.md)
 
 ---
 
@@ -398,7 +394,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
 
 ---
 
-**Last Updated**: 2026-03-11
+**Last Updated**: 2026-03-12
 
 **Maintained By**: Lilly's Box Development Team
 

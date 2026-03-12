@@ -177,10 +177,8 @@ scripts/
 └── generate-game.js (NEW - code generator)
 
 docs/
-├── GAMES_SYSTEM_UPGRADE.md (NEW - full reference)
-├── GAMES_QUICK_REFERENCE.md (NEW - cheat sheet)
-├── guides/
-│   └── GAME_CREATION.md (NEW - creation guide)
+├── GAMES_SYSTEM_UPGRADE.md (full reference)
+├── GAMES_ARCHITECTURE.md (this file - diagrams)
 └── design-system/
     └── ... (23 game specifications)
 ```
@@ -338,11 +336,8 @@ GameResult
 ├── docs/GAMES_SYSTEM_UPGRADE.md
 │   └─ Complete system reference (500+ lines)
 │
-├── docs/GAMES_QUICK_REFERENCE.md
-│   └─ One-page cheat sheet
-│
-└── docs/guides/GAME_CREATION.md
-    └─ Step-by-step creation guide
+└── docs/GAMES_ARCHITECTURE.md
+    └─ Visual architecture diagrams (this file)
 ```
 
 ---
@@ -371,7 +366,7 @@ Features added:
 ## Next Steps for Developers
 
 ```
-1️⃣  Read GAMES_QUICK_REFERENCE.md (5 min)
+1️⃣  Read GAMES_SYSTEM_UPGRADE.md (5 min)
     ↓
 2️⃣  Run game generator (1 min)
     ↓
