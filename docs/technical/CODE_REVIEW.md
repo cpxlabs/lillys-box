@@ -100,7 +100,7 @@ All P0 and P1 items from the action plan below have been resolved.
 
 **Evidence**
 - `tsc` exits with code 0.
-- Backend smoke tests cover `/health` endpoint and CORS allow/block behaviour.
+- Backend smoke tests cover `/health` endpoint and CORS allow/block behavior.
 
 ---
 
@@ -215,7 +215,7 @@ All P0 and P1 items from the action plan below have been resolved.
 
 ## 8) Final Assessment
 
-The repository is in a healthy and stable state. All quality gates are green: frontend lint produces zero warnings, the full test suite (645 tests across 118 suites) passes, the backend TypeScript build is error-free, and backend smoke tests cover the CORS and health-check behaviour. Dependency hygiene has been improved by removing packages that were declared but never used. The codebase is ready for continued feature development.
+The repository is in a healthy and stable state. All quality gates are green: frontend lint produces zero warnings, the full test suite (645 tests across 118 suites) passes, the backend TypeScript build is error-free, and backend smoke tests cover the CORS and health-check behavior. Dependency hygiene has been improved by removing packages that were declared but never used. The codebase is ready for continued feature development.
 
 The `server/` sub-package (Socket.IO / Muito multiplayer game server) contains known areas for future improvement (wildcard CORS, hardcoded JWT fallback, no room-code deduplication), but these are deferred until that subsystem is actively deployed.
 
