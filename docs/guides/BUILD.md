@@ -184,22 +184,25 @@ cd app
 npx expo run:android --build
 ```
 
-Release APK:
+Installable APK:
 ```bash
 cd app
-eas build --platform android --non-interactive
+npx eas-cli build --platform android --profile preview --non-interactive
 ```
+
+The generated artifact for the `preview` profile is an installable `.apk`, which is suitable for directly installing on a device or sharing internally.
 
 ### Google Play Store
 
 1. Create Google Play Developer account
 2. Set up app in Play Console
 3. Configure signing certificate
-4. Build release APK:
+4. Build Play Store bundle:
    ```bash
-   eas build --platform android --non-interactive
+   cd app
+   npx eas-cli build --platform android --profile production --non-interactive
    ```
-5. Upload to Play Console
+5. Upload the generated `.aab` to Play Console
 
 ## iOS Builds
 

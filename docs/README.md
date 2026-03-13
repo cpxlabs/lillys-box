@@ -195,8 +195,11 @@ pnpm ios
 # Web production
 EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export --platform web
 
-# Android production
-eas build --platform android
+# Android installable APK
+cd app && npx eas-cli build --platform android --profile preview
+
+# Android Play Store bundle
+cd app && npx eas-cli build --platform android --profile production
 
 # iOS production
 eas build --platform ios
