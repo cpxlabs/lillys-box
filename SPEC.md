@@ -9,18 +9,18 @@
 
 ## Technology Stack
 
-- **Framework:** React Native 0.73.2 with Expo SDK 50
+- **Framework:** React Native 0.77.3 with Expo SDK 55
 - **Language:** TypeScript 5.1.3 (strict mode)
-- **Navigation:** Expo Router 3.4.10 (file-based routing)
-- **Graphics:** React Native Skia, React Native SVG, React Native Reanimated 3.6.1
+- **Navigation:** Expo Router ~55.0.4 (file-based routing)
+- **Graphics:** @shopify/react-native-skia 2.4.18, React Native SVG, React Native Reanimated ~4.2.0
 - **State Management:** React Context API
-- **Authentication:** @react-native-google-signin/google-signin (Google OAuth)
-- **Storage:** AsyncStorage (local), Firebase Firestore (cloud sync)
+- **Authentication:** @react-native-google-signin/google-signin 16.x (Google OAuth)
+- **Storage:** AsyncStorage (local), Firebase Firestore (cloud sync — reviews)
 - **Ads:** Google Mobile Ads (AdMob) — COPPA compliant
 - **Audio:** expo-av (background music + sound effects)
-- **Multiplayer:** socket.io-client 4.8.0
+- **Multiplayer:** socket.io-client ^4.8.0
 - **i18n:** i18next + react-i18next (English + Portuguese Brazil)
-- **Testing:** Jest 30, React Native Testing Library, Maestro (E2E)
+- **Testing:** Jest ^30.2, React Native Testing Library, Maestro (E2E)
 - **Error Tracking:** Sentry (source maps + debug symbols)
 - **Code Quality:** ESLint, Prettier
 
@@ -205,24 +205,26 @@ Weighted average of all stats with multipliers:
 
 ## Testing
 
-- **Unit Tests:** Jest 30 with React Native Testing Library (671 tests across 123 suites, all passing)
+- **Unit Tests:** Jest ^30.2 with React Native Testing Library (671 tests across 123 suites, all passing)
 - **E2E Tests:** Maestro
 - **CI Scripts:** Locale key parity check (`scripts/check-locale-keys.js`)
 
 ## Build & Deployment
 
-- **Web Build:** `EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export --platform web`
+- **Web Build:** `pnpm build:web` (runs `EXPO_PUBLIC_BUILD_PLATFORM=web expo export --platform web`)
 - **Web Deploy:** Vercel (production active)
-- **Android Build:** Expo EAS (`eas build`)
-- **Testing:** `npm test`, `npm run test:e2e`
+- **Android APK:** `pnpm build:android:apk` (local Gradle debug build → `Android/lillys-box.apk`)
+- **Android Play Store:** `pnpm build:android:bundle` (EAS cloud build)
+- **Testing:** `pnpm test`, `pnpm test:e2e`
 
 ## Development Commands
 
 ```bash
-npm start          # Start Expo dev server
-npm run android    # Run on Android
-npm run web         # Run on web
-npm test           # Run tests
-npm run lint       # Lint code
-npm run format     # Format code
+pnpm start          # Start Expo dev server
+pnpm android        # Run on Android
+pnpm web            # Run on web (sets EXPO_PUBLIC_BUILD_PLATFORM=web)
+pnpm test           # Run tests
+pnpm lint           # Lint code
+pnpm format         # Format code
+pnpm check-locale   # Verify locale key parity
 ```

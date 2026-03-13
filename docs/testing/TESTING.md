@@ -39,7 +39,7 @@ brew install maestro
 
 ```bash
 # Run main test flow
-npm run test:e2e
+pnpm test:e2e
 # or
 maestro test e2e/flow.yaml
 
@@ -365,39 +365,39 @@ describe('ColorTapGameScreen', () => {
 
 ### Jest Setup
 
-Install testing dependencies:
+Dependencies are already included in `app/package.json`. To reinstall:
 
 ```bash
-npm install --save-dev @testing-library/react-native jest
+cd app && pnpm install
 ```
 
-Jest config in `jest.config.js`:
+Jest config lives at `app/jest.config.js`. Key settings:
 
 ```javascript
 module.exports = {
-  preset: 'react-native',
-  testEnvironment: 'node',
+  preset: 'jest-expo',
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
-  },
+  // ...
 };
 ```
 
 ### Running Tests
 
 ```bash
-# All tests
-npm test
+# All tests (from /app)
+pnpm test
+
+# Recommended for CI (serial execution)
+pnpm test -- --runInBand
 
 # Watch mode
-npm test -- --watch
+pnpm test:watch
 
 # Specific file
-npm test ColorTapContext
+pnpm test -- ColorTapContext
 
 # Coverage report
-npm test -- --coverage
+pnpm test:coverage
 ```
 
 ## Unit Tests
@@ -487,13 +487,16 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
-          node-version: 18
-      - run: npm install
-      - run: npm test -- --coverage
-      - run: maestro test e2e/flow.yaml
+          node-version: 20
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 10
+      - run: cd app && pnpm install
+      - run: cd app && pnpm test -- --runInBand --coverage
+      - run: cd app && pnpm test:e2e
 ```
 
 ## Resources
@@ -504,5 +507,5 @@ jobs:
 
 ---
 
-**Last Updated**: 2026-03-04  
+**Last Updated**: 2026-03-13
 **Status**: Complete

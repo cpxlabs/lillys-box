@@ -129,15 +129,18 @@ All findings from the original review have been addressed. Condensed below for r
 | #271 | Route local Android APK builds to `Android/` | APK output path configuration |
 | #272 | Update CODE_REVIEW.md baseline recheck | Doc update |
 | #273 | Mark H2 resolved, sync test counts | Doc update |
+| #274 | Rewrite CODE_REVIEW.md, sync SPEC.md | Condensed resolved findings; corrected file paths; synced test counts |
+| #275 | Fix frontend build tooling output & lint warning | Cleaned web build output; removed spurious lint module warning |
+| #276 | Catch usePetActions config errors; record follow-up plan | Hook now resets state on unexpected action-config errors; skip removed from error-handling test |
 
 ### Baseline Progression
 
-| Metric | 2026-03-10 | 2026-03-12 | 2026-03-13 |
-|--------|-----------|-----------|-----------|
+| Metric | 2026-03-10 | 2026-03-12 | 2026-03-13 (post #276) |
+|--------|-----------|-----------|------------------------|
 | App lint | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings |
 | App test suites | 112 | 118 | 123 |
 | App tests (total) | 619 | 645 | 671 |
-| App test files | — | 117 | 122 |
+| App test files | — | 117 | 122 (0 skipped) |
 | Backend tests | 7 (1 file) | 7 (1 file) | 9 (2 files) |
 | Registered games | 36 | 36 | 36 |
 

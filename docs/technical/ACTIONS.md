@@ -482,6 +482,6 @@ test('feed action reduces hunger', async () => {
 
 ---
 
-**Last Updated**: 2026-03-04  
-**Status**: Complete  
+**Last Updated**: 2026-03-13
+**Status**: Complete
 **Version**: 2.0 (Consolidated 2026-01-18)

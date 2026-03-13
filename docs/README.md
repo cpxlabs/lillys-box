@@ -49,15 +49,16 @@ Complete documentation for the Lilly's Box project.
 
 ### Tech Stack
 
-- React Native 0.73 (Expo 50)
-- TypeScript 5.1
-- Expo Router 3.4 (file-based routing)
-- AsyncStorage (local persistence)
-- react-native-reanimated 3.6 (animations)
+- React Native 0.77.3 (Expo SDK 55)
+- TypeScript 5.1 (strict mode)
+- Expo Router ~55.0.4 (file-based routing)
+- AsyncStorage (local persistence) + Firebase Firestore (reviews)
+- @shopify/react-native-skia 2.4.18 (graphics & animations)
+- react-native-reanimated ~4.2.0 (animations)
 - Google Sign-In OAuth
-- Socket.io (multiplayer)
+- socket.io-client (multiplayer)
 - i18next (translation)
-- Jest + React Testing Library (testing)
+- Jest ^30.2 + React Testing Library (testing)
 
 ---
 
@@ -405,7 +406,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
 
 ---
 
-**Last Updated**: 2026-03-12
+**Last Updated**: 2026-03-13
 
 **Maintained By**: Lilly's Box Development Team
 
