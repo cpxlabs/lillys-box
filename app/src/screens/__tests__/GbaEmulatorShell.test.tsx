@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
+import { Platform } from 'react-native';
 import { GbaEmulatorHomeScreen } from '../GbaEmulatorHomeScreen';
 import { GbaEmulatorGameScreen } from '../GbaEmulatorGameScreen';
 import { createMockNavigation } from '../../testUtils/backNavigation';
@@ -171,5 +172,51 @@ describe('GbaEmulator shell screens', () => {
     fireEvent.press(getByText('← common.back'));
 
     expect(parentGoBack).toHaveBeenCalledTimes(1);
+  });
+
+  it('creates and cleans up blob URLs for the web emulator shell', () => {
+    const originalPlatform = Platform.OS;
+    const originalUrl = global.URL;
+
+    try {
+      Object.defineProperty(Platform, 'OS', { configurable: true, value: 'web' });
+
+      const createObjectURL = jest
+        .fn()
+        .mockReturnValueOnce('blob:rom')
+        .mockReturnValueOnce('blob:html');
+      const revokeObjectURL = jest.fn();
+
+      global.URL = {
+        ...originalUrl,
+        createObjectURL,
+        revokeObjectURL,
+      } as typeof URL;
+
+      mockGetRomBlob.mockReturnValue(new Blob(['rom-data'], { type: 'application/octet-stream' }));
+      mockUseGbaEmulator.mockReturnValue({
+        recentRoms: [{ id: 'emerald', title: 'Pokémon Emerald' }],
+        hasImportedRoms: true,
+        isImportAvailable: true,
+        importRom: mockImportRom,
+        selectedRomId: 'emerald',
+        selectRom: mockSelectRom,
+        getRomBlob: mockGetRomBlob,
+      });
+
+      const navigation = { navigate: jest.fn() } as any;
+      const { getByTestId, unmount } = render(<GbaEmulatorGameScreen navigation={navigation} />);
+
+      expect(getByTestId('gba-emulator-webview')).toBeTruthy();
+      expect(createObjectURL).toHaveBeenCalledTimes(2);
+
+      unmount();
+
+      expect(revokeObjectURL).toHaveBeenCalledWith('blob:rom');
+      expect(revokeObjectURL).toHaveBeenCalledWith('blob:html');
+    } finally {
+      Object.defineProperty(Platform, 'OS', { configurable: true, value: originalPlatform });
+      global.URL = originalUrl;
+    }
   });
 });

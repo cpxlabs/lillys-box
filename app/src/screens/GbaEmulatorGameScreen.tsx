@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { WebView } from 'react-native-webview';
@@ -36,41 +36,48 @@ const buildEmulatorHtml = (romBlobUrl: string, title: string): string => `<!DOCT
 </body>
 </html>`;
 
-const useEmulatorUri = (romBlob: Blob | null, title: string): string | null => {
-  const uriRef = useRef<{ htmlUrl: string; romUrl: string } | null>(null);
+const useEmulatorUri = (romId: string | null, romBlob: Blob | null, title: string): string | null => {
+  const [emulatorResource, setEmulatorResource] = useState<{
+    htmlUrl: string;
+    romId: string;
+    title: string;
+  } | null>(null);
+  const supportsObjectUrls =
+    Platform.OS === 'web' &&
+    !!romId &&
+    !!romBlob &&
+    typeof URL !== 'undefined' &&
+    typeof URL.createObjectURL === 'function';
 
-  // Cleanup old blob URLs when ROM changes or component unmounts
   useEffect(() => {
+    if (!supportsObjectUrls || !romBlob || !romId) {
+      return;
+    }
+
+    const romUrl = URL.createObjectURL(romBlob);
+    const html = buildEmulatorHtml(romUrl, title);
+    const htmlBlob = new Blob([html], { type: 'text/html' });
+    const htmlUrl = URL.createObjectURL(htmlBlob);
+
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setEmulatorResource({ htmlUrl, romId, title });
+
     return () => {
-      if (uriRef.current) {
-        URL.revokeObjectURL(uriRef.current.romUrl);
-        URL.revokeObjectURL(uriRef.current.htmlUrl);
-        uriRef.current = null;
-      }
+      URL.revokeObjectURL(romUrl);
+      URL.revokeObjectURL(htmlUrl);
     };
-  }, [romBlob]);
+  }, [romBlob, romId, supportsObjectUrls, title]);
 
-  if (Platform.OS !== 'web' || !romBlob) {
+  if (
+    !supportsObjectUrls ||
+    !emulatorResource ||
+    emulatorResource.romId !== romId ||
+    emulatorResource.title !== title
+  ) {
     return null;
   }
 
-  if (typeof URL === 'undefined' || typeof URL.createObjectURL !== 'function') {
-    return null;
-  }
-
-  // Revoke previous URLs before creating new ones
-  if (uriRef.current) {
-    URL.revokeObjectURL(uriRef.current.romUrl);
-    URL.revokeObjectURL(uriRef.current.htmlUrl);
-  }
-
-  const romUrl = URL.createObjectURL(romBlob);
-  const html = buildEmulatorHtml(romUrl, title);
-  const htmlBlob = new Blob([html], { type: 'text/html' });
-  const htmlUrl = URL.createObjectURL(htmlBlob);
-  uriRef.current = { htmlUrl, romUrl };
-
-  return htmlUrl;
+  return emulatorResource.htmlUrl;
 };
 
 export const GbaEmulatorGameScreen: React.FC<Props> = ({ navigation }) => {
@@ -80,7 +87,7 @@ export const GbaEmulatorGameScreen: React.FC<Props> = ({ navigation }) => {
 
   const selectedRom = recentRoms.find((r) => r.id === selectedRomId) ?? null;
   const romBlob = selectedRomId ? getRomBlob(selectedRomId) : null;
-  const emulatorUri = useEmulatorUri(romBlob, selectedRom?.title ?? 'GBA ROM');
+  const emulatorUri = useEmulatorUri(selectedRomId, romBlob, selectedRom?.title ?? 'GBA ROM');
 
   if (emulatorUri) {
     return (
