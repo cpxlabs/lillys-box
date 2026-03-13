@@ -1,6 +1,6 @@
 # Complete Code Review — Lilly's Box
 
-**Date:** 2026-03-10 (updated 2026-03-13)  
+**Date:** 2026-03-10 (updated 2026-03-13; test-pipeline status finalised 2026-03-13)  
 **Repository:** `cpxlabs/lillys-box`
 
 ---
@@ -15,7 +15,7 @@ This review covered:
 
 Baseline commands executed before drafting this update:
 1. `cd /home/runner/work/lillys-box/lillys-box/app && npm run lint` → **passed with 0 errors and 0 warnings** ✅
-2. `cd /home/runner/work/lillys-box/lillys-box/app && npm test -- --runInBand` → **passed** (`123/123` suites, `667` tests, `1` skipped) ✅
+2. `cd /home/runner/work/lillys-box/lillys-box/app && npm test -- --runInBand` → **passed** (`123/123` suites, `671` tests, `1` skipped) ✅
 3. `cd /home/runner/work/lillys-box/lillys-box/backend && npm run build` → **passed** (0 TypeScript errors) ✅
 4. `cd /home/runner/work/lillys-box/lillys-box/backend && npm test` → **passed** (9 tests, 2 files) ✅
 
@@ -27,7 +27,7 @@ Environment note: app dependencies required `npm install --legacy-peer-deps` in 
 
 The project is in a solid, stable state. All frontend quality gates are green and the backend is clean:
 - Frontend lint completes with **0 errors and 0 warnings** ✅
-- Frontend tests are **fully green** (`123/123` suites, `667` tests, `1` skipped) ✅
+- Frontend tests are **fully green** (`123/123` suites, `671` tests, `1` skipped) ✅
 - Backend build **passes** ✅ — CORS hardened, rate-limiting registered
 - Backend tests run **9 tests in 2 files** ✅ — includes auth and server smoke tests
 - Backend has **no unused dependencies** ✅ — dead packages removed
@@ -75,20 +75,21 @@ All P0 and P1 items from the action plan below have been resolved.
 
 ### H2 — Frontend tests are not in a stable state
 
-**Status update (2026-03-10)**
-- `npm test -- --runInBand` is fully green: `Test Suites: 123 passed, 123 total`, `Tests: 1 skipped, 666 passed`.
+**Status: RESOLVED ✅ (2026-03-13)**
+- `npm test -- --runInBand` is fully green: `Test Suites: 123 passed, 123 total`, `Tests: 1 skipped, 670 passed`.
 - Renderer compatibility and AudioService key expectations are aligned in the current baseline.
+- `react-test-renderer` is pinned to `19.2.0` (exact match to `react@19.2.0`) to prevent version-mismatch failures.
 
 **Evidence**
 - `npm test -- --runInBand` ended with:
   - `Test Suites: 123 passed, 123 total`
-  - `Tests:       1 skipped, 666 passed, 667 total`
+  - `Tests:       1 skipped, 670 passed, 671 total`
 
 **Impact**
-- Test pipeline is currently trustworthy for regression detection; keep it pinned to the validated toolchain.
+- Test pipeline is trustworthy for regression detection; toolchain is pinned to the validated versions.
 
 **Recommendation**
-- Maintain the validated React/test-renderer/jest versions and rerun the suite after any dependency bump.
+- Maintain the validated React/jest/test-renderer versions and rerun the suite after any dependency bump.
 
 ---
 
