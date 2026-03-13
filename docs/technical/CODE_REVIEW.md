@@ -154,3 +154,18 @@ The repository is in a healthy and stable state. All quality gates are green: fr
 
 The `server/` sub-package (Socket.IO / Muito multiplayer game server) contains known areas for future improvement (wildcard CORS, hardcoded JWT fallback, no room-code deduplication), deferred until that subsystem is actively deployed.
 
+---
+
+## 8) Follow-up Plan (non-backend scope)
+
+There are no remaining frontend or documentation fixes to schedule from this review. The app baseline was rechecked on 2026-03-13 and remains green:
+
+- `cd app && corepack pnpm lint` ✅
+- `cd app && corepack pnpm test --runInBand` ✅
+- `cd app && corepack pnpm build:web` ✅
+
+Accordingly, the non-backend plan is:
+
+1. **Do not open additional frontend follow-up work from this review** — all app-facing findings are already resolved.
+2. **Keep this review as closed unless a future regression reopens one of the resolved items** (for example, lint warnings, broken navigation, or failing app tests).
+3. **Treat the deferred `server/` improvements as backend-only scope** and handle them separately when that subsystem is actively deployed.
