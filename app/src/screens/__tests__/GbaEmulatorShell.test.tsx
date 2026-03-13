@@ -181,10 +181,7 @@ describe('GbaEmulator shell screens', () => {
     try {
       Object.defineProperty(Platform, 'OS', { configurable: true, value: 'web' });
 
-      const createObjectURL = jest
-        .fn()
-        .mockReturnValueOnce('blob:rom')
-        .mockReturnValueOnce('blob:html');
+      const createObjectURL = jest.fn().mockReturnValueOnce('blob:rom');
       const revokeObjectURL = jest.fn();
 
       global.URL = {
@@ -208,12 +205,12 @@ describe('GbaEmulator shell screens', () => {
       const { getByTestId, unmount } = render(<GbaEmulatorGameScreen navigation={navigation} />);
 
       expect(getByTestId('gba-emulator-webview')).toBeTruthy();
-      expect(createObjectURL).toHaveBeenCalledTimes(2);
+      expect(createObjectURL).toHaveBeenCalledTimes(1);
 
       unmount();
 
       expect(revokeObjectURL).toHaveBeenCalledWith('blob:rom');
-      expect(revokeObjectURL).toHaveBeenCalledWith('blob:html');
+      expect(revokeObjectURL).toHaveBeenCalledTimes(1);
     } finally {
       Object.defineProperty(Platform, 'OS', { configurable: true, value: originalPlatform });
       global.URL = originalUrl;

@@ -36,9 +36,9 @@ const buildEmulatorHtml = (romBlobUrl: string, title: string): string => `<!DOCT
 </body>
 </html>`;
 
-const useEmulatorUri = (romId: string | null, romBlob: Blob | null, title: string): string | null => {
+const useEmulatorHtml = (romId: string | null, romBlob: Blob | null, title: string): string | null => {
   const [emulatorResource, setEmulatorResource] = useState<{
-    htmlUrl: string;
+    html: string;
     romId: string;
     title: string;
   } | null>(null);
@@ -56,15 +56,12 @@ const useEmulatorUri = (romId: string | null, romBlob: Blob | null, title: strin
 
     const romUrl = URL.createObjectURL(romBlob);
     const html = buildEmulatorHtml(romUrl, title);
-    const htmlBlob = new Blob([html], { type: 'text/html' });
-    const htmlUrl = URL.createObjectURL(htmlBlob);
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setEmulatorResource({ htmlUrl, romId, title });
+    setEmulatorResource({ html, romId, title });
 
     return () => {
       URL.revokeObjectURL(romUrl);
-      URL.revokeObjectURL(htmlUrl);
     };
   }, [romBlob, romId, supportsObjectUrls, title]);
 
@@ -77,7 +74,7 @@ const useEmulatorUri = (romId: string | null, romBlob: Blob | null, title: strin
     return null;
   }
 
-  return emulatorResource.htmlUrl;
+  return emulatorResource.html;
 };
 
 export const GbaEmulatorGameScreen: React.FC<Props> = ({ navigation }) => {
@@ -87,9 +84,9 @@ export const GbaEmulatorGameScreen: React.FC<Props> = ({ navigation }) => {
 
   const selectedRom = recentRoms.find((r) => r.id === selectedRomId) ?? null;
   const romBlob = selectedRomId ? getRomBlob(selectedRomId) : null;
-  const emulatorUri = useEmulatorUri(selectedRomId, romBlob, selectedRom?.title ?? 'GBA ROM');
+  const emulatorHtml = useEmulatorHtml(selectedRomId, romBlob, selectedRom?.title ?? 'GBA ROM');
 
-  if (emulatorUri) {
+  if (emulatorHtml) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
@@ -102,7 +99,7 @@ export const GbaEmulatorGameScreen: React.FC<Props> = ({ navigation }) => {
         {Platform.OS === 'web' ? (
           <View style={styles.emulatorView} testID="gba-emulator-webview">
             <iframe
-              src={emulatorUri}
+              srcdoc={emulatorHtml}
               style={{ flex: 1, border: 'none', width: '100%', height: '100%' } as never}
               allow="autoplay"
               title={selectedRom?.title ?? 'GBA Emulator'}
@@ -110,7 +107,7 @@ export const GbaEmulatorGameScreen: React.FC<Props> = ({ navigation }) => {
           </View>
         ) : (
           <WebView
-            source={{ uri: emulatorUri }}
+            source={{ html: emulatorHtml }}
             style={styles.emulatorView}
             allowsInlineMediaPlayback
             mediaPlaybackRequiresUserAction={false}
