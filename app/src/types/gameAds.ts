@@ -31,7 +31,7 @@ export interface GameAdEvent {
 export interface GameAdConfig {
   gameId: string;
   gameName: string;
-  category: 'casual' | 'puzzle' | 'adventure' | 'pet-care';
+  category: 'casual' | 'puzzle' | 'adventure' | 'pet-care' | 'emulator' | 'board';
   adPlacements: AdPlacement[];
   rewardMultiplier?: number; // Multiplier for reward amount
   frequencyLimit?: {
@@ -67,7 +67,7 @@ export interface GameAdMetrics {
   sessionAdCount: number;
 }
 
-export type GameCategory = 'casual' | 'puzzle' | 'adventure' | 'pet-care';
+export type GameCategory = 'casual' | 'puzzle' | 'adventure' | 'pet-care' | 'emulator' | 'board';
 
 export interface AdStrategyResponse {
   shouldShow: boolean;

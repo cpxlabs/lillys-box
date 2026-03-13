@@ -86,9 +86,7 @@ One shell is the better fit for the current app because:
 
 ### Category recommendation
 
-For the first implementation, keep the emulator entry in an existing category such as `casual` instead of introducing a new registry category immediately.
-
-That keeps the first code change small when implementation starts. If the experience becomes permanent, a dedicated `emulator` category can be added later with matching UI/filter updates.
+The emulator now has its own dedicated `emulator` category in the game registry with matching UI colors and filter support across all game selection screen variants.
 
 ---
 

@@ -299,7 +299,11 @@
       "adventure": "Aventura",
       "adventureDescription": "Explore mundos emocionantes!",
       "casual": "Diversão",
-      "casualDescription": "Diversão para qualquer momento!"
+      "casualDescription": "Diversão para qualquer momento!",
+      "emulator": "Emulador",
+      "emulatorDescription": "Jogue clássicos retrô!",
+      "board": "Jogos de Tabuleiro",
+      "boardDescription": "Jogos de tabuleiro clássicos para todos!"
     },
     "petCare": {
       "name": "Pet Care",

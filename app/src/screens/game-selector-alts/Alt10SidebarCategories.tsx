@@ -22,6 +22,8 @@ const SIDEBAR_ICONS: Record<string, string> = {
   puzzle: '🧩',
   adventure: '🗺️',
   casual: '🎲',
+  emulator: '🕹️',
+  board: '♟️',
 };
 
 const SIDEBAR_COLORS: Record<string, string> = {
@@ -29,6 +31,8 @@ const SIDEBAR_COLORS: Record<string, string> = {
   puzzle: '#2196f3',
   adventure: '#ff9800',
   casual: '#e91e63',
+  emulator: '#7e57c2',
+  board: '#26a69a',
 };
 
 export const Alt10SidebarCategories: React.FC<GameSelectorAltProps> = ({

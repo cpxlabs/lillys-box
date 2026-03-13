@@ -24,6 +24,8 @@ const CAT_ACCENT: Record<string, string> = {
   puzzle: '#42a5f5',
   adventure: '#ffa726',
   casual: '#ef5350',
+  emulator: '#ab47bc',
+  board: '#4db6ac',
 };
 
 export const Alt3DarkMode: React.FC<GameSelectorAltProps> = ({

@@ -299,7 +299,11 @@
       "adventure": "Adventure",
       "adventureDescription": "Explore exciting worlds!",
       "casual": "Quick Play",
-      "casualDescription": "Fun games for any moment!"
+      "casualDescription": "Fun games for any moment!",
+      "emulator": "Emulator",
+      "emulatorDescription": "Play classic retro games!",
+      "board": "Board Games",
+      "boardDescription": "Classic board games for everyone!"
     },
     "petCare": {
       "name": "Pet Care",

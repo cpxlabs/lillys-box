@@ -24,6 +24,8 @@ const PRIMARY = [
   { bg: '#3B82F6', light: '#DBEAFE' },
   { bg: '#EAB308', light: '#FEF9C3' },
   { bg: '#22C55E', light: '#DCFCE7' },
+  { bg: '#8B5CF6', light: '#EDE9FE' },
+  { bg: '#14B8A6', light: '#CCFBF1' },
 ];
 
 const CAT_PRIMARY: Record<string, number> = {
@@ -31,6 +33,8 @@ const CAT_PRIMARY: Record<string, number> = {
   puzzle: 1,
   adventure: 2,
   casual: 0,
+  emulator: 4,
+  board: 5,
 };
 
 export const Alt20Playground: React.FC<GameSelectorAltProps> = ({

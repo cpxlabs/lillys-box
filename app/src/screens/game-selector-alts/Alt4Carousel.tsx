@@ -23,6 +23,8 @@ const CAT_BG: Record<string, string> = {
   puzzle: '#e3f2fd',
   adventure: '#fff3e0',
   casual: '#fce4ec',
+  emulator: '#ede7f6',
+  board: '#e0f2f1',
 };
 
 const CAT_EMOJI: Record<string, string> = {
@@ -30,6 +32,8 @@ const CAT_EMOJI: Record<string, string> = {
   puzzle: '🧩',
   adventure: '🗺️',
   casual: '🎲',
+  emulator: '🕹️',
+  board: '♟️',
 };
 
 export const Alt4Carousel: React.FC<GameSelectorAltProps> = ({

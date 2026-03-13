@@ -7,7 +7,7 @@ export interface GameDefinition {
   /** i18n key for the game description */
   descriptionKey: string;
   emoji: string;
-  category: 'pet' | 'puzzle' | 'adventure' | 'casual';
+  category: 'pet' | 'puzzle' | 'adventure' | 'casual' | 'emulator' | 'board';
   /** Root navigator component for this game */
   navigator: React.ComponentType;
   /** Game-level context providers, outermost first */
