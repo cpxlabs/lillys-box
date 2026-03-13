@@ -36,20 +36,21 @@ const buildEmulatorHtml = (romBlobUrl: string, title: string): string => `<!DOCT
 </body>
 </html>`;
 
-const useEmulatorUri = (romBlob: Blob | null, title: string): string | null => {
+const useEmulatorUri = (romId: string | null, romBlob: Blob | null, title: string): string | null => {
   const [emulatorResource, setEmulatorResource] = useState<{
     htmlUrl: string;
-    romBlob: Blob;
+    romId: string;
     title: string;
   } | null>(null);
   const supportsObjectUrls =
     Platform.OS === 'web' &&
+    !!romId &&
     !!romBlob &&
     typeof URL !== 'undefined' &&
     typeof URL.createObjectURL === 'function';
 
   useEffect(() => {
-    if (!supportsObjectUrls || !romBlob) {
+    if (!supportsObjectUrls || !romBlob || !romId) {
       return;
     }
 
@@ -59,18 +60,18 @@ const useEmulatorUri = (romBlob: Blob | null, title: string): string | null => {
     const htmlUrl = URL.createObjectURL(htmlBlob);
 
     // eslint-disable-next-line react-hooks/set-state-in-effect
-    setEmulatorResource({ htmlUrl, romBlob, title });
+    setEmulatorResource({ htmlUrl, romId, title });
 
     return () => {
       URL.revokeObjectURL(romUrl);
       URL.revokeObjectURL(htmlUrl);
     };
-  }, [romBlob, supportsObjectUrls, title]);
+  }, [romBlob, romId, supportsObjectUrls, title]);
 
   if (
     !supportsObjectUrls ||
     !emulatorResource ||
-    emulatorResource.romBlob !== romBlob ||
+    emulatorResource.romId !== romId ||
     emulatorResource.title !== title
   ) {
     return null;
@@ -86,7 +87,7 @@ export const GbaEmulatorGameScreen: React.FC<Props> = ({ navigation }) => {
 
   const selectedRom = recentRoms.find((r) => r.id === selectedRomId) ?? null;
   const romBlob = selectedRomId ? getRomBlob(selectedRomId) : null;
-  const emulatorUri = useEmulatorUri(romBlob, selectedRom?.title ?? 'GBA ROM');
+  const emulatorUri = useEmulatorUri(selectedRomId, romBlob, selectedRom?.title ?? 'GBA ROM');
 
   if (emulatorUri) {
     return (
