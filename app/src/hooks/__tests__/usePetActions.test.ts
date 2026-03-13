@@ -12,6 +12,7 @@ import { useToast } from '../../context/ToastContext';
 import { useDoubleReward } from '../useDoubleReward';
 import * as petStatsModule from '../../utils/petStats';
 import * as actionConfigModule from '../../config/actionConfig';
+import { logger } from '../../utils/logger';
 
 // Mock dependencies
 jest.mock('../../context/PetContext', () => ({
@@ -482,18 +483,24 @@ describe('usePetActions', () => {
     });
   });
 
-  describe.skip('Error Handling', () => {
+  describe('Error Handling', () => {
     it('should handle errors and reset state', async () => {
       (actionConfigModule.getActionConfig as jest.Mock).mockImplementationOnce(() => {
         throw new Error('Test error');
       });
       const { result } = renderHook(() => usePetActions());
-      jest.spyOn(console, 'error').mockImplementation(() => {});
       const actionResult = await act(async () => {
         return await result.current.performAction('feed');
       });
+
       expect(actionResult.success).toBe(false);
-      (console.error as jest.Mock).mockRestore();
+      expect(logger.error).toHaveBeenCalledWith(
+        'Error performing action feed:',
+        expect.any(Error)
+      );
+      expect(result.current.animationState).toBe('idle');
+      expect(result.current.message).toBe('');
+      expect(result.current.isAnimating).toBe(false);
     });
   });
 });

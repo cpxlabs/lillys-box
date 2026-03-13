@@ -282,26 +282,26 @@ export function usePetActions(): UsePetActionsReturn {
         return { success: false };
       }
 
-      // 1. Validate action
-      const validation = validateAction(pet, type);
-      if (!validation.canPerform) {
-        if (validation.reason) {
-          showToast(t(validation.reason, { name: pet.name }), 'info');
-        }
-        return { success: false };
-      }
-
-      // 2. Get animation config
-      const config = getActionConfig(type);
-      if (!config) {
-        logger.error(`No animation config for action: ${type}`);
-        return { success: false };
-      }
-
-      // Play action sound
-      playActionSound(type);
-
       try {
+        // 1. Validate action
+        const validation = validateAction(pet, type);
+        if (!validation.canPerform) {
+          if (validation.reason) {
+            showToast(t(validation.reason, { name: pet.name }), 'info');
+          }
+          return { success: false };
+        }
+
+        // 2. Get animation config
+        const config = getActionConfig(type);
+        if (!config) {
+          logger.error(`No animation config for action: ${type}`);
+          return { success: false };
+        }
+
+        // Play action sound
+        playActionSound(type);
+
         // 3. Clear existing timeouts
         clearAllTimeouts();
         currentActionRef.current = type;
