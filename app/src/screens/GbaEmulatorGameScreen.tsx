@@ -1,6 +1,7 @@
-import React from 'react';
-import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView } from 'react-native';
+import React, { useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, StyleSheet, SafeAreaView, Platform } from 'react-native';
 import { useTranslation } from 'react-i18next';
+import { WebView } from 'react-native-webview';
 import { useGbaEmulator } from '../context/GbaEmulatorContext';
 import { useGameBack } from '../hooks/useGameBack';
 import { ScreenNavigationProp } from '../types/navigation';
@@ -9,10 +10,98 @@ type Props = { navigation: ScreenNavigationProp<'GbaEmulatorGame'> };
 
 const CONTROL_GROUPS = ['← ↑ ↓ →', 'A  B', 'Start  Select'];
 
+const buildEmulatorHtml = (romBlobUrl: string, title: string): string => `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #000; width: 100vw; height: 100vh; overflow: hidden; }
+    #game { width: 100%; height: 100%; }
+  </style>
+</head>
+<body>
+  <div id="game"></div>
+  <script>
+    window.EJS_player = '#game';
+    window.EJS_core = 'gba';
+    window.EJS_gameName = ${JSON.stringify(title)};
+    window.EJS_gameUrl = ${JSON.stringify(romBlobUrl)};
+    window.EJS_startOnLoaded = true;
+    window.EJS_color = '#5b4db1';
+    window.EJS_defaultControls = true;
+  </script>
+  <script src="https://cdn.emulatorjs.org/stable/data/loader.js"></script>
+</body>
+</html>`;
+
+const useEmulatorUri = (romBlob: Blob | null, title: string): string | null => {
+  const uriRef = useRef<{ htmlUrl: string; romUrl: string } | null>(null);
+
+  // Cleanup old blob URLs when ROM changes or component unmounts
+  useEffect(() => {
+    return () => {
+      if (uriRef.current) {
+        URL.revokeObjectURL(uriRef.current.romUrl);
+        URL.revokeObjectURL(uriRef.current.htmlUrl);
+        uriRef.current = null;
+      }
+    };
+  }, [romBlob]);
+
+  if (Platform.OS !== 'web' || !romBlob) {
+    return null;
+  }
+
+  if (typeof URL === 'undefined' || typeof URL.createObjectURL !== 'function') {
+    return null;
+  }
+
+  // Revoke previous URLs before creating new ones
+  if (uriRef.current) {
+    URL.revokeObjectURL(uriRef.current.romUrl);
+    URL.revokeObjectURL(uriRef.current.htmlUrl);
+  }
+
+  const romUrl = URL.createObjectURL(romBlob);
+  const html = buildEmulatorHtml(romUrl, title);
+  const htmlBlob = new Blob([html], { type: 'text/html' });
+  const htmlUrl = URL.createObjectURL(htmlBlob);
+  uriRef.current = { htmlUrl, romUrl };
+
+  return htmlUrl;
+};
+
 export const GbaEmulatorGameScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
-  const { hasImportedRoms } = useGbaEmulator();
+  const { hasImportedRoms, selectedRomId, getRomBlob, recentRoms } = useGbaEmulator();
   const handleBack = useGameBack(navigation);
+
+  const selectedRom = recentRoms.find((r) => r.id === selectedRomId) ?? null;
+  const romBlob = selectedRomId ? getRomBlob(selectedRomId) : null;
+  const emulatorUri = useEmulatorUri(romBlob, selectedRom?.title ?? 'GBA ROM');
+
+  if (emulatorUri) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity onPress={handleBack}>
+            <Text style={styles.backText}>← {t('common.back')}</Text>
+          </TouchableOpacity>
+          <Text style={styles.title}>{selectedRom?.title ?? t('gbaEmulator.game.title')}</Text>
+          <View style={styles.headerSpacer} />
+        </View>
+        <WebView
+          source={{ uri: emulatorUri }}
+          style={styles.emulatorView}
+          allowsInlineMediaPlayback
+          mediaPlaybackRequiresUserAction={false}
+          testID="gba-emulator-webview"
+        />
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -65,6 +154,7 @@ const styles = StyleSheet.create({
   backText: { fontSize: 16, color: '#d3cbff', fontWeight: '600' },
   title: { fontSize: 18, fontWeight: '700', color: '#fff' },
   headerSpacer: { width: 52 },
+  emulatorView: { flex: 1, backgroundColor: '#000', borderRadius: 12, overflow: 'hidden' },
   viewport: {
     flex: 1,
     minHeight: 240,

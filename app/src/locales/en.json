@@ -465,6 +465,8 @@
       "controlsDescription": "The full experience will use large touch controls with simple pause, save, and exit actions.",
       "legalTitle": "Parent notice",
       "legalDescription": "Only user-owned compatible ROM backups should be used here. Lilly's Box does not bundle commercial games or BIOS files.",
+      "playButton": "Play",
+      "reImportToPlay": "Re-import to play",
       "featureFlagNote": "This shell stays hidden in the game picker until performance, UX, and legal details are validated."
     },
     "game": {
