@@ -75,7 +75,7 @@ Suggested manual checks:
 
 ## Related Files
 
-- `/home/runner/work/lillys-box/lillys-box/app/app/_layout.tsx`
-- `/home/runner/work/lillys-box/lillys-box/app/app/game/[gameId].tsx`
-- `/home/runner/work/lillys-box/lillys-box/app/src/hooks/useGameBack.ts`
-- `/home/runner/work/lillys-box/lillys-box/app/src/screens/GameSelectionScreen.tsx`
+- `app/app/_layout.tsx`
+- `app/app/game/[gameId].tsx`
+- `app/src/hooks/useGameBack.ts`
+- `app/src/screens/GameSelectionScreen.tsx`

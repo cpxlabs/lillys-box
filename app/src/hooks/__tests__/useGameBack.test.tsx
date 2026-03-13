@@ -76,10 +76,10 @@ describe('useGameBack', () => {
   });
 
   it('falls back to router.back when no navigator in the chain can go back', () => {
-    const routerReplace = jest.fn();
+    const mockRouterReplace = jest.fn();
     const { navigation, mockCanGoBack, mockGetParent } = createMockNavigation();
 
-    mockUseRouter.mockReturnValue({ replace: routerReplace });
+    mockUseRouter.mockReturnValue({ replace: mockRouterReplace });
     mockCanGoBack.mockReturnValue(false);
     mockGetParent.mockReturnValue({
       canGoBack: () => false,
@@ -91,16 +91,16 @@ describe('useGameBack', () => {
 
     fireEvent.press(getByText('go back'));
 
-    expect(routerReplace).toHaveBeenCalledWith('/');
+    expect(mockRouterReplace).toHaveBeenCalledWith('/');
   });
 
   it('uses state index instead of canGoBack for direct-entry game routes', () => {
-    const routerReplace = jest.fn();
+    const mockRouterReplace = jest.fn();
     const { navigation, mockGoBack } = createMockNavigation({
       getState: () => ({ index: 0 }),
     });
 
-    mockUseRouter.mockReturnValue({ replace: routerReplace });
+    mockUseRouter.mockReturnValue({ replace: mockRouterReplace });
     mockUsePathname.mockReturnValue('/game/bubble-pop');
 
     const { getByText } = render(<TestComponent navigation={navigation} />);
@@ -108,15 +108,15 @@ describe('useGameBack', () => {
     fireEvent.press(getByText('go back'));
 
     expect(mockGoBack).not.toHaveBeenCalled();
-    expect(routerReplace).toHaveBeenCalledWith('/');
+    expect(mockRouterReplace).toHaveBeenCalledWith('/');
   });
 
   it('registers a hardware back handler that uses the same navigation logic', () => {
-    const routerReplace = jest.fn();
+    const mockRouterReplace = jest.fn();
     const cleanup = jest.fn();
     const { navigation, mockGoBack } = createMockNavigation();
 
-    mockUseRouter.mockReturnValue({ replace: routerReplace });
+    mockUseRouter.mockReturnValue({ replace: mockRouterReplace });
 
     render(<TestComponent navigation={navigation} cleanup={cleanup} />);
 
@@ -132,14 +132,14 @@ describe('useGameBack', () => {
     expect(handled).toBe(true);
     expect(cleanup).toHaveBeenCalledTimes(1);
     expect(mockGoBack).toHaveBeenCalledTimes(1);
-    expect(routerReplace).not.toHaveBeenCalled();
+    expect(mockRouterReplace).not.toHaveBeenCalled();
   });
 
   it('skips hardware back registration when disabled', () => {
-    const routerReplace = jest.fn();
+    const mockRouterReplace = jest.fn();
     const { navigation } = createMockNavigation();
 
-    mockUseRouter.mockReturnValue({ replace: routerReplace });
+    mockUseRouter.mockReturnValue({ replace: mockRouterReplace });
 
     render(<TestComponent navigation={navigation} handleHardwareBack={false} />);
 
