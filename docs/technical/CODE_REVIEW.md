@@ -1,6 +1,6 @@
 # Complete Code Review — Lilly's Box
 
-**Date:** 2026-03-10 (updated 2026-03-12)  
+**Date:** 2026-03-10 (updated 2026-03-13)  
 **Repository:** `cpxlabs/lillys-box`
 
 ---
@@ -15,9 +15,9 @@ This review covered:
 
 Baseline commands executed before drafting this update:
 1. `cd /home/runner/work/lillys-box/lillys-box/app && npm run lint` → **passed with 0 errors and 0 warnings** ✅
-2. `cd /home/runner/work/lillys-box/lillys-box/app && npm test -- --runInBand` → **passed** (`118/118` suites, `645` tests, `1` skipped) ✅
+2. `cd /home/runner/work/lillys-box/lillys-box/app && npm test -- --runInBand` → **passed** (`123/123` suites, `667` tests, `1` skipped) ✅
 3. `cd /home/runner/work/lillys-box/lillys-box/backend && npm run build` → **passed** (0 TypeScript errors) ✅
-4. `cd /home/runner/work/lillys-box/lillys-box/backend && npm test` → **passed** (7 tests, 1 file) ✅
+4. `cd /home/runner/work/lillys-box/lillys-box/backend && npm test` → **passed** (9 tests, 2 files) ✅
 
 Environment note: app dependencies required `npm install --legacy-peer-deps` in this sandbox to install.
 
@@ -27,9 +27,9 @@ Environment note: app dependencies required `npm install --legacy-peer-deps` in 
 
 The project is in a solid, stable state. All frontend quality gates are green and the backend is clean:
 - Frontend lint completes with **0 errors and 0 warnings** ✅
-- Frontend tests are **fully green** (`118/118` suites, `645` tests, `1` skipped) ✅
+- Frontend tests are **fully green** (`123/123` suites, `667` tests, `1` skipped) ✅
 - Backend build **passes** ✅ — CORS hardened, rate-limiting registered
-- Backend tests run **7 tests in 1 file** ✅ — `dist/` no longer double-counted
+- Backend tests run **9 tests in 2 files** ✅ — includes auth and server smoke tests
 - Backend has **no unused dependencies** ✅ — dead packages removed
 
 All P0 and P1 items from the action plan below have been resolved.
@@ -45,7 +45,7 @@ All P0 and P1 items from the action plan below have been resolved.
    - app/backend/docs separation is clean and easy to navigate.
 
 3. **Substantial test surface area exists**
-   - `117` test files are present under `app/src`.
+   - `122` test files are present under `app/src`.
 
 4. **Backend build issues are resolved**
    - TypeScript errors previously in `backend/src/buildServer.ts` are fully fixed.
@@ -76,13 +76,13 @@ All P0 and P1 items from the action plan below have been resolved.
 ### H2 — Frontend tests are not in a stable state
 
 **Status update (2026-03-10)**
-- `npm test -- --runInBand` is fully green: `Test Suites: 118 passed, 118 total`, `Tests: 1 skipped, 644 passed`.
+- `npm test -- --runInBand` is fully green: `Test Suites: 123 passed, 123 total`, `Tests: 1 skipped, 666 passed`.
 - Renderer compatibility and AudioService key expectations are aligned in the current baseline.
 
 **Evidence**
 - `npm test -- --runInBand` ended with:
-  - `Test Suites: 118 passed, 118 total`
-  - `Tests:       1 skipped, 644 passed, 645 total`
+  - `Test Suites: 123 passed, 123 total`
+  - `Tests:       1 skipped, 666 passed, 667 total`
 
 **Impact**
 - Test pipeline is currently trustworthy for regression detection; keep it pinned to the validated toolchain.
@@ -147,7 +147,7 @@ All P0 and P1 items from the action plan below have been resolved.
 **Status: RESOLVED ✅ (2026-03-10)**
 - Without explicit configuration, vitest ran both `src/__tests__/server.test.ts` and its compiled counterpart `dist/__tests__/server.test.js`, reporting 14 tests instead of 7.
 - Added `backend/vitest.config.ts` with `include: ['src/**/*.test.ts']` to scope discovery to source files only.
-- Backend tests now correctly report **7 tests in 1 file**.
+- Backend tests now correctly report **9 tests in 2 files**.
 
 ---
 
@@ -215,7 +215,7 @@ All P0 and P1 items from the action plan below have been resolved.
 
 ## 8) Final Assessment
 
-The repository is in a healthy and stable state. All quality gates are green: frontend lint produces zero warnings, the full test suite (645 tests across 118 suites) passes, the backend TypeScript build is error-free, and backend smoke tests cover the CORS and health-check behavior. Dependency hygiene has been improved by removing packages that were declared but never used. The codebase is ready for continued feature development.
+The repository is in a healthy and stable state. All quality gates are green: frontend lint produces zero warnings, the full test suite (667 tests across 123 suites) passes, the backend TypeScript build is error-free, and backend smoke tests cover the CORS, auth, and health-check behavior. Dependency hygiene has been improved by removing packages that were declared but never used. The codebase is ready for continued feature development.
 
 The `server/` sub-package (Socket.IO / Muito multiplayer game server) contains known areas for future improvement (wildcard CORS, hardcoded JWT fallback, no room-code deduplication), but these are deferred until that subsystem is actively deployed.
 
@@ -301,4 +301,40 @@ The following documentation cleanup was performed to reduce file count and elimi
 **Status: RESOLVED ✅**
 - Related Documentation section used incorrect relative paths (e.g., `../design-system/` instead of `./design-system/`).
 - Fixed all paths to resolve correctly from the `docs/` directory.
+
+---
+
+## 11) Review Update (2026-03-13)
+
+Re-ran all baseline checks following significant feature work merged since the previous update. All quality gates remain green.
+
+### Updated Baseline
+
+| Metric | Previous (2026-03-12) | Current (2026-03-13) | Delta |
+|---|---|---|---|
+| App lint | 0 errors, 0 warnings | 0 errors, 0 warnings | — |
+| App test suites | 118 passed | 123 passed | +5 |
+| App tests | 645 (644 passed, 1 skipped) | 667 (666 passed, 1 skipped) | +22 |
+| App test files | 117 | 122 | +5 |
+| Backend tests | 7 tests, 1 file | 9 tests, 2 files | +2 tests, +1 file |
+| Registered games | 36 | 36 | — |
+
+### Changes Since Last Review
+
+**PR #268 — Fix navigation not working**
+- Enhanced `useGameBack` hook with robust back-navigation logic (34→68 lines).
+- Updated 37 game home screens for consistent navigation behavior.
+- Added comprehensive test coverage for the hook (53→106 lines).
+
+**PR #269 — Add Android APK build profile**
+- Added `eas.json` with Android build profile for Expo/EAS.
+- Added `androidBuildConfig.test.ts` with build configuration assertions.
+- Updated `docs/guides/BUILD.md` with APK build instructions.
+
+**PR #270 — Harden back navigation for nested game screens**
+- Follow-up to PR #268 addressing edge cases in nested game screen navigation.
+
+### New Documentation
+
+- **`docs/guides/NAVIGATION.md`** — New guide covering the game navigation system, `useGameBack` hook usage, and back-button behavior across platforms.
 
