@@ -518,7 +518,7 @@
 
 ---
 
-### 5. Snakes & Ladders Pets 🐍
+### 5. Snakes & Ladders Pets 🪜
 
 | Field | Details |
 |-------|---------|

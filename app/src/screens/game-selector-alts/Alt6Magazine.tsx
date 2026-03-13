@@ -22,6 +22,8 @@ const ACCENT: Record<string, string> = {
   puzzle: '#1565c0',
   adventure: '#e65100',
   casual: '#c62828',
+  emulator: '#4527a0',
+  board: '#00695c',
 };
 
 export const Alt6Magazine: React.FC<GameSelectorAltProps> = ({

@@ -24,6 +24,8 @@ const CAT_COLORS: Record<string, string> = {
   puzzle: '#2196f3',
   adventure: '#ff9800',
   casual: '#e91e63',
+  emulator: '#7e57c2',
+  board: '#26a69a',
 };
 
 export const Alt1CompactList: React.FC<GameSelectorAltProps> = ({

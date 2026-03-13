@@ -24,6 +24,8 @@ const TONAL: Record<string, { surface: string; on: string }> = {
   puzzle: { surface: '#d0e8ff', on: '#0d47a1' },
   adventure: { surface: '#ffe0b2', on: '#bf360c' },
   casual: { surface: '#f8bbd0', on: '#880e4f' },
+  emulator: { surface: '#d1c4e9', on: '#311b92' },
+  board: { surface: '#b2dfdb', on: '#004d40' },
 };
 
 export const Alt9FlatMaterial: React.FC<GameSelectorAltProps> = ({

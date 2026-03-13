@@ -62,6 +62,8 @@ const CATEGORY_COLORS: Record<string, { bg: string; text: string }> = {
   puzzle: { bg: '#e3f2fd', text: '#1565c0' },
   adventure: { bg: '#fff3e0', text: '#e65100' },
   casual: { bg: '#fce4ec', text: '#c62828' },
+  emulator: { bg: '#ede7f6', text: '#4527a0' },
+  board: { bg: '#e0f2f1', text: '#00695c' },
 };
 
 const CATEGORY_EMOJI: Record<string, string> = {
@@ -69,6 +71,8 @@ const CATEGORY_EMOJI: Record<string, string> = {
   puzzle: '🧩',
   adventure: '🗺️',
   casual: '🎲',
+  emulator: '🕹️',
+  board: '♟️',
 };
 
 const VIEWABILITY_CONFIG = {
