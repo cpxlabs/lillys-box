@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { PetExplorerGameScreen } from '../PetExplorerGameScreen';
+import { createMockNavigation } from '../../testUtils/backNavigation';
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({ t: (key: string) => key }),
@@ -19,20 +20,22 @@ jest.mock('../../components/GameAdWrapper', () => ({
   useGameAdTrigger: () => ({ triggerAd: mockTriggerAd }),
 }));
 
-const mockHandleBack = jest.fn();
-jest.mock('../../hooks/useGameBack', () => ({
-  useGameBack: () => mockHandleBack,
-}));
-
 describe('PetExplorerGameScreen', () => {
-  const navigation: React.ComponentProps<typeof PetExplorerGameScreen>['navigation'] = {
-    goBack: jest.fn(),
-    canGoBack: jest.fn(() => true),
-    getParent: jest.fn(() => undefined),
-  } as React.ComponentProps<typeof PetExplorerGameScreen>['navigation'];
+  const {
+    navigation,
+    mockGoBack,
+    mockCanGoBack,
+    mockGetParent,
+  } = createMockNavigation() as {
+    navigation: React.ComponentProps<typeof PetExplorerGameScreen>['navigation'];
+    mockGoBack: jest.Mock;
+    mockCanGoBack: jest.Mock<boolean, []>;
+    mockGetParent: jest.Mock;
+  };
 
   beforeEach(() => {
     jest.clearAllMocks();
+    mockCanGoBack.mockReturnValue(true);
   });
 
   it('renders retro console header and controls', () => {
@@ -45,10 +48,27 @@ describe('PetExplorerGameScreen', () => {
     expect(getByText('↓')).toBeTruthy();
   });
 
-  it('triggers back handler when back button is pressed', () => {
+  it('uses the real shared back handler when back button is pressed', () => {
     const { getByText } = render(<PetExplorerGameScreen navigation={navigation} />);
 
     fireEvent.press(getByText('← common.back'));
-    expect(mockHandleBack).toHaveBeenCalledTimes(1);
+    expect(mockGoBack).toHaveBeenCalledTimes(1);
+  });
+
+  it('uses parent navigation when the current navigator cannot go back', () => {
+    const parentGoBack = jest.fn();
+
+    mockCanGoBack.mockReturnValue(false);
+    mockGetParent.mockReturnValue({
+      goBack: parentGoBack,
+      canGoBack: () => true,
+      getParent: () => undefined,
+    });
+
+    const { getByText } = render(<PetExplorerGameScreen navigation={navigation} />);
+
+    fireEvent.press(getByText('← common.back'));
+
+    expect(parentGoBack).toHaveBeenCalledTimes(1);
   });
 });

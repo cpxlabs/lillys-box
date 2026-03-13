@@ -2,8 +2,8 @@ import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { GbaEmulatorHomeScreen } from '../GbaEmulatorHomeScreen';
 import { GbaEmulatorGameScreen } from '../GbaEmulatorGameScreen';
+import { createMockNavigation } from '../../testUtils/backNavigation';
 
-const mockHandleBack = jest.fn();
 const mockUseGbaEmulator = jest.fn();
 const mockImportRom = jest.fn();
 const mockSelectRom = jest.fn();
@@ -15,10 +15,6 @@ jest.mock('react-i18next', () => ({
       typeof options?.count === 'number' ? `${key}:${options.count}` : key
     ),
   }),
-}));
-
-jest.mock('../../hooks/useGameBack', () => ({
-  useGameBack: () => mockHandleBack,
 }));
 
 jest.mock('../../context/GbaEmulatorContext', () => ({
@@ -111,13 +107,13 @@ describe('GbaEmulator shell screens', () => {
     expect(mockImportRom).toHaveBeenCalledTimes(1);
   });
 
-  it('uses the shared back handler on the home screen', () => {
-    const navigation = { navigate: jest.fn() } as any;
+  it('uses the real shared back handler on the home screen', () => {
+    const { navigation, mockGoBack } = createMockNavigation({ navigate: jest.fn() });
     const { getByText } = render(<GbaEmulatorHomeScreen navigation={navigation} />);
 
     fireEvent.press(getByText('← common.back'));
 
-    expect(mockHandleBack).toHaveBeenCalledTimes(1);
+    expect(mockGoBack).toHaveBeenCalledTimes(1);
   });
 
   it('renders the game shell empty state and returns to the library', () => {
@@ -150,12 +146,30 @@ describe('GbaEmulator shell screens', () => {
     expect(getByText('gbaEmulator.game.readyDescription')).toBeTruthy();
   });
 
-  it('uses the shared back handler on the game screen', () => {
-    const navigation = { navigate: jest.fn() } as any;
+  it('uses the real shared back handler on the game screen', () => {
+    const { navigation, mockGoBack } = createMockNavigation({ navigate: jest.fn() });
     const { getByText } = render(<GbaEmulatorGameScreen navigation={navigation} />);
 
     fireEvent.press(getByText('← common.back'));
 
-    expect(mockHandleBack).toHaveBeenCalledTimes(1);
+    expect(mockGoBack).toHaveBeenCalledTimes(1);
+  });
+
+  it('uses parent navigation when the home screen cannot go back directly', () => {
+    const { navigation, mockCanGoBack, mockGetParent } = createMockNavigation({ navigate: jest.fn() });
+    const parentGoBack = jest.fn();
+
+    mockCanGoBack.mockReturnValue(false);
+    mockGetParent.mockReturnValue({
+      goBack: parentGoBack,
+      canGoBack: () => true,
+      getParent: () => undefined,
+    });
+
+    const { getByText } = render(<GbaEmulatorHomeScreen navigation={navigation} />);
+
+    fireEvent.press(getByText('← common.back'));
+
+    expect(parentGoBack).toHaveBeenCalledTimes(1);
   });
 });
