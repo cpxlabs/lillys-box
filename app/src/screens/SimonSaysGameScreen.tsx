@@ -220,7 +220,7 @@ export const SimonSaysGameScreen: React.FC<Props> = ({ navigation }) => {
         <Text style={styles.statusText}>{getStatusMessage()}</Text>
       </View>
 
-      <View style={styles.buttonGrid}>
+      <View testID="simon-says-button-grid" style={styles.buttonGrid}>
         {// eslint-disable-next-line react-hooks/refs
         COLORS.map((colorData) => (
           <Animated.View
@@ -351,6 +351,7 @@ const styles = StyleSheet.create({
     flexWrap: 'wrap',
     justifyContent: 'center',
     alignItems: 'center',
+    width: '100%',
     paddingHorizontal: 40,
     gap: 16,
     maxWidth: 400,
