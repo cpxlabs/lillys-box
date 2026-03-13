@@ -253,15 +253,19 @@ Documentation files in root and /docs:
 ├── SPEC.md                   # Project specifications
 └── docs/                     # Complete documentation
     ├── README.md            # Documentation index
+    ├── GAMES_SYSTEM_UPGRADE.md  # Game system reference
+    ├── GAMES_ARCHITECTURE.md    # Game architecture diagrams
+    ├── RALPH_LOOPS.md           # AI coding loops guide
     ├── guides/
     │   ├── BUILD.md         # Building for platforms
     │   ├── RESPONSIVE.md    # Responsive design
-    │   ├── GAME_CREATION.md # Game creation guide
+    │   ├── LOAD_ROMS.md     # Loading games in GBA emulator
     │   └── FOLDER_STRUCTURE.md  # This file
     ├── technical/
     │   ├── AUTHENTICATION.md
     │   ├── API_REFERENCE.md
     │   ├── ACTIONS.md
+    │   ├── EMULATOR.md      # GBA emulator proposal
     │   └── CODE_REVIEW.md
     ├── testing/
     │   └── TESTING.md
@@ -410,5 +414,5 @@ See [BUILD.md](BUILD.md) for:
 
 ---
 
-**Last Updated**: 2026-03-07  
+**Last Updated**: 2026-03-12  
 **Status**: Complete
