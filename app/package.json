@@ -10,7 +10,7 @@
     "ios": "expo start --ios",
     "web": "EXPO_PUBLIC_BUILD_PLATFORM=web expo start --web",
     "build:web": "EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export --platform web",
-    "build:android:apk": "npx eas-cli build --platform android --profile preview --non-interactive",
+    "build:android:apk": "node scripts/buildAndroidApk.js",
     "build:android:bundle": "npx eas-cli build --platform android --profile production --non-interactive",
     "test": "jest",
     "test:watch": "jest --watch",

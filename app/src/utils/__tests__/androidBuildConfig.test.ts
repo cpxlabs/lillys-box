@@ -1,3 +1,5 @@
+import path from 'path';
+
 describe('android build configuration', () => {
   it('defines an installable APK EAS profile for Android builds', () => {
     const easJson = require('../../../eas.json') as {
@@ -24,7 +26,33 @@ describe('android build configuration', () => {
       scripts?: Record<string, string>;
     };
 
-    expect(packageJson.scripts?.['build:android:apk']).toContain('--profile preview');
-    expect(packageJson.scripts?.['build:android:apk']).toContain('--platform android');
+    expect(packageJson.scripts?.['build:android:apk']).toBe('node scripts/buildAndroidApk.js');
+  });
+
+  it('writes the Android APK to the repository-level Android folder', () => {
+    const { getAndroidApkOutputPath, getBuildArgs } = require('../../../scripts/buildAndroidApk.js') as {
+      getAndroidApkOutputPath: () => string;
+      getBuildArgs: (outputPath: string) => string[];
+    };
+
+    const outputPath = getAndroidApkOutputPath();
+
+    expect(outputPath).toBe(
+      path.resolve(__dirname, '../../../../Android/lillys-box.apk')
+    );
+    expect(getBuildArgs(outputPath)).toEqual(
+      expect.arrayContaining([
+        'eas-cli',
+        'build',
+        '--local',
+        '--platform',
+        'android',
+        '--profile',
+        'preview',
+        '--non-interactive',
+        '--output',
+        outputPath,
+      ])
+    );
   });
 });

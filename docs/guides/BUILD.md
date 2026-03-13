@@ -187,10 +187,10 @@ npx expo run:android --build
 Installable APK:
 ```bash
 cd app
-npx eas-cli build --platform android --profile preview --non-interactive
+pnpm build:android:apk
 ```
 
-The generated artifact for the `preview` profile is an installable `.apk`, which is suitable for directly installing on a device or sharing internally.
+The generated artifact for the `preview` profile is an installable `.apk`, which is written to the repository-level `Android/lillys-box.apk` file for easy sharing or manual installation.
 
 ### Google Play Store
 
