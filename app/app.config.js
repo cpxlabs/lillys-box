@@ -1,14 +1,20 @@
+const fs = require('fs');
+const path = require('path');
+
 module.exports = () => {
+  const hasAndroidGoogleServices = fs.existsSync(path.resolve(__dirname, 'google-services.json'));
+  const hasIosGoogleServices = fs.existsSync(path.resolve(__dirname, 'GoogleService-Info.plist'));
+
   // Base configuration
   const baseConfig = {
     name: "Lilly's Box",
     slug: "lillys-box",
     version: "1.0.0",
     orientation: "portrait",
-    icon: "./assets/icon.png",
+    icon: "./assets/favicon.png",
     userInterfaceStyle: "light",
     splash: {
-      image: "./assets/splash.png",
+      image: "./assets/favicon.png",
       resizeMode: "contain",
       backgroundColor: "#ffffff"
     },
@@ -16,15 +22,15 @@ module.exports = () => {
     ios: {
       supportsTablet: true,
       bundleIdentifier: "com.cpxlabs.lillysbox",
-      googleServicesFile: "./GoogleService-Info.plist"
+      ...(hasIosGoogleServices ? { googleServicesFile: "./GoogleService-Info.plist" } : {})
     },
     android: {
       adaptiveIcon: {
-        foregroundImage: "./assets/adaptive-icon.png",
+        foregroundImage: "./assets/favicon.png",
         backgroundColor: "#ffffff"
       },
       package: "com.cpxlabs.lillysbox",
-      googleServicesFile: "./google-services.json"
+      ...(hasAndroidGoogleServices ? { googleServicesFile: "./google-services.json" } : {})
     },
     scheme: "lillys-box",
     web: {

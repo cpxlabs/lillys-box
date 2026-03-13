@@ -9,6 +9,7 @@ yarn-error.log*
 # Build outputs
 dist/
 build/
+/Android/
 *.tsbuildinfo
 web_output.log
 
