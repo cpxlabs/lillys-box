@@ -154,9 +154,16 @@ export const PetTaxiGameScreen: React.FC<Props> = ({ navigation }) => {
             </TouchableOpacity>
           </Animated.View>
         ))}
-        <View style={[styles.car, { left: carLane * laneWidth + laneWidth / 2 - 30 }]}>
+        <View
+          testID="pet-taxi-car"
+          style={[styles.car, { left: carLane * laneWidth + laneWidth / 2 - 30 }]}
+        >
           <Text style={styles.carEmoji}>🚕</Text>
-          {currentPassenger && <Text style={styles.inCarEmoji}>{currentPassenger.emoji}</Text>}
+          {currentPassenger && (
+            <Text testID="pet-taxi-in-car-passenger" style={styles.inCarEmoji}>
+              {currentPassenger.emoji}
+            </Text>
+          )}
         </View>
       </View>
 
@@ -214,9 +221,17 @@ const styles = StyleSheet.create({
   passengerOnRoad: { position: 'absolute', top: 0, alignItems: 'center' },
   passEmoji: { fontSize: 28 },
   passDestEmoji: { fontSize: 16 },
-  car: { position: 'absolute', bottom: 20, width: 60, alignItems: 'center' },
+  car: {
+    position: 'absolute',
+    bottom: 20,
+    width: 60,
+    height: 52,
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    overflow: 'hidden',
+  },
   carEmoji: { fontSize: 48 },
-  inCarEmoji: { fontSize: 20, position: 'absolute', top: 0, right: -10 },
+  inCarEmoji: { fontSize: 18, position: 'absolute', top: 6, right: 8 },
   destinations: { padding: 12, backgroundColor: '#263238' },
   destLabel: { fontSize: 14, color: '#fff', marginBottom: 8, textAlign: 'center' },
   destRow: { flexDirection: 'row', gap: 8, justifyContent: 'center' },
