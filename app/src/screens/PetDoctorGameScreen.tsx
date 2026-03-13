@@ -103,12 +103,12 @@ function getArtifactHTML(): string {
             </div>
           ))}
 
-          <style>{`
+          <style>{\`
             @keyframes floatUp { 0%{opacity:1;transform:translateY(0) scale(1)} 100%{opacity:0;transform:translateY(-60px) scale(1.5)} }
             @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
             @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
             @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-12px)} }
-          `}</style>
+          \`}</style>
 
           {/* Header */}
           <div style={{ width:'100%', textAlign:'center' }}>

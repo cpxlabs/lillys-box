@@ -1,5 +1,6 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
+import { Platform } from 'react-native';
 import { GbaEmulatorHomeScreen } from '../GbaEmulatorHomeScreen';
 import { GbaEmulatorGameScreen } from '../GbaEmulatorGameScreen';
 
@@ -42,8 +43,13 @@ jest.mock('../../components/EmojiIcon', () => ({
 }));
 
 describe('GbaEmulator shell screens', () => {
+  const originalPlatform = Platform.OS;
+  const originalUrl = global.URL;
+
   beforeEach(() => {
     jest.clearAllMocks();
+    Object.defineProperty(Platform, 'OS', { configurable: true, value: originalPlatform });
+    global.URL = originalUrl;
     mockGetRomBlob.mockReturnValue(null);
     mockUseGbaEmulator.mockReturnValue({
       recentRoms: [],
@@ -54,6 +60,11 @@ describe('GbaEmulator shell screens', () => {
       selectRom: mockSelectRom,
       getRomBlob: mockGetRomBlob,
     });
+  });
+
+  afterAll(() => {
+    Object.defineProperty(Platform, 'OS', { configurable: true, value: originalPlatform });
+    global.URL = originalUrl;
   });
 
   it('renders the home screen empty state, disables import, and opens the player preview', () => {
@@ -157,5 +168,43 @@ describe('GbaEmulator shell screens', () => {
     fireEvent.press(getByText('← common.back'));
 
     expect(mockHandleBack).toHaveBeenCalledTimes(1);
+  });
+
+  it('creates and cleans up blob URLs for the web emulator shell', () => {
+    Object.defineProperty(Platform, 'OS', { configurable: true, value: 'web' });
+
+    const createObjectURL = jest
+      .fn()
+      .mockReturnValueOnce('blob:rom')
+      .mockReturnValueOnce('blob:html');
+    const revokeObjectURL = jest.fn();
+
+    global.URL = {
+      ...originalUrl,
+      createObjectURL,
+      revokeObjectURL,
+    } as typeof URL;
+
+    mockGetRomBlob.mockReturnValue(new Blob(['rom-data'], { type: 'application/octet-stream' }));
+    mockUseGbaEmulator.mockReturnValue({
+      recentRoms: [{ id: 'emerald', title: 'Pokémon Emerald' }],
+      hasImportedRoms: true,
+      isImportAvailable: true,
+      importRom: mockImportRom,
+      selectedRomId: 'emerald',
+      selectRom: mockSelectRom,
+      getRomBlob: mockGetRomBlob,
+    });
+
+    const navigation = { navigate: jest.fn() } as any;
+    const { getByTestId, unmount } = render(<GbaEmulatorGameScreen navigation={navigation} />);
+
+    expect(getByTestId('gba-emulator-webview')).toBeTruthy();
+    expect(createObjectURL).toHaveBeenCalledTimes(2);
+
+    unmount();
+
+    expect(revokeObjectURL).toHaveBeenCalledWith('blob:rom');
+    expect(revokeObjectURL).toHaveBeenCalledWith('blob:html');
   });
 });
