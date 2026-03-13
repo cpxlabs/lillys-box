@@ -202,7 +202,7 @@ importers:
         specifier: ^3.8.0
         version: 3.8.1
       react-test-renderer:
-        specifier: ^19.2.0
+        specifier: 19.2.0
         version: 19.2.0(react@19.2.0)
       ts-jest:
         specifier: ^29.4.6
