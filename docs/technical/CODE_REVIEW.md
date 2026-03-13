@@ -18,7 +18,7 @@ Baseline commands (last verified 2026-03-13):
 | # | Command | Result |
 |---|---------|--------|
 | 1 | `cd app && corepack pnpm lint` | **0 errors, 0 warnings** ✅ |
-| 2 | `cd app && corepack pnpm test --runInBand` | **123 suites, 671 tests (670 passed, 1 skipped)** ✅ |
+| 2 | `cd app && corepack pnpm test --runInBand` | **123 suites, 671 tests (671 passed)** ✅ |
 | 3 | `cd backend && npm run build` | **0 TypeScript errors** ✅ |
 | 4 | `cd backend && npm test` | **9 tests, 2 files** ✅ |
 
@@ -29,7 +29,7 @@ Baseline commands (last verified 2026-03-13):
 All quality gates are **green**:
 
 - Frontend lint: **0 errors, 0 warnings** ✅
-- Frontend tests: **123/123 suites, 670 passed, 1 skipped** ✅
+- Frontend tests: **123/123 suites, 671 passed** ✅
 - Backend build: **passes** ✅ — CORS hardened, rate-limiting registered
 - Backend tests: **9 tests in 2 files** ✅ — auth + server smoke tests
 - No unused backend dependencies ✅
@@ -150,7 +150,27 @@ All findings from the original review have been addressed. Condensed below for r
 
 ## 7) Final Assessment
 
-The repository is in a healthy and stable state. All quality gates are green: frontend lint produces zero warnings, the full test suite (671 tests across 123 suites) passes, the backend TypeScript build is error-free, and backend smoke tests cover CORS, auth, and health-check behavior. Dependency hygiene is clean and the codebase is ready for continued feature development.
+The repository is in a healthy and stable state. All quality gates are green: frontend lint produces zero warnings, the full test suite (671 tests across 123 suites) passes with no skipped tests, the backend TypeScript build is error-free, and backend smoke tests cover CORS, auth, and health-check behavior. Dependency hygiene is clean and the codebase is ready for continued feature development.
 
 The `server/` sub-package (Socket.IO / Muito multiplayer game server) contains known areas for future improvement (wildcard CORS, hardcoded JWT fallback, no room-code deduplication), deferred until that subsystem is actively deployed.
 
+---
+
+## 8) Follow-up Plan (non-backend scope)
+
+The app baseline was rechecked on 2026-03-13 and remains green:
+
+- `cd app && corepack pnpm lint` ✅
+- `cd app && corepack pnpm test --runInBand` ✅
+- `cd app && corepack pnpm build:web` ✅
+
+One additional frontend follow-up was completed during this recheck:
+
+- `usePetActions` now catches unexpected action-config errors and resets hook state correctly.
+- The hook's error-handling test is no longer skipped and now passes in the full app suite.
+
+Accordingly, the non-backend plan is:
+
+1. **Continue frontend follow-up only when a concrete app regression is found** — this review no longer has a backlog of known unresolved frontend items.
+2. **Keep this review as closed unless a future regression reopens one of the resolved items** (for example, lint warnings, broken navigation, or failing app tests).
+3. **Treat the deferred `server/` improvements as backend-only scope** and handle them separately when that subsystem is actively deployed.
