@@ -1,6 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import { HomeScreen } from '../HomeScreen';
+import { createMockNavigation } from '../../testUtils/backNavigation';
 
 // ── Mocks ──────────────────────────────────────────────────────────────────
 
@@ -24,10 +25,6 @@ jest.mock('../../hooks/useResponsive', () => ({
     spacing: (v: number) => v,
     fs: (v: number) => v,
   }),
-}));
-
-jest.mock('../../hooks/useGameBack', () => ({
-  useGameBack: () => jest.fn(),
 }));
 
 jest.mock('../../config/responsive', () => ({
@@ -100,7 +97,12 @@ jest.mock('../../components/ConfirmModal', () => ({
 }));
 
 const mockNavigate = jest.fn();
-const mockNavigation = { navigate: mockNavigate } as any;
+const {
+  navigation: mockNavigation,
+  mockGoBack,
+  mockCanGoBack,
+  mockGetParent,
+} = createMockNavigation({ navigate: mockNavigate });
 
 const mockPet = {
   id: 'pet-1',
@@ -123,6 +125,7 @@ describe('HomeScreen', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockUsePet.mockReturnValue({ pet: mockPet, earnMoney: mockEarnMoney });
+    mockCanGoBack.mockReturnValue(true);
   });
 
   it('renders null when pet is not loaded', () => {
@@ -175,6 +178,33 @@ describe('HomeScreen', () => {
     fireEvent.press(getByText('home.actions.menu'));
     fireEvent.press(getByText('Cancel'));
     expect(queryByTestId('confirm-btn')).toBeNull();
+  });
+
+  it('uses the real back handler after confirming the menu action', () => {
+    const { getByText } = render(<HomeScreen navigation={mockNavigation} />);
+
+    fireEvent.press(getByText('home.actions.menu'));
+    fireEvent.press(getByText('Confirm'));
+
+    expect(mockGoBack).toHaveBeenCalledTimes(1);
+  });
+
+  it('falls back to parent navigation after confirming the menu action', () => {
+    const parentGoBack = jest.fn();
+
+    mockCanGoBack.mockReturnValue(false);
+    mockGetParent.mockReturnValue({
+      goBack: parentGoBack,
+      canGoBack: () => true,
+      getParent: () => undefined,
+    });
+
+    const { getByText } = render(<HomeScreen navigation={mockNavigation} />);
+
+    fireEvent.press(getByText('home.actions.menu'));
+    fireEvent.press(getByText('Confirm'));
+
+    expect(parentGoBack).toHaveBeenCalledTimes(1);
   });
 
 });
