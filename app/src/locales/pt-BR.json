@@ -461,6 +461,8 @@
       "controlsDescription": "A experiência completa terá controles touch grandes com ações simples de pausar, salvar e sair.",
       "legalTitle": "Aviso aos responsáveis",
       "legalDescription": "Use apenas backups compatíveis de ROMs que pertencem ao usuário. Lilly's Box não inclui jogos comerciais nem arquivos de BIOS.",
+      "playButton": "Jogar",
+      "reImportToPlay": "Reimporte para jogar",
       "featureFlagNote": "Este shell permanece oculto no seletor de jogos até que desempenho, UX e detalhes legais sejam validados."
     },
     "game": {
