@@ -54,7 +54,12 @@ function run() {
     throw result.error;
   }
 
-  process.exit(result.status ?? 1);
+  if (result.signal) {
+    console.error(`Android APK build was interrupted by signal ${result.signal}.`);
+    process.exit(1);
+  }
+
+  process.exit(result.status ?? 0);
 }
 
 if (require.main === module) {
