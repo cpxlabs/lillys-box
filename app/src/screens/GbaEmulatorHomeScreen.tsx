@@ -10,7 +10,7 @@ type Props = { navigation: ScreenNavigationProp<'GbaEmulatorHome'> };
 
 export const GbaEmulatorHomeScreen: React.FC<Props> = ({ navigation }) => {
   const { t } = useTranslation();
-  const { recentRoms, hasImportedRoms, isImportAvailable } = useGbaEmulator();
+  const { recentRoms, hasImportedRoms, isImportAvailable, importRom } = useGbaEmulator();
   const handleBack = useGameBack(navigation);
 
   return (
@@ -39,10 +39,13 @@ export const GbaEmulatorHomeScreen: React.FC<Props> = ({ navigation }) => {
         <TouchableOpacity
           style={[styles.secondaryButton, !isImportAvailable && styles.disabledButton]}
           disabled={!isImportAvailable}
+          onPress={importRom}
           activeOpacity={0.85}
           testID="gba-emulator-import-button"
         >
-          <Text style={styles.secondaryButtonText}>{t('gbaEmulator.home.importButton')}</Text>
+          <Text style={styles.secondaryButtonText}>
+            {t(isImportAvailable ? 'gbaEmulator.home.importButton' : 'gbaEmulator.home.importButtonComingSoon')}
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
