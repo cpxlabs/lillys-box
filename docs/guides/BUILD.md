@@ -190,7 +190,7 @@ cd app
 pnpm build:android:apk
 ```
 
-The generated artifact for the `preview` profile is an installable `.apk`, which is written to the repository-level `Android/lillys-box.apk` file for easy sharing or manual installation.
+This runs a local Expo Android prebuild plus Gradle debug build, then copies the installable `.apk` to the repository-level `Android/lillys-box.apk` file for easy sharing or manual installation.
 
 ### Google Play Store
 
