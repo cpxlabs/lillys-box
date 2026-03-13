@@ -99,7 +99,7 @@ export const GbaEmulatorGameScreen: React.FC<Props> = ({ navigation }) => {
         {Platform.OS === 'web' ? (
           <View style={styles.emulatorView} testID="gba-emulator-webview">
             <iframe
-              srcdoc={emulatorHtml}
+              srcDoc={emulatorHtml}
               style={{ flex: 1, border: 'none', width: '100%', height: '100%' } as never}
               allow="autoplay"
               title={selectedRom?.title ?? 'GBA Emulator'}

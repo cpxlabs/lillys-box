@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     paddingHorizontal: 24,
-    marginTop: -40,
+    marginTop: 0,
   },
   emoji: {
     fontSize: 72,

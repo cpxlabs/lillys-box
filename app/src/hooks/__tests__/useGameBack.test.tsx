@@ -1,8 +1,8 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react-native';
 import { BackHandler, Text, TouchableOpacity } from 'react-native';
-import { useRouter } from 'expo-router';
-import { useGameBack } from '../useGameBack';
+import { usePathname, useRouter } from 'expo-router';
+import { getGameBackFallbackPath, useGameBack } from '../useGameBack';
 import { createMockNavigation } from '../../testUtils/backNavigation';
 
 type TestComponentProps = {
@@ -12,6 +12,7 @@ type TestComponentProps = {
 };
 
 const mockUseRouter = useRouter as jest.Mock;
+const mockUsePathname = usePathname as jest.Mock;
 
 const TestComponent: React.FC<TestComponentProps> = ({
   navigation,
@@ -30,6 +31,7 @@ const TestComponent: React.FC<TestComponentProps> = ({
 describe('useGameBack', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockUsePathname.mockReturnValue('/');
   });
 
   it('runs cleanup and navigates back on the current navigator when possible', () => {
@@ -39,9 +41,7 @@ describe('useGameBack', () => {
 
     mockUseRouter.mockReturnValue({ back: routerBack });
 
-    const { getByText } = render(
-      <TestComponent navigation={navigation} cleanup={cleanup} />
-    );
+    const { getByText } = render(<TestComponent navigation={navigation} cleanup={cleanup} />);
 
     fireEvent.press(getByText('go back'));
 
@@ -76,10 +76,10 @@ describe('useGameBack', () => {
   });
 
   it('falls back to router.back when no navigator in the chain can go back', () => {
-    const routerBack = jest.fn();
+    const mockRouterReplace = jest.fn();
     const { navigation, mockCanGoBack, mockGetParent } = createMockNavigation();
 
-    mockUseRouter.mockReturnValue({ back: routerBack });
+    mockUseRouter.mockReturnValue({ replace: mockRouterReplace });
     mockCanGoBack.mockReturnValue(false);
     mockGetParent.mockReturnValue({
       canGoBack: () => false,
@@ -91,15 +91,32 @@ describe('useGameBack', () => {
 
     fireEvent.press(getByText('go back'));
 
-    expect(routerBack).toHaveBeenCalledTimes(1);
+    expect(mockRouterReplace).toHaveBeenCalledWith('/');
+  });
+
+  it('uses state index instead of canGoBack for direct-entry game routes', () => {
+    const mockRouterReplace = jest.fn();
+    const { navigation, mockGoBack } = createMockNavigation({
+      getState: () => ({ index: 0 }),
+    });
+
+    mockUseRouter.mockReturnValue({ replace: mockRouterReplace });
+    mockUsePathname.mockReturnValue('/game/bubble-pop');
+
+    const { getByText } = render(<TestComponent navigation={navigation} />);
+
+    fireEvent.press(getByText('go back'));
+
+    expect(mockGoBack).not.toHaveBeenCalled();
+    expect(mockRouterReplace).toHaveBeenCalledWith('/');
   });
 
   it('registers a hardware back handler that uses the same navigation logic', () => {
-    const routerBack = jest.fn();
+    const mockRouterReplace = jest.fn();
     const cleanup = jest.fn();
     const { navigation, mockGoBack } = createMockNavigation();
 
-    mockUseRouter.mockReturnValue({ back: routerBack });
+    mockUseRouter.mockReturnValue({ replace: mockRouterReplace });
 
     render(<TestComponent navigation={navigation} cleanup={cleanup} />);
 
@@ -115,17 +132,27 @@ describe('useGameBack', () => {
     expect(handled).toBe(true);
     expect(cleanup).toHaveBeenCalledTimes(1);
     expect(mockGoBack).toHaveBeenCalledTimes(1);
-    expect(routerBack).not.toHaveBeenCalled();
+    expect(mockRouterReplace).not.toHaveBeenCalled();
   });
 
   it('skips hardware back registration when disabled', () => {
-    const routerBack = jest.fn();
+    const mockRouterReplace = jest.fn();
     const { navigation } = createMockNavigation();
 
-    mockUseRouter.mockReturnValue({ back: routerBack });
+    mockUseRouter.mockReturnValue({ replace: mockRouterReplace });
 
     render(<TestComponent navigation={navigation} handleHardwareBack={false} />);
 
     expect(BackHandler.addEventListener).not.toHaveBeenCalled();
+  });
+});
+
+describe('getGameBackFallbackPath', () => {
+  it('falls back to the app home for direct game home routes', () => {
+    expect(getGameBackFallbackPath('/game/bubble-pop')).toBe('/');
+  });
+
+  it('falls back to the game route for nested game screens', () => {
+    expect(getGameBackFallbackPath('/game/pet-care/Help')).toBe('/game/pet-care');
   });
 });

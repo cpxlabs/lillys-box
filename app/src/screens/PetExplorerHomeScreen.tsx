@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#1a1a2e' },
   backButton: { paddingHorizontal: 20, paddingTop: 16 },
   backText: { fontSize: 14, color: '#78c850', fontWeight: '800', textTransform: 'uppercase', letterSpacing: 1 },
-  content: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 24, marginTop: -40 },
+  content: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 24, marginTop: 0 },
   emoji: { fontSize: 72, marginBottom: 12 },
   title: { fontSize: 32, fontWeight: '900', color: '#ffd700', letterSpacing: 3, textTransform: 'uppercase', marginBottom: 8 },
   subtitle: { fontSize: 16, color: '#8899aa', textAlign: 'center', marginBottom: 28, letterSpacing: 0.5 },
