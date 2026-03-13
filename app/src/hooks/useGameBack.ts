@@ -1,12 +1,27 @@
 import { useCallback, useEffect } from 'react';
 import { BackHandler } from 'react-native';
-import { useRouter } from 'expo-router';
+import { usePathname, useRouter } from 'expo-router';
 
 type NavigationLike = {
   canGoBack: () => boolean;
   goBack: () => void;
   getParent: () => NavigationLike | undefined;
+  getState?: () => { index?: number } | undefined;
 };
+
+export function getGameBackFallbackPath(pathname: string): string {
+  const segments = pathname.split('/').filter(Boolean);
+
+  if (segments[0] !== 'game') {
+    return '/';
+  }
+
+  if (segments.length >= 3) {
+    return `/game/${segments[1]}`;
+  }
+
+  return '/';
+}
 
 /**
  * Hook that provides reliable back navigation for screens inside nested navigators.
@@ -28,10 +43,11 @@ export function useGameBack(
   options?: {
     cleanup?: () => void;
     handleHardwareBack?: boolean;
-  },
+  }
 ) {
   const { cleanup, handleHardwareBack = true } = options ?? {};
   const router = useRouter();
+  const pathname = usePathname();
 
   const goBack = useCallback(() => {
     cleanup?.();
@@ -39,17 +55,21 @@ export function useGameBack(
     // Walk up the navigator tree to find one that can go back
     let nav: NavigationLike | undefined = navigation;
     while (nav) {
-      if (nav.canGoBack()) {
+      const stateIndex = nav.getState?.()?.index;
+      const canGoBack = typeof stateIndex === 'number' ? stateIndex > 0 : nav.canGoBack();
+
+      if (canGoBack) {
         nav.goBack();
         return;
       }
       nav = nav.getParent();
     }
 
-    // Fallback: on web the nested native-stack parent chain may not reach the
-    // Expo Router root navigator. Use router.back() to handle this case.
-    router.back();
-  }, [navigation, cleanup, router]);
+    // Fallback: direct web entry into nested game routes may have no navigable
+    // React Navigation history. Replace to a safe route instead of dispatching
+    // an unhandled GO_BACK action.
+    router.replace(getGameBackFallbackPath(pathname));
+  }, [navigation, cleanup, pathname, router]);
 
   useEffect(() => {
     if (!handleHardwareBack) return;

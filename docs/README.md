@@ -6,6 +6,7 @@ Complete documentation for the Lilly's Box project.
 
 ### Getting Started
 - [BUILD.md](guides/BUILD.md) - Building for web, Android, iOS
+- [NAVIGATION.md](guides/NAVIGATION.md) - Navigation flow and troubleshooting
 - [RESPONSIVE.md](guides/RESPONSIVE.md) - Responsive design system
 - [FOLDER_STRUCTURE.md](guides/FOLDER_STRUCTURE.md) - Project structure
 - [LOAD_ROMS.md](guides/LOAD_ROMS.md) - Loading games in GBA Emulator
@@ -70,6 +71,7 @@ docs/
 ├── RALPH_LOOPS.md               # AI coding loops guide
 ├── guides/
 │   ├── BUILD.md                # Building for all platforms
+│   ├── NAVIGATION.md           # Navigation flow and troubleshooting
 │   ├── RESPONSIVE.md           # Responsive design guide
 │   ├── LOAD_ROMS.md            # Loading games in GBA emulator
 │   └── FOLDER_STRUCTURE.md     # Project folder layout
@@ -99,6 +101,9 @@ docs/
 
 **...build the app for web/Android/iOS**
 → [BUILD.md](guides/BUILD.md)
+
+**...debug navigation or back-button issues**
+→ [NAVIGATION.md](guides/NAVIGATION.md)
 
 **...make the app responsive**
 → [RESPONSIVE.md](guides/RESPONSIVE.md)
@@ -367,6 +372,9 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
 - Clear Jest cache: `jest --clearCache`
 - Check AsyncStorage mocks
 - See [TESTING.md](testing/TESTING.md)
+
+**Back button or game navigation not working**
+- Check [NAVIGATION.md](guides/NAVIGATION.md) for `useGameBack`, direct-link fallback behavior, and web-specific troubleshooting
 
 ---
 

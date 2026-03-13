@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#FFF8DC' },
   backButton: { paddingHorizontal: 20, paddingTop: 16 },
   backText: { fontSize: 16, color: '#b5860d', fontWeight: '600' },
-  content: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 24, marginTop: -40 },
+  content: { flex: 1, alignItems: 'center', justifyContent: 'center', paddingHorizontal: 24, marginTop: 0 },
   emoji: { fontSize: 80, marginBottom: 12 },
   title: { fontSize: 34, fontWeight: '800', color: '#8B4513', marginBottom: 8, textAlign: 'center' },
   subtitle: { fontSize: 17, color: '#666', textAlign: 'center', marginBottom: 28 },
