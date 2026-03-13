@@ -6,6 +6,8 @@ import { GbaEmulatorGameScreen } from '../GbaEmulatorGameScreen';
 const mockHandleBack = jest.fn();
 const mockUseGbaEmulator = jest.fn();
 const mockImportRom = jest.fn();
+const mockSelectRom = jest.fn();
+const mockGetRomBlob = jest.fn().mockReturnValue(null);
 
 jest.mock('react-i18next', () => ({
   useTranslation: () => ({
@@ -23,6 +25,14 @@ jest.mock('../../context/GbaEmulatorContext', () => ({
   useGbaEmulator: () => mockUseGbaEmulator(),
 }));
 
+jest.mock('react-native-webview', () => ({
+  WebView: ({ testID }: { testID?: string }) => {
+    const React = require('react');
+    const { View } = require('react-native');
+    return React.createElement(View, { testID });
+  },
+}));
+
 jest.mock('../../components/EmojiIcon', () => ({
   EmojiIcon: ({ emoji }: { emoji: string }) => {
     const React = require('react');
@@ -34,11 +44,15 @@ jest.mock('../../components/EmojiIcon', () => ({
 describe('GbaEmulator shell screens', () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockGetRomBlob.mockReturnValue(null);
     mockUseGbaEmulator.mockReturnValue({
       recentRoms: [],
       hasImportedRoms: false,
       isImportAvailable: false,
       importRom: mockImportRom,
+      selectedRomId: null,
+      selectRom: mockSelectRom,
+      getRomBlob: mockGetRomBlob,
     });
   });
 
@@ -64,6 +78,9 @@ describe('GbaEmulator shell screens', () => {
       hasImportedRoms: true,
       isImportAvailable: true,
       importRom: mockImportRom,
+      selectedRomId: null,
+      selectRom: mockSelectRom,
+      getRomBlob: mockGetRomBlob,
     });
 
     const navigation = { navigate: jest.fn() } as any;
@@ -81,6 +98,9 @@ describe('GbaEmulator shell screens', () => {
       hasImportedRoms: false,
       isImportAvailable: true,
       importRom: mockImportRom,
+      selectedRomId: null,
+      selectRom: mockSelectRom,
+      getRomBlob: mockGetRomBlob,
     });
 
     const navigation = { navigate: jest.fn() } as any;
@@ -117,6 +137,10 @@ describe('GbaEmulator shell screens', () => {
       recentRoms: [{ id: 'emerald', title: 'Pokémon Emerald' }],
       hasImportedRoms: true,
       isImportAvailable: true,
+      importRom: mockImportRom,
+      selectedRomId: null,
+      selectRom: mockSelectRom,
+      getRomBlob: mockGetRomBlob,
     });
 
     const navigation = { navigate: jest.fn() } as any;

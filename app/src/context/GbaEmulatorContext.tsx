@@ -12,6 +12,7 @@ type SelectedRomFile = {
   name: string;
   size: number;
   lastModified: number;
+  arrayBuffer?: () => Promise<ArrayBuffer>;
 };
 
 type WebRomInput = {
@@ -40,11 +41,17 @@ type GbaEmulatorContextType = {
   hasImportedRoms: boolean;
   isImportAvailable: boolean;
   importRom: () => Promise<void>;
+  selectedRomId: string | null;
+  selectRom: (id: string) => void;
+  getRomBlob: (id: string) => Blob | null;
 };
 
 const GbaEmulatorContext = createContext<GbaEmulatorContextType | undefined>(undefined);
 const GBA_RECENT_ROMS_KEY = '@gba_recent_roms';
 const MAX_RECENT_ROMS = 5;
+
+// Module-level store for ROM binary data (not in React state to avoid re-renders with large data)
+const romBlobStore = new Map<string, Blob>();
 
 const normalizeRomSummary = (rom: unknown): GbaRomSummary | null => {
   if (!rom || typeof rom !== 'object') return null;
@@ -138,12 +145,34 @@ const pickWebRom = async (): Promise<GbaRomSummary | null> => {
       }, 0);
     };
 
-    input.addEventListener('change', () => {
+    input.addEventListener('change', async () => {
       if (cancelTimeout) {
         (currentWindow?.clearTimeout ?? clearTimeout)(cancelTimeout);
         cancelTimeout = null;
       }
-      const nextRom = input.files?.[0] ? createRomSummaryFromFile(input.files[0]) : null;
+
+      const file = input.files?.[0];
+      if (!file) {
+        finalize(null);
+        return;
+      }
+
+      const nextRom = createRomSummaryFromFile(file);
+      if (!nextRom) {
+        finalize(null);
+        return;
+      }
+
+      // Read and store ROM binary data if the file API supports it
+      if (typeof file.arrayBuffer === 'function') {
+        try {
+          const buffer = await file.arrayBuffer();
+          romBlobStore.set(nextRom.id, new Blob([buffer], { type: 'application/octet-stream' }));
+        } catch (error) {
+          logger.warn('Failed to read ROM file content', error);
+        }
+      }
+
       finalize(nextRom);
     }, { once: true });
 
@@ -158,6 +187,7 @@ const pickWebRom = async (): Promise<GbaRomSummary | null> => {
 
 export const GbaEmulatorProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [recentRoms, setRecentRoms] = useState<GbaRomSummary[]>([]);
+  const [selectedRomId, setSelectedRomId] = useState<string | null>(null);
   const isImportAvailable = isWebImportSupported();
 
   useEffect(() => {
@@ -213,6 +243,14 @@ export const GbaEmulatorProvider: React.FC<{ children: React.ReactNode }> = ({ c
     });
   }, []);
 
+  const selectRom = useCallback((id: string) => {
+    setSelectedRomId(id);
+  }, []);
+
+  const getRomBlob = useCallback((id: string): Blob | null => {
+    return romBlobStore.get(id) ?? null;
+  }, []);
+
   const hasImportedRoms = recentRoms.length > 0;
 
   const value = useMemo<GbaEmulatorContextType>(() => ({
@@ -220,7 +258,10 @@ export const GbaEmulatorProvider: React.FC<{ children: React.ReactNode }> = ({ c
     hasImportedRoms,
     isImportAvailable,
     importRom,
-  }), [hasImportedRoms, importRom, isImportAvailable, recentRoms]);
+    selectedRomId,
+    selectRom,
+    getRomBlob,
+  }), [hasImportedRoms, importRom, isImportAvailable, recentRoms, selectedRomId, selectRom, getRomBlob]);
 
   return <GbaEmulatorContext.Provider value={value}>{children}</GbaEmulatorContext.Provider>;
 };
