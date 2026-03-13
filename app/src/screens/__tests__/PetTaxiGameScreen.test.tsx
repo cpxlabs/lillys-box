@@ -169,6 +169,46 @@ describe('PetTaxiGameScreen', () => {
     expect(getByText('🚕 50')).toBeTruthy();
   });
 
+  it('keeps the in-car passenger overlay within the taxi bounds', () => {
+    jest.spyOn(Math, 'random')
+      .mockReturnValueOnce(0.5)
+      .mockReturnValueOnce(0)
+      .mockReturnValueOnce(0);
+
+    jest.spyOn(Animated, 'timing').mockReturnValueOnce({
+      start: (callback?: (result: { finished: boolean }) => void) => callback?.({ finished: true }),
+      stop: jest.fn(),
+      reset: jest.fn(),
+    } as any);
+
+    const { getByTestId } = render(
+      <PetTaxiGameScreen navigation={navigation as any} />
+    );
+
+    act(() => {
+      jest.advanceTimersByTime(2000);
+    });
+
+    expect(getByTestId('pet-taxi-in-car-passenger').props.children).toBe('🐱');
+    expect(getByTestId('pet-taxi-car').props.style).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          width: 60,
+          height: 52,
+          justifyContent: 'flex-end',
+          overflow: 'hidden',
+        }),
+      ])
+    );
+    expect(getByTestId('pet-taxi-in-car-passenger').props.style).toEqual(
+      expect.objectContaining({
+        fontSize: 18,
+        top: 6,
+        right: 8,
+      })
+    );
+  });
+
   it('renders street-style road details', () => {
     const { getByTestId, getAllByTestId } = render(
       <PetTaxiGameScreen navigation={navigation as any} />
