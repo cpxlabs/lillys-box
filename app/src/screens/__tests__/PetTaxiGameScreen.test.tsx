@@ -189,6 +189,7 @@ describe('PetTaxiGameScreen', () => {
       jest.advanceTimersByTime(2000);
     });
 
+    expect(getByTestId('pet-taxi-in-car-passenger').props.children).toBe('🐱');
     expect(getByTestId('pet-taxi-car').props.style).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
@@ -201,6 +202,7 @@ describe('PetTaxiGameScreen', () => {
     );
     expect(getByTestId('pet-taxi-in-car-passenger').props.style).toEqual(
       expect.objectContaining({
+        fontSize: 18,
         top: 6,
         right: 8,
       })
