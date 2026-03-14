@@ -9,10 +9,10 @@
 
 ## Technology Stack
 
-- **Framework:** React Native 0.73.2 with Expo SDK 50
+- **Framework:** React Native 0.77.3 with Expo SDK 55
 - **Language:** TypeScript 5.1.3 (strict mode)
-- **Navigation:** Expo Router 3.4.10 (file-based routing)
-- **Graphics:** React Native Skia, React Native SVG, React Native Reanimated 3.6.1
+- **Navigation:** Expo Router 55 (file-based routing)
+- **Graphics:** React Native Skia, React Native SVG, React Native Reanimated 4.2
 - **State Management:** React Context API
 - **Authentication:** @react-native-google-signin/google-signin (Google OAuth)
 - **Storage:** AsyncStorage (local), Firebase Firestore (cloud sync)
@@ -91,7 +91,7 @@ The game includes 36 mini-games for earning money and entertainment:
 31. **Hide and Seek** - Hide and seek game
 32. **Star Catcher** - Catch falling stars
 33. **Muito** - Multiplayer card game
-34. **Color Tap** - Tap colored items
+34. **Pet Care** - Virtual pet care
 35. **Kids Chess** - Chess for children
 36. **GBA Emulator** - Retro game emulator
 
@@ -135,7 +135,7 @@ lillys-box/
 ├── app/                    # Main React Native application
 │   ├── app/               # Expo Router entry points
 │   ├── src/
-│   │   ├── components/    # Reusable UI components (60+ files)
+│   │   ├── components/    # Reusable UI components (22 files)
 │   │   ├── config/        # Game configuration (gameBalance, constants, ads)
 │   │   ├── context/       # React Context providers (Auth, Pet, Ad, Toast, etc.)
 │   │   ├── hooks/         # Custom hooks (usePetActions, useAudio, useGameBestScore)

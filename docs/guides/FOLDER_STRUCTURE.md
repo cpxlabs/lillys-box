@@ -132,7 +132,7 @@ context/
 ├── ToastContext.tsx          # Toast notifications
 ├── ColorTapContext.tsx       # Color Tap game state
 ├── MemoryMatchContext.tsx    # Memory Match game state
-└── ... (36 game contexts + 5 app contexts)
+└── ... (36 game contexts + 5 app contexts + 20 unregistered game contexts)
 ```
 
 ### hooks/
@@ -304,7 +304,7 @@ Documentation files in root and /docs:
 
 ### Game System
 - Game selection: `src/screens/GameSelectionScreen.tsx`
-- Game contexts: `src/context/*Context.tsx` (39 files)
+- Game contexts: `src/context/*Context.tsx` (61 files)
 - Game registry: `src/gameRegistrations.ts`
 - Game balance: `src/config/gameBalance.ts`
 
@@ -414,5 +414,5 @@ See [BUILD.md](BUILD.md) for:
 
 ---
 
-**Last Updated**: 2026-03-12  
+**Last Updated**: 2026-03-14  
 **Status**: Complete
