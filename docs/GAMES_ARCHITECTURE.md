@@ -149,7 +149,7 @@ app/src/
 ├── context/
 │   ├── MyGameContext.tsx (created by generator)
 │   ├── ColorTapContext.tsx
-│   └── ... (36 game contexts + 5 app contexts)
+│   └── ... (36 game contexts + 5 app contexts + 20 unregistered game contexts)
 │
 ├── screens/
 │   ├── MyGameNavigator.tsx (created by generator)
@@ -158,7 +158,7 @@ app/src/
 │   ├── ColorTapNavigator.tsx
 │   ├── ColorTapHomeScreen.tsx
 │   ├── ColorTapGameScreen.tsx
-│   └── ... (85 screens total)
+│   └── ... (167 screen files total)
 │
 ├── hooks/
 │   ├── useGameBestScore.ts (existing)

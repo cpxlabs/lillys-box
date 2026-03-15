@@ -49,11 +49,11 @@ Complete documentation for the Lilly's Box project.
 
 ### Tech Stack
 
-- React Native 0.73 (Expo 50)
+- React Native 0.77 (Expo 55)
 - TypeScript 5.1
-- Expo Router 3.4 (file-based routing)
+- Expo Router (file-based routing)
 - AsyncStorage (local persistence)
-- react-native-reanimated 3.6 (animations)
+- react-native-reanimated 4.2 (animations)
 - Google Sign-In OAuth
 - Socket.io (multiplayer)
 - i18next (translation)
@@ -301,7 +301,7 @@ const MyScreen = () => {
 - **PetContext** - Global pet state (with debounced saves)
 - **LanguageContext** - i18n state
 - **ToastContext** - Toast notifications
-- **GameContexts** - Per-game state and best scores (36 game contexts)
+- **GameContexts** - Per-game state and best scores (36 registered game contexts, 20 additional unregistered)
 
 ### Data Storage
 
@@ -405,7 +405,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
 
 ---
 
-**Last Updated**: 2026-03-12
+**Last Updated**: 2026-03-14
 
 **Maintained By**: Lilly's Box Development Team
 

@@ -244,20 +244,26 @@ Game Screen
 **Pet Care** (1)
 - pet-care
 
-**Casual** (20)
+**Casual** (19)
 - muito, color-tap, dress-up-relay, feed-the-pet, whack-a-mole
 - catch-the-ball, bubble-pop, pet-dance-party, treasure-dig
 - balloon-float, paint-splash, snack-stack, lightning-tap
 - pet-chef, music-maker, garden-grow, photo-studio
-- hide-and-seek, star-catcher, kids-chess
+- hide-and-seek, star-catcher
 
-**Puzzle** (11)
+**Puzzle** (10)
 - memory-match, simon-says, color-mixer, sliding-puzzle
 - path-finder, shape-sorter, mirror-match-new, word-bubbles
-- jigsaw-pets, connect-dots, gba-emulator
+- jigsaw-pets, connect-dots
 
 **Adventure** (4)
 - pet-runner, pet-explorer, weather-wizard, pet-taxi
+
+**Emulator** (1)
+- gba-emulator
+
+**Board** (1)
+- kids-chess
 
 ---
 

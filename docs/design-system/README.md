@@ -146,7 +146,7 @@ All screens use the `useResponsive()` hook providing:
 ---
 
 ## Tech Stack
-- **Framework**: React Native 0.73 + Expo 50
+- **Framework**: React Native 0.77 + Expo 55
 - **Styling**: React Native StyleSheet (no CSS-in-JS framework)
 - **Animations**: React Native Reanimated
 - **Icons**: Emoji-based (no icon font library)
