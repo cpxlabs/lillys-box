@@ -21,9 +21,9 @@ pnpm install
 
 # App commands (from /app)
 cd app
-corepack pnpm lint           # ESLint
-corepack pnpm test --runInBand  # Jest tests (run serially)
-corepack pnpm build:web      # Expo web build
+pnpm lint                    # ESLint
+pnpm test --runInBand        # Jest tests (run serially)
+pnpm build:web               # Expo web build
 npx expo start               # Dev server
 
 # Backend commands (from /backend)
