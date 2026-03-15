@@ -33,13 +33,14 @@ Desfrute de uma variedade diversa de experiências interativas, desde jogos educ
 - 🛡️ **Relatórios de erros** com Sentry (bordas de erro + source maps)
 - ❓ **Tela de Ajuda/FAQ** com dicas e suporte
 
-## �🚀 Quick Start (Início Rápido)
+## 🚀 Quick Start (Início Rápido)
 
 ```bash
-# Instalar dependências
+# Instalar dependências (do diretório raiz)
 pnpm install
 
-# Executar
+# Executar o app
+cd app
 npx expo start
 ```
 
