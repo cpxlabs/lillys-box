@@ -1,10 +1,27 @@
 {
+  "name": "lillys-box-root",
+  "private": true,
+  "packageManager": "pnpm@10.30.2",
+  "scripts": {
+    "prepare": "husky"
+  },
   "devDependencies": {
     "husky": "^9.1.7",
     "lint-staged": "^16.4.0",
     "typescript": "^5.9.3"
   },
-  "scripts": {
-    "prepare": "husky"
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "@firebase/util",
+      "@sentry/cli",
+      "@shopify/react-native-skia",
+      "better-sqlite3",
+      "esbuild",
+      "protobufjs",
+      "unrs-resolver"
+    ],
+    "overrides": {
+      "minimatch": "^3.1.5"
+    }
   }
 }
