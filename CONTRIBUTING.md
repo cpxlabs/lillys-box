@@ -74,6 +74,19 @@ gh auth login
 gh auth setup-git
 ```
 
+## Claude Code with claude-mem
+
+We recommend using [claude-mem](https://github.com/thedotmack/claude-mem) for persistent memory across Claude Code sessions. It automatically preserves context so Claude remembers previous work on this project.
+
+**Quick setup** (run inside Claude Code):
+
+```
+/plugin marketplace add thedotmack/claude-mem
+/plugin install claude-mem
+```
+
+Then restart Claude Code. See [docs/guides/CLAUDE_MEM.md](./docs/guides/CLAUDE_MEM.md) for full details.
+
 ## Development
 
 See [docs/guides/BUILD.md](./docs/guides/BUILD.md) for detailed build and development instructions.

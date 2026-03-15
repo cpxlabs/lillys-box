@@ -10,6 +10,7 @@ Complete documentation for the Lilly's Box project.
 - [RESPONSIVE.md](guides/RESPONSIVE.md) - Responsive design system
 - [FOLDER_STRUCTURE.md](guides/FOLDER_STRUCTURE.md) - Project structure
 - [LOAD_ROMS.md](guides/LOAD_ROMS.md) - Loading games in GBA Emulator
+- [CLAUDE_MEM.md](guides/CLAUDE_MEM.md) - Claude-Mem persistent memory setup
 
 ### Authentication & Development
 - [AUTHENTICATION.md](technical/AUTHENTICATION.md) - OAuth setup and auth system
@@ -74,6 +75,7 @@ docs/
 │   ├── NAVIGATION.md           # Navigation flow and troubleshooting
 │   ├── RESPONSIVE.md           # Responsive design guide
 │   ├── LOAD_ROMS.md            # Loading games in GBA emulator
+│   ├── CLAUDE_MEM.md           # Claude-Mem persistent memory setup
 │   └── FOLDER_STRUCTURE.md     # Project folder layout
 ├── technical/
 │   ├── AUTHENTICATION.md       # OAuth & auth system
@@ -122,6 +124,9 @@ docs/
 
 **...load ROMs into the GBA emulator**
 → [LOAD_ROMS.md](guides/LOAD_ROMS.md)
+
+**...set up claude-mem for persistent AI memory**
+→ [CLAUDE_MEM.md](guides/CLAUDE_MEM.md)
 
 **...create a new game**
 → [GAMES_SYSTEM_UPGRADE.md](GAMES_SYSTEM_UPGRADE.md)
