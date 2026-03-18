@@ -15,6 +15,9 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
+    ignore:
+      - dependency-name: "tar"
+      - dependency-name: "@tootallnate/once"
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
