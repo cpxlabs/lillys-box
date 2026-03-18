@@ -111,8 +111,8 @@ importers:
         specifier: ~2.30.0
         version: 2.30.0(react-native@0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.0(@babel/core@7.29.0))(@types/react@18.2.79)(react@19.2.0))(react@19.2.0)
       react-native-get-random-values:
-        specifier: ^1.8.0
-        version: 1.11.0(react-native@0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.0(@babel/core@7.29.0))(@types/react@18.2.79)(react@19.2.0))
+        specifier: ^2.0.0
+        version: 2.0.0(react-native@0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.0(@babel/core@7.29.0))(@types/react@18.2.79)(react@19.2.0))
       react-native-google-mobile-ads:
         specifier: ^16.1.0
         version: 16.2.3(expo@55.0.7)(react@19.2.0)
@@ -5891,10 +5891,10 @@ packages:
       react: '*'
       react-native: '*'
 
-  react-native-get-random-values@1.11.0:
-    resolution: {integrity: sha512-4BTbDbRmS7iPdhYLRcz3PGFIpFJBwNZg9g42iwa2P6FOv9vZj/xJc678RZXnLNZzd0qd7Q3CCF6Yd+CU2eoXKQ==}
+  react-native-get-random-values@2.0.0:
+    resolution: {integrity: sha512-wx7/aPqsUIiWsG35D+MsUJd8ij96e3JKddklSdrdZUrheTx89gPtz3Q2yl9knBArj5u26Cl23T88ai+Q0vypdQ==}
     peerDependencies:
-      react-native: '>=0.56'
+      react-native: '>=0.81'
 
   react-native-google-mobile-ads@16.2.3:
     resolution: {integrity: sha512-olSUdOIq8h/PnzSIH5HJgycyEIpvfmiqBPHdwrBrQcPkbBddoTaU6ojC2x53nQGb70bEQaTgvOaToSHHu7jpuA==}
@@ -14321,7 +14321,7 @@ snapshots:
       react: 19.2.0
       react-native: 0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.0(@babel/core@7.29.0))(@types/react@18.2.79)(react@19.2.0)
 
-  react-native-get-random-values@1.11.0(react-native@0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.0(@babel/core@7.29.0))(@types/react@18.2.79)(react@19.2.0)):
+  react-native-get-random-values@2.0.0(react-native@0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.0(@babel/core@7.29.0))(@types/react@18.2.79)(react@19.2.0)):
     dependencies:
       fast-base64-decode: 1.0.0
       react-native: 0.77.3(@babel/core@7.29.0)(@babel/preset-env@7.29.0(@babel/core@7.29.0))(@types/react@18.2.79)(react@19.2.0)
