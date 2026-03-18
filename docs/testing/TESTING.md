@@ -453,15 +453,16 @@ describe('usePetActions', () => {
 
 | Category | Target | Current |
 |----------|--------|---------|
-| Statements | 80% | — |
-| Branches | 75% | — |
-| Functions | 80% | — |
-| Lines | 80% | — |
+| Statements | 80% | Not tracked (run coverage locally) |
+| Branches | 75% | Not tracked (run coverage locally) |
+| Functions | 80% | Not tracked (run coverage locally) |
+| Lines | 80% | Not tracked (run coverage locally) |
 
 Run coverage report:
 
 ```bash
-npm test -- --coverage
+cd app
+corepack pnpm test -- --coverage
 ```
 
 ## Test Checklist
@@ -476,25 +477,28 @@ Before committing:
 
 ## CI/CD Pipeline
 
-Tests run automatically:
+Tests run automatically via the app workflow:
 
 ```yaml
-# .github/workflows/test.yml
-name: Tests
-on: [push, pull_request]
-
+# app/.github/workflows/maestro.yml (quality job excerpt)
 jobs:
-  test:
+  quality:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
-      - run: npm install
-      - run: npm test -- --coverage
-      - run: maestro test e2e/flow.yaml
+          cache: 'pnpm'
+      - uses: pnpm/action-setup@v2
+        with:
+          version: 8
+      - run: pnpm install
+      - run: pnpm lint
+      - run: node app/scripts/check-locale-keys.js
 ```
+
+The Maestro E2E job is present but requires a built Android APK before running `maestro test e2e/flow.yaml`.
 
 ## Resources
 

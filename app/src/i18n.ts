@@ -7,19 +7,15 @@ import ptBR from './locales/pt-BR.json';
 import { Platform, NativeModules } from 'react-native';
 
 const getDeviceLanguage = () => {
-  let locale = 'en';
-
-  if (Platform.OS === 'ios') {
-    locale =
-      NativeModules.SettingsManager?.settings?.AppleLocale ||
-      NativeModules.SettingsManager?.settings?.AppleLanguages?.[0] ||
-      'en';
-  } else if (Platform.OS === 'android') {
-    locale = NativeModules.I18nManager?.localeIdentifier || 'en';
-  } else {
-    // For web, use browser language
-    locale = navigator.language || 'en';
-  }
+  const locale =
+    Platform.OS === 'ios'
+      ? NativeModules.SettingsManager?.settings?.AppleLocale ||
+        NativeModules.SettingsManager?.settings?.AppleLanguages?.[0] ||
+        'en'
+      : Platform.OS === 'android'
+        ? NativeModules.I18nManager?.localeIdentifier || 'en'
+        : // For web, use browser language
+          navigator.language || 'en';
 
   // Normalize locale (e.g., 'pt-BR', 'pt_BR', 'pt' -> 'pt-BR')
   if (locale.toLowerCase().startsWith('pt')) {

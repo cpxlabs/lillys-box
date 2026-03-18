@@ -151,9 +151,9 @@ refactor: extract useGameBestScore hook
 
 1. Create a feature branch from `main`
 2. Make your changes with clear commits
-3. Ensure lint passes: `npm run lint` (0 errors, 0 warnings)
-4. Ensure tests pass: `npm test -- --runInBand`
-5. Verify locale parity: `npm run check-locale` (if adding translated strings)
+3. Ensure lint passes: `corepack pnpm lint` (0 errors, 0 warnings)
+4. Ensure tests pass: `corepack pnpm test --runInBand`
+5. Verify locale parity: `corepack pnpm check-locale` (if adding translated strings)
 6. Push your branch and open a PR
 7. Fill in the PR description with what changed and why
 8. Request review from a maintainer
