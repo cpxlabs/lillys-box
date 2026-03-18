@@ -17,7 +17,7 @@ Complete guide for building Lilly's Box for web, Android, and iOS platforms.
 pnpm web
 
 # Web production build
-EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export -p web
+pnpm build:web
 
 # Android development
 pnpm android
@@ -43,7 +43,7 @@ Starts local dev server (usually http://localhost:19006) with:
 ### Production Build
 
 ```bash
-EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export -p web
+pnpm build:web
 ```
 
 Creates optimized static files in `./dist` ready for deployment:
@@ -60,11 +60,7 @@ The `EXPO_PUBLIC_BUILD_PLATFORM=web` variable:
 - Required for all web builds
 - Not needed for Android/iOS
 
-**On Windows:**
-```bash
-set EXPO_PUBLIC_BUILD_PLATFORM=web
-npx expo export -p web
-```
+The `build:web` script already sets `EXPO_PUBLIC_BUILD_PLATFORM=web`, so use the script instead of invoking `npx expo` directly.
 
 ### Web Authentication
 
@@ -98,7 +94,7 @@ Also available on web:
 
 ```bash
 # Build
-EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export -p web
+pnpm build:web
 
 # Deploy (auto-detects dist/)
 vercel deploy --prod
@@ -108,7 +104,7 @@ vercel deploy --prod
 
 ```bash
 # Build
-EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export -p web --output-dir ./dist
+EXPO_PUBLIC_BUILD_PLATFORM=web pnpm exec expo export -p web --output-dir ./dist
 
 # Deploy
 netlify deploy --prod --dir dist
@@ -118,7 +114,7 @@ netlify deploy --prod --dir dist
 
 ```bash
 # Build
-EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export -p web --output-dir ./dist
+EXPO_PUBLIC_BUILD_PLATFORM=web pnpm exec expo export -p web --output-dir ./dist
 
 # Commit and push
 git add dist/
@@ -130,7 +126,7 @@ git push origin main
 
 ```bash
 # Build
-EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export -p web --output-dir ./build
+EXPO_PUBLIC_BUILD_PLATFORM=web pnpm exec expo export -p web --output-dir ./build
 
 # Serve locally
 npx serve -s build
@@ -142,7 +138,7 @@ python3 -m http.server --directory build
 
 **Error: Cannot find module '@react-native-google-signin'**
 - Set environment variable: `EXPO_PUBLIC_BUILD_PLATFORM=web`
-- Clear cache: `EXPO_PUBLIC_BUILD_PLATFORM=web npx expo export -p web --clear`
+- Clear cache: `EXPO_PUBLIC_BUILD_PLATFORM=web pnpm exec expo export -p web --clear`
 
 **Demo user not persisting**
 - Check browser storage is enabled
