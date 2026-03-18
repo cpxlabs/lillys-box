@@ -78,7 +78,11 @@ src/
 ├── screens/       # Telas do app
 ├── context/       # Context API
 ├── hooks/         # Hooks customizados
+├── services/      # Lógica de negócios (AdService, AudioService, etc.)
+├── utils/         # Funções utilitárias
 ├── config/        # Configurações
+├── data/          # Dados estáticos
+├── locales/       # Traduções (en.json, pt-BR.json)
 └── types/         # TypeScript types
 ```
 

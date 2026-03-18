@@ -147,14 +147,14 @@ Update configuration files with your OAuth credentials:
 import { useAuth } from '../context/AuthContext';
 
 export const MyComponent: React.FC = () => {
-  const { user, isAuthenticated, isLoading, signIn, signOut } = useAuth();
+  const { user, isGuest, loading, signIn, signOut } = useAuth();
   
-  if (isLoading) return <Loading />;
+  if (loading) return <Loading />;
   
   return (
     <View>
-      {isAuthenticated ? (
-        <Text>Welcome, {user?.name}</Text>
+      {user && !isGuest ? (
+        <Text>Welcome, {user.name}</Text>
       ) : (
         <Text>Guest mode</Text>
       )}
@@ -167,12 +167,13 @@ export const MyComponent: React.FC = () => {
 
 | Property | Type | Description |
 |----------|------|-------------|
-| `user` | `User \| null` | Current user (name, email, photo) |
-| `userId` | `string` | Unique identifier (UUID for guests, Google ID for auth) |
-| `isAuthenticated` | `boolean` | true if signed in, false if guest |
-| `isLoading` | `boolean` | true during initialization |
+| `user` | `UserInfo \| null` | Current user (name, email, photo) |
+| `isGuest` | `boolean` | true if playing as guest, false if signed in |
+| `loading` | `boolean` | true during initialization |
+| `error` | `string \| null` | Error message if sign-in fails |
 | `signIn()` | `() => Promise<void>` | Initiate Google sign-in |
-| `signOut()` | `() => Promise<void>` | Sign out and return to guest mode |
+| `signOut()` | `() => Promise<void>` | Sign out and return to login |
+| `playAsGuest()` | `() => Promise<void>` | Start playing as guest |
 
 ## Data Isolation
 

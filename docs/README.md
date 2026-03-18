@@ -86,7 +86,7 @@ docs/
 ├── testing/
 │   └── TESTING.md              # E2E, game, unit tests
 ├── design-system/
-│   └── (23 UI & game docs)
+│   └── (24 UI & game docs)
 ```
 
 ---
@@ -238,12 +238,12 @@ npm test -- --coverage
 import { useAuth } from '../context/AuthContext';
 
 const MyComponent = () => {
-  const { user, isAuthenticated, signIn, signOut } = useAuth();
+  const { user, isGuest, signIn, signOut } = useAuth();
 
   return (
     <>
-      {isAuthenticated ? (
-        <Text>Welcome, {user?.name}</Text>
+      {user && !isGuest ? (
+        <Text>Welcome, {user.name}</Text>
       ) : (
         <Text>Guest Mode</Text>
       )}
@@ -410,7 +410,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
 
 ---
 
-**Last Updated**: 2026-03-14
+**Last Updated**: 2026-03-18
 
 **Maintained By**: Lilly's Box Development Team
 
