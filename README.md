@@ -75,15 +75,15 @@ Para informações detalhadas sobre o projeto, veja **[docs/README.md](./docs/RE
 ```
 src/
 ├── components/    # Componentes reutilizáveis
-├── screens/       # Telas do app
-├── context/       # Context API
-├── hooks/         # Hooks customizados
-├── services/      # Lógica de negócios (AdService, AudioService, etc.)
-├── utils/         # Funções utilitárias
 ├── config/        # Configurações
+├── context/       # Context API
 ├── data/          # Dados estáticos
+├── hooks/         # Hooks customizados
 ├── locales/       # Traduções (en.json, pt-BR.json)
-└── types/         # TypeScript types
+├── screens/       # Telas do app
+├── services/      # Lógica de negócios (AdService, AudioService, etc.)
+├── types/         # TypeScript types
+└── utils/         # Funções utilitárias
 ```
 
 **⚠️ IMPORTANTE**: Estes são IDs de teste. Para produção, você DEVE substituí-los pelos seus próprios IDs de unidades de anúncios do AdMob.
