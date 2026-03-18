@@ -162,7 +162,18 @@ The `server/` sub-package (Socket.IO / Muito multiplayer game server) contains k
 
 ---
 
-## 8) Follow-up Plan (non-backend scope)
+## 8) Backend Follow-up Plan (deferred `server/` work)
+
+When the multiplayer server is actively deployed, address each deferred item with the steps below:
+
+1. **Lock down Socket.IO CORS** — replace `origin: '*'` in `backend/server/src/index.ts` with an explicit allowlist from an env var (e.g., `MUITO_ALLOWED_ORIGINS`), while still allowing localhost/dev origins.
+2. **Remove JWT fallback** — in `backend/server/src/index.ts`, require verified tokens from `auth.ts` for all connections. If a dev bypass is still needed, gate it behind an explicit env flag and log a warning.
+3. **Deduplicate room codes** — update `backend/server/src/roomManager.ts` to regenerate room codes until unique, and add a unit test that simulates a collision.
+4. **Add focused tests** — add tests for CORS allowlists and auth enforcement so regressions are caught before deployment.
+
+---
+
+## 9) Follow-up Plan (non-backend scope)
 
 The app baseline was rechecked on 2026-03-18 and remains green:
 
