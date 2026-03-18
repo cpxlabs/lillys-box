@@ -47,7 +47,7 @@ export const calculateHealth = (pet: Partial<Pet>): number => {
     energy < mediumThreshold ||
     happiness < mediumThreshold;
 
-  let multiplier = 1.0;
+  let multiplier: number;
   if (anyStatBelowCritical) {
     multiplier = GAME_BALANCE.healthStatusMultipliers.anyStatBelow10;
   } else if (anyStatBelowWarning) {

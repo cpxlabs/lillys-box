@@ -1,6 +1,6 @@
 # Complete Code Review — Lilly's Box
 
-**Date:** 2026-03-10 (updated 2026-03-13)  
+**Date:** 2026-03-10 (updated 2026-03-18)  
 **Repository:** `cpxlabs/lillys-box`
 
 ---
@@ -13,12 +13,12 @@ This review covers:
 - Quality/tooling readiness (lint, tests, build)
 - Security-sensitive runtime configuration and dependency posture
 
-Baseline commands (last verified 2026-03-13):
+Baseline commands (last verified 2026-03-18):
 
 | # | Command | Result |
 |---|---------|--------|
 | 1 | `cd app && corepack pnpm lint` | **0 errors, 0 warnings** ✅ |
-| 2 | `cd app && corepack pnpm test --runInBand` | **123 suites, 671 tests (671 passed)** ✅ |
+| 2 | `cd app && corepack pnpm test --runInBand` | **124 suites, 672 tests (672 passed)** ✅ |
 | 3 | `cd backend && npm run build` | **0 TypeScript errors** ✅ |
 | 4 | `cd backend && npm test` | **9 tests, 2 files** ✅ |
 
@@ -29,7 +29,7 @@ Baseline commands (last verified 2026-03-13):
 All quality gates are **green**:
 
 - Frontend lint: **0 errors, 0 warnings** ✅
-- Frontend tests: **123/123 suites, 671 passed** ✅
+- Frontend tests: **124/124 suites, 672 passed** ✅
 - Backend build: **passes** ✅ — CORS hardened, rate-limiting registered
 - Backend tests: **9 tests in 2 files** ✅ — auth + server smoke tests
 - No unused backend dependencies ✅
@@ -42,7 +42,7 @@ All high-, medium-, and low-priority action items have been resolved.
 
 1. **Type-safety** — `app/tsconfig.json` uses strict mode (`"strict": true`).
 2. **Clear repository layout** — `app/`, `backend/`, and `docs/` are well-separated and easy to navigate.
-3. **Substantial test coverage** — 122 test files under `app/src`, 2 backend test files.
+3. **Substantial test coverage** — 124 test files under `app/`, 2 backend test files.
 4. **Clean backend build** — 0 TypeScript errors in `backend/`.
 5. **Config hygiene** — root `.gitignore` excludes `.env`, `.env.local`, and local variants.
 
@@ -130,16 +130,22 @@ All findings from the original review have been addressed. Condensed below for r
 | #272 | Update CODE_REVIEW.md baseline recheck | Doc update |
 | #273 | Mark H2 resolved, sync test counts | Doc update |
 
+### PRs Merged (2026-03-18)
+
+| PR | Title | Impact |
+|----|-------|--------|
+| TBD | Refresh review baseline + Vercel/web build fixes | Docs + build reliability + test renderer pin |
+
 ### Baseline Progression
 
-| Metric | 2026-03-10 | 2026-03-12 | 2026-03-13 |
-|--------|-----------|-----------|-----------|
-| App lint | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings |
-| App test suites | 112 | 118 | 123 |
-| App tests (total) | 619 | 645 | 671 |
-| App test files | — | 117 | 122 |
-| Backend tests | 7 (1 file) | 7 (1 file) | 9 (2 files) |
-| Registered games | 36 | 36 | 36 |
+| Metric | 2026-03-10 | 2026-03-12 | 2026-03-13 | 2026-03-18 |
+|--------|-----------|-----------|-----------|-----------|
+| App lint | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings |
+| App test suites | 112 | 118 | 123 | 124 |
+| App tests (total) | 619 | 645 | 671 | 672 |
+| App test files | — | 117 | 122 | 124 |
+| Backend tests | 7 (1 file) | 7 (1 file) | 9 (2 files) | 9 (2 files) |
+| Registered games | 36 | 36 | 36 | 36 |
 
 ### New Documentation (since initial review)
 
@@ -150,7 +156,7 @@ All findings from the original review have been addressed. Condensed below for r
 
 ## 7) Final Assessment
 
-The repository is in a healthy and stable state. All quality gates are green: frontend lint produces zero warnings, the full test suite (671 tests across 123 suites) passes with no skipped tests, the backend TypeScript build is error-free, and backend smoke tests cover CORS, auth, and health-check behavior. Dependency hygiene is clean and the codebase is ready for continued feature development.
+The repository is in a healthy and stable state. All quality gates are green: frontend lint produces zero warnings, the full test suite (672 tests across 124 suites) passes with no skipped tests, the backend TypeScript build is error-free, and backend smoke tests cover CORS, auth, and health-check behavior. Dependency hygiene is clean and the codebase is ready for continued feature development.
 
 The `server/` sub-package (Socket.IO / Muito multiplayer game server) contains known areas for future improvement (wildcard CORS, hardcoded JWT fallback, no room-code deduplication), deferred until that subsystem is actively deployed.
 
@@ -158,7 +164,7 @@ The `server/` sub-package (Socket.IO / Muito multiplayer game server) contains k
 
 ## 8) Follow-up Plan (non-backend scope)
 
-The app baseline was rechecked on 2026-03-13 and remains green:
+The app baseline was rechecked on 2026-03-18 and remains green:
 
 - `cd app && corepack pnpm lint` ✅
 - `cd app && corepack pnpm test --runInBand` ✅
