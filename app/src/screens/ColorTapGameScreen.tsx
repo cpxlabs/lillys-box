@@ -51,10 +51,8 @@ const ARTIFACT_HTML = `<!DOCTYPE html>
 </head>
 <body>
   <div id="root"></div>
-  <script type="text/babel" data-presets="react,typescript">
+  <script type="text/babel" data-presets="react">
     const { useState, useEffect, useCallback, useRef } = React;
-
-    interface ColorOption { name: string; hex: string; }
 
     /**
  * Color Tap - Example Claude AI Artifact
@@ -69,7 +67,7 @@ const ARTIFACT_HTML = `<!DOCTYPE html>
  */
 
 
-const COLORS: ColorOption[] = [
+const COLORS = [
   { name: 'Red', hex: '#ef4444' },
   { name: 'Blue', hex: '#3b82f6' },
   { name: 'Green', hex: '#22c55e' },
@@ -78,7 +76,7 @@ const COLORS: ColorOption[] = [
   { name: 'Orange', hex: '#f97316' },
 ];
 
-function shuffleArray<T>(array: T[]): T[] {
+function shuffleArray(array) {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -87,13 +85,13 @@ function shuffleArray<T>(array: T[]): T[] {
   return shuffled;
 }
 
-const ColorTapGame = () => {
-  const [score, setScore] = useState(0);
-  const [lives, setLives] = useState(3);
-  const [targetColor, setTargetColor] = useState<ColorOption>(COLORS[0]);
-  const [displayColor, setDisplayColor] = useState<ColorOption>(COLORS[1]);
-  const [options, setOptions] = useState<ColorOption[]>([]);
-  const [feedback, setFeedback] = useState<string | null>(null);
+  const ColorTapGame = () => {
+    const [score, setScore] = useState(0);
+    const [lives, setLives] = useState(3);
+    const [targetColor, setTargetColor] = useState(COLORS[0]);
+    const [displayColor, setDisplayColor] = useState(COLORS[1]);
+    const [options, setOptions] = useState([]);
+    const [feedback, setFeedback] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [timeLeft, setTimeLeft] = useState(100);
@@ -160,7 +158,7 @@ const ColorTapGame = () => {
     return () => clearInterval(timer);
   }, [gameStarted, gameOver, pickNewRound, endGame]);
 
-  const handleTap = (color: ColorOption) => {
+  const handleTap = (color) => {
     if (gameOverRef.current) return;
 
     if (color.name === targetColor.name) {
@@ -265,12 +263,9 @@ export const ColorTapGameScreen: React.FC<Props> = ({ navigation }) => {
   const [score, setScore] = useState(0);
   const [gameOver, setGameOver] = useState(false);
 
-  const handleScoreUpdate = useCallback(
-    (newScore: number) => {
-      setScore(newScore);
-    },
-    [],
-  );
+  const handleScoreUpdate = useCallback((newScore: number) => {
+    setScore(newScore);
+  }, []);
 
   const handleGameOver = useCallback(
     (finalScore: number) => {
@@ -278,7 +273,7 @@ export const ColorTapGameScreen: React.FC<Props> = ({ navigation }) => {
       setGameOver(true);
       updateBestScore(finalScore);
     },
-    [updateBestScore],
+    [updateBestScore]
   );
 
   const handleBack = useGameBack(navigation);
@@ -289,7 +284,7 @@ export const ColorTapGameScreen: React.FC<Props> = ({ navigation }) => {
         handleBack();
       }
     },
-    [handleBack],
+    [handleBack]
   );
 
   return (
