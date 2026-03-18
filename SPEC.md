@@ -149,12 +149,9 @@ lillys-box/
 │   ├── assets/            # Images, sprites, sounds
 │   ├── scripts/           # CI/dev scripts (locale key checker)
 │   ├── dist/              # Web build output
-│   ├── docs/              # Documentation
 │   └── e2e/               # E2E tests (Maestro)
 ├── backend/               # Backend server (Fastify)
-├── server/                # Game server (Socket.io)
-├── shared/                # Shared types and utilities
-└── docs/                  # Root documentation (design system)
+└── docs/                  # Project documentation (design system, guides, etc.)
 ```
 
 ## UI/UX Design
