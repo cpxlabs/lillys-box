@@ -100,6 +100,8 @@ pnpm build:web
 vercel deploy --prod
 ```
 
+Vercel uses `/app/vercel.json` to run `pnpm install --frozen-lockfile` before `pnpm build:web`. If you see `expo: command not found`, ensure the install step runs inside the `app/` directory so `node_modules/.bin/expo` is available.
+
 #### Netlify
 
 ```bash
