@@ -1,17 +1,35 @@
-# Complete Code Review — Lilly's Box
+# Code Review Summary — Lilly's Box
 
-**Date:** 2026-03-10 (updated 2026-03-18)  
-**Repository:** `cpxlabs/lillys-box`
+**Repository:** `cpxlabs/lillys-box`  
+**Initial Review:** 2026-03-10  
+**Last Baseline Check:** 2026-03-18
+
+This document records the 2026 code review status, quality gate results, and follow-up actions. It focuses on the `/app` frontend, `/backend` services, and security-sensitive configuration.
 
 ---
 
-## 1) Scope and Method
+## Table of Contents
+1. [Scope and Method](#scope-and-method)
+2. [Baseline Commands](#baseline-commands)
+3. [Executive Summary](#executive-summary)
+4. [Strengths](#strengths)
+5. [Resolved Findings](#resolved-findings)
+6. [Resolved Documentation Fixes](#resolved-documentation-fixes)
+7. [Change Log](#change-log)
+8. [Final Assessment](#final-assessment)
+9. [Deferred Work](#deferred-work)
+
+---
+
+## Scope and Method
 
 This review covers:
 - Frontend application (`/app`)
 - Backend service (`/backend`)
 - Quality/tooling readiness (lint, tests, build)
 - Security-sensitive runtime configuration and dependency posture
+
+## Baseline Commands
 
 Baseline commands (last verified 2026-03-18):
 
@@ -24,7 +42,7 @@ Baseline commands (last verified 2026-03-18):
 
 ---
 
-## 2) Executive Summary
+## Executive Summary
 
 All quality gates are **green**:
 
@@ -38,7 +56,7 @@ All high-, medium-, and low-priority action items have been resolved.
 
 ---
 
-## 3) Strengths
+## Strengths
 
 1. **Type-safety** — `app/tsconfig.json` uses strict mode (`"strict": true`).
 2. **Clear repository layout** — `app/`, `backend/`, and `docs/` are well-separated and easy to navigate.
@@ -48,7 +66,7 @@ All high-, medium-, and low-priority action items have been resolved.
 
 ---
 
-## 4) Resolved Findings
+## Resolved Findings
 
 All findings from the original review have been addressed. Condensed below for reference.
 
@@ -81,7 +99,7 @@ All findings from the original review have been addressed. Condensed below for r
 
 ---
 
-## 5) Resolved Documentation Fixes
+## Resolved Documentation Fixes
 
 ### 2026-03-11
 
@@ -106,7 +124,7 @@ All findings from the original review have been addressed. Condensed below for r
 
 ---
 
-## 6) Change Log
+## Change Log
 
 ### PRs Merged (2026-03-12 — 2026-03-13)
 
@@ -154,7 +172,7 @@ All findings from the original review have been addressed. Condensed below for r
 
 ---
 
-## 7) Final Assessment
+## Final Assessment
 
 The repository is in a healthy and stable state. All quality gates are green: frontend lint produces zero warnings, the full test suite (672 tests across 124 suites) passes with no skipped tests, the backend TypeScript build is error-free, and backend smoke tests cover CORS, auth, and health-check behavior. Dependency hygiene is clean and the codebase is ready for continued feature development.
 
@@ -162,7 +180,9 @@ The `server/` sub-package (Socket.IO / Muito multiplayer game server) contains k
 
 ---
 
-## 8) Backend Follow-up Plan (deferred `server/` work)
+## Deferred Work
+
+### Backend Follow-up Plan (deferred `server/` work)
 
 When the multiplayer server is actively deployed, address each deferred item with the steps below:
 
@@ -171,9 +191,7 @@ When the multiplayer server is actively deployed, address each deferred item wit
 3. **Deduplicate room codes** — update `backend/server/src/roomManager.ts` to regenerate room codes until unique, and add a unit test that simulates a collision.
 4. **Add focused tests** — add tests for CORS allowlists and auth enforcement so regressions are caught before deployment.
 
----
-
-## 9) Follow-up Plan (non-backend scope)
+### Non-backend Follow-up Plan
 
 The app baseline was rechecked on 2026-03-18 and remains green:
 

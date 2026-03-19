@@ -1,6 +1,20 @@
-# Folder Structure
+# Folder Structure & Code Organization
 
-Project directory organization and file locations.
+Project directory organization, file locations, and naming conventions.
+
+## Table of Contents
+1. [Root Directory](#root-directory)
+2. [Application Directory (`/app`)](#application-directory-app)
+3. [Source Code Organization (`/app/src`)](#source-code-organization-appsrc)
+4. [Testing and Tooling](#testing-and-tooling)
+5. [Documentation Map](#documentation-map)
+6. [File Naming Conventions](#file-naming-conventions)
+7. [Key File Locations](#key-file-locations)
+8. [Dependencies Location](#dependencies-location)
+9. [Assets Organization](#assets-organization)
+10. [Build Output](#build-output)
+11. [Version Control](#version-control)
+12. [Development Setup](#development-setup)
 
 ## Root Directory
 
@@ -16,7 +30,7 @@ lillys-box/
 └── package.json            # Root dependencies
 ```
 
-## /app - Application Directory
+## Application Directory (`/app`)
 
 Main Expo application code:
 
@@ -72,7 +86,7 @@ app/
 └── vercel.json            # Vercel deployment config
 ```
 
-## /src - Source Code Organization
+## Source Code Organization (`/app/src`)
 
 ### components/
 
@@ -82,7 +96,7 @@ Reusable UI components (not full screens):
 components/
 ├── BannerAd.tsx              # Ad banner
 ├── ConfirmModal.tsx          # Confirmation dialog
-├── EnhancedStatusBar.tsx      # Status bar
+├── EnhancedStatusBar.tsx     # Status bar
 ├── ErrorBoundary.tsx         # Error handling
 ├── IconButton.tsx            # Button with icon
 ├── LanguageSelector.tsx      # Language toggle
@@ -90,7 +104,7 @@ components/
 ├── RewardedAdButton.tsx      # Ad button
 ├── ScreenHeader.tsx          # Screen title bar
 ├── SettingsModal.tsx         # Settings dialog
-├── SpriteSheetAnimation.tsx   # Animation wrapper
+├── SpriteSheetAnimation.tsx  # Animation wrapper
 ├── StarRating.tsx            # Rating widget
 ├── StatusBar.tsx             # Pet status display
 ├── StatusCard.tsx            # Stat card
@@ -242,9 +256,23 @@ locales/
 └── pt-BR.json                # Portuguese (Brazil)
 ```
 
-## Root-Level Documentation
+## Testing and Tooling
 
-Documentation files in root and /docs:
+```
+app/
+├── e2e/                      # Maestro tests
+├── __mocks__/                # Jest mocks
+├── jest.config.js            # Jest configuration
+├── jest.setup.js             # Jest setup
+├── eslint.config.js          # ESLint configuration
+├── babel.config.js           # Babel configuration
+├── metro.config.js           # Metro bundler configuration
+└── tsconfig.json             # TypeScript configuration
+```
+
+## Documentation Map
+
+Documentation files in root and `/docs`:
 
 ```
 /
@@ -252,24 +280,24 @@ Documentation files in root and /docs:
 ├── CONTRIBUTING.md           # Contributing guide
 ├── SPEC.md                   # Project specifications
 └── docs/                     # Complete documentation
-    ├── README.md            # Documentation index
+    ├── README.md             # Documentation index
     ├── GAMES_SYSTEM_UPGRADE.md  # Game system reference
     ├── GAMES_ARCHITECTURE.md    # Game architecture diagrams
     ├── RALPH_LOOPS.md           # AI coding loops guide
     ├── guides/
-    │   ├── BUILD.md         # Building for platforms
-    │   ├── RESPONSIVE.md    # Responsive design
-    │   ├── LOAD_ROMS.md     # Loading games in GBA emulator
+    │   ├── BUILD.md          # Building for platforms
+    │   ├── RESPONSIVE.md     # Responsive design
+    │   ├── LOAD_ROMS.md      # Loading games in GBA emulator
     │   └── FOLDER_STRUCTURE.md  # This file
     ├── technical/
     │   ├── AUTHENTICATION.md
     │   ├── API_REFERENCE.md
     │   ├── ACTIONS.md
-    │   ├── EMULATOR.md      # GBA emulator proposal
+    │   ├── EMULATOR.md       # GBA emulator proposal
     │   └── CODE_REVIEW.md
     ├── testing/
     │   └── TESTING.md
-    └── design-system/       # UI design documentation
+    └── design-system/        # UI design documentation
         ├── 00-design-tokens.md
         ├── 01-login-screen.md
         └── ... (23 more)
@@ -414,5 +442,5 @@ See [BUILD.md](BUILD.md) for:
 
 ---
 
-**Last Updated**: 2026-03-14  
+**Last Updated**: 2026-03-19  
 **Status**: Complete
