@@ -24,6 +24,7 @@ Complete documentation for the Lilly's Box project.
 ### Games System
 - [GAMES_SYSTEM_UPGRADE.md](GAMES_SYSTEM_UPGRADE.md) - Complete game architecture, creation guide, and tooling
 - [GAMES_ARCHITECTURE.md](GAMES_ARCHITECTURE.md) - Visual architecture diagrams
+- [BRAINSTORM.md](BRAINSTORM.md) - Game brainstorm ideas and proposals
 
 ### Design System
 - [design-system/](design-system/) - UI screens, components, games documentation
@@ -51,7 +52,7 @@ Complete documentation for the Lilly's Box project.
 ### Tech Stack
 
 - React Native 0.77 (Expo 55)
-- TypeScript 5.1
+- TypeScript (strict mode)
 - Expo Router (file-based routing)
 - AsyncStorage (local persistence)
 - react-native-reanimated 4.2 (animations)
@@ -69,6 +70,7 @@ docs/
 ├── README.md                    # This file
 ├── GAMES_SYSTEM_UPGRADE.md      # Full game system reference
 ├── GAMES_ARCHITECTURE.md        # Games architecture diagrams
+├── BRAINSTORM.md                # Game brainstorm ideas and proposals
 ├── RALPH_LOOPS.md               # AI coding loops guide
 ├── guides/
 │   ├── BUILD.md                # Building for all platforms
@@ -130,6 +132,9 @@ docs/
 
 **...create a new game**
 → [GAMES_SYSTEM_UPGRADE.md](GAMES_SYSTEM_UPGRADE.md)
+
+**...brainstorm new game ideas**
+→ [BRAINSTORM.md](BRAINSTORM.md)
 
 ---
 
@@ -410,7 +415,7 @@ See [CONTRIBUTING.md](../CONTRIBUTING.md) for:
 
 ---
 
-**Last Updated**: 2026-03-18
+**Last Updated**: 2026-03-19
 
 **Maintained By**: Lilly's Box Development Team
 

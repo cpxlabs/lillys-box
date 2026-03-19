@@ -2,7 +2,7 @@
 
 **Repository:** `cpxlabs/lillys-box`  
 **Initial Review:** 2026-03-10  
-**Last Baseline Check:** 2026-03-18
+**Last Baseline Check:** 2026-03-19
 
 This document records the 2026 code review status, quality gate results, and follow-up actions. It focuses on the `/app` frontend, `/backend` services, and security-sensitive configuration.
 
@@ -31,7 +31,7 @@ This review covers:
 
 ## Baseline Commands
 
-Baseline commands (last verified 2026-03-18):
+Baseline commands (last verified 2026-03-19):
 
 | # | Command | Result |
 |---|---------|--------|
@@ -148,22 +148,34 @@ All findings from the original review have been addressed. Condensed below for r
 | #272 | Update CODE_REVIEW.md baseline recheck | Doc update |
 | #273 | Mark H2 resolved, sync test counts | Doc update |
 
-### PRs Merged (2026-03-18)
+### PRs Merged (2026-03-18 — 2026-03-19)
 
 | PR | Title | Impact |
 |----|-------|--------|
-| TBD | Refresh review baseline + Vercel/web build fixes | Docs + build reliability + test renderer pin |
+| #298 | Bump expo-linear-gradient 55.0.8 → 55.0.9 | Dependency update |
+| #299 | Bump expo 55.0.6 → 55.0.7 | Dependency update |
+| #300 | Bump expo-asset 55.0.8 → 55.0.9 | Dependency update |
+| #301 | Bump @eslint/js 9.39.4 → 10.0.1 | Dependency update |
+| #302 | Bump @react-native-async-storage/async-storage 2.2.0 → 3.0.1 | Dependency update |
+| #303 | Bump expo-router 55.0.5 → 55.0.6 | Dependency update |
+| #304 | Bump react-native-get-random-values 1.11.0 → 2.0.0 | Dependency update |
+| #305 | Bump react-test-renderer 19.2.0 → 19.2.4 | Dependency update |
+| #308 | Fix inaccuracies across documentation files | Doc cleanup |
+| #310 | Document deferred backend server follow-ups | Doc update |
+| #311 | Bump socket.io-parser 4.2.5 → 4.2.6 (backend) | Security patch |
+| #312 | Restructure code review + folder structure docs | Doc restructure |
+| #313 | Fix Vercel pnpm headless install | Build reliability: workspace root resolution |
 
 ### Baseline Progression
 
-| Metric | 2026-03-10 | 2026-03-12 | 2026-03-13 | 2026-03-18 |
-|--------|-----------|-----------|-----------|-----------|
-| App lint | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings |
-| App test suites | 112 | 118 | 123 | 124 |
-| App tests (total) | 619 | 645 | 671 | 672 |
-| App test files | — | 117 | 122 | 124 |
-| Backend tests | 7 (1 file) | 7 (1 file) | 9 (2 files) | 9 (2 files) |
-| Registered games | 36 | 36 | 36 | 36 |
+| Metric | 2026-03-10 | 2026-03-12 | 2026-03-13 | 2026-03-18 | 2026-03-19 |
+|--------|-----------|-----------|-----------|-----------|-----------|
+| App lint | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings |
+| App test suites | 112 | 118 | 123 | 124 | 124 |
+| App tests (total) | 619 | 645 | 671 | 672 | 672 |
+| App test files | — | 117 | 122 | 124 | 124 |
+| Backend tests | 7 (1 file) | 7 (1 file) | 9 (2 files) | 9 (2 files) | 9 (2 files) |
+| Registered games | 36 | 36 | 36 | 36 | 36 |
 
 ### New Documentation (since initial review)
 
@@ -193,7 +205,7 @@ When the multiplayer server is actively deployed, address each deferred item wit
 
 ### Non-backend Follow-up Plan
 
-The app baseline was rechecked on 2026-03-18 and remains green:
+The app baseline was rechecked on 2026-03-19 and remains green:
 
 - `cd app && corepack pnpm lint` ✅
 - `cd app && corepack pnpm test --runInBand` ✅

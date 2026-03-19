@@ -94,17 +94,17 @@ See [docs/guides/BUILD.md](./docs/guides/BUILD.md) for detailed build and develo
 ### Quick Start
 
 ```bash
-# Install dependencies (from /app)
-cd app && pnpm install
+# Install dependencies (from root)
+pnpm install
 
 # Start development server
-npx expo start
+cd app && npx expo start
 
 # Run tests
-npm test
+corepack pnpm test --runInBand
 
 # Lint
-npm run lint
+corepack pnpm lint
 ```
 
 ## Code Style
