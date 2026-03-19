@@ -2,7 +2,7 @@
   "buildCommand": "cd .. && pnpm --filter ./app build:web",
   "outputDirectory": "dist",
   "framework": null,
-  "installCommand": "corepack enable && corepack prepare && cd .. && pnpm install --frozen-lockfile",
+  "installCommand": "corepack enable && cd .. && pnpm install --frozen-lockfile",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
