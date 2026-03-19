@@ -1,8 +1,8 @@
 {
-  "buildCommand": "cd \"$(git rev-parse --show-toplevel)\" && pnpm --filter ./app build:web",
+  "buildCommand": "cd .. && pnpm --filter ./app build:web",
   "outputDirectory": "dist",
   "framework": null,
-  "installCommand": "npm install -g pnpm@10.32.1 && cd \"$(git rev-parse --show-toplevel)\" && pnpm install --frozen-lockfile",
+  "installCommand": "npm install -g pnpm@10.32.1 && cd .. && pnpm install --frozen-lockfile",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
