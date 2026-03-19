@@ -202,7 +202,7 @@ Weighted average of all stats with multipliers:
 
 ## Testing
 
-- **Unit Tests:** Jest 30 with React Native Testing Library (671 tests across 123 suites, all passing)
+- **Unit Tests:** Jest 30 with React Native Testing Library (672 tests across 124 suites, all passing)
 - **E2E Tests:** Maestro
 - **CI Scripts:** Locale key parity check (`scripts/check-locale-keys.js`)
 

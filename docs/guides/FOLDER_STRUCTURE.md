@@ -27,7 +27,9 @@ lillys-box/
 ├── CONTRIBUTING.md         # Contributing guidelines
 ├── README.md               # Project overview
 ├── SPEC.md                 # Project specifications
-└── package.json            # Root dependencies
+├── package.json            # Root dependencies
+├── pnpm-lock.yaml          # Monorepo lockfile (single source of truth)
+└── pnpm-workspace.yaml     # Workspace definition (app, backend)
 ```
 
 ## Application Directory (`/app`)
@@ -68,6 +70,8 @@ app/
 │   ├── data/              # Static data
 │   ├── types/             # TypeScript definitions
 │   ├── locales/           # i18n translations
+│   ├── registry/          # Game registry
+│   ├── testUtils/         # Shared test helpers
 │   ├── gameRegistrations.ts
 │   ├── i18n.ts
 │   └── types.ts
@@ -82,7 +86,6 @@ app/
 ├── metro.config.js        # Metro bundler config
 ├── tsconfig.json          # TypeScript configuration
 ├── package.json           # App dependencies
-├── pnpm-lock.yaml         # Locked dependency versions
 └── vercel.json            # Vercel deployment config
 ```
 
@@ -283,11 +286,14 @@ Documentation files in root and `/docs`:
     ├── README.md             # Documentation index
     ├── GAMES_SYSTEM_UPGRADE.md  # Game system reference
     ├── GAMES_ARCHITECTURE.md    # Game architecture diagrams
+    ├── BRAINSTORM.md            # Game brainstorm ideas
     ├── RALPH_LOOPS.md           # AI coding loops guide
     ├── guides/
     │   ├── BUILD.md          # Building for platforms
+    │   ├── NAVIGATION.md     # Game navigation system
     │   ├── RESPONSIVE.md     # Responsive design
     │   ├── LOAD_ROMS.md      # Loading games in GBA emulator
+    │   ├── CLAUDE_MEM.md     # Claude-Mem persistent memory setup
     │   └── FOLDER_STRUCTURE.md  # This file
     ├── technical/
     │   ├── AUTHENTICATION.md
@@ -374,7 +380,7 @@ Documentation files in root and `/docs`:
 
 ### App Dependencies
 - `app/package.json` - React Native/Expo dependencies
-- `app/pnpm-lock.yaml` - Locked versions
+- `pnpm-lock.yaml` - Locked versions (root-level, single lockfile for the monorepo)
 
 ### Backend Dependencies (if used)
 - `backend/package.json` - Server dependencies
