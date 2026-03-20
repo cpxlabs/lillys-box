@@ -2,7 +2,7 @@
 
 **Repository:** `cpxlabs/lillys-box`  
 **Initial Review:** 2026-03-10  
-**Last Baseline Check:** 2026-03-19
+**Last Baseline Check:** 2026-03-20
 
 This document records the 2026 code review status, quality gate results, and follow-up actions. It focuses on the `/app` frontend, `/backend` services, and security-sensitive configuration.
 
@@ -31,14 +31,14 @@ This review covers:
 
 ## Baseline Commands
 
-Baseline commands (last verified 2026-03-19):
+Baseline commands (last verified 2026-03-20):
 
 | # | Command | Result |
 |---|---------|--------|
 | 1 | `cd app && corepack pnpm lint` | **0 errors, 0 warnings** ✅ |
 | 2 | `cd app && corepack pnpm test --runInBand` | **124 suites, 672 tests (672 passed)** ✅ |
 | 3 | `cd backend && npm run build` | **0 TypeScript errors** ✅ |
-| 4 | `cd backend && npm test` | **9 tests, 2 files** ✅ |
+| 4 | `cd backend && npm test` | **13 tests, 3 files** ✅ |
 
 ---
 
@@ -49,7 +49,7 @@ All quality gates are **green**:
 - Frontend lint: **0 errors, 0 warnings** ✅
 - Frontend tests: **124/124 suites, 672 passed** ✅
 - Backend build: **passes** ✅ — CORS hardened, rate-limiting registered
-- Backend tests: **9 tests in 2 files** ✅ — auth + server smoke tests
+- Backend tests: **13 tests in 3 files** ✅ — auth + server smoke + roomManager tests
 - No unused backend dependencies ✅
 
 All high-, medium-, and low-priority action items have been resolved.
@@ -168,14 +168,14 @@ All findings from the original review have been addressed. Condensed below for r
 
 ### Baseline Progression
 
-| Metric | 2026-03-10 | 2026-03-12 | 2026-03-13 | 2026-03-18 | 2026-03-19 |
-|--------|-----------|-----------|-----------|-----------|-----------|
-| App lint | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings |
-| App test suites | 112 | 118 | 123 | 124 | 124 |
-| App tests (total) | 619 | 645 | 671 | 672 | 672 |
-| App test files | — | 117 | 122 | 124 | 124 |
-| Backend tests | 7 (1 file) | 7 (1 file) | 9 (2 files) | 9 (2 files) | 9 (2 files) |
-| Registered games | 36 | 36 | 36 | 36 | 36 |
+| Metric | 2026-03-10 | 2026-03-12 | 2026-03-13 | 2026-03-18 | 2026-03-19 | 2026-03-20 |
+|--------|-----------|-----------|-----------|-----------|-----------|-----------|
+| App lint | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings | 0 errors, 0 warnings |
+| App test suites | 112 | 118 | 123 | 124 | 124 | 124 |
+| App tests (total) | 619 | 645 | 671 | 672 | 672 | 672 |
+| App test files | — | 117 | 122 | 124 | 124 | 124 |
+| Backend tests | 7 (1 file) | 7 (1 file) | 9 (2 files) | 9 (2 files) | 9 (2 files) | 13 (3 files) |
+| Registered games | 36 | 36 | 36 | 36 | 36 | 36 |
 
 ### New Documentation (since initial review)
 
@@ -196,12 +196,12 @@ The `server/` sub-package (Socket.IO / Muito multiplayer game server) contains k
 
 ### Backend Follow-up Plan (deferred `server/` work)
 
-When the multiplayer server is actively deployed, address each deferred item with the steps below:
+Items 1–3 were resolved. Item 4 was added alongside items 1–3.
 
-1. **Lock down Socket.IO CORS** — replace `origin: '*'` in `backend/server/src/index.ts` with an explicit allowlist from an env var (e.g., `MUITO_ALLOWED_ORIGINS`), while still allowing localhost/dev origins.
-2. **Remove JWT fallback** — in `backend/server/src/index.ts`, require verified tokens from `auth.ts` for all connections. If a dev bypass is still needed, gate it behind an explicit env flag and log a warning.
-3. **Deduplicate room codes** — update `backend/server/src/roomManager.ts` to regenerate room codes until unique, and add a unit test that simulates a collision.
-4. **Add focused tests** — add tests for CORS allowlists and auth enforcement so regressions are caught before deployment.
+1. ~~**Lock down Socket.IO CORS**~~ — ✅ Resolved: `backend/server/src/index.ts` now reads `MUITO_ALLOWED_ORIGINS` env var, enforces an explicit allowlist in production, and reflects the origin only in non-production without a configured allowlist.
+2. ~~**Remove JWT fallback**~~ — ✅ Resolved: the unauthenticated `userId + displayName` bypass is now gated behind `MUITO_DEV_AUTH_BYPASS=true` with a console warning. All other connections require a valid JWT or Google ID token.
+3. ~~**Deduplicate room codes**~~ — ✅ Resolved: `roomManager.createRoom()` regenerates codes until unique (up to 100 attempts) and throws if exhausted. Unit test covers both collision-retry and exhaustion paths.
+4. ~~**Add focused tests**~~ — ✅ Resolved: `backend/server/src/roomManager.test.ts` added with 4 tests covering code generation character set, length, collision retry, and exhaustion error.
 
 ### Non-backend Follow-up Plan
 
