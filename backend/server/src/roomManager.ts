@@ -2,14 +2,9 @@ import { Server, Socket } from 'socket.io';
 import { Events } from '../../shared/src/events';
 import { GameLoop } from './gameLoop';
 
-function generateRoomCode(): string {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-  let code = '';
-  for (let i = 0; i < 6; i++) {
-    code += chars[Math.floor(Math.random() * chars.length)];
-  }
-  return code;
-}
+export const ROOM_CODE_CHARS = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+export const ROOM_CODE_LENGTH = 6;
+export const MAX_CODE_ATTEMPTS = 100;
 
 export interface RoomPlayer {
   socketId: string;
@@ -28,8 +23,24 @@ class RoomManager {
   private rooms = new Map<string, RoomState>();
   private socketToRoom = new Map<string, string>();
 
+  generateRoomCode(): string {
+    let code = '';
+    for (let i = 0; i < ROOM_CODE_LENGTH; i++) {
+      code += ROOM_CODE_CHARS[Math.floor(Math.random() * ROOM_CODE_CHARS.length)];
+    }
+    return code;
+  }
+
   createRoom(socket: Socket, userId: string, displayName: string): string {
-    const code = generateRoomCode();
+    let code = this.generateRoomCode();
+    let attempts = 1;
+    while (this.rooms.has(code) && attempts < MAX_CODE_ATTEMPTS) {
+      code = this.generateRoomCode();
+      attempts++;
+    }
+    if (this.rooms.has(code)) {
+      throw new Error('Unable to generate a unique room code');
+    }
     const room: RoomState = {
       code,
       players: [{ socketId: socket.id, userId, displayName }],
