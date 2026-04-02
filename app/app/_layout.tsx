@@ -12,6 +12,7 @@ import { LanguageProvider } from '../src/context/LanguageContext';
 import { AuthProvider, useAuth } from '../src/context/AuthContext';
 import { ToastProvider } from '../src/context/ToastContext';
 import { AdProvider, useAd } from '../src/context/AdContext';
+import { BuddyProvider } from '../src/context/BuddyContext';
 import AdService from '../src/services/AdService';
 import ErrorService from '../src/services/ErrorService';
 import { getAuthRedirectPath } from '../src/utils/authRedirect';
@@ -82,20 +83,22 @@ function RootLayout() {
         <LanguageProvider>
           <AuthProvider>
             <AdProvider>
-              <ToastProvider>
-                <AuthRedirect />
-                <AdTracker />
-                <Stack
-                  screenOptions={{
-                    headerShown: false,
-                    animation: 'slide_from_right',
-                  }}
-                >
-                  <Stack.Screen name="index" />
-                  <Stack.Screen name="login" />
-                  <Stack.Screen name="game/[gameId]" />
-                </Stack>
-              </ToastProvider>
+              <BuddyProvider>
+                <ToastProvider>
+                  <AuthRedirect />
+                  <AdTracker />
+                  <Stack
+                    screenOptions={{
+                      headerShown: false,
+                      animation: 'slide_from_right',
+                    }}
+                  >
+                    <Stack.Screen name="index" />
+                    <Stack.Screen name="login" />
+                    <Stack.Screen name="game/[gameId]" />
+                  </Stack>
+                </ToastProvider>
+              </BuddyProvider>
             </AdProvider>
           </AuthProvider>
         </LanguageProvider>

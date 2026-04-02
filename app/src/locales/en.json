@@ -1240,5 +1240,37 @@
       "message": "If you have questions not covered here, please visit our GitHub page or create an issue.",
       "github": "Visit GitHub"
     }
+  },
+  "buddy": {
+    "title": "Your Buddy",
+    "species": {
+      "duck": "Duck",
+      "bunny": "Bunny",
+      "penguin": "Penguin",
+      "cat": "Cat",
+      "owl": "Owl",
+      "turtle": "Turtle",
+      "axolotl": "Axolotl",
+      "capybara": "Capybara",
+      "bear": "Bear",
+      "fox": "Fox",
+      "frog": "Frog",
+      "hamster": "Hamster"
+    },
+    "rarity": {
+      "common": "Common",
+      "uncommon": "Uncommon",
+      "rare": "Rare",
+      "superRare": "Super Rare",
+      "legendary": "Legendary"
+    },
+    "stats": {
+      "KINDNESS": "Kindness",
+      "BRAVERY": "Bravery",
+      "CURIOSITY": "Curiosity",
+      "CREATIVITY": "Creativity",
+      "SILLINESS": "Silliness"
+    },
+    "petCount": "Petted {{count}} times"
   }
 }
