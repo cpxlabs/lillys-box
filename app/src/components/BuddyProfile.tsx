@@ -111,7 +111,9 @@ export const BuddyProfile: React.FC<BuddyProfileProps> = React.memo(({ onClose }
 
         {/* Personality */}
         <Text style={[styles.personality, { fontSize: fs(13), marginBottom: spacing(12) }]}>
-          &quot;{buddy.personality}&quot;
+          {'"'}
+          {buddy.personality}
+          {'"'}
         </Text>
 
         {/* Stats */}

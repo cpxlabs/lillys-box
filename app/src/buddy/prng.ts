@@ -25,7 +25,7 @@ export function hashString(s: string): number {
   return h >>> 0;
 }
 
-/** Pick a random element from an array using the PRNG */
+/** Pick a random element from an array using the PRNG. Array must be non-empty. */
 export function pick<T>(rng: () => number, arr: readonly T[]): T {
-  return arr[Math.floor(rng() * arr.length)]!;
+  return arr[Math.floor(rng() * arr.length)] as T;
 }
