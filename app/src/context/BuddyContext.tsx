@@ -26,8 +26,8 @@ const IDLE_INTERVAL_MS = 30_000; // idle quip every 30s
 const BUBBLE_DURATION_MS = 6_000; // speech bubble visible for 6s
 
 type BuddyContextType = {
-  /** The generated buddy (null if not yet loaded) */
-  buddy: Buddy | null;
+  /** The generated buddy */
+  buddy: Buddy;
   /** Current speech bubble text */
   speechBubble: string | null;
   /** Whether the buddy is being petted */
@@ -44,13 +44,15 @@ type BuddyContextType = {
 
 const BuddyContext = createContext<BuddyContextType | undefined>(undefined);
 
-export const BuddyProvider: React.FC<{ children: ReactNode }> = ({
-  children,
-}) => {
+export const BuddyProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const { user, isGuest } = useAuth();
   const userId = user?.id || (isGuest ? 'guest' : 'anonymous');
 
-  const [buddy, setBuddy] = useState<Buddy | null>(null);
+  // Generate buddy deterministically from seed - computed synchronously
+  const buddySeed = `buddy-${userId}`;
+  const generatedBuddy = React.useMemo(() => generateBuddy(buddySeed), [buddySeed]);
+
+  const [buddy, setBuddy] = useState<Buddy>(generatedBuddy);
   const [speechBubble, setSpeechBubble] = useState<string | null>(null);
   const [isPetting, setIsPetting] = useState(false);
   const [petCount, setPetCount] = useState(0);
@@ -59,12 +61,21 @@ export const BuddyProvider: React.FC<{ children: ReactNode }> = ({
   const petTimerRef = useRef<ReturnType<typeof setTimeout>>();
   const idleTimerRef = useRef<ReturnType<typeof setInterval>>();
 
-  // Generate buddy from user seed
-  useEffect(() => {
-    const seed = `buddy-${userId}`;
-    const generated = generateBuddy(seed);
-    setBuddy(generated);
+  const showBubble = useCallback((text: string) => {
+    setSpeechBubble(text);
+    clearTimeout(bubbleTimerRef.current);
+    bubbleTimerRef.current = setTimeout(() => {
+      setSpeechBubble(null);
+    }, BUBBLE_DURATION_MS);
+  }, []);
 
+  // Update buddy when userId changes
+  useEffect(() => {
+    setBuddy(generatedBuddy);
+  }, [generatedBuddy]);
+
+  // Load pet count and send greeting
+  useEffect(() => {
     // Load pet count from storage
     AsyncStorage.getItem(`${BUDDY_STORAGE_KEY}:${userId}:petCount`)
       .then((stored) => {
@@ -80,19 +91,17 @@ export const BuddyProvider: React.FC<{ children: ReactNode }> = ({
       type: 'greeting',
       timestamp: Date.now(),
     };
-    const reaction = getReaction(generated, greetingEvent);
+    const reaction = getReaction(generatedBuddy, greetingEvent);
     showBubble(reaction);
 
     return () => {
       clearTimeout(bubbleTimerRef.current);
       clearTimeout(petTimerRef.current);
     };
-  }, [userId]); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [userId, showBubble, generatedBuddy]);
 
   // Idle quips
   useEffect(() => {
-    if (!buddy) return;
-
     idleTimerRef.current = setInterval(() => {
       // Don't interrupt existing speech
       if (speechBubble) return;
@@ -105,38 +114,26 @@ export const BuddyProvider: React.FC<{ children: ReactNode }> = ({
     return () => {
       if (idleTimerRef.current) clearInterval(idleTimerRef.current);
     };
-  }, [buddy, speechBubble]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const showBubble = useCallback((text: string) => {
-    setSpeechBubble(text);
-    clearTimeout(bubbleTimerRef.current);
-    bubbleTimerRef.current = setTimeout(() => {
-      setSpeechBubble(null);
-    }, BUBBLE_DURATION_MS);
-  }, []);
+  }, [buddy, speechBubble, showBubble]);
 
   const sendEvent = useCallback(
     (type: BuddyEventType, text?: string) => {
-      if (!buddy) return;
       const event: BuddyEvent = { type, text, timestamp: Date.now() };
       const reaction = getReaction(buddy, event);
       showBubble(reaction);
     },
-    [buddy, showBubble],
+    [buddy, showBubble]
   );
 
   const petBuddy = useCallback(() => {
-    if (!buddy) return;
-
     setIsPetting(true);
     const newCount = petCount + 1;
     setPetCount(newCount);
 
     // Save pet count
-    AsyncStorage.setItem(
-      `${BUDDY_STORAGE_KEY}:${userId}:petCount`,
-      newCount.toString(),
-    ).catch((e) => logger.warn('Failed to save buddy pet count', e));
+    AsyncStorage.setItem(`${BUDDY_STORAGE_KEY}:${userId}:petCount`, newCount.toString()).catch(
+      (e) => logger.warn('Failed to save buddy pet count', e)
+    );
 
     const event: BuddyEvent = { type: 'petting', timestamp: Date.now() };
     const reaction = getReaction(buddy, event);
@@ -146,15 +143,18 @@ export const BuddyProvider: React.FC<{ children: ReactNode }> = ({
     petTimerRef.current = setTimeout(() => setIsPetting(false), 2000);
   }, [buddy, petCount, userId, showBubble]);
 
-  const regenerate = useCallback((seed: string) => {
-    const generated = generateBuddy(seed);
-    setBuddy(generated);
-    setPetCount(0);
+  const regenerate = useCallback(
+    (seed: string) => {
+      const generated = generateBuddy(seed);
+      setBuddy(generated);
+      setPetCount(0);
 
-    const event: BuddyEvent = { type: 'greeting', timestamp: Date.now() };
-    const reaction = getReaction(generated, event);
-    showBubble(reaction);
-  }, [showBubble]);
+      const event: BuddyEvent = { type: 'greeting', timestamp: Date.now() };
+      const reaction = getReaction(generated, event);
+      showBubble(reaction);
+    },
+    [showBubble]
+  );
 
   return (
     <BuddyContext.Provider

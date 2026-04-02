@@ -36,155 +36,122 @@ const STAT_COLORS: Record<string, string> = {
   SILLINESS: '#10b981',
 };
 
-export const BuddyProfile: React.FC<BuddyProfileProps> = React.memo(
-  ({ onClose }) => {
-    const { buddy, petCount } = useBuddy();
-    const { t } = useTranslation();
-    const { fs, spacing } = useResponsive();
+export const BuddyProfile: React.FC<BuddyProfileProps> = React.memo(({ onClose }) => {
+  const { buddy, petCount } = useBuddy();
+  const { t } = useTranslation();
+  const { fs, spacing } = useResponsive();
 
-    if (!buddy) return null;
+  const emoji = getSpeciesEmoji(buddy.species);
+  const accessory = getAccessoryEmoji(buddy.accessory);
+  const face = renderFace(buddy);
+  const rarityColor = RARITY_COLORS[buddy.rarity];
+  const stars = RARITY_STARS[buddy.rarity];
 
-    const emoji = getSpeciesEmoji(buddy.species);
-    const accessory = getAccessoryEmoji(buddy.accessory);
-    const face = renderFace(buddy);
-    const rarityColor = RARITY_COLORS[buddy.rarity];
-    const stars = RARITY_STARS[buddy.rarity];
+  return (
+    <View style={[styles.overlay]}>
+      <View
+        style={[
+          styles.card,
+          {
+            borderColor: rarityColor,
+            padding: spacing(16),
+            borderRadius: spacing(16),
+          },
+        ]}
+      >
+        {/* Close button */}
+        {onClose && (
+          <TouchableOpacity
+            style={styles.closeButton}
+            onPress={onClose}
+            accessibilityLabel={t('common.close')}
+            accessibilityRole="button"
+          >
+            <Text style={[styles.closeText, { fontSize: fs(18) }]}>✕</Text>
+          </TouchableOpacity>
+        )}
 
-    return (
-      <View style={[styles.overlay]}>
+        {/* Buddy display */}
+        <View style={[styles.buddyDisplay, { marginBottom: spacing(12) }]}>
+          {accessory ? (
+            <Text style={{ fontSize: fs(20), textAlign: 'center' }}>{accessory}</Text>
+          ) : null}
+          <Text style={{ fontSize: fs(56), textAlign: 'center' }}>{emoji}</Text>
+          {buddy.sparkle && <Text style={{ fontSize: fs(16), textAlign: 'center' }}>✨</Text>}
+        </View>
+
+        {/* Name & species */}
+        <Text
+          style={[styles.name, { fontSize: fs(20), color: rarityColor, marginBottom: spacing(2) }]}
+        >
+          {buddy.name}
+        </Text>
+        <Text style={[styles.species, { fontSize: fs(14), marginBottom: spacing(4) }]}>
+          {face} • {t(`buddy.species.${buddy.species}`)}
+        </Text>
+
+        {/* Rarity */}
         <View
           style={[
-            styles.card,
+            styles.rarityBadge,
             {
+              backgroundColor: `${rarityColor}20`,
               borderColor: rarityColor,
-              padding: spacing(16),
-              borderRadius: spacing(16),
+              paddingVertical: spacing(3),
+              paddingHorizontal: spacing(10),
+              borderRadius: spacing(12),
+              marginBottom: spacing(10),
             },
           ]}
         >
-          {/* Close button */}
-          {onClose && (
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={onClose}
-              accessibilityLabel={t('common.close')}
-              accessibilityRole="button"
-            >
-              <Text style={[styles.closeText, { fontSize: fs(18) }]}>✕</Text>
-            </TouchableOpacity>
-          )}
-
-          {/* Buddy display */}
-          <View style={[styles.buddyDisplay, { marginBottom: spacing(12) }]}>
-            {accessory ? (
-              <Text style={{ fontSize: fs(20), textAlign: 'center' }}>
-                {accessory}
-              </Text>
-            ) : null}
-            <Text style={{ fontSize: fs(56), textAlign: 'center' }}>
-              {emoji}
-            </Text>
-            {buddy.sparkle && (
-              <Text style={{ fontSize: fs(16), textAlign: 'center' }}>✨</Text>
-            )}
-          </View>
-
-          {/* Name & species */}
-          <Text
-            style={[
-              styles.name,
-              { fontSize: fs(20), color: rarityColor, marginBottom: spacing(2) },
-            ]}
-          >
-            {buddy.name}
-          </Text>
-          <Text
-            style={[
-              styles.species,
-              { fontSize: fs(14), marginBottom: spacing(4) },
-            ]}
-          >
-            {face} • {t(`buddy.species.${buddy.species}`)}
-          </Text>
-
-          {/* Rarity */}
-          <View
-            style={[
-              styles.rarityBadge,
-              {
-                backgroundColor: `${rarityColor}20`,
-                borderColor: rarityColor,
-                paddingVertical: spacing(3),
-                paddingHorizontal: spacing(10),
-                borderRadius: spacing(12),
-                marginBottom: spacing(10),
-              },
-            ]}
-          >
-            <Text style={[styles.rarityText, { fontSize: fs(12), color: rarityColor }]}>
-              {stars} {t(`buddy.rarity.${buddy.rarity}`)}
-            </Text>
-          </View>
-
-          {/* Personality */}
-          <Text
-            style={[
-              styles.personality,
-              { fontSize: fs(13), marginBottom: spacing(12) },
-            ]}
-          >
-            &quot;{buddy.personality}&quot;
-          </Text>
-
-          {/* Stats */}
-          <View style={[styles.statsContainer, { gap: spacing(6) }]}>
-            {STAT_NAMES.map((stat) => {
-              const value = buddy.stats[stat];
-              const statEmoji = STAT_EMOJI[stat] || '📊';
-              const statColor = STAT_COLORS[stat] || '#666';
-              return (
-                <View key={stat} style={styles.statRow}>
-                  <Text style={[styles.statLabel, { fontSize: fs(12) }]}>
-                    {statEmoji} {t(`buddy.stats.${stat}`)}
-                  </Text>
-                  <View style={styles.statBarOuter}>
-                    <View
-                      style={[
-                        styles.statBarInner,
-                        {
-                          width: `${value}%`,
-                          backgroundColor: statColor,
-                        },
-                      ]}
-                    />
-                  </View>
-                  <Text
-                    style={[
-                      styles.statValue,
-                      { fontSize: fs(11), color: statColor },
-                    ]}
-                  >
-                    {value}
-                  </Text>
-                </View>
-              );
-            })}
-          </View>
-
-          {/* Pet count */}
-          <Text
-            style={[
-              styles.petCount,
-              { fontSize: fs(12), marginTop: spacing(10) },
-            ]}
-          >
-            🐾 {t('buddy.petCount', { count: petCount })}
+          <Text style={[styles.rarityText, { fontSize: fs(12), color: rarityColor }]}>
+            {stars} {t(`buddy.rarity.${buddy.rarity}`)}
           </Text>
         </View>
+
+        {/* Personality */}
+        <Text style={[styles.personality, { fontSize: fs(13), marginBottom: spacing(12) }]}>
+          &quot;{buddy.personality}&quot;
+        </Text>
+
+        {/* Stats */}
+        <View style={[styles.statsContainer, { gap: spacing(6) }]}>
+          {STAT_NAMES.map((stat) => {
+            const value = buddy.stats[stat];
+            const statEmoji = STAT_EMOJI[stat] || '📊';
+            const statColor = STAT_COLORS[stat] || '#666';
+            return (
+              <View key={stat} style={styles.statRow}>
+                <Text style={[styles.statLabel, { fontSize: fs(12) }]}>
+                  {statEmoji} {t(`buddy.stats.${stat}`)}
+                </Text>
+                <View style={styles.statBarOuter}>
+                  <View
+                    style={[
+                      styles.statBarInner,
+                      {
+                        width: `${value}%`,
+                        backgroundColor: statColor,
+                      },
+                    ]}
+                  />
+                </View>
+                <Text style={[styles.statValue, { fontSize: fs(11), color: statColor }]}>
+                  {value}
+                </Text>
+              </View>
+            );
+          })}
+        </View>
+
+        {/* Pet count */}
+        <Text style={[styles.petCount, { fontSize: fs(12), marginTop: spacing(10) }]}>
+          🐾 {t('buddy.petCount', { count: petCount })}
+        </Text>
       </View>
-    );
-  },
-);
+    </View>
+  );
+});
 
 BuddyProfile.displayName = 'BuddyProfile';
 

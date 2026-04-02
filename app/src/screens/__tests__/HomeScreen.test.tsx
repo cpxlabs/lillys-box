@@ -19,6 +19,27 @@ jest.mock('../../context/ToastContext', () => ({
   useToast: () => ({ showToast: jest.fn() }),
 }));
 
+jest.mock('../../context/BuddyContext', () => ({
+  useBuddy: () => ({
+    buddy: {
+      species: 'duck',
+      rarity: 'common',
+      eye: '●',
+      accessory: 'none',
+      sparkle: false,
+      stats: { KINDNESS: 50, BRAVERY: 50, CURIOSITY: 50, CREATIVITY: 50, SILLINESS: 50 },
+      name: 'TestBuddy',
+      personality: 'cheerful',
+    },
+    speechBubble: null,
+    isPetting: false,
+    petCount: 0,
+    sendEvent: jest.fn(),
+    petBuddy: jest.fn(),
+    regenerate: jest.fn(),
+  }),
+}));
+
 jest.mock('../../hooks/useResponsive', () => ({
   useResponsive: () => ({
     deviceType: 'phone',
@@ -72,6 +93,14 @@ jest.mock('../../components/RewardedAdButton', () => ({
   RewardedAdButton: () => null,
 }));
 
+jest.mock('../../components/BuddyWidget', () => ({
+  BuddyWidget: () => null,
+}));
+
+jest.mock('../../components/BuddyProfile', () => ({
+  BuddyProfile: () => null,
+}));
+
 jest.mock('../../components/IconButton', () => ({
   IconButton: ({ label, onPress }: { label: string; onPress: () => void }) => {
     const { TouchableOpacity, Text } = require('react-native');
@@ -84,13 +113,25 @@ jest.mock('../../components/IconButton', () => ({
 }));
 
 jest.mock('../../components/ConfirmModal', () => ({
-  ConfirmModal: ({ visible, onConfirm, onCancel }: { visible: boolean; onConfirm: () => void; onCancel: () => void }) => {
+  ConfirmModal: ({
+    visible,
+    onConfirm,
+    onCancel,
+  }: {
+    visible: boolean;
+    onConfirm: () => void;
+    onCancel: () => void;
+  }) => {
     if (!visible) return null;
     const { TouchableOpacity, Text } = require('react-native');
     return (
       <>
-        <TouchableOpacity onPress={onConfirm} testID="confirm-btn"><Text>Confirm</Text></TouchableOpacity>
-        <TouchableOpacity onPress={onCancel} testID="cancel-btn"><Text>Cancel</Text></TouchableOpacity>
+        <TouchableOpacity onPress={onConfirm} testID="confirm-btn">
+          <Text>Confirm</Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={onCancel} testID="cancel-btn">
+          <Text>Cancel</Text>
+        </TouchableOpacity>
       </>
     );
   },
@@ -206,5 +247,4 @@ describe('HomeScreen', () => {
 
     expect(parentGoBack).toHaveBeenCalledTimes(1);
   });
-
 });

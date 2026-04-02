@@ -5,13 +5,7 @@
  */
 
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-  Animated,
-} from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Animated } from 'react-native';
 import { useBuddy } from '../context/BuddyContext';
 import { getSpeciesEmoji, getAccessoryEmoji } from '../buddy/sprites';
 import { RARITY_COLORS } from '../buddy/types';
@@ -22,134 +16,119 @@ type BuddyWidgetProps = {
   onProfilePress?: () => void;
 };
 
-export const BuddyWidget: React.FC<BuddyWidgetProps> = React.memo(
-  ({ onProfilePress }) => {
-    const { buddy, speechBubble, isPetting, petBuddy } = useBuddy();
-    const { fs, spacing } = useResponsive();
-    const [bounceAnim] = useState(() => new Animated.Value(0));
-    const [bubbleOpacity] = useState(() => new Animated.Value(0));
+export const BuddyWidget: React.FC<BuddyWidgetProps> = React.memo(({ onProfilePress }) => {
+  const { buddy, speechBubble, isPetting, petBuddy } = useBuddy();
+  const { fs, spacing } = useResponsive();
+  const [bounceAnim] = useState(() => new Animated.Value(0));
+  const [bubbleOpacity] = useState(() => new Animated.Value(0));
 
-    // Bounce animation on petting
-    useEffect(() => {
-      if (isPetting) {
-        Animated.sequence([
-          Animated.timing(bounceAnim, {
-            toValue: -12,
-            duration: 150,
-            useNativeDriver: true,
-          }),
-          Animated.spring(bounceAnim, {
-            toValue: 0,
-            friction: 3,
-            tension: 100,
-            useNativeDriver: true,
-          }),
-        ]).start();
-      }
-    }, [isPetting, bounceAnim]);
-
-    // Speech bubble fade in/out
-    useEffect(() => {
-      if (speechBubble) {
-        Animated.timing(bubbleOpacity, {
-          toValue: 1,
-          duration: 200,
+  // Bounce animation on petting
+  useEffect(() => {
+    if (isPetting) {
+      Animated.sequence([
+        Animated.timing(bounceAnim, {
+          toValue: -12,
+          duration: 150,
           useNativeDriver: true,
-        }).start();
-      } else {
-        Animated.timing(bubbleOpacity, {
+        }),
+        Animated.spring(bounceAnim, {
           toValue: 0,
-          duration: 300,
+          friction: 3,
+          tension: 100,
           useNativeDriver: true,
-        }).start();
-      }
-    }, [speechBubble, bubbleOpacity]);
+        }),
+      ]).start();
+    }
+  }, [isPetting, bounceAnim]);
 
-    if (!buddy) return null;
+  // Speech bubble fade in/out
+  useEffect(() => {
+    if (speechBubble) {
+      Animated.timing(bubbleOpacity, {
+        toValue: 1,
+        duration: 200,
+        useNativeDriver: true,
+      }).start();
+    } else {
+      Animated.timing(bubbleOpacity, {
+        toValue: 0,
+        duration: 300,
+        useNativeDriver: true,
+      }).start();
+    }
+  }, [speechBubble, bubbleOpacity]);
 
-    const emoji = getSpeciesEmoji(buddy.species);
-    const accessory = getAccessoryEmoji(buddy.accessory);
-    const rarityColor = RARITY_COLORS[buddy.rarity];
+  const emoji = getSpeciesEmoji(buddy.species);
+  const accessory = getAccessoryEmoji(buddy.accessory);
+  const rarityColor = RARITY_COLORS[buddy.rarity];
 
-    return (
-      <View style={[styles.container, { padding: spacing(6) }]}>
-        {/* Speech Bubble */}
-        {speechBubble && (
-          <Animated.View
-            style={[
-              styles.speechBubble,
-              {
-                opacity: bubbleOpacity,
-                borderColor: rarityColor,
-                padding: spacing(6),
-                paddingHorizontal: spacing(10),
-                marginBottom: spacing(4),
-              },
-            ]}
-          >
-            <Text style={[styles.speechText, { fontSize: fs(11) }]}>
-              {speechBubble}
-            </Text>
-            <View style={[styles.speechArrow, { borderTopColor: rarityColor }]} />
-          </Animated.View>
-        )}
-
-        {/* Buddy Character */}
-        <TouchableOpacity
-          onPress={petBuddy}
-          onLongPress={onProfilePress}
-          activeOpacity={0.7}
-          accessibilityLabel={`${buddy.name} the ${buddy.species}. Tap to pet.`}
-          accessibilityRole="button"
-        >
-          <Animated.View
-            style={[
-              styles.buddyContainer,
-              {
-                borderColor: rarityColor,
-                transform: [{ translateY: bounceAnim }],
-              },
-            ]}
-          >
-            {/* Accessory above */}
-            {accessory ? (
-              <Text style={[styles.accessory, { fontSize: fs(14) }]}>
-                {accessory}
-              </Text>
-            ) : null}
-
-            {/* Main emoji */}
-            <Text style={[styles.emoji, { fontSize: fs(32) }]}>{emoji}</Text>
-
-            {/* Hearts when petting */}
-            {isPetting && (
-              <View style={styles.heartsContainer}>
-                <Text style={[styles.hearts, { fontSize: fs(12) }]}>
-                  ❤️❤️❤️
-                </Text>
-              </View>
-            )}
-
-            {/* Sparkle indicator */}
-            {buddy.sparkle && (
-              <Text style={[styles.sparkle, { fontSize: fs(10) }]}>✨</Text>
-            )}
-          </Animated.View>
-        </TouchableOpacity>
-
-        {/* Name label */}
-        <Text
+  return (
+    <View style={[styles.container, { padding: spacing(6) }]}>
+      {/* Speech Bubble */}
+      {speechBubble && (
+        <Animated.View
           style={[
-            styles.nameLabel,
-            { fontSize: fs(10), color: rarityColor, marginTop: spacing(2) },
+            styles.speechBubble,
+            {
+              opacity: bubbleOpacity,
+              borderColor: rarityColor,
+              padding: spacing(6),
+              paddingHorizontal: spacing(10),
+              marginBottom: spacing(4),
+            },
           ]}
         >
-          {buddy.name}
-        </Text>
-      </View>
-    );
-  },
-);
+          <Text style={[styles.speechText, { fontSize: fs(11) }]}>{speechBubble}</Text>
+          <View style={[styles.speechArrow, { borderTopColor: rarityColor }]} />
+        </Animated.View>
+      )}
+
+      {/* Buddy Character */}
+      <TouchableOpacity
+        onPress={petBuddy}
+        onLongPress={onProfilePress}
+        activeOpacity={0.7}
+        accessibilityLabel={`${buddy.name} the ${buddy.species}. Tap to pet.`}
+        accessibilityRole="button"
+      >
+        <Animated.View
+          style={[
+            styles.buddyContainer,
+            {
+              borderColor: rarityColor,
+              transform: [{ translateY: bounceAnim }],
+            },
+          ]}
+        >
+          {/* Accessory above */}
+          {accessory ? (
+            <Text style={[styles.accessory, { fontSize: fs(14) }]}>{accessory}</Text>
+          ) : null}
+
+          {/* Main emoji */}
+          <Text style={[styles.emoji, { fontSize: fs(32) }]}>{emoji}</Text>
+
+          {/* Hearts when petting */}
+          {isPetting && (
+            <View style={styles.heartsContainer}>
+              <Text style={[styles.hearts, { fontSize: fs(12) }]}>❤️❤️❤️</Text>
+            </View>
+          )}
+
+          {/* Sparkle indicator */}
+          {buddy.sparkle && <Text style={[styles.sparkle, { fontSize: fs(10) }]}>✨</Text>}
+        </Animated.View>
+      </TouchableOpacity>
+
+      {/* Name label */}
+      <Text
+        style={[styles.nameLabel, { fontSize: fs(10), color: rarityColor, marginTop: spacing(2) }]}
+      >
+        {buddy.name}
+      </Text>
+    </View>
+  );
+});
 
 BuddyWidget.displayName = 'BuddyWidget';
 
