@@ -2,7 +2,7 @@
   "buildCommand": "pnpm build:web",
   "outputDirectory": "dist",
   "framework": null,
-  "installCommand": "npm install -g pnpm@10.32.1 && pnpm -C .. install --frozen-lockfile",
+  "installCommand": "npm install -g pnpm@10.32.1 && pnpm install",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
