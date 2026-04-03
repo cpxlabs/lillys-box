@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, SafeAreaView } from 'react-native';
 import { useTranslation } from 'react-i18next';
 import { usePet } from '../context/PetContext';
+import { useBuddy } from '../context/BuddyContext';
 import { useToast } from '../context/ToastContext';
 import { PetRenderer } from '../components/PetRenderer';
 import { StatusCard } from '../components/StatusCard';
@@ -9,6 +10,8 @@ import { IconButton } from '../components/IconButton';
 import { ConfirmModal } from '../components/ConfirmModal';
 import { BannerAd } from '../components/BannerAd';
 import { RewardedAdButton } from '../components/RewardedAdButton';
+import { BuddyWidget } from '../components/BuddyWidget';
+import { BuddyProfile } from '../components/BuddyProfile';
 import { calculatePetAge } from '../utils/age';
 import { AdsConfig } from '../config/ads.config';
 import { needsVet, hasWarningStats } from '../utils/petStats';
@@ -24,9 +27,11 @@ type Props = {
 
 export const HomeScreen: React.FC<Props> = ({ navigation }) => {
   const { pet, earnMoney } = usePet();
+  const { sendEvent } = useBuddy();
   const { showToast } = useToast();
   const { t } = useTranslation();
   const [showMenuConfirm, setShowMenuConfirm] = useState(false);
+  const [showBuddyProfile, setShowBuddyProfile] = useState(false);
   const { deviceType, spacing, fs } = useResponsive();
   const goBack = useGameBack(navigation);
 
@@ -100,23 +105,33 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
       <View style={styles.petContainer}>
         <PetRenderer pet={pet} size={petSize} />
+        <BuddyWidget onProfilePress={() => setShowBuddyProfile(true)} />
       </View>
 
       <View style={[styles.actionsContainer, dynamicStyles.actionsContainer]}>
         <IconButton
           emoji="🍖"
           label={t('home.actions.feed')}
-          onPress={() => navigation.navigate('Feed')}
+          onPress={() => {
+            sendEvent('pet_fed');
+            navigation.navigate('Feed');
+          }}
         />
         <IconButton
           emoji="🛁"
           label={t('home.actions.bath')}
-          onPress={() => navigation.navigate('Bath')}
+          onPress={() => {
+            sendEvent('pet_bathed');
+            navigation.navigate('Bath');
+          }}
         />
         <IconButton
           emoji="💤"
           label={t('home.actions.sleep')}
-          onPress={() => navigation.navigate('Sleep')}
+          onPress={() => {
+            sendEvent('pet_sleeping');
+            navigation.navigate('Sleep');
+          }}
           disabled={!canSleep}
           disabledReason={t('sleep.notTired', { name: pet.name })}
         />
@@ -133,7 +148,10 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
         <IconButton
           emoji="🎮"
           label={t('home.actions.play')}
-          onPress={() => navigation.navigate('Play')}
+          onPress={() => {
+            sendEvent('pet_played');
+            navigation.navigate('Play');
+          }}
         />
         <IconButton emoji="🏠" label={t('home.actions.menu')} onPress={handleMenuPress} />
       </View>
@@ -150,6 +168,11 @@ export const HomeScreen: React.FC<Props> = ({ navigation }) => {
 
       {/* Banner Ad at the Bottom */}
       <BannerAd />
+
+      {/* Buddy Profile Overlay */}
+      {showBuddyProfile && (
+        <BuddyProfile onClose={() => setShowBuddyProfile(false)} />
+      )}
     </SafeAreaView>
   );
 };
