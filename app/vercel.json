@@ -1,8 +1,7 @@
 {
-  "buildCommand": "pnpm build:web",
+  "buildCommand": "npm run build:web",
   "outputDirectory": "dist",
-  "framework": null,
-  "installCommand": "corepack enable pnpm && pnpm install",
+  "installCommand": "npm install",
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
